@@ -1,0 +1,92 @@
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    google.script.run.withSuccessHandler(atualizarInterface).getConsolidatedData();
+  });
+
+  function atualizarInterface(dados) {
+    if (!dados) return;
+    document.getElementById('val-atencao').innerText = dados.indicadoresRede;
+    document.getElementById('val-nucleos').innerText = dados.nucleosAtencao;
+    document.getElementById('val-visitas').innerText = dados.visitasRealizadas;
+
+    const listaAgenda = document.getElementById('lista-agenda');
+    listaAgenda.innerHTML = ""; 
+    dados.agendaHoje.forEach(function (item) {
+      let li = document.createElement('li');
+      let classeStatus = item.status === 'livre' ? 'status-livre' : 'status-ocupado';
+      li.innerHTML = `<span class="${classeStatus}">${item.hora}</span> - ${item.titulo}`;
+      listaAgenda.appendChild(li);
+    });
+  }
+
+  // === NOVA LÓGICA: MUDAR DE SETOR ===
+  function mudarSetor(nomeSetor, botaoClicado) {
+    // 1. Remove a cor azul (ativo) de todos os botões
+    const botoes = document.querySelectorAll('.btn-aba');
+    botoes.forEach(btn => btn.classList.remove('ativo'));
+
+    // 2. Coloca a cor azul apenas no botão clicado
+    botaoClicado.classList.add('ativo');
+
+    // 3. Atualiza o título e o valor escondido
+    document.getElementById('titulo-setor').innerText = `📤 Enviar Documento para ${nomeSetor}`;
+    document.getElementById('setor-selecionado').value = nomeSetor;
+
+    // 4. Limpa a mensagem de status anterior e o arquivo selecionado
+    document.getElementById('upload-status').innerHTML = "";
+    document.getElementById('arquivo-input').value = "";
+  }
+
+  // === LÓGICA DE UPLOAD ATUALIZADA ===
+  function enviarArquivo() {
+    const input = document.getElementById('arquivo-input');
+    const botao = document.getElementById('btn-enviar');
+    const statusDiv = document.getElementById('upload-status');
+    const arquivo = input.files[0];
+    
+    // Pega o setor que está selecionado no momento
+    const setorAtual = document.getElementById('setor-selecionado').value;
+
+    if (!arquivo) {
+      statusDiv.innerHTML = "⚠️ Por favor, selecione um arquivo primeiro.";
+      statusDiv.style.color = "#721c24";
+      return;
+    }
+
+    botao.disabled = true;
+    botao.innerText = "⏳ Enviando...";
+    statusDiv.innerHTML = `Fazendo upload para a pasta ${setorAtual}, aguarde...`;
+    statusDiv.style.color = "#555";
+
+    const leitor = new FileReader();
+    
+    leitor.onload = function(e) {
+      const conteudoBase64 = e.target.result.split(',')[1];
+      
+      const arquivoObj = {
+        fileName: arquivo.name,
+        mimeType: arquivo.type,
+        data: conteudoBase64
+      };
+
+      // Envia para o servidor o ARQUIVO e o SETOR
+      google.script.run
+        .withSuccessHandler(function(url) {
+          botao.disabled = false;
+          botao.innerText = "⬆️ Fazer Upload";
+          input.value = ""; 
+          statusDiv.innerHTML = `✅ Salvo em <b>${setorAtual}</b>! <a href="${url}" target="_blank">Ver arquivo</a>`;
+          statusDiv.style.color = "#155724";
+        })
+        .withFailureHandler(function(erro) {
+          botao.disabled = false;
+          botao.innerText = "⬆️ Fazer Upload";
+          statusDiv.innerHTML = `❌ Erro ao enviar: ${erro.message}`;
+          statusDiv.style.color = "#721c24";
+        })
+        .processFileUpload(arquivoObj, setorAtual);
+    };
+
+    leitor.readAsDataURL(arquivo);
+  }
+</script>

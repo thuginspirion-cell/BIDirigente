@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; color: #333; }
+      .header { background-color: #004b87; color: white; padding: 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+      .header h1 { margin: 0; font-size: 1.6em; font-weight: 600; }
+      .container { max-width: 900px; margin: 30px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 20px; }
+      
+      .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-top: 4px solid #004b87; }
+      .card h3 { margin-top: 0; color: #004b87; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 1.2em; }
+      
+      /* Estilos do Menu de Setores (Abas) */
+      .menu-setores { display: flex; gap: 10px; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
+      .btn-aba { padding: 10px 20px; border: none; background: #e0e0e0; cursor: pointer; border-radius: 5px; font-weight: bold; color: #555; transition: 0.3s; }
+      .btn-aba:hover { background: #d0d0d0; }
+      .btn-aba.ativo { background: #004b87; color: white; }
+
+      /* Estilos para a área de Upload */
+      .upload-area { display: flex; align-items: center; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
+      input[type="file"] { padding: 10px; border: 1px dashed #ccc; border-radius: 5px; background: #fafafa; cursor: pointer; flex-grow: 1; }
+      .btn-upload { background-color: #004b87; color: white; padding: 12px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+      .btn-upload:hover { background-color: #00335e; }
+      .btn-upload:disabled { background-color: #cccccc; cursor: not-allowed; }
+      #upload-status { font-size: 0.95em; font-weight: 500; margin-top: 10px; }
+      #upload-status a { color: #004b87; text-decoration: underline; }
+
+      .indicator { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f9f9f9; font-size: 1.1em; }
+      .indicator:last-child { border-bottom: none; }
+      ul { padding-left: 0; margin: 0; }
+      li { list-style-type: none; padding: 12px 0; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; }
+      .status-livre { color: #155724; background-color: #d4edda; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; font-weight: bold; margin-right: 15px; min-width: 50px; text-align: center; }
+      .status-ocupado { color: #721c24; background-color: #f8d7da; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; font-weight: bold; margin-right: 15px; min-width: 50px; text-align: center; }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Painel BIDirigente</h1>
+    </div>
+    
+    <div class="container">
+      
+      <!-- Menu de Navegação dos Setores -->
+      <div class="menu-setores">
+        <button class="btn-aba ativo" onclick="mudarSetor('SEINTEC', this)">SEINTEC</button>
+        <button class="btn-aba" onclick="mudarSetor('NOM', this)">NOM</button>
+        <button class="btn-aba" onclick="mudarSetor('SEGRE', this)">SEGRE</button>
+      </div>
+
+      <!-- Cartão Dinâmico de Envio de Arquivos -->
+      <div class="card" id="cartao-upload">
+        <h3 id="titulo-setor">📤 Enviar Documento para SEINTEC</h3>
+        
+        <!-- Guardamos qual setor está selecionado num campo escondido -->
+        <input type="hidden" id="setor-selecionado" value="SEINTEC">
+
+        <div class="upload-area">
+          <input type="file" id="arquivo-input" accept=".pdf, .xls, .xlsx, application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+          <button class="btn-upload" id="btn-enviar" onclick="enviarArquivo()">⬆️ Fazer Upload</button>
+        </div>
+        <div id="upload-status"></div>
+      </div>
+
+      <div class="card">
+        <h3>📈 Indicadores de Desempenho</h3>
+        <div class="indicator"><span>Eficiência da Rede</span><strong id="val-atencao">Carregando...</strong></div>
+        <div class="indicator"><span>Núcleos Ativos</span><strong id="val-nucleos">Carregando...</strong></div>
+        <div class="indicator"><span>Visitas Realizadas</span><strong id="val-visitas">Carregando...</strong></div>
+      </div>
+      
+      <div class="card">
+        <h3>📅 Agenda de Hoje</h3>
+        <ul id="lista-agenda"><li>Carregando agenda...</li></ul>
+      </div>
+
+    </div>
+    <?!= include('JS'); ?>
+  </body>
+</html>
