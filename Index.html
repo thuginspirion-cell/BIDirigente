@@ -12,7 +12,809 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- SheetJS para Leitura Automática e Instantânea de Planilhas Excel (.xlsx, .xls, .csv) -->
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
+    // ==============================================================
+    // 16. SISTEMA INTEGRADO: MINHA GESTÃO HOJE & AGENDA DA DIRIGENTE
+    // ==============================================================
+
+    const HORARIOS_EXPEDIENTE = [
+      { inicio: "07:00", fim: "08:00" },
+      { inicio: "08:00", fim: "09:00" },
+      { inicio: "09:00", fim: "10:00" },
+      { inicio: "10:00", fim: "11:00" },
+      { inicio: "11:00", fim: "12:00" },
+      { inicio: "12:00", fim: "13:00" },
+      { inicio: "13:00", fim: "14:00" },
+      { inicio: "14:00", fim: "15:00" },
+      { inicio: "15:00", fim: "16:00" },
+      { inicio: "16:00", fim: "17:00" }
+    ];
+
+    function obterDataHojeIso() {
+      const agora = new Date();
+      const ano = agora.getFullYear();
+      const mes = String(agora.getMonth() + 1).padStart(2, '0');
+      const dia = String(agora.getDate()).padStart(2, '0');
+      return `${ano}-${mes}-${dia}`;
+    }
+
+    let dataAtivaGestaoHoje = obterDataHojeIso();
+    let dataAtivaAgenda = obterDataHojeIso();
+    let filtroPeriodoAgenda = 'hoje';
+    let mesAtivoCalendario = new Date();
+
+    // Base de Dados Centralizada dos Compromissos (Persistida em localStorage + Sincronização)
+    const STORAGE_KEY_AGENDA = 'BI_DIRIGENTE_AGENDA_DATA_V1';
+
+    function inicializarCompromissosPadrao() {
+      const hoje = obterDataHojeIso();
+      return [
+        {
+          id: 'evt-001',
+          titulo: 'Live Reunião',
+          data: hoje,
+          horaInicio: '08:00',
+          horaFim: '09:00',
+          tipo: 'Reunião',
+          local: 'Teams',
+          link: 'https://teams.microsoft.com',
+          setor: 'Gabinete / URE',
+          prioridade: 'Alta',
+          status: 'Agendado',
+          descricao: 'Live Reunião com a rede e equipes gestoras escolares para alinhamento das metas pedagógicas e diretrizes.'
+        },
+        {
+          id: 'evt-002',
+          titulo: 'Visita Técnica: EE Prof. José Barreto',
+          data: hoje,
+          horaInicio: '14:00',
+          horaFim: '15:30',
+          tipo: 'Visita Técnica',
+          local: 'EE Prof. José Barreto',
+          link: '',
+          setor: 'Supervisão Regional',
+          prioridade: 'Alta',
+          status: 'Agendado',
+          descricao: 'Verificação estrutural elétrica, obras da quadra poliesportiva e inventário dos novos Educatrons instalados.'
+        },
+        {
+          id: 'evt-003',
+          titulo: 'Alinhamento com SEAFIN e NOM',
+          data: hoje,
+          horaInicio: '16:00',
+          horaFim: '17:00',
+          tipo: 'Despacho Gabinete',
+          local: 'Gabinete da Dirigente',
+          link: '',
+          setor: 'CAF',
+          prioridade: 'Normal',
+          status: 'Agendado',
+          descricao: 'Despacho orçamentário sobre aditivos contratuais e execução física dos recursos do PDDE Paulista.'
+        }
+      ];
+    }
+
+    let AGENDA_COMPROMISSOS = (function() {
+      try {
+        const salvo = localStorage.getItem(STORAGE_KEY_AGENDA);
+        if (salvo) {
+          const dados = JSON.parse(salvo);
+          if (Array.isArray(dados) && dados.length > 0) {
+            // Garante que haja compromissos na data de hoje para visualização imediata do print
+            const hoje = obterDataHojeIso();
+            const temHoje = dados.some(d => d.data === hoje);
+            if (!temHoje) {
+              const defaults = inicializarCompromissosPadrao();
+              return [...defaults, ...dados];
+            }
+            return dados;
+          }
+        }
+      } catch (e) {
+        console.warn('Erro ao carregar agenda do localStorage:', e);
+      }
+      return inicializarCompromissosPadrao();
+    })();
+
+    function salvarAgendaStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY_AGENDA, JSON.stringify(AGENDA_COMPROMISSOS));
+      } catch (e) {
+        console.warn('Erro ao salvar agenda no localStorage:', e);
+      }
+    }
+
+    // Formatação de data por extenso em Português (Ex: "sábado 17 de outubro de 2026")
+    function formatarDataExtensoPtBr(dataIso) {
+      if (!dataIso) return '';
+      const partes = dataIso.split('-');
+      const ano = parseInt(partes[0], 10);
+      const mes = parseInt(partes[1], 10) - 1;
+      const dia = parseInt(partes[2], 10);
+      const dataObj = new Date(ano, mes, dia, 12, 0, 0);
+
+      const diasSemana = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
+      const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+
+      const diaSemana = diasSemana[dataObj.getDay()];
+      const mesNome = meses[dataObj.getMonth()];
+
+      return `${diaSemana} ${dia} de ${mesNome} de ${ano}`;
+    }
+
+    function mostrarToastAgenda(msg, icone) {
+      const toast = document.getElementById('agenda-toast');
+      const msgEl = document.getElementById('agenda-toast-msg');
+      const iconEl = document.getElementById('agenda-toast-icon');
+      if (!toast || !msgEl) return;
+
+      msgEl.innerText = msg;
+      if (iconEl) iconEl.innerText = icone || '✅';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // --- FUNÇÕES DE NAVEGAÇÃO DE VIEWS ATUALIZADAS ---
+    function esconderTodasAsPanes() {
+      document.querySelectorAll('.view-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
+    }
+
+    function atualizarBreadcrumbTopo(texto) {
+      const el = document.getElementById('topbar-view-indicator');
+      if (el) {
+        if (texto) {
+          el.innerText = texto;
+          el.style.display = 'inline-flex';
+        } else {
+          el.style.display = 'none';
+        }
+      }
+    }
+
+    function abrirMinhaGestaoHoje(dataOpcional) {
+      esconderTodasAsPanes();
+      const pane = document.getElementById('pane-gestao-hoje');
+      if (pane) pane.classList.add('active');
+
+      const sideBtn = document.getElementById('side-btn-gestao');
+      if (sideBtn) sideBtn.classList.add('active');
+
+      atualizarBreadcrumbTopo('02 - Minha Gestão Hoje');
+
+      if (dataOpcional) {
+        dataAtivaGestaoHoje = dataOpcional;
+      }
+      renderizarMinhaGestaoHoje();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function abrirAgenda(dataOpcional) {
+      esconderTodasAsPanes();
+      const pane = document.getElementById('pane-agenda');
+      if (pane) pane.classList.add('active');
+
+      const sideBtn = document.getElementById('side-btn-agenda');
+      if (sideBtn) sideBtn.classList.add('active');
+
+      atualizarBreadcrumbTopo('03 - Agenda da Dirigente');
+
+      if (dataOpcional) {
+        dataAtivaAgenda = dataOpcional;
+        const inputData = document.getElementById('agenda-input-data');
+        if (inputData) inputData.value = dataOpcional;
+      }
+      renderizarAgenda();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Atualiza mostrarHome para controlar a pane e o breadcrumb
+    const _antigoMostrarHome = typeof mostrarHome === 'function' ? mostrarHome : null;
+    mostrarHome = function() {
+      esconderTodasAsPanes();
+      const pane = document.getElementById('pane-home');
+      if (pane) pane.classList.add('active');
+
+      const sideBtn = document.getElementById('side-btn-home');
+      if (sideBtn) sideBtn.classList.add('active');
+
+      atualizarBreadcrumbTopo('');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // --- RENDERIZAÇÃO: MINHA GESTÃO HOJE (100% FIEL AO PRINT) ---
+    function renderizarMinhaGestaoHoje() {
+      // 1. Atualiza a data do cabeçalho
+      const textoData = formatarDataExtensoPtBr(dataAtivaGestaoHoje);
+      const dataEl = document.getElementById('gestao-hoje-data-texto');
+      if (dataEl) dataEl.innerText = textoData;
+
+      // 2. Atualiza o timestamp
+      const agora = new Date();
+      const horaStr = String(agora.getHours()).padStart(2, '0');
+      const minStr = String(agora.getMinutes()).padStart(2, '0');
+      const timestampEl = document.getElementById('gestao-timeline-timestamp');
+      if (timestampEl) timestampEl.innerText = `Atualizada às ${horaStr}:${minStr}`;
+
+      // 3. Filtra os compromissos para a data ativa da gestão
+      const eventosDoDia = AGENDA_COMPROMISSOS.filter(c => c.data === dataAtivaGestaoHoje);
+      const eventosValidos = eventosDoDia.filter(c => c.status !== 'Cancelado');
+      const eventosCancelados = eventosDoDia.filter(c => c.status === 'Cancelado');
+      const eventosConcluidos = eventosDoDia.filter(c => c.status === 'Concluído');
+
+      // 4. Renderiza os Slots da Linha do Tempo
+      const containerSlots = document.getElementById('timeline-slots-container');
+      if (!containerSlots) return;
+      containerSlots.innerHTML = "";
+
+      let slotsOcupadosCount = 0;
+
+      HORARIOS_EXPEDIENTE.forEach(slot => {
+        // Encontra se algum compromisso válido abrange este horário
+        const evento = eventosValidos.find(ev => {
+          return ev.horaInicio <= slot.inicio && ev.horaFim > slot.inicio;
+        });
+
+        const row = document.createElement('div');
+        row.className = 'timeline-slot-row';
+
+        if (!evento) {
+          // SLOT LIVRE (Verde menta suave)
+          row.innerHTML = `
+            <div class="slot-time-col">
+              <span class="slot-hour-bold">${slot.inicio}</span>
+              <span class="slot-hour-sub">até ${slot.fim}</span>
+            </div>
+            <div class="slot-dot-col">
+              <span class="slot-dot livre"></span>
+            </div>
+            <div class="slot-card-col">
+              <div class="slot-card-livre" onclick="abrirModalNovoCompromissoComHorario('${slot.inicio}', '${slot.fim}')" title="Clique para agendar neste horário livre">
+                <span class="slot-livre-text">
+                  <span class="slot-livre-dot">●</span> Livre
+                </span>
+                <span class="slot-livre-add-hint">+ Agendar</span>
+                <span class="slot-livre-time">${slot.inicio}-${slot.fim}</span>
+              </div>
+            </div>
+          `;
+        } else {
+          // SLOT OCUPADO / AGENDADO (Estilo do print: Live Reunião)
+          slotsOcupadosCount++;
+          const isConcluido = evento.status === 'Concluído';
+          const dotClass = isConcluido ? 'concluido' : 'ocupado';
+          const cardExtraClass = isConcluido ? 'concluido' : '';
+          const pillClass = isConcluido ? 'concluido' : 'agendado';
+
+          row.innerHTML = `
+            <div class="slot-time-col">
+              <span class="slot-hour-bold">${slot.inicio}</span>
+              <span class="slot-hour-sub">até ${slot.fim}</span>
+            </div>
+            <div class="slot-dot-col">
+              <span class="slot-dot ${dotClass}"></span>
+            </div>
+            <div class="slot-card-col">
+              <div class="slot-card-ocupado ${cardExtraClass}">
+                <div class="slot-ocupado-info">
+                  <div class="slot-ocupado-title">
+                    <span>${evento.titulo}</span>
+                  </div>
+                  <div class="slot-ocupado-meta">
+                    ${evento.horaInicio} - ${evento.horaFim} · ${evento.tipo} · ${evento.local || 'Local a definir'}
+                  </div>
+                </div>
+                <div class="slot-ocupado-right">
+                  <div class="slot-action-btn-group">
+                    <button class="btn-slot-action done" onclick="alternarStatusConcluido('${evento.id}')" title="${isConcluido ? 'Reabrir compromisso' : 'Marcar como concluído'}">
+                      ${isConcluido ? '↩' : '✔'}
+                    </button>
+                    <button class="btn-slot-action" onclick="abrirModalEditarCompromisso('${evento.id}')" title="Editar compromisso">
+                      ✏
+                    </button>
+                    <button class="btn-slot-action" onclick="cancelarCompromisso('${evento.id}')" title="Cancelar compromisso">
+                      ✕
+                    </button>
+                  </div>
+                  <span class="slot-status-pill ${pillClass}">${evento.status}</span>
+                  <span class="slot-ocupado-time">${evento.horaInicio}-${evento.horaFim}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        containerSlots.appendChild(row);
+      });
+
+      // 5. Calcula e Atualiza os 3 Cards de KPI
+      const kpiCompromissos = document.getElementById('kpi-gestao-compromissos');
+      const kpiCompromissosSub = document.getElementById('kpi-gestao-compromissos-sub');
+      if (kpiCompromissos) {
+        kpiCompromissos.innerText = eventosValidos.length;
+      }
+      if (kpiCompromissosSub) {
+        kpiCompromissosSub.innerText = `${eventosValidos.length} agendado(s) · ${eventosCancelados.length} cancelados`;
+      }
+
+      const totalHorasExpediente = 10;
+      const horasLivres = Math.max(0, totalHorasExpediente - slotsOcupadosCount);
+      const kpiTempoLivre = document.getElementById('kpi-gestao-tempo-livre');
+      const kpiTempoLivreSub = document.getElementById('kpi-gestao-tempo-livre-sub');
+      if (kpiTempoLivre) {
+        kpiTempoLivre.innerText = `${horasLivres}h`;
+      }
+      if (kpiTempoLivreSub) {
+        kpiTempoLivreSub.innerText = horasLivres === totalHorasExpediente
+          ? "Sem compromissos registrados neste período"
+          : `${horasLivres}h disponíveis de ${totalHorasExpediente}h do expediente`;
+      }
+
+      const kpiConcluidos = document.getElementById('kpi-gestao-concluidos');
+      const kpiConcluidosSub = document.getElementById('kpi-gestao-concluidos-sub');
+      if (kpiConcluidos) {
+        kpiConcluidos.innerText = eventosConcluidos.length;
+      }
+      if (kpiConcluidosSub) {
+        kpiConcluidosSub.innerText = "Compromissos realizados";
+      }
+    }
+
+    function atualizarDiaGestaoHoje() {
+      dataAtivaGestaoHoje = obterDataHojeIso();
+      renderizarMinhaGestaoHoje();
+      mostrarToastAgenda('Linha do tempo atualizada com sucesso!', '🔄');
+    }
+
+    function abrirSeletorDataGestao() {
+      const picker = document.getElementById('gestao-date-hidden-picker');
+      if (picker) {
+        picker.value = dataAtivaGestaoHoje;
+        picker.showPicker ? picker.showPicker() : picker.click();
+      }
+    }
+
+    function aoMudarDataGestao(novaData) {
+      if (novaData) {
+        dataAtivaGestaoHoje = novaData;
+        renderizarMinhaGestaoHoje();
+        mostrarToastAgenda(`Data alterada para ${formatarDataExtensoPtBr(novaData)}`, '📅');
+      }
+    }
+
+    // --- RENDERIZAÇÃO: AGENDA DA DIRIGENTE (LISTA & CALENDÁRIO) ---
+    function renderizarAgenda() {
+      const containerLista = document.getElementById('agenda-cards-lista');
+      if (!containerLista) return;
+      containerLista.innerHTML = "";
+
+      const filtroCat = document.getElementById('agenda-filtro-categoria') ? document.getElementById('agenda-filtro-categoria').value : "";
+      const filtroStatus = document.getElementById('agenda-filtro-status') ? document.getElementById('agenda-filtro-status').value : "";
+      const filtroBusca = document.getElementById('agenda-filtro-busca') ? document.getElementById('agenda-filtro-busca').value.toLowerCase().trim() : "";
+      const filtroData = document.getElementById('agenda-input-data') ? document.getElementById('agenda-input-data').value : "";
+
+      const hoje = obterDataHojeIso();
+
+      // Filtra por período / data
+      let filtrados = AGENDA_COMPROMISSOS.filter(c => {
+        if (filtroPeriodoAgenda === 'hoje' && c.data !== hoje) return false;
+        if (filtroPeriodoAgenda === 'amanha') {
+          const amanhaObj = new Date();
+          amanhaObj.setDate(amanhaObj.getDate() + 1);
+          const amanhaStr = `${amanhaObj.getFullYear()}-${String(amanhaObj.getMonth()+1).padStart(2,'0')}-${String(amanhaObj.getDate()).padStart(2,'0')}`;
+          if (c.data !== amanhaStr) return false;
+        }
+        if (filtroPeriodoAgenda === 'data_especifica' && filtroData && c.data !== filtroData) {
+          return false;
+        }
+        if (filtroCat && c.tipo !== filtroCat) return false;
+        if (filtroStatus && c.status !== filtroStatus) return false;
+        if (filtroBusca) {
+          const texto = `${c.titulo} ${c.local} ${c.tipo} ${c.setor} ${c.descricao}`.toLowerCase();
+          if (!texto.includes(filtroBusca)) return false;
+        }
+        return true;
+      });
+
+      // Ordena por data e horário de início
+      filtrados.sort((a, b) => {
+        if (a.data !== b.data) return a.data.localeCompare(b.data);
+        return a.horaInicio.localeCompare(b.horaInicio);
+      });
+
+      if (filtrados.length === 0) {
+        containerLista.innerHTML = `
+          <div style="background: white; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 3rem 1.5rem; text-align: center; color: #64748b;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📅</div>
+            <h4 style="color: #0f172a; margin-bottom: 0.25rem;">Nenhum compromisso encontrado para este filtro</h4>
+            <p style="font-size: 0.85rem; margin-bottom: 1rem;">Você pode agendar um novo compromisso oficial ou ajustar os filtros selecionados.</p>
+            <button class="btn-gestao-open-agenda" style="margin: 0 auto;" onclick="abrirModalNovoCompromisso()">
+              <span>+ Novo Compromisso</span>
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      filtrados.forEach(c => {
+        const card = document.createElement('div');
+        const isConcluido = c.status === 'Concluído';
+        const isCancelado = c.status === 'Cancelado';
+        const cardClass = isConcluido ? 'status-concluido' : (c.prioridade === 'Alta' ? 'prioridade-alta' : '');
+
+        card.className = `agenda-event-card ${cardClass}`;
+
+        card.innerHTML = `
+          <div class="agenda-event-main">
+            <div class="agenda-event-top">
+              <span class="agenda-time-chip">⏰ ${c.horaInicio} às ${c.horaFim}</span>
+              <span class="agenda-time-chip" style="background: #e2e8f0;">📅 ${c.data}</span>
+              <span class="agenda-category-chip">${c.tipo}</span>
+              <span class="agenda-setor-chip">${c.setor || 'Gabinete'}</span>
+              <span class="slot-status-pill ${c.status.toLowerCase()}">${c.status}</span>
+            </div>
+            <div class="agenda-event-title">${c.titulo}</div>
+            <div class="agenda-event-desc">${c.descricao || 'Sem pauta informada.'}</div>
+            <div class="agenda-event-meta-row">
+              <span>📍 Local: <strong>${c.local || 'Gabinete'}</strong></span>
+              ${c.link ? `<a href="${c.link}" target="_blank" style="color: #2563eb; text-decoration: underline; font-weight: 600;">🔗 Acessar Link</a>` : ''}
+              <span>⚡ Prioridade: <strong>${c.prioridade || 'Normal'}</strong></span>
+            </div>
+          </div>
+          <div class="agenda-event-actions">
+            <button class="btn-agenda-action btn-concluir" onclick="alternarStatusConcluido('${c.id}')" title="${isConcluido ? 'Reabrir' : 'Concluir'}">
+              <span>${isConcluido ? '↩ Reabrir' : '✔ Concluir'}</span>
+            </button>
+            <button class="btn-agenda-action" onclick="abrirModalEditarCompromisso('${c.id}')" title="Editar">
+              <span>✏ Editar</span>
+            </button>
+            <button class="btn-agenda-action btn-excluir" onclick="excluirCompromisso('${c.id}')" title="Excluir">
+              <span>🗑 Excluir</span>
+            </button>
+          </div>
+        `;
+
+        containerLista.appendChild(card);
+      });
+
+      // Renderiza também o calendário mensal se a aba estiver aberta
+      renderizarCalendarioMensal();
+    }
+
+    function alternarTabAgenda(tab) {
+      const btnLista = document.getElementById('tab-btn-lista');
+      const btnCal = document.getElementById('tab-btn-calendario');
+      const contentLista = document.getElementById('agenda-tab-content-lista');
+      const contentCal = document.getElementById('agenda-tab-content-calendario');
+
+      if (tab === 'lista') {
+        btnLista.classList.add('active');
+        btnCal.classList.remove('active');
+        contentLista.style.display = 'block';
+        contentCal.style.display = 'none';
+      } else {
+        btnLista.classList.remove('active');
+        btnCal.classList.add('active');
+        contentLista.style.display = 'none';
+        contentCal.style.display = 'block';
+        renderizarCalendarioMensal();
+      }
+    }
+
+    function renderizarCalendarioMensal() {
+      const container = document.getElementById('agenda-calendario-container');
+      if (!container) return;
+
+      const ano = mesAtivoCalendario.getFullYear();
+      const mes = mesAtivoCalendario.getMonth();
+
+      const primeiroDia = new Date(ano, mes, 1);
+      const ultimoDia = new Date(ano, mes + 1, 0);
+
+      const nomesMeses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+      const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+      let htmlCal = `
+        <div class="agenda-cal-wrapper">
+          <div class="agenda-cal-nav">
+            <button class="btn-mudar-data" onclick="mudarMesCalendario(-1)">◀ Mês Anterior</button>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0b2351;">${nomesMeses[mes]} de ${ano}</h3>
+            <button class="btn-mudar-data" onclick="mudarMesCalendario(1)">Próximo Mês ▶</button>
+          </div>
+          <div class="agenda-cal-grid">
+      `;
+
+      diasSemana.forEach(d => {
+        htmlCal += `<div class="agenda-cal-day-header">${d}</div>`;
+      });
+
+      // Espaços vazios antes do dia 1
+      for (let i = 0; i < primeiroDia.getDay(); i++) {
+        htmlCal += `<div class="agenda-cal-cell" style="background: transparent; border-color: transparent;"></div>`;
+      }
+
+      const hoje = obterDataHojeIso();
+
+      for (let d = 1; d <= ultimoDia.getDate(); d++) {
+        const dataIso = `${ano}-${String(mes + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const eventosDoDia = AGENDA_COMPROMISSOS.filter(c => c.data === dataIso && c.status !== 'Cancelado');
+        const isHoje = dataIso === hoje;
+        const isActiveDay = dataIso === dataAtivaAgenda;
+
+        let cellClasses = 'agenda-cal-cell';
+        if (isHoje) cellClasses += ' today';
+        if (isActiveDay) cellClasses += ' active-day';
+
+        htmlCal += `
+          <div class="${cellClasses}" onclick="selecionarDiaCalendario('${dataIso}')">
+            <span class="agenda-cal-day-num">${d}</span>
+        `;
+
+        eventosDoDia.slice(0, 3).forEach(ev => {
+          const isReuniao = ev.tipo === 'Reunião';
+          htmlCal += `
+            <div class="agenda-cal-event-dot ${isReuniao ? 'coral' : ''}" title="${ev.horaInicio} - ${ev.titulo}">
+              ${ev.horaInicio} ${ev.titulo}
+            </div>
+          `;
+        });
+
+        if (eventosDoDia.length > 3) {
+          htmlCal += `<div style="font-size: 0.65rem; color: #64748b; font-weight: 700;">+${eventosDoDia.length - 3} mais</div>`;
+        }
+
+        htmlCal += `</div>`;
+      }
+
+      htmlCal += `
+          </div>
+        </div>
+      `;
+
+      container.innerHTML = htmlCal;
+    }
+
+    function mudarMesCalendario(delta) {
+      mesAtivoCalendario.setMonth(mesAtivoCalendario.getMonth() + delta);
+      renderizarCalendarioMensal();
+    }
+
+    function selecionarDiaCalendario(dataIso) {
+      dataAtivaAgenda = dataIso;
+      dataAtivaGestaoHoje = dataIso;
+
+      const inputData = document.getElementById('agenda-input-data');
+      if (inputData) inputData.value = dataIso;
+
+      filtrarAgendaPeriodo('data_especifica');
+      alternarTabAgenda('lista');
+
+      mostrarToastAgenda(`Exibindo compromissos de ${formatarDataExtensoPtBr(dataIso)}`, '📅');
+    }
+
+    function filtrarAgendaPeriodo(periodo) {
+      filtroPeriodoAgenda = periodo;
+      document.querySelectorAll('.agenda-quick-pill').forEach(p => p.classList.remove('active'));
+
+      if (periodo === 'hoje') {
+        const btn = document.getElementById('agenda-pill-hoje');
+        if (btn) btn.classList.add('active');
+        const inputData = document.getElementById('agenda-input-data');
+        if (inputData) inputData.value = "";
+      } else if (periodo === 'amanha') {
+        const btn = document.getElementById('agenda-pill-amanha');
+        if (btn) btn.classList.add('active');
+        const inputData = document.getElementById('agenda-input-data');
+        if (inputData) inputData.value = "";
+      } else if (periodo === 'semana') {
+        const btn = document.getElementById('agenda-pill-semana');
+        if (btn) btn.classList.add('active');
+        const inputData = document.getElementById('agenda-input-data');
+        if (inputData) inputData.value = "";
+      } else if (periodo === 'todos') {
+        const btn = document.getElementById('agenda-pill-todos');
+        if (btn) btn.classList.add('active');
+        const inputData = document.getElementById('agenda-input-data');
+        if (inputData) inputData.value = "";
+      }
+
+      renderizarAgenda();
+    }
+
+    function aoMudarDataAgenda(dataVal) {
+      if (dataVal) {
+        filtroPeriodoAgenda = 'data_especifica';
+        document.querySelectorAll('.agenda-quick-pill').forEach(p => p.classList.remove('active'));
+      } else {
+        filtroPeriodoAgenda = 'todos';
+        filtrarAgendaPeriodo('todos');
+      }
+      renderizarAgenda();
+    }
+
+    function aoFiltrarAgenda() {
+      renderizarAgenda();
+    }
+
+    // --- GERENCIAMENTO DO MODAL DE COMPROMISSO ---
+    function abrirModalNovoCompromisso() {
+      document.getElementById('form-agenda-id').value = "";
+      document.getElementById('modal-agenda-titulo-modo').innerText = "Novo Compromisso Executivo";
+      document.getElementById('form-agenda-titulo').value = "";
+      document.getElementById('form-agenda-data').value = dataAtivaAgenda || obterDataHojeIso();
+      document.getElementById('form-agenda-inicio').value = "08:00";
+      document.getElementById('form-agenda-fim').value = "09:00";
+      document.getElementById('form-agenda-tipo').value = "Reunião";
+      document.getElementById('form-agenda-local').value = "Teams";
+      document.getElementById('form-agenda-link').value = "";
+      document.getElementById('form-agenda-setor').value = "Gabinete / URE";
+      document.getElementById('form-agenda-status').value = "Agendado";
+      document.getElementById('form-agenda-desc').value = "";
+
+      const modal = document.getElementById('modal-agenda-compromisso');
+      if (modal) modal.classList.add('active');
+    }
+
+    function abrirModalNovoCompromissoComHorario(horaInicio, horaFim) {
+      abrirModalNovoCompromisso();
+      document.getElementById('form-agenda-data').value = dataAtivaGestaoHoje;
+      if (horaInicio) document.getElementById('form-agenda-inicio').value = horaInicio;
+      if (horaFim) document.getElementById('form-agenda-fim').value = horaFim;
+    }
+
+    function abrirModalEditarCompromisso(id) {
+      const evento = AGENDA_COMPROMISSOS.find(c => c.id === id);
+      if (!evento) return;
+
+      document.getElementById('form-agenda-id').value = evento.id;
+      document.getElementById('modal-agenda-titulo-modo').innerText = "Editar Compromisso";
+      document.getElementById('form-agenda-titulo').value = evento.titulo || "";
+      document.getElementById('form-agenda-data').value = evento.data || obterDataHojeIso();
+      document.getElementById('form-agenda-inicio').value = evento.horaInicio || "08:00";
+      document.getElementById('form-agenda-fim').value = evento.horaFim || "09:00";
+      document.getElementById('form-agenda-tipo').value = evento.tipo || "Reunião";
+      document.getElementById('form-agenda-local').value = evento.local || "";
+      document.getElementById('form-agenda-link').value = evento.link || "";
+      document.getElementById('form-agenda-setor').value = evento.setor || "Gabinete / URE";
+      document.getElementById('form-agenda-status').value = evento.status || "Agendado";
+      document.getElementById('form-agenda-desc').value = evento.descricao || "";
+
+      const modal = document.getElementById('modal-agenda-compromisso');
+      if (modal) modal.classList.add('active');
+    }
+
+    function fecharModalAgenda(event) {
+      if (event && event.target && event.target !== event.currentTarget && !event.target.classList.contains('btn-close-panel') && event.target.tagName !== 'BUTTON') {
+        return;
+      }
+      const modal = document.getElementById('modal-agenda-compromisso');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function salvarCompromissoForm(event) {
+      event.preventDefault();
+
+      const id = document.getElementById('form-agenda-id').value;
+      const titulo = document.getElementById('form-agenda-titulo').value.trim();
+      const data = document.getElementById('form-agenda-data').value;
+      const horaInicio = document.getElementById('form-agenda-inicio').value;
+      const horaFim = document.getElementById('form-agenda-fim').value;
+      const tipo = document.getElementById('form-agenda-tipo').value;
+      const local = document.getElementById('form-agenda-local').value.trim();
+      const link = document.getElementById('form-agenda-link').value.trim();
+      const setor = document.getElementById('form-agenda-setor').value;
+      const status = document.getElementById('form-agenda-status').value;
+      const descricao = document.getElementById('form-agenda-desc').value.trim();
+
+      if (!titulo || !data || !horaInicio || !horaFim) {
+        alert('Por favor, preencha todos os campos obrigatórios (*)');
+        return;
+      }
+
+      if (horaFim <= horaInicio) {
+        alert('O horário de término deve ser posterior ao horário de início!');
+        return;
+      }
+
+      if (id) {
+        // Atualiza compromisso existente
+        const index = AGENDA_COMPROMISSOS.findIndex(c => c.id === id);
+        if (index !== -1) {
+          AGENDA_COMPROMISSOS[index] = {
+            ...AGENDA_COMPROMISSOS[index],
+            titulo,
+            data,
+            horaInicio,
+            horaFim,
+            tipo,
+            local,
+            link,
+            setor,
+            status,
+            descricao
+          };
+          mostrarToastAgenda('Compromisso atualizado com sucesso!', '✏');
+        }
+      } else {
+        // Cria novo compromisso
+        const novoEvento = {
+          id: 'evt-' + Date.now(),
+          titulo,
+          data,
+          horaInicio,
+          horaFim,
+          tipo,
+          local,
+          link,
+          setor,
+          prioridade: tipo === 'Reunião' || tipo === 'Visita Técnica' ? 'Alta' : 'Normal',
+          status,
+          descricao
+        };
+        AGENDA_COMPROMISSOS.push(novoEvento);
+        mostrarToastAgenda('Novo compromisso agendado com sucesso!', '✅');
+      }
+
+      salvarAgendaStorage();
+
+      // Sincroniza e reflete imediatamente nos dois menus!
+      renderizarMinhaGestaoHoje();
+      renderizarAgenda();
+
+      fecharModalAgenda();
+    }
+
+    function alternarStatusConcluido(id) {
+      const evento = AGENDA_COMPROMISSOS.find(c => c.id === id);
+      if (!evento) return;
+
+      if (evento.status === 'Concluído') {
+        evento.status = 'Agendado';
+        mostrarToastAgenda(`Compromisso "${evento.titulo}" reaberto!`, '↩');
+      } else {
+        evento.status = 'Concluído';
+        mostrarToastAgenda(`Compromisso "${evento.titulo}" marcado como concluído!`, '✔');
+      }
+
+      salvarAgendaStorage();
+      renderizarMinhaGestaoHoje();
+      renderizarAgenda();
+    }
+
+    function cancelarCompromisso(id) {
+      const evento = AGENDA_COMPROMISSOS.find(c => c.id === id);
+      if (!evento) return;
+
+      if (confirm(`Deseja realmente cancelar o compromisso "${evento.titulo}"?`)) {
+        evento.status = 'Cancelado';
+        salvarAgendaStorage();
+        renderizarMinhaGestaoHoje();
+        renderizarAgenda();
+        mostrarToastAgenda('Compromisso cancelado (horário liberado na timeline)!', '⚠️');
+      }
+    }
+
+    function excluirCompromisso(id) {
+      const index = AGENDA_COMPROMISSOS.findIndex(c => c.id === id);
+      if (index === -1) return;
+
+      const titulo = AGENDA_COMPROMISSOS[index].titulo;
+      if (confirm(`Tem certeza que deseja excluir o compromisso "${titulo}" permanentemente?`)) {
+        AGENDA_COMPROMISSOS.splice(index, 1);
+        salvarAgendaStorage();
+        renderizarMinhaGestaoHoje();
+        renderizarAgenda();
+        mostrarToastAgenda('Compromisso excluído com sucesso!', '🗑');
+      }
+    }
+
+    // Inicialização da Agenda ao carregar
+    document.addEventListener("DOMContentLoaded", function () {
+      renderizarMinhaGestaoHoje();
+      renderizarAgenda();
+    });
+
+  </script>
 
   <style>
     :root {
@@ -2248,6 +3050,1047 @@
       color: #94a3b8;
       font-weight: normal;
     }
+  
+    /* ============================================================== */
+    /* 15. CSS MINHA GESTÃO HOJE & AGENDA DA DIRIGENTE (DESIGN PREMIUM) */
+    /* ============================================================== */
+
+    /* Badge Superior Oficial do Print (ex: 02 - Minha Gestão Hoje) */
+    .topbar-screen-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      background: #0f172a;
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Item Ativo da Sidebar com Destaque Coral/Vinho do Print */
+    .nav-item-btn#side-btn-gestao.active,
+    .nav-item-btn#side-btn-agenda.active {
+      background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+      color: #ffffff !important;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.38) !important;
+      position: relative;
+    }
+    .nav-item-btn#side-btn-gestao.active::after,
+    .nav-item-btn#side-btn-agenda.active::after {
+      content: '›';
+      position: absolute;
+      right: 12px;
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 800;
+    }
+
+    /* --- HERO BANNER MINHA GESTÃO HOJE (100% FIEL AO PRINT) --- */
+    .gestao-header-card {
+      background: linear-gradient(135deg, #101626 0%, #151b31 60%, #19203a 100%);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(244, 63, 94, 0.25);
+      border-top: 3px solid #f43f5e;
+      padding: 1.5rem 2rem;
+      color: #ffffff;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+      margin-bottom: 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gestao-header-card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(244, 63, 94, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .gestao-header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .gestao-header-left {
+      max-width: 700px;
+    }
+
+    .gestao-pretitle {
+      color: #f43f5e;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .gestao-main-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.02em;
+    }
+
+    .gestao-main-desc {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      line-height: 1.45;
+      margin-bottom: 0.65rem;
+    }
+
+    .gestao-date-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    .gestao-date-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      color: #f8fafc;
+      font-weight: 600;
+    }
+
+    .btn-mudar-data {
+      background: transparent;
+      border: 1px dashed rgba(255, 255, 255, 0.25);
+      color: #cbd5e1;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-mudar-data:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .gestao-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .btn-gestao-refresh {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #f1f5f9;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: var(--transition);
+    }
+    .btn-gestao-refresh:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .btn-gestao-open-agenda {
+      background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);
+      color: #ffffff;
+      border: none;
+      padding: 0.6rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.4);
+      transition: var(--transition);
+    }
+    .btn-gestao-open-agenda:hover {
+      background: linear-gradient(135deg, #be123c 0%, #e11d48 100%);
+      box-shadow: 0 6px 18px rgba(225, 29, 72, 0.55);
+      transform: translateY(-1px);
+    }
+
+    /* --- 3 CARDS DE KPI (FIEL AO PRINT) --- */
+    .gestao-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .gestao-kpi-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 1.15rem 1.35rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      transition: var(--transition);
+      position: relative;
+    }
+    .gestao-kpi-card:hover {
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .gestao-kpi-header {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      text-transform: uppercase;
+      margin-bottom: 0.45rem;
+    }
+
+    .gestao-kpi-body {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .gestao-kpi-icon-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .badge-blue-kpi {
+      background: #eff6ff;
+      color: #2563eb;
+    }
+    .badge-green-kpi {
+      background: #ecfdf5;
+      color: #10b981;
+    }
+    .badge-pink-kpi {
+      background: #ffe4e6;
+      color: #e11d48;
+    }
+
+    .gestao-kpi-number {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .gestao-kpi-sub {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 500;
+      padding-left: 0.2rem;
+    }
+
+    /* --- SEÇÃO: LINHA DO TEMPO DE HOJE (EXPEDIENTE 07:00 ÀS 17:00) --- */
+    .gestao-timeline-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 1.5rem 1.85rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      margin-bottom: 1.5rem;
+    }
+
+    .timeline-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      margin-bottom: 1rem;
+    }
+
+    .timeline-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .timeline-expediente-badge {
+      display: inline-block;
+      width: fit-content;
+      background: #ffe4e6;
+      color: #e11d48;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .timeline-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+    }
+
+    .timeline-updated-text {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    /* Tabela / Lista da Timeline */
+    .timeline-slots-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      position: relative;
+    }
+
+    .timeline-slot-row {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      position: relative;
+    }
+
+    .slot-time-col {
+      width: 75px;
+      text-align: right;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      line-height: 1.2;
+    }
+
+    .slot-hour-bold {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .slot-hour-sub {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .slot-dot-col {
+      width: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .slot-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .slot-dot.livre {
+      background: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    }
+
+    .slot-dot.ocupado {
+      background: #f43f5e;
+      box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.22);
+    }
+
+    .slot-dot.concluido {
+      background: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .slot-card-col {
+      flex: 1;
+    }
+
+    /* Faixa de Horário Livre (Verde menta suave do print) */
+    .slot-card-livre {
+      background: #eafaf1;
+      border: 1px solid #d1fae5;
+      border-radius: 6px;
+      padding: 0.55rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .slot-card-livre:hover {
+      background: #def7e9;
+      border-color: #a7f3d0;
+      transform: translateX(2px);
+    }
+
+    .slot-livre-text {
+      color: #059669;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .slot-livre-dot {
+      color: #10b981;
+      font-size: 0.85rem;
+    }
+
+    .slot-livre-time {
+      color: #059669;
+      font-size: 0.75rem;
+      opacity: 0.75;
+      font-weight: 500;
+    }
+
+    .slot-livre-add-hint {
+      display: none;
+      font-size: 0.72rem;
+      color: #059669;
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.12);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+    .slot-card-livre:hover .slot-livre-add-hint {
+      display: inline-block;
+    }
+
+    /* Faixa de Horário Ocupado / Agendado (Fiel ao print: Live Reunião) */
+    .slot-card-ocupado {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #f43f5e;
+      border-radius: 6px;
+      padding: 0.65rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: var(--transition);
+    }
+    .slot-card-ocupado:hover {
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+    }
+
+    .slot-card-ocupado.concluido {
+      border-left-color: #3b82f6;
+      background: #f8fafc;
+      opacity: 0.88;
+    }
+
+    .slot-ocupado-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .slot-ocupado-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.25;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .slot-ocupado-meta {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .slot-ocupado-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .slot-status-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .slot-status-pill.agendado {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    .slot-status-pill.concluido {
+      background: #ecfdf5;
+      color: #065f46;
+    }
+    .slot-status-pill.cancelado {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .slot-ocupado-time {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .slot-action-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .btn-slot-action {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-slot-action:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+    .btn-slot-action.done:hover {
+      background: #10b981;
+      color: #ffffff;
+      border-color: #10b981;
+    }
+
+    /* Legenda e Disclaimer do Print */
+    .timeline-footer-row {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .timeline-legend-row {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .timeline-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .timeline-disclaimer-text {
+      font-size: 0.73rem;
+      color: #94a3b8;
+      line-height: 1.45;
+      font-style: italic;
+    }
+
+    /* ============================================================== */
+    /* ESTILOS DA VIEW: AGENDA DA DIRIGENTE (COMPLETA E VINCULADA)   */
+    /* ============================================================== */
+    .agenda-view-header {
+      background: linear-gradient(135deg, #0b2351 0%, #133979 60%, #1e83a1 100%);
+      border-radius: var(--radius-md);
+      padding: 1.5rem 2rem;
+      color: #ffffff;
+      margin-bottom: 1.25rem;
+      border-top: 3px solid #f09b0c;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
+    }
+
+    .agenda-header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .agenda-toolbar-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .agenda-filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .agenda-quick-pill {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+      padding: 0.4rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .agenda-quick-pill:hover,
+    .agenda-quick-pill.active {
+      background: #0b2351;
+      border-color: #0b2351;
+      color: #ffffff;
+    }
+
+    .agenda-select-filter,
+    .agenda-date-input,
+    .agenda-search-input {
+      padding: 0.45rem 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      background: #ffffff;
+      color: #0f172a;
+      outline: none;
+      transition: var(--transition);
+    }
+    .agenda-select-filter:focus,
+    .agenda-date-input:focus,
+    .agenda-search-input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .agenda-view-tabs {
+      display: flex;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 1.25rem;
+      gap: 1rem;
+    }
+
+    .agenda-tab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      padding: 0.65rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+    .agenda-tab-btn:hover {
+      color: #0b2351;
+    }
+    .agenda-tab-btn.active {
+      color: #0b2351;
+      border-bottom-color: #f43f5e;
+    }
+
+    /* Cards de Compromissos na Agenda */
+    .agenda-items-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .agenda-event-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-left: 5px solid #2563eb;
+      border-radius: var(--radius-md);
+      padding: 1.15rem 1.35rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1.25rem;
+      transition: var(--transition);
+    }
+    .agenda-event-card:hover {
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .agenda-event-card.prioridade-alta {
+      border-left-color: #f43f5e;
+    }
+    .agenda-event-card.status-concluido {
+      border-left-color: #10b981;
+      background: #fafafa;
+    }
+
+    .agenda-event-main {
+      flex: 1;
+    }
+
+    .agenda-event-top {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .agenda-time-chip {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .agenda-category-chip {
+      background: #eff6ff;
+      color: #1e40af;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .agenda-setor-chip {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .agenda-event-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 0.35rem;
+    }
+
+    .agenda-event-desc {
+      font-size: 0.8rem;
+      color: #64748b;
+      line-height: 1.45;
+      margin-bottom: 0.55rem;
+    }
+
+    .agenda-event-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 500;
+      flex-wrap: wrap;
+    }
+
+    .agenda-event-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .btn-agenda-action {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: var(--transition);
+    }
+    .btn-agenda-action:hover {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+    .btn-agenda-action.btn-concluir {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      color: #065f46;
+    }
+    .btn-agenda-action.btn-concluir:hover {
+      background: #10b981;
+      color: #ffffff;
+    }
+    .btn-agenda-action.btn-excluir {
+      color: #b91c1c;
+      border-color: #fca5a5;
+    }
+    .btn-agenda-action.btn-excluir:hover {
+      background: #ef4444;
+      color: #ffffff;
+    }
+
+    /* Modal de Novo/Editar Compromisso */
+    .agenda-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.2s ease-out;
+    }
+    .agenda-modal-overlay.active {
+      display: flex;
+    }
+
+    .agenda-modal-card {
+      background: #ffffff;
+      width: 95%;
+      max-width: 580px;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      animation: modalSlideUp 0.25s ease-out;
+    }
+
+    @keyframes modalSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .agenda-modal-header {
+      background: #0b2351;
+      color: #ffffff;
+      padding: 1.15rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid #f43f5e;
+    }
+
+    .agenda-modal-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .agenda-modal-body {
+      padding: 1.5rem;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .agenda-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .agenda-form-full {
+      grid-column: span 2;
+    }
+
+    .agenda-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .agenda-form-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .agenda-form-input,
+    .agenda-form-select,
+    .agenda-form-textarea {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      color: #0f172a;
+      outline: none;
+      transition: var(--transition);
+    }
+    .agenda-form-input:focus,
+    .agenda-form-select:focus,
+    .agenda-form-textarea:focus {
+      border-color: #f43f5e;
+      box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.15);
+    }
+
+    .agenda-modal-footer {
+      padding: 1rem 1.5rem;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+
+    /* Calendário Mensal */
+    .agenda-cal-wrapper {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+    .agenda-cal-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+    .agenda-cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .agenda-cal-day-header {
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748b;
+      padding: 0.5rem 0;
+    }
+    .agenda-cal-cell {
+      min-height: 80px;
+      border: 1px solid #f1f5f9;
+      border-radius: 8px;
+      padding: 6px;
+      background: #fdfdfd;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .agenda-cal-cell:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+    .agenda-cal-cell.today {
+      border-color: #f43f5e;
+      background: #fff8f8;
+    }
+    .agenda-cal-cell.active-day {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+    .agenda-cal-day-num {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .agenda-cal-event-dot {
+      font-size: 0.68rem;
+      padding: 2px 4px;
+      border-radius: 4px;
+      background: #eff6ff;
+      color: #1e40af;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 600;
+    }
+    .agenda-cal-event-dot.coral {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* Toast Flutuante de Sucesso / Alerta */
+    .agenda-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 0.85rem 1.35rem;
+      border-radius: 8px;
+      border-left: 4px solid #10b981;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .agenda-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
   </style>
 </head>
 
@@ -2280,13 +4123,13 @@
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-gestao" onclick="navegarParaSecao('kpi-escolas', 'side-btn-gestao')">
+            <button class="nav-item-btn" id="side-btn-gestao" onclick="abrirMinhaGestaoHoje()">
               <span class="nav-item-icon">⏱️</span>
               <span>Minha Gestão Hoje</span>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-agenda" onclick="navegarParaSecao('agenda-section', 'side-btn-agenda')">
+            <button class="nav-item-btn" id="side-btn-agenda" onclick="abrirAgenda()">
               <span class="nav-item-icon">📅</span>
               <span>Agenda</span>
             </button>
@@ -2432,6 +4275,9 @@
         </a>
 
         <!-- Status Google Drive -->
+        <!-- Indicador Oficial da Tela Ativa (Print: 02 - Minha Gestão Hoje) -->
+        <div id="topbar-view-indicator" class="topbar-screen-badge" style="display: none;">02 - Minha Gestão Hoje</div>
+
         <div class="drive-status-pill">
           <span class="drive-status-dot"></span>
           <span>Google Drive • <strong id="drive-stats-text">6 Centros Sincronizados</strong></span>
@@ -3438,6 +5284,210 @@
 
       </section>
 
+      <!-- ============================================== -->
+      <!-- VIEW 5: MINHA GESTÃO HOJE (FIEL AO PRINT)      -->
+      <!-- ============================================== -->
+      <section id="pane-gestao-hoje" class="view-pane">
+
+        <!-- HEADER DA GESTÃO HOJE (ESTILO EXECUTIVO DO PRINT) -->
+        <div class="gestao-header-card">
+          <div class="gestao-header-inner">
+            <div class="gestao-header-left">
+              <span class="gestao-pretitle">ROTINA EXECUTIVA • GABINETE DA DIRIGENTE</span>
+              <h2 class="gestao-main-title">Minha Gestão Hoje</h2>
+              <p class="gestao-main-desc">
+                Sua linha do tempo de hoje, das 7h às 17h, atualizada automaticamente pela Agenda compartilhada.
+              </p>
+              <div class="gestao-date-row">
+                <div class="gestao-date-badge">
+                  <span>📅</span>
+                  <span id="gestao-hoje-data-texto">sábado 17 de outubro de 2026</span>
+                </div>
+                <button class="btn-mudar-data" onclick="abrirSeletorDataGestao()">Alterar data...</button>
+                <input type="date" id="gestao-date-hidden-picker" style="display: none;" onchange="aoMudarDataGestao(this.value)">
+              </div>
+            </div>
+
+            <div class="gestao-header-actions">
+              <button class="btn-gestao-refresh" onclick="atualizarDiaGestaoHoje()" title="Recarregar compromissos do dia">
+                <span>🔄</span>
+                <span>Atualizar dia</span>
+              </button>
+              <button class="btn-gestao-open-agenda" onclick="abrirAgenda()" title="Abrir gestão completa de compromissos">
+                <span>Abrir Agenda completa</span>
+                <span>→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 CARDS DE KPI (COMPROMISSOS, TEMPO LIVRE, CONCLUÍDOS) -->
+        <div class="gestao-kpi-grid">
+          
+          <!-- Card 1: Compromissos do Dia -->
+          <div class="gestao-kpi-card">
+            <div class="gestao-kpi-header">COMPROMISSOS DO DIA</div>
+            <div class="gestao-kpi-body">
+              <div class="gestao-kpi-icon-badge badge-blue-kpi">
+                <span>📅</span>
+              </div>
+              <span class="gestao-kpi-number" id="kpi-gestao-compromissos">1</span>
+            </div>
+            <div class="gestao-kpi-sub" id="kpi-gestao-compromissos-sub">1 agendado(s) · 0 cancelados</div>
+          </div>
+
+          <!-- Card 2: Tempo Livre (7h às 17h) -->
+          <div class="gestao-kpi-card">
+            <div class="gestao-kpi-header">TEMPO LIVRE · 7H ÀS 17H</div>
+            <div class="gestao-kpi-body">
+              <div class="gestao-kpi-icon-badge badge-green-kpi">
+                <span>⏱️</span>
+              </div>
+              <span class="gestao-kpi-number" id="kpi-gestao-tempo-livre">9h</span>
+            </div>
+            <div class="gestao-kpi-sub" id="kpi-gestao-tempo-livre-sub">Sem compromissos registrados neste período</div>
+          </div>
+
+          <!-- Card 3: Concluídos -->
+          <div class="gestao-kpi-card">
+            <div class="gestao-kpi-header">CONCLUÍDOS</div>
+            <div class="gestao-kpi-body">
+              <div class="gestao-kpi-icon-badge badge-pink-kpi">
+                <span>✔️</span>
+              </div>
+              <span class="gestao-kpi-number" id="kpi-gestao-concluidos">0</span>
+            </div>
+            <div class="gestao-kpi-sub" id="kpi-gestao-concluidos-sub">Compromissos realizados</div>
+          </div>
+
+        </div>
+
+        <!-- LINHA DO TEMPO DE HOJE (EXPEDIENTE 07:00 ÀS 17:00) -->
+        <div class="gestao-timeline-card">
+          <div class="timeline-card-header">
+            <div class="timeline-header-left">
+              <span class="timeline-expediente-badge">EXPEDIENTE · 07:00 ÀS 17:00</span>
+              <h3 class="timeline-title">Linha do tempo de hoje</h3>
+            </div>
+            <div class="timeline-updated-text" id="gestao-timeline-timestamp">Atualizada às 17:21</div>
+          </div>
+
+          <!-- Container Dinâmico dos Slots das 07:00 às 17:00 -->
+          <div class="timeline-slots-container" id="timeline-slots-container">
+            <!-- Renderizado dinamicamente via JavaScript -->
+          </div>
+
+          <!-- Legenda e Disclaimer -->
+          <div class="timeline-footer-row">
+            <div class="timeline-legend-row">
+              <div class="timeline-legend-item">
+                <span class="slot-dot livre" style="display:inline-block;"></span>
+                <span>Livre na Agenda</span>
+              </div>
+              <div class="timeline-legend-item">
+                <span class="slot-dot ocupado" style="display:inline-block;"></span>
+                <span>Compromisso</span>
+              </div>
+              <div class="timeline-legend-item">
+                <span class="slot-dot concluido" style="display:inline-block;"></span>
+                <span>Concluído</span>
+              </div>
+            </div>
+            <div class="timeline-disclaimer-text">
+              As faixas em verde indicam ausência de compromisso registrado na Agenda naquele horário; não confirmam disponibilidade fora do sistema. Cancelados não bloqueiam horários. Fonte: Agenda da Dirigente, compartilhada no Google Drive.
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 6: AGENDA COMPLETA DA DIRIGENTE           -->
+      <!-- ============================================== -->
+      <section id="pane-agenda" class="view-pane">
+
+        <!-- HEADER DA AGENDA -->
+        <div class="agenda-view-header">
+          <div class="agenda-header-inner">
+            <div>
+              <span class="gestao-pretitle" style="color: #f09b0c;">GESTÃO DA REDE • GABINETE DA DIRIGENTE</span>
+              <h2 class="gestao-main-title">Agenda da Dirigente & Gestão de Compromissos</h2>
+              <p class="gestao-main-desc">
+                Planejamento e controle de audiências, reuniões com a rede, visitas escolares, videoconferências e despachos oficiais.
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+              <button class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);" onclick="abrirModalNovoCompromisso()">
+                <span>+ Novo Compromisso</span>
+              </button>
+              <button class="btn-gestao-refresh" onclick="abrirMinhaGestaoHoje()">
+                <span>⏱️</span>
+                <span>Ver Linha do Tempo</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TOOLBAR & FILTROS DA AGENDA -->
+        <div class="agenda-toolbar-card">
+          <div class="agenda-filter-group">
+            <button class="agenda-quick-pill active" id="agenda-pill-hoje" onclick="filtrarAgendaPeriodo('hoje')">Hoje</button>
+            <button class="agenda-quick-pill" id="agenda-pill-amanha" onclick="filtrarAgendaPeriodo('amanha')">Amanhã</button>
+            <button class="agenda-quick-pill" id="agenda-pill-semana" onclick="filtrarAgendaPeriodo('semana')">Esta Semana</button>
+            <button class="agenda-quick-pill" id="agenda-pill-todos" onclick="filtrarAgendaPeriodo('todos')">Todos</button>
+            
+            <input type="date" class="agenda-date-input" id="agenda-input-data" onchange="aoMudarDataAgenda(this.value)" title="Filtrar por data específica">
+          </div>
+
+          <div class="agenda-filter-group">
+            <select class="agenda-select-filter" id="agenda-filtro-categoria" onchange="aoFiltrarAgenda()">
+              <option value="">Todas as Categorias</option>
+              <option value="Reunião">Reunião</option>
+              <option value="Visita Técnica">Visita Técnica</option>
+              <option value="Despacho Gabinete">Despacho Gabinete</option>
+              <option value="Videoconferência Teams">Videoconferência Teams</option>
+              <option value="Evento Oficial">Evento Oficial</option>
+            </select>
+
+            <select class="agenda-select-filter" id="agenda-filtro-status" onchange="aoFiltrarAgenda()">
+              <option value="">Todos os Status</option>
+              <option value="Agendado">Agendado</option>
+              <option value="Concluído">Concluído</option>
+              <option value="Cancelado">Cancelado</option>
+            </select>
+
+            <input type="text" class="agenda-search-input" id="agenda-filtro-busca" placeholder="🔍 Buscar compromisso..." oninput="aoFiltrarAgenda()">
+          </div>
+        </div>
+
+        <!-- ABAS DE VISUALIZAÇÃO: LISTA vs CALENDÁRIO MENSAL -->
+        <div class="agenda-view-tabs">
+          <button class="agenda-tab-btn active" id="tab-btn-lista" onclick="alternarTabAgenda('lista')">
+            <span>📋</span>
+            <span>Lista de Compromissos</span>
+          </button>
+          <button class="agenda-tab-btn" id="tab-btn-calendario" onclick="alternarTabAgenda('calendario')">
+            <span>📅</span>
+            <span>Visão Calendário Mensal</span>
+          </button>
+        </div>
+
+        <!-- CONTAINER DA TAB 1: LISTA DE COMPROMISSOS -->
+        <div id="agenda-tab-content-lista">
+          <div class="agenda-items-container" id="agenda-cards-lista">
+            <!-- Renderizado dinamicamente via JS -->
+          </div>
+        </div>
+
+        <!-- CONTAINER DA TAB 2: CALENDÁRIO MENSAL -->
+        <div id="agenda-tab-content-calendario" style="display: none;">
+          <div id="agenda-calendario-container">
+            <!-- Renderizado dinamicamente via JS -->
+          </div>
+        </div>
+
+      </section>
+
     </div>
   </main>
 
@@ -3581,16 +5631,19 @@
     // === NAVEGAÇÃO DE VIEWS ===
 
     function navegarParaSecao(idElemento, idBotao) {
-      // Garante que Home está visível
+      if (idElemento === 'gestao-hoje-section' || idBotao === 'side-btn-gestao') {
+        abrirMinhaGestaoHoje();
+        return;
+      }
+      if (idElemento === 'agenda-section' || idBotao === 'side-btn-agenda') {
+        abrirAgenda();
+        return;
+      }
+      esconderTodasAsPanes();
       document.getElementById('pane-home').classList.add('active');
-      document.getElementById('pane-centro').classList.remove('active');
-      document.getElementById('pane-gabinete').classList.remove('active');
-      document.getElementById('pane-seintec').classList.remove('active');
-      // Destaca o botão ativo
-      document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
       const btnAtivo = document.getElementById(idBotao);
       if (btnAtivo) btnAtivo.classList.add('active');
-      // Rola até a seção correspondente (se o elemento existir)
+      atualizarBreadcrumbTopo('');
       const el = document.getElementById(idElemento);
       if (el) {
         setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
@@ -3648,10 +5701,9 @@
       selecionarSetor(siglaCentro, centro.setores[0].sigla, containerTabs.children[0]);
 
       // Alterna Views
-      document.getElementById('pane-home').classList.remove('active');
-      document.getElementById('pane-gabinete').classList.remove('active');
-      document.getElementById('pane-seintec').classList.remove('active');
+      esconderTodasAsPanes();
       document.getElementById('pane-centro').classList.add('active');
+      atualizarBreadcrumbTopo('04 - Visão do Centro Regional');
 
       // Atualiza Sidebar
       document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
@@ -3968,10 +6020,9 @@
     let baseAtivaGabinete = 'TermosVisita';
 
     function abrirAssessoriaTecnica() {
-      document.getElementById('pane-home').classList.remove('active');
-      document.getElementById('pane-centro').classList.remove('active');
-      document.getElementById('pane-seintec').classList.remove('active');
+      esconderTodasAsPanes();
       document.getElementById('pane-gabinete').classList.add('active');
+      atualizarBreadcrumbTopo('05 - Gabinete & Assessoria Técnica');
 
       document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
       const sideBtn = document.getElementById('side-btn-GAB');
@@ -4283,10 +6334,9 @@
     let baseAtivaSeintec = 'Hardware';
 
     function abrirSeintec() {
-      document.getElementById('pane-home').classList.remove('active');
-      document.getElementById('pane-centro').classList.remove('active');
-      document.getElementById('pane-gabinete').classList.remove('active');
+      esconderTodasAsPanes();
       document.getElementById('pane-seintec').classList.add('active');
+      atualizarBreadcrumbTopo('06 - SEINTEC Tecnologia');
 
       document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
       const sideBtn = document.getElementById('side-btn-SEINTEC');
@@ -4954,6 +7004,133 @@
         <iframe id="pdf-modal-iframe" src="" title="Visualizador de PDF"></iframe>
       </div>
     </div>
+  </div>
+
+
+  <!-- MODAL: NOVO / EDITAR COMPROMISSO NA AGENDA -->
+  <div class="agenda-modal-overlay" id="modal-agenda-compromisso" onclick="fecharModalAgenda(event)">
+    <div class="agenda-modal-card" onclick="event.stopPropagation()">
+      <div class="agenda-modal-header">
+        <div class="agenda-modal-title">
+          <span>📅</span>
+          <span id="modal-agenda-titulo-modo">Novo Compromisso Executivo</span>
+        </div>
+        <button class="btn-close-panel" onclick="fecharModalAgenda()">✕</button>
+      </div>
+
+      <form id="form-agenda-compromisso" onsubmit="salvarCompromissoForm(event)">
+        <div class="agenda-modal-body">
+          <input type="hidden" id="form-agenda-id" value="">
+
+          <div class="agenda-form-grid">
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Título do Compromisso *</label>
+              <input type="text" id="form-agenda-titulo" class="agenda-form-input" required placeholder="Ex: Live Reunião">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Data *</label>
+              <input type="date" id="form-agenda-data" class="agenda-form-input" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Categoria *</label>
+              <select id="form-agenda-tipo" class="agenda-form-select" required>
+                <option value="Reunião">Reunião</option>
+                <option value="Visita Técnica">Visita Técnica</option>
+                <option value="Despacho Gabinete">Despacho Gabinete</option>
+                <option value="Videoconferência Teams">Videoconferência Teams</option>
+                <option value="Audiência Oficial">Audiência Oficial</option>
+                <option value="Evento Oficial">Evento Oficial</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Horário de Início *</label>
+              <select id="form-agenda-inicio" class="agenda-form-select" required>
+                <option value="07:00">07:00</option>
+                <option value="08:00" selected>08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Horário de Término *</label>
+              <select id="form-agenda-fim" class="agenda-form-select" required>
+                <option value="08:00">08:00</option>
+                <option value="09:00" selected>09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Local / Sala / Plataforma</label>
+              <input type="text" id="form-agenda-local" class="agenda-form-input" placeholder="Ex: Teams / Gabinete / EE Prof. José Barreto">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Link Virtual (se houver)</label>
+              <input type="url" id="form-agenda-link" class="agenda-form-input" placeholder="https://teams.microsoft.com/...">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Setor / Centro Envolvido</label>
+              <select id="form-agenda-setor" class="agenda-form-select">
+                <option value="Gabinete / URE">Gabinete / URE</option>
+                <option value="SEINTEC">SEINTEC (Tecnologia)</option>
+                <option value="CAF">CAF (Finanças & Infraestrutura)</option>
+                <option value="CGE">CGE (Rede Escolar)</option>
+                <option value="CRH">CRH (Recursos Humanos)</option>
+                <option value="NPE">NPE (Núcleo Pedagógico)</option>
+                <option value="Supervisão">Supervisão Regional</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Status</label>
+              <select id="form-agenda-status" class="agenda-form-select">
+                <option value="Agendado">Agendado</option>
+                <option value="Concluído">Concluído</option>
+                <option value="Cancelado">Cancelado</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Pauta / Descrição / Observações</label>
+              <textarea id="form-agenda-desc" class="agenda-form-textarea" rows="3" placeholder="Informações adicionais, participantes, deliberações..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="agenda-modal-footer">
+          <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1;" onclick="fecharModalAgenda()">Cancelar</button>
+          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);">
+            <span>Salvar na Agenda</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast de Notificação -->
+  <div id="agenda-toast" class="agenda-toast">
+    <span id="agenda-toast-icon">✅</span>
+    <span id="agenda-toast-msg">Operação realizada com sucesso!</span>
   </div>
 
 </body>

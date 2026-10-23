@@ -29,11 +29,10 @@ function getConsolidatedData() {
       { nome: "EE Raul Briquet", cidade: "Itapevi", motivo: "Reposição de quadro docente e tecnologia", prioridade: "Alta prioridade" },
       { nome: "EE Celso Pacheco Bentley", cidade: "Itapevi", motivo: "Reforma quadra poliesportiva e cobertura", prioridade: "Alta prioridade" }
     ],
-    agendaHoje: [
-      { hora: "08:00", titulo: "Reunião de Alinhamento com Supervisores e Dirigente", status: "ocupado" },
-      { hora: "09:30", titulo: "Despachos do Gabinete e Assinatura de Termos", status: "livre" },
-      { hora: "14:00", titulo: "Visita Técnica Regional: Polo Itapevi e Núcleos", status: "ocupado" },
-      { hora: "16:30", titulo: "Alinhamento com SEAFIN e NOM sobre Execução Orçamentária", status: "livre" }
+        agendaHoje: [
+      { id: "evt-001", horaInicio: "08:00", horaFim: "09:00", hora: "08:00", titulo: "Live Reunião", tipo: "Reunião", local: "Teams", setor: "Gabinete / URE", prioridade: "Alta", status: "Agendado", descricao: "Live Reunião com a rede e equipes gestoras escolares" },
+      { id: "evt-002", horaInicio: "14:00", horaFim: "15:30", hora: "14:00", titulo: "Visita Técnica: EE Prof. José Barreto", tipo: "Visita Técnica", local: "EE Prof. José Barreto", setor: "Supervisão", prioridade: "Alta", status: "Agendado", descricao: "Acompanhamento das reformas e novos equipamentos" },
+      { id: "evt-003", horaInicio: "16:00", horaFim: "17:00", hora: "16:00", titulo: "Alinhamento com SEAFIN e NOM", tipo: "Despacho Gabinete", local: "Gabinete da Dirigente", setor: "CAF", prioridade: "Normal", status: "Agendado", descricao: "Execução orçamentária e aditivos de contratos" }
     ]
   };
 }
