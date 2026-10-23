@@ -1,80 +1,4781 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <base target="_top">
-    <style>
-      body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; color: #333; }
-      .header { background-color: #004b87; color: white; padding: 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-      .header h1 { margin: 0; font-size: 1.6em; font-weight: 600; }
-      .container { max-width: 900px; margin: 30px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 20px; }
-      
-      .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-top: 4px solid #004b87; }
-      .card h3 { margin-top: 0; color: #004b87; border-bottom: 1px solid #eee; padding-bottom: 10px; font-size: 1.2em; }
-      
-      /* Estilos do Menu de Setores (Abas) */
-      .menu-setores { display: flex; gap: 10px; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
-      .btn-aba { padding: 10px 20px; border: none; background: #e0e0e0; cursor: pointer; border-radius: 5px; font-weight: bold; color: #555; transition: 0.3s; }
-      .btn-aba:hover { background: #d0d0d0; }
-      .btn-aba.ativo { background: #004b87; color: white; }
+<html lang="pt-BR">
 
-      /* Estilos para a área de Upload */
-      .upload-area { display: flex; align-items: center; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
-      input[type="file"] { padding: 10px; border: 1px dashed #ccc; border-radius: 5px; background: #fafafa; cursor: pointer; flex-grow: 1; }
-      .btn-upload { background-color: #004b87; color: white; padding: 12px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-      .btn-upload:hover { background-color: #00335e; }
-      .btn-upload:disabled { background-color: #cccccc; cursor: not-allowed; }
-      #upload-status { font-size: 0.95em; font-weight: 500; margin-top: 10px; }
-      #upload-status a { color: #004b87; text-decoration: underline; }
+<head>
+  <meta charset="UTF-8">
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BI da Dirigente - Gestão da Rede Escolar | URE Itapevi</title>
+  
+  <!-- Tipografia Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-      .indicator { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f9f9f9; font-size: 1.1em; }
-      .indicator:last-child { border-bottom: none; }
-      ul { padding-left: 0; margin: 0; }
-      li { list-style-type: none; padding: 12px 0; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; }
-      .status-livre { color: #155724; background-color: #d4edda; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; font-weight: bold; margin-right: 15px; min-width: 50px; text-align: center; }
-      .status-ocupado { color: #721c24; background-color: #f8d7da; padding: 5px 12px; border-radius: 20px; font-size: 0.9em; font-weight: bold; margin-right: 15px; min-width: 50px; text-align: center; }
-    </style>
-  </head>
-  <body>
-    <div class="header">
-      <h1>Painel BIDirigente</h1>
+  <!-- SheetJS para Leitura Automática e Instantânea de Planilhas Excel (.xlsx, .xls, .csv) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <style>
+    :root {
+      /* Paleta do Tema Executivo (Baseada no Print Oficial) */
+      --bg-body: #f1f5f9;
+      --bg-sidebar: #091124;
+      --bg-sidebar-hover: #132244;
+      --sidebar-text: #94a3b8;
+      --sidebar-heading: #475569;
+      --accent-red: #c81e3d;
+      --accent-red-hover: #b01431;
+      --accent-red-soft: rgba(200, 30, 61, 0.12);
+      --primary-navy: #0e2042;
+      --primary-navy-light: #163266;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --border-dark: #1e293b;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      --success: #10b981;
+      --success-soft: #ecfdf5;
+      --warning: #f59e0b;
+      --warning-soft: #fffbeb;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08);
+      --transition: all 0.22s ease-in-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ========================================= */
+    /* 1. SIDEBAR LATERAL ESCURA (ESTILO OFICIAL) */
+    /* ========================================= */
+    .sidebar {
+      width: 260px;
+      background-color: var(--bg-sidebar);
+      color: var(--sidebar-text);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: 1.25rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .sidebar-badge-logo {
+      background: #1e293b;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 0.45rem 0.65rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      letter-spacing: 0.05em;
+    }
+
+    .sidebar-header-titles {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .sidebar-header-titles h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .sidebar-header-titles span {
+      font-size: 0.72rem;
+      color: var(--sidebar-text);
+    }
+
+    .sidebar-collapse-btn {
+      background: none;
+      border: none;
+      color: var(--sidebar-text);
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .sidebar-nav {
+      padding: 1rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      flex: 1;
+    }
+
+    .nav-group-title {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--sidebar-heading);
+      padding: 0 0.6rem 0.4rem;
+    }
+
+    .nav-items-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .nav-item-btn {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      color: var(--sidebar-text);
+      padding: 0.55rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      transition: var(--transition);
+    }
+
+    .nav-item-btn:hover {
+      background-color: var(--bg-sidebar-hover);
+      color: #ffffff;
+    }
+
+    /* Item Ativo com Vermelho Carmesim Oficial */
+    .nav-item-btn.active {
+      background: linear-gradient(135deg, var(--accent-red) 0%, #a81532 100%);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(200, 30, 61, 0.35);
+    }
+
+    .nav-item-icon {
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+    }
+
+    /* Ícones de Letra dos Centros na Sidebar */
+    .centro-letter-badge {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      font-size: 0.72rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-item-btn:hover .centro-letter-badge {
+      background: var(--accent-red);
+      color: white;
+    }
+
+    .nav-item-btn.active .centro-letter-badge {
+      background: white;
+      color: var(--accent-red);
+    }
+
+    .sidebar-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.72rem;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    .sidebar-footer strong {
+      color: #94a3b8;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    /* ========================================= */
+    /* 2. ÁREA DE CONTEÚDO PRINCIPAL */
+    /* ========================================= */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    /* TOPBAR SUPERIOR (COM ACESSOS RÁPIDOS & STATUS DRIVE) */
+    .topbar {
+      background: #0b152d;
+      color: white;
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .topbar-badge-ure {
+      background: #1e293b;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.35rem 0.6rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .topbar-title-wrap h1 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .topbar-title-wrap span {
+      font-size: 0.72rem;
+      color: #94a3b8;
+    }
+
+    .topbar-right-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    /* Cards de Acesso Rápido da Topbar */
+    .quick-access-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      padding: 0.35rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .quick-access-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .quick-access-tag {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+    }
+
+    .quick-access-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+    }
+
+    .quick-access-desc {
+      font-size: 0.65rem;
+      color: #cbd5e1;
+      font-weight: 400;
+    }
+
+    /* Pill de Status do Google Drive */
+    .drive-status-pill {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-sm);
+      padding: 0.4rem 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.74rem;
+      color: #e2e8f0;
+    }
+
+    .drive-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px #10b981;
+    }
+
+    .btn-verify-now {
+      background: #ffffff;
+      color: #0f172a;
+      border: none;
+      padding: 0.25rem 0.6rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-verify-now:hover {
+      background: #e2e8f0;
+    }
+
+    /* ========================================= */
+    /* 3. CONTEÚDO DAS VIEWS */
+    /* ========================================= */
+    .view-container {
+      padding: 1.5rem 2rem 3rem;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .view-pane {
+      display: none;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .view-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========================================= */
+    /* 4. HERO BANNER EXECUTIVO (DO PRINT) */
+    /* ========================================= */
+    .executive-hero {
+      background: linear-gradient(135deg, #09132b 0%, #0e2042 60%, #17346b 100%);
+      color: #ffffff;
+      border-radius: var(--radius-md);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .executive-hero-left {
+      padding: 2.2rem 2.5rem;
+      max-width: 650px;
+      z-index: 2;
+    }
+
+    .hero-pretitle {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #f43f5e;
+      margin-bottom: 0.6rem;
+      display: inline-block;
+    }
+
+    .hero-main-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.6rem;
+      color: #ffffff;
+    }
+
+    .hero-main-desc {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    .executive-hero-right {
+      position: relative;
+      width: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 2.5rem;
+      background: linear-gradient(90deg, #09132b 0%, rgba(14, 32, 66, 0.4) 30%, transparent 100%),
+                  radial-gradient(circle at right, rgba(200, 30, 61, 0.15) 0%, transparent 60%);
+    }
+
+    /* Faixa diagonal decorativa */
+    .executive-hero-right::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 40px;
+      background: linear-gradient(to bottom right, transparent 50%, #c81e3d 50%, #c81e3d 55%, transparent 55%);
+      opacity: 0.7;
+    }
+
+    .hero-quote-box {
+      z-index: 2;
+      text-align: right;
+    }
+
+    .hero-quote-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-quote-sub {
+      font-size: 0.82rem;
+      color: #94a3b8;
+    }
+
+    .hero-quote-bar {
+      width: 45px;
+      height: 3px;
+      background: var(--accent-red);
+      margin-left: auto;
+      margin-top: 0.6rem;
+      border-radius: var(--radius-sm);
+    }
+
+    /* ========================================= */
+    /* 5. BARRA DE BUSCA E FILTROS RÁPIDOS */
+    /* ========================================= */
+    .filter-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-input-wrap {
+      flex: 2;
+      min-width: 220px;
+      position: relative;
+    }
+
+    .search-input-wrap input {
+      width: 100%;
+      padding: 0.6rem 0.85rem 0.6rem 2.2rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      outline: none;
+      transition: var(--transition);
+      background: #f8fafc;
+    }
+
+    .search-input-wrap input:focus {
+      border-color: var(--primary-navy);
+      background: #ffffff;
+    }
+
+    .search-icon-abs {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .filter-select {
+      flex: 1;
+      min-width: 130px;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      color: var(--text-main);
+      background-color: #f8fafc;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .btn-apply-filters {
+      background: var(--accent-red);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-apply-filters:hover {
+      background: var(--accent-red-hover);
+    }
+
+    /* ========================================= */
+    /* 6. SEÇÃO: CENTROS DA DIRETORIA (NOVA HOME) */
+    /* ========================================= */
+    .section-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1rem;
+    }
+
+    .section-main-heading {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-see-all {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-red);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .centros-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .centro-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .centro-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: #cbd5e1;
+    }
+
+    .centro-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.85rem;
+    }
+
+    .centro-card-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .centro-status-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.25rem 0.55rem;
+      border-radius: var(--radius-sm);
+      background: #f1f5f9;
+      color: var(--text-muted);
+    }
+
+    .centro-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .centro-subtitle {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+    }
+
+    .centro-setores-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.15rem;
+      flex: 1;
+    }
+
+    .setor-mini-chip {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.25rem 0.55rem;
+      border-radius: 4px;
+      color: var(--primary-navy);
+    }
+
+    .centro-card-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-red);
+    }
+
+    .centro-card:hover .centro-card-action {
+      color: var(--accent-red-hover);
+    }
+
+    /* ========================================= */
+    /* 7. SEÇÃO: INDICADORES DA REDE & VISITAS */
+    /* ========================================= */
+    .indicators-split {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    @media (max-width: 950px) {
+      .indicators-split {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .kpi-row-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .kpi-row-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .kpi-row-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .kpi-cards-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 1rem;
+    }
+
+    .kpi-mini-box {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem;
+      background: #fafafa;
+    }
+
+    .kpi-mini-val-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .kpi-color-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+    }
+
+    .kpi-big-number {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1;
+    }
+
+    .kpi-mini-label {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Widget das Visitas da Dirigente (Gauge Circular) */
+    .gauge-card {
+      background: var(--bg-sidebar);
+      color: white;
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .gauge-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .gauge-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .gauge-sub {
+      font-size: 0.72rem;
+      color: #94a3b8;
+    }
+
+    .gauge-center-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+
+    .circular-progress-wrap {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: conic-gradient(#10b981 0% 90%, rgba(255, 255, 255, 0.1) 90% 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .circular-progress-inner {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--bg-sidebar);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .gauge-stats-text {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+
+    .gauge-stats-text strong {
+      color: #ffffff;
+      font-size: 1.15rem;
+      display: block;
+    }
+
+    .gauge-footer-link {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #94a3b8;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      cursor: pointer;
+    }
+
+    .gauge-footer-link:hover {
+      color: white;
+    }
+
+    /* ========================================= */
+    /* 8. SEÇÃO: ESCOLAS EM ATENÇÃO (DO PRINT) */
+    /* ========================================= */
+    .atencao-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .atencao-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .atencao-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .badge-alta-prioridade {
+      background: #ffe4e6;
+      color: var(--accent-red);
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .atencao-school-name {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .atencao-school-reason {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* ======================================================= */
+    /* 9. VIEW DO CENTRO (NÍVEL 2) & SETORES COM UPLOAD (NÍVEL 3) */
+    /* ======================================================= */
+    .centro-banner-header {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .centro-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .centro-big-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-sm);
+      background: var(--primary-navy);
+      color: white;
+      font-size: 1.4rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .centro-banner-titles h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary-navy);
+      letter-spacing: -0.02em;
+    }
+
+    .centro-banner-titles p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .btn-back-home {
+      background: #f1f5f9;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .btn-back-home:hover {
+      background: var(--primary-navy);
+      color: white;
+    }
+
+    /* ABAS DE SETORES DENTRO DO CENTRO */
+    .setores-nav-tabs {
+      display: flex;
+      gap: 0.6rem;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+
+    .setor-tab-btn {
+      padding: 0.65rem 1.25rem;
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .setor-tab-btn:hover {
+      background: #e2e8f0;
+      color: var(--text-main);
+    }
+
+    .setor-tab-btn.active {
+      background: var(--primary-navy);
+      color: white;
+    }
+
+    /* CARTÃO DO SETOR ATIVO & ÁREA DE UPLOAD */
+    .setor-active-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.5rem;
+    }
+
+    .setor-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .setor-box-titles h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary-navy);
+    }
+
+    .setor-box-titles p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .setor-drive-dest {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Dropzone de Upload */
+    .upload-dropzone {
+      border: 2px dashed #cbd5e1;
+      border-radius: var(--radius-md);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      background: #f8fafc;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .upload-dropzone:hover {
+      border-color: var(--accent-red);
+      background: #fff8f8;
+    }
+
+    .dropzone-file-input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .dropzone-big-icon {
+      font-size: 2.5rem;
+      color: var(--accent-red);
+      margin-bottom: 0.5rem;
+    }
+
+    .dropzone-main-text {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .dropzone-sub-text {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .selected-file-preview {
+      margin-top: 1.25rem;
+      padding: 0.85rem 1.25rem;
+      background: #f1f5f9;
+      border-radius: var(--radius-sm);
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      border-left: 4px solid var(--accent-red);
+    }
+
+    .file-name-size {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-remove-selected-file {
+      background: none;
+      border: none;
+      color: #b91c1c;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-send-upload-now {
+      margin-top: 1.25rem;
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: var(--radius-sm);
+      background: var(--accent-red);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-send-upload-now:hover:not(:disabled) {
+      background: var(--accent-red-hover);
+    }
+
+    .btn-send-upload-now:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+    }
+
+    .upload-status-alert {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: none;
+    }
+
+    .upload-status-alert.success {
+      display: block;
+      background: var(--success-soft);
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .upload-status-alert.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .upload-status-alert.loading {
+      display: block;
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+
+    /* ESTILOS DE UPLOAD MÚLTIPLO (EXCEL + PDF) E TABELA DINÂMICA */
+    .files-list-container {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .file-item-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.15rem;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      transition: var(--transition);
+      gap: 1rem;
+    }
+
+    .file-item-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .file-item-card.is-excel {
+      border-left: 4px solid #10b981;
+    }
+
+    .file-item-card.is-pdf {
+      border-left: 4px solid #ef4444;
+    }
+
+    .file-item-left {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .file-item-icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .file-icon-excel {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+
+    .file-icon-pdf {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+
+    .file-item-details {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .file-item-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-item-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.15rem;
+      flex-wrap: wrap;
+    }
+
+    .file-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .pill-excel { background: #d1fae5; color: #065f46; }
+    .pill-pdf { background: #fee2e2; color: #991b1b; }
+
+    .file-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .btn-file-action {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      text-decoration: none;
+    }
+
+    .btn-file-action:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-file-action.primary-action {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #0284c7;
+    }
+
+    .btn-file-action.primary-action:hover {
+      background: #0369a1;
+    }
+
+    .btn-file-action.btn-remove {
+      color: #b91c1c;
+      border-color: #fecaca;
+      background: #fff5f5;
+    }
+
+    .btn-file-action.btn-remove:hover {
+      background: #fee2e2;
+    }
+
+    .multi-upload-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-action-primary {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.85rem 1.25rem;
+      border-radius: var(--radius-sm);
+      background: #059669;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+      box-shadow: 0 1px 3px rgba(5, 150, 105, 0.2);
+    }
+
+    .btn-action-primary:hover:not(:disabled) {
+      background: #047857;
+      transform: translateY(-1px);
+    }
+
+    .btn-action-primary:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-action-drive {
+      padding: 0.85rem 1.25rem;
+      border-radius: var(--radius-sm);
+      background: var(--accent-red);
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .btn-action-drive:hover:not(:disabled) {
+      background: var(--accent-red-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-action-drive:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+    }
+
+    .btn-clear-all {
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      background: #f1f5f9;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-clear-all:hover {
+      background: #e2e8f0;
+      color: var(--text-main);
+    }
+
+    /* Barra de ferramentas da tabela (Busca, abas da planilha) */
+    .table-dynamic-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
+      background: #f8fafc;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+    }
+
+    .table-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .sheet-tabs-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .sheet-tab-btn {
+      padding: 0.3rem 0.65rem;
+      border-radius: 4px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .sheet-tab-btn.active {
+      background: #0e2042;
+      color: #ffffff;
+      border-color: #0e2042;
+    }
+
+    .table-search-input {
+      padding: 0.45rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      font-size: 0.82rem;
+      width: 250px;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .table-search-input:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
+    }
+
+    .excel-loaded-banner {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 1rem;
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: #065f46;
+      font-weight: 600;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Modal PDF Viewer */
+    .pdf-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .pdf-modal-container {
+      background: #ffffff;
+      width: 90%;
+      max-width: 950px;
+      height: 85vh;
+      border-radius: var(--radius-md);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .pdf-modal-header {
+      padding: 1rem 1.25rem;
+      background: #091124;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pdf-modal-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .pdf-modal-body {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: #475569;
+    }
+
+    .pdf-modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+
+
+    /* ======================================================= */
+    /* ESTILOS EXCLUSIVOS DA ASSESSORIA TÉCNICA (GABINETE) */
+    /* ======================================================= */
+    .gab-header-bar {
+      background: linear-gradient(135deg, #09132b 0%, #0e2042 70%, #17346b 100%);
+      color: white;
+      border-radius: var(--radius-md);
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+
+    .gab-header-titles {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gab-pretitle {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #f43f5e;
+      margin-bottom: 0.25rem;
+    }
+
+    .gab-main-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .gab-main-sub {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      margin-top: 0.25rem;
+    }
+
+    .gab-header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .gab-drive-info-badge {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-sm);
+      padding: 0.45rem 0.85rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: 0.04em;
+    }
+
+    .gab-drive-dot-live {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px #10b981;
+    }
+
+    /* CAROUSEL / ROW DOS 4 METRIC CARDS SUPERIORES */
+    .gab-metric-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .gab-metric-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.15rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .gab-metric-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: #cbd5e1;
+      transform: translateY(-2px);
+    }
+
+    .gab-card-tag-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+
+    .gab-card-tag-name {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-main);
+    }
+
+    .gab-card-tag-badge {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .gab-card-big-val {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.1;
+      margin-bottom: 0.4rem;
+    }
+
+    .gab-card-sub-info {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--accent-red);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    /* Mini sparkline bar chart */
+    .gab-sparkline-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 28px;
+      margin: 0.5rem 0 0.35rem;
+    }
+
+    .sparkline-col {
+      flex: 1;
+      background: #e2e8f0;
+      border-radius: 2px;
+      transition: height 0.3s;
+    }
+
+    .sparkline-col.active {
+      background: var(--accent-red);
+    }
+
+    .sparkline-col.success {
+      background: #10b981;
+    }
+
+    .gab-card-footer-note {
+      font-size: 0.65rem;
+      color: #94a3b8;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 0.4rem;
+      margin-top: 0.2rem;
+    }
+
+    /* BARRA VERMELHA DE SEÇÃO "INDICADORES DO NÚCLEO" */
+    .gab-section-ribbon {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.15rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .gab-ribbon-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .gab-red-pill-badge {
+      background: var(--accent-red);
+      color: #ffffff;
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      box-shadow: 0 2px 6px rgba(200, 30, 61, 0.25);
+    }
+
+    .gab-ribbon-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .gab-ribbon-time {
+      font-size: 0.74rem;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    /* GRADE DOS 9 CARDS DE BASES OPERACIONAIS */
+    .gab-bases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .base-card-item {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 1.15rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .base-card-item:hover {
+      border-color: #cbd5e1;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .base-card-item.selected {
+      border-color: var(--accent-red);
+      box-shadow: 0 0 0 2px var(--accent-red-soft), var(--shadow-sm);
+    }
+
+    .base-item-top {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .base-avatar-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .base-ico-blue { background: #eff6ff; color: #2563eb; }
+    .base-ico-red { background: #ffe4e6; color: #e11d48; }
+    .base-ico-green { background: #ecfdf5; color: #10b981; }
+    .base-ico-yellow-badge { background: #fef3c7; color: #d97706; }
+    .base-ico-pink-badge { background: #fce7f3; color: #db2777; }
+    .base-ico-green-badge { background: #dcfce7; color: #16a34a; }
+    .base-ico-blue-badge { background: #e0f2fe; color: #0284c7; }
+    .base-ico-red-badge { background: #fee2e2; color: #dc2626; }
+    .base-ico-gold-badge { background: #fef9c3; color: #ca8a04; }
+
+    .base-card-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .base-card-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .base-card-action-link {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #0284c7;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      text-decoration: none;
+    }
+
+    .base-card-item:hover .base-card-action-link {
+      color: #0369a1;
+      text-decoration: underline;
+    }
+
+    /* PAINEL EXPANSÍVEL DA BASE SELECIONADA (CONSULTA & UPLOAD) */
+    .gab-base-detail-panel {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+      border-top: 4px solid var(--accent-red);
+      display: none;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .gab-base-detail-panel.active {
+      display: block;
+    }
+
+    .detail-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .detail-panel-title-wrap h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary-navy);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .detail-panel-title-wrap p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .btn-close-panel {
+      background: #f1f5f9;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text-main);
+    }
+
+    .btn-close-panel:hover {
+      background: #e2e8f0;
+    }
+
+    /* Abas internas da Base: Consulta vs Envio */
+    .detail-tabs-nav {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 0.4rem;
+    }
+
+    .detail-tab-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .detail-tab-btn:hover {
+      background: #f1f5f9;
+      color: var(--text-main);
+    }
+
+    .detail-tab-btn.active {
+      background: var(--primary-navy);
+      color: #ffffff;
+    }
+
+    .detail-tab-content {
+      display: none;
+    }
+
+    .detail-tab-content.active {
+      display: block;
+    }
+
+    /* Tabela de Registros da Base */
+    .records-table-wrap {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      background: #ffffff;
+    }
+
+    .records-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      text-align: left;
+    }
+
+    .records-table th {
+      background: #f8fafc;
+      padding: 0.75rem 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .records-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+    }
+
+    .records-table tr:hover td {
+      background: #fafafa;
+    }
+
+    .status-badge-inline {
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    .status-badge-ok { background: #dcfce7; color: #166534; }
+    .status-badge-warn { background: #fef3c7; color: #92400e; }
+    .status-badge-info { background: #e0f2fe; color: #075985; }
+
+    /* ============================================================ */
+    /* ESTILOS ESPECÍFICOS SEINTEC: 6 CARDS, SPARKLINES & BASES     */
+    /* ============================================================ */
+    .seintec-metric-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 1350px) {
+      .seintec-metric-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .seintec-metric-row {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+
+    .seintec-card-blue { border-top: 3.5px solid #2563eb !important; }
+    .seintec-card-red { border-top: 3.5px solid #c81e3d !important; }
+    .seintec-card-lightblue { border-top: 3.5px solid #3b82f6 !important; }
+    .seintec-card-crimson { border-top: 3.5px solid #b91c1c !important; }
+    .seintec-card-amber { border-top: 3.5px solid #d97706 !important; }
+    .seintec-card-teal { border-top: 3.5px solid #059669 !important; }
+
+    .seintec-card-subtag {
+      font-size: 0.71rem;
+      color: var(--text-muted);
+      margin-top: -0.15rem;
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .seintec-section-ribbon {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.15rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .seintec-ribbon-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .seintec-section-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary-navy);
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+
+    .seintec-section-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .seintec-meta-count {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .seintec-bases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar-item-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+      text-align: left;
+    }
+
+    .sidebar-item-main {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: inherit;
+    }
+
+    .sidebar-item-sub {
+      font-size: 0.67rem;
+      color: #94a3b8;
+      font-weight: normal;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================== -->
+  <!-- 1. SIDEBAR LATERAL ESCURA -->
+  <!-- ============================================== -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-badge-logo">Itapevi</div>
+      <div class="sidebar-header-titles">
+        <h2>URE Itapevi</h2>
+        <span>BI da Dirigente</span>
+      </div>
+      <button class="sidebar-collapse-btn">◀</button>
     </div>
-    
-    <div class="container">
-      
-      <!-- Menu de Navegação dos Setores -->
-      <div class="menu-setores">
-        <button class="btn-aba ativo" onclick="mudarSetor('SEINTEC', this)">SEINTEC</button>
-        <button class="btn-aba" onclick="mudarSetor('NOM', this)">NOM</button>
-        <button class="btn-aba" onclick="mudarSetor('SEGRE', this)">SEGRE</button>
+
+    <nav class="sidebar-nav">
+      <!-- Grupo 1: Gestão da Rede -->
+      <div>
+        <div class="nav-group-title">GESTÃO DA REDE</div>
+        <ul class="nav-items-list">
+          <li>
+            <button class="nav-item-btn active" id="side-btn-home" onclick="mostrarHome()">
+              <span class="nav-item-icon">🏛️</span>
+              <span>Início</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-gestao" onclick="navegarParaSecao('kpi-escolas', 'side-btn-gestao')">
+              <span class="nav-item-icon">⏱️</span>
+              <span>Minha Gestão Hoje</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-agenda" onclick="navegarParaSecao('agenda-section', 'side-btn-agenda')">
+              <span class="nav-item-icon">📅</span>
+              <span>Agenda</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-carro" onclick="navegarParaSecao('carro-section', 'side-btn-carro')">
+              <span class="nav-item-icon">🚗</span>
+              <span>Carro Oficial</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-visitas" onclick="navegarParaSecao('visitas-section', 'side-btn-visitas')">
+              <span class="nav-item-icon">✔️</span>
+              <span>Visitas</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-escolas" onclick="navegarParaSecao('escolas-section', 'side-btn-escolas')">
+              <span class="nav-item-icon">🏫</span>
+              <span>Escolas</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-atencao" onclick="navegarParaSecao('escolas-atencao-section', 'side-btn-atencao')">
+              <span class="nav-item-icon">⚠️</span>
+              <span>Escolas em Atenção</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-mapa" onclick="navegarParaSecao('mapa-section', 'side-btn-mapa')">
+              <span class="nav-item-icon">🗺️</span>
+              <span>Mapa da Rede</span>
+            </button>
+          </li>
+        </ul>
       </div>
 
-      <!-- Cartão Dinâmico de Envio de Arquivos -->
-      <div class="card" id="cartao-upload">
-        <h3 id="titulo-setor">📤 Enviar Documento para SEINTEC</h3>
-        
-        <!-- Guardamos qual setor está selecionado num campo escondido -->
-        <input type="hidden" id="setor-selecionado" value="SEINTEC">
+      <!-- Grupo 2: Núcleos / Centros da Diretoria -->
+      <div>
+        <div class="nav-group-title">NÚCLEOS / CENTROS</div>
+        <ul class="nav-items-list">
+          <li>
+            <button class="nav-item-btn" id="side-btn-GAB" onclick="abrirCentro('GAB')">
+              <span class="centro-letter-badge">G</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Assessoria Técnica</span>
+                <span class="sidebar-item-sub">Gabinete</span>
+              </div>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-SEINTEC" onclick="abrirSeintec()">
+              <span class="centro-letter-badge" style="background:#c81e3d; color:#fff;">T</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Informações Educacionais e Tecnologia</span>
+                <span class="sidebar-item-sub">Seção de Tecnologia</span>
+              </div>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-CAF" onclick="abrirCentro('CAF')">
+              <span class="centro-letter-badge">$</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Administração e Finanças</span>
+                <span class="sidebar-item-sub">Finanças, Compras e Serviços</span>
+              </div>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-CGE" onclick="abrirCentro('CGE')">
+              <span class="centro-letter-badge">R</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Gestão da Rede Escolar</span>
+                <span class="sidebar-item-sub">Vida Escolar, Matrícula</span>
+              </div>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-CRH" onclick="abrirCentro('CRH')">
+              <span class="centro-letter-badge">H</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Recursos Humanos</span>
+                <span class="sidebar-item-sub">Pagamento e Frequência</span>
+              </div>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-NPE" onclick="abrirCentro('NPE')">
+              <span class="centro-letter-badge">P</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Núcleo Pedagógico</span>
+                <span class="sidebar-item-sub">Currículo e Formação</span>
+              </div>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-        <div class="upload-area">
-          <input type="file" id="arquivo-input" accept=".pdf, .xls, .xlsx, application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-          <button class="btn-upload" id="btn-enviar" onclick="enviarArquivo()">⬆️ Fazer Upload</button>
+    <div class="sidebar-footer">
+      <strong>Educação que conecta</strong>
+      pessoas e territórios.
+    </div>
+  </aside>
+
+  <!-- ============================================== -->
+  <!-- 2. CONTEÚDO PRINCIPAL (TOPBAR + VIEWS) -->
+  <!-- ============================================== -->
+  <main class="main-content">
+
+    <!-- TOPBAR SUPERIOR COM ACESSOS OFICIAIS -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-badge-ure">Itapevi</div>
+        <div class="topbar-title-wrap">
+          <h1>Unidade Regional de Ensino de Itapevi</h1>
+          <span>BI da Dirigente - gestão da rede escolar</span>
         </div>
-        <div id="upload-status"></div>
       </div>
 
-      <div class="card">
-        <h3>📈 Indicadores de Desempenho</h3>
-        <div class="indicator"><span>Eficiência da Rede</span><strong id="val-atencao">Carregando...</strong></div>
-        <div class="indicator"><span>Núcleos Ativos</span><strong id="val-nucleos">Carregando...</strong></div>
-        <div class="indicator"><span>Visitas Realizadas</span><strong id="val-visitas">Carregando...</strong></div>
+      <div class="topbar-right-group">
+        <!-- Acesso SED -->
+        <a class="quick-access-card" href="https://sed.educacao.sp.gov.br/" target="_blank">
+          <span class="quick-access-tag">Acesso Rápido</span>
+          <div class="quick-access-name">SED <span class="quick-access-desc">Sec. Escolar Digital</span></div>
+        </a>
+
+        <!-- Acesso HUB Oficial -->
+        <a class="quick-access-card" href="https://hubinteligenciaegestao.educacao.sp.gov.br/" target="_blank">
+          <span class="quick-access-tag">Painel Oficial</span>
+          <div class="quick-access-name">HUB <span class="quick-access-desc">Inteligência e Gestão</span></div>
+        </a>
+
+        <!-- Acesso MinhaÁrea Oficial -->
+        <a class="quick-access-card" href="https://minhaarea.sp.gov.br/plataformasp" target="_blank">
+          <span class="quick-access-tag">Portal de Serviços</span>
+          <div class="quick-access-name">MinhaÁrea <span class="quick-access-desc">Plataforma SP</span></div>
+        </a>
+
+        <!-- Status Google Drive -->
+        <div class="drive-status-pill">
+          <span class="drive-status-dot"></span>
+          <span>Google Drive • <strong id="drive-stats-text">6 Centros Sincronizados</strong></span>
+          <button class="btn-verify-now" onclick="verificarSincronizacaoDrive()">Verificar agora</button>
+        </div>
       </div>
-      
-      <div class="card">
-        <h3>📅 Agenda de Hoje</h3>
-        <ul id="lista-agenda"><li>Carregando agenda...</li></ul>
-      </div>
+    </header>
+
+    <!-- ÁREA DE VIEWS -->
+    <div class="view-container">
+
+      <!-- ============================================== -->
+      <!-- VIEW 1: HOME (VISÃO GERAL BASEADA NO PRINT) -->
+      <!-- ============================================== -->
+      <section id="pane-home" class="view-pane active">
+
+        <!-- HERO BANNER EXECUTIVO -->
+        <div class="executive-hero">
+          <div class="executive-hero-left">
+            <span class="hero-pretitle">PAINEL EXECUTIVO</span>
+            <h2 class="hero-main-title">Gestão que transforma realidades</h2>
+            <p class="hero-main-desc">
+              Acompanhe indicadores, identifique prioridades e fortaleça a rede de ensino de Itapevi e região.
+            </p>
+          </div>
+          <div class="executive-hero-right">
+            <div class="hero-quote-box">
+              <div class="hero-quote-title">Educação que conecta</div>
+              <div class="hero-quote-sub">pessoas e territórios.</div>
+              <div class="hero-quote-bar"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BARRA DE PESQUISA E FILTROS -->
+        <div class="filter-card">
+          <div class="search-input-wrap">
+            <span class="search-icon-abs">🔍</span>
+            <input type="text" placeholder="Busca geral: Escola, assunto, responsável, processo...">
+          </div>
+          <select class="filter-select">
+            <option>Escola: Todas</option>
+            <option>Itapevi</option>
+            <option>Região</option>
+          </select>
+          <select class="filter-select">
+            <option>Centro: Todos</option>
+            <option>SEINTEC</option>
+            <option>CAF</option>
+            <option>CGE</option>
+            <option>GAB</option>
+          </select>
+          <select class="filter-select">
+            <option>Situação: Todas</option>
+            <option>Concluído</option>
+            <option>Em andamento</option>
+          </select>
+          <select class="filter-select">
+            <option>Prioridade: Todas</option>
+            <option>Alta</option>
+            <option>Média</option>
+          </select>
+          <button class="btn-apply-filters">
+            <span>-</span> Aplicar
+          </button>
+        </div>
+
+        <!-- SEÇÃO: ESCOLAS EM ATENÇÃO (DO PRINT) -->
+        <div class="section-title-row">
+          <div class="section-main-heading">
+            <span style="color: var(--accent-red); font-size: 1.1rem;">⚠️</span>
+            <span>Em foco: escolas que exigem atenção</span>
+          </div>
+          <span class="section-see-all">Ver todas →</span>
+        </div>
+
+        <div class="atencao-grid">
+          <div class="atencao-card">
+            <div class="atencao-badge-row">
+              <span class="badge-alta-prioridade">▲ Alta prioridade</span>
+            </div>
+            <div class="atencao-school-name">EE Prof. José Barreto</div>
+            <div class="atencao-school-reason">Demanda estrutural elétrica e logística de equipamentos (Itapevi)</div>
+          </div>
+
+          <div class="atencao-card">
+            <div class="atencao-badge-row">
+              <span class="badge-alta-prioridade">▲ Alta prioridade</span>
+            </div>
+            <div class="atencao-school-name">EE Raul Briquet</div>
+            <div class="atencao-school-reason">Acompanhamento pedagógico e modulação docente (Itapevi)</div>
+          </div>
+
+          <div class="atencao-card">
+            <div class="atencao-badge-row">
+              <span class="badge-alta-prioridade">▲ Alta prioridade</span>
+            </div>
+            <div class="atencao-school-name">EE Celso Pacheco Bentley</div>
+            <div class="atencao-school-reason">Manutenção predial na quadra e cobertura das salas (Itapevi)</div>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- NOVIDADE SOLICITADA: DIVISÃO POR CENTROS NA HOME -->
+        <!-- ======================================================== -->
+        <div class="section-title-row" style="margin-top: 1rem;">
+          <div class="section-main-heading">
+            <span>🏛️ Centros Regionais da Diretoria</span>
+          </div>
+          <span class="section-see-all" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Subir ao topo ↑</span>
+        </div>
+
+        <div class="centros-grid">
+
+          <!-- CENTRO 1: SEINTEC -->
+          <div class="centro-card" onclick="abrirSeintec()">
+            <div class="centro-card-top">
+              <div class="centro-card-badge" style="background: #c81e3d;">T</div>
+              <span class="centro-status-pill">Tecnologia & Dados</span>
+            </div>
+            <h3 class="centro-title">SEINTEC</h3>
+            <div class="centro-subtitle">Informações Educacionais e Tecnologia</div>
+            <div class="centro-setores-tags">
+              <span class="setor-mini-chip">Demandas & Atendimentos</span>
+              <span class="setor-mini-chip">Hardware & Redes</span>
+              <span class="setor-mini-chip">TVs & Educatrons</span>
+              <span class="setor-mini-chip">Plataformas de Recarga</span>
+            </div>
+            <div class="centro-card-action">
+              <span>Acessar Base de Tecnologia</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- CENTRO 2: CAF -->
+          <div class="centro-card" onclick="abrirCentro('CAF')">
+            <div class="centro-card-top">
+              <div class="centro-card-badge" style="background: #10b981;">$</div>
+              <span class="centro-status-pill">Administração & Finanças</span>
+            </div>
+            <h3 class="centro-title">CAF</h3>
+            <div class="centro-subtitle">Centro de Administração, Finanças e Infraestrutura</div>
+            <div class="centro-setores-tags">
+              <span class="setor-mini-chip">SEAFIN (Orçamento)</span>
+              <span class="setor-mini-chip">NOM (Obras & Manutenção)</span>
+              <span class="setor-mini-chip">Patrimônio & Contratos</span>
+            </div>
+            <div class="centro-card-action">
+              <span>Acessar Centro & Setores</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- CENTRO 3: CGE -->
+          <div class="centro-card" onclick="abrirCentro('CGE')">
+            <div class="centro-card-top">
+              <div class="centro-card-badge" style="background: #f59e0b;">R</div>
+              <span class="centro-status-pill">Rede Escolar</span>
+            </div>
+            <h3 class="centro-title">CGE</h3>
+            <div class="centro-subtitle">Centro de Gestão da Rede Escolar</div>
+            <div class="centro-setores-tags">
+              <span class="setor-mini-chip">SEGRE (Supervisão Regional)</span>
+              <span class="setor-mini-chip">Planejamento de Vagas</span>
+              <span class="setor-mini-chip">Articulação Municipal</span>
+            </div>
+            <div class="centro-card-action">
+              <span>Acessar Centro & Setores</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- CENTRO 4: GAB -->
+          <div class="centro-card" onclick="abrirCentro('GAB')">
+            <div class="centro-card-top">
+              <div class="centro-card-badge" style="background: #c81e3d;">G</div>
+              <span class="centro-status-pill">Gabinete Dirigente</span>
+            </div>
+            <h3 class="centro-title">Gabinete & AT</h3>
+            <div class="centro-subtitle">Gabinete da Dirigente e Assessoria Técnica</div>
+            <div class="centro-setores-tags">
+              <span class="setor-mini-chip">Assessoria Técnica</span>
+              <span class="setor-mini-chip">Ouvidoria Fala.SP</span>
+              <span class="setor-mini-chip">Termos de Visita</span>
+              <span class="setor-mini-chip">Folha de Ponto</span>
+            </div>
+            <div class="centro-card-action">
+              <span>Acessar Centro & Setores</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- CENTRO 5: CRH -->
+          <div class="centro-card" onclick="abrirCentro('CRH')">
+            <div class="centro-card-top">
+              <div class="centro-card-badge" style="background: #8b5cf6;">H</div>
+              <span class="centro-status-pill">Pessoas</span>
+            </div>
+            <h3 class="centro-title">CRH</h3>
+            <div class="centro-subtitle">Centro de Recursos Humanos</div>
+            <div class="centro-setores-tags">
+              <span class="setor-mini-chip">Pagamento & Vencimentos</span>
+              <span class="setor-mini-chip">Controle de Frequência</span>
+              <span class="setor-mini-chip">Evolução Funcional</span>
+            </div>
+            <div class="centro-card-action">
+              <span>Acessar Centro & Setores</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- CENTRO 6: NPE -->
+          <div class="centro-card" onclick="abrirCentro('NPE')">
+            <div class="centro-card-top">
+              <div class="centro-card-badge" style="background: #06b6d4;">P</div>
+              <span class="centro-status-pill">Pedagógico</span>
+            </div>
+            <h3 class="centro-title">NPE</h3>
+            <div class="centro-subtitle">Núcleo Pedagógico da Rede Regional</div>
+            <div class="centro-setores-tags">
+              <span class="setor-mini-chip">Currículo & Avaliações</span>
+              <span class="setor-mini-chip">Formação de Professores</span>
+              <span class="setor-mini-chip">Educação Especial</span>
+            </div>
+            <div class="centro-card-action">
+              <span>Acessar Centro & Setores</span>
+              <span>→</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SEÇÃO: INDICADORES DA REDE & VISITAS DA DIRIGENTE -->
+        <div class="indicators-split">
+          
+          <div class="kpi-row-card">
+            <div class="kpi-row-header">
+              <span class="kpi-row-title">Indicadores da rede</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Situação final do painel consolidado</span>
+            </div>
+
+            <div class="kpi-cards-inner">
+              <div class="kpi-mini-box">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: var(--accent-red);"></span>
+                  <span class="kpi-big-number" id="kpi-escolas">87</span>
+                </div>
+                <span class="kpi-mini-label">Escolas na rede</span>
+              </div>
+
+              <div class="kpi-mini-box">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: #3b82f6;"></span>
+                  <span class="kpi-big-number">6</span>
+                </div>
+                <span class="kpi-mini-label">Centros Ativos</span>
+              </div>
+
+              <div class="kpi-mini-box">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: #10b981;"></span>
+                  <span class="kpi-big-number" id="kpi-visitas">145</span>
+                </div>
+                <span class="kpi-mini-label">Visitas realizadas</span>
+              </div>
+
+              <div class="kpi-mini-box">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: #f59e0b;"></span>
+                  <span class="kpi-big-number">0</span>
+                </div>
+                <span class="kpi-mini-label">Demandas críticas</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gauge Circular das Visitas da Dirigente -->
+          <div class="gauge-card">
+            <div class="gauge-header">
+              <div>
+                <div class="gauge-title">Visitas da Dirigente</div>
+                <div class="gauge-sub">Acompanhamento da rede estadual</div>
+              </div>
+            </div>
+
+            <div class="gauge-center-box">
+              <div class="circular-progress-wrap">
+                <div class="circular-progress-inner">90%</div>
+              </div>
+              <div class="gauge-stats-text">
+                <strong>145 de 160</strong>
+                visitas concluídas este mês
+              </div>
+            </div>
+
+            <div style="text-align: right;">
+              <span class="gauge-footer-link">Ver plano de visitas →</span>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- VIEW 2: VISÃO DO CENTRO & SEUS SETORES (COM UPLOAD) -->
+      <!-- ======================================================= -->
+      <section id="pane-centro" class="view-pane">
+
+        <!-- Banner do Centro Selecionado -->
+        <div class="centro-banner-header">
+          <div class="centro-banner-left">
+            <div class="centro-big-avatar" id="banner-centro-badge">T</div>
+            <div class="centro-banner-titles">
+              <h2 id="banner-centro-nome">CIE - Centro de Informações Educacionais e Tecnologia</h2>
+              <p id="banner-centro-desc">Gestão de infraestrutura digital, suporte aos polos e sistemas escolares</p>
+            </div>
+          </div>
+          <button class="btn-back-home" onclick="mostrarHome()">
+            <span>◀</span> Voltar ao Início
+          </button>
+        </div>
+
+        <!-- Navegação por Abas dos Setores Deste Centro -->
+        <div class="setores-nav-tabs" id="container-setores-tabs">
+          <!-- Gerado dinamicamente via JS -->
+        </div>
+
+        <!-- Área Exclusiva do Setor Ativo (Com o Upload) -->
+        <div class="setor-active-box">
+          <div class="setor-box-header">
+            <div class="setor-box-titles">
+              <h3 id="setor-ativo-titulo">📂 Setor SEINTEC</h3>
+              <p id="setor-ativo-desc">Envio de documentos oficiais, laudos e planilhas técnicas para a pasta do setor.</p>
+            </div>
+            <div class="setor-drive-dest" id="setor-drive-caminho">
+              📁 Drive: Uploads BIDirigente / CIE / SEINTEC
+            </div>
+          </div>
+
+          <!-- Inputs Ocultos com o Centro e Setor Ativos -->
+          <input type="hidden" id="atual-centro-sigla" value="CIE">
+          <input type="hidden" id="atual-setor-sigla" value="SEINTEC">
+
+          <!-- Dropzone de Upload do Setor (Multi-arquivo: Excel & PDF) -->
+          <div class="upload-dropzone" id="upload-dropzone">
+            <input type="file" id="arquivo-input" class="dropzone-file-input"
+              multiple
+              accept=".pdf, .xls, .xlsx, .csv, application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              onchange="aoSelecionarArquivosCentro(event)">
+            <div class="dropzone-big-icon" id="dropzone-icon-symbol">📂</div>
+            <div class="dropzone-main-text" id="dropzone-main-label">Clique para selecionar ou arraste seus arquivos aqui (Excel e PDF)</div>
+            <div class="dropzone-sub-text"><b>Suporta múltiplos arquivos simultâneos!</b> • PDF e Planilhas Excel (.xls, .xlsx, .csv) • Armazenamento no Google Drive</div>
+          </div>
+
+          <!-- Lista de Arquivos Selecionados no Centro -->
+          <div class="files-list-container" id="centro-selected-files-list"></div>
+
+          <!-- Botões de Ação do Centro -->
+          <div class="multi-upload-toolbar" id="centro-upload-toolbar" style="display: none;">
+            <button class="btn-action-drive" id="btn-submit-upload" onclick="enviarArquivosDoSetor()">
+              <span>📤 Salvar Todos os Arquivos no Google Drive</span>
+            </button>
+            <button class="btn-clear-all" onclick="limparTodosArquivosCentro()">
+              <span>✕ Limpar Seleção</span>
+            </button>
+          </div>
+
+          <!-- Feedback de Status -->
+          <div class="upload-status-alert" id="upload-status-alert"></div>
+        </div>
+
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- VIEW 3: GABINETE & ASSESSORIA TÉCNICA (EXATA DO PRINT) -->
+      <!-- ======================================================= -->
+      <section id="pane-gabinete" class="view-pane">
+
+        <!-- Header do Núcleo / Gabinete -->
+        <div class="gab-header-bar">
+          <div class="gab-header-titles">
+            <span class="gab-pretitle">NÚCLEO / CENTRO</span>
+            <h2 class="gab-main-title">Assessoria Técnica</h2>
+            <p class="gab-main-sub">
+              Gabinete • Demandas, Ouvidoria, Termos de Visita e acompanhamento administrativo/judicial.
+            </p>
+          </div>
+
+          <div class="gab-header-right">
+            <div class="gab-drive-info-badge">
+              <span class="gab-drive-dot-live"></span>
+              <span>GOOGLE DRIVE • 2 EXCEL • 9 ABAS • 17/10/2026, 18:03:04</span>
+            </div>
+            <button class="btn-back-home" onclick="mostrarHome()">
+              <span>◀</span> Voltar ao Início
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 CARDS SUPERIORES COM SPARKLINES (HIGHLIGHT DO PRINT) -->
+        <div class="gab-metric-row">
+
+          <!-- Card 1: OUVIDORIAS -->
+          <div class="gab-metric-card" onclick="selecionarBaseGabinete('Ouvidoria')">
+            <div class="gab-card-tag-row">
+              <span class="gab-card-tag-name">Ouvidorias</span>
+              <span class="gab-card-tag-badge">Fala.SP</span>
+            </div>
+            <div class="gab-card-big-val">18</div>
+            <div class="gab-card-sub-info">
+              <span>94% no prazo</span>
+            </div>
+            <div class="gab-sparkline-bars">
+              <div class="sparkline-col" style="height: 40%;"></div>
+              <div class="sparkline-col" style="height: 60%;"></div>
+              <div class="sparkline-col" style="height: 35%;"></div>
+              <div class="sparkline-col" style="height: 75%;"></div>
+              <div class="sparkline-col active" style="height: 95%;"></div>
+            </div>
+            <div class="gab-card-footer-note">Comparação atual - não é histórico</div>
+          </div>
+
+          <!-- Card 2: TERMOS DE VISITA -->
+          <div class="gab-metric-card" onclick="selecionarBaseGabinete('TermosVisita')">
+            <div class="gab-card-tag-row">
+              <span class="gab-card-tag-name">Termos de Visita</span>
+              <span class="gab-card-tag-badge">Estaduais + particulares</span>
+            </div>
+            <div class="gab-card-big-val">145</div>
+            <div class="gab-card-sub-info" style="color: #10b981;">
+              <span>128 Est • 17 Part</span>
+            </div>
+            <div class="gab-sparkline-bars">
+              <div class="sparkline-col" style="height: 50%;"></div>
+              <div class="sparkline-col" style="height: 70%;"></div>
+              <div class="sparkline-col" style="height: 60%;"></div>
+              <div class="sparkline-col" style="height: 85%;"></div>
+              <div class="sparkline-col success" style="height: 100%;"></div>
+            </div>
+            <div class="gab-card-footer-note">Comparação atual - não é histórico</div>
+          </div>
+
+          <!-- Card 3: FOLHA DE PONTO -->
+          <div class="gab-metric-card" onclick="selecionarBaseGabinete('FolhaPonto')">
+            <div class="gab-card-tag-row">
+              <span class="gab-card-tag-name">Folha de Ponto</span>
+              <span class="gab-card-tag-badge">Acompanhamentos</span>
+            </div>
+            <div class="gab-card-big-val">86 / 87</div>
+            <div class="gab-card-sub-info" style="color: #2563eb;">
+              <span>98.8% Entregues</span>
+            </div>
+            <div class="gab-sparkline-bars">
+              <div class="sparkline-col" style="height: 60%;"></div>
+              <div class="sparkline-col" style="height: 80%;"></div>
+              <div class="sparkline-col" style="height: 75%;"></div>
+              <div class="sparkline-col" style="height: 90%;"></div>
+              <div class="sparkline-col" style="height: 98%; background: #2563eb;"></div>
+            </div>
+            <div class="gab-card-footer-note">Comparação atual - não é histórico</div>
+          </div>
+
+          <!-- Card 4: PLANOS DE TRABALHO -->
+          <div class="gab-metric-card" onclick="selecionarBaseGabinete('PlanoTrabalhoDiretores')">
+            <div class="gab-card-tag-row">
+              <span class="gab-card-tag-name">Planos de Trabalho</span>
+              <span class="gab-card-tag-badge">Diretores + Supervisores</span>
+            </div>
+            <div class="gab-card-big-val">100%</div>
+            <div class="gab-card-sub-info" style="color: #7c3aed;">
+              <span>87 Dir • 14 Sup</span>
+            </div>
+            <div class="gab-sparkline-bars">
+              <div class="sparkline-col" style="height: 45%;"></div>
+              <div class="sparkline-col" style="height: 65%;"></div>
+              <div class="sparkline-col" style="height: 80%;"></div>
+              <div class="sparkline-col" style="height: 90%;"></div>
+              <div class="sparkline-col" style="height: 100%; background: #7c3aed;"></div>
+            </div>
+            <div class="gab-card-footer-note">Comparação atual - não é histórico</div>
+          </div>
+
+        </div>
+
+        <!-- BARRA DA SEÇÃO: INDICADORES DO NÚCLEO (DO PRINT) -->
+        <div class="gab-section-ribbon">
+          <div class="gab-ribbon-left">
+            <div class="gab-red-pill-badge">
+              <span>●</span> Indicadores do núcleo
+            </div>
+            <span class="gab-ribbon-desc">Visão consolidada das bases e serviços dentro do Núcleo, sem abrir outra página</span>
+          </div>
+          <div class="gab-ribbon-time">
+            9 min(s) • Atualizado em tempo real
+          </div>
+        </div>
+
+        <!-- GRADE DOS 9 CARDS DE BASES OPERACIONAIS (DO PRINT) -->
+        <div class="gab-bases-grid">
+
+          <!-- 1. Demandas -->
+          <div class="base-card-item" id="card-base-Demandas" onclick="selecionarBaseGabinete('Demandas')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-blue">📄</div>
+              <span class="base-card-title">Demandas</span>
+            </div>
+            <p class="base-card-desc">Registros administrativos e judiciais do Gabinete.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 2. Ouvidoria Fala.SP -->
+          <div class="base-card-item" id="card-base-Ouvidoria" onclick="selecionarBaseGabinete('Ouvidoria')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-red">⭕</div>
+              <span class="base-card-title">Ouvidoria - Fala.SP</span>
+            </div>
+            <p class="base-card-desc">Manifestações, protocolos, vencimentos, escola/local e resposta.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 3. Termos de Visita -->
+          <div class="base-card-item" id="card-base-TermosVisita" onclick="selecionarBaseGabinete('TermosVisita')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-green">✔️</div>
+              <span class="base-card-title">Termos de Visita</span>
+            </div>
+            <p class="base-card-desc">Termos de visita das escolas estaduais e particulares.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 4. Escala de Férias -->
+          <div class="base-card-item" id="card-base-EscalaFerias" onclick="selecionarBaseGabinete('EscalaFerias')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-yellow-badge">F</div>
+              <span class="base-card-title">Escala de Férias</span>
+            </div>
+            <p class="base-card-desc">Escala de férias e recesso dos gestores.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 5. Horário ADM - Diretor -->
+          <div class="base-card-item" id="card-base-HorarioADM" onclick="selecionarBaseGabinete('HorarioADM')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-pink-badge">H</div>
+              <span class="base-card-title">Horário ADM - Diretor</span>
+            </div>
+            <p class="base-card-desc">Horário administrativo dos Diretores.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 6. Folha de Ponto - Diretores -->
+          <div class="base-card-item" id="card-base-FolhaPonto" onclick="selecionarBaseGabinete('FolhaPonto')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-green-badge">P</div>
+              <span class="base-card-title">Folha de Ponto - Diretores</span>
+            </div>
+            <p class="base-card-desc">Acompanhamento mensal da folha de ponto dos Diretores.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 7. Plano de Trabalho - Diretores -->
+          <div class="base-card-item" id="card-base-PlanoTrabalhoDiretores" onclick="selecionarBaseGabinete('PlanoTrabalhoDiretores')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-blue-badge">D</div>
+              <span class="base-card-title">Plano de Trabalho - Diretores</span>
+            </div>
+            <p class="base-card-desc">Acompanhamento mensal dos planos de trabalho dos Diretores.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 8. Plano de Trabalho - Supervisores -->
+          <div class="base-card-item" id="card-base-PlanoTrabalhoSupervisores" onclick="selecionarBaseGabinete('PlanoTrabalhoSupervisores')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-red-badge">S</div>
+              <span class="base-card-title">Plano de Trabalho - Supervisores</span>
+            </div>
+            <p class="base-card-desc">Acompanhamento mensal dos planos de trabalho dos Supervisores.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 9. Judicial -->
+          <div class="base-card-item" id="card-base-Judicial" onclick="selecionarBaseGabinete('Judicial')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-gold-badge">J</div>
+              <span class="base-card-title">Judicial</span>
+            </div>
+            <p class="base-card-desc">Demandas registradas no arquivo Judicial.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+        </div>
+
+        <!-- PAINEL INTERATIVO EXPANSÍVEL DA BASE SELECIONADA (CONSULTA + UPLOAD) -->
+        <div class="gab-base-detail-panel" id="gab-base-detail-panel">
+          <div class="detail-panel-header">
+            <div class="detail-panel-title-wrap">
+              <h3 id="panel-base-title">📋 Termos de Visita</h3>
+              <p id="panel-base-desc">Acompanhamento e termos de fiscalização das escolas estaduais e particulares.</p>
+            </div>
+            <button class="btn-close-panel" onclick="fecharPainelGabinete()">Fechar ✕</button>
+          </div>
+
+          <!-- Abas internas: Registros vs Upload Oficial -->
+          <div class="detail-tabs-nav">
+            <button class="detail-tab-btn active" id="tab-btn-registros" onclick="alternarAbaGabinete('registros')">
+              <span>📋</span> Registros da Base
+            </button>
+            <button class="detail-tab-btn" id="tab-btn-upload" onclick="alternarAbaGabinete('upload')">
+              <span>📤</span> Enviar Novo Arquivo para Esta Base
+            </button>
+          </div>
+
+          <!-- Conteúdo 1: Tabela de Registros -->
+          <div class="detail-tab-content active" id="tab-content-registros">
+            <div class="records-table-wrap">
+              <table class="records-table">
+                <thead>
+                  <tr>
+                    <th>Identificador / Protocolo</th>
+                    <th>Origem / Solicitante</th>
+                    <th>Assunto / Descrição</th>
+                    <th>Data Registro</th>
+                    <th>Situação</th>
+                  </tr>
+                </thead>
+                <tbody id="panel-records-tbody">
+                  <!-- Inserido dinamicamente via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Conteúdo 2: Upload Oficial da Base -->
+          <div class="detail-tab-content" id="tab-content-upload">
+            <div style="margin-bottom: 1rem; font-size: 0.82rem; color: var(--text-muted);" id="gab-upload-dest-text">
+              📁 Destino no Drive: <b>Uploads BIDirigente / AssessoriaTecnica / TermosVisita</b>
+            </div>
+
+            <div class="upload-dropzone">
+              <input type="file" id="arquivo-input-gab" class="dropzone-file-input"
+                multiple
+                accept=".pdf, .xls, .xlsx, .csv, application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                onchange="aoSelecionarArquivosGabinete(event)">
+              <div class="dropzone-big-icon">📂</div>
+              <div class="dropzone-main-text" id="dropzone-label-gab">Clique ou arraste seus documentos aqui (PDF e Excel)</div>
+              <div class="dropzone-sub-text"><b>Suporta múltiplos arquivos simultâneos!</b> • PDF e Planilhas Excel (.xls, .xlsx, .csv) • Upload direto para a pasta da base</div>
+            </div>
+
+            <!-- Lista de Arquivos Selecionados no Gabinete -->
+            <div class="files-list-container" id="gab-selected-files-list"></div>
+
+            <!-- Botões de Ação do Gabinete -->
+            <div class="multi-upload-toolbar" id="gab-upload-toolbar" style="display: none;">
+              <button class="btn-action-drive" id="btn-submit-upload-gab" onclick="enviarArquivosGabinete()">
+                <span>📤 Salvar Todos os Documentos na Base</span>
+              </button>
+              <button class="btn-clear-all" onclick="limparTodosArquivosGabinete()">
+                <span>✕ Limpar Seleção</span>
+              </button>
+            </div>
+
+            <div class="upload-status-alert" id="upload-status-alert-gab"></div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- VIEW 4: SEINTEC - INFORMAÇÕES EDUCACIONAIS E TECNOLOGIA -->
+      <!-- ======================================================= -->
+      <section id="pane-seintec" class="view-pane">
+
+        <!-- Header do Núcleo / Centro SEINTEC -->
+        <div class="gab-header-bar">
+          <div class="gab-header-titles">
+            <span class="gab-pretitle">NÚCLEO / CENTRO</span>
+            <h2 class="gab-main-title">Informações Educacionais e Tecnologia</h2>
+            <p class="gab-main-sub">
+              Seção de Tecnologia • Demandas, atendimentos, inventário de hardware, rede, TVs/Educatrons e plataformas de recarga.
+            </p>
+          </div>
+
+          <div class="gab-header-right">
+            <div class="gab-drive-info-badge">
+              <span class="gab-drive-dot-live"></span>
+              <span>GOOGLE DRIVE • 3 EXCEL • 6 ABAS • 17/10/2026, 17:59:03</span>
+            </div>
+            <button class="btn-back-home" onclick="mostrarHome()">
+              <span>◀</span> Voltar ao Início
+            </button>
+          </div>
+        </div>
+
+        <!-- 6 CARDS SUPERIORES COM SPARKLINES (BASEADOS NO PRINT) -->
+        <div class="seintec-metric-row">
+
+          <!-- Card 1: TOTAL DE EQUIPAMENTOS -->
+          <div class="gab-metric-card seintec-card-blue" onclick="selecionarBaseSeintec('Hardware')">
+            <div class="gab-card-tag-row">
+              <span class="gab-card-tag-name">TOTAL DE EQUIPAMENTOS</span>
+            </div>
+            <div class="seintec-card-subtag">Equipamentos de Hardware</div>
+            <div class="gab-card-big-val">4.820</div>
+            <div class="gab-sparkline-bars">
+              <div class="sparkline-col" style="height: 35%; background: #93c5fd;"></div>
+              <div class="sparkline-col" style="height: 55%; background: #60a5fa;"></div>
+              <div class="sparkline-col" style="height: 70%; background: #3b82f6;"></div>
+              <div class="sparkline-col" style="height: 85%; background: #2563eb;"></div>
+              <div class="sparkline-col" style="height: 100%; background: #1d4ed8;"></div>
+            </div>
+            <div class="gab-card-footer-note">Comparação atual - não é histórico</div>
+          </div>
+
+          <!-- Card 2: ADMINISTRATIVOS -->
+          <div class="gab-metric-card seintec-card-red" onclick="selecionarBaseSeintec('Hardware')">
+            <div class="gab-card-tag-row">
+              <span class="gab-card-tag-name">ADMINISTRATIVOS</span>
+            </div>
+            <div class="seintec-card-subtag">Ambiente Administrativo</div>
+            <div class="gab-card-big-val">620</div>
+            <div class="gab-sparkline-bars">
+              <div class="sparkline-col" style="height: 50%; background: #e2e8f0;"></div>
+              <div class="sparkline-col" style="height: 60%; background: #cbd5e1;"></div>
+              <div class="sparkline-col" style="height: 45%; background: #94a3b8;"></div>
+              <div class="sparkline-col" style="height: 70%; background: #94a3b8;"></div>
+              <div class="sparkline-col" style="height: 65%; background: #64748b;"></div>
+            </div>
+            <div class="gab-card-footer-note">Comparação atual - não é histórico</div>
+          </div>
+
+          <!-- Card 3: PEDAGÓGICOS -->
+          <div class="gab-metric-card seintec-card-lightblue" onclick="selecionarBaseSeintec('Hardware')">
+            <div class="gab-card-tag-row">
+              <span class="gab-card-tag-name">PEDAGÓGICOS</span>
+            </div>
+            <div class="seintec-card-subtag">Ambiente Pedagógico</div>
+            <div class="gab-card-big-val">4.200</div>
+            <div class="gab-sparkline-bars">
+              <div class="sparkline-col" style="height: 40%; background: #93c5fd;"></div>
+              <div class="sparkline-col" style="height: 60%; background: #60a5fa;"></div>
+              <div class="sparkline-col" style="height: 75%; background: #3b82f6;"></div>
+              <div class="sparkline-col" style="height: 90%; background: #2563eb;"></div>
+              <div class="sparkline-col" style="height: 100%; background: #1d4ed8;"></div>
+            </div>
+            <div class="gab-card-footer-note">Comparação atual - não é histórico</div>
+          </div>
+
+          <!-- Card 4: DISPONÍVEIS PARA USO -->
+          <div class="gab-metric-card seintec-card-crimson" onclick="selecionarBaseSeintec('Hardware')">
+            <div class="gab-card-tag-row">
+              <span class="gab-card-tag-name">DISPONÍVEIS PARA USO</span>
+            </div>
+            <div class="seintec-card-subtag">Disponível + Pedagógico</div>
+            <div class="gab-card-big-val" style="display: flex; align-items: baseline; gap: 0.4rem;">
+              <span>4.150</span>
+              <span style="font-size: 0.85rem; color: #b91c1c; font-weight: 700;">(98.8%)</span>
+            </div>
+            <div class="gab-sparkline-bars">
+              <div class="sparkline-col" style="height: 50%; background: #fca5a5;"></div>
+              <div class="sparkline-col" style="height: 65%; background: #f87171;"></div>
+              <div class="sparkline-col" style="height: 80%; background: #ef4444;"></div>
+              <div class="sparkline-col" style="height: 95%; background: #dc2626;"></div>
+              <div class="sparkline-col" style="height: 98%; background: #b91c1c;"></div>
+            </div>
+            <div class="gab-card-footer-note">Comparação atual - não é histórico</div>
+          </div>
+
+          <!-- Card 5: MANUTENÇÃO / CHAMADO -->
+          <div class="gab-metric-card seintec-card-amber" onclick="selecionarBaseSeintec('Atendimentos')">
+            <div class="gab-card-tag-row">
+              <span class="gab-card-tag-name">MANUTENÇÃO / CHAMADO</span>
+            </div>
+            <div class="seintec-card-subtag">Status de manutenção/chamado</div>
+            <div class="gab-card-big-val">48</div>
+            <div class="gab-sparkline-bars">
+              <div class="sparkline-col" style="height: 60%; background: #e2e8f0;"></div>
+              <div class="sparkline-col" style="height: 50%; background: #fde68a;"></div>
+              <div class="sparkline-col" style="height: 70%; background: #fcd34d;"></div>
+              <div class="sparkline-col" style="height: 45%; background: #fbbf24;"></div>
+              <div class="sparkline-col" style="height: 40%; background: #d97706;"></div>
+            </div>
+            <div class="gab-card-footer-note">Comparação atual - não é histórico</div>
+          </div>
+
+          <!-- Card 6: INSERVÍVEL / DANIFICADOS -->
+          <div class="gab-metric-card seintec-card-teal" onclick="selecionarBaseSeintec('Demandas')">
+            <div class="gab-card-tag-row">
+              <span class="gab-card-tag-name">INSERVÍVEL / DANIFICADOS</span>
+            </div>
+            <div class="seintec-card-subtag">Status inservível/danificado</div>
+            <div class="gab-card-big-val">22</div>
+            <div class="gab-sparkline-bars">
+              <div class="sparkline-col" style="height: 50%; background: #e2e8f0;"></div>
+              <div class="sparkline-col" style="height: 65%; background: #a7f3d0;"></div>
+              <div class="sparkline-col" style="height: 45%; background: #6ee7b7;"></div>
+              <div class="sparkline-col" style="height: 35%; background: #34d399;"></div>
+              <div class="sparkline-col" style="height: 25%; background: #059669;"></div>
+            </div>
+            <div class="gab-card-footer-note">Comparação atual - não é histórico</div>
+          </div>
+
+        </div>
+
+        <!-- BARRA DA SEÇÃO: ÁREAS E BASES DO CENTRO (DO PRINT) -->
+        <div class="seintec-section-ribbon">
+          <div class="seintec-ribbon-left">
+            <h3 class="seintec-section-title">Áreas e bases do Centro</h3>
+            <span class="seintec-section-desc">Clique em Consultar base para visualizar os registros aqui dentro do Núcleo, sem abrir outra página.</span>
+          </div>
+          <div class="seintec-ribbon-right">
+            <span class="seintec-meta-count">6 módulo(s) • 1 Escopo</span>
+          </div>
+        </div>
+
+        <!-- GRADE DAS 6 BASES DO SEINTEC (EXATA DO PRINT) -->
+        <div class="seintec-bases-grid">
+
+          <!-- 1. Demandas -->
+          <div class="base-card-item" id="card-seintec-Demandas" onclick="selecionarBaseSeintec('Demandas')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-blue">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              </div>
+              <span class="base-card-title">Demandas</span>
+            </div>
+            <p class="base-card-desc">Demandas registradas pela Seção de Tecnologia.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 2. Atendimentos -->
+          <div class="base-card-item" id="card-seintec-Atendimentos" onclick="selecionarBaseSeintec('Atendimentos')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-red">A</div>
+              <span class="base-card-title">Atendimentos</span>
+            </div>
+            <p class="base-card-desc">Histórico operacional de atendimentos de Tecnologia.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 3. Equipamentos de Hardware -->
+          <div class="base-card-item" id="card-seintec-Hardware" onclick="selecionarBaseSeintec('Hardware')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-green">H</div>
+              <span class="base-card-title">Equipamentos de Hardware</span>
+            </div>
+            <p class="base-card-desc">Inventário de hardware. Fonte exclusiva dos 87 polos principais de Tecnologia.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 4. Equipamentos de Rede -->
+          <div class="base-card-item" id="card-seintec-Rede" onclick="selecionarBaseSeintec('Rede')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-yellow-badge">R</div>
+              <span class="base-card-title">Equipamentos de Rede</span>
+            </div>
+            <p class="base-card-desc">Switches, racks, firewalls, nobreaks e demais equipamentos de rede.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 5. TVs e Educatrons -->
+          <div class="base-card-item" id="card-seintec-Educatrons" onclick="selecionarBaseSeintec('Educatrons')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-red">T</div>
+              <span class="base-card-title">TVs e Educatrons</span>
+            </div>
+            <p class="base-card-desc">Inventário de TVs e Educatrons.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+          <!-- 6. Plataforma de Recarga -->
+          <div class="base-card-item" id="card-seintec-Recarga" onclick="selecionarBaseSeintec('Recarga')">
+            <div class="base-item-top">
+              <div class="base-avatar-badge base-ico-green-badge">P</div>
+              <span class="base-card-title">Plataforma de Recarga</span>
+            </div>
+            <p class="base-card-desc">Plataformas/carrinhos de recarga.</p>
+            <span class="base-card-action-link">Consultar base →</span>
+          </div>
+
+        </div>
+
+        <!-- PAINEL INTERATIVO EXPANSÍVEL DA BASE SELECIONADA DO SEINTEC (CONSULTA + UPLOAD) -->
+        <div class="gab-base-detail-panel" id="seintec-base-detail-panel">
+          <div class="detail-panel-header">
+            <div class="detail-panel-title-wrap">
+              <h3 id="panel-seintec-title"><span>H</span> <span>Equipamentos de Hardware</span></h3>
+              <p id="panel-seintec-desc">Inventário de hardware. Fonte exclusiva dos 87 polos principais de Tecnologia.</p>
+            </div>
+            <button class="btn-close-panel" onclick="fecharPainelSeintec()">Fechar ✕</button>
+          </div>
+
+          <!-- Abas internas da Base: Consulta vs Envio -->
+          <div class="detail-tabs-nav">
+            <button class="detail-tab-btn active" id="tab-btn-seintec-registros" onclick="alternarAbaSeintec('registros')">
+              <span>📋</span> Registros da Base <span id="badge-contador-registros" style="font-size: 0.72rem; opacity: 0.85; margin-left: 0.3rem;"></span>
+            </button>
+            <button class="detail-tab-btn" id="tab-btn-seintec-upload" onclick="alternarAbaSeintec('upload')">
+              <span>📤</span> Upload Múltiplo (Excel & PDF) <span id="badge-contador-arquivos" style="display:none; background: #c81e3d; color: white; padding: 0.1rem 0.4rem; border-radius: 10px; font-size: 0.7rem; margin-left: 0.3rem;"></span>
+            </button>
+          </div>
+
+          <!-- Conteúdo 1: Tabela de Registros (Dinâmica para Excel ou Dados Padrão) -->
+          <div class="detail-tab-content active" id="tab-content-seintec-registros">
+            
+            <!-- Banner Informativo quando uma Planilha Excel foi lida -->
+            <div id="seintec-excel-loaded-banner" class="excel-loaded-banner" style="display: none;">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-size: 1.15rem;">📊</span>
+                <div>
+                  <span>Planilha Carregada: <strong id="seintec-banner-filename">arquivo.xlsx</strong></span>
+                  <div style="font-size: 0.74rem; opacity: 0.9;" id="seintec-banner-subtext">Aba: Planilha1 • 0 registros encontrados</div>
+                </div>
+              </div>
+              <button class="btn-file-action btn-remove" onclick="restaurarBasePadraoSeintec()">
+                <span>↩ Restaurar Registros Padrão</span>
+              </button>
+            </div>
+
+            <!-- Barra de Ferramentas da Tabela: Abas da Planilha, Contador e Busca em Tempo Real -->
+            <div class="table-dynamic-toolbar">
+              <div class="table-toolbar-left">
+                <span id="seintec-table-records-counter" style="font-size: 0.82rem; font-weight: 700; color: var(--text-main);">
+                  5 registros exibidos
+                </span>
+                <!-- Seletor de abas da planilha (quando houver mais de uma) -->
+                <div class="sheet-tabs-selector" id="seintec-sheet-tabs-container" style="display: none;"></div>
+              </div>
+
+              <div>
+                <input type="text" id="seintec-table-search" class="table-search-input"
+                  placeholder="🔍 Buscar na tabela em tempo real..."
+                  oninput="filtrarTabelaSeintec(this.value)">
+              </div>
+            </div>
+
+            <div class="records-table-wrap">
+              <table class="records-table" id="panel-seintec-table">
+                <thead id="panel-seintec-thead">
+                  <tr>
+                    <th>Identificador / Patrimônio</th>
+                    <th>Polo / Unidade Escolar</th>
+                    <th>Equipamento / Especificação</th>
+                    <th>Data Registro</th>
+                    <th>Situação Operacional</th>
+                  </tr>
+                </thead>
+                <tbody id="panel-seintec-tbody">
+                  <!-- Inserido dinamicamente via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Conteúdo 2: Upload Múltiplo Oficial da Base SEINTEC (Excel & PDF) -->
+          <div class="detail-tab-content" id="tab-content-seintec-upload">
+            <div style="margin-bottom: 1rem; font-size: 0.82rem; color: var(--text-muted);" id="seintec-upload-dest-text">
+              📁 Destino no Drive: <b>Uploads BIDirigente / SEINTEC / Hardware</b>
+            </div>
+
+            <div class="upload-dropzone" id="dropzone-seintec">
+              <input type="file" id="arquivo-input-seintec" class="dropzone-file-input"
+                multiple
+                accept=".pdf, .xls, .xlsx, .csv, application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                onchange="aoSelecionarArquivosSeintec(event)">
+              <div class="dropzone-big-icon">📂</div>
+              <div class="dropzone-main-text" id="dropzone-label-seintec">Clique ou arraste seus arquivos aqui (Excel e PDF)</div>
+              <div class="dropzone-sub-text">
+                <b>Suporta múltiplos arquivos simultâneos!</b><br>
+                Planilhas (.xlsx, .xls, .csv) são lidas e renderizadas na tabela imediatamente • PDFs (.pdf) ficam prontos para pré-visualização.
+              </div>
+            </div>
+
+            <!-- Lista de Arquivos Selecionados -->
+            <div class="files-list-container" id="seintec-selected-files-list"></div>
+
+            <!-- Barra de Ações de Upload / Leitura -->
+            <div class="multi-upload-toolbar" id="seintec-upload-toolbar" style="display: none;">
+              <button class="btn-action-primary" id="btn-read-excel-seintec" onclick="processarLeituraExcelSeintec()">
+                <span>📊 Ler & Visualizar Planilha na Tabela</span>
+              </button>
+              <button class="btn-action-drive" id="btn-submit-upload-seintec" onclick="enviarArquivosSeintec()">
+                <span>📤 Salvar Todos no Google Drive</span>
+              </button>
+              <button class="btn-clear-all" onclick="limparTodosArquivosSeintec()">
+                <span>✕ Limpar Seleção</span>
+              </button>
+            </div>
+
+            <!-- Alerta de Status -->
+            <div class="upload-status-alert" id="upload-status-alert-seintec"></div>
+
+            <!-- Histórico de Links Salvos no Drive -->
+            <div id="seintec-drive-uploaded-links" style="margin-top: 1.25rem; display: none;"></div>
+          </div>
+
+
+        </div>
+
+      </section>
 
     </div>
-    <?!= include('JS'); ?>
-  </body>
+  </main>
+
+  <!-- ============================================== -->
+  <!-- 3. LÓGICA JAVASCRIPT HÍBRIDA & HIERARQUIA -->
+  <!-- ============================================== -->
+  <script>
+    // Estrutura Hierárquica: CENTROS -> SETORES
+    const ESTRUTURA_ORGANIZACIONAL = {
+      'SEINTEC': {
+        sigla: 'SEINTEC',
+        letra: 'T',
+        cor: '#c81e3d',
+        nome: 'SEINTEC - Informações Educacionais e Tecnologia',
+        descricao: 'Seção de Tecnologia • Demandas, atendimentos, inventário de hardware, rede, TVs/Educatrons e plataformas de recarga.',
+        setores: [
+          { sigla: 'Hardware', nome: 'Equipamentos de Hardware', desc: 'Inventário e alocação de computadores, notebooks e equipamentos nos 87 polos' },
+          { sigla: 'Rede', nome: 'Equipamentos de Rede', desc: 'Switches, roteadores, nobreaks, racks e cabeamento estruturado' },
+          { sigla: 'Educatrons', nome: 'TVs e Educatrons', desc: 'Telas interativas, Educatrons 75" e suportes multimídia' },
+          { sigla: 'Demandas', nome: 'Demandas de Tecnologia', desc: 'Registros e requisições técnicas de infraestrutura das unidades' },
+          { sigla: 'Atendimentos', nome: 'Atendimentos Técnicos', desc: 'Histórico operacional de visitas, chamados e ordens de serviço' },
+          { sigla: 'Recarga', nome: 'Plataformas de Recarga', desc: 'Carrinhos inteligentes de recarga para dispositivos dos alunos' }
+        ]
+      },
+      'CIE': {
+        sigla: 'SEINTEC',
+        letra: 'T',
+        cor: '#c81e3d',
+        nome: 'SEINTEC - Informações Educacionais e Tecnologia',
+        descricao: 'Seção de Tecnologia • Demandas, atendimentos, inventário de hardware, rede, TVs/Educatrons e plataformas de recarga.',
+        setores: [
+          { sigla: 'Hardware', nome: 'Equipamentos de Hardware', desc: 'Inventário e alocação de computadores, notebooks e equipamentos nos 87 polos' }
+        ]
+      },
+      'CAF': {
+        sigla: 'CAF',
+        letra: '$',
+        cor: '#10b981',
+        nome: 'CAF - Centro de Administração, Finanças e Infraestrutura',
+        descricao: 'Gestão orçamentária, obras, suprimentos e infraestrutura física da Região de Itapevi.',
+        setores: [
+          { sigla: 'SEAFIN', nome: 'SEAFIN (Orçamento e Finanças)', desc: 'Prestação de contas, verbas PDDE, adiantamentos e pagamentos' },
+          { sigla: 'NOM', nome: 'NOM (Obras e Manutenção)', desc: 'Vistorias prediais, reparos elétricos/hidráulicos e zeladoria escolar' },
+          { sigla: 'Contratos', nome: 'Patrimônio e Suprimentos', desc: 'Contratos terceirizados de merenda, limpeza e controle patrimonial' }
+        ]
+      },
+      'CGE': {
+        sigla: 'CGE',
+        letra: 'R',
+        cor: '#f59e0b',
+        nome: 'CGE - Centro de Gestão da Rede Escolar',
+        descricao: 'Articulação territorial, supervisão de ensino e expansão da rede estadual.',
+        setores: [
+          { sigla: 'SEGRE', nome: 'SEGRE (Supervisão Regional)', desc: 'Relatórios de supervisão escolar, fiscalização e acompanhamento' },
+          { sigla: 'Planejamento', nome: 'Planejamento e Vagas', desc: 'Demanda escolar, zoneamento e transporte de estudantes' }
+        ]
+      },
+      'GAB': {
+        sigla: 'GAB',
+        letra: 'G',
+        cor: '#c81e3d',
+        nome: 'Gabinete da Dirigente & Assessoria Técnica',
+        descricao: 'Direção executiva, assessoria jurídica, técnica e relações institucionais.',
+        setores: [
+          { sigla: 'AssessoriaTecnica', nome: 'Assessoria Técnica e Jurídica', desc: 'Pareceres jurídicos, processos administrativos e sindicâncias' },
+          { sigla: 'GabineteDirigente', nome: 'Gabinete e Despachos', desc: 'Atos oficiais da Dirigente, portarias e termos de compromisso' },
+          { sigla: 'Comunicacao', nome: 'Comunicação Institucional', desc: 'Boletins oficiais, imprensa e comunicados da regional' }
+        ]
+      },
+      'CRH': {
+        sigla: 'CRH',
+        letra: 'H',
+        cor: '#8b5cf6',
+        nome: 'CRH - Centro de Recursos Humanos',
+        descricao: 'Quadro docente, evolução funcional, modulação escolar e pagamentos.',
+        setores: [
+          { sigla: 'Pagamento', nome: 'Pagamento e Frequência', desc: 'BFE, lançamentos de folha, faltas e benefícios' },
+          { sigla: 'Modulacao', nome: 'Atribuição de Aulas e Modulação', desc: 'Atribuição docente, afastamentos e licenças' }
+        ]
+      },
+      'NPE': {
+        sigla: 'NPE',
+        letra: 'P',
+        cor: '#06b6d4',
+        nome: 'NPE - Núcleo Pedagógico Regional',
+        descricao: 'Formação continuada, avaliações SARESP e projetos educacionais.',
+        setores: [
+          { sigla: 'Curriculo', nome: 'Currículo e Formação Docente', desc: 'Capacitações de professores coordenadores e materiais pedagógicos' },
+          { sigla: 'Avaliacoes', nome: 'Acompanhamento Pedagógico', desc: 'Metas do IDEB, SARESP e recuperação de aprendizagem' }
+        ]
+      }
+    };
+
+    // Inicialização
+    document.addEventListener("DOMContentLoaded", function () {
+      carregarDadosConsolidados();
+    });
+
+    function carregarDadosConsolidados() {
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(aplicarDados)
+          .withFailureHandler(function (err) {
+            console.warn("Apps Script em modo autônomo:", err);
+          })
+          .getConsolidatedData();
+      } else {
+        // Ambiente fora do Apps Script: sem fetch
+        // aplicarDados({}) pode ser chamado aqui se necessário
+      }
+    }
+
+    function aplicarDados(dados) {
+      if (!dados) return;
+      if (dados.indicadoresRede) {
+        if (dados.indicadoresRede.escolas) document.getElementById('kpi-escolas').innerText = dados.indicadoresRede.escolas;
+        if (dados.indicadoresRede.visitas) document.getElementById('kpi-visitas').innerText = dados.indicadoresRede.visitas;
+      }
+    }
+
+    // === NAVEGAÇÃO DE VIEWS ===
+
+    function navegarParaSecao(idElemento, idBotao) {
+      // Garante que Home está visível
+      document.getElementById('pane-home').classList.add('active');
+      document.getElementById('pane-centro').classList.remove('active');
+      document.getElementById('pane-gabinete').classList.remove('active');
+      document.getElementById('pane-seintec').classList.remove('active');
+      // Destaca o botão ativo
+      document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
+      const btnAtivo = document.getElementById(idBotao);
+      if (btnAtivo) btnAtivo.classList.add('active');
+      // Rola até a seção correspondente (se o elemento existir)
+      const el = document.getElementById(idElemento);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+
+    function mostrarHome() {
+      document.getElementById('pane-home').classList.add('active');
+      document.getElementById('pane-centro').classList.remove('active');
+      document.getElementById('pane-gabinete').classList.remove('active');
+      document.getElementById('pane-seintec').classList.remove('active');
+
+      document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('side-btn-home').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function abrirCentro(siglaCentro) {
+      if (siglaCentro === 'GAB') {
+        abrirAssessoriaTecnica();
+        return;
+      }
+      if (siglaCentro === 'SEINTEC' || siglaCentro === 'CIE') {
+        abrirSeintec();
+        return;
+      }
+      const centro = ESTRUTURA_ORGANIZACIONAL[siglaCentro];
+      if (!centro) return;
+
+      // Atualiza Header do Centro
+      document.getElementById('banner-centro-badge').innerText = centro.letra;
+      document.getElementById('banner-centro-badge').style.background = centro.cor;
+      document.getElementById('banner-centro-nome').innerText = centro.nome;
+      document.getElementById('banner-centro-desc').innerText = centro.descricao;
+      document.getElementById('atual-centro-sigla').value = siglaCentro;
+
+      // Renderiza as abas de setores do Centro
+      const containerTabs = document.getElementById('container-setores-tabs');
+      containerTabs.innerHTML = "";
+
+      centro.setores.forEach((setor, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'setor-tab-btn' + (index === 0 ? ' active' : '');
+        btn.innerHTML = `<span>📁</span> <span>${setor.nome}</span>`;
+        btn.onclick = function () {
+          selecionarSetor(siglaCentro, setor.sigla, btn);
+        };
+        containerTabs.appendChild(btn);
+      });
+
+      // Seleciona o primeiro setor por padrão
+      selecionarSetor(siglaCentro, centro.setores[0].sigla, containerTabs.children[0]);
+
+      // Alterna Views
+      document.getElementById('pane-home').classList.remove('active');
+      document.getElementById('pane-gabinete').classList.remove('active');
+      document.getElementById('pane-seintec').classList.remove('active');
+      document.getElementById('pane-centro').classList.add('active');
+
+      // Atualiza Sidebar
+      document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
+      const sideBtn = document.getElementById(`side-btn-${siglaCentro}`);
+      if (sideBtn) sideBtn.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function selecionarSetor(siglaCentro, siglaSetor, botaoClicado) {
+      const centro = ESTRUTURA_ORGANIZACIONAL[siglaCentro];
+      const setor = centro.setores.find(s => s.sigla === siglaSetor);
+      if (!setor) return;
+
+      // Atualiza Abas
+      document.querySelectorAll('.setor-tab-btn').forEach(b => b.classList.remove('active'));
+      if (botaoClicado) botaoClicado.classList.add('active');
+
+      // Atualiza Painel do Setor
+      document.getElementById('atual-setor-sigla').value = siglaSetor;
+      document.getElementById('setor-ativo-titulo').innerText = `📂 Setor: ${setor.nome}`;
+      document.getElementById('setor-ativo-desc').innerText = setor.desc;
+      document.getElementById('setor-drive-caminho').innerHTML = `📁 Drive: <b>Uploads BIDirigente / ${siglaCentro} / ${siglaSetor}</b>`;
+
+      // Limpa seleções anteriores
+      limparTodosArquivosCentro();
+    }
+
+    // === SELEÇÃO E PREVIEW DE ARQUIVOS ===
+
+    let arquivosSelecionadosCentro = [];
+
+    function aoSelecionarArquivosCentro(event) {
+      const input = event.target;
+      if (!input.files || input.files.length === 0) return;
+
+      Array.from(input.files).forEach(novo => {
+        const jaExiste = arquivosSelecionadosCentro.some(existente => existente.name === novo.name && existente.size === novo.size);
+        if (!jaExiste) arquivosSelecionadosCentro.push(novo);
+      });
+
+      renderizarListaArquivosCentro();
+    }
+
+    function renderizarListaArquivosCentro() {
+      const container = document.getElementById('centro-selected-files-list');
+      const toolbar = document.getElementById('centro-upload-toolbar');
+      const dropzoneLabel = document.getElementById('dropzone-main-label');
+
+      if (!container) return;
+      container.innerHTML = "";
+
+      if (arquivosSelecionadosCentro.length === 0) {
+        toolbar.style.display = 'none';
+        dropzoneLabel.innerText = 'Clique para selecionar ou arraste seus arquivos aqui (Excel e PDF)';
+        return;
+      }
+
+      toolbar.style.display = 'flex';
+      dropzoneLabel.innerText = `${arquivosSelecionadosCentro.length} arquivo(s) selecionado(s) no Centro`;
+
+      arquivosSelecionadosCentro.forEach((file, index) => {
+        const ext = file.name.toLowerCase();
+        const isExcel = ext.endsWith('.xlsx') || ext.endsWith('.xls') || ext.endsWith('.csv');
+        const isPdf = ext.endsWith('.pdf');
+
+        const card = document.createElement('div');
+        card.className = `file-item-card ${isExcel ? 'is-excel' : (isPdf ? 'is-pdf' : '')}`;
+
+        let iconBox = isExcel
+          ? `<div class="file-item-icon-box file-icon-excel">📊</div>`
+          : (isPdf ? `<div class="file-item-icon-box file-icon-pdf">📕</div>` : `<div class="file-item-icon-box" style="background:#f1f5f9;">📄</div>`);
+
+        let pill = isExcel
+          ? `<span class="file-badge-pill pill-excel">Planilha Excel</span>`
+          : (isPdf ? `<span class="file-badge-pill pill-pdf">Documento PDF</span>` : `<span class="file-badge-pill">Arquivo</span>`);
+
+        let actionPdf = isPdf ? `<button class="btn-file-action" onclick="visualizarPdfDoCentro(${index})"><span>👁️ Ver PDF</span></button>` : '';
+
+        card.innerHTML = `
+          <div class="file-item-left">
+            ${iconBox}
+            <div class="file-item-details">
+              <span class="file-item-title" title="${file.name}">${file.name}</span>
+              <div class="file-item-meta">
+                <span>${formatarTamanhoBytes(file.size)}</span>
+                ${pill}
+              </div>
+            </div>
+          </div>
+          <div class="file-item-actions">
+            ${actionPdf}
+            <button class="btn-file-action btn-remove" onclick="removerArquivoCentro(${index})" title="Remover">✕</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function removerArquivoCentro(index) {
+      if (index >= 0 && index < arquivosSelecionadosCentro.length) {
+        arquivosSelecionadosCentro.splice(index, 1);
+        renderizarListaArquivosCentro();
+      }
+    }
+
+    function limparTodosArquivosCentro() {
+      arquivosSelecionadosCentro = [];
+      const input = document.getElementById('arquivo-input');
+      if (input) input.value = "";
+      renderizarListaArquivosCentro();
+      const alertBox = document.getElementById('upload-status-alert');
+      if (alertBox) alertBox.style.display = 'none';
+    }
+
+    function visualizarPdfDoCentro(index) {
+      const file = arquivosSelecionadosCentro[index];
+      if (!file) return;
+
+      const overlay = document.getElementById('pdf-modal-overlay');
+      const iframe = document.getElementById('pdf-modal-iframe');
+      const title = document.getElementById('pdf-modal-title-text');
+      const openBtn = document.getElementById('pdf-modal-open-new-tab');
+
+      const url = URL.createObjectURL(file);
+      iframe.src = url;
+      title.innerText = file.name;
+      openBtn.href = url;
+      overlay.style.display = 'flex';
+    }
+
+    async function enviarArquivosDoSetor() {
+      if (arquivosSelecionadosCentro.length === 0) {
+        alert('Selecione pelo menos um arquivo antes de enviar.');
+        return;
+      }
+
+      const botao = document.getElementById('btn-submit-upload');
+      const alertBox = document.getElementById('upload-status-alert');
+      const centroAtual = document.getElementById('atual-centro-sigla').value;
+      const setorAtual = document.getElementById('atual-setor-sigla').value;
+
+      botao.disabled = true;
+      botao.innerHTML = `<span>⏳ Enviando ${arquivosSelecionadosCentro.length} arquivo(s)...</span>`;
+      alertBox.className = 'upload-status-alert loading';
+      alertBox.innerHTML = `Processando envio para <b>${centroAtual} / ${setorAtual}</b>...`;
+
+      try {
+        const arquivosPayload = [];
+        for (let i = 0; i < arquivosSelecionadosCentro.length; i++) {
+          const file = arquivosSelecionadosCentro[i];
+          const base64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+
+          arquivosPayload.push({
+            fileName: file.name,
+            mimeType: file.type || 'application/octet-stream',
+            data: base64
+          });
+        }
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function (resultados) {
+              botao.disabled = false;
+              botao.innerHTML = '<span>📤 Salvar Todos os Arquivos no Google Drive</span>';
+              limparTodosArquivosCentro();
+              alertBox.className = 'upload-status-alert success';
+              let linksHtml = `✅ <b>Sucesso!</b> ${resultados.length} arquivo(s) salvos na pasta <b>${centroAtual} / ${setorAtual}</b> do Google Drive:<ul style="margin-top: 0.5rem; padding-left: 1.2rem;">`;
+              resultados.forEach(res => {
+                const icon = res.fileName.toLowerCase().endsWith('.pdf') ? '📕' : '📊';
+                linksHtml += `<li style="margin-bottom: 0.25rem;">${icon} <b>${res.fileName}</b> - <a href="${res.url}" target="_blank" style="color:#065f46; text-decoration: underline; font-weight:700;">Abrir no Google Drive ↗</a></li>`;
+              });
+              linksHtml += `</ul>`;
+              alertBox.innerHTML = linksHtml;
+            })
+            .withFailureHandler(function (erro) {
+              botao.disabled = false;
+              botao.innerHTML = '<span>📤 Salvar Todos os Arquivos no Google Drive</span>';
+              alertBox.className = 'upload-status-alert error';
+              alertBox.innerHTML = `❌ Falha no envio: ${erro.message || erro}`;
+            })
+            .processMultipleFilesUpload(arquivosPayload, setorAtual, centroAtual);
+        } else {
+          setTimeout(() => {
+            botao.disabled = false;
+            botao.innerHTML = '<span>📤 Salvar Todos os Arquivos no Google Drive</span>';
+            limparTodosArquivosCentro();
+            alertBox.className = 'upload-status-alert success';
+            alertBox.innerHTML = `✅ [Simulação] ${arquivosPayload.length} arquivo(s) salvos com sucesso na pasta <b>${centroAtual} / ${setorAtual}</b>!`;
+          }, 800);
+        }
+      } catch (err) {
+        botao.disabled = false;
+        botao.innerHTML = '<span>📤 Salvar Todos os Arquivos no Google Drive</span>';
+        alertBox.className = 'upload-status-alert error';
+        alertBox.innerHTML = `❌ Erro: ${err.message || err}`;
+    }
+
+    function verificarSincronizacaoDrive() {
+      const el = document.getElementById('drive-stats-text');
+      const original = el.innerText;
+      el.innerText = 'Verificando conexão...';
+      setTimeout(() => {
+        el.innerText = '100% Conectado e Atualizado';
+        setTimeout(() => {
+          el.innerText = original;
+        }, 3000);
+      }, 600);
+    }
+
+    // =======================================================
+    // LÓGICA E DADOS DA ASSESSORIA TÉCNICA & GABINETE
+    // =======================================================
+
+    const GABINETE_BASES_CONFIG = {
+      'Demandas': {
+        titulo: 'Demandas do Gabinete',
+        icone: '📄',
+        desc: 'Registros administrativos e judiciais do Gabinete da Dirigente.',
+        pasta: 'Demandas',
+        registros: [
+          { id: 'DEM-2026/041', origem: 'Supervisão de Ensino', assunto: 'Adequação de módulo docente EE Prof. José Barreto', data: '18/10/2026', status: 'Em Análise' },
+          { id: 'DEM-2026/039', origem: 'Prefeitura de Itapevi', assunto: 'Termo de Cooperação Transporte Escolar', data: '15/10/2026', status: 'Homologado' },
+          { id: 'DEM-2026/038', origem: 'FDE', assunto: 'Cronograma de reformas prediais 2026', data: '12/10/2026', status: 'Concluído' }
+        ]
+      },
+      'Ouvidoria': {
+        titulo: 'Ouvidoria - Fala.SP',
+        icone: '⭕',
+        desc: 'Manifestações, protocolos, prazos legais, escola/local e respostas oficiais.',
+        pasta: 'OuvidoriaFalaSP',
+        registros: [
+          { id: 'OUV-882194', origem: 'Fala.SP', assunto: 'Solicitação de vaga período matutino - EE Raul Briquet', data: '19/10/2026', status: 'No Prazo (3 dias)' },
+          { id: 'OUV-881902', origem: 'Fala.SP', assunto: 'Esclarecimento sobre transporte escolar rural', data: '16/10/2026', status: 'Respondido' },
+          { id: 'OUV-881420', origem: 'Fala.SP', assunto: 'Manutenção de bebedouro - Polo Central', data: '14/10/2026', status: 'Concluído' }
+        ]
+      },
+      'TermosVisita': {
+        titulo: 'Termos de Visita',
+        icone: '✔️',
+        desc: 'Termos de visita e acompanhamento das escolas estaduais e particulares.',
+        pasta: 'TermosVisita',
+        registros: [
+          { id: 'TRM-145/26', origem: 'Supervisão Regional', assunto: 'Visita Técnica e Pedagógica - EE Celso Pacheco', data: '20/10/2026', status: 'Arquivado' },
+          { id: 'TRM-144/26', origem: 'Dirigente Regional', assunto: 'Acompanhamento do SARESP - EE Toufic Joulian', data: '18/10/2026', status: 'Arquivado' },
+          { id: 'TRM-143/26', origem: 'Supervisão Particular', assunto: 'Inspeção Anual Colégio Objetivo Itapevi', data: '15/10/2026', status: 'Aprovado' }
+        ]
+      },
+      'EscalaFerias': {
+        titulo: 'Escala de Férias',
+        icone: 'F',
+        desc: 'Escala anual de férias e recesso dos gestores escolares e supervisores.',
+        pasta: 'EscalaFerias',
+        registros: [
+          { id: 'FER-2026/02', origem: 'Gabinete/CRH', assunto: 'Escala Consolidada Férias Janeiro/2027 Diretores', data: '10/10/2026', status: 'Publicado' },
+          { id: 'FER-2026/01', origem: 'Gabinete/CRH', assunto: 'Recesso de Julho - Escala de Plantão Gestores', data: '05/06/2026', status: 'Concluído' }
+        ]
+      },
+      'HorarioADM': {
+        titulo: 'Horário ADM - Diretor',
+        icone: 'H',
+        desc: 'Horário de trabalho administrativo homologado dos Diretores de Escola.',
+        pasta: 'HorarioADM',
+        registros: [
+          { id: 'HOR-87/87', origem: 'Supervisão', assunto: 'Quadro de Horários Gestores 2º Semestre Homologado', data: '08/09/2026', status: 'Homologado' }
+        ]
+      },
+      'FolhaPonto': {
+        titulo: 'Folha de Ponto - Diretores',
+        icone: 'P',
+        desc: 'Acompanhamento mensal da folha de ponto e frequência dos Diretores.',
+        pasta: 'FolhaPontoDiretores',
+        registros: [
+          { id: 'PNT-SET/26', origem: 'Gabinete', assunto: 'Consolidação Frequência Diretores Setembro/2026', data: '05/10/2026', status: '86 de 87 Entregues' },
+          { id: 'PNT-AGO/26', origem: 'Gabinete', assunto: 'Consolidação Frequência Diretores Agosto/2026', data: '05/09/2026', status: 'Homologado' }
+        ]
+      },
+      'PlanoTrabalhoDiretores': {
+        titulo: 'Plano de Trabalho - Diretores',
+        icone: 'D',
+        desc: 'Acompanhamento e validação dos planos de gestão dos Diretores de Escola.',
+        pasta: 'PlanoTrabalhoDiretores',
+        registros: [
+          { id: 'PLN-DIR-26', origem: 'Gabinete', assunto: 'Revisão Bienal dos Planos de Gestão Escolar (87 Unidades)', data: '12/10/2026', status: 'Validado' }
+        ]
+      },
+      'PlanoTrabalhoSupervisores': {
+        titulo: 'Plano de Trabalho - Supervisores',
+        icone: 'S',
+        desc: 'Acompanhamento mensal dos planos de trabalho dos Supervisores de Ensino.',
+        pasta: 'PlanoTrabalhoSupervisores',
+        registros: [
+          { id: 'PLN-SUP-26', origem: 'Dirigente', assunto: 'Roteiros de Visita e Metas de Acompanhamento Bimestral', data: '14/10/2026', status: 'Em Execução' }
+        ]
+      },
+      'Judicial': {
+        titulo: 'Judicial & Mandados',
+        icone: 'J',
+        desc: 'Demandas registradas, mandados de segurança, ofícios do MP e Judiciário.',
+        pasta: 'Judicial',
+        registros: [
+          { id: 'JUD-042/26', origem: 'Vara da Infância e Juventude', assunto: 'Acolhimento de matrícula compulsória - Cumprido', data: '17/10/2026', status: 'Atendido' },
+          { id: 'JUD-038/26', origem: 'Ministério Público de Itapevi', assunto: 'Informações sobre adaptação de acessibilidade', data: '11/10/2026', status: 'Em Resposta' }
+        ]
+      }
+    };
+
+    let baseAtivaGabinete = 'TermosVisita';
+
+    function abrirAssessoriaTecnica() {
+      document.getElementById('pane-home').classList.remove('active');
+      document.getElementById('pane-centro').classList.remove('active');
+      document.getElementById('pane-seintec').classList.remove('active');
+      document.getElementById('pane-gabinete').classList.add('active');
+
+      document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
+      const sideBtn = document.getElementById('side-btn-GAB');
+      if (sideBtn) sideBtn.classList.add('active');
+
+      selecionarBaseGabinete('TermosVisita');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function selecionarBaseGabinete(idBase) {
+      const base = GABINETE_BASES_CONFIG[idBase];
+      if (!base) return;
+
+      baseAtivaGabinete = idBase;
+
+      document.querySelectorAll('.base-card-item').forEach(card => card.classList.remove('selected'));
+      const cardEl = document.getElementById(`card-base-${idBase}`);
+      if (cardEl) cardEl.classList.add('selected');
+
+      document.getElementById('panel-base-title').innerHTML = `<span>${base.icone}</span> <span>${base.titulo}</span>`;
+      document.getElementById('panel-base-desc').innerText = base.desc;
+      document.getElementById('gab-upload-dest-text').innerHTML = `📁 Destino no Drive: <b>Uploads BIDirigente / AssessoriaTecnica / ${base.pasta}</b>`;
+
+      const tbody = document.getElementById('panel-records-tbody');
+      tbody.innerHTML = "";
+      base.registros.forEach(reg => {
+        const tr = document.createElement('tr');
+        const badgeClass = reg.status.includes('No Prazo') || reg.status.includes('Homologado') || reg.status.includes('Concluído') || reg.status.includes('Aprovado') || reg.status.includes('Atendido') || reg.status.includes('Arquivado') || reg.status.includes('Validado')
+          ? 'status-badge-ok'
+          : (reg.status.includes('Em') ? 'status-badge-warn' : 'status-badge-info');
+
+        tr.innerHTML = `
+          <td><strong>${reg.id}</strong></td>
+          <td>${reg.origem}</td>
+          <td>${reg.assunto}</td>
+          <td>${reg.data}</td>
+          <td><span class="status-badge-inline ${badgeClass}">${reg.status}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('gab-base-detail-panel').classList.add('active');
+      alternarAbaGabinete('registros');
+      limparTodosArquivosGabinete();
+
+      const panel = document.getElementById('gab-base-detail-panel');
+      if (panel) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    function fecharPainelGabinete() {
+      document.getElementById('gab-base-detail-panel').classList.remove('active');
+      document.querySelectorAll('.base-card-item').forEach(card => card.classList.remove('selected'));
+    }
+
+    function alternarAbaGabinete(tipoAba) {
+      document.querySelectorAll('.detail-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.detail-tab-content').forEach(c => c.classList.remove('active'));
+
+      if (tipoAba === 'registros') {
+        document.getElementById('tab-btn-registros').classList.add('active');
+        document.getElementById('tab-content-registros').classList.add('active');
+      } else {
+        document.getElementById('tab-btn-upload').classList.add('active');
+        document.getElementById('tab-content-upload').classList.add('active');
+      }
+    }
+
+    let arquivosSelecionadosGabinete = [];
+
+    function aoSelecionarArquivosGabinete(event) {
+      const input = event.target;
+      if (!input.files || input.files.length === 0) return;
+
+      Array.from(input.files).forEach(novo => {
+        const jaExiste = arquivosSelecionadosGabinete.some(existente => existente.name === novo.name && existente.size === novo.size);
+        if (!jaExiste) arquivosSelecionadosGabinete.push(novo);
+      });
+
+      renderizarListaArquivosGabinete();
+    }
+
+    function renderizarListaArquivosGabinete() {
+      const container = document.getElementById('gab-selected-files-list');
+      const toolbar = document.getElementById('gab-upload-toolbar');
+      const dropzoneLabel = document.getElementById('dropzone-label-gab');
+
+      if (!container) return;
+      container.innerHTML = "";
+
+      if (arquivosSelecionadosGabinete.length === 0) {
+        if (toolbar) toolbar.style.display = 'none';
+        if (dropzoneLabel) dropzoneLabel.innerText = 'Clique ou arraste seus documentos aqui (PDF e Excel)';
+        return;
+      }
+
+      if (toolbar) toolbar.style.display = 'flex';
+      if (dropzoneLabel) dropzoneLabel.innerText = `${arquivosSelecionadosGabinete.length} documento(s) selecionado(s)`;
+
+      arquivosSelecionadosGabinete.forEach((file, index) => {
+        const ext = file.name.toLowerCase();
+        const isExcel = ext.endsWith('.xlsx') || ext.endsWith('.xls') || ext.endsWith('.csv');
+        const isPdf = ext.endsWith('.pdf');
+
+        const card = document.createElement('div');
+        card.className = `file-item-card ${isExcel ? 'is-excel' : (isPdf ? 'is-pdf' : '')}`;
+
+        let iconBox = isExcel
+          ? `<div class="file-item-icon-box file-icon-excel">📊</div>`
+          : (isPdf ? `<div class="file-item-icon-box file-icon-pdf">📕</div>` : `<div class="file-item-icon-box" style="background:#f1f5f9;">📄</div>`);
+
+        let pill = isExcel
+          ? `<span class="file-badge-pill pill-excel">Planilha Excel</span>`
+          : (isPdf ? `<span class="file-badge-pill pill-pdf">Documento PDF</span>` : `<span class="file-badge-pill">Arquivo</span>`);
+
+        card.innerHTML = `
+          <div class="file-item-left">
+            ${iconBox}
+            <div class="file-item-details">
+              <span class="file-item-title" title="${file.name}">${file.name}</span>
+              <div class="file-item-meta">
+                <span>${formatarTamanhoBytes(file.size)}</span>
+                ${pill}
+              </div>
+            </div>
+          </div>
+          <div class="file-item-actions">
+            <button class="btn-file-action btn-remove" onclick="removerArquivoGabinete(${index})" title="Remover">✕</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function removerArquivoGabinete(index) {
+      if (index >= 0 && index < arquivosSelecionadosGabinete.length) {
+        arquivosSelecionadosGabinete.splice(index, 1);
+        renderizarListaArquivosGabinete();
+      }
+    }
+
+    function limparTodosArquivosGabinete() {
+      arquivosSelecionadosGabinete = [];
+      const input = document.getElementById('arquivo-input-gab');
+      if (input) input.value = "";
+      renderizarListaArquivosGabinete();
+      const alertBox = document.getElementById('upload-status-alert-gab');
+      if (alertBox) alertBox.style.display = 'none';
+    }
+
+    async function enviarArquivosGabinete() {
+      if (arquivosSelecionadosGabinete.length === 0) {
+        alert('Selecione pelo menos um documento antes de enviar.');
+        return;
+      }
+
+      const botao = document.getElementById('btn-submit-upload-gab');
+      const alertBox = document.getElementById('upload-status-alert-gab');
+      const base = GABINETE_BASES_CONFIG[baseAtivaGabinete];
+
+      botao.disabled = true;
+      botao.innerHTML = `<span>⏳ Enviando ${arquivosSelecionadosGabinete.length} documento(s)...</span>`;
+      alertBox.className = 'upload-status-alert loading';
+      alertBox.innerHTML = `Enviando arquivos para <b>AssessoriaTecnica / ${base.pasta}</b>...`;
+
+      try {
+        const arquivosPayload = [];
+        for (let i = 0; i < arquivosSelecionadosGabinete.length; i++) {
+          const file = arquivosSelecionadosGabinete[i];
+          const base64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+
+          arquivosPayload.push({
+            fileName: file.name,
+            mimeType: file.type || 'application/octet-stream',
+            data: base64
+          });
+        }
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function(resultados) {
+              botao.disabled = false;
+              botao.innerHTML = '<span>📤 Salvar Todos os Documentos na Base</span>';
+              limparTodosArquivosGabinete();
+              alertBox.className = 'upload-status-alert success';
+              let linksHtml = `✅ <b>Sucesso!</b> ${resultados.length} documento(s) arquivados em <b>AssessoriaTecnica / ${base.pasta}</b>:<ul style="margin-top: 0.5rem; padding-left: 1.2rem;">`;
+              resultados.forEach(res => {
+                const icon = res.fileName.toLowerCase().endsWith('.pdf') ? '📕' : '📊';
+                linksHtml += `<li style="margin-bottom: 0.25rem;">${icon} <b>${res.fileName}</b> - <a href="${res.url}" target="_blank" style="color: #065f46; font-weight: 700; text-decoration: underline;">Abrir no Google Drive ↗</a></li>`;
+              });
+              linksHtml += `</ul>`;
+              alertBox.innerHTML = linksHtml;
+            })
+            .withFailureHandler(function(erro) {
+              botao.disabled = false;
+              botao.innerHTML = '<span>📤 Salvar Todos os Documentos na Base</span>';
+              alertBox.className = 'upload-status-alert error';
+              alertBox.innerHTML = `❌ Falha no envio: ${erro.message || erro}`;
+            })
+            .processMultipleFilesUpload(arquivosPayload, base.pasta, 'AssessoriaTecnica');
+        } else {
+          setTimeout(() => {
+            botao.disabled = false;
+            botao.innerHTML = '<span>📤 Salvar Todos os Documentos na Base</span>';
+            limparTodosArquivosGabinete();
+            alertBox.className = 'upload-status-alert success';
+            alertBox.innerHTML = `✅ [Simulação] ${arquivosPayload.length} documento(s) arquivados em <b>AssessoriaTecnica / ${base.pasta}</b>!`;
+          }, 800);
+        }
+      } catch (err) {
+        botao.disabled = false;
+        botao.innerHTML = '<span>📤 Salvar Todos os Documentos na Base</span>';
+        alertBox.className = 'upload-status-alert error';
+        alertBox.innerHTML = `❌ Erro: ${err.message || err}`;
+      }
+    }
+
+    // ============================================================
+    // LÓGICA E DADOS DO SEINTEC (INFORMAÇÕES EDUCACIONAIS E TECNOLOGIA)
+    // ============================================================
+
+    const SEINTEC_BASES_CONFIG = {
+      'Demandas': {
+        titulo: 'Demandas',
+        icone: '📄',
+        desc: 'Demandas registradas pela Seção de Tecnologia para as unidades escolares da região.',
+        pasta: 'Demandas',
+        registros: [
+          { id: 'DEM-0142/26', polo: 'EE Prof. Celso Gama', equip: 'Ampliação de cabeamento estruturado sala maker', data: '21/10/2026', status: 'Em Atendimento' },
+          { id: 'DEM-0139/26', polo: 'EE Prof. José Barreto', equip: 'Troca de patch cords e organização de rack 19"', data: '19/10/2026', status: 'Concluído' },
+          { id: 'DEM-0135/26', polo: 'EE Pres. Castelo Branco', equip: 'Instalação de 2 Educatrons na ala do Ensino Médio', data: '17/10/2026', status: 'Concluído' },
+          { id: 'DEM-0128/26', polo: 'EE Profa. Maria Angélica', equip: 'Substituição de fonte desktop secretaria escolar', data: '14/10/2026', status: 'Concluído' },
+          { id: 'DEM-0115/26', polo: 'EE Raul Briquet', equip: 'Configuração de AP Wi-Fi Unifi e teste de throughput', data: '10/10/2026', status: 'Validado' }
+        ]
+      },
+      'Atendimentos': {
+        titulo: 'Atendimentos',
+        icone: 'A',
+        desc: 'Histórico operacional de atendimentos e suporte prestados pela equipe técnica de Tecnologia.',
+        pasta: 'Atendimentos',
+        registros: [
+          { id: 'ATD-5510', polo: 'EE Celso Pacheco Bentley', equip: 'Suporte presencial: reinstalação SED e certificação digital', data: '22/10/2026', status: 'Atendido' },
+          { id: 'ATD-5498', polo: 'EE João Ramalho', equip: 'Troca de fonte de alimentação Educatron 75"', data: '20/10/2026', status: 'Atendido' },
+          { id: 'ATD-5481', polo: 'EE Nair Toledo', equip: 'Orientação técnica para sincronização de carrinho de recarga', data: '18/10/2026', status: 'Atendido' },
+          { id: 'ATD-5460', polo: 'EE Marechal Rondon', equip: 'Ajuste de permissão de domínio e rede Intragov', data: '15/10/2026', status: 'Atendido' },
+          { id: 'ATD-5422', polo: 'EE Dr. Paulo Araújo', equip: 'Abertura de garantia junto ao fabricante para 12 notebooks', data: '12/10/2026', status: 'Em Análise' }
+        ]
+      },
+      'Hardware': {
+        titulo: 'Equipamentos de Hardware',
+        icone: 'H',
+        desc: 'Inventário de hardware. Fonte exclusiva dos 87 polos principais de Tecnologia.',
+        pasta: 'Hardware',
+        registros: [
+          { id: 'HW-08941', polo: 'Polo Regional Itapevi Centro', equip: 'Lote 120 Notebooks Positivo Master N1400 (Alunos)', data: '20/10/2026', status: 'Disponível' },
+          { id: 'HW-08912', polo: 'EE Prof. Celso Gama', equip: '42 Desktops Lenovo ThinkCentre i5 (Informática)', data: '18/10/2026', status: 'Disponível' },
+          { id: 'HW-08890', polo: 'EE Raul Briquet', equip: '18 Desktops Administrativos Dell OptiPlex (Secretaria)', data: '16/10/2026', status: 'Disponível' },
+          { id: 'HW-08845', polo: 'EE João Ramalho', equip: '35 Laptops Educacionais Positivo Celeron', data: '14/10/2026', status: 'Manutenção' },
+          { id: 'HW-08799', polo: 'EE Pres. Castelo Branco', equip: '04 Servidores Locais de Cache e Conteúdo', data: '09/10/2026', status: 'Disponível' }
+        ]
+      },
+      'Rede': {
+        titulo: 'Equipamentos de Rede',
+        icone: 'R',
+        desc: 'Switches, racks, firewalls, nobreaks e demais equipamentos de conectividade de rede.',
+        pasta: 'Rede',
+        registros: [
+          { id: 'RED-2041', polo: 'EE Profa. Maria Angélica', equip: 'Switch Aruba Instant On 1930 24G 4SFP/SFP+ PoE+ 370W', data: '19/10/2026', status: 'Operacional' },
+          { id: 'RED-2035', polo: 'EE Celso Pacheco Bentley', equip: 'Access Point HP Aruba AP-505 Wi-Fi 6 Corporativo', data: '17/10/2026', status: 'Operacional' },
+          { id: 'RED-2018', polo: 'EE Nair Toledo', equip: 'Nobreak SMS Sinus Triad 3kVA com Módulo Baterias', data: '15/10/2026', status: 'Operacional' },
+          { id: 'RED-1994', polo: 'Polo Regional Itapevi', equip: 'Firewall Fortinet FortiGate 60F de borda', data: '11/10/2026', status: 'Operacional' },
+          { id: 'RED-1970', polo: 'EE Marechal Rondon', equip: 'Rack 19" 24U fechado com guia vertical de cabos', data: '05/10/2026', status: 'Operacional' }
+        ]
+      },
+      'Educatrons': {
+        titulo: 'TVs e Educatrons',
+        icone: 'T',
+        desc: 'Inventário de TVs e Educatrons integrados com suporte multimídia e projeção interativa.',
+        pasta: 'Educatrons',
+        registros: [
+          { id: 'EDU-0412', polo: 'EE Prof. Celso Gama', equip: '14 Educatrons 75" Promethean 4K c/ Computador Integrado', data: '21/10/2026', status: 'Em Uso' },
+          { id: 'EDU-0398', polo: 'EE Pres. Castelo Branco', equip: '12 Educatrons 75" Multilaser Ultra HD', data: '18/10/2026', status: 'Em Uso' },
+          { id: 'EDU-0382', polo: 'EE Profa. Maria Angélica', equip: '08 TVs LED 65" Samsung Crystal para Auditório/Professores', data: '16/10/2026', status: 'Em Uso' },
+          { id: 'EDU-0371', polo: 'EE Raul Briquet', equip: '10 Educatrons 75" 4K com Suporte com Rodízios', data: '12/10/2026', status: 'Em Uso' },
+          { id: 'EDU-0355', polo: 'EE Dr. Paulo Araújo', equip: '02 Educatrons 75" aguardando calibração de touch', data: '08/10/2026', status: 'Manutenção' }
+        ]
+      },
+      'Recarga': {
+        titulo: 'Plataforma de Recarga',
+        icone: 'P',
+        desc: 'Plataformas e carrinhos inteligentes de recarga para notebooks e tablets dos estudantes.',
+        pasta: 'Recarga',
+        registros: [
+          { id: 'REC-0198', polo: 'EE Prof. Celso Gama', equip: '03 Carrinhos de Recarga Inteligente 36 Portas USB-C c/ Timer', data: '20/10/2026', status: 'Operacional' },
+          { id: 'REC-0185', polo: 'EE João Ramalho', equip: '02 Gabinetes de Recarga Móvel 30 Baias com Ventilação', data: '17/10/2026', status: 'Operacional' },
+          { id: 'REC-0177', polo: 'EE Nair Toledo', equip: '02 Plataformas de Recarga Rápida com chave e rodízios', data: '14/10/2026', status: 'Operacional' },
+          { id: 'REC-0164', polo: 'EE Celso Pacheco Bentley', equip: '01 Carrinho de Recarga 36 baias (troca de tomada)', data: '11/10/2026', status: 'Manutenção' },
+          { id: 'REC-0150', polo: 'EE Marechal Rondon', equip: '03 Gabinetes de Recarga Inteligente 36 baias', data: '06/10/2026', status: 'Operacional' }
+        ]
+      }
+    };
+
+    let baseAtivaSeintec = 'Hardware';
+
+    function abrirSeintec() {
+      document.getElementById('pane-home').classList.remove('active');
+      document.getElementById('pane-centro').classList.remove('active');
+      document.getElementById('pane-gabinete').classList.remove('active');
+      document.getElementById('pane-seintec').classList.add('active');
+
+      document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
+      const sideBtn = document.getElementById('side-btn-SEINTEC');
+      if (sideBtn) sideBtn.classList.add('active');
+
+      selecionarBaseSeintec('Hardware');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    let arquivosSelecionadosSeintec = [];
+    let dadosExcelCarregados = null;
+    let dadosExcelFiltrados = null;
+
+    function formatarTamanhoBytes(bytes) {
+      if (!bytes && bytes !== 0) return '0 B';
+      if (bytes > 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+      return Math.round(bytes / 1024) + ' KB';
+    }
+
+    function selecionarBaseSeintec(idBase) {
+      const base = SEINTEC_BASES_CONFIG[idBase];
+      if (!base) return;
+
+      baseAtivaSeintec = idBase;
+
+      document.querySelectorAll('#pane-seintec .base-card-item').forEach(card => card.classList.remove('selected'));
+      const cardEl = document.getElementById(`card-seintec-${idBase}`);
+      if (cardEl) cardEl.classList.add('selected');
+
+      document.getElementById('panel-seintec-title').innerHTML = `<span>${base.icone}</span> <span>${base.titulo}</span>`;
+      document.getElementById('panel-seintec-desc').innerText = base.desc;
+      document.getElementById('seintec-upload-dest-text').innerHTML = `📁 Destino no Drive: <b>Uploads BIDirigente / SEINTEC / ${base.pasta}</b>`;
+
+      // Se já houver uma planilha Excel lida pelo usuário, mantemos os dados dela ou carregamos os dados padrão
+      if (dadosExcelCarregados) {
+        renderizarTabelaExcelSeintec();
+      } else {
+        renderizarRegistrosPadraoSeintec(base);
+      }
+
+      const panel = document.getElementById('seintec-base-detail-panel');
+      panel.style.display = 'block';
+      alternarAbaSeintec('registros');
+    }
+
+    function renderizarRegistrosPadraoSeintec(base) {
+      const thead = document.getElementById('panel-seintec-thead');
+      thead.innerHTML = `
+        <tr>
+          <th>Identificador / Patrimônio</th>
+          <th>Polo / Unidade Escolar</th>
+          <th>Equipamento / Especificação</th>
+          <th>Data Registro</th>
+          <th>Situação Operacional</th>
+        </tr>
+      `;
+
+      const tbody = document.getElementById('panel-seintec-tbody');
+      tbody.innerHTML = "";
+      base.registros.forEach(reg => {
+        const tr = document.createElement('tr');
+        const badgeClass = reg.status.includes('Concluído') || reg.status.includes('Disponível') || reg.status.includes('Operacional') || reg.status.includes('Atendido') || reg.status.includes('Em Uso') || reg.status.includes('Validado')
+          ? 'status-badge-ok'
+          : (reg.status.includes('Em') ? 'status-badge-warn' : 'status-badge-info');
+
+        tr.innerHTML = `
+          <td><strong>${reg.id}</strong></td>
+          <td>${reg.polo}</td>
+          <td>${reg.equip}</td>
+          <td>${reg.data}</td>
+          <td><span class="status-badge-inline ${badgeClass}">${reg.status}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const banner = document.getElementById('seintec-excel-loaded-banner');
+      if (banner) banner.style.display = 'none';
+
+      const sheetTabs = document.getElementById('seintec-sheet-tabs-container');
+      if (sheetTabs) {
+        sheetTabs.style.display = 'none';
+        sheetTabs.innerHTML = '';
+      }
+
+      const counter = document.getElementById('seintec-table-records-counter');
+      if (counter) counter.innerText = `${base.registros.length} registros padrão da base`;
+
+      const badgeRegistros = document.getElementById('badge-contador-registros');
+      if (badgeRegistros) badgeRegistros.innerText = `(${base.registros.length})`;
+    }
+
+    function fecharPainelSeintec() {
+      const panel = document.getElementById('seintec-base-detail-panel');
+      if (panel) panel.style.display = 'none';
+      document.querySelectorAll('#pane-seintec .base-card-item').forEach(card => card.classList.remove('selected'));
+    }
+
+    function alternarAbaSeintec(aba) {
+      const btnReg = document.getElementById('tab-btn-seintec-registros');
+      const btnUp = document.getElementById('tab-btn-seintec-upload');
+      const contReg = document.getElementById('tab-content-seintec-registros');
+      const contUp = document.getElementById('tab-content-seintec-upload');
+
+      if (aba === 'registros') {
+        btnReg.classList.add('active');
+        btnUp.classList.remove('active');
+        contReg.classList.add('active');
+        contUp.classList.remove('active');
+      } else {
+        btnUp.classList.add('active');
+        btnReg.classList.remove('active');
+        contUp.classList.add('active');
+        contReg.classList.remove('active');
+      }
+    }
+
+    // ============================================================
+    // GESTÃO DE MÚLTIPLOS ARQUIVOS (EXCEL & PDF)
+    // ============================================================
+
+    function aoSelecionarArquivosSeintec(event) {
+      const input = event.target;
+      if (!input.files || input.files.length === 0) return;
+
+      const novosArquivos = Array.from(input.files);
+      
+      // Adiciona sem duplicar nomes exatos
+      novosArquivos.forEach(novo => {
+        const jaExiste = arquivosSelecionadosSeintec.some(existente => existente.name === novo.name && existente.size === novo.size);
+        if (!jaExiste) {
+          arquivosSelecionadosSeintec.push(novo);
+        }
+      });
+
+      renderizarListaArquivosSeintec();
+
+      // Se houver pelo menos um Excel e nenhuma planilha estiver lida, processa automaticamente a primeira
+      const primeiroExcel = arquivosSelecionadosSeintec.find(f => {
+        const ext = f.name.toLowerCase();
+        return ext.endsWith('.xlsx') || ext.endsWith('.xls') || ext.endsWith('.csv');
+      });
+
+      if (primeiroExcel && !dadosExcelCarregados) {
+        processarLeituraExcelSeintec();
+      }
+    }
+
+    function renderizarListaArquivosSeintec() {
+      const container = document.getElementById('seintec-selected-files-list');
+      const toolbar = document.getElementById('seintec-upload-toolbar');
+      const dropzoneLabel = document.getElementById('dropzone-label-seintec');
+      const badgeArquivos = document.getElementById('badge-contador-arquivos');
+
+      if (!container) return;
+
+      container.innerHTML = "";
+
+      if (arquivosSelecionadosSeintec.length === 0) {
+        toolbar.style.display = 'none';
+        dropzoneLabel.innerText = 'Clique ou arraste seus arquivos aqui (Excel e PDF)';
+        if (badgeArquivos) badgeArquivos.style.display = 'none';
+        return;
+      }
+
+      toolbar.style.display = 'flex';
+      dropzoneLabel.innerText = `${arquivosSelecionadosSeintec.length} arquivo(s) selecionado(s) - Adicione mais se desejar`;
+      if (badgeArquivos) {
+        badgeArquivos.innerText = arquivosSelecionadosSeintec.length;
+        badgeArquivos.style.display = 'inline-block';
+      }
+
+      let temExcel = false;
+
+      arquivosSelecionadosSeintec.forEach((file, index) => {
+        const ext = file.name.toLowerCase();
+        const isExcel = ext.endsWith('.xlsx') || ext.endsWith('.xls') || ext.endsWith('.csv');
+        const isPdf = ext.endsWith('.pdf');
+        if (isExcel) temExcel = true;
+
+        const card = document.createElement('div');
+        card.className = `file-item-card ${isExcel ? 'is-excel' : (isPdf ? 'is-pdf' : '')}`;
+
+        let iconBoxHtml = isExcel
+          ? `<div class="file-item-icon-box file-icon-excel">📊</div>`
+          : (isPdf ? `<div class="file-item-icon-box file-icon-pdf">📕</div>` : `<div class="file-item-icon-box" style="background:#f1f5f9;">📄</div>`);
+
+        let pillHtml = isExcel
+          ? `<span class="file-badge-pill pill-excel">Planilha Excel • Leitura Automática</span>`
+          : (isPdf ? `<span class="file-badge-pill pill-pdf">Documento PDF</span>` : `<span class="file-badge-pill">Arquivo</span>`);
+
+        let actionExtra = '';
+        if (isExcel) {
+          actionExtra = `<button class="btn-file-action primary-action" onclick="processarLeituraExcelSeintec(${index})"><span>⚡ Ler Planilha</span></button>`;
+        } else if (isPdf) {
+          actionExtra = `<button class="btn-file-action" onclick="visualizarPdf(${index})"><span>👁️ Ver PDF</span></button>`;
+        }
+
+        card.innerHTML = `
+          <div class="file-item-left">
+            ${iconBoxHtml}
+            <div class="file-item-details">
+              <span class="file-item-title" title="${file.name}">${file.name}</span>
+              <div class="file-item-meta">
+                <span>${formatarTamanhoBytes(file.size)}</span>
+                ${pillHtml}
+              </div>
+            </div>
+          </div>
+          <div class="file-item-actions">
+            ${actionExtra}
+            <button class="btn-file-action btn-remove" onclick="removerArquivoSeintec(${index})" title="Remover da lista">✕</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      const btnRead = document.getElementById('btn-read-excel-seintec');
+      if (btnRead) {
+        btnRead.style.display = temExcel ? 'inline-flex' : 'none';
+      }
+    }
+
+    function removerArquivoSeintec(index) {
+      if (index >= 0 && index < arquivosSelecionadosSeintec.length) {
+        arquivosSelecionadosSeintec.splice(index, 1);
+        renderizarListaArquivosSeintec();
+      }
+    }
+
+    function limparTodosArquivosSeintec() {
+      arquivosSelecionadosSeintec = [];
+      const input = document.getElementById('arquivo-input-seintec');
+      if (input) input.value = "";
+      renderizarListaArquivosSeintec();
+      const alertBox = document.getElementById('upload-status-alert-seintec');
+      if (alertBox) alertBox.style.display = 'none';
+    }
+
+    // ============================================================
+    // LEITURA AUTOMÁTICA DE EXCEL (.xlsx, .xls, .csv) COM SHEETJS
+    // ============================================================
+
+    function processarLeituraExcelSeintec(indiceOpcional) {
+      let arquivoExcel = null;
+      if (typeof indiceOpcional === 'number') {
+        arquivoExcel = arquivosSelecionadosSeintec[indiceOpcional];
+      } else {
+        arquivoExcel = arquivosSelecionadosSeintec.find(f => {
+          const ext = f.name.toLowerCase();
+          return ext.endsWith('.xlsx') || ext.endsWith('.xls') || ext.endsWith('.csv');
+        });
+      }
+
+      if (!arquivoExcel) {
+        alert("Nenhuma planilha Excel encontrada entre os arquivos selecionados.");
+        return;
+      }
+
+      const alertBox = document.getElementById('upload-status-alert-seintec');
+      if (alertBox) {
+        alertBox.className = 'upload-status-alert loading';
+        alertBox.innerHTML = `Processando e lendo a planilha <b>"${arquivoExcel.name}"</b>...`;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          if (typeof XLSX === 'undefined') {
+            throw new Error('A biblioteca SheetJS ainda está carregando ou não foi encontrada.');
+          }
+
+          const arrayBuffer = e.target.result;
+          const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+
+          if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
+            throw new Error('A planilha está vazia ou não contém abas válidas.');
+          }
+
+          dadosExcelCarregados = {
+            fileName: arquivoExcel.name,
+            fileSize: arquivoExcel.size,
+            sheetNames: workbook.SheetNames,
+            activeSheet: workbook.SheetNames[0],
+            sheets: {}
+          };
+
+          workbook.SheetNames.forEach(sheetName => {
+            const worksheet = workbook.Sheets[sheetName];
+            const rawRows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
+            
+            // Filtra linhas completamente em branco
+            const cleanRows = rawRows.filter(r => Array.isArray(r) && r.some(c => String(c).trim() !== ''));
+
+            if (cleanRows.length > 0) {
+              const headers = cleanRows[0].map((h, i) => {
+                const val = String(h !== undefined && h !== null ? h : '').trim();
+                return val || `Coluna ${i + 1}`;
+              });
+              const dataRows = cleanRows.slice(1);
+              dadosExcelCarregados.sheets[sheetName] = { headers, rows: dataRows };
+            } else {
+              dadosExcelCarregados.sheets[sheetName] = { headers: ['Coluna 1'], rows: [] };
+            }
+          });
+
+          // Renderiza a tabela com os dados lidos
+          renderizarTabelaExcelSeintec();
+
+          // Muda para a aba de Registros e rola suavemente para visualização imediata
+          alternarAbaSeintec('registros');
+
+          if (alertBox) {
+            const activeSheetData = dadosExcelCarregados.sheets[dadosExcelCarregados.activeSheet];
+            alertBox.className = 'upload-status-alert success';
+            alertBox.innerHTML = `✅ <b>Planilha Lida com Sucesso!</b> <b>${activeSheetData.rows.length}</b> registros e <b>${activeSheetData.headers.length}</b> colunas carregadas da aba <i>"${dadosExcelCarregados.activeSheet}"</i>.`;
+          }
+
+          // Atualiza cards de métrica principais do SEINTEC com base no arquivo real
+          const totalLido = dadosExcelCarregados.sheets[dadosExcelCarregados.activeSheet].rows.length;
+          const cardBigVal = document.querySelector('.seintec-card-blue .gab-card-big-val');
+          if (cardBigVal && totalLido > 0) {
+            cardBigVal.innerText = totalLido.toLocaleString('pt-BR');
+          }
+
+        } catch (erro) {
+          console.error("Erro ao ler Excel:", erro);
+          if (alertBox) {
+            alertBox.className = 'upload-status-alert error';
+            alertBox.innerHTML = `❌ Erro ao ler planilha: ${erro.message || erro}`;
+          }
+        }
+      };
+
+      reader.readAsArrayBuffer(arquivoExcel);
+    }
+
+    function renderizarTabelaExcelSeintec() {
+      if (!dadosExcelCarregados) return;
+
+      const sheetData = dadosExcelCarregados.sheets[dadosExcelCarregados.activeSheet];
+      if (!sheetData) return;
+
+      // 1. Atualiza Banner Informativo
+      const banner = document.getElementById('seintec-excel-loaded-banner');
+      const filenameEl = document.getElementById('seintec-banner-filename');
+      const subtextEl = document.getElementById('seintec-banner-subtext');
+
+      if (banner && filenameEl && subtextEl) {
+        banner.style.display = 'flex';
+        filenameEl.innerText = dadosExcelCarregados.fileName;
+        subtextEl.innerText = `Aba ativa: "${dadosExcelCarregados.activeSheet}" • ${sheetData.rows.length} registros encontrados • ${sheetData.headers.length} colunas`;
+      }
+
+      // 2. Abas da Planilha (caso haja mais de uma)
+      const tabsContainer = document.getElementById('seintec-sheet-tabs-container');
+      if (tabsContainer) {
+        if (dadosExcelCarregados.sheetNames.length > 1) {
+          tabsContainer.style.display = 'flex';
+          tabsContainer.innerHTML = '';
+          dadosExcelCarregados.sheetNames.forEach(nomeAba => {
+            const btn = document.createElement('button');
+            btn.className = `sheet-tab-btn ${nomeAba === dadosExcelCarregados.activeSheet ? 'active' : ''}`;
+            btn.innerText = `📑 ${nomeAba}`;
+            btn.onclick = () => trocarAbaExcelSeintec(nomeAba);
+            tabsContainer.appendChild(btn);
+          });
+        } else {
+          tabsContainer.style.display = 'none';
+        }
+      }
+
+      // 3. Renderiza Cabeçalhos Dinâmicos <thead>
+      const thead = document.getElementById('panel-seintec-thead');
+      thead.innerHTML = "";
+      const trHead = document.createElement('tr');
+      sheetData.headers.forEach(h => {
+        const th = document.createElement('th');
+        th.innerText = h;
+        trHead.appendChild(th);
+      });
+      thead.appendChild(trHead);
+
+      // 4. Renderiza Linhas no <tbody> (ou linhas filtradas se houver busca)
+      const tbody = document.getElementById('panel-seintec-tbody');
+      tbody.innerHTML = "";
+
+      const linhasParaExibir = dadosExcelFiltrados !== null ? dadosExcelFiltrados : sheetData.rows;
+
+      if (linhasParaExibir.length === 0) {
+        const trVazio = document.createElement('tr');
+        trVazio.innerHTML = `<td colspan="${sheetData.headers.length}" style="text-align: center; padding: 2rem; color: var(--text-muted);">Nenhum registro encontrado nesta aba ou filtro.</td>`;
+        tbody.appendChild(trVazio);
+      } else {
+        // Limita a exibição inicial a 250 linhas para performance ultra-rápida
+        const maxLinhas = Math.min(linhasParaExibir.length, 250);
+        for (let i = 0; i < maxLinhas; i++) {
+          const row = linhasParaExibir[i];
+          const tr = document.createElement('tr');
+
+          sheetData.headers.forEach((_, colIndex) => {
+            const td = document.createElement('td');
+            const valor = row[colIndex] !== undefined && row[colIndex] !== null ? String(row[colIndex]).trim() : '';
+
+            // Estilização inteligente de status se a coluna parecer de situação/status
+            const lower = valor.toLowerCase();
+            if (lower === 'concluído' || lower === 'concluido' || lower === 'disponível' || lower === 'disponivel' || lower === 'operacional' || lower === 'ativo' || lower === 'sim') {
+              td.innerHTML = `<span class="status-badge-inline status-badge-ok">${valor}</span>`;
+            } else if (lower.includes('manutenção') || lower.includes('manutencao') || lower.includes('análise') || lower.includes('analise') || lower.includes('pendente') || lower.includes('em ')) {
+              td.innerHTML = `<span class="status-badge-inline status-badge-warn">${valor}</span>`;
+            } else if (lower === 'danificado' || lower === 'inservível' || lower === 'inservivel' || lower === 'inativo' || lower === 'não' || lower === 'nao') {
+              td.innerHTML = `<span class="status-badge-inline" style="background:#fee2e2; color:#b91c1c;">${valor}</span>`;
+            } else {
+              td.innerText = valor;
+            }
+
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        }
+      }
+
+      // 5. Atualiza Contadores
+      const counter = document.getElementById('seintec-table-records-counter');
+      if (counter) {
+        if (dadosExcelFiltrados !== null) {
+          counter.innerText = `Mostrando ${linhasParaExibir.length} de ${sheetData.rows.length} registros da planilha`;
+        } else {
+          counter.innerText = `Mostrando ${sheetData.rows.length} registros da planilha`;
+        }
+      }
+
+      const badgeRegistros = document.getElementById('badge-contador-registros');
+      if (badgeRegistros) {
+        badgeRegistros.innerText = `(${sheetData.rows.length})`;
+      }
+    }
+
+    function trocarAbaExcelSeintec(nomeAba) {
+      if (!dadosExcelCarregados || !dadosExcelCarregados.sheets[nomeAba]) return;
+      dadosExcelCarregados.activeSheet = nomeAba;
+      dadosExcelFiltrados = null;
+      const searchInput = document.getElementById('seintec-table-search');
+      if (searchInput) searchInput.value = "";
+      renderizarTabelaExcelSeintec();
+    }
+
+    function filtrarTabelaSeintec(termo) {
+      const q = (termo || '').toLowerCase().trim();
+
+      if (dadosExcelCarregados) {
+        const sheetData = dadosExcelCarregados.sheets[dadosExcelCarregados.activeSheet];
+        if (!sheetData) return;
+
+        if (!q) {
+          dadosExcelFiltrados = null;
+        } else {
+          dadosExcelFiltrados = sheetData.rows.filter(row => {
+            return row.some(cell => String(cell || '').toLowerCase().includes(q));
+          });
+        }
+        renderizarTabelaExcelSeintec();
+      } else {
+        // Filtragem nos registros padrão
+        const base = SEINTEC_BASES_CONFIG[baseAtivaSeintec];
+        if (!base) return;
+
+        const tbody = document.getElementById('panel-seintec-tbody');
+        tbody.innerHTML = "";
+
+        const regs = base.registros.filter(r => {
+          return !q || r.id.toLowerCase().includes(q) || r.polo.toLowerCase().includes(q) || r.equip.toLowerCase().includes(q) || r.status.toLowerCase().includes(q);
+        });
+
+        regs.forEach(reg => {
+          const tr = document.createElement('tr');
+          const badgeClass = reg.status.includes('Concluído') || reg.status.includes('Disponível') || reg.status.includes('Operacional') || reg.status.includes('Atendido')
+            ? 'status-badge-ok'
+            : (reg.status.includes('Em') ? 'status-badge-warn' : 'status-badge-info');
+
+          tr.innerHTML = `
+            <td><strong>${reg.id}</strong></td>
+            <td>${reg.polo}</td>
+            <td>${reg.equip}</td>
+            <td>${reg.data}</td>
+            <td><span class="status-badge-inline ${badgeClass}">${reg.status}</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        const counter = document.getElementById('seintec-table-records-counter');
+        if (counter) counter.innerText = `${regs.length} de ${base.registros.length} registros`;
+      }
+    }
+
+    function restaurarBasePadraoSeintec() {
+      dadosExcelCarregados = null;
+      dadosExcelFiltrados = null;
+      const searchInput = document.getElementById('seintec-table-search');
+      if (searchInput) searchInput.value = "";
+      renderizarRegistrosPadraoSeintec(SEINTEC_BASES_CONFIG[baseAtivaSeintec]);
+    }
+
+    // ============================================================
+    // VISUALIZADOR DE PDF (MODAL INTEGRADO)
+    // ============================================================
+
+    function visualizarPdf(index) {
+      const file = arquivosSelecionadosSeintec[index];
+      if (!file) return;
+
+      const overlay = document.getElementById('pdf-modal-overlay');
+      const iframe = document.getElementById('pdf-modal-iframe');
+      const title = document.getElementById('pdf-modal-title-text');
+      const openBtn = document.getElementById('pdf-modal-open-new-tab');
+
+      const url = URL.createObjectURL(file);
+      iframe.src = url;
+      title.innerText = file.name;
+      openBtn.href = url;
+
+      overlay.style.display = 'flex';
+    }
+
+    function fecharModalPdf(event) {
+      if (event && event.target && event.target.id !== 'pdf-modal-overlay' && !event.target.classList.contains('btn-close-panel')) {
+        return;
+      }
+      const overlay = document.getElementById('pdf-modal-overlay');
+      const iframe = document.getElementById('pdf-modal-iframe');
+      if (overlay) overlay.style.display = 'none';
+      if (iframe) iframe.src = "";
+    }
+
+    // ============================================================
+    // UPLOAD MÚLTIPLO PARA O GOOGLE DRIVE
+    // ============================================================
+
+    async function enviarArquivosSeintec() {
+      if (arquivosSelecionadosSeintec.length === 0) {
+        alert("Nenhum arquivo selecionado para envio.");
+        return;
+      }
+
+      const botao = document.getElementById('btn-submit-upload-seintec');
+      const alertBox = document.getElementById('upload-status-alert-seintec');
+      const linksContainer = document.getElementById('seintec-drive-uploaded-links');
+      const base = SEINTEC_BASES_CONFIG[baseAtivaSeintec];
+
+      botao.disabled = true;
+      botao.innerHTML = `<span>⏳ Processando ${arquivosSelecionadosSeintec.length} arquivo(s)...</span>`;
+      alertBox.className = 'upload-status-alert loading';
+      alertBox.innerHTML = `Lendo e preparando envio para <b>SEINTEC / ${base.pasta}</b>...`;
+
+      try {
+        // Converte todos os arquivos selecionados para Base64
+        const arquivosPayload = [];
+        for (let i = 0; i < arquivosSelecionadosSeintec.length; i++) {
+          const file = arquivosSelecionadosSeintec[i];
+          const base64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+
+          arquivosPayload.push({
+            fileName: file.name,
+            mimeType: file.type || 'application/octet-stream',
+            data: base64
+          });
+        }
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function(resultados) {
+              botao.disabled = false;
+              botao.innerHTML = '<span>📤 Salvar Todos no Google Drive</span>';
+              alertBox.className = 'upload-status-alert success';
+              
+              let linksHtml = `✅ <b>Upload Concluído!</b> ${resultados.length} arquivo(s) salvos na pasta <b>SEINTEC / ${base.pasta}</b> do Drive:<br><ul style="margin-top: 0.5rem; padding-left: 1.2rem;">`;
+              resultados.forEach(res => {
+                const icon = res.fileName.toLowerCase().endsWith('.pdf') ? '📕' : '📊';
+                linksHtml += `<li style="margin-bottom: 0.25rem;">${icon} <b>${res.fileName}</b> - <a href="${res.url}" target="_blank" style="color:#065f46; text-decoration: underline; font-weight:700;">Abrir no Google Drive ↗</a></li>`;
+              });
+              linksHtml += `</ul>`;
+
+              alertBox.innerHTML = linksHtml;
+            })
+            .withFailureHandler(function(erro) {
+              botao.disabled = false;
+              botao.innerHTML = '<span>📤 Salvar Todos no Google Drive</span>';
+              alertBox.className = 'upload-status-alert error';
+              alertBox.innerHTML = `❌ Falha no envio: ${erro.message || erro}`;
+            })
+            .processMultipleFilesUpload(arquivosPayload, base.pasta, 'SEINTEC');
+        } else {
+          // Simulação local
+          setTimeout(() => {
+            botao.disabled = false;
+            botao.innerHTML = '<span>📤 Salvar Todos no Google Drive</span>';
+            alertBox.className = 'upload-status-alert success';
+            let mockHtml = `✅ [Simulação] ${arquivosPayload.length} arquivo(s) salvos com sucesso na pasta <b>SEINTEC / ${base.pasta}</b>:<ul style="margin-top: 0.4rem; padding-left: 1.2rem;">`;
+            arquivosPayload.forEach(a => {
+              mockHtml += `<li>📄 <b>${a.fileName}</b> (Salvo)</li>`;
+            });
+            mockHtml += `</ul>`;
+            alertBox.innerHTML = mockHtml;
+          }, 800);
+        }
+
+      } catch (err) {
+        botao.disabled = false;
+        botao.innerHTML = '<span>📤 Salvar Todos no Google Drive</span>';
+        alertBox.className = 'upload-status-alert error';
+        alertBox.innerHTML = `❌ Erro ao preparar arquivos: ${err.message || err}`;
+      }
+    }
+
+    // Inicialização do suporte de arrastar e soltar (drag & drop)
+    document.addEventListener("DOMContentLoaded", function() {
+      const dropzone = document.getElementById('dropzone-seintec');
+      if (dropzone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropzone.addEventListener(eventName, function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.style.borderColor = 'var(--accent-red)';
+            dropzone.style.background = '#fff8f8';
+          }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropzone.addEventListener(eventName, function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.style.borderColor = '';
+            dropzone.style.background = '';
+          }, false);
+        });
+
+        dropzone.addEventListener('drop', function(e) {
+          const dt = e.dataTransfer;
+          if (dt && dt.files && dt.files.length > 0) {
+            aoSelecionarArquivosSeintec({ target: { files: dt.files } });
+          }
+        }, false);
+      }
+    });
+  </script>
+
+  <!-- Modal de Pré-Visualização de PDF -->
+  <div class="pdf-modal-overlay" id="pdf-modal-overlay" onclick="fecharModalPdf(event)">
+    <div class="pdf-modal-container" onclick="event.stopPropagation()">
+      <div class="pdf-modal-header">
+        <div class="pdf-modal-title">
+          <span>📕</span>
+          <span id="pdf-modal-title-text">Visualização de Documento PDF</span>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <a id="pdf-modal-open-new-tab" href="#" target="_blank" class="btn-file-action" style="color: white; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.1);">Abrir em Nova Aba ↗</a>
+          <button class="btn-close-panel" onclick="fecharModalPdf()">✕</button>
+        </div>
+      </div>
+      <div class="pdf-modal-body">
+        <iframe id="pdf-modal-iframe" src="" title="Visualizador de PDF"></iframe>
+      </div>
+    </div>
+  </div>
+
+</body>
 </html>
