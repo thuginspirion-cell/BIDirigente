@@ -1568,29 +1568,52 @@ function imprimirAgendaCarro() {
       width: 20px;
     }
 
-    /* Ícones de Letra dos Centros na Sidebar */
-    .centro-letter-badge {
-      width: 22px;
-      height: 22px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.08);
-      color: #e2e8f0;
-      font-size: 0.72rem;
-      font-weight: 800;
+    /* Ícones Oficiais dos Centros na Sidebar (Substituindo letras por insígnias) */
+    .centro-icon-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      transition: all 0.22s ease-in-out;
+    }
+
+    .nav-item-btn:hover .centro-icon-badge {
+      background: linear-gradient(135deg, rgba(212, 130, 8, 0.3) 0%, rgba(240, 155, 12, 0.45) 100%);
+      border-color: #f09b0c;
+      transform: scale(1.12);
+      box-shadow: 0 0 12px rgba(240, 155, 12, 0.35);
+    }
+
+    .nav-item-btn.active .centro-icon-badge {
+      background: linear-gradient(135deg, #d48208 0%, #f09b0c 100%);
+      border-color: #fef08a;
+      box-shadow: 0 0 14px rgba(240, 155, 12, 0.55);
+    }
+
+    .centro-big-avatar {
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%) !important;
+      border: 2px solid #f09b0c;
+      box-shadow: 0 8px 24px rgba(11, 35, 81, 0.22), 0 0 16px rgba(240, 155, 12, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 2.2rem;
+      color: #ffffff;
+      flex-shrink: 0;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
-    .nav-item-btn:hover .centro-letter-badge {
-      background: var(--brand-gold);
-      color: white;
-    }
-
-    .nav-item-btn.active .centro-letter-badge {
-      background: #ffffff;
-      color: #0b2351;
-      font-weight: 800;
+    .centro-big-avatar:hover {
+      transform: scale(1.06) rotate(2deg);
+      border-color: #fef08a;
     }
 
     .sidebar-footer {
@@ -3587,10 +3610,10 @@ function imprimirAgendaCarro() {
     /* Item Ativo da Sidebar com Destaque Coral/Vinho do Print */
     .nav-item-btn#side-btn-gestao.active,
     .nav-item-btn#side-btn-agenda.active {
-      background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+      background: linear-gradient(135deg, #d48208 0%, #f09b0c 100%) !important;
       color: #ffffff !important;
       font-weight: 700;
-      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.38) !important;
+      box-shadow: 0 4px 14px rgba(212, 130, 8, 0.35) !important;
       position: relative;
     }
     .nav-item-btn#side-btn-gestao.active::after,
@@ -3736,7 +3759,7 @@ function imprimirAgendaCarro() {
     }
 
     .btn-gestao-open-agenda {
-      background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);
+      background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1px solid #f09b0c; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.25);
       color: #ffffff;
       border: none;
       padding: 0.6rem 1.25rem;
@@ -3747,12 +3770,12 @@ function imprimirAgendaCarro() {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.4);
+      box-shadow: 0 4px 14px rgba(212, 130, 8, 0.35);
       transition: var(--transition);
     }
     .btn-gestao-open-agenda:hover {
       background: linear-gradient(135deg, #be123c 0%, #e11d48 100%);
-      box-shadow: 0 6px 18px rgba(225, 29, 72, 0.55);
+      box-shadow: 0 6px 18px rgba(212, 130, 8, 0.45);
       transform: translateY(-1px);
     }
 
@@ -3943,7 +3966,7 @@ function imprimirAgendaCarro() {
     }
 
     .slot-dot.ocupado {
-      background: #f43f5e;
+      background: linear-gradient(180deg, #f09b0c 0%, #d48208 100%);
       box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.22);
     }
 
@@ -4613,8 +4636,8 @@ const carroCSS = `
     /* 17. ESTILOS: CARRO OFICIAL & LOGÍSTICA DA DIRIGENTE (SEFISC)   */
     /* ============================================================== */
     .nav-item-btn#side-btn-carro.active {
-      background: linear-gradient(135deg, rgba(225, 29, 72, 0.22) 0%, rgba(225, 29, 72, 0.08) 100%) !important;
-      border-color: #f43f5e !important;
+      background: linear-gradient(135deg, rgba(212, 130, 8, 0.22) 0%, rgba(212, 130, 8, 0.08) 100%) !important;
+      border-color: #f09b0c !important;
       color: #ffffff !important;
       font-weight: 700;
     }
@@ -4625,7 +4648,7 @@ const carroCSS = `
       top: 20%;
       height: 60%;
       width: 4px;
-      background: #f43f5e;
+      background: linear-gradient(180deg, #f09b0c 0%, #d48208 100%);
       border-radius: 4px 0 0 4px;
     }
 
@@ -4646,7 +4669,7 @@ const carroCSS = `
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #e11d48 0%, #f43f5e 50%, #d48208 100%);
+      background: linear-gradient(90deg, #0b2351 0%, #1e40af 50%, #f09b0c 100%);
     }
     .carro-header-inner {
       display: flex;
@@ -4912,7 +4935,7 @@ const carroCSS = `
       border-radius: var(--radius-md);
       padding: 1.25rem 1.5rem;
       color: #ffffff;
-      border-bottom: 4px solid #e11d48;
+      border-bottom: 4px solid #d48208;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -4929,8 +4952,8 @@ const carroCSS = `
       display: inline-block;
       font-size: 0.72rem;
       font-weight: 800;
-      color: #fda4af;
-      background: rgba(225, 29, 72, 0.25);
+      color: #fef08a;
+      background: rgba(212, 130, 8, 0.28);
       padding: 0.15rem 0.55rem;
       border-radius: 4px;
       letter-spacing: 0.08em;
@@ -4964,9 +4987,9 @@ const carroCSS = `
       font-weight: 700;
     }
     .badge-sefisc-tag {
-      background: rgba(225, 29, 72, 0.2);
-      color: #fecdd3;
-      border: 1px solid rgba(225, 29, 72, 0.35);
+      background: rgba(212, 130, 8, 0.2);
+      color: #fef08a;
+      border: 1px solid rgba(240, 155, 12, 0.4);
       padding: 0.4rem 0.85rem;
       border-radius: 9999px;
       font-size: 0.8rem;
@@ -5001,8 +5024,8 @@ const carroCSS = `
       background: #f1f5f9;
     }
     .carro-subtab-btn.active {
-      color: #e11d48;
-      background: #fff1f2;
+      color: #b86e00;
+      background: #fffbeb;
       font-weight: 700;
     }
 
@@ -5327,7 +5350,7 @@ console.log('carro_styles.css created!');
         <ul class="nav-items-list">
           <li>
             <button class="nav-item-btn" id="side-btn-GAB" onclick="abrirCentro('GAB')">
-              <span class="centro-letter-badge">G</span>
+              <span class="centro-icon-badge" title="Gabinete & Assessoria Técnica">🏛️</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Assessoria Técnica</span>
                 <span class="sidebar-item-sub">Gabinete</span>
@@ -5336,7 +5359,7 @@ console.log('carro_styles.css created!');
           </li>
           <li>
             <button class="nav-item-btn" id="side-btn-SEINTEC" onclick="abrirSeintec()">
-              <span class="centro-letter-badge" style="background: var(--brand-teal); color:#fff;">T</span>
+              <span class="centro-icon-badge" title="Informações Educacionais e Tecnologia">💻</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Informações Educacionais e Tecnologia</span>
                 <span class="sidebar-item-sub">Seção de Tecnologia</span>
@@ -5345,7 +5368,7 @@ console.log('carro_styles.css created!');
           </li>
           <li>
             <button class="nav-item-btn" id="side-btn-CAF" onclick="abrirCentro('CAF')">
-              <span class="centro-letter-badge">$</span>
+              <span class="centro-icon-badge" title="Administração, Finanças e Infraestrutura">💼</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Administração e Finanças</span>
                 <span class="sidebar-item-sub">Finanças, Compras e Serviços</span>
@@ -5354,7 +5377,7 @@ console.log('carro_styles.css created!');
           </li>
           <li>
             <button class="nav-item-btn" id="side-btn-CGE" onclick="abrirCentro('CGE')">
-              <span class="centro-letter-badge">R</span>
+              <span class="centro-icon-badge" title="Gestão da Rede Escolar">🏫</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Gestão da Rede Escolar</span>
                 <span class="sidebar-item-sub">Vida Escolar, Matrícula</span>
@@ -5363,7 +5386,7 @@ console.log('carro_styles.css created!');
           </li>
           <li>
             <button class="nav-item-btn" id="side-btn-CRH" onclick="abrirCentro('CRH')">
-              <span class="centro-letter-badge">H</span>
+              <span class="centro-icon-badge" title="Recursos Humanos">👥</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Recursos Humanos</span>
                 <span class="sidebar-item-sub">Pagamento e Frequência</span>
@@ -5372,7 +5395,7 @@ console.log('carro_styles.css created!');
           </li>
           <li>
             <button class="nav-item-btn" id="side-btn-NPE" onclick="abrirCentro('NPE')">
-              <span class="centro-letter-badge">P</span>
+              <span class="centro-icon-badge" title="Núcleo Pedagógico">📚</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Núcleo Pedagógico</span>
                 <span class="sidebar-item-sub">Currículo e Formação</span>
@@ -5680,7 +5703,7 @@ console.log('carro_styles.css created!');
             <div class="kpi-cards-inner">
               <div class="kpi-mini-box">
                 <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: var(--accent-red);"></span>
+                  <span class="kpi-color-dot" style="background: var(--brand-gold);"></span>
                   <span class="kpi-big-number" id="kpi-escolas">87</span>
                 </div>
                 <span class="kpi-mini-label">Escolas na rede</span>
@@ -5748,7 +5771,7 @@ console.log('carro_styles.css created!');
         <!-- Banner do Centro Selecionado -->
         <div class="centro-banner-header">
           <div class="centro-banner-left">
-            <div class="centro-big-avatar" id="banner-centro-badge">T</div>
+            <div class="centro-big-avatar" id="banner-centro-badge">🏛️</div>
             <div class="centro-banner-titles">
               <h2 id="banner-centro-nome">CIE - Centro de Informações Educacionais e Tecnologia</h2>
               <p id="banner-centro-desc">Gestão de infraestrutura digital, suporte aos polos e sistemas escolares</p>
@@ -6651,7 +6674,7 @@ console.log('carro_styles.css created!');
         <div class="carro-header-card">
           <div class="carro-header-inner">
             <div class="carro-header-left">
-              <span class="gestao-pretitle" style="color: #e11d48;">LOGÍSTICA DA DIRIGENTE</span>
+              <span class="gestao-pretitle" style="color: #d48208;">LOGÍSTICA DA DIRIGENTE</span>
               <h2 class="gestao-main-title" style="margin-bottom: 0.35rem;">Carro Oficial</h2>
               <p class="gestao-main-desc" style="margin: 0;">
                 Deslocamentos do dia com veículo, destino, horários, motorista e registros do SEFISC.
@@ -6838,8 +6861,8 @@ console.log('carro_styles.css created!');
     const ESTRUTURA_ORGANIZACIONAL = {
       'SEINTEC': {
         sigla: 'SEINTEC',
-        letra: 'T',
-        cor: '#1e83a1',
+        icone: '💻',
+        cor: 'linear-gradient(135deg, #0b2351 0%, #1e83a1 100%)',
         nome: 'SEINTEC - Informações Educacionais e Tecnologia',
         descricao: 'Seção de Tecnologia • Demandas, atendimentos, inventário de hardware, rede, TVs/Educatrons e plataformas de recarga.',
         setores: [
@@ -6853,7 +6876,7 @@ console.log('carro_styles.css created!');
       },
       'CIE': {
         sigla: 'SEINTEC',
-        letra: 'T',
+        icone: '💻',
         cor: '#1e83a1',
         nome: 'SEINTEC - Informações Educacionais e Tecnologia',
         descricao: 'Seção de Tecnologia • Demandas, atendimentos, inventário de hardware, rede, TVs/Educatrons e plataformas de recarga.',
@@ -6863,8 +6886,8 @@ console.log('carro_styles.css created!');
       },
       'CAF': {
         sigla: 'CAF',
-        letra: '$',
-        cor: '#10b981',
+        icone: '💼',
+        cor: 'linear-gradient(135deg, #0b2351 0%, #0284c7 100%)',
         nome: 'CAF - Centro de Administração, Finanças e Infraestrutura',
         descricao: 'Gestão orçamentária, obras, suprimentos e infraestrutura física da Região de Itapevi.',
         setores: [
@@ -6875,8 +6898,8 @@ console.log('carro_styles.css created!');
       },
       'CGE': {
         sigla: 'CGE',
-        letra: 'R',
-        cor: '#f59e0b',
+        icone: '🏫',
+        cor: 'linear-gradient(135deg, #0b2351 0%, #d48208 100%)',
         nome: 'CGE - Centro de Gestão da Rede Escolar',
         descricao: 'Articulação territorial, supervisão de ensino e expansão da rede estadual.',
         setores: [
@@ -6886,8 +6909,8 @@ console.log('carro_styles.css created!');
       },
       'GAB': {
         sigla: 'GAB',
-        letra: 'G',
-        cor: '#0b2351',
+        icone: '🏛️',
+        cor: 'linear-gradient(135deg, #07152f 0%, #133979 100%)',
         nome: 'Gabinete da Dirigente & Assessoria Técnica',
         descricao: 'Direção executiva, assessoria jurídica, técnica e relações institucionais.',
         setores: [
@@ -6898,7 +6921,7 @@ console.log('carro_styles.css created!');
       },
       'CRH': {
         sigla: 'CRH',
-        letra: 'H',
+        icone: '👥',
         cor: '#8b5cf6',
         nome: 'CRH - Centro de Recursos Humanos',
         descricao: 'Quadro docente, evolução funcional, modulação escolar e pagamentos.',
@@ -6909,7 +6932,7 @@ console.log('carro_styles.css created!');
       },
       'NPE': {
         sigla: 'NPE',
-        letra: 'P',
+        icone: '📚',
         cor: '#06b6d4',
         nome: 'NPE - Núcleo Pedagógico Regional',
         descricao: 'Formação continuada, avaliações SARESP e projetos educacionais.',
@@ -6997,7 +7020,7 @@ console.log('carro_styles.css created!');
       if (!centro) return;
 
       // Atualiza Header do Centro
-      document.getElementById('banner-centro-badge').innerText = centro.letra;
+      document.getElementById('banner-centro-badge').innerHTML = centro.icone || '🏛️';
       document.getElementById('banner-centro-badge').style.background = centro.cor;
       document.getElementById('banner-centro-nome').innerText = centro.nome;
       document.getElementById('banner-centro-desc').innerText = centro.descricao;
@@ -8439,7 +8462,7 @@ console.log('carro_styles.css created!');
 
         <div class="agenda-modal-footer">
           <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1;" onclick="fecharModalAgenda()">Cancelar</button>
-          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);">
+          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1px solid #f09b0c; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.25);">
             <span>Salvar na Agenda</span>
           </button>
         </div>
@@ -8453,7 +8476,7 @@ console.log('carro_styles.css created!');
     <div class="agenda-modal-card" style="max-width: 620px;">
       <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%);">
         <div>
-          <span style="font-size: 0.72rem; font-weight: 800; color: #fda4af; letter-spacing: 0.05em; text-transform: uppercase;">GABINETE & SEFISC</span>
+          <span style="font-size: 0.72rem; font-weight: 800; color: #fef08a; letter-spacing: 0.05em; text-transform: uppercase;">GABINETE & SEFISC</span>
           <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Solicitar Reserva de Carro Oficial</h3>
         </div>
         <button type="button" class="agenda-modal-close" onclick="fecharModalCarro()">✕</button>
@@ -8518,7 +8541,7 @@ console.log('carro_styles.css created!');
 
         <div class="agenda-modal-footer">
           <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1;" onclick="fecharModalCarro()">Cancelar</button>
-          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);">
+          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1px solid #f09b0c; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.25);">
             <span>Confirmar Solicitação</span>
           </button>
         </div>
