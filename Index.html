@@ -16,26 +16,47 @@
 
   <style>
     :root {
-      /* Paleta do Tema Executivo (Baseada no Print Oficial) */
-      --bg-body: #f1f5f9;
-      --bg-sidebar: #091124;
-      --bg-sidebar-hover: #132244;
-      --sidebar-text: #94a3b8;
-      --sidebar-heading: #475569;
-      --accent-red: #c81e3d;
-      --accent-red-hover: #b01431;
-      --accent-red-soft: rgba(200, 30, 61, 0.12);
-      --primary-navy: #0e2042;
-      --primary-navy-light: #163266;
+      /* ============================================================== */
+      /* IDENTIDADE VISUAL OFICIAL: URE ITAPEVI (BRASÃO REGIONAL)       */
+      /* ============================================================== */
+      /* Tons Principais: Azul Marinho Institucional & Ouro Nobre/Âmbar */
+      --brand-navy: #0b2351;
+      --brand-navy-deep: #07152f;
+      --brand-navy-light: #133979;
+      --brand-gold: #d48208;
+      --brand-gold-bright: #f09b0c;
+      --brand-gold-hover: #b86e00;
+      --brand-gold-soft: rgba(240, 155, 12, 0.14);
+      --brand-teal: #1e83a1;
+      --brand-teal-dark: #125468;
+      --brand-teal-soft: rgba(30, 131, 161, 0.12);
+
+      /* Superfícies & Layout Executivo */
+      --bg-body: #f4f6fa;
+      --bg-sidebar: #07152f;
+      --bg-sidebar-hover: #0d2246;
+      --sidebar-text: #9cb0cb;
+      --sidebar-heading: #5c759a;
+      --primary-navy: #0b2351;
+      --primary-navy-light: #133979;
+
+      /* Acentos de Destaque & Compatibilidade */
+      --accent-gold: #d48208;
+      --accent-gold-hover: #b86e00;
+      --accent-gold-soft: rgba(240, 155, 12, 0.14);
+      --accent-red: #d48208;
+      --accent-red-hover: #b86e00;
+      --accent-red-soft: rgba(240, 155, 12, 0.14);
+
       --card-bg: #ffffff;
       --border-color: #e2e8f0;
-      --border-dark: #1e293b;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
+      --border-dark: #1a2a46;
+      --text-main: #0b1e3b;
+      --text-muted: #5e718d;
       --text-light: #94a3b8;
       --success: #10b981;
       --success-soft: #ecfdf5;
-      --warning: #f59e0b;
+      --warning: #f09b0c;
       --warning-soft: #fffbeb;
       --radius-sm: 6px;
       --radius-md: 10px;
@@ -80,40 +101,77 @@
     }
 
     .sidebar-header {
-      padding: 1.25rem 1.2rem;
+      padding: 1.25rem 1.15rem;
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      gap: 0.85rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+    }
+
+    .sidebar-brand-crest {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), 0 0 0 1.5px rgba(240, 155, 12, 0.4);
+      padding: 3px;
+      flex-shrink: 0;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .sidebar-brand-crest:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(240, 155, 12, 0.45), 0 0 0 2px var(--brand-gold-bright);
+    }
+
+    .sidebar-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
 
     .sidebar-badge-logo {
-      background: #1e293b;
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 0.85rem;
-      padding: 0.45rem 0.65rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      letter-spacing: 0.05em;
+      display: none;
     }
 
     .sidebar-header-titles {
       display: flex;
       flex-direction: column;
       flex: 1;
+      min-width: 0;
     }
 
     .sidebar-header-titles h2 {
-      font-size: 0.95rem;
-      font-weight: 700;
+      font-size: 0.96rem;
+      font-weight: 800;
       color: #ffffff;
-      line-height: 1.2;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .sidebar-header-titles span {
-      font-size: 0.72rem;
+    .sidebar-header-titles .sidebar-sub {
+      font-size: 0.67rem;
+      font-weight: 700;
+      color: var(--brand-gold-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+
+    .sidebar-header-titles .sidebar-tag {
+      font-size: 0.70rem;
       color: var(--sidebar-text);
+      line-height: 1.2;
     }
 
     .sidebar-collapse-btn {
@@ -170,11 +228,12 @@
       color: #ffffff;
     }
 
-    /* Item Ativo com Vermelho Carmesim Oficial */
+    /* Item Ativo com Ouro Nobre Oficial URE Itapevi */
     .nav-item-btn.active {
-      background: linear-gradient(135deg, var(--accent-red) 0%, #a81532 100%);
+      background: linear-gradient(135deg, #f09b0c 0%, #c77800 100%);
       color: #ffffff;
-      box-shadow: 0 2px 8px rgba(200, 30, 61, 0.35);
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(240, 155, 12, 0.35);
     }
 
     .nav-item-icon {
@@ -200,13 +259,14 @@
     }
 
     .nav-item-btn:hover .centro-letter-badge {
-      background: var(--accent-red);
+      background: var(--brand-gold);
       color: white;
     }
 
     .nav-item-btn.active .centro-letter-badge {
-      background: white;
-      color: var(--accent-red);
+      background: #ffffff;
+      color: #0b2351;
+      font-weight: 800;
     }
 
     .sidebar-footer {
@@ -233,15 +293,16 @@
       overflow-y: auto;
     }
 
-    /* TOPBAR SUPERIOR (COM ACESSOS RÁPIDOS & STATUS DRIVE) */
+    /* TOPBAR SUPERIOR (COM IDENTIDADE OFICIAL & STATUS DRIVE) */
     .topbar {
-      background: #0b152d;
+      background: linear-gradient(180deg, #091738 0%, #061129 100%);
       color: white;
-      padding: 0.75rem 2rem;
+      padding: 0.85rem 2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 2px solid rgba(240, 155, 12, 0.35);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
       flex-wrap: wrap;
       gap: 1rem;
     }
@@ -249,27 +310,64 @@
     .topbar-left {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
+      gap: 0.95rem;
     }
 
-    .topbar-badge-ure {
-      background: #1e293b;
-      font-size: 0.75rem;
-      font-weight: 800;
-      padding: 0.35rem 0.6rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+    .topbar-brand-crest {
+      width: 44px;
+      height: 44px;
+      border-radius: 9px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(240, 155, 12, 0.35);
+      flex-shrink: 0;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .topbar-brand-crest:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 14px rgba(240, 155, 12, 0.4);
+    }
+
+    .topbar-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
 
     .topbar-title-wrap h1 {
-      font-size: 0.95rem;
-      font-weight: 700;
+      font-size: 1.02rem;
+      font-weight: 800;
       letter-spacing: -0.01em;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin: 0;
+    }
+
+    .topbar-badge-pill {
+      font-size: 0.62rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, rgba(240, 155, 12, 0.25) 0%, rgba(240, 155, 12, 0.08) 100%);
+      color: var(--brand-gold-bright);
+      border: 1px solid rgba(240, 155, 12, 0.4);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
 
     .topbar-title-wrap span {
-      font-size: 0.72rem;
-      color: #94a3b8;
+      font-size: 0.73rem;
+      color: #a5b7d0;
+      display: block;
+      margin-top: 2px;
     }
 
     .topbar-right-group {
@@ -383,10 +481,10 @@
     }
 
     /* ========================================= */
-    /* 4. HERO BANNER EXECUTIVO (DO PRINT) */
+    /* 4. HERO BANNER EXECUTIVO COM BRASÃO OFICIAL */
     /* ========================================= */
     .executive-hero {
-      background: linear-gradient(135deg, #09132b 0%, #0e2042 60%, #17346b 100%);
+      background: linear-gradient(135deg, #061129 0%, #0b2351 60%, #133979 100%);
       color: #ffffff;
       border-radius: var(--radius-md);
       position: relative;
@@ -395,7 +493,7 @@
       display: flex;
       justify-content: space-between;
       box-shadow: var(--shadow-md);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(240, 155, 12, 0.22);
     }
 
     .executive-hero-left {
@@ -408,10 +506,12 @@
       font-size: 0.68rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #f43f5e;
+      letter-spacing: 0.12em;
+      color: var(--brand-gold-bright);
       margin-bottom: 0.6rem;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
     .hero-main-title {
@@ -431,16 +531,16 @@
 
     .executive-hero-right {
       position: relative;
-      width: 420px;
+      width: 440px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       padding-right: 2.5rem;
-      background: linear-gradient(90deg, #09132b 0%, rgba(14, 32, 66, 0.4) 30%, transparent 100%),
-                  radial-gradient(circle at right, rgba(200, 30, 61, 0.15) 0%, transparent 60%);
+      background: linear-gradient(90deg, #061129 0%, rgba(11, 35, 81, 0.4) 30%, transparent 100%),
+                  radial-gradient(circle at right, rgba(240, 155, 12, 0.18) 0%, transparent 65%);
     }
 
-    /* Faixa diagonal decorativa */
+    /* Faixa diagonal decorativa em ouro nobre */
     .executive-hero-right::before {
       content: '';
       position: absolute;
@@ -448,13 +548,51 @@
       left: 0;
       bottom: 0;
       width: 40px;
-      background: linear-gradient(to bottom right, transparent 50%, #c81e3d 50%, #c81e3d 55%, transparent 55%);
-      opacity: 0.7;
+      background: linear-gradient(to bottom right, transparent 50%, #f09b0c 50%, #f09b0c 55%, transparent 55%);
+      opacity: 0.85;
+    }
+
+    /* Selo / Marca d'água no Hero Banner */
+    .hero-crest-watermark {
+      position: absolute;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 175px;
+      height: 175px;
+      opacity: 0.14;
+      pointer-events: none;
+      filter: drop-shadow(0 0 10px rgba(240, 155, 12, 0.6));
+      transition: opacity 0.3s ease;
+    }
+
+    .executive-hero:hover .hero-crest-watermark {
+      opacity: 0.22;
+    }
+
+    .hero-crest-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     .hero-quote-box {
       z-index: 2;
       text-align: right;
+    }
+
+    .hero-quote-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--brand-gold-bright);
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+      background: rgba(240, 155, 12, 0.15);
+      border: 1px solid rgba(240, 155, 12, 0.3);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
     }
 
     .hero-quote-title {
@@ -471,9 +609,9 @@
     }
 
     .hero-quote-bar {
-      width: 45px;
+      width: 48px;
       height: 3px;
-      background: var(--accent-red);
+      background: linear-gradient(90deg, #c77800 0%, #f09b0c 100%);
       margin-left: auto;
       margin-top: 0.6rem;
       border-radius: var(--radius-sm);
@@ -2024,12 +2162,13 @@
       }
     }
 
-    .seintec-card-blue { border-top: 3.5px solid #2563eb !important; }
-    .seintec-card-red { border-top: 3.5px solid #c81e3d !important; }
-    .seintec-card-lightblue { border-top: 3.5px solid #3b82f6 !important; }
-    .seintec-card-crimson { border-top: 3.5px solid #b91c1c !important; }
+    .seintec-card-blue { border-top: 3.5px solid #0b2351 !important; }
+    .seintec-card-red { border-top: 3.5px solid #f09b0c !important; }
+    .seintec-card-gold { border-top: 3.5px solid #f09b0c !important; }
+    .seintec-card-lightblue { border-top: 3.5px solid #1e83a1 !important; }
+    .seintec-card-crimson { border-top: 3.5px solid #b86e00 !important; }
     .seintec-card-amber { border-top: 3.5px solid #d97706 !important; }
-    .seintec-card-teal { border-top: 3.5px solid #059669 !important; }
+    .seintec-card-teal { border-top: 3.5px solid #1e83a1 !important; }
 
     .seintec-card-subtag {
       font-size: 0.71rem;
@@ -2111,12 +2250,15 @@
   <!-- ============================================== -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <div class="sidebar-badge-logo">Itapevi</div>
+      <div class="sidebar-brand-crest" onclick="mostrarHome()" title="Unidade Regional de Ensino de Itapevi">
+        <img src="logo_ure_itapevi_480.png" class="brand-logo-img sidebar-logo-img" alt="Brasão URE Itapevi">
+      </div>
       <div class="sidebar-header-titles">
         <h2>URE Itapevi</h2>
-        <span>BI da Dirigente</span>
+        <span class="sidebar-sub">Regional de Ensino</span>
+        <span class="sidebar-tag">BI da Dirigente</span>
       </div>
-      <button class="sidebar-collapse-btn">◀</button>
+      <button class="sidebar-collapse-btn" title="Recolher barra lateral">◀</button>
     </div>
 
     <nav class="sidebar-nav">
@@ -2190,7 +2332,7 @@
           </li>
           <li>
             <button class="nav-item-btn" id="side-btn-SEINTEC" onclick="abrirSeintec()">
-              <span class="centro-letter-badge" style="background:#c81e3d; color:#fff;">T</span>
+              <span class="centro-letter-badge" style="background: var(--brand-teal); color:#fff;">T</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Informações Educacionais e Tecnologia</span>
                 <span class="sidebar-item-sub">Seção de Tecnologia</span>
@@ -2248,13 +2390,18 @@
   <!-- ============================================== -->
   <main class="main-content">
 
-    <!-- TOPBAR SUPERIOR COM ACESSOS OFICIAIS -->
+    <!-- TOPBAR SUPERIOR COM ACESSOS OFICIAIS & BRASÃO -->
     <header class="topbar">
       <div class="topbar-left">
-        <div class="topbar-badge-ure">Itapevi</div>
+        <div class="topbar-brand-crest" onclick="mostrarHome()" title="URE Itapevi - Unidade Regional de Ensino">
+          <img src="logo_ure_itapevi_480.png" class="brand-logo-img topbar-logo-img" alt="Logo URE Itapevi">
+        </div>
         <div class="topbar-title-wrap">
-          <h1>Unidade Regional de Ensino de Itapevi</h1>
-          <span>BI da Dirigente - gestão da rede escolar</span>
+          <h1>
+            Unidade Regional de Ensino de Itapevi
+            <span class="topbar-badge-pill">SEDUC-SP</span>
+          </h1>
+          <span>BI da Dirigente • Gestão Estratégica da Rede Escolar</span>
         </div>
       </div>
 
@@ -2294,17 +2441,21 @@
       <!-- ============================================== -->
       <section id="pane-home" class="view-pane active">
 
-        <!-- HERO BANNER EXECUTIVO -->
+        <!-- HERO BANNER EXECUTIVO COM BRASÃO OFICIAL -->
         <div class="executive-hero">
           <div class="executive-hero-left">
-            <span class="hero-pretitle">PAINEL EXECUTIVO</span>
+            <span class="hero-pretitle">⭐ PAINEL EXECUTIVO • URE ITAPEVI</span>
             <h2 class="hero-main-title">Gestão que transforma realidades</h2>
             <p class="hero-main-desc">
               Acompanhe indicadores, identifique prioridades e fortaleça a rede de ensino de Itapevi e região.
             </p>
           </div>
           <div class="executive-hero-right">
+            <div class="hero-crest-watermark">
+              <img src="logo_ure_itapevi_480.png" class="brand-logo-img hero-crest-img" alt="Marca D'água URE Itapevi">
+            </div>
             <div class="hero-quote-box">
+              <div class="hero-quote-badge">DIRETORIA REGIONAL DE ENSINO</div>
               <div class="hero-quote-title">Educação que conecta</div>
               <div class="hero-quote-sub">pessoas e territórios.</div>
               <div class="hero-quote-bar"></div>
@@ -2395,7 +2546,7 @@
           <!-- CENTRO 1: SEINTEC -->
           <div class="centro-card" onclick="abrirSeintec()">
             <div class="centro-card-top">
-              <div class="centro-card-badge" style="background: #c81e3d;">T</div>
+              <div class="centro-card-badge" style="background: var(--brand-teal);">T</div>
               <span class="centro-status-pill">Tecnologia & Dados</span>
             </div>
             <h3 class="centro-title">SEINTEC</h3>
@@ -2453,7 +2604,7 @@
           <!-- CENTRO 4: GAB -->
           <div class="centro-card" onclick="abrirCentro('GAB')">
             <div class="centro-card-top">
-              <div class="centro-card-badge" style="background: #c81e3d;">G</div>
+              <div class="centro-card-badge" style="background: var(--brand-navy); border: 1.5px solid var(--brand-gold);">G</div>
               <span class="centro-status-pill">Gabinete Dirigente</span>
             </div>
             <h3 class="centro-title">Gabinete & AT</h3>
@@ -3177,7 +3328,7 @@
               <span>📋</span> Registros da Base <span id="badge-contador-registros" style="font-size: 0.72rem; opacity: 0.85; margin-left: 0.3rem;"></span>
             </button>
             <button class="detail-tab-btn" id="tab-btn-seintec-upload" onclick="alternarAbaSeintec('upload')">
-              <span>📤</span> Upload Múltiplo (Excel & PDF) <span id="badge-contador-arquivos" style="display:none; background: #c81e3d; color: white; padding: 0.1rem 0.4rem; border-radius: 10px; font-size: 0.7rem; margin-left: 0.3rem;"></span>
+              <span>📤</span> Upload Múltiplo (Excel & PDF) <span id="badge-contador-arquivos" style="display:none; background: var(--brand-gold); color: white; padding: 0.1rem 0.4rem; border-radius: 10px; font-size: 0.7rem; margin-left: 0.3rem;"></span>
             </button>
           </div>
 
@@ -3287,12 +3438,32 @@
   <!-- 3. LÓGICA JAVASCRIPT HÍBRIDA & HIERARQUIA -->
   <!-- ============================================== -->
   <script>
+    // === IDENTIDADE VISUAL & BRASÃO OFICIAL URE ITAPEVI ===
+    
+
+    function aplicarIdentidadeVisual() {
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run.withSuccessHandler(function(dataUri) {
+          if (dataUri) {
+            document.querySelectorAll('.brand-logo-img').forEach(function(img) {
+              img.src = dataUri;
+            });
+          }
+        }).getLogoDataUri();
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aplicarIdentidadeVisual);
+    } else {
+      aplicarIdentidadeVisual();
+    }
+
     // Estrutura Hierárquica: CENTROS -> SETORES
     const ESTRUTURA_ORGANIZACIONAL = {
       'SEINTEC': {
         sigla: 'SEINTEC',
         letra: 'T',
-        cor: '#c81e3d',
+        cor: '#1e83a1',
         nome: 'SEINTEC - Informações Educacionais e Tecnologia',
         descricao: 'Seção de Tecnologia • Demandas, atendimentos, inventário de hardware, rede, TVs/Educatrons e plataformas de recarga.',
         setores: [
@@ -3307,7 +3478,7 @@
       'CIE': {
         sigla: 'SEINTEC',
         letra: 'T',
-        cor: '#c81e3d',
+        cor: '#1e83a1',
         nome: 'SEINTEC - Informações Educacionais e Tecnologia',
         descricao: 'Seção de Tecnologia • Demandas, atendimentos, inventário de hardware, rede, TVs/Educatrons e plataformas de recarga.',
         setores: [
@@ -3340,7 +3511,7 @@
       'GAB': {
         sigla: 'GAB',
         letra: 'G',
-        cor: '#c81e3d',
+        cor: '#0b2351',
         nome: 'Gabinete da Dirigente & Assessoria Técnica',
         descricao: 'Direção executiva, assessoria jurídica, técnica e relações institucionais.',
         setores: [
