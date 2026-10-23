@@ -1,0 +1,5 @@
+.git/**
+README.md
+.clasp.json
+.claspignore
+gh-pages-redirect/**
