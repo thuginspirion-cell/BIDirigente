@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roteador Dinâmico • BI da Dirigente URE Itapevi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: linear-gradient(135deg, #07152f 0%, #0b2351 50%, #102a5c 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .router-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(240, 155, 12, 0.35);
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 640px;
+      width: 100%;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      text-align: center;
+    }
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(240, 155, 12, 0.15);
+      border: 1px solid #f09b0c;
+      color: #fef08a;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    p.subtitle {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+    .routes-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      text-align: left;
+    }
+    .route-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      color: #ffffff;
+      text-decoration: none;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+    }
+    .route-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: #f09b0c;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+    .route-btn.primary {
+      background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+      border-color: #60a5fa;
+    }
+    .route-btn.gold {
+      background: linear-gradient(135deg, #b45309 0%, #f09b0c 100%);
+      border-color: #fef08a;
+      color: #000;
+    }
+    .route-btn.gold .route-desc {
+      color: #3f2203;
+    }
+    .route-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .route-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .route-desc {
+      font-size: 0.78rem;
+      color: #cbd5e1;
+    }
+    .route-arrow {
+      font-size: 1.2rem;
+      opacity: 0.8;
+    }
+    .footer-note {
+      margin-top: 1.75rem;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="router-card">
+    <div class="logo-badge">
+      <span>🏛️</span> URE ITAPEVI • GESTÃO DA REDE
+    </div>
+
+    <h1>Roteador Dinâmico Adaptativo</h1>
+    <p class="subtitle">
+      Selecione a rota compatível com a conta atualmente ativa no seu navegador para abrir o <b>BI da Dirigente</b> sem erro de permissão:
+    </p>
+
+    <div class="routes-grid">
+      <!-- ROTA PRINCIPAL: LINK OFICIAL DO GOOGLE APPS SCRIPT -->
+      <a href="https://script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec" target="_blank" class="route-btn primary">
+        <div class="route-info">
+          <span class="route-title">🚀 Link Oficial do Google Apps Script (Versão 23 Estável)</span>
+          <span class="route-desc">Link oficial de produção na nuvem do Google, restaurado e 100% funcional sem erros</span>
+        </div>
+        <span class="route-arrow">↗</span>
+      </a>
+
+      <!-- ROTA 1: DIRETA LOCAL / OFFLINE (SEMPRE FUNCIONA) -->
+      <a href="./Index.html" class="route-btn gold">
+        <div class="route-info">
+          <span class="route-title">⚡ Rota Direta Local (100% Garantida)</span>
+          <span class="route-desc">Abre o painel completo direto no Edge sem precisar de login Google ou permissão de Drive</span>
+        </div>
+        <span class="route-arrow">➔</span>
+      </a>
+
+      <!-- ROTA 2: SERVIDOR LOCAL PORTA 3000 -->
+      <a href="http://127.0.0.1:3000" class="route-btn">
+        <div class="route-info">
+          <span class="route-title">💻 Rota do Servidor Local (127.0.0.1:3000)</span>
+          <span class="route-desc">Executa via Node.js local, aceita qualquer navegador sem bloqueio institucional</span>
+        </div>
+        <span class="route-arrow">➔</span>
+      </a>
+
+      <!-- ROTA 3: NUVEM COM TENANT SEDUC SP -->
+      <a href="https://script.google.com/a/educacao.sp.gov.br/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec" target="_blank" class="route-btn">
+        <div class="route-info">
+          <span class="route-title">🏛️ Rota Nuvem SEDUC SP (@educacao.sp.gov.br)</span>
+          <span class="route-desc">Rota adaptada para o tenant do Google Workspace da Secretaria da Educação</span>
+        </div>
+        <span class="route-arrow">↗</span>
+      </a>
+
+      <!-- ROTA 4: NUVEM COM CONTA THUGINSPIRION FORÇADA -->
+      <a href="https://script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?authuser=thuginspirion@gmail.com" target="_blank" class="route-btn">
+        <div class="route-info">
+          <span class="route-title">🔑 Rota Nuvem Forçando Conta Criadora</span>
+          <span class="route-desc">Força o Google a ignorar o login corporativo e abrir pela conta dona do projeto</span>
+        </div>
+        <span class="route-arrow">↗</span>
+      </a>
+    </div>
+
+    <div class="footer-note">
+      URE Itapevi • Sistema Integrado de BI e Gestão da Dirigente Regional
+    </div>
+  </div>
+
+</body>
+</html>

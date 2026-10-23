@@ -1,9 +1,9 @@
-function doGet() {
+function doGet(e) {
   return HtmlService.createTemplateFromFile('Index')
     .evaluate()
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
     .addMetaTag('viewport', 'width=device-width, initial-scale=1')
-    .setTitle('BI da Dirigente - Gestão da Rede Escolar');
+    .setTitle('BI da Dirigente - Gestão da Rede Escolar | URE Itapevi');
 }
 
 function include(filename) {

@@ -5,4 +5,8 @@ README.md
 gh-pages-redirect/**
 *.png
 *.jpg
-
+server.js
+roteador.html
+node_modules/**
+package*.json
+scratch/**
