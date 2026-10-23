@@ -12,7 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- SheetJS para Leitura Automática e Instantânea de Planilhas Excel (.xlsx, .xls, .csv) -->
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script>
     // ==============================================================
     // 16. SISTEMA INTEGRADO: MINHA GESTÃO HOJE & AGENDA DA DIRIGENTE
     // ==============================================================
@@ -5654,13 +5655,10 @@
 
 
     function mostrarHome() {
+      esconderTodasAsPanes();
       document.getElementById('pane-home').classList.add('active');
-      document.getElementById('pane-centro').classList.remove('active');
-      document.getElementById('pane-gabinete').classList.remove('active');
-      document.getElementById('pane-seintec').classList.remove('active');
-
-      document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('side-btn-home').classList.add('active');
+      atualizarBreadcrumbTopo('');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
