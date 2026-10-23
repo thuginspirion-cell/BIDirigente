@@ -101,32 +101,36 @@
     }
 
     .sidebar-header {
-      padding: 1.25rem 1.15rem;
+      padding: 1.4rem 1.15rem 1.25rem;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 0.85rem;
+      justify-content: center;
+      text-align: center;
+      gap: 0.65rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
+      position: relative;
     }
 
     .sidebar-brand-crest {
-      width: 46px;
-      height: 46px;
-      border-radius: 10px;
+      width: 86px;
+      height: 86px;
+      border-radius: 14px;
       background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), 0 0 0 1.5px rgba(240, 155, 12, 0.4);
-      padding: 3px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 0 1.5px rgba(240, 155, 12, 0.45);
+      padding: 5px;
       flex-shrink: 0;
       transition: var(--transition);
       cursor: pointer;
     }
 
     .sidebar-brand-crest:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 16px rgba(240, 155, 12, 0.45), 0 0 0 2px var(--brand-gold-bright);
+      transform: scale(1.04);
+      box-shadow: 0 6px 20px rgba(240, 155, 12, 0.5), 0 0 0 2px var(--brand-gold-bright);
     }
 
     .sidebar-logo-img {
@@ -143,43 +147,47 @@
     .sidebar-header-titles {
       display: flex;
       flex-direction: column;
-      flex: 1;
-      min-width: 0;
+      align-items: center;
+      text-align: center;
+      width: 100%;
     }
 
     .sidebar-header-titles h2 {
-      font-size: 0.96rem;
+      font-size: 1.05rem;
       font-weight: 800;
       color: #ffffff;
-      line-height: 1.15;
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .sidebar-header-titles .sidebar-sub {
-      font-size: 0.67rem;
-      font-weight: 700;
-      color: var(--brand-gold-bright);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
       line-height: 1.2;
-      margin-top: 2px;
+      letter-spacing: 0.01em;
+      margin: 0;
     }
 
     .sidebar-header-titles .sidebar-tag {
-      font-size: 0.70rem;
-      color: var(--sidebar-text);
-      line-height: 1.2;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--brand-gold-bright);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 3px;
     }
 
     .sidebar-collapse-btn {
-      background: none;
-      border: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
       color: var(--sidebar-text);
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
+      padding: 3px 6px;
+      line-height: 1;
+      transition: var(--transition);
+    }
+
+    .sidebar-collapse-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
     }
 
     .sidebar-nav {
@@ -2250,15 +2258,14 @@
   <!-- ============================================== -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <div class="sidebar-brand-crest" onclick="mostrarHome()" title="Unidade Regional de Ensino de Itapevi">
-        <img src="logo_ure_itapevi_480.png" class="brand-logo-img sidebar-logo-img" alt="Brasão URE Itapevi">
+      <button class="sidebar-collapse-btn" title="Recolher barra lateral">◀</button>
+      <div class="sidebar-brand-crest" onclick="mostrarHome()" title="URE - Itapevi">
+        <img src="logo_ure_itapevi_480.png" class="brand-logo-img sidebar-logo-img" alt="Brasão URE - Itapevi">
       </div>
       <div class="sidebar-header-titles">
-        <h2>URE Itapevi</h2>
-        <span class="sidebar-sub">Regional de Ensino</span>
+        <h2>URE - Itapevi</h2>
         <span class="sidebar-tag">BI da Dirigente</span>
       </div>
-      <button class="sidebar-collapse-btn" title="Recolher barra lateral">◀</button>
     </div>
 
     <nav class="sidebar-nav">
