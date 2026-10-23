@@ -33,7 +33,90 @@ function getConsolidatedData() {
       { id: "evt-001", horaInicio: "08:00", horaFim: "09:00", hora: "08:00", titulo: "Live Reunião", tipo: "Reunião", local: "Teams", setor: "Gabinete / URE", prioridade: "Alta", status: "Agendado", descricao: "Live Reunião com a rede e equipes gestoras escolares" },
       { id: "evt-002", horaInicio: "14:00", horaFim: "15:30", hora: "14:00", titulo: "Visita Técnica: EE Prof. José Barreto", tipo: "Visita Técnica", local: "EE Prof. José Barreto", setor: "Supervisão", prioridade: "Alta", status: "Agendado", descricao: "Acompanhamento das reformas e novos equipamentos" },
       { id: "evt-003", horaInicio: "16:00", horaFim: "17:00", hora: "16:00", titulo: "Alinhamento com SEAFIN e NOM", tipo: "Despacho Gabinete", local: "Gabinete da Dirigente", setor: "CAF", prioridade: "Normal", status: "Agendado", descricao: "Execução orçamentária e aditivos de contratos" }
-    ]
+    ],
+    carroOficial: {
+      atualizadoEm: "17/10/2026, 03:00",
+      totalRegistros: 4,
+      registros: [
+        {
+          id: "car-001",
+          data: "2026-10-17",
+          periodo: "2026-10-17 a 2026-10-17",
+          titulo: "Visita Técnica Regional: Polo Itapevi e EE Prof. José Barreto",
+          veiculo: "Chevrolet Spin 1.8 7L (Oficial)",
+          placa: "EDE-9842",
+          motorista: "Carlos Alberto da Silva",
+          solicitante: "Dirigente Regional de Ensino",
+          setor: "Gabinete / Supervisão",
+          destino: "EE Prof. José Barreto e Região Central de Itapevi",
+          horarioSaida: "08:30",
+          horarioRetorno: "16:30",
+          origemFonte: "SEFISC - Agenda",
+          tipoRegistro: "Reserva de carro oficial",
+          status: "Agendado",
+          observacoes: "Deslocamento institucional para acompanhamento pedagógico, vistoria de obras da quadra e entrega de novos equipamentos."
+        },
+        {
+          id: "car-002",
+          data: "2026-10-16",
+          periodo: "2026-10-15 a 2026-10-16",
+          titulo: "Reserva de carro oficial",
+          veiculo: "Chevrolet Spin 1.8 7L (Oficial)",
+          placa: "EDE-9842",
+          motorista: "Carlos Alberto da Silva",
+          solicitante: "Assessoria Técnica do Gabinete",
+          setor: "Gabinete",
+          destino: "SEDUC Central - Praça da República, 53 - São Paulo",
+          horarioSaida: "07:30",
+          horarioRetorno: "17:00",
+          origemFonte: "SEFISC - Agenda",
+          tipoRegistro: "Reserva de carro oficial",
+          status: "Concluído",
+          observacoes: "Entrega de termos de convênios escolares e despacho na Coordenadoria de Gestão da Educação Básica."
+        },
+        {
+          id: "car-003",
+          data: "2026-10-16",
+          periodo: "2026-10-15 a 2026-10-16",
+          titulo: "Situação do veículo: EXTERNO",
+          veiculo: "Renault Duster 1.6 (Oficial)",
+          placa: "DJK-4109",
+          motorista: "Marcos Paulo Ribeiro",
+          solicitante: "Supervisão de Ensino / SEINTEC",
+          setor: "SEINTEC",
+          destino: "Escolas Polo Itapevi e Jandira",
+          horarioSaida: "08:00",
+          horarioRetorno: "17:00",
+          origemFonte: "SEFISC - Controle de uso",
+          tipoRegistro: "Situação do veículo: EXTERNO",
+          status: "Registrado",
+          observacoes: "DIAS 15 E 16/10/2026 DAS 8 ÀS 17H. Vistoria técnica nos laboratórios de informática e conectividade escolar."
+        },
+        {
+          id: "car-004",
+          data: "2026-10-14",
+          periodo: "2026-10-14 a 2026-10-14",
+          titulo: "Entrega de Material e Suprimentos de Infraestrutura",
+          veiculo: "Fiat Fiorino 1.4 (Serviço)",
+          placa: "FGH-2231",
+          motorista: "João Mendes",
+          solicitante: "Núcleo de Obras e Manutenção - NOM / CAF",
+          setor: "CAF",
+          destino: "EE Raul Briquet e EE Celso Pacheco",
+          horarioSaida: "09:00",
+          horarioRetorno: "15:00",
+          origemFonte: "SEFISC - Controle de uso",
+          tipoRegistro: "Transporte de Suprimentos",
+          status: "Concluído",
+          observacoes: "Distribuição complementar de materiais de apoio pedagógico e insumos de manutenção predial."
+        }
+      ],
+      frota: [
+        { modelo: "Chevrolet Spin 1.8 7L", placa: "EDE-9842", tipo: "Oficial Gabinete", motorista: "Carlos Alberto", status: "Em Uso Oficial", km: "42.150 km", combustivel: "85%" },
+        { modelo: "Renault Duster 1.6", placa: "DJK-4109", tipo: "Apoio Regional / Supervisão", motorista: "Marcos Paulo", status: "Disponível no Pátio", km: "68.320 km", combustivel: "60%" },
+        { modelo: "Fiat Fiorino 1.4", placa: "FGH-2231", tipo: "Logística / Suprimentos", motorista: "João Mendes", status: "Disponível no Pátio", km: "94.500 km", combustivel: "90%" }
+      ]
+    }
   };
 }
 

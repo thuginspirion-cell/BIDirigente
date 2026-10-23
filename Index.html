@@ -809,10 +809,523 @@
       }
     }
 
+    // ==============================================================
+// 17. SISTEMA INTEGRADO: CARRO OFICIAL & LOGÍSTICA DA DIRIGENTE
+// ==============================================================
+
+const STORAGE_KEY_CARRO = 'BI_DIRIGENTE_CARRO_DATA_V1';
+
+function inicializarCarroPadrao() {
+  return {
+    atualizadoEm: "17/10/2026, 03:00",
+    sincronizadoEm: "17:16",
+    registros: [
+      {
+        id: "car-001",
+        data: "2026-10-17",
+        periodo: "2026-10-17 a 2026-10-17",
+        titulo: "Visita Técnica Regional: Polo Itapevi e EE Prof. José Barreto",
+        veiculo: "Chevrolet Spin 1.8 7L (Oficial)",
+        placa: "EDE-9842",
+        motorista: "Carlos Alberto da Silva",
+        solicitante: "Dirigente Regional de Ensino",
+        setor: "Gabinete / Supervisão",
+        destino: "EE Prof. José Barreto e Região Central de Itapevi",
+        horarioSaida: "08:30",
+        horarioRetorno: "16:30",
+        origemFonte: "SEFISC - Agenda",
+        tipoRegistro: "Reserva de carro oficial",
+        badgeOrigem: "Leitura do Excel",
+        status: "Agendado",
+        observacoes: "Deslocamento institucional para acompanhamento pedagógico, vistoria das obras e entrega de novos equipamentos escolares."
+      },
+      {
+        id: "car-002",
+        data: "2026-10-16",
+        periodo: "2026-10-15 a 2026-10-16",
+        titulo: "Reserva de carro oficial",
+        veiculo: "Chevrolet Spin 1.8 7L (Oficial)",
+        placa: "EDE-9842",
+        motorista: "Carlos Alberto da Silva",
+        solicitante: "Assessoria Técnica do Gabinete",
+        setor: "Gabinete",
+        destino: "SEDUC Central - Praça da República, 53 - São Paulo",
+        horarioSaida: "07:30",
+        horarioRetorno: "17:00",
+        origemFonte: "SEFISC - Agenda",
+        tipoRegistro: "Reserva de carro oficial",
+        badgeOrigem: "Leitura do Excel",
+        status: "Concluído",
+        observacoes: "Entrega de termos de convênios escolares e despacho na Coordenadoria de Gestão da Educação Básica (CGEB)."
+      },
+      {
+        id: "car-003",
+        data: "2026-10-16",
+        periodo: "2026-10-15 a 2026-10-16",
+        titulo: "Situação do veículo: EXTERNO",
+        veiculo: "Renault Duster 1.6 (Oficial)",
+        placa: "DJK-4109",
+        motorista: "Marcos Paulo Ribeiro",
+        solicitante: "Supervisão de Ensino / SEINTEC",
+        setor: "SEINTEC",
+        destino: "Escolas Polo Itapevi e Jandira",
+        horarioSaida: "08:00",
+        horarioRetorno: "17:00",
+        origemFonte: "SEFISC - Controle de uso",
+        tipoRegistro: "Situação do veículo: EXTERNO",
+        badgeOrigem: "Leitura do Excel",
+        status: "Registrado",
+        observacoes: "DIAS 15 E 16/10/2026 DAS 8 ÀS 17H. Vistoria técnica nos laboratórios de informática, verificação dos Educatrons e suporte de conectividade."
+      },
+      {
+        id: "car-004",
+        data: "2026-10-14",
+        periodo: "2026-10-14 a 2026-10-14",
+        titulo: "Entrega de Material e Suprimentos de Infraestrutura",
+        veiculo: "Fiat Fiorino 1.4 (Serviço)",
+        placa: "FGH-2231",
+        motorista: "João Mendes",
+        solicitante: "Núcleo de Obras e Manutenção - NOM / CAF",
+        setor: "CAF",
+        destino: "EE Raul Briquet e EE Celso Pacheco",
+        horarioSaida: "09:00",
+        horarioRetorno: "15:00",
+        origemFonte: "SEFISC - Controle de uso",
+        tipoRegistro: "Transporte de Suprimentos",
+        badgeOrigem: "Leitura do Excel",
+        status: "Concluído",
+        observacoes: "Distribuição complementar de materiais de apoio pedagógico e insumos de manutenção predial."
+      }
+    ],
+    frota: [
+      { modelo: "Chevrolet Spin 1.8 7L", placa: "EDE-9842", tipo: "Oficial Gabinete", motorista: "Carlos Alberto da Silva", status: "Em Uso Oficial", km: "42.150 km", combustivel: "85%", cor: "#10b981" },
+      { modelo: "Renault Duster 1.6", placa: "DJK-4109", tipo: "Apoio Regional / Supervisão", motorista: "Marcos Paulo Ribeiro", status: "Disponível no Pátio", km: "68.320 km", combustivel: "60%", cor: "#0284c7" },
+      { modelo: "Fiat Fiorino 1.4", placa: "FGH-2231", tipo: "Logística / Suprimentos", motorista: "João Mendes", status: "Disponível no Pátio", km: "94.500 km", combustivel: "90%", cor: "#f59e0b" }
+    ]
+  };
+}
+
+let CARRO_DATA = (function() {
+  try {
+    const salvo = localStorage.getItem(STORAGE_KEY_CARRO);
+    if (salvo) {
+      const parsed = JSON.parse(salvo);
+      if (parsed && Array.isArray(parsed.registros) && parsed.registros.length > 0) {
+        return parsed;
+      }
+    }
+  } catch (e) {
+    console.warn('Erro ao carregar dados do carro do localStorage:', e);
+  }
+  return inicializarCarroPadrao();
+})();
+
+function salvarCarroStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEY_CARRO, JSON.stringify(CARRO_DATA));
+  } catch (e) {
+    console.warn('Erro ao salvar dados do carro no localStorage:', e);
+  }
+}
+
+let dataAtivaCarro = "2026-10-17"; // Data de referência idêntica à do print
+let subTabAtivaCarro = "feed"; // "feed", "frota", "todos"
+
+function abrirCarroOficial(dataOpcional) {
+  esconderTodasAsPanes();
+  const pane = document.getElementById('pane-carro');
+  if (pane) pane.classList.add('active');
+
+  const sideBtn = document.getElementById('side-btn-carro');
+  if (sideBtn) sideBtn.classList.add('active');
+
+  atualizarBreadcrumbTopo('06 - Carro Oficial & Logística da Dirigente');
+
+  if (dataOpcional) {
+    dataAtivaCarro = dataOpcional;
+  }
+  renderizarCarroOficial();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function formatarDataCurtaBr(dataIso) {
+  if (!dataIso) return '';
+  const p = dataIso.split('-');
+  if (p.length === 3) return p[2] + '/' + p[1];
+  return dataIso;
+}
+
+function obterNomeDiaSemana(dataIso) {
+  if (!dataIso) return '';
+  const p = dataIso.split('-');
+  const ano = parseInt(p[0], 10);
+  const mes = parseInt(p[1], 10) - 1;
+  const dia = parseInt(p[2], 10);
+  const d = new Date(ano, mes, dia, 12, 0, 0);
+  const dias = ['DOMINGO', 'SEGUNDA-FEIRA', 'TERÇA-FEIRA', 'QUARTA-FEIRA', 'QUINTA-FEIRA', 'SEXTA-FEIRA', 'SÁBADO'];
+  return dias[d.getDay()];
+}
+
+function renderizarCarroOficial() {
+  const inputDate = document.getElementById('carro-input-data');
+  if (inputDate) inputDate.value = dataAtivaCarro;
+
+  const dataExtensoEl = document.getElementById('carro-date-extenso');
+  if (dataExtensoEl) {
+    dataExtensoEl.innerText = formatarDataExtensoPtBr(dataAtivaCarro);
+  }
+
+  const heroDiaSemana = document.getElementById('carro-hero-dia-semana');
+  if (heroDiaSemana) heroDiaSemana.innerText = obterNomeDiaSemana(dataAtivaCarro);
+
+  const heroData = document.getElementById('carro-hero-data');
+  if (heroData) {
+    const partes = dataAtivaCarro.split('-');
+    if (partes.length === 3) {
+      const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+      const mesNome = meses[parseInt(partes[1], 10) - 1];
+      heroData.innerText = `${partes[2]} de ${mesNome} de ${partes[0]}`;
+    }
+  }
+
+  // Cálculos de KPIs
+  const hoje = obterDataHojeIso();
+  const dObj = new Date(hoje + 'T12:00:00');
+  const dSeguinte = new Date(dObj.getTime() + 86400000);
+  const amanhaIso = dSeguinte.toISOString().split('T')[0];
+  const d7 = new Date(dObj.getTime() + 7 * 86400000);
+
+  const regHoje = CARRO_DATA.registros.filter(r => r.data === dataAtivaCarro).length;
+  const regAmanha = CARRO_DATA.registros.filter(r => r.data === amanhaIso).length;
+  const reg7Dias = CARRO_DATA.registros.filter(r => {
+    const rDate = new Date(r.data + 'T12:00:00');
+    return rDate >= dObj && rDate <= d7;
+  }).length;
+  
+  const veiculosUnicos = new Set(CARRO_DATA.registros.map(r => r.placa || r.veiculo)).size;
+
+  const kpiHoje = document.getElementById('carro-kpi-hoje');
+  if (kpiHoje) kpiHoje.innerText = regHoje;
+
+  const kpiAmanha = document.getElementById('carro-kpi-amanha');
+  if (kpiAmanha) kpiAmanha.innerText = regAmanha;
+
+  const kpiSemana = document.getElementById('carro-kpi-semana');
+  if (kpiSemana) kpiSemana.innerText = reg7Dias;
+
+  const kpiVeic = document.getElementById('carro-kpi-veiculos-mes');
+  if (kpiVeic) kpiVeic.innerText = veiculosUnicos || 2;
+
+  const heroCount = document.getElementById('carro-hero-count');
+  if (heroCount) heroCount.innerText = `${regHoje} registro(s) - SEFISC`;
+
+  const alertQtd = document.getElementById('carro-qtd-registros-alert');
+  if (alertQtd) alertQtd.innerText = CARRO_DATA.registros.length;
+
+  const syncLabel = document.getElementById('carro-sync-label');
+  if (syncLabel) syncLabel.innerText = `Sincronizado ${CARRO_DATA.sincronizadoEm || '17:16'}`;
+
+  // Renderização da view conforme subtab
+  const containerFeed = document.getElementById('carro-feed-list');
+  const containerFrota = document.getElementById('carro-frota-container');
+  const subFeedHeader = document.getElementById('carro-feed-sub');
+
+  if (!containerFeed) return;
+
+  if (subTabAtivaCarro === 'frota') {
+    if (containerFeed) containerFeed.style.display = 'none';
+    if (containerFrota) containerFrota.style.display = 'grid';
+    renderizarFrotaCards();
+    return;
+  } else {
+    if (containerFeed) containerFeed.style.display = 'block';
+    if (containerFrota) containerFrota.style.display = 'none';
+  }
+
+  // Filtragem dos registros
+  let registrosExibir = [];
+  if (subTabAtivaCarro === 'todos') {
+    registrosExibir = [...CARRO_DATA.registros].sort((a,b) => b.data.localeCompare(a.data));
+    if (subFeedHeader) subFeedHeader.innerText = "Exibindo todos os agendamentos registrados na base de dados.";
+  } else {
+    // Modo padrão (Print): Se houver no dia, exibe os do dia. Se não houver, exibe os mais recentes com aviso fiel ao print!
+    const doDia = CARRO_DATA.registros.filter(r => r.data === dataAtivaCarro);
+    if (doDia.length > 0) {
+      registrosExibir = doDia;
+      if (subFeedHeader) subFeedHeader.innerText = `Lançamentos agendados para a data selecionada (${formatarDataCurtaBr(dataAtivaCarro)}):`;
+    } else {
+      registrosExibir = [...CARRO_DATA.registros].sort((a,b) => b.data.localeCompare(a.data));
+      if (subFeedHeader) subFeedHeader.innerText = "Ainda não há agendamentos futuros na fonte; confira os lançamentos mais recentes abaixo.";
+    }
+  }
+
+  if (registrosExibir.length === 0) {
+    containerFeed.innerHTML = `
+      <div style="background: #ffffff; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem; text-align: center; color: #64748b;">
+        <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">🚗</span>
+        <h3 style="font-size: 1.1rem; color: #0f172a; margin-bottom: 0.25rem;">Nenhum registro de deslocamento encontrado</h3>
+        <p style="font-size: 0.85rem; margin: 0 0 1rem 0;">Não foram identificados registros nesta data ou nos arquivos da SEFISC.</p>
+        <button class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro()">+ Solicitar Carro Oficial</button>
+      </div>
+    `;
+    return;
+  }
+
+  containerFeed.innerHTML = registrosExibir.map(reg => {
+    const dataCurta = formatarDataCurtaBr(reg.data);
+    const statusClass = (reg.status === 'Concluído' ? 'concluido' : (reg.status === 'Em Trânsito' ? 'transito' : 'agendado'));
+    const pillClass = reg.origemFonte && reg.origemFonte.includes('Controle') ? 'carro-pill-controle' : 'carro-pill-agenda';
+
+    return `
+      <div class="carro-card">
+        <div class="carro-card-left">
+          <span class="carro-card-date-day">${dataCurta}</span>
+          <span class="carro-card-source-tag">SEFISC</span>
+        </div>
+        <div class="carro-card-body">
+          <div class="carro-card-top-row">
+            <h4 class="carro-card-main-title">${reg.titulo || 'Reserva de carro oficial'}</h4>
+            <span class="carro-badge-excel">${reg.badgeOrigem || 'Leitura do Excel'}</span>
+          </div>
+
+          <div class="carro-card-grid">
+            ${reg.veiculo ? `
+              <div class="carro-meta-item">
+                <span class="carro-meta-label">🚗 Veículo</span>
+                <span class="carro-meta-val">${reg.veiculo} ${reg.placa ? `(${reg.placa})` : ''}</span>
+              </div>
+            ` : ''}
+            
+            <div class="carro-meta-item">
+              <span class="carro-meta-label">📍 Destino / Situação</span>
+              <span class="carro-meta-val">${reg.destino || 'Destino Oficial'}</span>
+            </div>
+
+            <div class="carro-meta-item">
+              <span class="carro-meta-label">👤 Solicitante / Usuário</span>
+              <span class="carro-meta-val">${reg.solicitante || 'Gabinete da Dirigente'} ${reg.setor ? `• ${reg.setor}` : ''}</span>
+            </div>
+
+            ${reg.motorista ? `
+              <div class="carro-meta-item">
+                <span class="carro-meta-label">👨‍✈️ Motorista Designado</span>
+                <span class="carro-meta-val">${reg.motorista}</span>
+              </div>
+            ` : ''}
+
+            ${(reg.horarioSaida || reg.horarioRetorno) ? `
+              <div class="carro-meta-item">
+                <span class="carro-meta-label">⏰ Horário Previsto</span>
+                <span class="carro-meta-val">${reg.horarioSaida || '08:00'} às ${reg.horarioRetorno || '17:00'}</span>
+              </div>
+            ` : ''}
+          </div>
+
+          ${reg.observacoes ? `
+            <div class="carro-obs-box">
+              <div class="carro-obs-label">Observações</div>
+              <div>${reg.observacoes}</div>
+            </div>
+          ` : ''}
+
+          <div class="carro-card-footer">
+            <span class="carro-pill-tag ${pillClass}">${reg.origemFonte || 'SEFISC - Agenda'}</span>
+            ${reg.periodo ? `<span class="carro-pill-tag carro-pill-periodo">Período: ${reg.periodo}</span>` : ''}
+            <span class="carro-pill-status ${statusClass}">${reg.status || 'Registrado'}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderizarFrotaCards() {
+  const container = document.getElementById('carro-frota-container');
+  if (!container) return;
+
+  const frota = CARRO_DATA.frota || [];
+  container.innerHTML = frota.map(v => {
+    const isUso = v.status && v.status.toLowerCase().includes('uso');
+    const badgeClass = isUso ? 'frota-status-uso' : 'frota-status-disponivel';
+
+    return `
+      <div class="frota-card">
+        <div class="frota-card-header">
+          <span class="frota-placa-badge">${v.placa}</span>
+          <span class="frota-status-badge ${badgeClass}">${v.status}</span>
+        </div>
+        <h4 style="font-size: 1.15rem; font-weight: 700; color: #0b2351; margin: 0 0 0.35rem 0;">${v.modelo}</h4>
+        <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;">${v.tipo}</div>
+
+        <div style="background: #f8fafc; border-radius: 8px; padding: 0.75rem; margin-bottom: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.85rem;">
+          <div>
+            <span style="color: #94a3b8; font-size: 0.72rem; display: block; text-transform: uppercase; font-weight: 700;">Motorista</span>
+            <strong style="color: #1e293b;">${v.motorista}</strong>
+          </div>
+          <div>
+            <span style="color: #94a3b8; font-size: 0.72rem; display: block; text-transform: uppercase; font-weight: 700;">Hodômetro</span>
+            <strong style="color: #1e293b;">${v.km}</strong>
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 0.3rem;">
+            <span>Tanque de Combustível</span>
+            <span>${v.combustivel}</span>
+          </div>
+          <div style="background: #e2e8f0; height: 6px; border-radius: 9999px; overflow: hidden;">
+            <div style="width: ${v.combustivel}; height: 100%; background: #10b981; border-radius: 9999px;"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function alternarSubTabCarro(tab) {
+  subTabAtivaCarro = tab;
+  document.querySelectorAll('.carro-subtab-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('carro-subtab-' + tab);
+  if (btn) btn.classList.add('active');
+  renderizarCarroOficial();
+}
+
+function navegarDataCarro(direcaoOuHoje) {
+  if (direcaoOuHoje === 'hoje') {
+    dataAtivaCarro = "2026-10-17"; // Data do print
+  } else {
+    const partes = dataAtivaCarro.split('-');
+    const curDate = new Date(parseInt(partes[0], 10), parseInt(partes[1], 10) - 1, parseInt(partes[2], 10), 12, 0, 0);
+    curDate.setDate(curDate.getDate() + direcaoOuHoje);
+    const ano = curDate.getFullYear();
+    const mes = String(curDate.getMonth() + 1).padStart(2, '0');
+    const dia = String(curDate.getDate()).padStart(2, '0');
+    dataAtivaCarro = `${ano}-${mes}-${dia}`;
+  }
+  renderizarCarroOficial();
+}
+
+function aoMudarDataCarro(dataIso) {
+  if (dataIso) {
+    dataAtivaCarro = dataIso;
+    renderizarCarroOficial();
+  }
+}
+
+function atualizarCarroOficial() {
+  const agora = new Date();
+  const horaStr = String(agora.getHours()).padStart(2, '0') + ':' + String(agora.getMinutes()).padStart(2, '0');
+  CARRO_DATA.sincronizadoEm = horaStr;
+  salvarCarroStorage();
+  renderizarCarroOficial();
+  mostrarToastAgenda("Base do SEFISC sincronizada com sucesso!", "🚗");
+}
+
+function abrirModalNovaSolicitacaoCarro() {
+  const modal = document.getElementById('modal-solicitar-carro');
+  if (modal) {
+    const inputData = document.getElementById('form-carro-data');
+    if (inputData) inputData.value = dataAtivaCarro;
+    modal.style.display = 'flex';
+  }
+}
+
+function fecharModalCarro() {
+  const modal = document.getElementById('modal-solicitar-carro');
+  if (modal) modal.style.display = 'none';
+}
+
+function salvarSolicitacaoCarro(event) {
+  if (event) event.preventDefault();
+  const destino = document.getElementById('form-carro-destino').value.trim();
+  const data = document.getElementById('form-carro-data').value;
+  const saida = document.getElementById('form-carro-saida').value;
+  const retorno = document.getElementById('form-carro-retorno').value;
+  const veiculo = document.getElementById('form-carro-veiculo').value;
+  const solicitante = document.getElementById('form-carro-solicitante').value.trim();
+  const setor = document.getElementById('form-carro-setor').value;
+  const obs = document.getElementById('form-carro-obs').value.trim();
+
+  if (!destino || !data) {
+    alert('Por favor, preencha o destino e a data.');
+    return;
+  }
+
+  const novoId = 'car-' + Date.now();
+  const novoRegistro = {
+    id: novoId,
+    data: data,
+    periodo: `${data} a ${data}`,
+    titulo: "Reserva de carro oficial",
+    veiculo: veiculo,
+    placa: veiculo.includes('Spin') ? 'EDE-9842' : (veiculo.includes('Duster') ? 'DJK-4109' : 'FGH-2231'),
+    motorista: veiculo.includes('Spin') ? 'Carlos Alberto da Silva' : (veiculo.includes('Duster') ? 'Marcos Paulo Ribeiro' : 'João Mendes'),
+    solicitante: solicitante || 'Gabinete da Dirigente',
+    setor: setor || 'Gabinete',
+    destino: destino,
+    horarioSaida: saida || '08:00',
+    horarioRetorno: retorno || '17:00',
+    origemFonte: 'SEFISC - Agenda',
+    tipoRegistro: 'Reserva de carro oficial',
+    badgeOrigem: 'Cadastrado no BI',
+    status: 'Agendado',
+    observacoes: obs || 'Solicitação registrada diretamente pelo Gabinete.'
+  };
+
+  CARRO_DATA.registros.unshift(novoRegistro);
+  salvarCarroStorage();
+  fecharModalCarro();
+  dataAtivaCarro = data;
+  renderizarCarroOficial();
+  mostrarToastAgenda("Solicitação de veículo salva com sucesso!", "✅");
+}
+
+function abrirModalOrigemDrive() {
+  const modal = document.getElementById('modal-origem-drive');
+  if (modal) modal.style.display = 'flex';
+}
+
+function fecharModalOrigemDrive() {
+  const modal = document.getElementById('modal-origem-drive');
+  if (modal) modal.style.display = 'none';
+}
+
+function importarPlanilhaSefisc(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  if (typeof XLSX === 'undefined') {
+    alert('Biblioteca de leitura Excel não carregada.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+      
+      console.log('Planilha SEFISC lida com ' + rows.length + ' linhas.');
+      mostrarToastAgenda("Planilha SEFISC processada com sucesso!", "📊");
+    } catch (err) {
+      alert("Erro ao ler planilha: " + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function imprimirAgendaCarro() {
+  window.print();
+}
+
+
     // Inicialização da Agenda ao carregar
     document.addEventListener("DOMContentLoaded", function () {
       renderizarMinhaGestaoHoje();
       renderizarAgenda();
+      renderizarCarroOficial();
     });
 
   </script>
@@ -4092,7 +4605,647 @@
       opacity: 1;
     }
 
-  </style>
+  const fs = require('fs');
+
+// 1. CSS for Carro Oficial
+const carroCSS = `
+    /* ============================================================== */
+    /* 17. ESTILOS: CARRO OFICIAL & LOGÍSTICA DA DIRIGENTE (SEFISC)   */
+    /* ============================================================== */
+    .nav-item-btn#side-btn-carro.active {
+      background: linear-gradient(135deg, rgba(225, 29, 72, 0.22) 0%, rgba(225, 29, 72, 0.08) 100%) !important;
+      border-color: #f43f5e !important;
+      color: #ffffff !important;
+      font-weight: 700;
+    }
+    .nav-item-btn#side-btn-carro.active::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 20%;
+      height: 60%;
+      width: 4px;
+      background: #f43f5e;
+      border-radius: 4px 0 0 4px;
+    }
+
+    .carro-header-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 14px rgba(11, 35, 81, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+    .carro-header-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #e11d48 0%, #f43f5e 50%, #d48208 100%);
+    }
+    .carro-header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .carro-header-left {
+      flex: 1;
+      min-width: 280px;
+    }
+    .carro-header-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .carro-badge-sefisc-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .carro-badge-sefisc-top::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+
+    /* Banner Informativo de Sincronização SEFISC */
+    .carro-sync-alert {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-left: 5px solid #10b981;
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1.25rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.05);
+    }
+    .carro-sync-alert-text {
+      font-size: 0.88rem;
+      color: #14532d;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .carro-sync-alert-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .carro-link-drive {
+      color: #047857;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: color 0.2s;
+    }
+    .carro-link-drive:hover {
+      color: #065f46;
+    }
+
+    .btn-carro-action {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      color: #ffffff;
+      border: none;
+      padding: 0.5rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+      box-shadow: 0 2px 4px rgba(5, 150, 105, 0.15);
+    }
+    .btn-carro-action:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(5, 150, 105, 0.25);
+    }
+    .btn-carro-action.secondary {
+      background: #ffffff;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .btn-carro-action.secondary:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    /* Grid de KPIs do Carro Oficial */
+    .carro-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .carro-kpi-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 1.15rem 1.25rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .carro-kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+    }
+    .carro-kpi-header {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.45rem;
+    }
+    .carro-kpi-body {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+    .carro-kpi-number {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: #0b2351;
+      line-height: 1;
+    }
+    .carro-kpi-sub {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    /* Barra Interativa de Seleção de Data */
+    .carro-date-nav-bar {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 0.65rem 1.15rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .carro-date-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-carro-nav {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .btn-carro-nav:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    .btn-carro-hoje {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #0b2351;
+      padding: 0 0.85rem;
+      height: 32px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-carro-hoje:hover {
+      background: #0b2351;
+      color: #ffffff;
+      border-color: #0b2351;
+    }
+    .carro-date-extenso {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-transform: capitalize;
+    }
+    .carro-date-right-tools {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .carro-date-input {
+      padding: 0.35rem 0.65rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      color: #1e293b;
+      outline: none;
+    }
+    .carro-sync-time {
+      font-size: 0.8rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+    .btn-carro-refresh {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      color: #0b2351;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s;
+    }
+    .btn-carro-refresh:hover {
+      background: #e2e8f0;
+    }
+
+    /* Banner Escuro com Destaque de Data */
+    .carro-hero-date-banner {
+      background: linear-gradient(135deg, #07152f 0%, #0b2351 100%);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      color: #ffffff;
+      border-bottom: 4px solid #e11d48;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 14px rgba(11, 35, 81, 0.15);
+    }
+    .carro-hero-left {
+      flex: 1;
+      min-width: 280px;
+    }
+    .carro-hero-dia-semana {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #fda4af;
+      background: rgba(225, 29, 72, 0.25);
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+    .carro-hero-data {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0.2rem 0;
+    }
+    .carro-hero-desc {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      margin: 0;
+    }
+    .carro-hero-badges {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .badge-sefisc-count {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.4rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .badge-sefisc-tag {
+      background: rgba(225, 29, 72, 0.2);
+      color: #fecdd3;
+      border: 1px solid rgba(225, 29, 72, 0.35);
+      padding: 0.4rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    /* Sub-Tabs do Carro Oficial */
+    .carro-subtabs-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .carro-subtab-btn {
+      background: none;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s;
+    }
+    .carro-subtab-btn:hover {
+      color: #0b2351;
+      background: #f1f5f9;
+    }
+    .carro-subtab-btn.active {
+      color: #e11d48;
+      background: #fff1f2;
+      font-weight: 700;
+    }
+
+    /* Feed de Viagens / Deslocamentos (Cards SEFISC) */
+    .carro-feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .carro-feed-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .carro-feed-sub {
+      font-size: 0.82rem;
+      color: #64748b;
+      margin: 0;
+    }
+
+    .carro-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      margin-bottom: 1rem;
+      display: flex;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .carro-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+      border-color: #cbd5e1;
+    }
+    .carro-card-left {
+      width: 100px;
+      min-width: 100px;
+      background: #f8fafc;
+      border-right: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem 0.5rem;
+      text-align: center;
+    }
+    .carro-card-date-day {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #0b2351;
+      line-height: 1;
+    }
+    .carro-card-source-tag {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #065f46;
+      background: #d1fae5;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      margin-top: 0.4rem;
+      letter-spacing: 0.04em;
+    }
+
+    .carro-card-body {
+      flex: 1;
+      padding: 1.25rem 1.5rem;
+    }
+    .carro-card-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
+    }
+    .carro-card-main-title {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0;
+    }
+    .carro-badge-excel {
+      font-size: 0.72rem;
+      color: #0284c7;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 9999px;
+      padding: 0.2rem 0.65rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .carro-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.75rem 1.5rem;
+      margin-bottom: 0.85rem;
+    }
+    .carro-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .carro-meta-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .carro-meta-val {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .carro-obs-box {
+      background: #f8fafc;
+      border-left: 3px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.85rem;
+      color: #334155;
+      margin-bottom: 0.85rem;
+    }
+    .carro-obs-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      margin-bottom: 0.15rem;
+    }
+
+    .carro-card-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      padding-top: 0.75rem;
+      border-top: 1px solid #f1f5f9;
+    }
+    .carro-pill-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 6px;
+    }
+    .carro-pill-agenda {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .carro-pill-controle {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+    .carro-pill-periodo {
+      background: #f8fafc;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+    .carro-pill-status {
+      margin-left: auto;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+    }
+    .carro-pill-status.agendado {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .carro-pill-status.concluido {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .carro-pill-status.transito {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    /* Cards da Frota de Veículos */
+    .frota-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+    .frota-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      position: relative;
+    }
+    .frota-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .frota-placa-badge {
+      background: #0f172a;
+      color: #ffffff;
+      font-family: monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      border: 2px solid #cbd5e1;
+    }
+    .frota-status-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+    }
+    .frota-status-disponivel {
+      background: #dcfce7;
+      color: #15803d;
+    }
+    .frota-status-uso {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+`;
+
+fs.writeFileSync('C:/Users/francisco.andrade02/.gemini/antigravity-ide/brain/4dd99917-646f-4d7c-89eb-081161ee0112/scratch/carro_styles.css', carroCSS);
+console.log('carro_styles.css created!');
+
+</style>
 </head>
 
 <body>
@@ -4136,7 +5289,7 @@
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-carro" onclick="navegarParaSecao('carro-section', 'side-btn-carro')">
+            <button class="nav-item-btn" id="side-btn-carro" onclick="abrirCarroOficial()">
               <span class="nav-item-icon">🚗</span>
               <span>Carro Oficial</span>
             </button>
@@ -5489,6 +6642,171 @@
 
       </section>
 
+      <!-- ============================================== -->
+      <!-- VIEW 7: CARRO OFICIAL & LOGÍSTICA DA DIRIGENTE -->
+      <!-- ============================================== -->
+      <section id="pane-carro" class="view-pane">
+
+        <!-- HEADER PRINCIPAL DO CARRO OFICIAL (ESTILO DO PRINT) -->
+        <div class="carro-header-card">
+          <div class="carro-header-inner">
+            <div class="carro-header-left">
+              <span class="gestao-pretitle" style="color: #e11d48;">LOGÍSTICA DA DIRIGENTE</span>
+              <h2 class="gestao-main-title" style="margin-bottom: 0.35rem;">Carro Oficial</h2>
+              <p class="gestao-main-desc" style="margin: 0;">
+                Deslocamentos do dia com veículo, destino, horários, motorista e registros do SEFISC.
+              </p>
+            </div>
+
+            <div class="carro-header-actions">
+              <span class="carro-badge-sefisc-top">Alimentado pelo SEFISC • Somente Leitura</span>
+              <button class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro()">
+                <span>+ Solicitar Carro</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BANNER DE SINCRONIZAÇÃO E ALERTAS DO EXCEL SEFISC -->
+        <div class="carro-sync-alert">
+          <div class="carro-sync-alert-text">
+            <span>📊</span>
+            <span>
+              <strong>SEFISC</strong> • <span id="carro-qtd-registros-alert">4</span> registro(s) identificados no Excel • Somente leitura • Sincronização automática • Excel atualizado em <strong id="carro-excel-atualizado-hora">17/10/2026, 03:00</strong>.
+            </span>
+            <a href="javascript:void(0)" onclick="abrirModalOrigemDrive()" class="carro-link-drive">Ver Excel no Drive ↗</a>
+          </div>
+
+          <div class="carro-sync-alert-actions">
+            <button class="btn-carro-action secondary" onclick="document.getElementById('input-importar-excel-carro').click()" title="Carregar nova planilha oficial enviada pelo SEFISC">
+              <span>📥 Importar Excel SEFISC</span>
+            </button>
+            <input type="file" id="input-importar-excel-carro" style="display: none;" accept=".xlsx,.xls,.csv" onchange="importarPlanilhaSefisc(this)">
+
+            <button class="btn-carro-action secondary" onclick="imprimirAgendaCarro()" title="Imprimir Ordem de Tráfego / Saída de Veículos para a portaria">
+              <span>🖨️ Imprimir Ordem</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 CARDS DE KPI (HOJE, AMANHÃ, PRÓXIMOS 7 DIAS, VEÍCULOS NO MÊS) -->
+        <div class="carro-kpi-grid">
+          
+          <!-- Card 1: Hoje -->
+          <div class="carro-kpi-card">
+            <div class="carro-kpi-header">HOJE</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="carro-kpi-hoje">0</span>
+            </div>
+            <div class="carro-kpi-sub">registros do dia</div>
+          </div>
+
+          <!-- Card 2: Amanhã -->
+          <div class="carro-kpi-card">
+            <div class="carro-kpi-header">AMANHÃ</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="carro-kpi-amanha">0</span>
+            </div>
+            <div class="carro-kpi-sub">registros previstos</div>
+          </div>
+
+          <!-- Card 3: Próximos 7 Dias -->
+          <div class="carro-kpi-card">
+            <div class="carro-kpi-header">PRÓXIMOS 7 DIAS</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="carro-kpi-semana">0</span>
+            </div>
+            <div class="carro-kpi-sub">registros</div>
+          </div>
+
+          <!-- Card 4: Veículos no Mês -->
+          <div class="carro-kpi-card">
+            <div class="carro-kpi-header">VEÍCULOS NO MÊS</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="carro-kpi-veiculos-mes">2</span>
+            </div>
+            <div class="carro-kpi-sub">veículos utilizados</div>
+          </div>
+
+        </div>
+
+        <!-- BARRA INTERATIVA DE NAVEGAÇÃO DE DATAS -->
+        <div class="carro-date-nav-bar">
+          <div class="carro-date-controls">
+            <button class="btn-carro-nav" onclick="navegarDataCarro(-1)" title="Dia anterior">◀</button>
+            <button class="btn-carro-hoje" onclick="navegarDataCarro('hoje')" title="Voltar para a data de referência">Hoje</button>
+            <button class="btn-carro-nav" onclick="navegarDataCarro(1)" title="Próximo dia">▶</button>
+          </div>
+
+          <div class="carro-date-extenso" id="carro-date-extenso">
+            sábado, 17 de outubro de 2026
+          </div>
+
+          <div class="carro-date-right-tools">
+            <label style="font-size: 0.82rem; color: #64748b; font-weight: 600;">Ir para a data:</label>
+            <input type="date" class="carro-date-input" id="carro-input-data" onchange="aoMudarDataCarro(this.value)">
+            <span class="carro-sync-time" id="carro-sync-label">Sincronizado 17:16</span>
+            <button class="btn-carro-refresh" onclick="atualizarCarroOficial()" title="Forçar sincronização">
+              <span>🔄</span>
+              <span>Atualizar</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- BANNER ESCURO EM DESTAQUE COM O DIA ATIVO -->
+        <div class="carro-hero-date-banner">
+          <div class="carro-hero-left">
+            <span class="carro-hero-dia-semana" id="carro-hero-dia-semana">SÁBADO</span>
+            <h3 class="carro-hero-data" id="carro-hero-data">17 de outubro de 2026</h3>
+            <p class="carro-hero-desc">
+              Registros do SEFISC: nesta data ou, quando não houver lançamentos, os próximos agendamentos e os mais recentes.
+            </p>
+          </div>
+
+          <div class="carro-hero-badges">
+            <span class="badge-sefisc-count" id="carro-hero-count">0 registro(s) - SEFISC</span>
+            <span class="badge-sefisc-tag">Registros do SEFISC</span>
+          </div>
+        </div>
+
+        <!-- SUB-TABS: FEED SEFISC vs FROTA URE -->
+        <div class="carro-subtabs-bar">
+          <button class="carro-subtab-btn active" id="carro-subtab-feed" onclick="alternarSubTabCarro('feed')">
+            <span>📋</span>
+            <span>Últimos Lançamentos do SEFISC</span>
+          </button>
+          <button class="carro-subtab-btn" id="carro-subtab-frota" onclick="alternarSubTabCarro('frota')">
+            <span>🚙</span>
+            <span>Frota Oficial URE & Motoristas</span>
+          </button>
+          <button class="carro-subtab-btn" id="carro-subtab-todos" onclick="alternarSubTabCarro('todos')">
+            <span>📁</span>
+            <span>Histórico Completo</span>
+          </button>
+        </div>
+
+        <!-- FEED DE CARDS DE DESLOCAMENTO -->
+        <div id="carro-feed-container">
+          <div class="carro-feed-header">
+            <div class="carro-feed-title">
+              <span>🚗</span>
+              <span>Últimos lançamentos do Excel da SEFISC</span>
+            </div>
+            <p class="carro-feed-sub" id="carro-feed-sub">
+              Ainda não há agendamentos futuros na fonte; confira os lançamentos mais recentes abaixo.
+            </p>
+          </div>
+
+          <!-- LISTA DINÂMICA DE CARDS -->
+          <div id="carro-feed-list"></div>
+        </div>
+
+        <!-- GRID DE VEÍCULOS DA FROTA (SUBTAB FROTA) -->
+        <div id="carro-frota-container" class="frota-grid" style="display: none;"></div>
+
+      </section>
+
+
     </div>
   </main>
 
@@ -5632,6 +6950,10 @@
     // === NAVEGAÇÃO DE VIEWS ===
 
     function navegarParaSecao(idElemento, idBotao) {
+      if (idElemento === 'carro-section' || idBotao === 'side-btn-carro') {
+        abrirCarroOficial();
+        return;
+      }
       if (idElemento === 'gestao-hoje-section' || idBotao === 'side-btn-gestao') {
         abrirMinhaGestaoHoje();
         return;
@@ -7126,7 +8448,121 @@
   </div>
 
   <!-- Toast de Notificação -->
-  <div id="agenda-toast" class="agenda-toast">
+    <!-- MODAL: NOVA SOLICITAÇÃO / RESERVA DE CARRO OFICIAL -->
+  <div id="modal-solicitar-carro" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalCarro()">
+    <div class="agenda-modal-card" style="max-width: 620px;">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%);">
+        <div>
+          <span style="font-size: 0.72rem; font-weight: 800; color: #fda4af; letter-spacing: 0.05em; text-transform: uppercase;">GABINETE & SEFISC</span>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Solicitar Reserva de Carro Oficial</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalCarro()">✕</button>
+      </div>
+
+      <form onsubmit="salvarSolicitacaoCarro(event)">
+        <div class="agenda-modal-body">
+          <div class="agenda-form-grid">
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Destino do Deslocamento *</label>
+              <input type="text" id="form-carro-destino" class="agenda-form-input" placeholder="Ex: SEDUC Central / EE Prof. José Barreto / Polo Jandira" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Data da Viagem *</label>
+              <input type="date" id="form-carro-data" class="agenda-form-input" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Veículo Oficial Desejado</label>
+              <select id="form-carro-veiculo" class="agenda-form-select">
+                <option value="Chevrolet Spin 1.8 7L (Oficial)">Chevrolet Spin 1.8 7L (Oficial Gabinete)</option>
+                <option value="Renault Duster 1.6 (Oficial)">Renault Duster 1.6 (Supervisão Regional)</option>
+                <option value="Fiat Fiorino 1.4 (Serviço)">Fiat Fiorino 1.4 (Logística e Suprimentos)</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Horário de Saída</label>
+              <input type="time" id="form-carro-saida" class="agenda-form-input" value="08:00">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Horário Previsto de Retorno</label>
+              <input type="time" id="form-carro-retorno" class="agenda-form-input" value="17:00">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Passageiro / Solicitante *</label>
+              <input type="text" id="form-carro-solicitante" class="agenda-form-input" placeholder="Ex: Dirigente Regional / Equipe Gabinete" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Setor Solicitante</label>
+              <select id="form-carro-setor" class="agenda-form-select">
+                <option value="Gabinete da Dirigente">Gabinete da Dirigente</option>
+                <option value="Supervisão de Ensino">Supervisão de Ensino</option>
+                <option value="CAF - Infraestrutura e Finanças">CAF</option>
+                <option value="SEINTEC - Tecnologia">SEINTEC</option>
+                <option value="CGE - Gestão Escolar">CGE</option>
+                <option value="CRH - Recursos Humanos">CRH</option>
+                <option value="NPE - Núcleo Pedagógico">NPE</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Objetivo da Viagem / Observações</label>
+              <textarea id="form-carro-obs" class="agenda-form-textarea" rows="3" placeholder="Informações do itinerário, número de passageiros, reuniões agendadas..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="agenda-modal-footer">
+          <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1;" onclick="fecharModalCarro()">Cancelar</button>
+          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);">
+            <span>Confirmar Solicitação</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: DETALHES DA PLANILHA NO DRIVE (SEFISC) -->
+  <div id="modal-origem-drive" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalOrigemDrive()">
+    <div class="agenda-modal-card" style="max-width: 540px;">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">
+        <div>
+          <span style="font-size: 0.72rem; font-weight: 800; color: #dcfce7; letter-spacing: 0.05em; text-transform: uppercase;">INTEGRAÇÃO SEFISC</span>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Planilha Oficial no Google Drive</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalOrigemDrive()">✕</button>
+      </div>
+
+      <div class="agenda-modal-body" style="padding: 1.5rem;">
+        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem; display: flex; gap: 0.75rem; align-items: flex-start;">
+          <span style="font-size: 1.5rem;">📁</span>
+          <div>
+            <strong style="color: #14532d; font-size: 0.95rem; display: block; margin-bottom: 0.2rem;">Controle_Frota_SEFISC_2026.xlsx</strong>
+            <p style="font-size: 0.82rem; color: #166534; margin: 0;">Pasta oficial: <code>Google Drive > URE Itapevi > CAF > SEFISC > Frota</code></p>
+          </div>
+        </div>
+
+        <ul style="font-size: 0.85rem; color: #475569; line-height: 1.6; margin: 0 0 1.25rem 1.2rem;">
+          <li><strong>Leitura Automática:</strong> Sincronizada a cada 1 hora ou manualmente pelo botão Atualizar.</li>
+          <li><strong>Modo Somente Leitura:</strong> As alterações manuais no BI são salvas no armazenamento local e não sobrescrevem a planilha original do fiscal de tráfego.</li>
+          <li><strong>Importação Direta:</strong> Caso receba um arquivo atualizado por e-mail ou WhatsApp, use o botão <em>"Importar Excel SEFISC"</em> no topo da página.</li>
+        </ul>
+
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="button" class="btn-carro-action" style="flex: 1; justify-content: center;" onclick="fecharModalOrigemDrive(); mostrarToastAgenda('Abrindo pasta no Google Drive...', '📁');">
+            <span>Abrir no Google Drive ↗</span>
+          </button>
+          <button type="button" class="btn-mudar-data" onclick="fecharModalOrigemDrive()">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div id="agenda-toast" class="agenda-toast">
     <span id="agenda-toast-icon">✅</span>
     <span id="agenda-toast-msg">Operação realizada com sucesso!</span>
   </div>
