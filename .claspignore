@@ -10,3 +10,4 @@ roteador.html
 node_modules/**
 package*.json
 scratch/**
+.nojekyll

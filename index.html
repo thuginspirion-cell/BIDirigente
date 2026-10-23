@@ -5,6 +5,11 @@
   <meta charset="UTF-8">
   <base target="_top">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Painel Oficial de Gestão e BI da Dirigente Regional de Ensino • URE Itapevi">
+  <meta property="og:title" content="BI da Dirigente • URE Itapevi">
+  <meta property="og:description" content="Painel de Gestão da Rede Escolar, Minha Gestão Hoje, Agenda Executiva e Frota Oficial.">
+  <meta property="og:image" content="logo_ure_itapevi_480.png">
+  <link rel="icon" type="image/png" href="logo_ure_itapevi_480.png">
   <title>BI da Dirigente - Gestão da Rede Escolar | URE Itapevi</title>
   
   <!-- Tipografia Inter & Plus Jakarta Sans -->
@@ -6842,6 +6847,11 @@ const carroCSS = `
             });
           }
         }).getLogoDataUri();
+      } else {
+        // Fallback para GitHub Pages e servidor local
+        document.querySelectorAll('.brand-logo-img').forEach(function(img) {
+          img.src = './logo_ure_itapevi_480.png';
+        });
       }
     }
     if (document.readyState === 'loading') {
@@ -6950,8 +6960,11 @@ const carroCSS = `
           })
           .getConsolidatedData();
       } else {
-        // Ambiente fora do Apps Script: sem fetch
-        // aplicarDados({}) pode ser chamado aqui se necessário
+        // Ambiente GitHub Pages ou servidor local: aplica dados de referência
+        aplicarDados({
+          indicadoresRede: { escolas: 87, nucleos: 6, visitas: 145, demandasAtivas: 0, eficiencia: "85%" },
+          visitasDirigente: { concluidas: 145, meta: 160, percentual: 90 }
+        });
       }
     }
 
