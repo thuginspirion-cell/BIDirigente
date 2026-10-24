@@ -1418,7 +1418,9 @@ function imprimirAgendaCarro() {
       top: 0;
       height: 100vh;
       overflow-y: auto;
+      overflow-x: hidden;
       z-index: 100;
+      transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .sidebar-header {
@@ -1495,20 +1497,113 @@ function imprimirAgendaCarro() {
       position: absolute;
       top: 10px;
       right: 10px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 6px;
       color: var(--sidebar-text);
       cursor: pointer;
-      font-size: 0.75rem;
-      padding: 3px 6px;
+      font-size: 0.8rem;
+      padding: 4px 8px;
       line-height: 1;
-      transition: var(--transition);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      user-select: none;
     }
 
     .sidebar-collapse-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(240, 155, 12, 0.25);
+      border-color: #f09b0c;
       color: #ffffff;
+      transform: scale(1.08);
+    }
+
+    /* ESTADO RECOLHIDO DA BARRA LATERAL (MINI-RAIL ELEGANTE) */
+    .sidebar.collapsed {
+      width: 72px;
+    }
+
+    .sidebar.collapsed .sidebar-header {
+      padding: 0.85rem 0.35rem;
+      gap: 0.5rem;
+    }
+
+    .sidebar.collapsed .sidebar-collapse-btn {
+      position: static;
+      margin: 0 auto;
+      transform: none !important;
+    }
+
+    .sidebar.collapsed .sidebar-collapse-btn:hover {
+      transform: scale(1.08) !important;
+    }
+
+    .sidebar.collapsed .sidebar-brand-crest {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      padding: 3px;
+      margin: 0 auto;
+    }
+
+    .sidebar.collapsed .sidebar-header-titles,
+    .sidebar.collapsed .nav-group-title,
+    .sidebar.collapsed .sidebar-item-text,
+    .sidebar.collapsed .nav-item-btn > span:not(.nav-item-icon):not(.centro-icon-badge) {
+      display: none !important;
+    }
+
+    .sidebar.collapsed .nav-item-btn::after {
+      display: none !important;
+    }
+
+    .sidebar.collapsed .sidebar-nav {
+      padding: 0.75rem 0.35rem;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .sidebar.collapsed .nav-items-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      width: 100%;
+    }
+
+    .sidebar.collapsed .nav-items-list li {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .sidebar.collapsed .nav-item-btn {
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      justify-content: center;
+      border-radius: 10px;
+      gap: 0;
+    }
+
+    .sidebar.collapsed .nav-item-icon,
+    .sidebar.collapsed .centro-icon-badge {
+      margin: 0;
+      font-size: 1.25rem;
+      width: auto;
+      height: auto;
+    }
+
+    .sidebar.collapsed .sidebar-footer {
+      padding: 0.5rem 0.2rem !important;
+    }
+
+    .sidebar.collapsed #seintec-sidebar-logo {
+      max-height: 24px !important;
+      max-width: 46px !important;
+      object-fit: contain;
     }
 
     .sidebar-nav {
@@ -5276,7 +5371,7 @@ const carroCSS = `
   <!-- ============================================== -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <button class="sidebar-collapse-btn" title="Recolher barra lateral">◀</button>
+      <button class="sidebar-collapse-btn" id="sidebar-toggle-btn" onclick="toggleSidebar()" title="Recolher barra lateral" aria-label="Recolher barra lateral">◀</button>
       <div class="sidebar-brand-crest" onclick="mostrarHome()" title="URE - Itapevi">
         <img src="logo_ure_itapevi_480.png" class="brand-logo-img sidebar-logo-img" alt="Brasão URE - Itapevi">
       </div>
@@ -5292,49 +5387,49 @@ const carroCSS = `
         <div class="nav-group-title">GESTÃO DA REDE</div>
         <ul class="nav-items-list">
           <li>
-            <button class="nav-item-btn active" id="side-btn-home" onclick="mostrarHome()">
+            <button class="nav-item-btn active" id="side-btn-home" onclick="mostrarHome()" title="Início">
               <span class="nav-item-icon">🏛️</span>
               <span>Início</span>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-gestao" onclick="abrirMinhaGestaoHoje()">
+            <button class="nav-item-btn" id="side-btn-gestao" onclick="abrirMinhaGestaoHoje()" title="Minha Gestão Hoje">
               <span class="nav-item-icon">⏱️</span>
               <span>Minha Gestão Hoje</span>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-agenda" onclick="abrirAgenda()">
+            <button class="nav-item-btn" id="side-btn-agenda" onclick="abrirAgenda()" title="Agenda da Dirigente">
               <span class="nav-item-icon">📅</span>
               <span>Agenda</span>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-carro" onclick="abrirCarroOficial()">
+            <button class="nav-item-btn" id="side-btn-carro" onclick="abrirCarroOficial()" title="Carro Oficial">
               <span class="nav-item-icon">🚗</span>
               <span>Carro Oficial</span>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-visitas" onclick="navegarParaSecao('visitas-section', 'side-btn-visitas')">
+            <button class="nav-item-btn" id="side-btn-visitas" onclick="navegarParaSecao('visitas-section', 'side-btn-visitas')" title="Visitas às Escolas">
               <span class="nav-item-icon">✔️</span>
               <span>Visitas</span>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-escolas" onclick="navegarParaSecao('escolas-section', 'side-btn-escolas')">
+            <button class="nav-item-btn" id="side-btn-escolas" onclick="navegarParaSecao('escolas-section', 'side-btn-escolas')" title="Lista de Escolas">
               <span class="nav-item-icon">🏫</span>
               <span>Escolas</span>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-atencao" onclick="navegarParaSecao('escolas-atencao-section', 'side-btn-atencao')">
+            <button class="nav-item-btn" id="side-btn-atencao" onclick="navegarParaSecao('escolas-atencao-section', 'side-btn-atencao')" title="Escolas em Atenção">
               <span class="nav-item-icon">⚠️</span>
               <span>Escolas em Atenção</span>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-mapa" onclick="navegarParaSecao('mapa-section', 'side-btn-mapa')">
+            <button class="nav-item-btn" id="side-btn-mapa" onclick="navegarParaSecao('mapa-section', 'side-btn-mapa')" title="Mapa da Rede">
               <span class="nav-item-icon">🗺️</span>
               <span>Mapa da Rede</span>
             </button>
@@ -5347,7 +5442,7 @@ const carroCSS = `
         <div class="nav-group-title">NÚCLEOS / CENTROS</div>
         <ul class="nav-items-list">
           <li>
-            <button class="nav-item-btn" id="side-btn-GAB" onclick="abrirCentro('GAB')">
+            <button class="nav-item-btn" id="side-btn-GAB" onclick="abrirCentro('GAB')" title="Assessoria Técnica - Gabinete">
               <span class="centro-icon-badge" title="Gabinete & Assessoria Técnica">🏛️</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Assessoria Técnica</span>
@@ -5356,7 +5451,7 @@ const carroCSS = `
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-SEINTEC" onclick="abrirSeintec()">
+            <button class="nav-item-btn" id="side-btn-SEINTEC" onclick="abrirSeintec()" title="SEINTEC - Informações Educacionais e Tecnologia">
               <span class="centro-icon-badge" title="Informações Educacionais e Tecnologia">💻</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Informações Educacionais e Tecnologia</span>
@@ -5365,7 +5460,7 @@ const carroCSS = `
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-CAF" onclick="abrirCentro('CAF')">
+            <button class="nav-item-btn" id="side-btn-CAF" onclick="abrirCentro('CAF')" title="Administração e Finanças (CAF)">
               <span class="centro-icon-badge" title="Administração, Finanças e Infraestrutura">💼</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Administração e Finanças</span>
@@ -5374,7 +5469,7 @@ const carroCSS = `
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-CGE" onclick="abrirCentro('CGE')">
+            <button class="nav-item-btn" id="side-btn-CGE" onclick="abrirCentro('CGE')" title="Gestão da Rede Escolar (CGE)">
               <span class="centro-icon-badge" title="Gestão da Rede Escolar">🏫</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Gestão da Rede Escolar</span>
@@ -5383,7 +5478,7 @@ const carroCSS = `
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-CRH" onclick="abrirCentro('CRH')">
+            <button class="nav-item-btn" id="side-btn-CRH" onclick="abrirCentro('CRH')" title="Recursos Humanos (CRH)">
               <span class="centro-icon-badge" title="Recursos Humanos">👥</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Recursos Humanos</span>
@@ -5392,7 +5487,7 @@ const carroCSS = `
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-NPE" onclick="abrirCentro('NPE')">
+            <button class="nav-item-btn" id="side-btn-NPE" onclick="abrirCentro('NPE')" title="Núcleo Pedagógico (NPE)">
               <span class="centro-icon-badge" title="Núcleo Pedagógico">📚</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Núcleo Pedagógico</span>
@@ -6861,6 +6956,45 @@ const carroCSS = `
     } else {
       aplicarIdentidadeVisual();
     }
+
+    // === CONTROLE DE RECOLHIMENTO DA BARRA LATERAL (SIDEBAR TOGGLE) ===
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const btn = document.getElementById('sidebar-toggle-btn') || document.querySelector('.sidebar-collapse-btn');
+      if (!sidebar) return;
+
+      const isCollapsed = sidebar.classList.toggle('collapsed');
+      if (btn) {
+        btn.innerHTML = isCollapsed ? '▶' : '◀';
+        btn.setAttribute('title', isCollapsed ? 'Expandir barra lateral' : 'Recolher barra lateral');
+        btn.setAttribute('aria-label', isCollapsed ? 'Expandir barra lateral' : 'Recolher barra lateral');
+      }
+
+      try {
+        localStorage.setItem('sidebar_collapsed', isCollapsed ? '1' : '0');
+      } catch (e) {}
+    }
+
+    function inicializarSidebar() {
+      try {
+        if (localStorage.getItem('sidebar_collapsed') === '1') {
+          const sidebar = document.querySelector('.sidebar');
+          const btn = document.getElementById('sidebar-toggle-btn') || document.querySelector('.sidebar-collapse-btn');
+          if (sidebar) sidebar.classList.add('collapsed');
+          if (btn) {
+            btn.innerHTML = '▶';
+            btn.setAttribute('title', 'Expandir barra lateral');
+            btn.setAttribute('aria-label', 'Expandir barra lateral');
+          }
+        }
+      } catch (e) {}
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', inicializarSidebar);
+    } else {
+      inicializarSidebar();
+    }
+
 
     // Estrutura Hierárquica: CENTROS -> SETORES
     const ESTRUTURA_ORGANIZACIONAL = {
