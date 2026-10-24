@@ -71,12 +71,12 @@
         },
         {
           id: 'evt-002',
-          titulo: 'Visita Técnica: EE Prof. José Barreto',
+          titulo: 'Visita Técnica: EE Homem de Ferro (Tony Stark)',
           data: hoje,
           horaInicio: '14:00',
           horaFim: '15:30',
           tipo: 'Visita Técnica',
-          local: 'EE Prof. José Barreto',
+          local: 'EE Homem de Ferro (Tony Stark)',
           link: '',
           setor: 'Supervisão Regional',
           prioridade: 'Alta',
@@ -829,13 +829,13 @@ function inicializarCarroPadrao() {
         id: "car-001",
         data: "2026-10-17",
         periodo: "2026-10-17 a 2026-10-17",
-        titulo: "Visita Técnica Regional: Polo Itapevi e EE Prof. José Barreto",
+        titulo: "Visita Técnica Regional: Polo Itapevi e EE Homem de Ferro (Tony Stark)",
         veiculo: "Chevrolet Spin 1.8 7L (Oficial)",
         placa: "EDE-9842",
         motorista: "Carlos Alberto da Silva",
         solicitante: "Dirigente Regional de Ensino",
         setor: "Gabinete / Supervisão",
-        destino: "EE Prof. José Barreto e Região Central de Itapevi",
+        destino: "EE Homem de Ferro (Tony Stark) e Região Central de Itapevi",
         horarioSaida: "08:30",
         horarioRetorno: "16:30",
         origemFonte: "SEFISC - Agenda",
@@ -892,7 +892,7 @@ function inicializarCarroPadrao() {
         motorista: "João Mendes",
         solicitante: "Núcleo de Obras e Manutenção - NOM / CAF",
         setor: "CAF",
-        destino: "EE Raul Briquet e EE Celso Pacheco",
+        destino: "EE Batman (Bruce Wayne) e EE Mulher-Maravilha (Diana Prince)",
         horarioSaida: "09:00",
         horarioRetorno: "15:00",
         origemFonte: "SEFISC - Controle de uso",
@@ -6485,7 +6485,7 @@ const carroCSS = `
             <div class="atencao-badge-row">
               <span class="badge-alta-prioridade">▲ Alta prioridade</span>
             </div>
-            <div class="atencao-school-name">EE Prof. José Barreto</div>
+            <div class="atencao-school-name">EE Homem de Ferro (Tony Stark)</div>
             <div class="atencao-school-reason">Demanda estrutural elétrica e logística de equipamentos (Itapevi)</div>
           </div>
 
@@ -6493,7 +6493,7 @@ const carroCSS = `
             <div class="atencao-badge-row">
               <span class="badge-alta-prioridade">▲ Alta prioridade</span>
             </div>
-            <div class="atencao-school-name">EE Raul Briquet</div>
+            <div class="atencao-school-name">EE Batman (Bruce Wayne)</div>
             <div class="atencao-school-reason">Acompanhamento pedagógico e modulação docente (Itapevi)</div>
           </div>
 
@@ -6501,7 +6501,7 @@ const carroCSS = `
             <div class="atencao-badge-row">
               <span class="badge-alta-prioridade">▲ Alta prioridade</span>
             </div>
-            <div class="atencao-school-name">EE Celso Pacheco Bentley</div>
+            <div class="atencao-school-name">EE Mulher-Maravilha (Diana Prince)</div>
             <div class="atencao-school-reason">Manutenção predial na quadra e cobertura das salas (Itapevi)</div>
           </div>
         </div>
@@ -8134,28 +8134,40 @@ const carroCSS = `
     // ========================================================
     // GESTÃO COMPLETA DA REDE ESCOLAR (URE ITAPEVI)
     // ========================================================
-    const BASE_ESCOLAS_PADRAO = [
-      { id: 'esc-001', cie: '042918', nome: 'EE Prof. José Barreto', cidade: 'Itapevi', bairro: 'Centro', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Silvia Helena Ferreira', telefone: '(11) 4141-2011', educatrons: 18, status: 'Alta prioridade', motivo: 'Demanda de infraestrutura elétrica e novos equipamentos' },
-      { id: 'esc-002', cie: '042920', nome: 'EE Raul Briquet', cidade: 'Itapevi', bairro: 'Vila Nova Itapevi', tipo: 'PEI 9h', segmento: 'Ensino Médio', diretor: 'Marcos Roberto Santos', telefone: '(11) 4142-1544', educatrons: 16, status: 'Alta prioridade', motivo: 'Reposição de quadro docente e tecnologia' },
-      { id: 'esc-003', cie: '042931', nome: 'EE Celso Pacheco Bentley', cidade: 'Itapevi', bairro: 'Cohab', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Regiane Cristina Lima', telefone: '(11) 4141-5589', educatrons: 14, status: 'Alta prioridade', motivo: 'Reforma quadra poliesportiva e cobertura' },
-      { id: 'esc-004', cie: '042943', nome: 'EE Prof. Dimas Jordão', cidade: 'Itapevi', bairro: 'Jardim Briquet', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Carlos Eduardo Nogueira', telefone: '(11) 4141-3320', educatrons: 22, status: 'Regular', motivo: '' },
-      { id: 'esc-005', cie: '042955', nome: 'EE Vitório Togni', cidade: 'Itapevi', bairro: 'Parque Suburbano', tipo: 'PEI 7h', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Luciana Aparecida Ramos', telefone: '(11) 4143-6670', educatrons: 15, status: 'Regular', motivo: '' },
-      { id: 'esc-006', cie: '042967', nome: 'EE Marechal Cândido Rondon', cidade: 'Itapevi', bairro: 'Amador Bueno', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Fernando Henrique Souza', telefone: '(11) 4144-1020', educatrons: 16, status: 'Em Reforma', motivo: 'Obras de acessibilidade e rampa' },
-      { id: 'esc-007', cie: '042979', nome: 'EE Prof. Vicente Theodoro de Souza', cidade: 'Jandira', bairro: 'Jardim Silveira', tipo: 'PEI 9h', segmento: 'Ensino Médio', diretor: 'Renata Godoy Mendonça', telefone: '(11) 4619-3300', educatrons: 20, status: 'Regular', motivo: '' },
-      { id: 'esc-008', cie: '042980', nome: 'EE Prof. Antônio de Oliveira Godinho', cidade: 'Jandira', bairro: 'Centro', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Paulo César Martins', telefone: '(11) 4619-4500', educatrons: 19, status: 'Regular', motivo: '' },
-      { id: 'esc-009', cie: '042992', nome: 'EE Profª Maria de Lourdes B. F. Lima', cidade: 'Jandira', bairro: 'Jardim Alvorada', tipo: 'Regular Parcial', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Denise Maria Alcantara', telefone: '(11) 4619-8900', educatrons: 12, status: 'Regular', motivo: '' },
-      { id: 'esc-010', cie: '043011', nome: 'EE Santa Rita', cidade: 'Itapevi', bairro: 'Vila Santa Rita', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Claudio Roberto Silveira', telefone: '(11) 4141-9988', educatrons: 17, status: 'Regular', motivo: '' },
-      { id: 'esc-011', cie: '043023', nome: 'EE Prof. Antônio Fernandes', cidade: 'Pirapora do Bom Jesus', bairro: 'Centro', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Valéria Regina Bueno', telefone: '(11) 4131-1122', educatrons: 14, status: 'Regular', motivo: '' },
-      { id: 'esc-012', cie: '043035', nome: 'EE Chácara Solar', cidade: 'Santana de Parnaíba', bairro: 'Solar', tipo: 'PEI 9h', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Adriana Soares Pires', telefone: '(11) 4154-2040', educatrons: 18, status: 'Regular', motivo: '' }
+        const BASE_ESCOLAS_PADRAO = [
+      { id: 'esc-001', cie: '042918', nome: 'EE Homem de Ferro (Tony Stark)', cidade: 'Itapevi', bairro: 'Centro', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Silvia Helena Ferreira', telefone: '(11) 4141-2011', educatrons: 18, status: 'Alta prioridade', motivo: 'Demanda de infraestrutura elétrica e novos equipamentos de tecnologia' },
+      { id: 'esc-002', cie: '042920', nome: 'EE Batman (Bruce Wayne)', cidade: 'Itapevi', bairro: 'Vila Nova Itapevi', tipo: 'PEI 9h', segmento: 'Ensino Médio', diretor: 'Marcos Roberto Santos', telefone: '(11) 4142-1544', educatrons: 16, status: 'Alta prioridade', motivo: 'Reposição de quadro docente e monitoramento patrimonial' },
+      { id: 'esc-003', cie: '042931', nome: 'EE Mulher-Maravilha (Diana Prince)', cidade: 'Itapevi', bairro: 'Cohab', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Regiane Cristina Lima', telefone: '(11) 4141-5589', educatrons: 14, status: 'Alta prioridade', motivo: 'Reforma quadra poliesportiva e ampliação do grêmio' },
+      { id: 'esc-004', cie: '042943', nome: 'EE Homem-Aranha (Peter Parker)', cidade: 'Itapevi', bairro: 'Jardim Briquet', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Carlos Eduardo Nogueira', telefone: '(11) 4141-3320', educatrons: 22, status: 'Regular', motivo: '' },
+      { id: 'esc-005', cie: '042955', nome: 'EE Superman (Clark Kent)', cidade: 'Itapevi', bairro: 'Parque Suburbano', tipo: 'PEI 7h', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Luciana Aparecida Ramos', telefone: '(11) 4143-6670', educatrons: 15, status: 'Regular', motivo: '' },
+      { id: 'esc-006', cie: '042967', nome: 'EE Capitão América (Steve Rogers)', cidade: 'Itapevi', bairro: 'Amador Bueno', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Fernando Henrique Souza', telefone: '(11) 4144-1020', educatrons: 16, status: 'Em Reforma', motivo: 'Obras de acessibilidade e rampa' },
+      { id: 'esc-007', cie: '042979', nome: "EE Pantera Negra (T'Challa)", cidade: 'Jandira', bairro: 'Jardim Silveira', tipo: 'PEI 9h', segmento: 'Ensino Médio', diretor: 'Renata Godoy Mendonça', telefone: '(11) 4619-3300', educatrons: 20, status: 'Regular', motivo: '' },
+      { id: 'esc-008', cie: '042980', nome: 'EE Flash (Barry Allen)', cidade: 'Jandira', bairro: 'Centro', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Paulo César Martins', telefone: '(11) 4619-4500', educatrons: 19, status: 'Regular', motivo: '' },
+      { id: 'esc-009', cie: '042992', nome: 'EE Capitã Marvel (Carol Danvers)', cidade: 'Jandira', bairro: 'Jardim Alvorada', tipo: 'Regular Parcial', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Denise Maria Alcantara', telefone: '(11) 4619-8900', educatrons: 12, status: 'Regular', motivo: '' },
+      { id: 'esc-010', cie: '043011', nome: 'EE Lanterna Verde (Hal Jordan)', cidade: 'Itapevi', bairro: 'Vila Santa Rita', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Claudio Roberto Silveira', telefone: '(11) 4141-9988', educatrons: 17, status: 'Regular', motivo: '' },
+      { id: 'esc-011', cie: '043023', nome: 'EE Thor Odinson', cidade: 'Pirapora do Bom Jesus', bairro: 'Centro', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Valéria Regina Bueno', telefone: '(11) 4131-1122', educatrons: 14, status: 'Regular', motivo: '' },
+      { id: 'esc-012', cie: '043035', nome: 'EE Aquaman (Arthur Curry)', cidade: 'Santana de Parnaíba', bairro: 'Solar', tipo: 'PEI 9h', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Adriana Soares Pires', telefone: '(11) 4154-2040', educatrons: 18, status: 'Regular', motivo: '' },
+      { id: 'esc-013', cie: '043047', nome: 'EE Viúva Negra (Natasha Romanoff)', cidade: 'Santana de Parnaíba', bairro: 'Alphaville', tipo: 'PEI 9h', segmento: 'Ensino Médio', diretor: 'Juliana Beatriz Neves', telefone: '(11) 4154-3310', educatrons: 24, status: 'Regular', motivo: '' },
+      { id: 'esc-014', cie: '043059', nome: 'EE Ciborgue (Victor Stone)', cidade: 'Barueri', bairro: 'Centro', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'André Luiz Albuquerque', telefone: '(11) 4199-5500', educatrons: 26, status: 'Regular', motivo: '' },
+      { id: 'esc-015', cie: '043061', nome: 'EE Doutor Estranho (Stephen Strange)', cidade: 'Itapevi', bairro: 'Cardoso', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Marcelo Vieira Prado', telefone: '(11) 4143-7720', educatrons: 15, status: 'Regular', motivo: '' },
+      { id: 'esc-016', cie: '043073', nome: 'EE Arqueiro Verde (Oliver Queen)', cidade: 'Jandira', bairro: 'Orestes Correia', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Patrícia Toledo Mendes', telefone: '(11) 4619-7100', educatrons: 13, status: 'Regular', motivo: '' },
+      { id: 'esc-017', cie: '043085', nome: 'EE Wolverine (Logan)', cidade: 'Pirapora do Bom Jesus', bairro: 'Bandeirantes', tipo: 'Regular Parcial', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Rodrigo Siqueira Lopes', telefone: '(11) 4131-4450', educatrons: 16, status: 'Regular', motivo: '' },
+      { id: 'esc-018', cie: '043097', nome: 'EE Supergirl (Kara Zor-El)', cidade: 'Itapevi', bairro: 'Vitápolis', tipo: 'PEI 7h', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Camila Fernandes Costa', telefone: '(11) 4142-9910', educatrons: 18, status: 'Regular', motivo: '' },
+      { id: 'esc-019', cie: '043109', nome: 'EE Tempestade (Ororo Munroe)', cidade: 'Jandira', bairro: 'Sagrado Coração', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Aline Cristine Guimarães', telefone: '(11) 4619-8230', educatrons: 21, status: 'Regular', motivo: '' },
+      { id: 'esc-020', cie: '043121', nome: 'EE Shazam (Billy Batson)', cidade: 'Santana de Parnaíba', bairro: 'Centro Histórico', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Guilherme Augusto Rocha', telefone: '(11) 4154-9090', educatrons: 14, status: 'Regular', motivo: '' }
     ];
 
     let listaEscolas = [];
 
     function carregarEscolasLocalStorage() {
       try {
-        const salvo = localStorage.getItem('ure_itapevi_escolas_v1');
+        const salvo = localStorage.getItem('ure_itapevi_escolas_v3');
         if (salvo) {
           listaEscolas = JSON.parse(salvo);
+          if (listaEscolas.some(e => e.nome.includes('Prof. José Barreto') || e.nome.includes('Raul Briquet') || e.nome.includes('Celso Pacheco'))) {
+            listaEscolas = JSON.parse(JSON.stringify(BASE_ESCOLAS_PADRAO));
+            salvarEscolasLocalStorage();
+          }
         } else {
           listaEscolas = JSON.parse(JSON.stringify(BASE_ESCOLAS_PADRAO));
           salvarEscolasLocalStorage();
@@ -8167,7 +8179,7 @@ const carroCSS = `
 
     function salvarEscolasLocalStorage() {
       try {
-        localStorage.setItem('ure_itapevi_escolas_v1', JSON.stringify(listaEscolas));
+        localStorage.setItem('ure_itapevi_escolas_v3', JSON.stringify(listaEscolas));
       } catch (e) {}
     }
 
@@ -9657,11 +9669,11 @@ const carroCSS = `
         desc: 'Demandas registradas pela Seção de Tecnologia para as unidades escolares da região.',
         pasta: 'Demandas',
         registros: [
-          { id: 'DEM-0142/26', polo: 'EE Prof. Celso Gama', equip: 'Ampliação de cabeamento estruturado sala maker', data: '21/10/2026', status: 'Em Atendimento' },
-          { id: 'DEM-0139/26', polo: 'EE Prof. José Barreto', equip: 'Troca de patch cords e organização de rack 19"', data: '19/10/2026', status: 'Concluído' },
-          { id: 'DEM-0135/26', polo: 'EE Pres. Castelo Branco', equip: 'Instalação de 2 Educatrons na ala do Ensino Médio', data: '17/10/2026', status: 'Concluído' },
-          { id: 'DEM-0128/26', polo: 'EE Profa. Maria Angélica', equip: 'Substituição de fonte desktop secretaria escolar', data: '14/10/2026', status: 'Concluído' },
-          { id: 'DEM-0115/26', polo: 'EE Raul Briquet', equip: 'Configuração de AP Wi-Fi Unifi e teste de throughput', data: '10/10/2026', status: 'Validado' }
+          { id: 'DEM-0142/26', polo: 'EE Homem-Aranha (Peter Parker)', equip: 'Ampliação de cabeamento estruturado sala maker', data: '21/10/2026', status: 'Em Atendimento' },
+          { id: 'DEM-0139/26', polo: 'EE Homem de Ferro (Tony Stark)', equip: 'Troca de patch cords e organização de rack 19"', data: '19/10/2026', status: 'Concluído' },
+          { id: 'DEM-0135/26', polo: 'EE Capitão América (Steve Rogers)', equip: 'Instalação de 2 Educatrons na ala do Ensino Médio', data: '17/10/2026', status: 'Concluído' },
+          { id: 'DEM-0128/26', polo: 'EE Capitã Marvel (Carol Danvers)', equip: 'Substituição de fonte desktop secretaria escolar', data: '14/10/2026', status: 'Concluído' },
+          { id: 'DEM-0115/26', polo: 'EE Batman (Bruce Wayne)', equip: 'Configuração de AP Wi-Fi Unifi e teste de throughput', data: '10/10/2026', status: 'Validado' }
         ]
       },
       'Atendimentos': {
@@ -9670,11 +9682,11 @@ const carroCSS = `
         desc: 'Histórico operacional de atendimentos e suporte prestados pela equipe técnica de Tecnologia.',
         pasta: 'Atendimentos',
         registros: [
-          { id: 'ATD-5510', polo: 'EE Celso Pacheco Bentley', equip: 'Suporte presencial: reinstalação SED e certificação digital', data: '22/10/2026', status: 'Atendido' },
-          { id: 'ATD-5498', polo: 'EE João Ramalho', equip: 'Troca de fonte de alimentação Educatron 75"', data: '20/10/2026', status: 'Atendido' },
-          { id: 'ATD-5481', polo: 'EE Nair Toledo', equip: 'Orientação técnica para sincronização de carrinho de recarga', data: '18/10/2026', status: 'Atendido' },
-          { id: 'ATD-5460', polo: 'EE Marechal Rondon', equip: 'Ajuste de permissão de domínio e rede Intragov', data: '15/10/2026', status: 'Atendido' },
-          { id: 'ATD-5422', polo: 'EE Dr. Paulo Araújo', equip: 'Abertura de garantia junto ao fabricante para 12 notebooks', data: '12/10/2026', status: 'Em Análise' }
+          { id: 'ATD-5510', polo: 'EE Mulher-Maravilha (Diana Prince)', equip: 'Suporte presencial: reinstalação SED e certificação digital', data: '22/10/2026', status: 'Atendido' },
+          { id: 'ATD-5498', polo: 'EE Pantera Negra (T\'Challa)', equip: 'Troca de fonte de alimentação Educatron 75"', data: '20/10/2026', status: 'Atendido' },
+          { id: 'ATD-5481', polo: 'EE Viúva Negra (Natasha Romanoff)', equip: 'Orientação técnica para sincronização de carrinho de recarga', data: '18/10/2026', status: 'Atendido' },
+          { id: 'ATD-5460', polo: 'EE Thor Odinson', equip: 'Ajuste de permissão de domínio e rede Intragov', data: '15/10/2026', status: 'Atendido' },
+          { id: 'ATD-5422', polo: 'EE Doutor Estranho (Stephen Strange)', equip: 'Abertura de garantia junto ao fabricante para 12 notebooks', data: '12/10/2026', status: 'Em Análise' }
         ]
       },
       'Hardware': {
@@ -9684,10 +9696,10 @@ const carroCSS = `
         pasta: 'Hardware',
         registros: [
           { id: 'HW-08941', polo: 'Polo Regional Itapevi Centro', equip: 'Lote 120 Notebooks Positivo Master N1400 (Alunos)', data: '20/10/2026', status: 'Disponível' },
-          { id: 'HW-08912', polo: 'EE Prof. Celso Gama', equip: '42 Desktops Lenovo ThinkCentre i5 (Informática)', data: '18/10/2026', status: 'Disponível' },
-          { id: 'HW-08890', polo: 'EE Raul Briquet', equip: '18 Desktops Administrativos Dell OptiPlex (Secretaria)', data: '16/10/2026', status: 'Disponível' },
-          { id: 'HW-08845', polo: 'EE João Ramalho', equip: '35 Laptops Educacionais Positivo Celeron', data: '14/10/2026', status: 'Manutenção' },
-          { id: 'HW-08799', polo: 'EE Pres. Castelo Branco', equip: '04 Servidores Locais de Cache e Conteúdo', data: '09/10/2026', status: 'Disponível' }
+          { id: 'HW-08912', polo: 'EE Homem-Aranha (Peter Parker)', equip: '42 Desktops Lenovo ThinkCentre i5 (Informática)', data: '18/10/2026', status: 'Disponível' },
+          { id: 'HW-08890', polo: 'EE Batman (Bruce Wayne)', equip: '18 Desktops Administrativos Dell OptiPlex (Secretaria)', data: '16/10/2026', status: 'Disponível' },
+          { id: 'HW-08845', polo: 'EE Pantera Negra (T\'Challa)', equip: '35 Laptops Educacionais Positivo Celeron', data: '14/10/2026', status: 'Manutenção' },
+          { id: 'HW-08799', polo: 'EE Capitão América (Steve Rogers)', equip: '04 Servidores Locais de Cache e Conteúdo', data: '09/10/2026', status: 'Disponível' }
         ]
       },
       'Rede': {
@@ -9696,11 +9708,11 @@ const carroCSS = `
         desc: 'Switches, racks, firewalls, nobreaks e demais equipamentos de conectividade de rede.',
         pasta: 'Rede',
         registros: [
-          { id: 'RED-2041', polo: 'EE Profa. Maria Angélica', equip: 'Switch Aruba Instant On 1930 24G 4SFP/SFP+ PoE+ 370W', data: '19/10/2026', status: 'Operacional' },
-          { id: 'RED-2035', polo: 'EE Celso Pacheco Bentley', equip: 'Access Point HP Aruba AP-505 Wi-Fi 6 Corporativo', data: '17/10/2026', status: 'Operacional' },
-          { id: 'RED-2018', polo: 'EE Nair Toledo', equip: 'Nobreak SMS Sinus Triad 3kVA com Módulo Baterias', data: '15/10/2026', status: 'Operacional' },
+          { id: 'RED-2041', polo: 'EE Capitã Marvel (Carol Danvers)', equip: 'Switch Aruba Instant On 1930 24G 4SFP/SFP+ PoE+ 370W', data: '19/10/2026', status: 'Operacional' },
+          { id: 'RED-2035', polo: 'EE Mulher-Maravilha (Diana Prince)', equip: 'Access Point HP Aruba AP-505 Wi-Fi 6 Corporativo', data: '17/10/2026', status: 'Operacional' },
+          { id: 'RED-2018', polo: 'EE Viúva Negra (Natasha Romanoff)', equip: 'Nobreak SMS Sinus Triad 3kVA com Módulo Baterias', data: '15/10/2026', status: 'Operacional' },
           { id: 'RED-1994', polo: 'Polo Regional Itapevi', equip: 'Firewall Fortinet FortiGate 60F de borda', data: '11/10/2026', status: 'Operacional' },
-          { id: 'RED-1970', polo: 'EE Marechal Rondon', equip: 'Rack 19" 24U fechado com guia vertical de cabos', data: '05/10/2026', status: 'Operacional' }
+          { id: 'RED-1970', polo: 'EE Thor Odinson', equip: 'Rack 19" 24U fechado com guia vertical de cabos', data: '05/10/2026', status: 'Operacional' }
         ]
       },
       'Educatrons': {
@@ -9709,11 +9721,11 @@ const carroCSS = `
         desc: 'Inventário de TVs e Educatrons integrados com suporte multimídia e projeção interativa.',
         pasta: 'Educatrons',
         registros: [
-          { id: 'EDU-0412', polo: 'EE Prof. Celso Gama', equip: '14 Educatrons 75" Promethean 4K c/ Computador Integrado', data: '21/10/2026', status: 'Em Uso' },
-          { id: 'EDU-0398', polo: 'EE Pres. Castelo Branco', equip: '12 Educatrons 75" Multilaser Ultra HD', data: '18/10/2026', status: 'Em Uso' },
-          { id: 'EDU-0382', polo: 'EE Profa. Maria Angélica', equip: '08 TVs LED 65" Samsung Crystal para Auditório/Professores', data: '16/10/2026', status: 'Em Uso' },
-          { id: 'EDU-0371', polo: 'EE Raul Briquet', equip: '10 Educatrons 75" 4K com Suporte com Rodízios', data: '12/10/2026', status: 'Em Uso' },
-          { id: 'EDU-0355', polo: 'EE Dr. Paulo Araújo', equip: '02 Educatrons 75" aguardando calibração de touch', data: '08/10/2026', status: 'Manutenção' }
+          { id: 'EDU-0412', polo: 'EE Homem-Aranha (Peter Parker)', equip: '14 Educatrons 75" Promethean 4K c/ Computador Integrado', data: '21/10/2026', status: 'Em Uso' },
+          { id: 'EDU-0398', polo: 'EE Capitão América (Steve Rogers)', equip: '12 Educatrons 75" Multilaser Ultra HD', data: '18/10/2026', status: 'Em Uso' },
+          { id: 'EDU-0382', polo: 'EE Capitã Marvel (Carol Danvers)', equip: '08 TVs LED 65" Samsung Crystal para Auditório/Professores', data: '16/10/2026', status: 'Em Uso' },
+          { id: 'EDU-0371', polo: 'EE Batman (Bruce Wayne)', equip: '10 Educatrons 75" 4K com Suporte com Rodízios', data: '12/10/2026', status: 'Em Uso' },
+          { id: 'EDU-0355', polo: 'EE Doutor Estranho (Stephen Strange)', equip: '02 Educatrons 75" aguardando calibração de touch', data: '08/10/2026', status: 'Manutenção' }
         ]
       },
       'Recarga': {
@@ -9722,11 +9734,11 @@ const carroCSS = `
         desc: 'Plataformas e carrinhos inteligentes de recarga para notebooks e tablets dos estudantes.',
         pasta: 'Recarga',
         registros: [
-          { id: 'REC-0198', polo: 'EE Prof. Celso Gama', equip: '03 Carrinhos de Recarga Inteligente 36 Portas USB-C c/ Timer', data: '20/10/2026', status: 'Operacional' },
-          { id: 'REC-0185', polo: 'EE João Ramalho', equip: '02 Gabinetes de Recarga Móvel 30 Baias com Ventilação', data: '17/10/2026', status: 'Operacional' },
-          { id: 'REC-0177', polo: 'EE Nair Toledo', equip: '02 Plataformas de Recarga Rápida com chave e rodízios', data: '14/10/2026', status: 'Operacional' },
-          { id: 'REC-0164', polo: 'EE Celso Pacheco Bentley', equip: '01 Carrinho de Recarga 36 baias (troca de tomada)', data: '11/10/2026', status: 'Manutenção' },
-          { id: 'REC-0150', polo: 'EE Marechal Rondon', equip: '03 Gabinetes de Recarga Inteligente 36 baias', data: '06/10/2026', status: 'Operacional' }
+          { id: 'REC-0198', polo: 'EE Homem-Aranha (Peter Parker)', equip: '03 Carrinhos de Recarga Inteligente 36 Portas USB-C c/ Timer', data: '20/10/2026', status: 'Operacional' },
+          { id: 'REC-0185', polo: 'EE Pantera Negra (T\'Challa)', equip: '02 Gabinetes de Recarga Móvel 30 Baias com Ventilação', data: '17/10/2026', status: 'Operacional' },
+          { id: 'REC-0177', polo: 'EE Viúva Negra (Natasha Romanoff)', equip: '02 Plataformas de Recarga Rápida com chave e rodízios', data: '14/10/2026', status: 'Operacional' },
+          { id: 'REC-0164', polo: 'EE Mulher-Maravilha (Diana Prince)', equip: '01 Carrinho de Recarga 36 baias (troca de tomada)', data: '11/10/2026', status: 'Manutenção' },
+          { id: 'REC-0150', polo: 'EE Thor Odinson', equip: '03 Gabinetes de Recarga Inteligente 36 baias', data: '06/10/2026', status: 'Operacional' }
         ]
       }
     };

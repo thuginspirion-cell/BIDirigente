@@ -25,13 +25,13 @@ function getConsolidatedData() {
       percentual: 90
     },
     escolasAtencao: [
-      { nome: "EE Prof. José Barreto", cidade: "Itapevi", motivo: "Demanda de infraestrutura elétrica", prioridade: "Alta prioridade" },
-      { nome: "EE Raul Briquet", cidade: "Itapevi", motivo: "Reposição de quadro docente e tecnologia", prioridade: "Alta prioridade" },
-      { nome: "EE Celso Pacheco Bentley", cidade: "Itapevi", motivo: "Reforma quadra poliesportiva e cobertura", prioridade: "Alta prioridade" }
+      { nome: "EE Homem de Ferro (Tony Stark)", cidade: "Itapevi", motivo: "Demanda de infraestrutura elétrica e novos equipamentos de tecnologia", prioridade: "Alta prioridade" },
+      { nome: "EE Batman (Bruce Wayne)", cidade: "Itapevi", motivo: "Reposição de quadro docente e monitoramento patrimonial", prioridade: "Alta prioridade" },
+      { nome: "EE Mulher-Maravilha (Diana Prince)", cidade: "Itapevi", motivo: "Reforma quadra poliesportiva e ampliação do grêmio", prioridade: "Alta prioridade" }
     ],
         agendaHoje: [
       { id: "evt-001", horaInicio: "08:00", horaFim: "09:00", hora: "08:00", titulo: "Live Reunião", tipo: "Reunião", local: "Teams", setor: "Gabinete / URE", prioridade: "Alta", status: "Agendado", descricao: "Live Reunião com a rede e equipes gestoras escolares" },
-      { id: "evt-002", horaInicio: "14:00", horaFim: "15:30", hora: "14:00", titulo: "Visita Técnica: EE Prof. José Barreto", tipo: "Visita Técnica", local: "EE Prof. José Barreto", setor: "Supervisão", prioridade: "Alta", status: "Agendado", descricao: "Acompanhamento das reformas e novos equipamentos" },
+      { id: "evt-002", horaInicio: "14:00", horaFim: "15:30", hora: "14:00", titulo: "Visita Técnica: EE Homem de Ferro (Tony Stark)", tipo: "Visita Técnica", local: "EE Homem de Ferro (Tony Stark)", setor: "Supervisão", prioridade: "Alta", status: "Agendado", descricao: "Acompanhamento das reformas e novos equipamentos" },
       { id: "evt-003", horaInicio: "16:00", horaFim: "17:00", hora: "16:00", titulo: "Alinhamento com SEAFIN e NOM", tipo: "Despacho Gabinete", local: "Gabinete da Dirigente", setor: "CAF", prioridade: "Normal", status: "Agendado", descricao: "Execução orçamentária e aditivos de contratos" }
     ],
     carroOficial: {
@@ -42,13 +42,13 @@ function getConsolidatedData() {
           id: "car-001",
           data: "2026-10-17",
           periodo: "2026-10-17 a 2026-10-17",
-          titulo: "Visita Técnica Regional: Polo Itapevi e EE Prof. José Barreto",
+          titulo: "Visita Técnica Regional: Polo Itapevi e EE Homem de Ferro (Tony Stark)",
           veiculo: "Chevrolet Spin 1.8 7L (Oficial)",
           placa: "EDE-9842",
           motorista: "Carlos Alberto da Silva",
           solicitante: "Dirigente Regional de Ensino",
           setor: "Gabinete / Supervisão",
-          destino: "EE Prof. José Barreto e Região Central de Itapevi",
+          destino: "EE Homem de Ferro (Tony Stark) e Região Central de Itapevi",
           horarioSaida: "08:30",
           horarioRetorno: "16:30",
           origemFonte: "SEFISC - Agenda",
@@ -102,7 +102,7 @@ function getConsolidatedData() {
           motorista: "João Mendes",
           solicitante: "Núcleo de Obras e Manutenção - NOM / CAF",
           setor: "CAF",
-          destino: "EE Raul Briquet e EE Celso Pacheco",
+          destino: "EE Batman (Bruce Wayne) e EE Mulher-Maravilha (Diana Prince)",
           horarioSaida: "09:00",
           horarioRetorno: "15:00",
           origemFonte: "SEFISC - Controle de uso",
