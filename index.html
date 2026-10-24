@@ -5361,7 +5361,343 @@ const carroCSS = `
       background: #fef3c7;
       color: #b45309;
     }
-  </style>
+  
+    /* ======================================================== */
+    /* ABA ESCOLAS DA REDE - ESTILO OFICIAL URE ITAPEVI */
+    /* ======================================================== */
+    .escolas-header-card {
+      background: linear-gradient(135deg, #07152f 0%, #0b2351 60%, #15326c 100%);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(240, 155, 12, 0.35);
+      padding: 1.5rem 1.75rem;
+      color: #ffffff;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    .escolas-header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+    }
+    .escolas-header-left {
+      max-width: 650px;
+    }
+    .escolas-pretitle {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--brand-gold-bright);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    .escolas-main-title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      margin: 0 0 0.35rem 0;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+    .escolas-main-desc {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .escolas-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+    .btn-escola-primary {
+      background: linear-gradient(135deg, #f09b0c 0%, #d48208 100%);
+      color: #ffffff;
+      border: none;
+      padding: 0.65rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      box-shadow: 0 4px 14px rgba(240, 155, 12, 0.35);
+      transition: all 0.2s ease;
+    }
+    .btn-escola-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(240, 155, 12, 0.5);
+    }
+    .btn-escola-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f1f5f9;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+    }
+    .btn-escola-secondary:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.4);
+      color: #ffffff;
+    }
+
+    /* KPIS ESCOLAS */
+    .escolas-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .escola-kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.15rem 1.25rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+    .escola-kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+    .escola-kpi-card.active-filter {
+      border-color: #f09b0c;
+      box-shadow: 0 0 0 2px rgba(240, 155, 12, 0.35);
+    }
+    .escola-kpi-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .escola-kpi-number {
+      font-size: 1.95rem;
+      font-weight: 800;
+      color: var(--brand-navy);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .escola-kpi-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* BARRA DE FILTROS & BUSCA */
+    .escolas-filter-bar {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .escolas-search-wrap {
+      flex: 1;
+      min-width: 260px;
+      position: relative;
+    }
+    .escolas-search-input {
+      width: 100%;
+      padding: 0.65rem 1rem 0.65rem 2.4rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .escolas-search-input:focus {
+      border-color: #f09b0c;
+      box-shadow: 0 0 0 3px rgba(240, 155, 12, 0.18);
+    }
+    .escolas-search-icon {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.95rem;
+      color: #94a3b8;
+    }
+    .escolas-select-filter {
+      padding: 0.65rem 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      color: var(--text-main);
+      background-color: #ffffff;
+      cursor: pointer;
+      outline: none;
+      min-width: 140px;
+    }
+    .escolas-select-filter:focus {
+      border-color: #f09b0c;
+    }
+    .escolas-count-badge {
+      font-size: 0.82rem;
+      color: #64748b;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* TABELA DE ESCOLAS */
+    .escolas-table-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .escolas-table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .escolas-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+    .escolas-table th {
+      background: #f8fafc;
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      font-size: 0.74rem;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid #e2e8f0;
+      white-space: nowrap;
+    }
+    .escolas-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+      vertical-align: middle;
+    }
+    .escolas-table tr:hover td {
+      background-color: #f8fafc;
+    }
+    .escola-tag-cie {
+      font-family: monospace;
+      font-size: 0.76rem;
+      font-weight: 700;
+      background: #f1f5f9;
+      color: #475569;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+    .escola-name-cell {
+      font-weight: 700;
+      color: #0f172a;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+    .badge-pei {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      color: #92400e;
+      border: 1px solid #f59e0b;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+    }
+    .badge-regular {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .badge-status-regular {
+      background: #dcfce7;
+      color: #166534;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-status-atencao {
+      background: #fee2e2;
+      color: #991b1b;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-status-reforma {
+      background: #fef9c3;
+      color: #854d0e;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .escola-actions-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .btn-table-action {
+      background: transparent;
+      border: 1px solid #e2e8f0;
+      color: #64748b;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.78rem;
+      transition: all 0.2s ease;
+    }
+    .btn-table-action:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #cbd5e1;
+    }
+    .btn-table-action.danger:hover {
+      background: #fee2e2;
+      color: #b91c1c;
+      border-color: #fca5a5;
+    }
+
+</style>
 </head>
 
 <body>
@@ -5417,13 +5753,13 @@ const carroCSS = `
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-escolas" onclick="navegarParaSecao('escolas-section', 'side-btn-escolas')" title="Lista de Escolas">
+            <button class="nav-item-btn" id="side-btn-escolas" onclick="abrirEscolas()" title="Lista de Escolas">
               <span class="nav-item-icon">🏫</span>
               <span>Escolas</span>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-atencao" onclick="navegarParaSecao('escolas-atencao-section', 'side-btn-atencao')" title="Escolas em Atenção">
+            <button class="nav-item-btn" id="side-btn-atencao" onclick="abrirEscolas('atencao')" title="Escolas em Atenção">
               <span class="nav-item-icon">⚠️</span>
               <span>Escolas em Atenção</span>
             </button>
@@ -5618,7 +5954,7 @@ const carroCSS = `
             <span style="color: var(--accent-red); font-size: 1.1rem;">⚠️</span>
             <span>Em foco: escolas que exigem atenção</span>
           </div>
-          <span class="section-see-all">Ver todas →</span>
+          <span class="section-see-all" style="cursor: pointer;" onclick="abrirEscolas('atencao')" title="Ver escolas em atenção">Ver todas →</span>
         </div>
 
         <div class="atencao-grid">
@@ -5792,7 +6128,7 @@ const carroCSS = `
                   <span class="kpi-color-dot" style="background: var(--brand-gold);"></span>
                   <span class="kpi-big-number" id="kpi-escolas">87</span>
                 </div>
-                <span class="kpi-mini-label">Escolas na rede</span>
+                <span class="kpi-mini-label" style="cursor: pointer;" onclick="abrirEscolas()" title="Abrir gestão de escolas">Escolas na rede ↗</span>
               </div>
 
               <div class="kpi-mini-box">
@@ -6915,6 +7251,136 @@ const carroCSS = `
 
       </section>
 
+      <!-- ============================================== -->
+      <!-- VIEW: ESCOLAS DA REDE ESTADUAL (URE ITAPEVI) -->
+      <!-- ============================================== -->
+      <section id="pane-escolas" class="view-pane">
+
+        <!-- HEADER DA REDE ESCOLAR -->
+        <div class="escolas-header-card">
+          <div class="escolas-header-inner">
+            <div class="escolas-header-left">
+              <span class="escolas-pretitle">DIRETORIA REGIONAL DE ENSINO • URE ITAPEVI</span>
+              <h2 class="escolas-main-title">Rede Escolar Estadual</h2>
+              <p class="escolas-main-desc">
+                Gestão cadastral, indicadores de atendimento, unidades PEI, salas de tecnologia (Educatrons) e escolas em acompanhamento prioritário.
+              </p>
+            </div>
+
+            <div class="escolas-header-actions">
+              <button class="btn-escola-primary" onclick="abrirModalNovaEscola()" title="Adicionar nova escola à base">
+                <span>➕ Cadastrar Nova Escola</span>
+              </button>
+              <button class="btn-escola-secondary" onclick="document.getElementById('input-importar-escolas').click()" title="Importar planilha Excel ou CSV com dados de escolas">
+                <span>📥 Importar Excel</span>
+              </button>
+              <input type="file" id="input-importar-escolas" style="display: none;" accept=".xlsx,.xls,.csv" onchange="importarPlanilhaEscolas(this)">
+              <button class="btn-escola-secondary" onclick="exportarEscolasExcel()" title="Exportar tabela atual de escolas para arquivo Excel">
+                <span>📤 Exportar</span>
+              </button>
+              <button class="btn-escola-secondary" onclick="restaurarEscolasPadrao()" title="Restaurar a base original de escolas da URE Itapevi">
+                <span>🔄 Restaurar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPIS RESUMO DA REDE -->
+        <div class="escolas-kpi-grid">
+          <div class="escola-kpi-card" id="kpi-card-total" onclick="filtrarPorKpi('todas')">
+            <div class="escola-kpi-label">
+              <span>TOTAL DE ESCOLAS</span>
+              <span>🏫</span>
+            </div>
+            <div class="escola-kpi-number" id="escolas-count-total">87</div>
+            <div class="escola-kpi-sub">Unidades escolares na jurisdição</div>
+          </div>
+
+          <div class="escola-kpi-card" id="kpi-card-pei" onclick="filtrarPorKpi('pei')">
+            <div class="escola-kpi-label">
+              <span>PROGRAMA ENSINO INTEGRAL</span>
+              <span>⭐</span>
+            </div>
+            <div class="escola-kpi-number" id="escolas-count-pei" style="color: #d97706;">42</div>
+            <div class="escola-kpi-sub">Escolas de Tempo Integral (PEI)</div>
+          </div>
+
+          <div class="escola-kpi-card" id="kpi-card-regular" onclick="filtrarPorKpi('regular')">
+            <div class="escola-kpi-label">
+              <span>ENSINO REGULAR / PARCIAL</span>
+              <span>📖</span>
+            </div>
+            <div class="escola-kpi-number" id="escolas-count-regular" style="color: #0284c7;">45</div>
+            <div class="escola-kpi-sub">Turnos matutino / vespertino / noturno</div>
+          </div>
+
+          <div class="escola-kpi-card" id="kpi-card-atencao" onclick="filtrarPorKpi('atencao')">
+            <div class="escola-kpi-label">
+              <span>ACOMPANHAMENTO PRIORITÁRIO</span>
+              <span>⚠️</span>
+            </div>
+            <div class="escola-kpi-number" id="escolas-count-atencao" style="color: #dc2626;">3</div>
+            <div class="escola-kpi-sub">Demandas urgentes de supervisão/obras</div>
+          </div>
+        </div>
+
+        <!-- BARRA DE PESQUISA E FILTROS -->
+        <div class="escolas-filter-bar">
+          <div class="escolas-search-wrap">
+            <span class="escolas-search-icon">🔍</span>
+            <input type="text" id="escolas-search-input" class="escolas-search-input" placeholder="Pesquisar por nome da escola, código CIE, diretor ou bairro..." oninput="filtrarEscolas()">
+          </div>
+
+          <select id="escolas-filter-cidade" class="escolas-select-filter" onchange="filtrarEscolas()">
+            <option value="">Todos os Municípios</option>
+            <option value="Itapevi">Itapevi</option>
+            <option value="Jandira">Jandira</option>
+            <option value="Pirapora do Bom Jesus">Pirapora do Bom Jesus</option>
+            <option value="Santana de Parnaíba">Santana de Parnaíba</option>
+          </select>
+
+          <select id="escolas-filter-tipo" class="escolas-select-filter" onchange="filtrarEscolas()">
+            <option value="">Todos os Modelos</option>
+            <option value="PEI">Programa Ensino Integral (PEI)</option>
+            <option value="Regular">Ensino Regular</option>
+          </select>
+
+          <select id="escolas-filter-status" class="escolas-select-filter" onchange="filtrarEscolas()">
+            <option value="">Todas as Situações</option>
+            <option value="Regular">Regular</option>
+            <option value="Alta prioridade">Alta Prioridade / Em Atenção</option>
+            <option value="Em Reforma">Em Reforma / Obras</option>
+          </select>
+
+          <div class="escolas-count-badge" id="escolas-count-badge">
+            Exibindo 0 de 0 escolas
+          </div>
+        </div>
+
+        <!-- TABELA DINÂMICA DE ESCOLAS -->
+        <div class="escolas-table-card">
+          <div class="escolas-table-responsive">
+            <table class="escolas-table">
+              <thead>
+                <tr>
+                  <th style="width: 90px;">CIE</th>
+                  <th>Unidade Escolar</th>
+                  <th>Município / Endereço</th>
+                  <th>Segmento</th>
+                  <th>Direção & Contato</th>
+                  <th style="text-align: center;">Educatrons</th>
+                  <th>Situação</th>
+                  <th style="text-align: right; width: 140px;">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="escolas-table-body">
+                <!-- Linhas preenchidas via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
 
     </div>
   </main>
@@ -6994,6 +7460,414 @@ const carroCSS = `
     } else {
       inicializarSidebar();
     }
+
+
+
+    // ========================================================
+    // GESTÃO COMPLETA DA REDE ESCOLAR (URE ITAPEVI)
+    // ========================================================
+    const BASE_ESCOLAS_PADRAO = [
+      { id: 'esc-001', cie: '042918', nome: 'EE Prof. José Barreto', cidade: 'Itapevi', bairro: 'Centro', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Silvia Helena Ferreira', telefone: '(11) 4141-2011', educatrons: 18, status: 'Alta prioridade', motivo: 'Demanda de infraestrutura elétrica e novos equipamentos' },
+      { id: 'esc-002', cie: '042920', nome: 'EE Raul Briquet', cidade: 'Itapevi', bairro: 'Vila Nova Itapevi', tipo: 'PEI 9h', segmento: 'Ensino Médio', diretor: 'Marcos Roberto Santos', telefone: '(11) 4142-1544', educatrons: 16, status: 'Alta prioridade', motivo: 'Reposição de quadro docente e tecnologia' },
+      { id: 'esc-003', cie: '042931', nome: 'EE Celso Pacheco Bentley', cidade: 'Itapevi', bairro: 'Cohab', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Regiane Cristina Lima', telefone: '(11) 4141-5589', educatrons: 14, status: 'Alta prioridade', motivo: 'Reforma quadra poliesportiva e cobertura' },
+      { id: 'esc-004', cie: '042943', nome: 'EE Prof. Dimas Jordão', cidade: 'Itapevi', bairro: 'Jardim Briquet', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Carlos Eduardo Nogueira', telefone: '(11) 4141-3320', educatrons: 22, status: 'Regular', motivo: '' },
+      { id: 'esc-005', cie: '042955', nome: 'EE Vitório Togni', cidade: 'Itapevi', bairro: 'Parque Suburbano', tipo: 'PEI 7h', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Luciana Aparecida Ramos', telefone: '(11) 4143-6670', educatrons: 15, status: 'Regular', motivo: '' },
+      { id: 'esc-006', cie: '042967', nome: 'EE Marechal Cândido Rondon', cidade: 'Itapevi', bairro: 'Amador Bueno', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Fernando Henrique Souza', telefone: '(11) 4144-1020', educatrons: 16, status: 'Em Reforma', motivo: 'Obras de acessibilidade e rampa' },
+      { id: 'esc-007', cie: '042979', nome: 'EE Prof. Vicente Theodoro de Souza', cidade: 'Jandira', bairro: 'Jardim Silveira', tipo: 'PEI 9h', segmento: 'Ensino Médio', diretor: 'Renata Godoy Mendonça', telefone: '(11) 4619-3300', educatrons: 20, status: 'Regular', motivo: '' },
+      { id: 'esc-008', cie: '042980', nome: 'EE Prof. Antônio de Oliveira Godinho', cidade: 'Jandira', bairro: 'Centro', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Paulo César Martins', telefone: '(11) 4619-4500', educatrons: 19, status: 'Regular', motivo: '' },
+      { id: 'esc-009', cie: '042992', nome: 'EE Profª Maria de Lourdes B. F. Lima', cidade: 'Jandira', bairro: 'Jardim Alvorada', tipo: 'Regular Parcial', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Denise Maria Alcantara', telefone: '(11) 4619-8900', educatrons: 12, status: 'Regular', motivo: '' },
+      { id: 'esc-010', cie: '043011', nome: 'EE Santa Rita', cidade: 'Itapevi', bairro: 'Vila Santa Rita', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Claudio Roberto Silveira', telefone: '(11) 4141-9988', educatrons: 17, status: 'Regular', motivo: '' },
+      { id: 'esc-011', cie: '043023', nome: 'EE Prof. Antônio Fernandes', cidade: 'Pirapora do Bom Jesus', bairro: 'Centro', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Valéria Regina Bueno', telefone: '(11) 4131-1122', educatrons: 14, status: 'Regular', motivo: '' },
+      { id: 'esc-012', cie: '043035', nome: 'EE Chácara Solar', cidade: 'Santana de Parnaíba', bairro: 'Solar', tipo: 'PEI 9h', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Adriana Soares Pires', telefone: '(11) 4154-2040', educatrons: 18, status: 'Regular', motivo: '' }
+    ];
+
+    let listaEscolas = [];
+
+    function carregarEscolasLocalStorage() {
+      try {
+        const salvo = localStorage.getItem('ure_itapevi_escolas_v1');
+        if (salvo) {
+          listaEscolas = JSON.parse(salvo);
+        } else {
+          listaEscolas = JSON.parse(JSON.stringify(BASE_ESCOLAS_PADRAO));
+          salvarEscolasLocalStorage();
+        }
+      } catch (e) {
+        listaEscolas = JSON.parse(JSON.stringify(BASE_ESCOLAS_PADRAO));
+      }
+    }
+
+    function salvarEscolasLocalStorage() {
+      try {
+        localStorage.setItem('ure_itapevi_escolas_v1', JSON.stringify(listaEscolas));
+      } catch (e) {}
+    }
+
+    function abrirEscolas(filtroInicial) {
+      esconderTodasAsPanes();
+      const pane = document.getElementById('pane-escolas');
+      if (pane) pane.classList.add('active');
+
+      const sideBtn = document.getElementById('side-btn-escolas');
+      if (sideBtn) sideBtn.classList.add('active');
+
+      atualizarBreadcrumbTopo('04 - Rede Escolar • URE Itapevi');
+
+      carregarEscolasLocalStorage();
+
+      if (filtroInicial === 'atencao') {
+        const statusSelect = document.getElementById('escolas-filter-status');
+        if (statusSelect) statusSelect.value = 'Alta prioridade';
+      } else {
+        const statusSelect = document.getElementById('escolas-filter-status');
+        if (statusSelect && !filtroInicial) statusSelect.value = '';
+      }
+
+      filtrarEscolas();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function atualizarKpisEscolas() {
+      const total = listaEscolas.length;
+      const pei = listaEscolas.filter(e => e.tipo && e.tipo.includes('PEI')).length;
+      const regular = listaEscolas.filter(e => e.tipo && !e.tipo.includes('PEI')).length;
+      const atencao = listaEscolas.filter(e => e.status === 'Alta prioridade').length;
+
+      const elTotal = document.getElementById('escolas-count-total');
+      if (elTotal) elTotal.innerText = total;
+
+      const elPei = document.getElementById('escolas-count-pei');
+      if (elPei) elPei.innerText = pei;
+
+      const elReg = document.getElementById('escolas-count-regular');
+      if (elReg) elReg.innerText = regular;
+
+      const elAt = document.getElementById('escolas-count-atencao');
+      if (elAt) elAt.innerText = atencao;
+
+      // Atualiza também o contador da Home se existir
+      const kpiHome = document.getElementById('kpi-escolas');
+      if (kpiHome) kpiHome.innerText = total;
+    }
+
+    function filtrarEscolas() {
+      const termo = (document.getElementById('escolas-search-input')?.value || '').toLowerCase().trim();
+      const cidade = document.getElementById('escolas-filter-cidade')?.value || '';
+      const tipo = document.getElementById('escolas-filter-tipo')?.value || '';
+      const status = document.getElementById('escolas-filter-status')?.value || '';
+
+      const filtradas = listaEscolas.filter(e => {
+        const matchTermo = !termo || 
+          (e.nome && e.nome.toLowerCase().includes(termo)) ||
+          (e.cie && e.cie.toLowerCase().includes(termo)) ||
+          (e.diretor && e.diretor.toLowerCase().includes(termo)) ||
+          (e.bairro && e.bairro.toLowerCase().includes(termo));
+
+        const matchCidade = !cidade || e.cidade === cidade;
+        const matchTipo = !tipo || (tipo === 'PEI' ? (e.tipo && e.tipo.includes('PEI')) : (e.tipo && !e.tipo.includes('PEI')));
+        const matchStatus = !status || e.status === status;
+
+        return matchTermo && matchCidade && matchTipo && matchStatus;
+      });
+
+      renderizarTabelaEscolas(filtradas);
+      atualizarKpisEscolas();
+
+      const badgeCount = document.getElementById('escolas-count-badge');
+      if (badgeCount) {
+        badgeCount.innerText = `Exibindo ${filtradas.length} de ${listaEscolas.length} escolas`;
+      }
+    }
+
+    function filtrarPorKpi(filtro) {
+      document.querySelectorAll('.escola-kpi-card').forEach(c => c.classList.remove('active-filter'));
+      const statusSelect = document.getElementById('escolas-filter-status');
+      const tipoSelect = document.getElementById('escolas-filter-tipo');
+
+      if (filtro === 'todas') {
+        if (statusSelect) statusSelect.value = '';
+        if (tipoSelect) tipoSelect.value = '';
+        document.getElementById('kpi-card-total')?.classList.add('active-filter');
+      } else if (filtro === 'pei') {
+        if (statusSelect) statusSelect.value = '';
+        if (tipoSelect) tipoSelect.value = 'PEI';
+        document.getElementById('kpi-card-pei')?.classList.add('active-filter');
+      } else if (filtro === 'regular') {
+        if (statusSelect) statusSelect.value = '';
+        if (tipoSelect) tipoSelect.value = 'Regular';
+        document.getElementById('kpi-card-regular')?.classList.add('active-filter');
+      } else if (filtro === 'atencao') {
+        if (statusSelect) statusSelect.value = 'Alta prioridade';
+        if (tipoSelect) tipoSelect.value = '';
+        document.getElementById('kpi-card-atencao')?.classList.add('active-filter');
+      }
+      filtrarEscolas();
+    }
+
+    function renderizarTabelaEscolas(dados) {
+      const tbody = document.getElementById('escolas-table-body');
+      if (!tbody) return;
+
+      if (!dados || dados.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 2.5rem 1rem; color: #64748b;">
+              <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">🔍</span>
+              <strong>Nenhuma escola encontrada com os filtros selecionados.</strong>
+              <p style="margin: 0.25rem 0 0 0; font-size: 0.8rem;">Tente ajustar os termos de pesquisa ou clique em "Cadastrar Nova Escola".</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = dados.map(e => {
+        const isPei = e.tipo && e.tipo.includes('PEI');
+        const tagTipo = isPei 
+          ? `<span class="badge-pei">${e.tipo}</span>` 
+          : `<span class="badge-regular">${e.tipo || 'Regular'}</span>`;
+
+        let badgeStatus = '<span class="badge-status-regular">● Regular</span>';
+        if (e.status === 'Alta prioridade') {
+          badgeStatus = '<span class="badge-status-atencao">▲ Alta prioridade</span>';
+        } else if (e.status === 'Em Reforma') {
+          badgeStatus = '<span class="badge-status-reforma">🛠️ Em Reforma</span>';
+        }
+
+        const descObs = e.motivo ? `<div style="font-size: 0.74rem; color: #b91c1c; margin-top: 2px;">${e.motivo}</div>` : '';
+
+        return `
+          <tr>
+            <td>
+              <span class="escola-tag-cie">${e.cie || '---'}</span>
+            </td>
+            <td>
+              <div class="escola-name-cell">
+                <span>${e.nome}</span>
+                ${tagTipo}
+              </div>
+              ${descObs}
+            </td>
+            <td>
+              <div style="font-weight: 600; color: #1e293b;">${e.cidade}</div>
+              <div style="font-size: 0.74rem; color: #64748b;">${e.bairro || 'Região Escolar'}</div>
+            </td>
+            <td>
+              <span style="font-size: 0.78rem; color: #475569;">${e.segmento || 'Ensino Fundamental e Médio'}</span>
+            </td>
+            <td>
+              <div style="font-weight: 600; color: #0f172a;">${e.diretor || 'Equipe Gestora'}</div>
+              <div style="font-size: 0.74rem; color: #64748b;">${e.telefone || '(11) 4141-0000'}</div>
+            </td>
+            <td style="text-align: center;">
+              <span style="font-weight: 800; color: var(--brand-navy); background: #f8fafc; border: 1px solid #e2e8f0; padding: 2px 8px; border-radius: 6px;">
+                ${e.educatrons || 0}
+              </span>
+            </td>
+            <td>
+              ${badgeStatus}
+            </td>
+            <td style="text-align: right;">
+              <div class="escola-actions-cell" style="justify-content: flex-end;">
+                <button class="btn-table-action" onclick="abrirModalEditarEscola('${e.id}')" title="Editar dados da unidade">✏️ Editar</button>
+                <button class="btn-table-action" onclick="toggleAtencaoEscola('${e.id}')" title="Alternar prioridade / atenção">⚠️</button>
+                <button class="btn-table-action danger" onclick="excluirEscola('${e.id}')" title="Excluir unidade">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function abrirModalNovaEscola() {
+      document.getElementById('form-escola').reset();
+      document.getElementById('form-escola-id').value = '';
+      document.getElementById('modal-escola-titulo').innerText = 'Acrescentar Nova Escola';
+      document.getElementById('modal-escola').style.display = 'flex';
+    }
+
+    function abrirModalEditarEscola(id) {
+      const esc = listaEscolas.find(e => e.id === id);
+      if (!esc) return;
+
+      document.getElementById('form-escola-id').value = esc.id;
+      document.getElementById('form-escola-cie').value = esc.cie || '';
+      document.getElementById('form-escola-cidade').value = esc.cidade || 'Itapevi';
+      document.getElementById('form-escola-nome').value = esc.nome || '';
+      document.getElementById('form-escola-tipo').value = esc.tipo || 'Regular Parcial';
+      document.getElementById('form-escola-segmento').value = esc.segmento || 'Anos Finais e Ensino Médio';
+      document.getElementById('form-escola-diretor').value = esc.diretor || '';
+      document.getElementById('form-escola-telefone').value = esc.telefone || '';
+      document.getElementById('form-escola-bairro').value = esc.bairro || '';
+      document.getElementById('form-escola-educatrons').value = esc.educatrons || 16;
+      document.getElementById('form-escola-status').value = esc.status || 'Regular';
+      document.getElementById('form-escola-obs').value = esc.motivo || '';
+
+      document.getElementById('modal-escola-titulo').innerText = 'Editar Escola • ' + esc.nome;
+      document.getElementById('modal-escola').style.display = 'flex';
+    }
+
+    function fecharModalEscola() {
+      document.getElementById('modal-escola').style.display = 'none';
+    }
+
+    function salvarEscolaForm(e) {
+      e.preventDefault();
+      const id = document.getElementById('form-escola-id').value;
+      const cie = document.getElementById('form-escola-cie').value.trim();
+      const cidade = document.getElementById('form-escola-cidade').value;
+      const nome = document.getElementById('form-escola-nome').value.trim();
+      const tipo = document.getElementById('form-escola-tipo').value;
+      const segmento = document.getElementById('form-escola-segmento').value;
+      const diretor = document.getElementById('form-escola-diretor').value.trim();
+      const telefone = document.getElementById('form-escola-telefone').value.trim();
+      const bairro = document.getElementById('form-escola-bairro').value.trim();
+      const educatrons = parseInt(document.getElementById('form-escola-educatrons').value, 10) || 0;
+      const status = document.getElementById('form-escola-status').value;
+      const motivo = document.getElementById('form-escola-obs').value.trim();
+
+      if (id) {
+        // Atualização
+        const idx = listaEscolas.findIndex(esc => esc.id === id);
+        if (idx !== -1) {
+          listaEscolas[idx] = { id, cie, cidade, nome, tipo, segmento, diretor, telefone, bairro, educatrons, status, motivo };
+        }
+        mostrarToastAgenda('Escola atualizada com sucesso!', '✅');
+      } else {
+        // Novo cadastro
+        const novoId = 'esc-' + Date.now();
+        listaEscolas.unshift({ id: novoId, cie, cidade, nome, tipo, segmento, diretor, telefone, bairro, educatrons, status, motivo });
+        mostrarToastAgenda('Nova escola cadastrada com sucesso!', '🏫');
+      }
+
+      salvarEscolasLocalStorage();
+      fecharModalEscola();
+      filtrarEscolas();
+    }
+
+    function toggleAtencaoEscola(id) {
+      const esc = listaEscolas.find(e => e.id === id);
+      if (!esc) return;
+
+      if (esc.status === 'Alta prioridade') {
+        esc.status = 'Regular';
+        esc.motivo = '';
+        mostrarToastAgenda(esc.nome + ' marcada como Regular.', '✅');
+      } else {
+        esc.status = 'Alta prioridade';
+        if (!esc.motivo) esc.motivo = 'Acompanhamento prioritário solicitado pela Dirigente';
+        mostrarToastAgenda(esc.nome + ' incluída em Alta Prioridade!', '⚠️');
+      }
+
+      salvarEscolasLocalStorage();
+      filtrarEscolas();
+    }
+
+    function excluirEscola(id) {
+      const esc = listaEscolas.find(e => e.id === id);
+      if (!esc) return;
+
+      if (confirm('Deseja realmente remover "' + esc.nome + '" da lista de escolas?')) {
+        listaEscolas = listaEscolas.filter(e => e.id !== id);
+        salvarEscolasLocalStorage();
+        filtrarEscolas();
+        mostrarToastAgenda('Escola removida.', '🗑️');
+      }
+    }
+
+    function restaurarEscolasPadrao() {
+      if (confirm('Deseja restaurar a base padrão de escolas da URE Itapevi? Todas as edições manuais serão redefinidas para o padrão.')) {
+        listaEscolas = JSON.parse(JSON.stringify(BASE_ESCOLAS_PADRAO));
+        salvarEscolasLocalStorage();
+        filtrarEscolas();
+        mostrarToastAgenda('Base de escolas restaurada para o padrão oficial.', '🔄');
+      }
+    }
+
+    function exportarEscolasExcel() {
+      try {
+        if (typeof XLSX === 'undefined') {
+          alert('Biblioteca XLSX não carregada no momento.');
+          return;
+        }
+
+        const dadosExportacao = listaEscolas.map(e => ({
+          'Código CIE': e.cie || '',
+          'Unidade Escolar': e.nome || '',
+          'Município': e.cidade || '',
+          'Bairro': e.bairro || '',
+          'Modelo': e.tipo || '',
+          'Segmento': e.segmento || '',
+          'Diretor(a)': e.diretor || '',
+          'Telefone': e.telefone || '',
+          'Educatrons': e.educatrons || 0,
+          'Situação': e.status || '',
+          'Motivo Atenção / Obs': e.motivo || ''
+        }));
+
+        const ws = XLSX.utils.json_to_sheet(dadosExportacao);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Rede_Escolar_URE_Itapevi");
+        XLSX.writeFile(wb, "Escolas_URE_Itapevi_" + new Date().toISOString().slice(0, 10) + ".xlsx");
+        mostrarToastAgenda('Planilha de escolas gerada com sucesso!', '📊');
+      } catch (err) {
+        alert('Erro ao exportar planilha: ' + err.message);
+      }
+    }
+
+    function importarPlanilhaEscolas(input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+          const rows = XLSX.utils.sheet_to_json(firstSheet);
+
+          if (!rows || rows.length === 0) {
+            alert('A planilha importada não possui registros válidos.');
+            return;
+          }
+
+          let importadas = 0;
+          rows.forEach((r, idx) => {
+            const nome = r['Unidade Escolar'] || r['Nome'] || r['Escola'] || r['NOME DA ESCOLA'];
+            if (!nome) return;
+
+            const cie = String(r['Código CIE'] || r['CIE'] || r['CIE_ESCOLA'] || ('04' + (2900 + idx)));
+            const cidade = r['Município'] || r['Cidade'] || r['MUNICIPIO'] || 'Itapevi';
+            const tipo = r['Modelo'] || r['Tipo'] || (nome.includes('PEI') ? 'PEI 9h' : 'Regular Parcial');
+            const segmento = r['Segmento'] || r['Etapa'] || 'Anos Finais e Ensino Médio';
+            const diretor = r['Diretor'] || r['Diretor(a)'] || r['DIRETOR'] || '';
+            const telefone = r['Telefone'] || r['Contato'] || '';
+            const bairro = r['Bairro'] || '';
+            const educatrons = parseInt(r['Educatrons'] || r['Equipamentos'] || 16, 10) || 16;
+            const status = r['Situação'] || r['Status'] || 'Regular';
+            const motivo = r['Motivo Atenção / Obs'] || r['Observações'] || '';
+
+            listaEscolas.unshift({
+              id: 'esc-imp-' + Date.now() + '-' + idx,
+              cie, nome, cidade, tipo, segmento, diretor, telefone, bairro, educatrons, status, motivo
+            });
+            importadas++;
+          });
+
+          salvarEscolasLocalStorage();
+          filtrarEscolas();
+          mostrarToastAgenda(`${importadas} escolas importadas com sucesso!`, '📥');
+          input.value = '';
+        } catch (err) {
+          alert('Erro ao processar a planilha: ' + err.message);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    // Inicializa as escolas no carregamento
+    carregarEscolasLocalStorage();
 
 
     // Estrutura Hierárquica: CENTROS -> SETORES
@@ -8708,6 +9582,110 @@ const carroCSS = `
 <div id="agenda-toast" class="agenda-toast">
     <span id="agenda-toast-icon">✅</span>
     <span id="agenda-toast-msg">Operação realizada com sucesso!</span>
+  </div>
+
+
+  <!-- MODAL: CADASTRAR OU EDITAR ESCOLA -->
+  <div id="modal-escola" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalEscola()">
+    <div class="agenda-modal-card" style="max-width: 620px;">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%);">
+        <div>
+          <span style="font-size: 0.72rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">CADASTRO DE ESCOLAS • URE ITAPEVI</span>
+          <h3 id="modal-escola-titulo" style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Acrescentar Nova Escola</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalEscola()">✕</button>
+      </div>
+
+      <form id="form-escola" onsubmit="salvarEscolaForm(event)">
+        <input type="hidden" id="form-escola-id">
+        <div class="agenda-modal-body" style="padding: 1.5rem; max-height: 70vh; overflow-y: auto;">
+          <div class="agenda-form-grid">
+            
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Código CIE *</label>
+              <input type="text" id="form-escola-cie" class="agenda-form-input" placeholder="Ex: 042918" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Município *</label>
+              <select id="form-escola-cidade" class="agenda-form-select" required>
+                <option value="Itapevi">Itapevi</option>
+                <option value="Jandira">Jandira</option>
+                <option value="Pirapora do Bom Jesus">Pirapora do Bom Jesus</option>
+                <option value="Santana de Parnaíba">Santana de Parnaíba</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Nome Completo da Escola *</label>
+              <input type="text" id="form-escola-nome" class="agenda-form-input" placeholder="Ex: EE Prof. José Barreto" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Modelo / Tipo de Ensino *</label>
+              <select id="form-escola-tipo" class="agenda-form-select" required>
+                <option value="PEI 9h">PEI (Integral 9 horas)</option>
+                <option value="PEI 7h">PEI (Integral 7 horas)</option>
+                <option value="Regular Parcial">Regular (Parcial)</option>
+                <option value="Regular e Técnico">Regular + Novotec / Técnico</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Segmento Atendido *</label>
+              <select id="form-escola-segmento" class="agenda-form-select" required>
+                <option value="Anos Finais e Ensino Médio">Anos Finais e Ensino Médio</option>
+                <option value="Anos Iniciais e Anos Finais">Anos Iniciais e Anos Finais</option>
+                <option value="Ensino Médio">Ensino Médio</option>
+                <option value="Anos Iniciais">Anos Iniciais</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Diretor(a) Responsável</label>
+              <input type="text" id="form-escola-diretor" class="agenda-form-input" placeholder="Ex: Maria Cristina de Andrade">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Telefone / Contato</label>
+              <input type="text" id="form-escola-telefone" class="agenda-form-input" placeholder="Ex: (11) 4141-2345">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Bairro / Localidade</label>
+              <input type="text" id="form-escola-bairro" class="agenda-form-input" placeholder="Ex: Centro, Cohab, Jardim Briquet...">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Educatrons Instalados</label>
+              <input type="number" id="form-escola-educatrons" class="agenda-form-input" value="16" min="0" max="60">
+            </div>
+
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Situação / Status da Unidade *</label>
+              <select id="form-escola-status" class="agenda-form-select" required>
+                <option value="Regular">Regular (Funcionamento Normal)</option>
+                <option value="Alta prioridade">Alta Prioridade / Exige Atenção</option>
+                <option value="Em Reforma">Em Reforma / Obras Estruturais</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Motivo da Atenção / Observações (opcional)</label>
+              <textarea id="form-escola-obs" class="agenda-form-textarea" rows="2" placeholder="Ex: Demanda estrutural na rede elétrica, reforma de quadra, reposição de quadro docente..."></textarea>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="agenda-modal-footer">
+          <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1;" onclick="fecharModalEscola()">Cancelar</button>
+          <button type="submit" class="btn-escola-primary">
+            <span>Salvar Escola</span>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 
 </body>
