@@ -5404,9 +5404,11 @@ const carroCSS = `
       </div>
     </nav>
 
-    <div class="sidebar-footer">
-      <strong>Educação que conecta</strong>
-      pessoas e territórios.
+    <div class="sidebar-footer" style="padding: 0.85rem 1rem; text-align: center; background: rgba(7, 21, 47, 0.4); border-top: 1px solid rgba(240, 155, 12, 0.2);">
+      <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: #f09b0c; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.35rem;">
+        <span>💻</span> Setor Responsável
+      </div>
+      <img src="logo_seintec.png" id="seintec-sidebar-logo" alt="SEINTEC - Seção de Tecnologia | URE - Itapevi" style="max-width: 100%; height: auto; max-height: 54px; border-radius: 8px; display: block; margin: 0 auto; box-shadow: 0 4px 14px rgba(0,0,0,0.35); transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 6px 18px rgba(240,155,12,0.25)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.35)';" onclick="abrirSeintec()" title="SEINTEC - Seção de Tecnologia | Clique para abrir o módulo" onerror="if(this.src!=='https://thuginspirion-cell.github.io/BIDirigente/logo_seintec.png')this.src='https://thuginspirion-cell.github.io/BIDirigente/logo_seintec.png';">
     </div>
   </aside>
 
@@ -6847,11 +6849,20 @@ const carroCSS = `
             });
           }
         }).getLogoDataUri();
+
+        google.script.run.withSuccessHandler(function(dataUri) {
+          if (dataUri) {
+            const el = document.getElementById('seintec-sidebar-logo');
+            if (el) el.src = dataUri;
+          }
+        }).getSeintecLogoDataUri();
       } else {
-        // Fallback para GitHub Pages e servidor local
+        // Ambiente GitHub Pages ou servidor local: usa logos locais
         document.querySelectorAll('.brand-logo-img').forEach(function(img) {
           img.src = './logo_ure_itapevi_480.png';
         });
+        const el = document.getElementById('seintec-sidebar-logo');
+        if (el) el.src = './logo_seintec.png';
       }
     }
     if (document.readyState === 'loading') {
@@ -6864,92 +6875,70 @@ const carroCSS = `
     const ESTRUTURA_ORGANIZACIONAL = {
       'SEINTEC': {
         sigla: 'SEINTEC',
-        icone: '💻',
-        cor: 'linear-gradient(135deg, #0b2351 0%, #1e83a1 100%)',
         nome: 'SEINTEC - Informações Educacionais e Tecnologia',
-        descricao: 'Seção de Tecnologia • Demandas, atendimentos, inventário de hardware, rede, TVs/Educatrons e plataformas de recarga.',
-        setores: [
-          { sigla: 'Hardware', nome: 'Equipamentos de Hardware', desc: 'Inventário e alocação de computadores, notebooks e equipamentos nos 87 polos' },
-          { sigla: 'Rede', nome: 'Equipamentos de Rede', desc: 'Switches, roteadores, nobreaks, racks e cabeamento estruturado' },
-          { sigla: 'Educatrons', nome: 'TVs e Educatrons', desc: 'Telas interativas, Educatrons 75" e suportes multimídia' },
-          { sigla: 'Demandas', nome: 'Demandas de Tecnologia', desc: 'Registros e requisições técnicas de infraestrutura das unidades' },
-          { sigla: 'Atendimentos', nome: 'Atendimentos Técnicos', desc: 'Histórico operacional de visitas, chamados e ordens de serviço' },
-          { sigla: 'Recarga', nome: 'Plataformas de Recarga', desc: 'Carrinhos inteligentes de recarga para dispositivos dos alunos' }
-        ]
-      },
-      'CIE': {
-        sigla: 'SEINTEC',
+        descricao: 'Gestão da infraestrutura tecnológica escolar, inventário de Educatrons, conectividade, sistemas e suporte técnico.',
         icone: '💻',
-        cor: '#1e83a1',
-        nome: 'SEINTEC - Informações Educacionais e Tecnologia',
-        descricao: 'Seção de Tecnologia • Demandas, atendimentos, inventário de hardware, rede, TVs/Educatrons e plataformas de recarga.',
+        cor: '#0b2351',
+        driveFolder: 'Uploads BIDirigente / CIE / SEINTEC',
         setores: [
-          { sigla: 'Hardware', nome: 'Equipamentos de Hardware', desc: 'Inventário e alocação de computadores, notebooks e equipamentos nos 87 polos' }
+          { sigla: 'NIT', nome: 'Núcleo de Informações e Tecnologia', desc: 'Hardware, conectividade de rede, suporte e laboratórios escolares' },
+          { sigla: 'CIE', nome: 'Centro de Informações Educacionais', desc: 'Estatísticas, coleta de dados e sistemas institucionais SEDUC' },
+          { sigla: 'Suporte', nome: 'Atendimento e Suporte Técnico', desc: 'Chamados, manutenção de computadores e equipamentos' }
         ]
       },
       'CAF': {
         sigla: 'CAF',
-        icone: '💼',
-        cor: 'linear-gradient(135deg, #0b2351 0%, #0284c7 100%)',
-        nome: 'CAF - Centro de Administração, Finanças e Infraestrutura',
-        descricao: 'Gestão orçamentária, obras, suprimentos e infraestrutura física da Região de Itapevi.',
+        nome: 'CAF - Administração e Finanças',
+        descricao: 'Gestão orçamentária, aditivos contratuais, suprimentos, obras, manutenção predial e patrimônio regional.',
+        icone: '🏢',
+        cor: '#0b2351',
+        driveFolder: 'Uploads BIDirigente / CAF',
         setores: [
-          { sigla: 'SEAFIN', nome: 'SEAFIN (Orçamento e Finanças)', desc: 'Prestação de contas, verbas PDDE, adiantamentos e pagamentos' },
-          { sigla: 'NOM', nome: 'NOM (Obras e Manutenção)', desc: 'Vistorias prediais, reparos elétricos/hidráulicos e zeladoria escolar' },
-          { sigla: 'Contratos', nome: 'Patrimônio e Suprimentos', desc: 'Contratos terceirizados de merenda, limpeza e controle patrimonial' }
+          { sigla: 'NOM', nome: 'Núcleo de Obras e Manutenção', desc: 'Vistorias estruturais, reformas e laudos' },
+          { sigla: 'SEAFIN', nome: 'Setor de Administração Financeira', desc: 'Execução orçamentária, PDDE Paulista e aditivos' },
+          { sigla: 'SEPAT', nome: 'Setor de Patrimônio e Logística', desc: 'Inventário físico, almoxarifado e suprimentos' },
+          { sigla: 'SEFISC', nome: 'Setor de Fiscalização e Frota', desc: 'Frota oficial, controle de transporte e combustível' }
         ]
       },
       'CGE': {
         sigla: 'CGE',
+        nome: 'CGE - Gestão da Rede Escolar',
+        descricao: 'Supervisão do atendimento escolar, matrículas, organização de classes e demandas das unidades escolares.',
         icone: '🏫',
-        cor: 'linear-gradient(135deg, #0b2351 0%, #d48208 100%)',
-        nome: 'CGE - Centro de Gestão da Rede Escolar',
-        descricao: 'Articulação territorial, supervisão de ensino e expansão da rede estadual.',
+        cor: '#0b2351',
+        driveFolder: 'Uploads BIDirigente / CGE',
         setores: [
-          { sigla: 'SEGRE', nome: 'SEGRE (Supervisão Regional)', desc: 'Relatórios de supervisão escolar, fiscalização e acompanhamento' },
-          { sigla: 'Planejamento', nome: 'Planejamento e Vagas', desc: 'Demanda escolar, zoneamento e transporte de estudantes' }
-        ]
-      },
-      'GAB': {
-        sigla: 'GAB',
-        icone: '🏛️',
-        cor: 'linear-gradient(135deg, #07152f 0%, #133979 100%)',
-        nome: 'Gabinete da Dirigente & Assessoria Técnica',
-        descricao: 'Direção executiva, assessoria jurídica, técnica e relações institucionais.',
-        setores: [
-          { sigla: 'AssessoriaTecnica', nome: 'Assessoria Técnica e Jurídica', desc: 'Pareceres jurídicos, processos administrativos e sindicâncias' },
-          { sigla: 'GabineteDirigente', nome: 'Gabinete e Despachos', desc: 'Atos oficiais da Dirigente, portarias e termos de compromisso' },
-          { sigla: 'Comunicacao', nome: 'Comunicação Institucional', desc: 'Boletins oficiais, imprensa e comunicados da regional' }
+          { sigla: 'SEGRE', nome: 'Gestão da Rede e Matrículas', desc: 'Organização de turmas e fluxo de alunos' },
+          { sigla: 'Supervisão', nome: 'Supervisão Regional Escolar', desc: 'Acompanhamento das equipes gestoras' }
         ]
       },
       'CRH': {
         sigla: 'CRH',
+        nome: 'CRH - Recursos Humanos',
+        descricao: 'Quadro docente, atribuição de aulas, evolução funcional, licenças e vida funcional dos servidores.',
         icone: '👥',
-        cor: '#8b5cf6',
-        nome: 'CRH - Centro de Recursos Humanos',
-        descricao: 'Quadro docente, evolução funcional, modulação escolar e pagamentos.',
+        cor: '#0b2351',
+        driveFolder: 'Uploads BIDirigente / CRH',
         setores: [
-          { sigla: 'Pagamento', nome: 'Pagamento e Frequência', desc: 'BFE, lançamentos de folha, faltas e benefícios' },
-          { sigla: 'Modulacao', nome: 'Atribuição de Aulas e Modulação', desc: 'Atribuição docente, afastamentos e licenças' }
+          { sigla: 'Atribuição', nome: 'Atribuição de Aulas e Docentes', desc: 'Alocação de professores e saldo de turmas' },
+          { sigla: 'Contratos', nome: 'Admissão e Contratos Temporários', desc: 'Contratações e processos seletivos' },
+          { sigla: 'Benefícios', nome: 'Vida Funcional e Benefícios', desc: 'Evolução, licenças e contagem de tempo' }
         ]
       },
       'NPE': {
         sigla: 'NPE',
+        nome: 'NPE - Núcleo Pedagógico',
+        descricao: 'Acompanhamento pedagógico, metas do SARESP, formação continuada de professores e projetos educacionais.',
         icone: '📚',
-        cor: '#06b6d4',
-        nome: 'NPE - Núcleo Pedagógico Regional',
-        descricao: 'Formação continuada, avaliações SARESP e projetos educacionais.',
+        cor: '#0b2351',
+        driveFolder: 'Uploads BIDirigente / NPE',
         setores: [
-          { sigla: 'Curriculo', nome: 'Currículo e Formação Docente', desc: 'Capacitações de professores coordenadores e materiais pedagógicos' },
-          { sigla: 'Avaliacoes', nome: 'Acompanhamento Pedagógico', desc: 'Metas do IDEB, SARESP e recuperação de aprendizagem' }
+          { sigla: 'AnosIniciais', nome: 'Formação - Anos Iniciais', desc: 'Alfabetização e currículo paulista' },
+          { sigla: 'AnosFinaisEM', nome: 'Formação - Anos Finais e Ensino Médio', desc: 'Itinerários formativos e avaliações' },
+          { sigla: 'Projetos', nome: 'Projetos e Programas Especiais', desc: 'Inova Educação e protagonismo juvenil' }
         ]
       }
     };
-
-    // Inicialização
-    document.addEventListener("DOMContentLoaded", function () {
-      carregarDadosConsolidados();
-    });
 
     function carregarDadosConsolidados() {
       if (typeof google !== 'undefined' && google.script && google.script.run) {
