@@ -5697,6 +5697,500 @@ const carroCSS = `
       border-color: #fca5a5;
     }
 
+
+    /* ======================================================== */
+    /* VIEW VISITAS DA DIRIGENTE (ESTILO FIEL AO PRINT OFICIAL) */
+    /* ======================================================== */
+    .nav-item-btn#side-btn-visitas.active {
+      background: linear-gradient(135deg, #e11d48 0%, #be123c 100%) !important;
+      color: #ffffff !important;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.4) !important;
+      position: relative;
+    }
+    .nav-item-btn#side-btn-visitas.active::after {
+      content: '›';
+      position: absolute;
+      right: 12px;
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.95);
+      font-weight: 800;
+    }
+
+    .visitas-header-card {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      padding: 1.25rem 1.6rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      position: relative;
+    }
+    .visitas-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.25rem;
+    }
+    .visitas-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .visitas-title-accent {
+      width: 4px;
+      height: 24px;
+      background: #e11d48;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    .visitas-main-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    .visitas-badge-pill {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #e11d48;
+      background: #ffe4e6;
+      border: 1px solid #fecdd3;
+      padding: 3px 10px;
+      border-radius: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .visitas-main-desc {
+      font-size: 0.84rem;
+      color: #64748b;
+      margin: 0.25rem 0 0 0;
+      line-height: 1.5;
+    }
+
+    /* LINHA DE KPIS SUPERIORES COM BORDA UNIFICADA (DO PRINT) */
+    .visitas-top-row {
+      display: flex;
+      gap: 1.25rem;
+      align-items: stretch;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .visitas-kpi-container {
+      flex: 1;
+      min-width: 520px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .visitas-metric-card {
+      padding: 1.15rem 1.35rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-right: 1px solid #f1f5f9;
+    }
+    .visitas-metric-card:last-child {
+      border-right: none;
+    }
+    .visitas-metric-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+    .visitas-metric-icon.green {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+    .visitas-metric-icon.amber {
+      background: #fffbeb;
+      color: #d97706;
+      border: 1px solid #fde68a;
+    }
+    .visitas-metric-icon.slate {
+      background: #f8fafc;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+    }
+    .visitas-metric-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .visitas-metric-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #64748b;
+      margin-bottom: 0.2rem;
+    }
+    .visitas-big-num {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1;
+    }
+
+    .visitas-top-actions {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.45rem;
+      min-width: 320px;
+    }
+    .visitas-buttons-group {
+      display: flex;
+      gap: 0.65rem;
+      align-items: center;
+    }
+    .btn-visitas-mapa {
+      background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+      color: #ffffff;
+      border: none;
+      padding: 0.65rem 1.15rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-visitas-mapa:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(225, 29, 72, 0.45);
+    }
+    .btn-visitas-limpar {
+      background: #ffffff;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      padding: 0.65rem 0.95rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-visitas-limpar:hover {
+      background: #f8fafc;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+    .visitas-caption-note {
+      font-size: 0.73rem;
+      color: #64748b;
+      margin: 0;
+    }
+    .visitas-caption-note strong.green { color: #059669; }
+    .visitas-caption-note strong.amber { color: #d97706; }
+
+    /* RIBBON DE PROGRESSO DE VISITAS */
+    .visitas-ribbon-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.1rem 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      position: relative;
+    }
+    .visitas-ribbon-tag {
+      display: inline-block;
+      background: #f43f5e;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 2px 8px rgba(244, 63, 94, 0.25);
+    }
+    .visitas-progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .visitas-ring-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .visitas-ring-svg {
+      width: 74px;
+      height: 74px;
+      transform: rotate(-90deg);
+    }
+    .visitas-ring-bg {
+      fill: none;
+      stroke: #f1f5f9;
+      stroke-width: 7;
+    }
+    .visitas-ring-fill {
+      fill: none;
+      stroke: #10b981;
+      stroke-width: 7;
+      stroke-linecap: round;
+      stroke-dasharray: 201;
+      stroke-dashoffset: 80;
+      transition: stroke-dashoffset 0.8s ease;
+    }
+    .visitas-progress-text-block {
+      display: flex;
+      flex-direction: column;
+    }
+    .visitas-progress-label {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .visitas-progress-percent {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #059669;
+      line-height: 1;
+      margin-top: 2px;
+    }
+    .visitas-net-summary {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .visitas-net-icon {
+      font-size: 2rem;
+      color: #64748b;
+    }
+    .visitas-net-number {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1;
+    }
+    .visitas-net-desc {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    /* DUAS COLUNAS PRINCIPAIS: VISITADAS E PENDENTES */
+    .visitas-columns-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 950px) {
+      .visitas-columns-split {
+        grid-template-columns: 1fr;
+      }
+    }
+    .visitas-col {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem 1.35rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+    }
+    .visitas-col-header {
+      margin-bottom: 0.85rem;
+    }
+    .visitas-col-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .visitas-col-accent-green {
+      width: 4px;
+      height: 20px;
+      background: #10b981;
+      border-radius: 2px;
+    }
+    .visitas-col-accent-amber {
+      width: 4px;
+      height: 20px;
+      background: #f59e0b;
+      border-radius: 2px;
+    }
+    .visitas-col-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+    }
+    .visitas-col-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .visitas-col-badge.green {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .visitas-col-badge.amber {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .visitas-col-sub {
+      font-size: 0.78rem;
+      color: #64748b;
+      margin: 0.2rem 0 0 0;
+    }
+
+    .visitas-search-box {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    .visitas-search-box input {
+      width: 100%;
+      padding: 0.55rem 0.85rem 0.55rem 2.2rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease;
+    }
+    .visitas-search-box input:focus {
+      border-color: #e11d48;
+    }
+    .visitas-search-ico {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+
+    .visitas-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      max-height: 580px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .visita-item-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.2s ease;
+    }
+    .visita-item-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transform: translateY(-1px);
+    }
+    .visita-item-left {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex: 1;
+      min-width: 0;
+    }
+    .visita-dot {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+    .visita-dot.green { color: #10b981; }
+    .visita-dot.amber { color: #f59e0b; }
+    .visita-item-details {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .visita-item-name {
+      font-weight: 700;
+      font-size: 0.86rem;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .visita-item-sub {
+      font-size: 0.74rem;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    .visita-date-pill {
+      font-size: 0.72rem;
+      color: #059669;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 3px;
+    }
+    .visita-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+    .btn-visita-sm {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      padding: 4px 9px;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-visita-sm:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .btn-visita-sm.danger:hover {
+      background: #fee2e2;
+      border-color: #fca5a5;
+      color: #b91c1c;
+    }
+    .btn-marcar-visita-gold {
+      background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
+      color: #854d0e;
+      border: 1px solid #facc15;
+      padding: 5px 12px;
+      border-radius: 14px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(250, 204, 21, 0.3);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-marcar-visita-gold:hover {
+      background: linear-gradient(135deg, #fde047 0%, #eab308 100%);
+      color: #713f12;
+      transform: translateY(-1px);
+    }
+
 </style>
 </head>
 
@@ -5718,56 +6212,80 @@ const carroCSS = `
     </div>
 
     <nav class="sidebar-nav">
-      <!-- Grupo 1: Gestão da Rede -->
+      <!-- Grupo 1: Gestão da Rede (Fiel ao Print) -->
       <div>
         <div class="nav-group-title">GESTÃO DA REDE</div>
         <ul class="nav-items-list">
           <li>
-            <button class="nav-item-btn active" id="side-btn-home" onclick="mostrarHome()" title="Início">
+            <button class="nav-item-btn active" id="side-btn-home" onclick="mostrarHome()" title="Início - Resumo executivo">
               <span class="nav-item-icon">🏛️</span>
-              <span>Início</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Início</span>
+                <span class="sidebar-item-sub">Resumo executivo</span>
+              </div>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-gestao" onclick="abrirMinhaGestaoHoje()" title="Minha Gestão Hoje">
+            <button class="nav-item-btn" id="side-btn-gestao" onclick="abrirMinhaGestaoHoje()" title="Minha Gestão Hoje - Compromissos do dia">
               <span class="nav-item-icon">⏱️</span>
-              <span>Minha Gestão Hoje</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Minha Gestão Hoje</span>
+                <span class="sidebar-item-sub">Compromissos do dia</span>
+              </div>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-agenda" onclick="abrirAgenda()" title="Agenda da Dirigente">
+            <button class="nav-item-btn" id="side-btn-agenda" onclick="abrirAgenda()" title="Agenda - Rotina da Dirigente">
               <span class="nav-item-icon">📅</span>
-              <span>Agenda</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Agenda</span>
+                <span class="sidebar-item-sub">Rotina da Dirigente</span>
+              </div>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-carro" onclick="abrirCarroOficial()" title="Carro Oficial">
+            <button class="nav-item-btn" id="side-btn-carro" onclick="abrirCarroOficial()" title="Carro Oficial - Agenda de deslocamentos">
               <span class="nav-item-icon">🚗</span>
-              <span>Carro Oficial</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Carro Oficial</span>
+                <span class="sidebar-item-sub">Agenda de deslocamentos</span>
+              </div>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-visitas" onclick="navegarParaSecao('visitas-section', 'side-btn-visitas')" title="Visitas às Escolas">
+            <button class="nav-item-btn" id="side-btn-visitas" onclick="abrirVisitas()" title="Visitas - Realizadas e pendentes">
               <span class="nav-item-icon">✔️</span>
-              <span>Visitas</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Visitas</span>
+                <span class="sidebar-item-sub">Realizadas e pendentes</span>
+              </div>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-escolas" onclick="abrirEscolas()" title="Lista de Escolas">
+            <button class="nav-item-btn" id="side-btn-escolas" onclick="abrirEscolas()" title="Escolas - Visão 360° por unidade">
               <span class="nav-item-icon">🏫</span>
-              <span>Escolas</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Escolas</span>
+                <span class="sidebar-item-sub">Visão 360° por unidade</span>
+              </div>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-atencao" onclick="abrirEscolas('atencao')" title="Escolas em Atenção">
+            <button class="nav-item-btn" id="side-btn-atencao" onclick="abrirEscolas('atencao')" title="Escolas em Atenção - Prioridades da rede">
               <span class="nav-item-icon">⚠️</span>
-              <span>Escolas em Atenção</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Escolas em Atenção</span>
+                <span class="sidebar-item-sub">Prioridades da rede</span>
+              </div>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-mapa" onclick="navegarParaSecao('mapa-section', 'side-btn-mapa')" title="Mapa da Rede">
+            <button class="nav-item-btn" id="side-btn-mapa" onclick="abrirModalMapaVisitas()" title="Mapa - Rede e rotas">
               <span class="nav-item-icon">🗺️</span>
-              <span>Mapa da Rede</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">Mapa</span>
+                <span class="sidebar-item-sub">Rede e rotas</span>
+              </div>
             </button>
           </li>
         </ul>
@@ -7382,6 +7900,151 @@ const carroCSS = `
 
       </section>
 
+      <!-- ======================================================== -->
+      <!-- VIEW 9: VISITAS DA DIRIGENTE (EXATA AO PRINT OFICIAL) -->
+      <!-- ======================================================== -->
+      <section id="pane-visitas" class="view-pane">
+
+        <!-- HEADER PRINCIPAL -->
+        <div class="visitas-header-card">
+          <div class="visitas-header-top">
+            <div class="visitas-title-wrap">
+              <span class="visitas-title-accent"></span>
+              <h2 class="visitas-main-title">Visitas da dirigente</h2>
+            </div>
+            <span class="visitas-badge-pill">● VISITAS</span>
+          </div>
+          <p class="visitas-main-desc">
+            Painel de acompanhamento das escolas já visitadas e das pendentes. As marcações ficam centralizadas no BI e podem ser consultadas em qualquer dispositivo.
+          </p>
+        </div>
+
+        <!-- LINHA DE KPIS SUPERIORES E BOTÕES DE AÇÃO -->
+        <div class="visitas-top-row">
+          <div class="visitas-kpi-container">
+            
+            <!-- Card 1: Escolas já visitadas -->
+            <div class="visitas-metric-card">
+              <div class="visitas-metric-icon green">🏫</div>
+              <div class="visitas-metric-info">
+                <span class="visitas-metric-label">Escolas já visitadas</span>
+                <span class="visitas-big-num" id="visitas-num-visitadas" style="color: #059669;">54</span>
+              </div>
+            </div>
+
+            <!-- Card 2: Escolas pendentes -->
+            <div class="visitas-metric-card">
+              <div class="visitas-metric-icon amber">📄</div>
+              <div class="visitas-metric-info">
+                <span class="visitas-metric-label">Escolas pendentes</span>
+                <span class="visitas-big-num" id="visitas-num-pendentes" style="color: #d97706;">33</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Total da rede estadual -->
+            <div class="visitas-metric-card">
+              <div class="visitas-metric-icon slate">👥</div>
+              <div class="visitas-metric-info">
+                <span class="visitas-metric-label">Total da rede estadual</span>
+                <span class="visitas-big-num" id="visitas-num-total">87</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="visitas-top-actions">
+            <div class="visitas-buttons-group">
+              <button class="btn-visitas-mapa" onclick="abrirModalMapaVisitas()" title="Abrir visualização geográfica e mapa de rotas da rede">
+                <span>+ Abrir mapa de visitas</span>
+              </button>
+              <button class="btn-visitas-limpar" onclick="limparMarcacoesVisitas()" title="Redefinir todas as marcações de visitas">
+                <span>🔄 Limpar marcações</span>
+              </button>
+              <button class="btn-visitas-limpar" onclick="exportarVisitasExcel()" title="Exportar planilha completa de visitas da Dirigente">
+                <span>📥 Exportar</span>
+              </button>
+            </div>
+            <p class="visitas-caption-note">
+              No mapa de visitas, as escolas <strong class="green">visitadas ficam em verde</strong> e as <strong class="amber">pendentes ficam em amarelo</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- RIBBON DE PROGRESSO DE VISITAS -->
+        <div class="visitas-ribbon-card">
+          <span class="visitas-ribbon-tag">Visitadas e pendentes</span>
+          
+          <div class="visitas-progress-row">
+            <div class="visitas-ring-wrap">
+              <svg class="visitas-ring-svg" viewBox="0 0 74 74">
+                <circle class="visitas-ring-bg" cx="37" cy="37" r="32"></circle>
+                <circle class="visitas-ring-fill" id="visitas-circle-fill" cx="37" cy="37" r="32"></circle>
+              </svg>
+              <div class="visitas-progress-text-block">
+                <span class="visitas-progress-label">Progresso de visitas</span>
+                <span class="visitas-progress-percent" id="visitas-perc-display">62%</span>
+              </div>
+            </div>
+
+            <div class="visitas-net-summary">
+              <span class="visitas-net-icon">🏛️</span>
+              <div>
+                <span class="visitas-net-number" id="visitas-net-total-display">87</span>
+                <div class="visitas-net-desc">escolas na rede estadual</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DUAS COLUNAS PRINCIPAIS: VISITADAS E PENDENTES -->
+        <div class="visitas-columns-split">
+          
+          <!-- COLUNA 1: VISITADAS -->
+          <div class="visitas-col col-visitadas">
+            <div class="visitas-col-header">
+              <div class="visitas-col-title-wrap">
+                <span class="visitas-col-accent-green"></span>
+                <h3 class="visitas-col-title">Visitadas</h3>
+                <span class="visitas-col-badge green" id="col-count-badge-visitadas">54</span>
+              </div>
+              <p class="visitas-col-sub">Escolas que a dirigente já marcou como visitadas.</p>
+            </div>
+
+            <div class="visitas-search-box">
+              <span class="visitas-search-ico">🔍</span>
+              <input type="text" id="busca-visitas-realizadas" placeholder="Buscar por escola, município ou CIE..." oninput="filtrarColunasVisitas()">
+            </div>
+
+            <div id="container-lista-visitadas" class="visitas-cards-list">
+              <!-- Renderizado via JavaScript -->
+            </div>
+          </div>
+
+          <!-- COLUNA 2: PENDENTES -->
+          <div class="visitas-col col-pendentes">
+            <div class="visitas-col-header">
+              <div class="visitas-col-title-wrap">
+                <span class="visitas-col-accent-amber"></span>
+                <h3 class="visitas-col-title">Pendentes</h3>
+                <span class="visitas-col-badge amber" id="col-count-badge-pendentes">33</span>
+              </div>
+              <p class="visitas-col-sub">Escolas que ainda faltam ser visitadas.</p>
+            </div>
+
+            <div class="visitas-search-box">
+              <span class="visitas-search-ico">🔍</span>
+              <input type="text" id="busca-visitas-pendentes" placeholder="Mesmo filtro da coluna ao lado..." oninput="filtrarColunasVisitas()">
+            </div>
+
+            <div id="container-lista-pendentes" class="visitas-cards-list">
+              <!-- Renderizado via JavaScript -->
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
     </div>
   </main>
 
@@ -7868,6 +8531,394 @@ const carroCSS = `
 
     // Inicializa as escolas no carregamento
     carregarEscolasLocalStorage();
+
+    // ========================================================
+    // SISTEMA DE VISITAS DA DIRIGENTE (EXATO AO PRINT)
+    // ========================================================
+    let visitasRegistro = {};
+
+    function carregarVisitasLocalStorage() {
+      try {
+        const salvo = localStorage.getItem('ure_itapevi_visitas_v2');
+        if (salvo) {
+          visitasRegistro = JSON.parse(salvo);
+        } else {
+          // Inicialização representativa com escolas visitadas padrão
+          visitasRegistro = {
+            'esc-001': { visitada: true, data: '2026-10-17', tipo: 'Acompanhamento Pedagógico', obs: 'Acompanhamento da rede elétrica e Educatrons' },
+            'esc-002': { visitada: true, data: '2026-10-17', tipo: 'Reunião com Equipe Gestora', obs: 'Alinhamento da modulação docente' },
+            'esc-004': { visitada: true, data: '2026-10-10', tipo: 'Supervisão de Rotina', obs: 'Visita às salas e acompanhamento do PEI' },
+            'esc-005': { visitada: true, data: '2026-10-08', tipo: 'Acompanhamento Pedagógico', obs: 'Visita com a supervisão escolar' },
+            'esc-007': { visitada: true, data: '2026-10-03', tipo: 'SARESP e Fluência Leitora', obs: 'Simulados e projetos de reforço' },
+            'esc-008': { visitada: true, data: '2026-09-28', tipo: 'Vistoria de Infraestrutura', obs: 'Reforma do refeitório e quadra' },
+            'esc-010': { visitada: true, data: '2026-09-25', tipo: 'Supervisão de Rotina', obs: 'Visita às turmas de anos finais' }
+          };
+          salvarVisitasLocalStorage();
+        }
+      } catch (e) {
+        visitasRegistro = {};
+      }
+    }
+
+    function salvarVisitasLocalStorage() {
+      try {
+        localStorage.setItem('ure_itapevi_visitas_v2', JSON.stringify(visitasRegistro));
+      } catch (e) {}
+    }
+
+    function abrirVisitas() {
+      esconderTodasAsPanes();
+      const pane = document.getElementById('pane-visitas');
+      if (pane) pane.classList.add('active');
+
+      const sideBtn = document.getElementById('side-btn-visitas');
+      if (sideBtn) sideBtn.classList.add('active');
+
+      atualizarBreadcrumbTopo('05 • Visitas');
+
+      carregarEscolasLocalStorage();
+      carregarVisitasLocalStorage();
+
+      atualizarPainelVisitas();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function atualizarPainelVisitas() {
+      if (!listaEscolas || listaEscolas.length === 0) {
+        carregarEscolasLocalStorage();
+      }
+
+      const total = listaEscolas.length;
+      let visitadasCount = 0;
+
+      listaEscolas.forEach(esc => {
+        if (visitasRegistro[esc.id] && visitasRegistro[esc.id].visitada) {
+          visitadasCount++;
+        }
+      });
+
+      const pendentesCount = Math.max(0, total - visitadasCount);
+      const percentual = total > 0 ? Math.round((visitadasCount / total) * 100) : 0;
+
+      // Atualiza Números nos Cards Superiores
+      const elNumVis = document.getElementById('visitas-num-visitadas');
+      if (elNumVis) elNumVis.innerText = visitadasCount;
+
+      const elNumPend = document.getElementById('visitas-num-pendentes');
+      if (elNumPend) elNumPend.innerText = pendentesCount;
+
+      const elNumTot = document.getElementById('visitas-num-total');
+      if (elNumTot) elNumTot.innerText = total;
+
+      const elNetTot = document.getElementById('visitas-net-total-display');
+      if (elNetTot) elNetTot.innerText = total;
+
+      // Atualiza Badge das Colunas
+      const badgeVis = document.getElementById('col-count-badge-visitadas');
+      if (badgeVis) badgeVis.innerText = visitadasCount;
+
+      const badgePend = document.getElementById('col-count-badge-pendentes');
+      if (badgePend) badgePend.innerText = pendentesCount;
+
+      // Atualiza Gauge Circular SVG
+      const percDisplay = document.getElementById('visitas-perc-display');
+      if (percDisplay) percDisplay.innerText = percentual + '%';
+
+      const circleFill = document.getElementById('visitas-circle-fill');
+      if (circleFill) {
+        // Raio 32 -> Circunferência ≈ 201
+        const circunferencia = 201;
+        const offset = circunferencia - (circunferencia * percentual / 100);
+        circleFill.style.strokeDashoffset = offset;
+      }
+
+      // Atualiza KPI na Home
+      const kpiHomeVis = document.getElementById('kpi-visitas');
+      if (kpiHomeVis) kpiHomeVis.innerText = visitadasCount;
+
+      filtrarColunasVisitas();
+    }
+
+    function formatarDataBR(dataStr) {
+      if (!dataStr) return 'Recente';
+      const partes = dataStr.split('-');
+      if (partes.length === 3) {
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+      }
+      return dataStr;
+    }
+
+    function filtrarColunasVisitas() {
+      const termoVis = (document.getElementById('busca-visitas-realizadas')?.value || '').toLowerCase().trim();
+      const termoPend = (document.getElementById('busca-visitas-pendentes')?.value || '').toLowerCase().trim();
+
+      const containerVis = document.getElementById('container-lista-visitadas');
+      const containerPend = document.getElementById('container-lista-pendentes');
+      if (!containerVis || !containerPend) return;
+
+      const listaVisitadas = [];
+      const listaPendentes = [];
+
+      listaEscolas.forEach(esc => {
+        const info = visitasRegistro[esc.id];
+        const matchGeral = (esc.nome && esc.nome.toLowerCase().includes(termoVis || termoPend)) ||
+                           (esc.cie && esc.cie.toLowerCase().includes(termoVis || termoPend)) ||
+                           (esc.cidade && esc.cidade.toLowerCase().includes(termoVis || termoPend)) ||
+                           (esc.bairro && esc.bairro.toLowerCase().includes(termoVis || termoPend));
+
+        if (info && info.visitada) {
+          const matchVis = !termoVis || (esc.nome && esc.nome.toLowerCase().includes(termoVis)) || (esc.cie && esc.cie.toLowerCase().includes(termoVis)) || (esc.cidade && esc.cidade.toLowerCase().includes(termoVis));
+          if (matchVis) listaVisitadas.push({ esc, info });
+        } else {
+          const matchPend = !termoPend || (esc.nome && esc.nome.toLowerCase().includes(termoPend)) || (esc.cie && esc.cie.toLowerCase().includes(termoPend)) || (esc.cidade && esc.cidade.toLowerCase().includes(termoPend));
+          if (matchPend) listaPendentes.push(esc);
+        }
+      });
+
+      // Render Coluna Visitadas
+      if (listaVisitadas.length === 0) {
+        containerVis.innerHTML = `
+          <div style="text-align: center; padding: 2rem 1rem; color: #64748b; font-size: 0.85rem;">
+            Nenhuma escola visitada encontrada com este filtro.
+          </div>
+        `;
+      } else {
+        containerVis.innerHTML = listaVisitadas.map(({ esc, info }) => `
+          <div class="visita-item-card">
+            <div class="visita-item-left">
+              <span class="visita-dot green">●</span>
+              <div class="visita-item-details">
+                <span class="visita-item-name">${esc.nome}</span>
+                <span class="visita-item-sub">${esc.cidade} • CIE ${esc.cie || '---'}</span>
+                <span class="visita-date-pill">
+                  <span>📅</span>
+                  <span>Visitada em ${formatarDataBR(info.data)}</span>
+                </span>
+              </div>
+            </div>
+            <div class="visita-item-actions">
+              <button class="btn-visita-sm" onclick="abrirModalEditarDataVisita('${esc.id}')">Alterar data</button>
+              <button class="btn-visita-sm danger" onclick="desmarcarVisita('${esc.id}')">Desmarcar</button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Render Coluna Pendentes
+      if (listaPendentes.length === 0) {
+        containerPend.innerHTML = `
+          <div style="text-align: center; padding: 2rem 1rem; color: #64748b; font-size: 0.85rem;">
+            Nenhuma escola pendente encontrada com este filtro.
+          </div>
+        `;
+      } else {
+        containerPend.innerHTML = listaPendentes.map(esc => `
+          <div class="visita-item-card">
+            <div class="visita-item-left">
+              <span class="visita-dot amber">●</span>
+              <div class="visita-item-details">
+                <span class="visita-item-name">${esc.nome}</span>
+                <span class="visita-item-sub">${esc.cidade} • ${esc.bairro || 'Rede Escolar'}</span>
+              </div>
+            </div>
+            <div class="visita-item-actions">
+              <button class="btn-marcar-visita-gold" onclick="abrirModalRegistrarVisita('${esc.id}')">Marcar visita</button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function abrirModalRegistrarVisita(id) {
+      const esc = listaEscolas.find(e => e.id === id);
+      if (!esc) return;
+
+      document.getElementById('form-visita-escola-id').value = esc.id;
+      document.getElementById('form-visita-escola-nome').innerText = esc.nome + ' (' + esc.cidade + ')';
+      document.getElementById('form-visita-data').value = new Date().toISOString().slice(0, 10);
+      document.getElementById('form-visita-tipo').value = 'Acompanhamento Pedagógico';
+      document.getElementById('form-visita-obs').value = '';
+      document.getElementById('form-visita-marcar-atencao').checked = false;
+
+      document.getElementById('modal-visita-titulo').innerText = 'Registrar Visita da Dirigente';
+      document.getElementById('modal-registro-visita').style.display = 'flex';
+    }
+
+    function abrirModalEditarDataVisita(id) {
+      const esc = listaEscolas.find(e => e.id === id);
+      if (!esc) return;
+
+      const info = visitasRegistro[esc.id] || {};
+      document.getElementById('form-visita-escola-id').value = esc.id;
+      document.getElementById('form-visita-escola-nome').innerText = esc.nome + ' (' + esc.cidade + ')';
+      document.getElementById('form-visita-data').value = info.data || new Date().toISOString().slice(0, 10);
+      document.getElementById('form-visita-tipo').value = info.tipo || 'Acompanhamento Pedagógico';
+      document.getElementById('form-visita-obs').value = info.obs || '';
+      document.getElementById('form-visita-marcar-atencao').checked = esc.status === 'Alta prioridade';
+
+      document.getElementById('modal-visita-titulo').innerText = 'Alterar Data / Dados da Visita';
+      document.getElementById('modal-registro-visita').style.display = 'flex';
+    }
+
+    function fecharModalRegistroVisita() {
+      document.getElementById('modal-registro-visita').style.display = 'none';
+    }
+
+    function salvarRegistroVisita(e) {
+      e.preventDefault();
+      const id = document.getElementById('form-visita-escola-id').value;
+      const data = document.getElementById('form-visita-data').value;
+      const tipo = document.getElementById('form-visita-tipo').value;
+      const obs = document.getElementById('form-visita-obs').value.trim();
+      const marcarAtencao = document.getElementById('form-visita-marcar-atencao').checked;
+
+      visitasRegistro[id] = { visitada: true, data, tipo, obs };
+
+      if (marcarAtencao) {
+        const esc = listaEscolas.find(item => item.id === id);
+        if (esc) {
+          esc.status = 'Alta prioridade';
+          if (!esc.motivo) esc.motivo = 'Ponto de atenção observado na visita da Dirigente em ' + formatarDataBR(data);
+          salvarEscolasLocalStorage();
+        }
+      }
+
+      salvarVisitasLocalStorage();
+      fecharModalRegistroVisita();
+      atualizarPainelVisitas();
+      mostrarToastAgenda('Visita registrada com sucesso!', '✅');
+    }
+
+    function desmarcarVisita(id) {
+      const esc = listaEscolas.find(e => e.id === id);
+      const nome = esc ? esc.nome : 'Escola';
+
+      if (confirm('Deseja desmarcar a visita da unidade "' + nome + '" e movê-la para pendentes?')) {
+        delete visitasRegistro[id];
+        salvarVisitasLocalStorage();
+        atualizarPainelVisitas();
+        mostrarToastAgenda('Visita desmarcada.', '🔄');
+      }
+    }
+
+    function limparMarcacoesVisitas() {
+      if (confirm('Tem certeza de que deseja limpar TODAS as marcações de visitas da rede? As escolas retornarão ao estado pendente.')) {
+        visitasRegistro = {};
+        salvarVisitasLocalStorage();
+        atualizarPainelVisitas();
+        mostrarToastAgenda('Todas as marcações foram redefinidas.', '🗑️');
+      }
+    }
+
+    function abrirModalMapaVisitas() {
+      carregarEscolasLocalStorage();
+      carregarVisitasLocalStorage();
+
+      let visitadasCount = 0;
+      listaEscolas.forEach(esc => {
+        if (visitasRegistro[esc.id] && visitasRegistro[esc.id].visitada) visitadasCount++;
+      });
+      const pendentesCount = listaEscolas.length - visitadasCount;
+      const taxa = listaEscolas.length > 0 ? Math.round((visitadasCount / listaEscolas.length) * 100) : 0;
+
+      document.getElementById('mapa-count-visitadas').innerText = visitadasCount;
+      document.getElementById('mapa-count-pendentes').innerText = pendentesCount;
+      document.getElementById('mapa-cobertura-taxa').innerText = taxa + '%';
+
+      // Agrupa por municípios
+      const cidades = {};
+      listaEscolas.forEach(esc => {
+        if (!cidades[esc.cidade]) cidades[esc.cidade] = [];
+        cidades[esc.cidade].push(esc);
+      });
+
+      const container = document.getElementById('mapa-visitas-grid');
+      container.innerHTML = Object.keys(cidades).map(cid => {
+        const escolasDaCidade = cidades[cid];
+        const visNaCidade = escolasDaCidade.filter(e => visitasRegistro[e.id] && visitasRegistro[e.id].visitada).length;
+
+        const cardsEscolas = escolasDaCidade.map(e => {
+          const isVis = visitasRegistro[e.id] && visitasRegistro[e.id].visitada;
+          const bgCor = isVis ? '#ecfdf5' : '#fffbeb';
+          const bordaCor = isVis ? '#a7f3d0' : '#fde68a';
+          const textoCor = isVis ? '#065f46' : '#92400e';
+          const dotCor = isVis ? '#10b981' : '#f59e0b';
+          const statusText = isVis ? 'Visitada' : 'Pendente';
+
+          return `
+            <div style="background: ${bgCor}; border: 1px solid ${bordaCor}; border-radius: 8px; padding: 0.65rem 0.85rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">
+              <div>
+                <span style="display: flex; align-items: center; gap: 5px; font-weight: 700; font-size: 0.82rem; color: #0f172a;">
+                  <span style="color: ${dotCor};">●</span> ${e.nome}
+                </span>
+                <span style="font-size: 0.72rem; color: ${textoCor}; display: block; margin-top: 2px;">
+                  ${e.bairro || 'Centro'} ${isVis ? '• ' + formatarDataBR(visitasRegistro[e.id].data) : ''}
+                </span>
+              </div>
+              <span style="font-size: 0.68rem; font-weight: 800; color: ${textoCor}; background: #ffffff; padding: 2px 7px; border-radius: 6px; border: 1px solid ${bordaCor};">
+                ${statusText}
+              </span>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem 1.15rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem;">
+              <span style="font-size: 0.95rem; font-weight: 800; color: var(--brand-navy);">${cid}</span>
+              <span style="font-size: 0.75rem; font-weight: 700; color: #64748b;">
+                ${visNaCidade} de ${escolasDaCidade.length} visitadas
+              </span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.65rem;">
+              ${cardsEscolas}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('modal-mapa-visitas').style.display = 'flex';
+    }
+
+    function fecharModalMapaVisitas() {
+      document.getElementById('modal-mapa-visitas').style.display = 'none';
+    }
+
+    function exportarVisitasExcel() {
+      try {
+        if (typeof XLSX === 'undefined') {
+          alert('Biblioteca de exportação não carregada.');
+          return;
+        }
+
+        const dadosExport = listaEscolas.map(e => {
+          const info = visitasRegistro[e.id];
+          const visitada = info && info.visitada;
+          return {
+            'Código CIE': e.cie || '',
+            'Unidade Escolar': e.nome || '',
+            'Município': e.cidade || '',
+            'Bairro': e.bairro || '',
+            'Status da Visita': visitada ? 'Visitada' : 'Pendente',
+            'Data da Visita': visitada ? formatarDataBR(info.data) : '',
+            'Foco da Visita': visitada ? (info.tipo || '') : '',
+            'Observações': visitada ? (info.obs || '') : ''
+          };
+        });
+
+        const ws = XLSX.utils.json_to_sheet(dadosExport);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Visitas_Dirigente_URE");
+        XLSX.writeFile(wb, "Visitas_Dirigente_URE_Itapevi_" + new Date().toISOString().slice(0, 10) + ".xlsx");
+        mostrarToastAgenda('Planilha de visitas gerada com sucesso!', '📊');
+      } catch (err) {
+        alert('Erro ao exportar visitas: ' + err.message);
+      }
+    }
+
+    // Inicializa sistema de visitas
+    carregarVisitasLocalStorage();
+
 
 
     // Estrutura Hierárquica: CENTROS -> SETORES
@@ -9692,6 +10743,112 @@ const carroCSS = `
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL: REGISTRAR / ALTERAR VISITA -->
+  <div id="modal-registro-visita" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalRegistroVisita()">
+    <div class="agenda-modal-card" style="max-width: 520px;">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);">
+        <div>
+          <span style="font-size: 0.72rem; font-weight: 800; color: #ffe4e6; letter-spacing: 0.05em; text-transform: uppercase;">ACOMPANHAMENTO DA DIRIGENTE</span>
+          <h3 id="modal-visita-titulo" style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Registrar Visita à Escola</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalRegistroVisita()">✕</button>
+      </div>
+
+      <form id="form-registro-visita" onsubmit="salvarRegistroVisita(event)">
+        <input type="hidden" id="form-visita-escola-id">
+        <div class="agenda-modal-body" style="padding: 1.5rem;">
+          <div class="agenda-form-grid">
+            
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Unidade Escolar</label>
+              <div id="form-visita-escola-nome" style="font-weight: 800; font-size: 1.05rem; color: #0f172a; background: #f8fafc; padding: 0.65rem 0.85rem; border: 1px solid #e2e8f0; border-radius: 8px;"></div>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Data da Visita *</label>
+              <input type="date" id="form-visita-data" class="agenda-form-input" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Foco / Objetivo Principal *</label>
+              <select id="form-visita-tipo" class="agenda-form-select" required>
+                <option value="Acompanhamento Pedagógico">Acompanhamento Pedagógico</option>
+                <option value="Vistoria de Infraestrutura">Vistoria de Infraestrutura / Obras</option>
+                <option value="Reunião com Equipe Gestora">Reunião com Equipe Gestora</option>
+                <option value="SARESP e Fluência Leitora">SARESP e Fluência Leitora</option>
+                <option value="Supervisão de Rotina">Supervisão de Rotina</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Termo de Visita / Observações da Dirigente</label>
+              <textarea id="form-visita-obs" class="agenda-form-textarea" rows="3" placeholder="Ex: Acompanhamento da formação docente, verificação das salas com Educatrons e diálogo com grêmio estudantil..."></textarea>
+            </div>
+
+            <div class="agenda-form-group agenda-form-full" style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 0.75rem 1rem;">
+              <label style="display: flex; align-items: center; gap: 0.65rem; font-size: 0.85rem; font-weight: 700; color: #9f1239; cursor: pointer; margin: 0;">
+                <input type="checkbox" id="form-visita-marcar-atencao" style="width: 16px; height: 16px; cursor: pointer;">
+                <span>⚠️ Marcar esta escola em "Acompanhamento Prioritário / Em Atenção"</span>
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="agenda-modal-footer">
+          <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1;" onclick="fecharModalRegistroVisita()">Cancelar</button>
+          <button type="submit" class="btn-visitas-mapa" style="box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3);">
+            <span>Confirmar Visita</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: MAPA DE VISITAS (VISÃO GEOGRÁFICA) -->
+  <div id="modal-mapa-visitas" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalMapaVisitas()">
+    <div class="agenda-modal-card" style="max-width: 840px;">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%);">
+        <div>
+          <span style="font-size: 0.72rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">MAPA DA REDE • URE ITAPEVI</span>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Mapa de Visitas da Dirigente</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalMapaVisitas()">✕</button>
+      </div>
+
+      <div class="agenda-modal-body" style="padding: 1.5rem; max-height: 75vh; overflow-y: auto;">
+        
+        <!-- LEGENDA E STATUS -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.85rem 1.25rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; gap: 1.25rem; font-size: 0.84rem; font-weight: 700;">
+            <span style="display: flex; align-items: center; gap: 0.4rem; color: #059669;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
+              Visitadas: <span id="mapa-count-visitadas">54</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 0.4rem; color: #d97706;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #f59e0b; display: inline-block;"></span>
+              Pendentes: <span id="mapa-count-pendentes">33</span>
+            </span>
+          </div>
+          <div style="font-size: 0.82rem; color: #64748b; font-weight: 600;">
+            Taxa de Cobertura: <strong id="mapa-cobertura-taxa" style="color: #059669;">62%</strong>
+          </div>
+        </div>
+
+        <!-- GRID DE MUNICÍPIOS -->
+        <div id="mapa-visitas-grid" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <!-- Preenchido via JS agrupando escolas por município -->
+        </div>
+
+      </div>
+
+      <div class="agenda-modal-footer">
+        <button type="button" class="btn-visitas-limpar" onclick="fecharModalMapaVisitas()">Fechar Mapa</button>
+      </div>
     </div>
   </div>
 
