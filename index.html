@@ -7314,12 +7314,67 @@ const carroCSS = `
         <div class="filter-card">
           <div class="search-input-wrap">
             <span class="search-icon-abs">🔍</span>
-            <input type="text" placeholder="Busca geral: Escola, assunto, responsável, processo...">
+            <input type="text" id="home-search-input" placeholder="Busca geral: Escola, assunto, responsável, processo..." onkeydown="if(event.key==='Enter') aplicarFiltrosHome()">
           </div>
-          <select class="filter-select">
-            <option>Escola: Todas</option>
-            <option>Itapevi</option>
-            <option>Região</option>
+          <select id="home-filter-escola" class="filter-select" style="max-width: 280px; text-overflow: ellipsis;" onchange="aoMudarFiltroEscolaHome(this.value)">
+            <option value="">Escola: Todas</option>
+            <option value="352561">Air Ferreira do Nascimento Professor (CIE: 352561)</option>
+            <option value="009878">Alayde Domingues Couto Macedo Professora (CIE: 009878)</option>
+            <option value="009912">Aldeia de Barueri (CIE: 009912)</option>
+            <option value="910485">Amador Aguiar (CIE: 910485)</option>
+            <option value="010431">Americo Valentin Christianini (CIE: 010431)</option>
+            <option value="009799">Caio Prado Junior Deputado (CIE: 009799)</option>
+            <option value="010613">Candido Rondon Marechal (CIE: 010613)</option>
+            <option value="010424">Celina de Barros Bairao Professora (CIE: 010424)</option>
+            <option value="010479">Claro Camargo Ribeiro (CIE: 010479)</option>
+            <option value="010480">Dimaraes Antonio Sandei Professor (CIE: 010480)</option>
+            <option value="908563">Dolores Garcia Paschoalin (CIE: 908563)</option>
+            <option value="010364">Dorvalino Abilio Teixeira (CIE: 010364)</option>
+            <option value="923874">Eliana Andres de Almeida Souza Professora (CIE: 923874)</option>
+            <option value="048173">Eliza de Oliveira Ribeiro (CIE: 048173)</option>
+            <option value="921440">Giuseppe Angelo Bertolli Padre (CIE: 921440)</option>
+            <option value="290075">Henrique Fernando Gomes Estudante (CIE: 290075)</option>
+            <option value="010649">Henrique Sammartino Alferes (CIE: 010649)</option>
+            <option value="902044">Ignes Amelia Oliveira Machado Professora (CIE: 902044)</option>
+            <option value="048161">Iracema Rauen Maciel Professora (CIE: 048161)</option>
+            <option value="908836">Itajahy Feitosa Martins Professor (CIE: 908836)</option>
+            <option value="009787">Ivani Maria Paes Professora (CIE: 009787)</option>
+            <option value="049025">Jardim Maria Helena I (CIE: 049025)</option>
+            <option value="908617">Jardim Paulista (CIE: 908617)</option>
+            <option value="041373">Joao Batista Solde (CIE: 041373)</option>
+            <option value="046607">Joao Nascif Chalupp (CIE: 046607)</option>
+            <option value="010388">Jose Chaluppe (CIE: 010388)</option>
+            <option value="009921">Jose Domingos da Silveira Professor (CIE: 009921)</option>
+            <option value="010650">Jose Neyde Cesar Lessa Doutor (CIE: 010650)</option>
+            <option value="149317">Jose Sergio Pereira Professor (CIE: 149317)</option>
+            <option value="043886">Jose Theotonio dos Santos Professor (CIE: 043886)</option>
+            <option value="009891">Jose Wilson Padinha Professor (CIE: 009891)</option>
+            <option value="923333">Josepha Pinto Chiavelli Professora (CIE: 923333)</option>
+            <option value="040551">Lenio Vieira de Moraes Professor (CIE: 040551)</option>
+            <option value="918805">Leonor Mendes de Barros (CIE: 918805)</option>
+            <option value="044817">Luis da Camara Cascudo (CIE: 044817)</option>
+            <option value="049013">Manoel Augusto Vieira Neto Desembargador (CIE: 049013)</option>
+            <option value="010376">Maria Cristina Lopes (CIE: 010376)</option>
+            <option value="910454">Maria Soares Santos Professora (CIE: 910454)</option>
+            <option value="044933">Mario Joaquim Escobar de Andrade (CIE: 044933)</option>
+            <option value="048975">Mary Mallet Cyrino Professora (CIE: 048975)</option>
+            <option value="041385">Moacir Thomaz da Silva (CIE: 041385)</option>
+            <option value="044921">Myrthes Therezinha Assad Villela Profa (CIE: 044921)</option>
+            <option value="010443">Nacif Amin Chalupe (CIE: 010443)</option>
+            <option value="043333">Nercy Amelia Martelini Daher Professora (CIE: 043333)</option>
+            <option value="040548">Nestor de Camargo Prefeito (CIE: 040548)</option>
+            <option value="010662">Oswaldo Sammartino (CIE: 010662)</option>
+            <option value="920241">Parque Imperial (CIE: 920241)</option>
+            <option value="925834">Parque Payol (CIE: 925834)</option>
+            <option value="921439">Paulo da Costa Pan Chacon Professor (CIE: 921439)</option>
+            <option value="908548">Paulo de Abreu (CIE: 908548)</option>
+            <option value="010467">Raul Briquet Doutor (CIE: 010467)</option>
+            <option value="035440">Republica de Cuba (CIE: 035440)</option>
+            <option value="009830">Republica do Equador (CIE: 009830)</option>
+            <option value="048999">Romeo Mecca Padre (CIE: 048999)</option>
+            <option value="496790">Terezinha Palone da Silva Domingues Profa (CIE: 496790)</option>
+            <option value="010397">Vicente Themudo Lessa Professor (CIE: 010397)</option>
+            <option value="918787">Wilmar Soares da Silva (CIE: 918787)</option>
           </select>
           <select class="filter-select">
             <option>Centro: Todos</option>
@@ -7338,7 +7393,7 @@ const carroCSS = `
             <option>Alta</option>
             <option>Média</option>
           </select>
-          <button class="btn-apply-filters">
+          <button class="btn-apply-filters" onclick="aplicarFiltrosHome()">
             <span>-</span> Aplicar
           </button>
         </div>
@@ -10906,6 +10961,45 @@ const carroCSS = `
       }
     }
 
+
+    
+    // Filtro da Home por Escola Oficial do Inventário
+    function aoMudarFiltroEscolaHome(cie) {
+      if (!cie) return;
+      aplicarFiltrosHome();
+    }
+
+    function aplicarFiltrosHome() {
+      const selectEscola = document.getElementById('home-filter-escola');
+      const searchInput = document.getElementById('home-search-input');
+
+      const cie = selectEscola ? selectEscola.value : '';
+      const termo = searchInput ? searchInput.value.trim() : '';
+
+      if (cie) {
+        abrirEscolas();
+        setTimeout(() => {
+          const input = document.getElementById('escolas-search-input');
+          if (input) {
+            input.value = cie;
+            filtrarEscolas();
+          }
+        }, 120);
+        return;
+      }
+
+      if (termo) {
+        abrirEscolas();
+        setTimeout(() => {
+          const input = document.getElementById('escolas-search-input');
+          if (input) {
+            input.value = termo;
+            filtrarEscolas();
+          }
+        }, 120);
+        return;
+      }
+    }
 
     function mostrarHome() {
       esconderTodasAsPanes();
