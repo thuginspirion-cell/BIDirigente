@@ -11321,7 +11321,7 @@ const carroCSS = `
 
       const panel = document.getElementById('gab-base-detail-panel');
       if (panel) {
-        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Sem scroll automatico
       }
     }
 
@@ -26157,7 +26157,6 @@ const carroCSS = `
       const panel = document.getElementById('seintec-base-detail-panel');
       if (panel) {
         panel.style.display = 'block';
-        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
       alternarAbaSeintec('registros');
     }
