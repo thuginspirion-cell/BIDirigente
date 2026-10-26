@@ -5655,21 +5655,13 @@ const carroCSS = `
     /* 17. ESTILOS: CARRO OFICIAL & LOGÍSTICA DA DIRIGENTE (SEFISC)   */
     /* ============================================================== */
     .nav-item-btn#side-btn-carro.active {
-      background: linear-gradient(135deg, rgba(212, 130, 8, 0.22) 0%, rgba(212, 130, 8, 0.08) 100%) !important;
-      border-color: #f09b0c !important;
+      background: linear-gradient(135deg, #f09b0c 0%, #c77800 100%) !important;
       color: #ffffff !important;
       font-weight: 700;
+      box-shadow: 0 4px 14px rgba(240, 155, 12, 0.35);
+      position: relative;
     }
-    .nav-item-btn#side-btn-carro.active::after {
-      content: '';
-      position: absolute;
-      right: 0;
-      top: 20%;
-      height: 60%;
-      width: 4px;
-      background: linear-gradient(180deg, #f09b0c 0%, #d48208 100%);
-      border-radius: 4px 0 0 4px;
-    }
+    /* Barra lateral amarela removida a pedido do usuário */
 
     .carro-header-card {
       background: #ffffff;
@@ -7463,42 +7455,42 @@ const carroCSS = `
             </div>
 
             <div class="kpi-cards-inner">
-              <div class="kpi-mini-box" onclick="abrirEscolas()" style="cursor: pointer;" title="Clique para abrir a gestão das 60 escolas estaduais">
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('escolas')" style="cursor: pointer;" title="Exibir todas as 60 escolas estaduais na Home">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: var(--brand-gold);"></span>
                   <span class="kpi-big-number" id="kpi-escolas">60</span>
                 </div>
-                <span class="kpi-mini-label">Escolas na rede ↗</span>
+                <span class="kpi-mini-label" id="kpi-lbl-escolas">Escolas na rede</span>
               </div>
 
-              <div class="kpi-mini-box" onclick="abrirSeintec()" style="cursor: pointer;" title="Clique para abrir a base SEINTEC de tecnologia">
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('hardware')" style="cursor: pointer;" title="Focar nas métricas de Hardware e Tecnologia">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #3b82f6;"></span>
                   <span class="kpi-big-number" id="kpi-hardware-home">15.098</span>
                 </div>
-                <span class="kpi-mini-label">Equipamentos TI ↗</span>
+                <span class="kpi-mini-label" id="kpi-lbl-hardware">Equipamentos TI</span>
               </div>
 
-              <div class="kpi-mini-box" onclick="abrirVisitas()" style="cursor: pointer;" title="Clique para consultar termos de visitas realizadas">
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('visitas')" style="cursor: pointer;" title="Focar no acompanhamento de visitas e chamados">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #10b981;"></span>
                   <span class="kpi-big-number" id="kpi-visitas">145</span>
                 </div>
-                <span class="kpi-mini-label">Visitas realizadas ↗</span>
+                <span class="kpi-mini-label" id="kpi-lbl-visitas">Visitas realizadas</span>
               </div>
 
-              <div class="kpi-mini-box" onclick="abrirEscolas('atencao')" style="cursor: pointer;" title="Clique para visualizar as 3 escolas em alta prioridade">
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('atencao')" style="cursor: pointer;" title="Filtrar escolas em atenção prioritária">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #ef4444;"></span>
                   <span class="kpi-big-number" id="kpi-alertas-home" style="color: #ef4444;">3</span>
                 </div>
-                <span class="kpi-mini-label">Em atenção prioritária ↗</span>
+                <span class="kpi-mini-label" id="kpi-lbl-atencao">Em atenção prioritária</span>
               </div>
             </div>
           </div>
 
           <!-- Gauge Circular das Visitas da Dirigente -->
-          <div class="gauge-card" onclick="abrirVisitas()" style="cursor: pointer;" title="Clique para abrir o painel de visitas da Dirigente">
+          <div class="gauge-card" onclick="filtrarHomePorTipoKPI('visitas')" style="cursor: pointer;" title="Acompanhamento consolidado de visitas da Dirigente">
             <div class="gauge-header">
               <div>
                 <div class="gauge-title">Visitas da Dirigente</div>
@@ -7517,7 +7509,7 @@ const carroCSS = `
             </div>
 
             <div style="text-align: right;">
-              <span class="gauge-footer-link" onclick="event.stopPropagation(); abrirVisitas();" style="cursor: pointer;">Ver plano de visitas →</span>
+              <span class="gauge-footer-link" onclick="event.stopPropagation(); filtrarHomePorTipoKPI('visitas');" style="cursor: pointer;">Ver plano de visitas →</span>
             </div>
           </div>
 
@@ -7609,17 +7601,67 @@ const carroCSS = `
           </button>
         </div>
 
+        <!-- PAINEL EXECUTIVO DA ESCOLA SELECIONADA (RESULTADO IMEDIATO 100% REATIVO NA HOME) -->
+        <div id="home-school-spotlight" style="display: none; margin-bottom: 1.5rem; background: #ffffff; border: 2px solid #2563eb; border-radius: 14px; padding: 1.35rem 1.65rem; box-shadow: 0 8px 24px rgba(37,99,235,0.10); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.85rem; margin-bottom: 1.15rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.95rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+                <span style="font-size: 1.45rem;">🏫</span>
+                <h3 id="spotlight-school-name" style="font-size: 1.3rem; font-weight: 800; color: #0b2351; margin: 0; letter-spacing: -0.01em;">Nome da Escola</h3>
+                <span id="spotlight-school-cie" style="font-size: 0.76rem; background: #eff6ff; color: #1d4ed8; font-weight: 700; padding: 4px 10px; border-radius: 6px; border: 1px solid #bfdbfe;">CIE: 000000</span>
+                <span id="spotlight-school-city" style="font-size: 0.76rem; background: #f1f5f9; color: #475569; font-weight: 700; padding: 4px 10px; border-radius: 6px;">Município</span>
+                <span id="spotlight-school-status" style="font-size: 0.76rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; background: rgba(16,185,129,0.15); color: #047857; border: 1px solid #10b981;">Conformidade Regular</span>
+              </div>
+              <div id="spotlight-school-details" style="font-size: 0.86rem; color: #64748b; margin-top: 0.45rem; line-height: 1.45;">
+                Direção, contatos e dados cadastrais da unidade
+              </div>
+            </div>
+            <button type="button" onclick="limparFiltrosHome()" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; font-size: 0.8rem; font-weight: 700; padding: 0.45rem 0.95rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;" title="Fechar detalhes e ver todas as escolas">
+              <span>✕</span> Ver Todas as 60 Escolas
+            </button>
+          </div>
+
+          <!-- Mini Grid Executivo de Indicadores da Escola Selecionada -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.85rem;">
+            <!-- Box 1: Hardware SEINTEC -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
+              <div style="font-size: 0.7rem; font-weight: 800; color: #2563eb; text-transform: uppercase; letter-spacing: 0.04em;">💻 Hardware SEINTEC</div>
+              <div id="spotlight-hw-total" style="font-size: 1.45rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0;">0 itens</div>
+              <div id="spotlight-hw-sub" style="font-size: 0.78rem; color: #059669; font-weight: 600;">0 disponíveis (0%)</div>
+            </div>
+            <!-- Box 2: Chamados / Calls -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
+              <div style="font-size: 0.7rem; font-weight: 800; color: #d97706; text-transform: uppercase; letter-spacing: 0.04em;">📞 Chamados / Calls NIT</div>
+              <div id="spotlight-calls-total" style="font-size: 1.45rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0;">0 chamados</div>
+              <div id="spotlight-calls-sub" style="font-size: 0.78rem; color: #64748b;">0 pendentes • 0 concluídos</div>
+            </div>
+            <!-- Box 3: Estrutura & Ambientes -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
+              <div style="font-size: 0.7rem; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 0.04em;">🏫 Rede & Segmento</div>
+              <div id="spotlight-tipo" style="font-size: 1.25rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0;">Regular</div>
+              <div id="spotlight-segmento" style="font-size: 0.78rem; color: #64748b;">Ensino Fundamental e Médio</div>
+            </div>
+            <!-- Box 4: Gestão & Contato -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
+              <div style="font-size: 0.7rem; font-weight: 800; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.04em;">👥 Gestão da Unidade</div>
+              <div id="spotlight-diretor" style="font-size: 1.15rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">-</div>
+              <div id="spotlight-telefone" style="font-size: 0.78rem; color: #64748b;">Tel: -</div>
+            </div>
+          </div>
+        </div>
+
+
         <!-- 4. SEÇÃO: ESCOLAS EM ATENÇÃO (GESTÃO POR EXCEÇÃO) -->
         <div class="section-title-row">
           <div class="section-main-heading">
             <span style="color: var(--accent-red); font-size: 1.1rem;">⚠️</span>
             <span>Em foco: escolas que exigem atenção</span>
           </div>
-          <span class="section-see-all" style="cursor: pointer;" onclick="abrirEscolas('atencao')" title="Ver todas as escolas em atenção">Ver todas as prioridades →</span>
+          <span class="section-see-all" style="cursor: pointer;" onclick="filtrarHomePorTipoKPI('atencao')" title="Visualizar prioridades na Home">Ver todas as prioridades ↓</span>
         </div>
 
-        <div class="atencao-grid">
-          <div class="atencao-card" onclick="abrirEscolaPorCie('040551')" style="cursor: pointer;" title="Clique para ver detalhes de Lenio Vieira de Moraes Professor">
+        <div class="atencao-grid" id="home-atencao-grid">
+          <div class="atencao-card" id="card-atencao-040551" onclick="selecionarEscolaNaHome('040551')" style="cursor: pointer;" title="Clique para selecionar e ver métricas de Lenio Vieira de Moraes na Home">
             <div class="atencao-badge-row">
               <span class="badge-alta-prioridade">▲ Alta prioridade</span>
               <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 040551</span>
@@ -7628,7 +7670,7 @@ const carroCSS = `
             <div class="atencao-school-reason">Demanda estrutural elétrica e logística de equipamentos (Itapevi)</div>
           </div>
 
-          <div class="atencao-card" onclick="abrirEscolaPorCie('918805')" style="cursor: pointer;" title="Clique para ver detalhes de Leonor Mendes de Barros">
+          <div class="atencao-card" id="card-atencao-918805" onclick="selecionarEscolaNaHome('918805')" style="cursor: pointer;" title="Clique para selecionar e ver métricas de Leonor Mendes de Barros na Home">
             <div class="atencao-badge-row">
               <span class="badge-alta-prioridade">▲ Alta prioridade</span>
               <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 918805</span>
@@ -7637,7 +7679,7 @@ const carroCSS = `
             <div class="atencao-school-reason">Acompanhamento pedagógico e modulação docente (Itapevi)</div>
           </div>
 
-          <div class="atencao-card" onclick="abrirEscolaPorCie('908836')" style="cursor: pointer;" title="Clique para ver detalhes de Itajahy Feitosa Martins Professor">
+          <div class="atencao-card" id="card-atencao-908836" onclick="selecionarEscolaNaHome('908836')" style="cursor: pointer;" title="Clique para selecionar e ver métricas de Itajahy Feitosa Martins na Home">
             <div class="atencao-badge-row">
               <span class="badge-alta-prioridade">▲ Alta prioridade</span>
               <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 908836</span>
@@ -7658,26 +7700,26 @@ const carroCSS = `
         <div class="centros-grid">
 
           <!-- SETOR 1: SEINTEC -->
-          <div class="centro-card" onclick="abrirSeintec()" style="cursor: pointer;" title="Acessar base completa de tecnologia e dados">
+          <div class="centro-card" id="card-setor-seintec" onclick="destacarCentroNaHome('SEINTEC')" style="cursor: pointer;" title="SEINTEC - Tecnologia e Hardware">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: var(--brand-teal);">💻</div>
-              <span class="centro-status-pill" style="color: #0d9488; background: #ccfbf1; font-weight: 700;">🟢 74,9% Disp.</span>
+              <span class="centro-status-pill" id="home-seintec-status" style="color: #0d9488; background: #ccfbf1; font-weight: 700;">🟢 74,9% Disp.</span>
             </div>
             <h3 class="centro-title">SEINTEC • Informações & Tecnologia</h3>
             <div class="centro-subtitle">Hardware, conectividade, sistemas e suporte escolar</div>
             
             <div class="centro-metrics-box" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.5rem; margin-bottom: 0.9rem; text-align: center;">
               <div>
-                <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">15.098</div>
-                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Equipamentos</div>
+                <div class="centro-metric-val" id="home-seintec-m1" style="color: #1e293b;">15.098</div>
+                <div class="centro-metric-lbl">Equipamentos</div>
               </div>
               <div>
-                <div style="font-size: 1.15rem; font-weight: 800; color: #059669;">11.307</div>
-                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Disponíveis</div>
+                <div class="centro-metric-val" id="home-seintec-m2" style="color: #059669;">11.307</div>
+                <div class="centro-metric-lbl">Disponíveis</div>
               </div>
               <div>
-                <div style="font-size: 1.15rem; font-weight: 800; color: #d97706;">1.164</div>
-                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Manutenção</div>
+                <div class="centro-metric-val" id="home-seintec-m3" style="color: #d97706;">1.164</div>
+                <div class="centro-metric-lbl">Manutenção</div>
               </div>
             </div>
 
@@ -7697,23 +7739,23 @@ const carroCSS = `
           <div class="centro-card" onclick="abrirAssessoriaTecnica()" style="cursor: pointer;" title="Acessar Gabinete da Dirigente e Assessoria">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: var(--brand-navy); border: 1.5px solid var(--brand-gold);">🏛️</div>
-              <span class="centro-status-pill" style="color: #2563eb; background: #dbeafe; font-weight: 700;">🟢 90,6% Metas</span>
+              <span class="centro-status-pill" id="home-asure-status" style="color: #2563eb; background: #dbeafe; font-weight: 700;">🟢 90,6% Metas</span>
             </div>
             <h3 class="centro-title">ASURE • Gabinete & Assessoria</h3>
             <div class="centro-subtitle">Rotina executiva da dirigente, termos de visita e ouvidoria</div>
 
             <div class="centro-metrics-box" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.5rem; margin-bottom: 0.9rem; text-align: center;">
               <div>
-                <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">145</div>
-                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Visitas Feitas</div>
+                <div class="centro-metric-val" id="home-asure-m1" style="color: #1e293b;">145</div>
+                <div class="centro-metric-lbl" id="home-asure-lbl1">Visitas Feitas</div>
               </div>
               <div>
-                <div style="font-size: 1.15rem; font-weight: 800; color: #2563eb;">160</div>
-                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Meta Mensal</div>
+                <div class="centro-metric-val" id="home-asure-m2" style="color: #2563eb;">160</div>
+                <div class="centro-metric-lbl" id="home-asure-lbl2">Meta Mensal</div>
               </div>
               <div>
-                <div style="font-size: 1.15rem; font-weight: 800; color: #059669;">100%</div>
-                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Atendimentos</div>
+                <div class="centro-metric-val" id="home-asure-m3" style="color: #059669;">100%</div>
+                <div class="centro-metric-lbl" id="home-asure-lbl3">Atendimentos</div>
               </div>
             </div>
 
@@ -7730,18 +7772,18 @@ const carroCSS = `
           </div>
 
           <!-- SETOR 3: SEAFIN -->
-          <div class="centro-card" onclick="abrirCentro('CAF')" style="cursor: pointer;" title="Acessar Centro de Administração, Finanças e NOM Obras">
+          <div class="centro-card" id="card-setor-seafin" onclick="destacarCentroNaHome('CAF')" style="cursor: pointer;" title="SEAFIN - Finanças e Obras NOM">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: #10b981;">💼</div>
-              <span class="centro-status-pill" style="color: #b45309; background: #fef3c7; font-weight: 700;">🟡 Obras em Foco</span>
+              <span class="centro-status-pill" id="home-seafin-status" style="color: #b45309; background: #fef3c7; font-weight: 700;">🟡 Obras em Foco</span>
             </div>
             <h3 class="centro-title">SEAFIN • Finanças, Suprimentos & Obras</h3>
             <div class="centro-subtitle">Execução orçamentária, obras escolares (NOM) e contratos</div>
 
             <div class="centro-metrics-box" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.5rem; margin-bottom: 0.9rem; text-align: center;">
               <div>
-                <div style="font-size: 1.15rem; font-weight: 800; color: #b45309;">3</div>
-                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Intervenções</div>
+                <div class="centro-metric-val" id="home-seafin-m1" style="color: #b45309;">3</div>
+                <div class="centro-metric-lbl">Intervenções</div>
               </div>
               <div>
                 <div style="font-size: 1.15rem; font-weight: 800; color: #059669;">PDDE</div>
@@ -7766,18 +7808,18 @@ const carroCSS = `
           </div>
 
           <!-- SETOR 4: SEGRE -->
-          <div class="centro-card" onclick="abrirCentro('CGE')" style="cursor: pointer;" title="Acessar Gestão da Rede Escolar">
+          <div class="centro-card" id="card-setor-segre" onclick="destacarCentroNaHome('CGE')" style="cursor: pointer;" title="SEGRE - Gestão da Rede Escolar">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: #f59e0b;">🏫</div>
-              <span class="centro-status-pill" style="color: #0284c7; background: #e0f2fe; font-weight: 700;">🟢 60 Escolas</span>
+              <span class="centro-status-pill" id="home-segre-status" style="color: #0284c7; background: #e0f2fe; font-weight: 700;">🟢 60 Escolas</span>
             </div>
             <h3 class="centro-title">SEGRE • Gestão da Rede Escolar</h3>
             <div class="centro-subtitle">Supervisão pedagógica regional, matrículas e modulação</div>
 
             <div class="centro-metrics-box" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.5rem; margin-bottom: 0.9rem; text-align: center;">
               <div>
-                <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">60</div>
-                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Escolas</div>
+                <div class="centro-metric-val" id="home-segre-m1" style="color: #1e293b;">60</div>
+                <div class="centro-metric-lbl" id="home-segre-lbl1">Escolas</div>
               </div>
               <div>
                 <div style="font-size: 1.15rem; font-weight: 800; color: #0284c7;">Polos</div>
@@ -7802,10 +7844,10 @@ const carroCSS = `
           </div>
 
           <!-- SETOR 5: SEPES -->
-          <div class="centro-card" onclick="abrirCentro('CRH')" style="cursor: pointer;" title="Acessar Recursos Humanos e Pessoal">
+          <div class="centro-card" id="card-setor-sepes" onclick="destacarCentroNaHome('CRH')" style="cursor: pointer;" title="SEPES - Recursos Humanos e Pessoal">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: #8b5cf6;">👥</div>
-              <span class="centro-status-pill" style="color: #7c3aed; background: #ede9fe; font-weight: 700;">🟢 Atribuição OK</span>
+              <span class="centro-status-pill" id="home-sepes-status" style="color: #7c3aed; background: #ede9fe; font-weight: 700;">🟢 Atribuição OK</span>
             </div>
             <h3 class="centro-title">SEPES • Pessoal & Recursos Humanos</h3>
             <div class="centro-subtitle">Folha de pagamento, frequência, evolução funcional e evolução</div>
@@ -7838,10 +7880,10 @@ const carroCSS = `
           </div>
 
           <!-- SETOR 6: EEC -->
-          <div class="centro-card" onclick="abrirCentro('NPE')" style="cursor: pointer;" title="Acessar Equipe Pedagógica e Currículo">
+          <div class="centro-card" id="card-setor-eec" onclick="destacarCentroNaHome('NPE')" style="cursor: pointer;" title="EEC - Especialistas em Currículo e Pedagógico">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: #06b6d4;">📚</div>
-              <span class="centro-status-pill" style="color: #0891b2; background: #cffafe; font-weight: 700;">🟢 Avaliações</span>
+              <span class="centro-status-pill" id="home-eec-status" style="color: #0891b2; background: #cffafe; font-weight: 700;">🟢 Avaliações</span>
             </div>
             <h3 class="centro-title">EEC • Especialistas em Currículo & Pedagógico</h3>
             <div class="centro-subtitle">Formação docente, Prova Paulista, SARESP e apoio pedagógico</div>
@@ -11267,20 +11309,128 @@ const carroCSS = `
       aplicarFiltrosHome();
     }
 
-    function limparFiltrosHome() {
-      const selectEscola = document.getElementById('home-filter-escola');
-      if (selectEscola) selectEscola.value = '';
-      const searchInput = document.getElementById('home-search-input');
-      if (searchInput) searchInput.value = '';
-      const selectCentro = document.getElementById('home-filter-centro');
-      if (selectCentro) selectCentro.value = '';
+    // ==============================================================
+    // MOTOR DE FILTROS 100% REATIVO NA HOME (INÍCIO)
+    // Permite consultar métricas e dados de escolas e setores
+    // diretamente na página inicial sem navegar para outras abas.
+    // ==============================================================
+
+    function obterMetricasEscolaHome(cie) {
+      if (!cie) return null;
+      const pad = String(cie).padStart(6, '0');
+      const raw = String(parseInt(cie, 10));
+
+      let esc = (typeof BASE_ESCOLAS_PADRAO !== 'undefined' && Array.isArray(BASE_ESCOLAS_PADRAO))
+        ? BASE_ESCOLAS_PADRAO.find(e => e.cie === pad || e.cie === raw)
+        : null;
+
+      if (!esc && typeof DICIONARIO_OFICIAL_INVENTARIO !== 'undefined') {
+        const dic = DICIONARIO_OFICIAL_INVENTARIO[pad] || DICIONARIO_OFICIAL_INVENTARIO[raw];
+        if (dic) {
+          esc = {
+            cie: pad,
+            nome: dic.nome,
+            cidade: dic.cidade || 'Itapevi',
+            bairro: dic.bairro || '-',
+            tipo: 'Regular',
+            segmento: 'Anos Finais e Ensino Médio',
+            diretor: 'Equipe Gestora',
+            telefone: '(11) 4141-0000',
+            status: 'Normal',
+            motivo: 'Monitoramento regular'
+          };
+        }
+      }
+
+      if (!esc) {
+        esc = {
+          cie: pad,
+          nome: 'Escola Estadual (' + pad + ')',
+          cidade: 'Itapevi',
+          bairro: '-',
+          tipo: 'Regular',
+          segmento: 'Educação Básica',
+          diretor: 'Equipe Gestora',
+          telefone: '-',
+          status: 'Normal',
+          motivo: 'Monitoramento regular'
+        };
+      }
+
+      // Hardware SEINTEC da escola
+      let hwList = [];
+      try {
+        if (window.INVENTARIO_COMPLETO_TUPLES && Array.isArray(window.INVENTARIO_COMPLETO_TUPLES.hardware)) {
+          hwList = window.INVENTARIO_COMPLETO_TUPLES.hardware.filter(h => h[0] === pad || h[0] === raw);
+        }
+      } catch(e) {}
+
+      const hwTotal = hwList.length;
+      const hwDisp = hwList.filter(h => h[5] === 'Disponível').length;
+      const hwManut = hwList.filter(h => h[5] === 'Em manutenção' || h[5] === 'Chamado aberto' || h[5] === 'Aguardando peça').length;
+      const hwAdmin = hwList.filter(h => h[1] === 'Administrativo').length;
+      const hwPedag = hwList.filter(h => h[1] === 'Pedagógico').length;
+      const hwPctDisp = hwTotal > 0 ? ((hwDisp / hwTotal) * 100).toFixed(1) : '100.0';
+
+      // Chamados / Calls SEINTEC
+      let callsList = [];
+      try {
+        if (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros)) {
+          callsList = SEINTEC_BASES_CONFIG['Atendimentos'].registros.filter(c => {
+            const cPad = String(c.cie || '').padStart(6, '0');
+            return cPad === pad || c.cie === raw;
+          });
+        }
+      } catch(e) {}
+
+      const callsTotal = callsList.length;
+      const callsPend = callsList.filter(c => c.status === 'Pendente' || c.status === 'Em Aberto' || c.status === 'Em Atendimento').length;
+      const callsConc = callsList.filter(c => c.status === 'Concluído').length;
+
+      const emAtencao = esc.status === 'Atenção' || esc.status === 'Alerta' || esc.status === 'Prioritário' || (esc.motivo && esc.motivo.length > 25);
+
+      return {
+        cie: pad,
+        nome: esc.nome,
+        cidade: esc.cidade || 'Itapevi',
+        bairro: esc.bairro || '-',
+        tipo: esc.tipo || 'Regular',
+        segmento: esc.segmento || 'Ensino Fundamental e Médio',
+        diretor: esc.diretor || 'Equipe Gestora',
+        telefone: esc.telefone || '-',
+        status: esc.status || 'Normal',
+        motivo: esc.motivo || 'Monitoramento regular',
+        emAtencao,
+        hwTotal,
+        hwDisp,
+        hwManut,
+        hwAdmin,
+        hwPedag,
+        hwPctDisp,
+        callsTotal,
+        callsPend,
+        callsConc
+      };
+    }
+
+    function aoMudarFiltroEscolaHome(cie) {
+      aplicarFiltrosHome();
     }
 
     function aoMudarFiltroCentroHome(sigla) {
-      if (!sigla) return;
-      if (sigla === 'SEINTEC') abrirSeintec();
-      else if (sigla === 'GAB') abrirAssessoriaTecnica();
-      else abrirCentro(sigla);
+      aplicarFiltrosHome();
+    }
+
+    function selecionarEscolaNaHome(cie) {
+      const selectEscola = document.getElementById('home-filter-escola');
+      if (selectEscola) {
+        selectEscola.value = String(cie).padStart(6, '0');
+      }
+      aplicarFiltrosHome();
+      const spotlight = document.getElementById('home-school-spotlight');
+      if (spotlight) {
+        spotlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
 
     function aplicarFiltrosHome() {
@@ -11288,63 +11438,362 @@ const carroCSS = `
       const searchInput = document.getElementById('home-search-input');
       const selectCentro = document.getElementById('home-filter-centro');
 
-      const cie = selectEscola ? selectEscola.value : '';
-      const termo = searchInput ? searchInput.value.trim() : '';
+      let cie = selectEscola ? selectEscola.value : '';
+      const termo = searchInput ? searchInput.value.trim().toLowerCase() : '';
       const centro = selectCentro ? selectCentro.value : '';
 
-      if (centro) {
-        aoMudarFiltroCentroHome(centro);
-        return;
-      }
-
-      if (cie) {
-        abrirEscolaPorCie(cie);
-        return;
-      }
-
-      if (termo) {
-        abrirEscolas();
-        setTimeout(() => {
-          const input = document.getElementById('escolas-search-input');
-          if (input) {
-            input.value = termo;
-            filtrarEscolas();
+      // Se o usuário digitou na busca sem selecionar do dropdown, tenta encontrar a escola correspondente
+      if (!cie && termo) {
+        if (typeof BASE_ESCOLAS_PADRAO !== 'undefined' && Array.isArray(BASE_ESCOLAS_PADRAO)) {
+          const encontrada = BASE_ESCOLAS_PADRAO.find(e => 
+            (e.cie && e.cie.includes(termo)) || 
+            (e.nome && e.nome.toLowerCase().includes(termo)) ||
+            (e.cidade && e.cidade.toLowerCase().includes(termo)) ||
+            (e.diretor && e.diretor.toLowerCase().includes(termo))
+          );
+          if (encontrada) {
+            cie = encontrada.cie;
+            if (selectEscola) selectEscola.value = cie;
           }
-        }, 120);
-        return;
+        }
+      }
+
+      // 1. ATUALIZAÇÃO REATIVA DE ESCOLA NA HOME
+      if (cie) {
+        const dados = obterMetricasEscolaHome(cie);
+        if (dados) {
+          renderizarSpotlightEscolaHome(dados);
+          atualizarKpisSuperioresHomeParaEscola(dados);
+          atualizarSetoresHomeParaEscola(dados);
+          destacarAtencaoHomeParaEscola(dados);
+        }
+      } else {
+        restaurarVisaoConsolidadaHome();
+      }
+
+      // 2. FOCO NO CENTRO SELECIONADO NA HOME (SEM MUDAR DE PÁGINA)
+      if (centro) {
+        destacarCentroNaHome(centro);
+      } else {
+        limparDestaqueCentrosHome();
       }
     }
 
-    function _old_aplicarFiltrosHome_disabled() {
+    function renderizarSpotlightEscolaHome(dados) {
+      const spotlight = document.getElementById('home-school-spotlight');
+      if (!spotlight) return;
+
+      spotlight.style.display = 'block';
+
+      const elNome = document.getElementById('spotlight-school-name');
+      const elCie = document.getElementById('spotlight-school-cie');
+      const elCity = document.getElementById('spotlight-school-city');
+      const elStatus = document.getElementById('spotlight-school-status');
+      const elDetails = document.getElementById('spotlight-school-details');
+
+      if (elNome) elNome.textContent = dados.nome;
+      if (elCie) elCie.textContent = 'CIE: ' + dados.cie;
+      if (elCity) elCity.textContent = dados.cidade + (dados.bairro && dados.bairro !== '-' ? ' • ' + dados.bairro : '');
+
+      if (elStatus) {
+        if (dados.emAtencao) {
+          elStatus.style.background = 'rgba(239, 68, 68, 0.15)';
+          elStatus.style.color = '#b91c1c';
+          elStatus.style.borderColor = '#ef4444';
+          elStatus.textContent = '⚠️ Atenção Prioritária';
+        } else {
+          elStatus.style.background = 'rgba(16, 185, 129, 0.15)';
+          elStatus.style.color = '#047857';
+          elStatus.style.borderColor = '#10b981';
+          elStatus.textContent = '🟢 Conformidade Regular';
+        }
+      }
+
+      if (elDetails) {
+        elDetails.innerHTML = '<strong>Direção:</strong> ' + dados.diretor + ' &nbsp;|&nbsp; <strong>Telefone:</strong> ' + dados.telefone + ' &nbsp;|&nbsp; <strong>Segmento:</strong> ' + dados.segmento + (dados.emAtencao ? '<br><span style="color: #b91c1c; font-weight: 700;">Motivo de Atenção: ' + dados.motivo + '</span>' : '');
+      }
+
+      const elHwTotal = document.getElementById('spotlight-hw-total');
+      const elHwSub = document.getElementById('spotlight-hw-sub');
+      if (elHwTotal) elHwTotal.textContent = dados.hwTotal.toLocaleString('pt-BR') + ' itens';
+      if (elHwSub) elHwSub.textContent = dados.hwDisp + ' disp. (' + dados.hwPctDisp + '%) • ' + dados.hwManut + ' em reparo';
+
+      const elCallsTotal = document.getElementById('spotlight-calls-total');
+      const elCallsSub = document.getElementById('spotlight-calls-sub');
+      if (elCallsTotal) elCallsTotal.textContent = dados.callsTotal + ' chamados';
+      if (elCallsSub) elCallsSub.textContent = dados.callsPend + ' pendentes • ' + dados.callsConc + ' concluídos';
+
+      const elTipo = document.getElementById('spotlight-tipo');
+      const elSeg = document.getElementById('spotlight-segmento');
+      if (elTipo) elTipo.textContent = dados.tipo;
+      if (elSeg) elSeg.textContent = dados.hwPedag + ' equipamentos pedagógicos • ' + dados.hwAdmin + ' administrativos';
+
+      const elDir = document.getElementById('spotlight-diretor');
+      const elTel = document.getElementById('spotlight-telefone');
+      if (elDir) elDir.textContent = dados.diretor;
+      if (elTel) elTel.textContent = 'Tel: ' + dados.telefone;
+    }
+
+    function atualizarKpisSuperioresHomeParaEscola(dados) {
+      const kpiEscolas = document.getElementById('kpi-escolas');
+      const kpiHw = document.getElementById('kpi-hardware-home');
+      const kpiVisitas = document.getElementById('kpi-visitas');
+      const kpiAlertas = document.getElementById('kpi-alertas-home');
+
+      const lblEscolas = document.getElementById('kpi-lbl-escolas');
+      const lblHw = document.getElementById('kpi-lbl-hardware');
+      const lblVisitas = document.getElementById('kpi-lbl-visitas');
+      const lblAlertas = document.getElementById('kpi-lbl-atencao');
+
+      if (kpiEscolas) kpiEscolas.textContent = '1';
+      if (lblEscolas) lblEscolas.textContent = 'Escola: CIE ' + dados.cie;
+
+      if (kpiHw) kpiHw.textContent = dados.hwTotal.toLocaleString('pt-BR');
+      if (lblHw) lblHw.textContent = dados.hwPctDisp + '% Disponíveis';
+
+      if (kpiVisitas) kpiVisitas.textContent = dados.callsTotal;
+      if (lblVisitas) lblVisitas.textContent = 'Chamados / Atendimentos';
+
+      if (kpiAlertas) kpiAlertas.textContent = dados.emAtencao ? '1' : '0';
+      if (lblAlertas) lblAlertas.textContent = dados.emAtencao ? 'Atenção prioritária' : 'Monitoramento regular';
+
+      const gaugePct = document.getElementById('home-gauge-pct');
+      const gaugeVal = document.getElementById('home-gauge-val');
+      const gaugeSub = document.getElementById('home-gauge-sub');
+
+      if (gaugePct) gaugePct.textContent = dados.hwPctDisp + '%';
+      if (gaugeVal) gaugeVal.textContent = dados.hwDisp + ' de ' + dados.hwTotal;
+      if (gaugeSub) gaugeSub.textContent = 'itens de TI disponíveis na unidade';
+    }
+
+    function atualizarSetoresHomeParaEscola(dados) {
+      // SEINTEC
+      const sHw = document.getElementById('home-seintec-m1');
+      const sDisp = document.getElementById('home-seintec-m2');
+      const sManut = document.getElementById('home-seintec-m3');
+      const sStatus = document.getElementById('home-seintec-status');
+
+      if (sHw) sHw.textContent = dados.hwTotal.toLocaleString('pt-BR');
+      if (sDisp) sDisp.textContent = dados.hwDisp.toLocaleString('pt-BR');
+      if (sManut) sManut.textContent = dados.hwManut.toLocaleString('pt-BR');
+      if (sStatus) sStatus.textContent = '🟢 ' + dados.hwPctDisp + '% Disp.';
+
+      // ASURE
+      const aM1 = document.getElementById('home-asure-m1');
+      const aM2 = document.getElementById('home-asure-m2');
+      const aM3 = document.getElementById('home-asure-m3');
+      const aStatus = document.getElementById('home-asure-status');
+      const aLbl1 = document.getElementById('home-asure-lbl1');
+      const aLbl2 = document.getElementById('home-asure-lbl2');
+
+      if (aM1) aM1.textContent = dados.callsTotal;
+      if (aLbl1) aLbl1.textContent = 'Chamados NIT';
+      if (aM2) aM2.textContent = dados.callsConc;
+      if (aLbl2) aLbl2.textContent = 'Concluídos';
+      if (aM3) aM3.textContent = dados.callsTotal > 0 ? ((dados.callsConc / dados.callsTotal) * 100).toFixed(0) + '%' : '100%';
+      if (aStatus) aStatus.textContent = dados.emAtencao ? '🟡 Em Atenção' : '🟢 Alinhado';
+
+      // SEAFIN
+      const sfM1 = document.getElementById('home-seafin-m1');
+      const sfStatus = document.getElementById('home-seafin-status');
+      if (sfM1) sfM1.textContent = dados.emAtencao ? '1' : '0';
+      if (sfStatus) sfStatus.textContent = dados.emAtencao ? '🟡 Manutenção Foco' : '🟢 Regular';
+
+      // SEGRE
+      const sgM1 = document.getElementById('home-segre-m1');
+      const sgLbl1 = document.getElementById('home-segre-lbl1');
+      const sgStatus = document.getElementById('home-segre-status');
+      if (sgM1) sgM1.textContent = '1';
+      if (sgLbl1) sgLbl1.textContent = dados.tipo;
+      if (sgStatus) sgStatus.textContent = '🟢 Polo Ativo';
+    }
+
+    function destacarAtencaoHomeParaEscola(dados) {
+      const cards = ['card-atencao-040551', 'card-atencao-918805', 'card-atencao-908836'];
+      cards.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (id.includes(dados.cie)) {
+          el.style.border = '2px solid #ef4444';
+          el.style.boxShadow = '0 0 16px rgba(239, 68, 68, 0.35)';
+          el.style.opacity = '1';
+        } else {
+          el.style.border = '1px solid #e2e8f0';
+          el.style.boxShadow = 'none';
+          el.style.opacity = dados.emAtencao ? '0.45' : '1';
+        }
+      });
+    }
+
+    function restaurarVisaoConsolidadaHome() {
+      const spotlight = document.getElementById('home-school-spotlight');
+      if (spotlight) spotlight.style.display = 'none';
+
+      const kpiEscolas = document.getElementById('kpi-escolas');
+      const kpiHw = document.getElementById('kpi-hardware-home');
+      const kpiVisitas = document.getElementById('kpi-visitas');
+      const kpiAlertas = document.getElementById('kpi-alertas-home');
+
+      const lblEscolas = document.getElementById('kpi-lbl-escolas');
+      const lblHw = document.getElementById('kpi-lbl-hardware');
+      const lblVisitas = document.getElementById('kpi-lbl-visitas');
+      const lblAlertas = document.getElementById('kpi-lbl-atencao');
+
+      if (kpiEscolas) kpiEscolas.textContent = '60';
+      if (lblEscolas) lblEscolas.textContent = 'Escolas na rede';
+
+      if (kpiHw) kpiHw.textContent = '15.098';
+      if (lblHw) lblHw.textContent = 'Equipamentos TI';
+
+      if (kpiVisitas) kpiVisitas.textContent = '145';
+      if (lblVisitas) lblVisitas.textContent = 'Visitas realizadas';
+
+      if (kpiAlertas) kpiAlertas.textContent = '3';
+      if (lblAlertas) lblAlertas.textContent = 'Em atenção prioritária';
+
+      const gaugePct = document.getElementById('home-gauge-pct');
+      const gaugeVal = document.getElementById('home-gauge-val');
+      const gaugeSub = document.getElementById('home-gauge-sub');
+
+      if (gaugePct) gaugePct.textContent = '90%';
+      if (gaugeVal) gaugeVal.textContent = '145 de 160';
+      if (gaugeSub) gaugeSub.textContent = 'visitas concluídas este mês';
+
+      // Restaurar SEINTEC
+      const sHw = document.getElementById('home-seintec-m1');
+      const sDisp = document.getElementById('home-seintec-m2');
+      const sManut = document.getElementById('home-seintec-m3');
+      const sStatus = document.getElementById('home-seintec-status');
+      if (sHw) sHw.textContent = '15.098';
+      if (sDisp) sDisp.textContent = '11.307';
+      if (sManut) sManut.textContent = '1.164';
+      if (sStatus) sStatus.textContent = '🟢 74,9% Disp.';
+
+      // Restaurar ASURE
+      const aM1 = document.getElementById('home-asure-m1');
+      const aM2 = document.getElementById('home-asure-m2');
+      const aM3 = document.getElementById('home-asure-m3');
+      const aStatus = document.getElementById('home-asure-status');
+      const aLbl1 = document.getElementById('home-asure-lbl1');
+      const aLbl2 = document.getElementById('home-asure-lbl2');
+      if (aM1) aM1.textContent = '145';
+      if (aLbl1) aLbl1.textContent = 'Visitas Feitas';
+      if (aM2) aM2.textContent = '160';
+      if (aLbl2) aLbl2.textContent = 'Meta Mensal';
+      if (aM3) aM3.textContent = '100%';
+      if (aStatus) aStatus.textContent = '🟢 90,6% Metas';
+
+      // Restaurar SEAFIN
+      const sfM1 = document.getElementById('home-seafin-m1');
+      const sfStatus = document.getElementById('home-seafin-status');
+      if (sfM1) sfM1.textContent = '3';
+      if (sfStatus) sfStatus.textContent = '🟡 Obras em Foco';
+
+      // Restaurar SEGRE
+      const sgM1 = document.getElementById('home-segre-m1');
+      const sgLbl1 = document.getElementById('home-segre-lbl1');
+      const sgStatus = document.getElementById('home-segre-status');
+      if (sgM1) sgM1.textContent = '60';
+      if (sgLbl1) sgLbl1.textContent = 'Escolas';
+      if (sgStatus) sgStatus.textContent = '🟢 60 Escolas';
+
+      // Restaurar SEPES
+      const spStatus = document.getElementById('home-sepes-status');
+      if (spStatus) spStatus.textContent = '🟢 Atribuição OK';
+
+      // Restaurar EEC
+      const eecStatus = document.getElementById('home-eec-status');
+      if (eecStatus) eecStatus.textContent = '🟢 Avaliações';
+
+      // Restaurar Atenção
+      const cards = ['card-atencao-040551', 'card-atencao-918805', 'card-atencao-908836'];
+      cards.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.border = '1px solid #e2e8f0';
+          el.style.boxShadow = 'none';
+          el.style.opacity = '1';
+        }
+      });
+    }
+
+    function destacarCentroNaHome(sigla) {
+      const mapaIds = {
+        'SEINTEC': 'card-setor-seintec',
+        'GAB': 'card-setor-asure',
+        'CAF': 'card-setor-seafin',
+        'CGE': 'card-setor-segre',
+        'CRH': 'card-setor-sepes',
+        'NPE': 'card-setor-eec'
+      };
+
+      const todosIds = Object.values(mapaIds);
+      const alvoId = mapaIds[sigla];
+
+      todosIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (id === alvoId) {
+          el.style.boxShadow = '0 0 0 3px #f09b0c, 0 12px 28px rgba(240, 155, 12, 0.25)';
+          el.style.transform = 'translateY(-4px)';
+          el.style.opacity = '1';
+        } else {
+          el.style.boxShadow = 'none';
+          el.style.transform = 'none';
+          el.style.opacity = '0.55';
+        }
+      });
+
+      if (alvoId) {
+        const card = document.getElementById(alvoId);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
+
+    function limparDestaqueCentrosHome() {
+      const todosIds = [
+        'card-setor-seintec', 'card-setor-asure', 'card-setor-seafin',
+        'card-setor-segre', 'card-setor-sepes', 'card-setor-eec'
+      ];
+      todosIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.boxShadow = '';
+          el.style.transform = '';
+          el.style.opacity = '1';
+        }
+      });
+    }
+
+    function filtrarHomePorTipoKPI(tipo) {
+      if (tipo === 'escolas') {
+        limparFiltrosHome();
+        const kpi = document.getElementById('kpi-escolas');
+        if (kpi) kpi.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else if (tipo === 'hardware') {
+        destacarCentroNaHome('SEINTEC');
+      } else if (tipo === 'visitas') {
+        const gauge = document.getElementById('home-gauge-pct');
+        if (gauge) gauge.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        destacarCentroNaHome('GAB');
+      } else if (tipo === 'atencao') {
+        const grid = document.getElementById('home-atencao-grid');
+        if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function limparFiltrosHome() {
       const selectEscola = document.getElementById('home-filter-escola');
+      if (selectEscola) selectEscola.value = '';
       const searchInput = document.getElementById('home-search-input');
+      if (searchInput) searchInput.value = '';
+      const selectCentro = document.getElementById('home-filter-centro');
+      if (selectCentro) selectCentro.value = '';
 
-      const cie = selectEscola ? selectEscola.value : '';
-      const termo = searchInput ? searchInput.value.trim() : '';
-
-      if (cie) {
-        abrirEscolas();
-        setTimeout(() => {
-          const input = document.getElementById('escolas-search-input');
-          if (input) {
-            input.value = cie;
-            filtrarEscolas();
-          }
-        }, 120);
-        return;
-      }
-
-      if (termo) {
-        abrirEscolas();
-        setTimeout(() => {
-          const input = document.getElementById('escolas-search-input');
-          if (input) {
-            input.value = termo;
-            filtrarEscolas();
-          }
-        }, 120);
-        return;
-      }
+      restaurarVisaoConsolidadaHome();
+      limparDestaqueCentrosHome();
     }
 
     function mostrarHome() {
