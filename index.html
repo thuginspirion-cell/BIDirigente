@@ -6848,15 +6848,15 @@ const carroCSS = `
           <!-- Gerado dinamicamente via JS -->
         </div>
 
-        <!-- Área Exclusiva do Setor Ativo (Com o Upload) -->
+        <!-- Painel Informativo da Nuvem do Setor Ativo (Leitura Direta sem Upload) -->
         <div class="setor-active-box">
           <div class="setor-box-header">
             <div class="setor-box-titles">
               <h3 id="setor-ativo-titulo">📂 Setor SEINTEC</h3>
-              <p id="setor-ativo-desc">Envio de documentos oficiais, laudos e planilhas técnicas para a pasta do setor.</p>
+              <p id="setor-ativo-desc">Leitura e integração automatizada dos dados das pastas de cada setor.</p>
             </div>
             <div class="setor-drive-dest" id="setor-drive-caminho">
-              📁 Drive: Uploads BIDirigente / CIE / SEINTEC
+              ☁️ Nuvem: Leitura Externa Direta
             </div>
           </div>
 
@@ -6864,32 +6864,13 @@ const carroCSS = `
           <input type="hidden" id="atual-centro-sigla" value="CIE">
           <input type="hidden" id="atual-setor-sigla" value="SEINTEC">
 
-          <!-- Dropzone de Upload do Setor (Multi-arquivo: Excel & PDF) -->
-          <div class="upload-dropzone" id="upload-dropzone">
-            <input type="file" id="arquivo-input" class="dropzone-file-input"
-              multiple
-              accept=".pdf, .xls, .xlsx, .csv, application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-              onchange="aoSelecionarArquivosCentro(event)">
-            <div class="dropzone-big-icon" id="dropzone-icon-symbol">📂</div>
-            <div class="dropzone-main-text" id="dropzone-main-label">Clique para selecionar ou arraste seus arquivos aqui (Excel e PDF)</div>
-            <div class="dropzone-sub-text"><b>Suporta múltiplos arquivos simultâneos!</b> • PDF e Planilhas Excel (.xls, .xlsx, .csv) • Armazenamento no Google Drive</div>
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(240, 155, 12, 0.35); border-radius: 14px; padding: 1.5rem; text-align: center; margin-top: 1rem;">
+            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">☁️</div>
+            <div style="font-weight: 700; font-size: 1rem; color: #ffffff;">Conexão de Nuvem por Setor • Somente Leitura</div>
+            <p style="font-size: 0.82rem; color: #94a3b8; margin-top: 0.4rem; max-width: 540px; margin-left: auto; margin-right: auto; line-height: 1.5;">
+              Este painel realiza a leitura externa dos arquivos diretamente da pasta compartilhada de cada setor, preservando a cota de 3GB e dispensando uploads manuais.
+            </p>
           </div>
-
-          <!-- Lista de Arquivos Selecionados no Centro -->
-          <div class="files-list-container" id="centro-selected-files-list"></div>
-
-          <!-- Botões de Ação do Centro -->
-          <div class="multi-upload-toolbar" id="centro-upload-toolbar" style="display: none;">
-            <button class="btn-action-drive" id="btn-submit-upload" onclick="enviarArquivosDoSetor()">
-              <span>📤 Salvar Todos os Arquivos no Google Drive</span>
-            </button>
-            <button class="btn-clear-all" onclick="limparTodosArquivosCentro()">
-              <span>✕ Limpar Seleção</span>
-            </button>
-          </div>
-
-          <!-- Feedback de Status -->
-          <div class="upload-status-alert" id="upload-status-alert"></div>
         </div>
 
       </section>
@@ -7123,13 +7104,10 @@ const carroCSS = `
             <button class="btn-close-panel" onclick="fecharPainelGabinete()">Fechar ✕</button>
           </div>
 
-          <!-- Abas internas: Registros vs Upload Oficial -->
+          <!-- Abas internas: Registros da Base -->
           <div class="detail-tabs-nav">
-            <button class="detail-tab-btn active" id="tab-btn-registros" onclick="alternarAbaGabinete('registros')">
-              <span>📋</span> Registros da Base
-            </button>
-            <button class="detail-tab-btn" id="tab-btn-upload" onclick="alternarAbaGabinete('upload')">
-              <span>📤</span> Enviar Novo Arquivo para Esta Base
+            <button class="detail-tab-btn active" id="tab-btn-registros">
+              <span>📋</span> Registros da Base • Consulta Direta
             </button>
           </div>
 
@@ -7151,38 +7129,6 @@ const carroCSS = `
                 </tbody>
               </table>
             </div>
-          </div>
-
-          <!-- Conteúdo 2: Upload Oficial da Base -->
-          <div class="detail-tab-content" id="tab-content-upload">
-            <div style="margin-bottom: 1rem; font-size: 0.82rem; color: var(--text-muted);" id="gab-upload-dest-text">
-              📁 Destino no Drive: <b>Uploads BIDirigente / AssessoriaTecnica / TermosVisita</b>
-            </div>
-
-            <div class="upload-dropzone">
-              <input type="file" id="arquivo-input-gab" class="dropzone-file-input"
-                multiple
-                accept=".pdf, .xls, .xlsx, .csv, application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                onchange="aoSelecionarArquivosGabinete(event)">
-              <div class="dropzone-big-icon">📂</div>
-              <div class="dropzone-main-text" id="dropzone-label-gab">Clique ou arraste seus documentos aqui (PDF e Excel)</div>
-              <div class="dropzone-sub-text"><b>Suporta múltiplos arquivos simultâneos!</b> • PDF e Planilhas Excel (.xls, .xlsx, .csv) • Upload direto para a pasta da base</div>
-            </div>
-
-            <!-- Lista de Arquivos Selecionados no Gabinete -->
-            <div class="files-list-container" id="gab-selected-files-list"></div>
-
-            <!-- Botões de Ação do Gabinete -->
-            <div class="multi-upload-toolbar" id="gab-upload-toolbar" style="display: none;">
-              <button class="btn-action-drive" id="btn-submit-upload-gab" onclick="enviarArquivosGabinete()">
-                <span>📤 Salvar Todos os Documentos na Base</span>
-              </button>
-              <button class="btn-clear-all" onclick="limparTodosArquivosGabinete()">
-                <span>✕ Limpar Seleção</span>
-              </button>
-            </div>
-
-            <div class="upload-status-alert" id="upload-status-alert-gab"></div>
           </div>
 
         </div>
@@ -7416,10 +7362,7 @@ const carroCSS = `
           <!-- Abas internas da Base: Consulta vs Envio -->
           <div class="detail-tabs-nav">
             <button class="detail-tab-btn active" id="tab-btn-seintec-registros" onclick="alternarAbaSeintec('registros')">
-              <span>📋</span> Registros da Base <span id="badge-contador-registros" style="font-size: 0.72rem; opacity: 0.85; margin-left: 0.3rem;"></span>
-            </button>
-            <button class="detail-tab-btn" id="tab-btn-seintec-upload" onclick="alternarAbaSeintec('upload')">
-              <span>📤</span> Upload Múltiplo (Excel & PDF) <span id="badge-contador-arquivos" style="display:none; background: var(--brand-gold); color: white; padding: 0.1rem 0.4rem; border-radius: 10px; font-size: 0.7rem; margin-left: 0.3rem;"></span>
+              <span>📋</span> Registros da Base • Consulta Direta <span id="badge-contador-registros" style="font-size: 0.72rem; opacity: 0.85; margin-left: 0.3rem;"></span>
             </button>
           </div>
 
@@ -7473,48 +7416,6 @@ const carroCSS = `
                 </tbody>
               </table>
             </div>
-          </div>
-
-          <!-- Conteúdo 2: Upload Múltiplo Oficial da Base SEINTEC (Excel & PDF) -->
-          <div class="detail-tab-content" id="tab-content-seintec-upload">
-            <div style="margin-bottom: 1rem; font-size: 0.82rem; color: var(--text-muted);" id="seintec-upload-dest-text">
-              📁 Destino no Drive: <b>Uploads BIDirigente / SEINTEC / Hardware</b>
-            </div>
-
-            <div class="upload-dropzone" id="dropzone-seintec">
-              <input type="file" id="arquivo-input-seintec" class="dropzone-file-input"
-                multiple
-                accept=".pdf, .xls, .xlsx, .csv, application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                onchange="aoSelecionarArquivosSeintec(event)">
-              <div class="dropzone-big-icon">📂</div>
-              <div class="dropzone-main-text" id="dropzone-label-seintec">Clique ou arraste seus arquivos aqui (Excel e PDF)</div>
-              <div class="dropzone-sub-text">
-                <b>Suporta múltiplos arquivos simultâneos!</b><br>
-                Planilhas (.xlsx, .xls, .csv) são lidas e renderizadas na tabela imediatamente • PDFs (.pdf) ficam prontos para pré-visualização.
-              </div>
-            </div>
-
-            <!-- Lista de Arquivos Selecionados -->
-            <div class="files-list-container" id="seintec-selected-files-list"></div>
-
-            <!-- Barra de Ações de Upload / Leitura -->
-            <div class="multi-upload-toolbar" id="seintec-upload-toolbar" style="display: none;">
-              <button class="btn-action-primary" id="btn-read-excel-seintec" onclick="processarLeituraExcelSeintec()">
-                <span>📊 Ler & Visualizar Planilha na Tabela</span>
-              </button>
-              <button class="btn-action-drive" id="btn-submit-upload-seintec" onclick="enviarArquivosSeintec()">
-                <span>📤 Salvar Todos no Google Drive</span>
-              </button>
-              <button class="btn-clear-all" onclick="limparTodosArquivosSeintec()">
-                <span>✕ Limpar Seleção</span>
-              </button>
-            </div>
-
-            <!-- Alerta de Status -->
-            <div class="upload-status-alert" id="upload-status-alert-seintec"></div>
-
-            <!-- Histórico de Links Salvos no Drive -->
-            <div id="seintec-drive-uploaded-links" style="margin-top: 1.25rem; display: none;"></div>
           </div>
 
 
@@ -7762,11 +7663,6 @@ const carroCSS = `
           </div>
 
           <div class="carro-sync-alert-actions">
-            <button class="btn-carro-action secondary" onclick="abrirModalImportarSetor()" title="Importar planilha de controle de veículos de qualquer setor">
-              <span>📥 Importar</span>
-            </button>
-            <input type="file" id="input-importar-excel-carro" style="display: none;" accept=".xlsx,.xls,.csv" onchange="processarArquivoImportacao(this)">
-
             <button class="btn-carro-action secondary" onclick="imprimirAgendaCarro()" title="Imprimir Ordem de Tráfego / Saída de Veículos para a portaria">
               <span>🖨️ Imprimir Ordem</span>
             </button>
@@ -7910,10 +7806,6 @@ const carroCSS = `
               <button class="btn-escola-primary" onclick="abrirModalNovaEscola()" title="Adicionar nova escola à base">
                 <span>➕ Cadastrar Nova Escola</span>
               </button>
-              <button class="btn-escola-secondary" onclick="document.getElementById('input-importar-escolas').click()" title="Importar planilha Excel ou CSV com dados de escolas">
-                <span>📥 Importar Excel</span>
-              </button>
-              <input type="file" id="input-importar-escolas" style="display: none;" accept=".xlsx,.xls,.csv" onchange="importarPlanilhaEscolas(this)">
               <button class="btn-escola-secondary" onclick="exportarEscolasExcel()" title="Exportar tabela atual de escolas para arquivo Excel">
                 <span>📤 Exportar</span>
               </button>
@@ -10743,49 +10635,7 @@ const carroCSS = `
     </div>
   </div>
 
-  <!-- MODAL: SELEÇÃO DE SETOR PARA IMPORTAR PLANILHA -->
-  <div id="modal-importar-setor" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalImportarSetor()">
-    <div class="agenda-modal-card" style="max-width: 500px;">
-      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%);">
-        <div>
-          <span style="font-size: 0.72rem; font-weight: 800; color: #fef08a; letter-spacing: 0.05em; text-transform: uppercase;">CONTROLE DE VEÍCULOS</span>
-          <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Importar Planilha</h3>
-        </div>
-        <button type="button" class="agenda-modal-close" onclick="fecharModalImportarSetor()">✕</button>
-      </div>
 
-      <div class="agenda-modal-body" style="padding: 1.5rem;">
-        <p style="font-size: 0.9rem; color: #475569; margin: 0 0 1.25rem 0; line-height: 1.5;">
-          Identifique o <strong>Setor Responsável</strong> pelos dados antes de selecionar o arquivo (Excel ou CSV):
-        </p>
-
-        <div class="agenda-form-group" style="margin-bottom: 1.25rem;">
-          <label class="agenda-form-label" style="font-weight: 700; color: #0b2351; margin-bottom: 0.4rem; display: block;">Setor de Origem da Planilha *</label>
-          <select id="form-import-setor-origem" class="agenda-form-select" style="width: 100%; padding: 0.75rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; font-weight: 600; color: #0b2351;">
-            <option value="SEFISC">SEFISC (Fiscalização e Transportes)</option>
-            <option value="Gabinete da Dirigente">Gabinete da Dirigente</option>
-            <option value="Supervisão de Ensino">Supervisão de Ensino</option>
-            <option value="CAF - Infraestrutura e Finanças">CAF (Administração e Finanças)</option>
-            <option value="SEINTEC - Tecnologia">SEINTEC (Tecnologia e Informação)</option>
-            <option value="CGE - Gestão Escolar">CGE (Gestão Escolar)</option>
-            <option value="CRH - Recursos Humanos">CRH (Recursos Humanos)</option>
-            <option value="NPE - Núcleo Pedagógico">NPE (Núcleo Pedagógico)</option>
-          </select>
-        </div>
-
-        <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 0.85rem; font-size: 0.82rem; color: #64748b; margin-bottom: 1rem;">
-          💡 Aceita arquivos com extensão <strong>.xlsx</strong>, <strong>.xls</strong> e <strong>.csv</strong>. Os registros serão vinculados ao setor selecionado.
-        </div>
-      </div>
-
-      <div class="agenda-modal-footer">
-        <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1;" onclick="fecharModalImportarSetor()">Cancelar</button>
-        <button type="button" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1px solid #f09b0c; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.25);" onclick="dispararUploadAposSetor()">
-          <span>Selecionar Arquivo ➔</span>
-        </button>
-      </div>
-    </div>
-  </div>
 
   <!-- MODAL: DETALHES DA PLANILHA NO DRIVE (SEFISC) -->
   <div id="modal-origem-drive" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalOrigemDrive()">

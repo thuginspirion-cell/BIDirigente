@@ -48,118 +48,15 @@
     });
   }
 
-  // === NOVA LÓGICA: MUDAR DE SETOR ===
+  // === GESTÃO DE SETORES (SOMENTE LEITURA / NUVEM) ===
   function mudarSetor(nomeSetor, botaoClicado) {
-    // 1. Remove a cor azul (ativo) de todos os botões
     const botoes = document.querySelectorAll('.btn-aba');
     botoes.forEach(btn => btn.classList.remove('ativo'));
+    if (botaoClicado) botaoClicado.classList.add('ativo');
 
-    // 2. Coloca a cor azul apenas no botão clicado
-    botaoClicado.classList.add('ativo');
-
-    // 3. Atualiza o título e o valor escondido
-    document.getElementById('titulo-setor').innerText = `📑 Enviar Documento para ${nomeSetor}`;
-    document.getElementById('setor-selecionado').value = nomeSetor;
-
-    // 4. Limpa a mensagem de status anterior e o arquivo selecionado
-    document.getElementById('upload-status').innerHTML = "";
-    document.getElementById('arquivo-input').value = "";
-  }
-
-  // === LÓGICA DE UPLOAD ATUALIZADA ===
-  function enviarArquivo() {
-    const input = document.getElementById('arquivo-input');
-    const botao = document.getElementById('btn-enviar');
-    const statusDiv = document.getElementById('upload-status');
-    const arquivo = input.files[0];
-    
-    // Pega o setor que está selecionado no momento
-    const setorAtual = document.getElementById('setor-selecionado').value;
-
-    if (!arquivo) {
-      statusDiv.innerHTML = "⚠️ Por favor, selecione um arquivo primeiro.";
-      statusDiv.style.color = "#721c24";
-      return;
-    }
-
-    botao.disabled = true;
-    botao.innerText = "⏳ Enviando...";
-    statusDiv.innerHTML = `Fazendo upload para a pasta ${setorAtual}, aguarde...`;
-    statusDiv.style.color = "#555";
-
-    if (typeof google !== 'undefined' && google.script && google.script.run) {
-      const leitor = new FileReader();
-      
-      leitor.onload = function(e) {
-        const conteudoBase64 = e.target.result.split(',')[1];
-        
-        const arquivoObj = {
-          fileName: arquivo.name,
-          mimeType: arquivo.type,
-          data: conteudoBase64
-        };
-
-        // Envia para o servidor o ARQUIVO e o SETOR
-        google.script.run
-          .withSuccessHandler(function(url) {
-            botao.disabled = false;
-            botao.innerText = "📤 Fazer Upload";
-            input.value = ""; 
-            statusDiv.innerHTML = `✅ Salvo em <b>${setorAtual}</b>! <a href="${url}" target="_blank">Ver arquivo</a>`;
-            statusDiv.style.color = "#155724";
-          })
-          .withFailureHandler(function(erro) {
-            botao.disabled = false;
-            botao.innerText = "📤 Fazer Upload";
-            statusDiv.innerHTML = `❌ Erro ao enviar: ${erro.message}`;
-            statusDiv.style.color = "#721c24";
-          })
-          .processFileUpload(arquivoObj, setorAtual);
-      };
-
-      leitor.readAsDataURL(arquivo);
-    } else {
-      // Se estiver no Render ou Node.js
-      const leitor = new FileReader();
-      leitor.onload = function(e) {
-        const conteudoBase64 = e.target.result.split(',')[1];
-        const payload = {
-          setor: setorAtual,
-          arquivoObj: {
-            fileName: arquivo.name,
-            mimeType: arquivo.type,
-            data: conteudoBase64
-          }
-        };
-
-        fetch('/api/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        })
-        .then(res => {
-          if (!res.ok) throw new Error('Servidor indisponível');
-          return res.json();
-        })
-        .then(resultado => {
-          botao.disabled = false;
-          botao.innerText = "📤 Fazer Upload";
-          input.value = "";
-          statusDiv.innerHTML = `✅ [Servidor Render] Salvo em <b>${setorAtual}</b>!`;
-          statusDiv.style.color = "#155724";
-        })
-        .catch(() => {
-          // Fallback para simulação local
-          setTimeout(function() {
-            botao.disabled = false;
-            botao.innerText = "📤 Fazer Upload";
-            input.value = "";
-            statusDiv.innerHTML = `✅ [Simulação Local] Arquivo "<b>${arquivo.name}</b>" enviado para a pasta <b>${setorAtual}</b> com sucesso!`;
-            statusDiv.style.color = "#155724";
-          }, 600);
-        });
-      };
-      leitor.readAsDataURL(arquivo);
-    }
+    const tituloSetor = document.getElementById('titulo-setor');
+    if (tituloSetor) tituloSetor.innerText = `📑 Setor: ${nomeSetor}`;
+    const setorSel = document.getElementById('setor-selecionado');
+    if (setorSel) setorSel.value = nomeSetor;
   }
 </script>
