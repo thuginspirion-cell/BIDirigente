@@ -7474,27 +7474,30 @@ const carroCSS = `
         </div>
 
         <div class="atencao-grid">
-          <div class="atencao-card">
+          <div class="atencao-card" onclick="abrirEscolaPorCie('040551')" style="cursor: pointer;" title="Clique para ver detalhes de Lenio Vieira de Moraes Professor">
             <div class="atencao-badge-row">
               <span class="badge-alta-prioridade">▲ Alta prioridade</span>
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 040551</span>
             </div>
-            <div class="atencao-school-name">EE Prof. Lênio Vieira de Moraes</div>
+            <div class="atencao-school-name">Lenio Vieira de Moraes Professor</div>
             <div class="atencao-school-reason">Demanda estrutural elétrica e logística de equipamentos (Itapevi)</div>
           </div>
 
-          <div class="atencao-card">
+          <div class="atencao-card" onclick="abrirEscolaPorCie('918805')" style="cursor: pointer;" title="Clique para ver detalhes de Leonor Mendes de Barros">
             <div class="atencao-badge-row">
               <span class="badge-alta-prioridade">▲ Alta prioridade</span>
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 918805</span>
             </div>
-            <div class="atencao-school-name">EE Leonor Mendes de Barros</div>
+            <div class="atencao-school-name">Leonor Mendes de Barros</div>
             <div class="atencao-school-reason">Acompanhamento pedagógico e modulação docente (Itapevi)</div>
           </div>
 
-          <div class="atencao-card">
+          <div class="atencao-card" onclick="abrirEscolaPorCie('908836')" style="cursor: pointer;" title="Clique para ver detalhes de Itajahy Feitosa Martins Professor">
             <div class="atencao-badge-row">
               <span class="badge-alta-prioridade">▲ Alta prioridade</span>
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 908836</span>
             </div>
-            <div class="atencao-school-name">EE Prof. Itajahy Feitosa Martins</div>
+            <div class="atencao-school-name">Itajahy Feitosa Martins Professor</div>
             <div class="atencao-school-reason">Manutenção predial na quadra e cobertura das salas (Itapevi)</div>
           </div>
         </div>
@@ -10143,6 +10146,16 @@ const carroCSS = `
       } catch (e) {}
     }
 
+        function abrirEscolaPorCie(cie) {
+      abrirEscolas();
+      setTimeout(() => {
+        const input = document.getElementById('escolas-search-input');
+        if (input) {
+          input.value = cie;
+          filtrarEscolas();
+        }
+      }, 120);
+    }
     function abrirEscolas(filtroInicial) {
       esconderTodasAsPanes();
       const pane = document.getElementById('pane-escolas');
