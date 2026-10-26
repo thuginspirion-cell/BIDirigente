@@ -1712,6 +1712,7 @@ function abrirCarroOficial(dataOpcional) {
     dataAtivaCarro = dataOpcional;
   }
   renderizarCarroOficial();
+      atualizarMetricasSuperioresSeintec();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -8045,12 +8046,12 @@ const carroCSS = `
         <div class="seintec-metric-row">
 
           <!-- Card 1: TOTAL DE EQUIPAMENTOS -->
-          <div class="gab-metric-card seintec-card-blue" onclick="destacarMetricCard(this); selecionarBaseSeintec('Hardware');">
+          <div class="gab-metric-card seintec-card-blue selected" id="metric-card-seintec-total" onclick="clicarCardMetricaSeintec('todos', this)" style="cursor: pointer;" title="Exibir todos os 15.098 equipamentos de hardware">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">TOTAL DE EQUIPAMENTOS</span>
             </div>
             <div class="seintec-card-subtag">Equipamentos de Hardware</div>
-            <div class="gab-card-big-val">4.820</div>
+            <div class="gab-card-big-val" id="seintec-metric-total-equip">15.098</div>
             <div class="gab-sparkline-bars">
               <div class="sparkline-col" style="height: 35%; background: #93c5fd;"></div>
               <div class="sparkline-col" style="height: 55%; background: #60a5fa;"></div>
@@ -8062,12 +8063,12 @@ const carroCSS = `
           </div>
 
           <!-- Card 2: ADMINISTRATIVOS -->
-          <div class="gab-metric-card seintec-card-red" onclick="destacarMetricCard(this); selecionarBaseSeintec('Hardware');">
+          <div class="gab-metric-card seintec-card-red" id="metric-card-seintec-admin" onclick="clicarCardMetricaSeintec('admin', this)" style="cursor: pointer;" title="Filtrar equipamentos do ambiente administrativo (1.300)">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">ADMINISTRATIVOS</span>
             </div>
             <div class="seintec-card-subtag">Ambiente Administrativo</div>
-            <div class="gab-card-big-val">620</div>
+            <div class="gab-card-big-val" id="seintec-metric-admin">1.300</div>
             <div class="gab-sparkline-bars">
               <div class="sparkline-col" style="height: 50%; background: #e2e8f0;"></div>
               <div class="sparkline-col" style="height: 60%; background: #cbd5e1;"></div>
@@ -8079,12 +8080,12 @@ const carroCSS = `
           </div>
 
           <!-- Card 3: PEDAGÓGICOS -->
-          <div class="gab-metric-card seintec-card-lightblue" onclick="destacarMetricCard(this); selecionarBaseSeintec('Hardware');">
+          <div class="gab-metric-card seintec-card-lightblue" id="metric-card-seintec-pedag" onclick="clicarCardMetricaSeintec('pedag', this)" style="cursor: pointer;" title="Filtrar equipamentos do ambiente pedagógico (13.798)">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">PEDAGÓGICOS</span>
             </div>
             <div class="seintec-card-subtag">Ambiente Pedagógico</div>
-            <div class="gab-card-big-val">4.200</div>
+            <div class="gab-card-big-val" id="seintec-metric-pedag">13.798</div>
             <div class="gab-sparkline-bars">
               <div class="sparkline-col" style="height: 40%; background: #93c5fd;"></div>
               <div class="sparkline-col" style="height: 60%; background: #60a5fa;"></div>
@@ -8096,14 +8097,14 @@ const carroCSS = `
           </div>
 
           <!-- Card 4: DISPONÍVEIS PARA USO -->
-          <div class="gab-metric-card seintec-card-crimson" onclick="destacarMetricCard(this); selecionarBaseSeintec('Hardware');">
+          <div class="gab-metric-card seintec-card-crimson" id="metric-card-seintec-disp" onclick="clicarCardMetricaSeintec('disp', this)" style="cursor: pointer;" title="Filtrar equipamentos disponíveis para uso (11.307 - 74,9%)">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">DISPONÍVEIS PARA USO</span>
             </div>
             <div class="seintec-card-subtag">Disponível + Pedagógico</div>
             <div class="gab-card-big-val" style="display: flex; align-items: baseline; gap: 0.4rem;">
-              <span>4.150</span>
-              <span style="font-size: 0.85rem; color: #d48208; font-weight: 700;">(98.8%)</span>
+              <span id="seintec-metric-disp-val">11.307</span>
+              <span id="seintec-metric-disp-pct" style="font-size: 0.85rem; color: #d48208; font-weight: 700;">(74,9%)</span>
             </div>
             <div class="gab-sparkline-bars">
               <div class="sparkline-col" style="height: 50%; background: #fef08a;"></div>
@@ -8116,12 +8117,12 @@ const carroCSS = `
           </div>
 
           <!-- Card 5: MANUTENÇÃO / CHAMADO -->
-          <div class="gab-metric-card seintec-card-amber" onclick="destacarMetricCard(this); selecionarBaseSeintec('Atendimentos');">
+          <div class="gab-metric-card seintec-card-amber" id="metric-card-seintec-manut" onclick="clicarCardMetricaSeintec('manut', this)" style="cursor: pointer;" title="Filtrar equipamentos em manutenção ou chamado aberto (1.164)">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">MANUTENÇÃO / CHAMADO</span>
             </div>
             <div class="seintec-card-subtag">Status de manutenção/chamado</div>
-            <div class="gab-card-big-val">48</div>
+            <div class="gab-card-big-val" id="seintec-metric-manut">1.164</div>
             <div class="gab-sparkline-bars">
               <div class="sparkline-col" style="height: 60%; background: #e2e8f0;"></div>
               <div class="sparkline-col" style="height: 50%; background: #fde68a;"></div>
@@ -8133,12 +8134,12 @@ const carroCSS = `
           </div>
 
           <!-- Card 6: INSERVÍVEL / DANIFICADOS -->
-          <div class="gab-metric-card seintec-card-teal" onclick="destacarMetricCard(this); selecionarBaseSeintec('Demandas');">
+          <div class="gab-metric-card seintec-card-teal" id="metric-card-seintec-inserv" onclick="clicarCardMetricaSeintec('inserv', this)" style="cursor: pointer;" title="Filtrar equipamentos inservíveis ou danificados (2.627)">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">INSERVÍVEL / DANIFICADOS</span>
             </div>
             <div class="seintec-card-subtag">Status inservível/danificado</div>
-            <div class="gab-card-big-val">22</div>
+            <div class="gab-card-big-val" id="seintec-metric-inserv">2.627</div>
             <div class="gab-sparkline-bars">
               <div class="sparkline-col" style="height: 50%; background: #e2e8f0;"></div>
               <div class="sparkline-col" style="height: 65%; background: #a7f3d0;"></div>
@@ -26264,6 +26265,7 @@ const carroCSS = `
     let baseAtivaSeintec = 'Hardware';
 
     function abrirSeintec() {
+      setTimeout(atualizarMetricasSuperioresSeintec, 50);
       esconderTodasAsPanes();
       document.getElementById('pane-seintec').classList.add('active');
       atualizarBreadcrumbTopo('06 - SEINTEC Tecnologia');
@@ -26286,7 +26288,82 @@ const carroCSS = `
       return Math.round(bytes / 1024) + ' KB';
     }
 
-        function destacarMetricCard(el) {
+        
+    let filtroMetricaHardwareAtivo = 'todos';
+
+    function clicarCardMetricaSeintec(tipoMetrica, cardEl) {
+      if (filtroMetricaHardwareAtivo === tipoMetrica && tipoMetrica !== 'todos') {
+        filtroMetricaHardwareAtivo = 'todos';
+        const cardTotal = document.getElementById('metric-card-seintec-total');
+        destacarMetricCard(cardTotal);
+      } else {
+        filtroMetricaHardwareAtivo = tipoMetrica;
+        destacarMetricCard(cardEl);
+      }
+      selecionarBaseSeintec('Hardware');
+    }
+
+    function atualizarMetricasSuperioresSeintec() {
+      const hw = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware) ? window.INVENTARIO_COMPLETO_TUPLES.hardware : [];
+      let itens = hw;
+      if (filtroEscolaCieAtivo) {
+        itens = hw.filter(item => item[0] === filtroEscolaCieAtivo);
+      }
+
+      const total = itens.length;
+      const admin = itens.filter(t => (t[1] || '').trim().toLowerCase() === 'administrativo').length;
+      const pedag = itens.filter(t => {
+        const amb = (t[1] || '').trim().toLowerCase();
+        return amb === 'pedagógico' || amb === 'pedagogico';
+      }).length;
+      const disp = itens.filter(t => {
+        const st = (t[5] || '').trim().toLowerCase();
+        return st === 'disponível' || st === 'disponivel';
+      }).length;
+      const pctDisp = total > 0 ? ((disp / total) * 100).toFixed(1).replace('.', ',') : '0,0';
+      const manut = itens.filter(t => {
+        const st = (t[5] || '').trim().toLowerCase();
+        return st.includes('manuten') || st.includes('chamado') || st.includes('peça') || st.includes('peca') || st.includes('reparo');
+      }).length;
+      const inserv = itens.filter(t => {
+        const st = (t[5] || '').trim().toLowerCase();
+        return st.includes('inserv') || st.includes('danif') || st.includes('baixa') || st.includes('quebr') || st.includes('furto');
+      }).length;
+
+      const elTotal = document.getElementById('seintec-metric-total-equip');
+      if (elTotal) elTotal.innerText = total.toLocaleString('pt-BR');
+
+      const elAdmin = document.getElementById('seintec-metric-admin');
+      if (elAdmin) elAdmin.innerText = admin.toLocaleString('pt-BR');
+
+      const elPedag = document.getElementById('seintec-metric-pedag');
+      if (elPedag) elPedag.innerText = pedag.toLocaleString('pt-BR');
+
+      const elDispVal = document.getElementById('seintec-metric-disp-val');
+      if (elDispVal) elDispVal.innerText = disp.toLocaleString('pt-BR');
+      const elDispPct = document.getElementById('seintec-metric-disp-pct');
+      if (elDispPct) elDispPct.innerText = '(' + pctDisp + '%)';
+
+      const elManut = document.getElementById('seintec-metric-manut');
+      if (elManut) elManut.innerText = manut.toLocaleString('pt-BR');
+
+      const elInserv = document.getElementById('seintec-metric-inserv');
+      if (elInserv) elInserv.innerText = inserv.toLocaleString('pt-BR');
+
+      const dict = (typeof DICIONARIO_OFICIAL_INVENTARIO !== 'undefined') ? DICIONARIO_OFICIAL_INVENTARIO : (window.DICIONARIO_OFICIAL_INVENTARIO || {});
+      let rodapeTexto = 'Comparação atual - não é histórico';
+      if (filtroEscolaCieAtivo) {
+        const info = dict[filtroEscolaCieAtivo] || {};
+        const nome = info.nomeOficial || info.nomeFormatado || ('CIE ' + filtroEscolaCieAtivo);
+        rodapeTexto = 'Filtro: ' + nome;
+      }
+      const noteFooters = document.querySelectorAll('.seintec-metric-row .gab-card-footer-note');
+      noteFooters.forEach(note => {
+        note.innerText = rodapeTexto;
+      });
+    }
+
+    function destacarMetricCard(el) {
       document.querySelectorAll('#pane-seintec .gab-metric-card').forEach(c => c.classList.remove('selected'));
       if (el) el.classList.add('selected');
     }
@@ -26295,6 +26372,16 @@ const carroCSS = `
       if (!base) return;
 
       baseAtivaSeintec = idBase;
+
+      if (idBase !== 'Hardware') {
+        filtroMetricaHardwareAtivo = 'todos';
+        document.querySelectorAll('#pane-seintec .gab-metric-card').forEach(c => c.classList.remove('selected'));
+      } else {
+        if (!document.querySelector('#pane-seintec .gab-metric-card.selected')) {
+          const cardTotal = document.getElementById('metric-card-seintec-total');
+          if (cardTotal) cardTotal.classList.add('selected');
+        }
+      }
 
       document.querySelectorAll('#pane-seintec .base-card-item').forEach(card => card.classList.remove('selected'));
       const cardEl = document.getElementById(`card-seintec-${idBase}`);
@@ -26652,6 +26739,7 @@ const carroCSS = `
 
     function aoMudarFiltroEscolaSeintec(cie) {
       filtroEscolaCieAtivo = cie || '';
+      atualizarMetricasSuperioresSeintec();
       limiteExibicaoInventario = 100;
       if (baseAtivaSeintec === 'Atendimentos') {
         const base = SEINTEC_BASES_CONFIG['Atendimentos'];
@@ -26682,6 +26770,33 @@ const carroCSS = `
       let filtrados = todosItens;
       if (filtroEscolaCieAtivo) {
         filtrados = filtrados.filter(item => item[0] === filtroEscolaCieAtivo);
+      }
+
+      // Filtro Métrico Superior dos Cards
+      if (idBase === 'Hardware' && filtroMetricaHardwareAtivo && filtroMetricaHardwareAtivo !== 'todos') {
+        if (filtroMetricaHardwareAtivo === 'admin') {
+          filtrados = filtrados.filter(item => (item[1] || '').trim().toLowerCase() === 'administrativo');
+        } else if (filtroMetricaHardwareAtivo === 'pedag') {
+          filtrados = filtrados.filter(item => {
+            const amb = (item[1] || '').trim().toLowerCase();
+            return amb === 'pedagógico' || amb === 'pedagogico';
+          });
+        } else if (filtroMetricaHardwareAtivo === 'disp') {
+          filtrados = filtrados.filter(item => {
+            const st = (item[5] || '').trim().toLowerCase();
+            return st === 'disponível' || st === 'disponivel';
+          });
+        } else if (filtroMetricaHardwareAtivo === 'manut') {
+          filtrados = filtrados.filter(item => {
+            const st = (item[5] || '').trim().toLowerCase();
+            return st.includes('manuten') || st.includes('chamado') || st.includes('peça') || st.includes('peca') || st.includes('reparo');
+          });
+        } else if (filtroMetricaHardwareAtivo === 'inserv') {
+          filtrados = filtrados.filter(item => {
+            const st = (item[5] || '').trim().toLowerCase();
+            return st.includes('inserv') || st.includes('danif') || st.includes('baixa') || st.includes('quebr') || st.includes('furto');
+          });
+        }
       }
 
       // Filtro 2: Busca por texto (escola, CIE, categoria, fabricante, modelo, série, status)
@@ -26791,7 +26906,18 @@ const carroCSS = `
       const ciesUnicos = new Set(filtrados.map(it => it[0]));
       const counter = document.getElementById('seintec-table-records-counter');
       if (counter) {
-        counter.innerHTML = `Exibindo <b>${Math.min(filtrados.length, limiteExibicaoInventario).toLocaleString('pt-BR')}</b> de <b>${filtrados.length.toLocaleString('pt-BR')}</b> itens (${ciesUnicos.size} escola(s) filtrada(s))`;
+        let textoMetricaAtiva = '';
+      if (idBase === 'Hardware' && filtroMetricaHardwareAtivo && filtroMetricaHardwareAtivo !== 'todos') {
+        const mapNomes = {
+          admin: 'Ambiente Administrativo',
+          pedag: 'Ambiente Pedagógico',
+          disp: 'Disponíveis para Uso',
+          manut: 'Manutenção / Chamado',
+          inserv: 'Inservível / Danificados'
+        };
+        textoMetricaAtiva = ` • <span style="color: #d48208; font-weight: 700; background: rgba(212,130,8,0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(212,130,8,0.3);">Métrica: ${mapNomes[filtroMetricaHardwareAtivo] || ''}</span>`;
+      }
+      counter.innerHTML = `Exibindo <b>${Math.min(filtrados.length, limiteExibicaoInventario).toLocaleString('pt-BR')}</b> de <b>${filtrados.length.toLocaleString('pt-BR')}</b> itens (${ciesUnicos.size} escola(s) filtrada(s))${textoMetricaAtiva}`;
       }
       const badgeRegistros = document.getElementById('badge-contador-registros');
       if (badgeRegistros) {
