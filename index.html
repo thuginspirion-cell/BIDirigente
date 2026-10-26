@@ -7349,12 +7349,12 @@ const carroCSS = `
           <div class="base-card-item" id="card-seintec-Atendimentos" onclick="selecionarBaseSeintec('Atendimentos')" style="border-top: 3px solid #3b82f6;">
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-blue">🛠️</div>
-              <span class="base-card-title">Atendimentos (Calls)</span>
+              <span class="base-card-title">Atendimentos</span>
             </div>
-            <p class="base-card-desc">Chamados técnicos e atendimentos • Planilha em nuvem (Aba Calls).</p>
+            <p class="base-card-desc">Chamados técnicos e atendimentos às escolas da regional.</p>
             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem;">
-              <span class="base-card-action-link">Acessar aba Calls →</span>
-              <span style="font-size: 0.65rem; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;">SharePoint / Excel</span>
+              <span class="base-card-action-link">Consultar atendimentos →</span>
+              <span style="font-size: 0.65rem; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;">Base Oficial</span>
             </div>
           </div>
 
@@ -7417,28 +7417,18 @@ const carroCSS = `
             </button>
           </div>
 
-          <!-- BANNER OFICIAL SHAREPOINT / ONEDRIVE PARA ATENDIMENTOS (CALLS) -->
-          <div id="seintec-sharepoint-calls-banner" style="display: none; background: linear-gradient(135deg, #07152f 0%, #0b2351 60%, #1e3a8a 100%); border: 1.5px solid #f09b0c; border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(240, 155, 12, 0.15); border: 1px solid #f09b0c; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: #f09b0c;">
-                  🛠️
-                </div>
-                <div>
-                  <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.2rem;">
-                    <span style="font-size: 0.72rem; font-weight: 800; color: #fef08a; letter-spacing: 0.06em; text-transform: uppercase;">MICROSOFT SHAREPOINT • NUVEM OFICIAL</span>
-                    <span style="background: #10b981; color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.55rem; border-radius: 999px;">Aba Ativa: Calls</span>
-                  </div>
-                  <h4 style="font-size: 1.2rem; font-weight: 800; color: #ffffff; margin: 0;">SEINTEC _ URE - Itapevi.xlsx</h4>
-                  <p style="font-size: 0.8rem; color: #94a3b8; margin: 0.2rem 0 0 0;">
-                    Planilha compartilhada do setor SEINTEC integrada com foco exclusivo nos chamados técnicos e atendimentos escolares.
-                  </p>
-                </div>
+          <!-- BANNER OFICIAL PARA ATENDIMENTOS -->
+          <div id="seintec-sharepoint-calls-banner" style="display: none; background: linear-gradient(135deg, #07152f 0%, #0b2351 60%, #1e3a8a 100%); border: 1.5px solid rgba(240, 155, 12, 0.45); border-radius: 14px; padding: 1.1rem 1.4rem; margin-bottom: 1.25rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(240, 155, 12, 0.15); border: 1px solid #f09b0c; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #f09b0c;">
+                🛠️
               </div>
-              <div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">
-                <a href="https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=view&activeCell=Calls!A1" target="_blank" class="btn-action-drive" style="padding: 0.6rem 1.2rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.45rem; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: 1px solid #60a5fa; color: #ffffff; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">
-                  <span>Abrir Planilha Completa no Excel 365 ↗</span>
-                </a>
+              <div>
+                <span style="font-size: 0.72rem; font-weight: 800; color: #fef08a; letter-spacing: 0.06em; text-transform: uppercase;">SEINTEC • GESTÃO DE ATENDIMENTOS</span>
+                <h4 style="font-size: 1.18rem; font-weight: 800; color: #ffffff; margin: 0.15rem 0 0 0;">Painel de Suporte e Chamados das Escolas</h4>
+                <p style="font-size: 0.8rem; color: #94a3b8; margin: 0.2rem 0 0 0;">
+                  Acompanhamento consolidado de demandas técnicas, conectividade e equipamentos das unidades escolares.
+                </p>
               </div>
             </div>
           </div>
@@ -7470,7 +7460,7 @@ const carroCSS = `
                   <h4 style="margin: 0.15rem 0 0 0; font-size: 1.1rem; font-weight: 800; color: var(--text-main);">Visão Sintética de Chamados & Conectividade</h4>
                 </div>
                 <span style="font-size: 0.75rem; background: rgba(37,99,235,0.1); color: #2563eb; border: 1px solid rgba(37,99,235,0.25); padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700;">
-                  Dados Oficiais da Aba Calls
+                  Painel Executivo • URE Itapevi
                 </span>
               </div>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.75rem;">
@@ -7478,7 +7468,7 @@ const carroCSS = `
                 <div class="calls-kpi-card" onclick="filtrarCallsPorStatus('todos')" title="Ver todos os chamados" style="cursor: pointer; background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border: 1px solid #1e3a8a; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
                   <div style="font-size: 0.68rem; font-weight: 800; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.05em;">TOTAL MONITORADO</div>
                   <div style="font-size: 1.6rem; font-weight: 800; color: #38bdf8; margin-top: 0.15rem;" id="kpi-calls-total">35</div>
-                  <div style="font-size: 0.7rem; color: #94a3b8;">Base SEINTEC / Calls</div>
+                  <div style="font-size: 0.7rem; color: #94a3b8;">Base SEINTEC</div>
                 </div>
                 <!-- Pendentes (Atenção) -->
                 <div class="calls-kpi-card" onclick="filtrarCallsPorStatus('Pendente')" title="Filtrar chamados pendentes" style="cursor: pointer; background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%); border: 1px solid #ef4444; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
@@ -10080,9 +10070,9 @@ const carroCSS = `
         ]
       },
       'Atendimentos': {
-        titulo: 'Atendimentos (Calls SEINTEC)',
+        titulo: 'Atendimentos',
         icone: '🛠️',
-        desc: 'Base Oficial de Chamados SEINTEC • Aba: Calls (1.234 atendimentos)',
+        desc: 'Base Oficial de Chamados e Atendimentos SEINTEC (1.234 atendimentos)',
         pasta: 'Calls',
         isCalls: true,
         sharepointUrl: 'https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=view&activeCell=Calls!A1',
@@ -23788,6 +23778,71 @@ const carroCSS = `
     let filtroAtivoCalls = 'todos';
     let chamadosCallsFiltrados = [];
 
+    // Converte palavras em maiúsculas para formato capitalizado elegante
+    function toTitleCasePt(str) {
+      const lower = ['de', 'da', 'do', 'das', 'dos', 'e', 'em'];
+      return str.toLowerCase().split(' ').map((w, i) => {
+        if (i > 0 && lower.includes(w)) return w;
+        return w.charAt(0).toUpperCase() + w.slice(1);
+      }).join(' ');
+    }
+
+    // Formata o nome da escola: retira 'EE', abrevia profissões/títulos e padroniza
+    function formatarNomeEscola(nome) {
+      if (!nome) return '';
+      let s = nome.trim();
+
+      // Remove prefixos EE, E.E., E.E, EE., E. E., etc.
+      s = s.replace(/^(E\.?\s*E\.?\s*|EE\s+|E\s*E\s+)/i, '');
+      // Remove prefixo PEI se houver
+      s = s.replace(/^PEI\s+/i, '');
+
+      // Se for todo em MAIÚSCULAS, ajusta para formato elegante
+      if (s === s.toUpperCase()) {
+        s = toTitleCasePt(s);
+      }
+
+      // Trata titulação após vírgula: ex 'Celina de Barros Bairão, Professora' -> 'Profª Celina de Barros Bairão'
+      const commaMatch = s.match(/^(.*?)[,\s]+(professora|professor|profª|prof|dr\.?|doutor|doutora|padre|pe\.?|desembargador|desemb\.?|deputado|dep\.?|marechal|mal\.?|coronel|cel\.?|prefeito|pref\.?|estudante)\s*$/i);
+      if (commaMatch) {
+        const mainName = commaMatch[1].trim();
+        const titleRaw = commaMatch[2].toLowerCase();
+        let titleAbr = 'Prof.';
+        if (titleRaw.includes('professora') || titleRaw === 'profª') titleAbr = 'Profª';
+        else if (titleRaw.includes('prof')) titleAbr = 'Prof.';
+        else if (titleRaw.includes('dr') || titleRaw.includes('doutor')) titleAbr = 'Dr.';
+        else if (titleRaw.includes('padre') || titleRaw.includes('pe')) titleAbr = 'Pe.';
+        else if (titleRaw.includes('desemb')) titleAbr = 'Desemb.';
+        else if (titleRaw.includes('dep')) titleAbr = 'Dep.';
+        else if (titleRaw.includes('marechal') || titleRaw.includes('mal')) titleAbr = 'Mal.';
+        else if (titleRaw.includes('cel') || titleRaw.includes('coronel')) titleAbr = 'Cel.';
+        else if (titleRaw.includes('pref')) titleAbr = 'Pref.';
+        else if (titleRaw.includes('estud')) titleAbr = 'Estudante';
+        return titleAbr + ' ' + mainName;
+      }
+
+      // Abrevia profissões e títulos inline
+      s = s.replace(/\bProfessora\b/gi, 'Profª');
+      s = s.replace(/\bProfessor\b/gi, 'Prof.');
+      s = s.replace(/\bProfa\.?\s*/gi, 'Profª ');
+      s = s.replace(/\bProf(?![ªa\.])\b/gi, 'Prof.');
+      s = s.replace(/\bProf\.\s*/gi, 'Prof. ');
+      s = s.replace(/\bProfª\s*/gi, 'Profª ');
+      s = s.replace(/\bDoutora\b/gi, 'Dra.');
+      s = s.replace(/\bDoutor\b/gi, 'Dr.');
+      s = s.replace(/\bDr\b\.?\s*/gi, 'Dr. ');
+      s = s.replace(/\bPadre\b/gi, 'Pe.');
+      s = s.replace(/\bDesembargador\b/gi, 'Desemb.');
+      s = s.replace(/\bDeputado\b/gi, 'Dep.');
+      s = s.replace(/\bMarechal\b/gi, 'Mal.');
+      s = s.replace(/\bCoronel\b/gi, 'Cel.');
+      s = s.replace(/\bPrefeito\b/gi, 'Pref.');
+      s = s.replace(/\bestudante\b/gi, 'Estudante');
+
+      s = s.replace(/\s+/g, ' ').trim();
+      return s;
+    }
+
     // Função auxiliar para remover acentuação na busca (ex: celina = Celina, lenio = Lênio)
     function normalizarBusca(str) {
       return (str || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
@@ -23913,13 +23968,14 @@ const carroCSS = `
             tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #f3e8ff; color: #6b21a8; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #e9d5ff;">💻 Tablets & PCs</span>';
           }
 
-          // Extrai o nome limpo da escola e CIE
-          const escolaNome = reg.escola || reg.polo || 'Escola Estadual';
+          // Extrai o nome limpo e profissional da escola (SEM 'EE', com profissão abreviada) e CIE pequeno
+          const nomeOriginal = reg.escola || reg.polo || 'Escola Estadual';
+          const escolaNomeFormatado = formatarNomeEscola(nomeOriginal);
           const cieTexto = reg.cie ? `CIE: ${reg.cie}` : '';
 
           tr.innerHTML = `
             <td>
-              <strong style="color: var(--text-main); font-size: 0.88rem;">${escolaNome}</strong>
+              <strong style="color: var(--text-main); font-size: 0.88rem;">${escolaNomeFormatado}</strong>
               ${cieTexto ? `<div style="font-size: 0.72rem; color: #64748b; font-weight: 600; margin-top: 0.15rem;">${cieTexto}</div>` : ''}
             </td>
             <td>${tipoTagHtml}</td>
@@ -23977,8 +24033,11 @@ const carroCSS = `
       const modal = document.getElementById('modal-detalhe-call');
       if (!modal) return;
 
+      const nomeOriginal = chamado.escola || chamado.polo || '';
+      const escolaNomeFormatado = formatarNomeEscola(nomeOriginal);
+
       document.getElementById('modal-call-id').innerText = '#' + chamado.id;
-      document.getElementById('modal-call-escola').innerText = chamado.escola || chamado.polo;
+      document.getElementById('modal-call-escola').innerText = escolaNomeFormatado;
       document.getElementById('modal-call-cie').innerText = chamado.cie ? ('CIE: ' + chamado.cie) : 'CIE Oficial';
       document.getElementById('modal-call-data').innerText = chamado.data || 'Recente';
       document.getElementById('modal-call-tipo').innerText = chamado.tipo || 'Demanda Técnica';
@@ -25139,9 +25198,7 @@ const carroCSS = `
             <span style="font-size: 0.7rem; font-weight: 700; color: #1e40af; text-transform: uppercase; display: block;">Telefones / Contato na UE</span>
             <strong id="modal-call-telefone" style="font-size: 0.88rem; color: #1e3a8a;">(11) 2658-8000</strong>
           </div>
-          <a href="https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=view&activeCell=Calls!A1" target="_blank" style="font-size: 0.75rem; font-weight: 700; color: #2563eb; text-decoration: underline;">
-            Abrir Planilha Oficial ↗
-          </a>
+          
         </div>
       </div>
 
