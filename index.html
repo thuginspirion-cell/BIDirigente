@@ -7298,13 +7298,16 @@ const carroCSS = `
           </div>
 
           <!-- 2. Atendimentos -->
-          <div class="base-card-item" id="card-seintec-Atendimentos" onclick="selecionarBaseSeintec('Atendimentos')">
+          <div class="base-card-item" id="card-seintec-Atendimentos" onclick="selecionarBaseSeintec('Atendimentos')" style="border-top: 3px solid #3b82f6;">
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-blue">🛠️</div>
-              <span class="base-card-title">Atendimentos</span>
+              <span class="base-card-title">Atendimentos (Calls)</span>
             </div>
-            <p class="base-card-desc">Histórico operacional de atendimentos de Tecnologia.</p>
-            <span class="base-card-action-link">Consultar base →</span>
+            <p class="base-card-desc">Chamados técnicos e atendimentos • Planilha em nuvem (Aba Calls).</p>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem;">
+              <span class="base-card-action-link">Acessar aba Calls →</span>
+              <span style="font-size: 0.65rem; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;">SharePoint / Excel</span>
+            </div>
           </div>
 
           <!-- 3. Equipamentos de Hardware -->
@@ -7364,6 +7367,56 @@ const carroCSS = `
             <button class="detail-tab-btn active" id="tab-btn-seintec-registros" onclick="alternarAbaSeintec('registros')">
               <span>📋</span> Registros da Base • Consulta Direta <span id="badge-contador-registros" style="font-size: 0.72rem; opacity: 0.85; margin-left: 0.3rem;"></span>
             </button>
+          </div>
+
+          <!-- BANNER OFICIAL SHAREPOINT / ONEDRIVE PARA ATENDIMENTOS (CALLS) -->
+          <div id="seintec-sharepoint-calls-banner" style="display: none; background: linear-gradient(135deg, #07152f 0%, #0b2351 60%, #1e3a8a 100%); border: 1.5px solid #f09b0c; border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(240, 155, 12, 0.15); border: 1px solid #f09b0c; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: #f09b0c;">
+                  🛠️
+                </div>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.2rem;">
+                    <span style="font-size: 0.72rem; font-weight: 800; color: #fef08a; letter-spacing: 0.06em; text-transform: uppercase;">MICROSOFT SHAREPOINT • NUVEM OFICIAL</span>
+                    <span style="background: #10b981; color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.55rem; border-radius: 999px;">Aba Ativa: Calls</span>
+                  </div>
+                  <h4 style="font-size: 1.2rem; font-weight: 800; color: #ffffff; margin: 0;">SEINTEC _ URE - Itapevi.xlsx</h4>
+                  <p style="font-size: 0.8rem; color: #94a3b8; margin: 0.2rem 0 0 0;">
+                    Planilha compartilhada do setor SEINTEC integrada com foco exclusivo nos chamados técnicos e atendimentos escolares.
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn-gestao-open-agenda" id="btn-toggle-calls-frame" onclick="alternarModoVisualizacaoCalls()" style="padding: 0.6rem 1.1rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px; display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer; background: rgba(240, 155, 12, 0.2); border: 1px solid #f09b0c; color: #fef08a;">
+                  <span id="btn-toggle-calls-icon">📑</span>
+                  <span id="btn-toggle-calls-text">Abrir Excel Online Incorporado</span>
+                </button>
+                <a href="https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=view&activeCell=Calls!A1" target="_blank" class="btn-action-drive" style="padding: 0.6rem 1.1rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.45rem; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: 1px solid #60a5fa; color: #ffffff;">
+                  <span>Abrir no Excel 365 ↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONTAINER DO EXCEL ONLINE INCORPORADO (SHAREPOINT ABA CALLS) -->
+          <div id="seintec-calls-excel-container" style="display: none; margin-bottom: 1.5rem; background: #ffffff; border-radius: 14px; overflow: hidden; border: 1.5px solid rgba(240, 155, 12, 0.45); box-shadow: 0 12px 36px rgba(0,0,0,0.35);">
+            <div style="background: #0b2351; padding: 0.75rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-size: 1.1rem;">📑</span>
+                <span style="font-size: 0.88rem; font-weight: 700; color: #fef08a;">Visualização em Tempo Real • Planilha SEINTEC (Aba Calls)</span>
+                <span style="font-size: 0.72rem; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; padding: 0.1rem 0.5rem; border-radius: 4px;">Online</span>
+              </div>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button type="button" onclick="recarregarFrameCalls()" title="Recarregar visualização" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.78rem; cursor: pointer;">
+                  🔄 Recarregar
+                </button>
+                <button type="button" onclick="expandirTelaCheiaCalls()" title="Modo Expandido" style="background: rgba(240,155,12,0.25); border: 1px solid #f09b0c; color: #fef08a; padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer;">
+                  🗖 Tela Cheia
+                </button>
+              </div>
+            </div>
+            <iframe id="frame-sharepoint-calls" src="" width="100%" height="680" frameborder="0" scrolling="yes" style="display: block; width: 100%; border: none; background: #ffffff;"></iframe>
           </div>
 
           <!-- Conteúdo 1: Tabela de Registros (Dinâmica para Excel ou Dados Padrão) -->
@@ -9685,16 +9738,23 @@ const carroCSS = `
         ]
       },
       'Atendimentos': {
-        titulo: 'Atendimentos',
-        icone: 'A',
-        desc: 'Histórico operacional de atendimentos e suporte prestados pela equipe técnica de Tecnologia.',
-        pasta: 'Atendimentos',
+        titulo: 'Atendimentos (Calls SEINTEC)',
+        icone: '🛠️',
+        desc: 'Planilha Oficial em Nuvem: SEINTEC _ URE - Itapevi.xlsx • Aba: Calls (SharePoint SEDUC)',
+        pasta: 'Calls',
+        isCalls: true,
+        sharepointUrl: 'https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=view&activeCell=Calls!A1',
+        sharepointEmbedUrl: 'https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=embedview&Item=Calls&ActiveCell=A1&wdDownloadButton=True',
         registros: [
-          { id: 'ATD-5510', polo: 'EE Mulher-Maravilha (Diana Prince)', equip: 'Suporte presencial: reinstalação SED e certificação digital', data: '22/10/2026', status: 'Atendido' },
-          { id: 'ATD-5498', polo: 'EE Pantera Negra (T\'Challa)', equip: 'Troca de fonte de alimentação Educatron 75"', data: '20/10/2026', status: 'Atendido' },
-          { id: 'ATD-5481', polo: 'EE Viúva Negra (Natasha Romanoff)', equip: 'Orientação técnica para sincronização de carrinho de recarga', data: '18/10/2026', status: 'Atendido' },
-          { id: 'ATD-5460', polo: 'EE Thor Odinson', equip: 'Ajuste de permissão de domínio e rede Intragov', data: '15/10/2026', status: 'Atendido' },
-          { id: 'ATD-5422', polo: 'EE Doutor Estranho (Stephen Strange)', equip: 'Abertura de garantia junto ao fabricante para 12 notebooks', data: '12/10/2026', status: 'Em Análise' }
+          { id: 'CALL-2026/089', polo: 'EE Homem de Ferro (Tony Stark)', equip: 'Manutenção de Educatron e reposição de patch cord de rede', data: '24/10/2026', status: 'Atendido' },
+          { id: 'CALL-2026/088', polo: 'EE Batman (Bruce Wayne)', equip: 'Configuração de VLAN e balanceamento Wi-Fi administrativo', data: '23/10/2026', status: 'Atendido' },
+          { id: 'CALL-2026/087', polo: 'EE Mulher-Maravilha (Diana Prince)', equip: 'Suporte presencial: reinstalação SED e certificado digital A1', data: '22/10/2026', status: 'Atendido' },
+          { id: 'CALL-2026/086', polo: 'EE Pantera Negra (T\'Challa)', equip: 'Verificação de conectividade e substituição de fonte Educatron 75"', data: '21/10/2026', status: 'Em Análise' },
+          { id: 'CALL-2026/085', polo: 'EE Homem-Aranha (Peter Parker)', equip: 'Instalação e alinhamento de 15 novos desktops administrativos', data: '20/10/2026', status: 'Atendido' },
+          { id: 'CALL-2026/084', polo: 'EE Capitão América (Steve Rogers)', equip: 'Manutenção preventiva e reparo em carrinho inteligente de recarga', data: '19/10/2026', status: 'Em Atendimento' },
+          { id: 'CALL-2026/083', polo: 'EE Viúva Negra (Natasha Romanoff)', equip: 'Orientação técnica para sincronização de tablets e notebooks', data: '18/10/2026', status: 'Atendido' },
+          { id: 'CALL-2026/082', polo: 'EE Thor Odinson', equip: 'Ajuste de permissão de domínio corporativo e rede Intragov', data: '15/10/2026', status: 'Atendido' },
+          { id: 'CALL-2026/081', polo: 'EE Doutor Estranho (Stephen Strange)', equip: 'Abertura de garantia técnica junto ao fabricante para 12 notebooks', data: '12/10/2026', status: 'Em Análise' }
         ]
       },
       'Hardware': {
@@ -9788,18 +9848,112 @@ const carroCSS = `
 
       document.getElementById('panel-seintec-title').innerHTML = `<span>${base.icone}</span> <span>${base.titulo}</span>`;
       document.getElementById('panel-seintec-desc').innerText = base.desc;
-      document.getElementById('seintec-upload-dest-text').innerHTML = `📁 Destino no Drive: <b>Uploads BIDirigente / SEINTEC / ${base.pasta}</b>`;
+      const destText = document.getElementById('seintec-upload-dest-text');
+      if (destText) destText.innerHTML = `☁️ Nuvem SharePoint: <b>SEINTEC _ URE - Itapevi.xlsx / ${base.pasta}</b>`;
 
-      // Se já houver uma planilha Excel lida pelo usuário, mantemos os dados dela ou carregamos os dados padrão
-      if (dadosExcelCarregados) {
-        renderizarTabelaExcelSeintec();
+      const callsBanner = document.getElementById('seintec-sharepoint-calls-banner');
+      const callsFrameContainer = document.getElementById('seintec-calls-excel-container');
+
+      if (idBase === 'Atendimentos') {
+        if (callsBanner) callsBanner.style.display = 'block';
+        renderizarRegistrosCalls(base);
       } else {
-        renderizarRegistrosPadraoSeintec(base);
+        if (callsBanner) callsBanner.style.display = 'none';
+        if (callsFrameContainer) callsFrameContainer.style.display = 'none';
+        if (dadosExcelCarregados) {
+          renderizarTabelaExcelSeintec();
+        } else {
+          renderizarRegistrosPadraoSeintec(base);
+        }
       }
 
       const panel = document.getElementById('seintec-base-detail-panel');
-      panel.style.display = 'block';
+      if (panel) {
+        panel.style.display = 'block';
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
       alternarAbaSeintec('registros');
+    }
+
+    function renderizarRegistrosCalls(base) {
+      const thead = document.getElementById('panel-seintec-thead');
+      thead.innerHTML = `
+        <tr>
+          <th>Protocolo / Chamado (Call)</th>
+          <th>Unidade Escolar / Polo</th>
+          <th>Demanda / Especificação Técnica</th>
+          <th>Data / Horário</th>
+          <th>Situação do Atendimento</th>
+        </tr>
+      `;
+
+      const tbody = document.getElementById('panel-seintec-tbody');
+      tbody.innerHTML = "";
+      base.registros.forEach(reg => {
+        const tr = document.createElement('tr');
+        const badgeClass = reg.status.includes('Atendido') || reg.status.includes('Concluído')
+          ? 'status-badge-ok'
+          : (reg.status.includes('Em') ? 'status-badge-warn' : 'status-badge-info');
+
+        tr.innerHTML = `
+          <td><strong style="color: #2563eb; font-weight: 700;">${reg.id}</strong></td>
+          <td><strong>${reg.polo}</strong></td>
+          <td>${reg.equip}</td>
+          <td><span style="font-size: 0.8rem; color: #475569;">📅 ${reg.data}</span></td>
+          <td><span class="status-badge-inline ${badgeClass}">${reg.status}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const contador = document.getElementById('seintec-table-records-counter');
+      if (contador) contador.innerText = `${base.registros.length} chamados registrados (Aba Calls)`;
+      const badgeReg = document.getElementById('badge-contador-registros');
+      if (badgeReg) badgeReg.innerText = `(${base.registros.length})`;
+    }
+
+    function alternarModoVisualizacaoCalls() {
+      const container = document.getElementById('seintec-calls-excel-container');
+      const iframe = document.getElementById('frame-sharepoint-calls');
+      const btnText = document.getElementById('btn-toggle-calls-text');
+      const btnIcon = document.getElementById('btn-toggle-calls-icon');
+
+      if (!container || !iframe) return;
+
+      if (container.style.display === 'none' || !container.style.display) {
+        if (!iframe.src || iframe.src === 'about:blank' || iframe.src === window.location.href) {
+          iframe.src = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=embedview&Item=Calls&ActiveCell=A1&wdDownloadButton=True";
+        }
+        container.style.display = 'block';
+        if (btnText) btnText.innerText = 'Ocultar Excel Online';
+        if (btnIcon) btnIcon.innerText = '✕';
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        container.style.display = 'none';
+        if (btnText) btnText.innerText = 'Abrir Excel Online Incorporado';
+        if (btnIcon) btnIcon.innerText = '📑';
+      }
+    }
+
+    function recarregarFrameCalls() {
+      const iframe = document.getElementById('frame-sharepoint-calls');
+      if (iframe) {
+        const url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=embedview&Item=Calls&ActiveCell=A1&wdDownloadButton=True&t=" + Date.now();
+        iframe.src = url;
+        mostrarToastAgenda('Recarregando aba Calls do Excel Online...', '🔄');
+      }
+    }
+
+    function expandirTelaCheiaCalls() {
+      const iframe = document.getElementById('frame-sharepoint-calls');
+      if (iframe) {
+        if (iframe.requestFullscreen) {
+          iframe.requestFullscreen();
+        } else if (iframe.webkitRequestFullscreen) {
+          iframe.webkitRequestFullscreen();
+        } else if (iframe.msRequestFullscreen) {
+          iframe.msRequestFullscreen();
+        }
+      }
     }
 
     function renderizarRegistrosPadraoSeintec(base) {
