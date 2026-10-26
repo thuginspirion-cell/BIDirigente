@@ -71,12 +71,12 @@
         },
         {
           id: 'evt-002',
-          titulo: 'Visita Técnica: EE Homem de Ferro (Tony Stark)',
+          titulo: 'Visita Técnica: EE Prof. Lênio Vieira de Moraes',
           data: hoje,
           horaInicio: '14:00',
           horaFim: '15:30',
           tipo: 'Visita Técnica',
-          local: 'EE Homem de Ferro (Tony Stark)',
+          local: 'EE Prof. Lênio Vieira de Moraes',
           link: '',
           setor: 'Supervisão Regional',
           prioridade: 'Alta',
@@ -915,13 +915,13 @@ function inicializarCarroPadrao() {
         id: "car-001",
         data: "2026-10-17",
         periodo: "2026-10-17 a 2026-10-17",
-        titulo: "Visita Técnica Regional: Polo Itapevi e EE Homem de Ferro (Tony Stark)",
+        titulo: "Visita Técnica Regional: Polo Itapevi e EE Prof. Lênio Vieira de Moraes",
         veiculo: "Chevrolet Spin 1.8 7L (Oficial)",
         placa: "EDE-9842",
         motorista: "Carlos Alberto da Silva",
         solicitante: "Dirigente Regional de Ensino",
         setor: "Gabinete / Supervisão",
-        destino: "EE Homem de Ferro (Tony Stark) e Região Central de Itapevi",
+        destino: "EE Prof. Lênio Vieira de Moraes e Região Central de Itapevi",
         horarioSaida: "08:30",
         horarioRetorno: "16:30",
         origemFonte: "SEFISC - Agenda",
@@ -978,7 +978,7 @@ function inicializarCarroPadrao() {
         motorista: "João Mendes",
         solicitante: "Núcleo de Obras e Manutenção - NOM / CAF",
         setor: "CAF",
-        destino: "EE Batman (Bruce Wayne) e EE Mulher-Maravilha (Diana Prince)",
+        destino: "EE Leonor Mendes de Barros e EE Prof. Itajahy Feitosa Martins",
         horarioSaida: "09:00",
         horarioRetorno: "15:00",
         origemFonte: "SEFISC - Controle de uso",
@@ -6322,7 +6322,55 @@ const carroCSS = `
       transform: translateY(-1px);
     }
 
-</style>
+
+    /* ESTILOS EXECUTIVOS DA ABA CALLS */
+    .calls-kpi-card {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .calls-kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+    .btn-call-filter {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-call-filter:hover {
+      border-color: #2563eb;
+      color: #2563eb;
+      background: #eff6ff;
+    }
+    .btn-call-filter.active {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    }
+    .btn-call-view {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.65rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-call-view:hover {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #ffffff;
+    }
+
+  </style>
 </head>
 
 <body>
@@ -6601,7 +6649,7 @@ const carroCSS = `
             <div class="atencao-badge-row">
               <span class="badge-alta-prioridade">▲ Alta prioridade</span>
             </div>
-            <div class="atencao-school-name">EE Homem de Ferro (Tony Stark)</div>
+            <div class="atencao-school-name">EE Prof. Lênio Vieira de Moraes</div>
             <div class="atencao-school-reason">Demanda estrutural elétrica e logística de equipamentos (Itapevi)</div>
           </div>
 
@@ -6609,7 +6657,7 @@ const carroCSS = `
             <div class="atencao-badge-row">
               <span class="badge-alta-prioridade">▲ Alta prioridade</span>
             </div>
-            <div class="atencao-school-name">EE Batman (Bruce Wayne)</div>
+            <div class="atencao-school-name">EE Leonor Mendes de Barros</div>
             <div class="atencao-school-reason">Acompanhamento pedagógico e modulação docente (Itapevi)</div>
           </div>
 
@@ -6617,7 +6665,7 @@ const carroCSS = `
             <div class="atencao-badge-row">
               <span class="badge-alta-prioridade">▲ Alta prioridade</span>
             </div>
-            <div class="atencao-school-name">EE Mulher-Maravilha (Diana Prince)</div>
+            <div class="atencao-school-name">EE Prof. Itajahy Feitosa Martins</div>
             <div class="atencao-school-reason">Manutenção predial na quadra e cobertura das salas (Itapevi)</div>
           </div>
         </div>
@@ -7436,6 +7484,62 @@ const carroCSS = `
               </button>
             </div>
 
+            <!-- PAINEL EXECUTIVO DA DIRIGENTE (ABA CALLS • RESUMO INTELIGENTE) -->
+            <div id="seintec-calls-kpi-bar" style="display: none; margin-bottom: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <div>
+                  <span style="font-size: 0.72rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">PAINEL EXECUTIVO DA DIRIGENTE REGIONAL</span>
+                  <h4 style="margin: 0.15rem 0 0 0; font-size: 1.1rem; font-weight: 800; color: var(--text-main);">Visão Sintética de Chamados & Conectividade</h4>
+                </div>
+                <span style="font-size: 0.75rem; background: rgba(37,99,235,0.1); color: #2563eb; border: 1px solid rgba(37,99,235,0.25); padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700;">
+                  Dados Oficiais da Aba Calls
+                </span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.75rem;">
+                <!-- Total Chamados -->
+                <div class="calls-kpi-card" onclick="filtrarCallsPorStatus('todos')" title="Ver todos os chamados" style="cursor: pointer; background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border: 1px solid #1e3a8a; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.05em;">TOTAL MONITORADO</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #38bdf8; margin-top: 0.15rem;" id="kpi-calls-total">35</div>
+                  <div style="font-size: 0.7rem; color: #94a3b8;">Base SEINTEC / Calls</div>
+                </div>
+                <!-- Pendentes (Atenção) -->
+                <div class="calls-kpi-card" onclick="filtrarCallsPorStatus('Pendente')" title="Filtrar chamados pendentes" style="cursor: pointer; background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%); border: 1px solid #ef4444; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #fca5a5; text-transform: uppercase; letter-spacing: 0.05em;">🔴 PENDENTES (ATENÇÃO)</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-pendentes">12</div>
+                  <div style="font-size: 0.7rem; color: #fecaca;">Aguardando atendimento</div>
+                </div>
+                <!-- Em Atendimento (FDE) -->
+                <div class="calls-kpi-card" onclick="filtrarCallsPorStatus('Em Atendimento')" title="Filtrar chamados em atendimento" style="cursor: pointer; background: linear-gradient(135deg, #451a03 0%, #78350f 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #fde68a; text-transform: uppercase; letter-spacing: 0.05em;">🟡 EM ATENDIMENTO (FDE)</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-em-andamento">11</div>
+                  <div style="font-size: 0.7rem; color: #fef3c7;">Em análise técnica</div>
+                </div>
+                <!-- Internet & Conectividade -->
+                <div class="calls-kpi-card" onclick="filtrarCallsPorStatus('Internet')" title="Filtrar falhas de internet e Wi-Fi" style="cursor: pointer; background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%); border: 1px solid #38bdf8; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #bae6fd; text-transform: uppercase; letter-spacing: 0.05em;">🌐 INTERNET / WI-FI</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-internet">10</div>
+                  <div style="font-size: 0.7rem; color: #e0f2fe;">Conectividade e link fibra</div>
+                </div>
+                <!-- Equipamentos & Tablets -->
+                <div class="calls-kpi-card" onclick="filtrarCallsPorStatus('Equipamentos')" title="Filtrar tablets e equipamentos" style="cursor: pointer; background: linear-gradient(135deg, #064e3b 0%, #047857 100%); border: 1px solid #34d399; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.05em;">💻 TABLETS & EQUIPAMENTOS</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-equipamentos">22</div>
+                  <div style="font-size: 0.7rem; color: #d1fae5;">Tablets, Educatrons e PCs</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FILTROS EXECUTIVOS RÁPIDOS EM 1 CLIQUE -->
+            <div id="seintec-calls-filter-buttons" style="display: none; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.85rem; align-items: center;">
+              <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; margin-right: 0.2rem;">FILTRAR:</span>
+              <button type="button" class="btn-call-filter active" id="btn-call-filter-todos" onclick="filtrarCallsPorStatus('todos')">Todos (<span id="count-filter-todos">35</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-pendente" onclick="filtrarCallsPorStatus('Pendente')">🔴 Pendentes (<span id="count-filter-pendente">0</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-atendimento" onclick="filtrarCallsPorStatus('Em Atendimento')">🟡 Em Atendimento (<span id="count-filter-atendimento">0</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-internet" onclick="filtrarCallsPorStatus('Internet')">🌐 Internet / Wi-Fi (<span id="count-filter-internet">0</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-equip" onclick="filtrarCallsPorStatus('Equipamentos')">💻 Tablets & PCs (<span id="count-filter-equip">0</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-concluido" onclick="filtrarCallsPorStatus('Concluído')">🟢 Concluídos (<span id="count-filter-concluido">0</span>)</button>
+            </div>
+
             <!-- Barra de Ferramentas da Tabela: Abas da Planilha, Contador e Busca em Tempo Real -->
             <div class="table-dynamic-toolbar">
               <div class="table-toolbar-left">
@@ -8196,33 +8300,293 @@ const carroCSS = `
     // GESTÃO COMPLETA DA REDE ESCOLAR (URE ITAPEVI)
     // ========================================================
         const BASE_ESCOLAS_PADRAO = [
-      { id: 'esc-001', cie: '042918', nome: 'EE Homem de Ferro (Tony Stark)', cidade: 'Itapevi', bairro: 'Centro', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Silvia Helena Ferreira', telefone: '(11) 4141-2011', educatrons: 18, status: 'Alta prioridade', motivo: 'Demanda de infraestrutura elétrica e novos equipamentos de tecnologia' },
-      { id: 'esc-002', cie: '042920', nome: 'EE Batman (Bruce Wayne)', cidade: 'Itapevi', bairro: 'Vila Nova Itapevi', tipo: 'PEI 9h', segmento: 'Ensino Médio', diretor: 'Marcos Roberto Santos', telefone: '(11) 4142-1544', educatrons: 16, status: 'Alta prioridade', motivo: 'Reposição de quadro docente e monitoramento patrimonial' },
-      { id: 'esc-003', cie: '042931', nome: 'EE Mulher-Maravilha (Diana Prince)', cidade: 'Itapevi', bairro: 'Cohab', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Regiane Cristina Lima', telefone: '(11) 4141-5589', educatrons: 14, status: 'Alta prioridade', motivo: 'Reforma quadra poliesportiva e ampliação do grêmio' },
-      { id: 'esc-004', cie: '042943', nome: 'EE Homem-Aranha (Peter Parker)', cidade: 'Itapevi', bairro: 'Jardim Briquet', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Carlos Eduardo Nogueira', telefone: '(11) 4141-3320', educatrons: 22, status: 'Regular', motivo: '' },
-      { id: 'esc-005', cie: '042955', nome: 'EE Superman (Clark Kent)', cidade: 'Itapevi', bairro: 'Parque Suburbano', tipo: 'PEI 7h', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Luciana Aparecida Ramos', telefone: '(11) 4143-6670', educatrons: 15, status: 'Regular', motivo: '' },
-      { id: 'esc-006', cie: '042967', nome: 'EE Capitão América (Steve Rogers)', cidade: 'Itapevi', bairro: 'Amador Bueno', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Fernando Henrique Souza', telefone: '(11) 4144-1020', educatrons: 16, status: 'Em Reforma', motivo: 'Obras de acessibilidade e rampa' },
-      { id: 'esc-007', cie: '042979', nome: "EE Pantera Negra (T'Challa)", cidade: 'Jandira', bairro: 'Jardim Silveira', tipo: 'PEI 9h', segmento: 'Ensino Médio', diretor: 'Renata Godoy Mendonça', telefone: '(11) 4619-3300', educatrons: 20, status: 'Regular', motivo: '' },
-      { id: 'esc-008', cie: '042980', nome: 'EE Flash (Barry Allen)', cidade: 'Jandira', bairro: 'Centro', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Paulo César Martins', telefone: '(11) 4619-4500', educatrons: 19, status: 'Regular', motivo: '' },
-      { id: 'esc-009', cie: '042992', nome: 'EE Capitã Marvel (Carol Danvers)', cidade: 'Jandira', bairro: 'Jardim Alvorada', tipo: 'Regular Parcial', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Denise Maria Alcantara', telefone: '(11) 4619-8900', educatrons: 12, status: 'Regular', motivo: '' },
-      { id: 'esc-010', cie: '043011', nome: 'EE Lanterna Verde (Hal Jordan)', cidade: 'Itapevi', bairro: 'Vila Santa Rita', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Claudio Roberto Silveira', telefone: '(11) 4141-9988', educatrons: 17, status: 'Regular', motivo: '' },
-      { id: 'esc-011', cie: '043023', nome: 'EE Thor Odinson', cidade: 'Pirapora do Bom Jesus', bairro: 'Centro', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Valéria Regina Bueno', telefone: '(11) 4131-1122', educatrons: 14, status: 'Regular', motivo: '' },
-      { id: 'esc-012', cie: '043035', nome: 'EE Aquaman (Arthur Curry)', cidade: 'Santana de Parnaíba', bairro: 'Solar', tipo: 'PEI 9h', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Adriana Soares Pires', telefone: '(11) 4154-2040', educatrons: 18, status: 'Regular', motivo: '' },
-      { id: 'esc-013', cie: '043047', nome: 'EE Viúva Negra (Natasha Romanoff)', cidade: 'Santana de Parnaíba', bairro: 'Alphaville', tipo: 'PEI 9h', segmento: 'Ensino Médio', diretor: 'Juliana Beatriz Neves', telefone: '(11) 4154-3310', educatrons: 24, status: 'Regular', motivo: '' },
-      { id: 'esc-014', cie: '043059', nome: 'EE Ciborgue (Victor Stone)', cidade: 'Barueri', bairro: 'Centro', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'André Luiz Albuquerque', telefone: '(11) 4199-5500', educatrons: 26, status: 'Regular', motivo: '' },
-      { id: 'esc-015', cie: '043061', nome: 'EE Doutor Estranho (Stephen Strange)', cidade: 'Itapevi', bairro: 'Cardoso', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Marcelo Vieira Prado', telefone: '(11) 4143-7720', educatrons: 15, status: 'Regular', motivo: '' },
-      { id: 'esc-016', cie: '043073', nome: 'EE Arqueiro Verde (Oliver Queen)', cidade: 'Jandira', bairro: 'Orestes Correia', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Patrícia Toledo Mendes', telefone: '(11) 4619-7100', educatrons: 13, status: 'Regular', motivo: '' },
-      { id: 'esc-017', cie: '043085', nome: 'EE Wolverine (Logan)', cidade: 'Pirapora do Bom Jesus', bairro: 'Bandeirantes', tipo: 'Regular Parcial', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Rodrigo Siqueira Lopes', telefone: '(11) 4131-4450', educatrons: 16, status: 'Regular', motivo: '' },
-      { id: 'esc-018', cie: '043097', nome: 'EE Supergirl (Kara Zor-El)', cidade: 'Itapevi', bairro: 'Vitápolis', tipo: 'PEI 7h', segmento: 'Anos Iniciais e Anos Finais', diretor: 'Camila Fernandes Costa', telefone: '(11) 4142-9910', educatrons: 18, status: 'Regular', motivo: '' },
-      { id: 'esc-019', cie: '043109', nome: 'EE Tempestade (Ororo Munroe)', cidade: 'Jandira', bairro: 'Sagrado Coração', tipo: 'PEI 9h', segmento: 'Anos Finais e Ensino Médio', diretor: 'Aline Cristine Guimarães', telefone: '(11) 4619-8230', educatrons: 21, status: 'Regular', motivo: '' },
-      { id: 'esc-020', cie: '043121', nome: 'EE Shazam (Billy Batson)', cidade: 'Santana de Parnaíba', bairro: 'Centro Histórico', tipo: 'Regular Parcial', segmento: 'Anos Finais e Ensino Médio', diretor: 'Guilherme Augusto Rocha', telefone: '(11) 4154-9090', educatrons: 14, status: 'Regular', motivo: '' }
-    ];
+      {
+            "id": "esc-001",
+            "cie": "009878",
+            "nome": "EE Alayde Domingues  C. Macedo",
+            "cidade": "Itapevi",
+            "bairro": "Jd Tupã",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Silvana",
+            "telefone": "(11) 2658-8051",
+            "educatrons": 14,
+            "status": "Alta prioridade",
+            "motivo": "Demanda de infraestrutura elétrica e novos equipamentos de tecnologia"
+      },
+      {
+            "id": "esc-002",
+            "cie": "009912",
+            "nome": "EE Aldeia de Barueri",
+            "cidade": "Barueri",
+            "bairro": "Nova Aldeinha",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Raquel",
+            "telefone": "(11) 2658-8076",
+            "educatrons": 15,
+            "status": "Alta prioridade",
+            "motivo": "Configuração de Wi-Fi para tablets da Prova Paulista e novos switches FDE"
+      },
+      {
+            "id": "esc-003",
+            "cie": "910485",
+            "nome": "EE Amador Aguiar",
+            "cidade": "Itapevi",
+            "bairro": "Pq Imperial",
+            "tipo": "Regular Parcial",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Marinez",
+            "telefone": "(11) 2658-8000",
+            "educatrons": 16,
+            "status": "Em Reforma",
+            "motivo": "Reforma de quadra e adequação de pontos de rede lógica"
+      },
+      {
+            "id": "esc-004",
+            "cie": "009799",
+            "nome": "EE Caio Prado Júnior,Deputado",
+            "cidade": "Itapevi",
+            "bairro": "Vila Morellato",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Loriato",
+            "telefone": "(11) 2658-8062",
+            "educatrons": 17,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-005",
+            "cie": "290075",
+            "nome": "EE Henrique Fernando Gomes, Estudante",
+            "cidade": "Itapevi",
+            "bairro": "Jd. Maria Helena",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Osni",
+            "telefone": "(11) 2658-8001",
+            "educatrons": 18,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-006",
+            "cie": "908836",
+            "nome": "EE Itajahy Feitosa Martins,Prof",
+            "cidade": "Itapevi",
+            "bairro": "Pq Dos Camargos",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Edna",
+            "telefone": "(11) 2658-8031",
+            "educatrons": 19,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-007",
+            "cie": "009787",
+            "nome": "EE Ivani Maria Paes, Profª",
+            "cidade": "Itapevi",
+            "bairro": "Vila Boa Vista",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Camila",
+            "telefone": "(11) 2658-8081",
+            "educatrons": 20,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-008",
+            "cie": "049025",
+            "nome": "EE Jardim Maria Helena I",
+            "cidade": "Itapevi",
+            "bairro": "Pq dos Camargos",
+            "tipo": "Regular Parcial",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Kátia Simone",
+            "telefone": "(11) 2658-8006",
+            "educatrons": 21,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-009",
+            "cie": "908617",
+            "nome": "EE Jardim Paulista",
+            "cidade": "Itapevi",
+            "bairro": "Jd Paulista",
+            "tipo": "Regular Parcial",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Equipe Gestora",
+            "telefone": "(11) 2658-8091",
+            "educatrons": 14,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-010",
+            "cie": "009921",
+            "nome": "EE José Domingos da Silveira,Prof",
+            "cidade": "Itapevi",
+            "bairro": "Jd. São Vicente",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Robenícia",
+            "telefone": "(11) 2658-8036",
+            "educatrons": 15,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-011",
+            "cie": "009891",
+            "nome": "EE José Wilson Padinha,Prof",
+            "cidade": "Itapevi",
+            "bairro": "Jd Belval",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Wilson",
+            "telefone": "(11) 2658-8041",
+            "educatrons": 16,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-012",
+            "cie": "040551",
+            "nome": "EE Lênio Vieira de Moraes,Prof",
+            "cidade": "Itapevi",
+            "bairro": "Jd Santa Mônica",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Valdinei",
+            "telefone": "(11) 2658-8046",
+            "educatrons": 17,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-013",
+            "cie": "918805",
+            "nome": "EE Leonor Mendes de Barros",
+            "cidade": "Itapevi",
+            "bairro": "Alphaville",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Carlos",
+            "telefone": "(11) 2658-8011",
+            "educatrons": 18,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-014",
+            "cie": "044933",
+            "nome": "EE Mário Joaquim E. de Andrade",
+            "cidade": "Itapevi",
+            "bairro": "Pq Viana",
+            "tipo": "Regular Parcial",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Robson",
+            "telefone": "(11) 2658-8016",
+            "educatrons": 19,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-015",
+            "cie": "044921",
+            "nome": "EE Myrthes T. Assad Villela,Profª",
+            "cidade": "Itapevi",
+            "bairro": "Centro",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Lucila",
+            "telefone": "(11) 2658-8086",
+            "educatrons": 20,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-016",
+            "cie": "040548",
+            "nome": "EE Nestor de Camargo,Prefeito",
+            "cidade": "Itapevi",
+            "bairro": "Jd Mutinga",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "João Antônio",
+            "telefone": "(11) 2658-8021",
+            "educatrons": 21,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-017",
+            "cie": "920241",
+            "nome": "EE Parque Imperial",
+            "cidade": "Itapevi",
+            "bairro": "Pq Imperial",
+            "tipo": "Regular Parcial",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Jurandir",
+            "telefone": "(11) 2658-8026",
+            "educatrons": 14,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-018",
+            "cie": "035440",
+            "nome": "EE República de Cuba",
+            "cidade": "Itapevi",
+            "bairro": "Jd Itaquiti",
+            "tipo": "Regular Parcial",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Guta",
+            "telefone": "(11) 2658-8071",
+            "educatrons": 15,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-019",
+            "cie": "009830",
+            "nome": "EE República do Equador",
+            "cidade": "Itapevi",
+            "bairro": "Vila Engenho Novo",
+            "tipo": "PEI 9h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Fabiana",
+            "telefone": "(11) 2658-8056",
+            "educatrons": 16,
+            "status": "Regular",
+            "motivo": ""
+      },
+      {
+            "id": "esc-020",
+            "cie": "352561",
+            "nome": "EE Air Ferreira do Nascimento, Prof.",
+            "cidade": "Itapevi",
+            "bairro": "Pq Boa Esperança",
+            "tipo": "PEI 7h",
+            "segmento": "Anos Finais e Ensino Médio",
+            "diretor": "Agnaldo",
+            "telefone": "(11) 2658-8191",
+            "educatrons": 17,
+            "status": "Regular",
+            "motivo": ""
+      }
+];
 
     let listaEscolas = [];
 
     function carregarEscolasLocalStorage() {
       try {
-        const salvo = localStorage.getItem('ure_itapevi_escolas_v3');
+        const salvo = localStorage.getItem('ure_itapevi_escolas_v4');
         if (salvo) {
           listaEscolas = JSON.parse(salvo);
           if (listaEscolas.some(e => e.nome.includes('Prof. José Barreto') || e.nome.includes('Raul Briquet') || e.nome.includes('Celso Pacheco'))) {
@@ -8240,7 +8604,7 @@ const carroCSS = `
 
     function salvarEscolasLocalStorage() {
       try {
-        localStorage.setItem('ure_itapevi_escolas_v3', JSON.stringify(listaEscolas));
+        localStorage.setItem('ure_itapevi_escolas_v4', JSON.stringify(listaEscolas));
       } catch (e) {}
     }
 
@@ -9730,11 +10094,11 @@ const carroCSS = `
         desc: 'Demandas registradas pela Seção de Tecnologia para as unidades escolares da região.',
         pasta: 'Demandas',
         registros: [
-          { id: 'DEM-0142/26', polo: 'EE Homem-Aranha (Peter Parker)', equip: 'Ampliação de cabeamento estruturado sala maker', data: '21/10/2026', status: 'Em Atendimento' },
-          { id: 'DEM-0139/26', polo: 'EE Homem de Ferro (Tony Stark)', equip: 'Troca de patch cords e organização de rack 19"', data: '19/10/2026', status: 'Concluído' },
-          { id: 'DEM-0135/26', polo: 'EE Capitão América (Steve Rogers)', equip: 'Instalação de 2 Educatrons na ala do Ensino Médio', data: '17/10/2026', status: 'Concluído' },
-          { id: 'DEM-0128/26', polo: 'EE Capitã Marvel (Carol Danvers)', equip: 'Substituição de fonte desktop secretaria escolar', data: '14/10/2026', status: 'Concluído' },
-          { id: 'DEM-0115/26', polo: 'EE Batman (Bruce Wayne)', equip: 'Configuração de AP Wi-Fi Unifi e teste de throughput', data: '10/10/2026', status: 'Validado' }
+          { id: 'DEM-0142/26', polo: 'EE Alayde Domingues C. Macedo', equip: 'Ampliação de cabeamento estruturado sala maker', data: '21/10/2026', status: 'Em Atendimento' },
+          { id: 'DEM-0139/26', polo: 'EE Prof. Lênio Vieira de Moraes', equip: 'Troca de patch cords e organização de rack 19"', data: '19/10/2026', status: 'Concluído' },
+          { id: 'DEM-0135/26', polo: 'EE Caio Prado Júnior, Deputado', equip: 'Instalação de 2 Educatrons na ala do Ensino Médio', data: '17/10/2026', status: 'Concluído' },
+          { id: 'DEM-0128/26', polo: 'EE Claro Camargo Ribeiro', equip: 'Substituição de fonte desktop secretaria escolar', data: '14/10/2026', status: 'Concluído' },
+          { id: 'DEM-0115/26', polo: 'EE Leonor Mendes de Barros', equip: 'Configuração de AP Wi-Fi Unifi e teste de throughput', data: '10/10/2026', status: 'Validado' }
         ]
       },
       'Atendimentos': {
@@ -9746,16 +10110,392 @@ const carroCSS = `
         sharepointUrl: 'https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=view&activeCell=Calls!A1',
         sharepointEmbedUrl: 'https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=embedview&Item=Calls&ActiveCell=A1&wdDownloadButton=True',
         registros: [
-          { id: 'CALL-2026/089', polo: 'EE Homem de Ferro (Tony Stark)', equip: 'Manutenção de Educatron e reposição de patch cord de rede', data: '24/10/2026', status: 'Atendido' },
-          { id: 'CALL-2026/088', polo: 'EE Batman (Bruce Wayne)', equip: 'Configuração de VLAN e balanceamento Wi-Fi administrativo', data: '23/10/2026', status: 'Atendido' },
-          { id: 'CALL-2026/087', polo: 'EE Mulher-Maravilha (Diana Prince)', equip: 'Suporte presencial: reinstalação SED e certificado digital A1', data: '22/10/2026', status: 'Atendido' },
-          { id: 'CALL-2026/086', polo: 'EE Pantera Negra (T\'Challa)', equip: 'Verificação de conectividade e substituição de fonte Educatron 75"', data: '21/10/2026', status: 'Em Análise' },
-          { id: 'CALL-2026/085', polo: 'EE Homem-Aranha (Peter Parker)', equip: 'Instalação e alinhamento de 15 novos desktops administrativos', data: '20/10/2026', status: 'Atendido' },
-          { id: 'CALL-2026/084', polo: 'EE Capitão América (Steve Rogers)', equip: 'Manutenção preventiva e reparo em carrinho inteligente de recarga', data: '19/10/2026', status: 'Em Atendimento' },
-          { id: 'CALL-2026/083', polo: 'EE Viúva Negra (Natasha Romanoff)', equip: 'Orientação técnica para sincronização de tablets e notebooks', data: '18/10/2026', status: 'Atendido' },
-          { id: 'CALL-2026/082', polo: 'EE Thor Odinson', equip: 'Ajuste de permissão de domínio corporativo e rede Intragov', data: '15/10/2026', status: 'Atendido' },
-          { id: 'CALL-2026/081', polo: 'EE Doutor Estranho (Stephen Strange)', equip: 'Abertura de garantia técnica junto ao fabricante para 12 notebooks', data: '12/10/2026', status: 'Em Análise' }
-        ]
+        {
+                "id": "CALL-121",
+                "escola": "EE Oswaldo Sammartino",
+                "cie": "010662",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Recebemos 54 tablets e precisa configurar / Verificar Novos Pontos de rede Instalados.",
+                "data": "21/09/2026",
+                "status": "Pendente",
+                "solicitante": "Ivete Coimbra da Silva",
+                "telefone": "11934013619"
+        },
+        {
+                "id": "CALL-119",
+                "escola": "EE Dimarães Antônio Sandei, Professor",
+                "cie": "010480",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "estão separados no armario da sala de infromática, o defeito esta informado na parte da frente do notebook.",
+                "data": "20/09/2026",
+                "status": "Em Atendimento (FDE)",
+                "solicitante": "Lucas Ruffini De Almeida",
+                "telefone": "(11) 26588146"
+        },
+        {
+                "id": "CALL-112",
+                "escola": "EE Aldeia de Barueri",
+                "cie": "009912",
+                "tipo": "Internet / Conectividade",
+                "relato": "Nenhuma rede de WIFI está sendo conectadas pelos tablets. Utilizaremos os aparelhos para realização da Prova Paulista",
+                "data": "15/09/2026",
+                "status": "Concluído",
+                "solicitante": "Raquel Venâncio de Aquino",
+                "telefone": "(11) 26588076"
+        },
+        {
+                "id": "CALL-111",
+                "escola": "EE Manoel Augusto Vieira Neto, Desemb",
+                "cie": "049013",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "65 Tablets novos foram recebidos ontem sendo necessário a configuração dos novos tablets.",
+                "data": "16/09/2026",
+                "status": "Pendente",
+                "solicitante": "Messias Nunes Balieiro",
+                "telefone": "(11) 26588221"
+        },
+        {
+                "id": "CALL-110",
+                "escola": "EE Maria Cristina Lopes",
+                "cie": "010376",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "11 tablets  e 14 crome não estão funcionando",
+                "data": "13/09/2026",
+                "status": "Em Atendimento (FDE)",
+                "solicitante": "Cristiane Hinokuma",
+                "telefone": "26588232"
+        },
+        {
+                "id": "CALL-109",
+                "escola": "EE José Neyde Cesar Lessa, Dr.",
+                "cie": "010650",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Verificar equipamentos parados",
+                "data": "23/07/2026",
+                "status": "Concluído",
+                "solicitante": "Carla Lima Paulino",
+                "telefone": "2658-8121"
+        },
+        {
+                "id": "CALL-106",
+                "escola": "EE José Chaluppe",
+                "cie": "010388",
+                "tipo": "Internet / Conectividade",
+                "relato": "Computador da gestão sem acesso à internet",
+                "data": "07/09/2026",
+                "status": "Pendente",
+                "solicitante": "Walquíria",
+                "telefone": "26588126"
+        },
+        {
+                "id": "CALL-105",
+                "escola": "EE Josepha Pinto Chiavelli, Professora",
+                "cie": "092333",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Recebemos 09 caixas fechadas de equipamentos. Precisamos configurar os equipamentos que chegaram(09 caixas)",
+                "data": "16/09/2026",
+                "status": "Em Atendimento (FDE)",
+                "solicitante": "KATIA APARECIDA RODRIGUES DE LIMA",
+                "telefone": "1126588266"
+        },
+        {
+                "id": "CALL-104",
+                "escola": "EE Dimarães Antônio Sandei, Professor",
+                "cie": "010480",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "14 Chromebooks para verifcação / Impressora Epson L3250 consta que está com a almofada no fim da vida útil.",
+                "data": "15/09/2026",
+                "status": "Concluído",
+                "solicitante": "Lucas Ruffini De Almeida",
+                "telefone": "1126588146"
+        },
+        {
+                "id": "CALL-113",
+                "escola": "EE Leonor Mendes de Barros",
+                "cie": "918805",
+                "tipo": "Internet / Conectividade",
+                "relato": "Verificar APS 09 a 14 alertando (rack 4 teve o disjuntor religado)",
+                "data": "20/09/2026",
+                "status": "Concluído",
+                "solicitante": "LINDOLFO JUNIOR",
+                "telefone": "(11) 2658-8011"
+        },
+        {
+                "id": "CALL-103",
+                "escola": "EE Vicente Themudo Lessa",
+                "cie": "010397",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "alguns computadores não funcionam, concluir o serviço iniciado",
+                "data": "06/09/2026",
+                "status": "Em Atendimento (FDE)",
+                "solicitante": "Regiane",
+                "telefone": "11 2658-8247"
+        },
+        {
+                "id": "CALL-107",
+                "escola": "EE Leonor Mendes de Barros",
+                "cie": "918805",
+                "tipo": "Internet / Conectividade",
+                "relato": "Fo efetuada a troca dos  10 swits de rede pela FDE, após a otimização dos sistema os APs pararam de funcionar no andares, foi feito o reset pelo tecnico da FDE porém ainda não voltou o funcionamento, o mesmo disse que a parte da rede está funcionando perfeitamente , foram feitos testes e constatado o funcionamento da internet via rede porém o wifi não funciona.",
+                "data": "16/09/2026",
+                "status": "Concluído",
+                "solicitante": "Carlos Eduardo Nepomuceno",
+                "telefone": "2958-8011"
+        },
+        {
+                "id": "CALL-2026/1323",
+                "escola": "EE. Professor José Wilson Padinha",
+                "cie": "009891",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Necessário vincular 2 equipamentos ao BlueMonitor -",
+                "data": "21/19/2026",
+                "status": "Concluído",
+                "solicitante": "Renata",
+                "telefone": "11 26588042"
+        },
+        {
+                "id": "CALL-113",
+                "escola": "EE Leonor Mendes de Barros",
+                "cie": "918805",
+                "tipo": "Internet / Conectividade",
+                "relato": "Verificar APS 09 a 14 alertando (rack 4 teve o disjuntor religado) SWITCH 7 E 8 SEM COMUNICAÇÃO",
+                "data": "20/09/2026",
+                "status": "Concluído",
+                "solicitante": "LINDOLFO JUNIOR",
+                "telefone": "(11) 2658-8011"
+        },
+        {
+                "id": "CALL-102",
+                "escola": "EE Cândido Rondon, Marechal",
+                "cie": "010613",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "RECEBIMENTO DOS NOVOS TABLETS NA UNIDADE ESCOLAR - MARECHAL RONDON",
+                "data": "14/09/2026",
+                "status": "Concluído",
+                "solicitante": "Lucas Conceição da Silva (Proati)",
+                "telefone": "26588131"
+        },
+        {
+                "id": "CALL-102",
+                "escola": "EE Cândido Rondon, Marechal",
+                "cie": "010613",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "RECEBIMENTO DOS NOVOS TABLETS NA UNIDADE ESCOLAR - VALIDAR REDE PEDAGÓGICA DHCP",
+                "data": "14/09/2026",
+                "status": "Pendente",
+                "solicitante": "Lucas Conceição da Silva (Proati)",
+                "telefone": "26588131"
+        },
+        {
+                "id": "CALL-99",
+                "escola": "EE Paulo da Costa Pan Chacon, Professor",
+                "cie": "921439",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Configurar novos tablets Adicionar na planilha do inventário",
+                "data": "15/09/2026",
+                "status": "Em Atendimento (FDE)",
+                "solicitante": "Luciana Rodrigues da Silva",
+                "telefone": "26588161"
+        },
+        {
+                "id": "CALL-100",
+                "escola": "EE Ignês Amélia Oliveira Machado, Professora",
+                "cie": "902044",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Chegaram 84 novos tablets na unidade e precisa ser configurado pelos analistas",
+                "data": "15/09/2026",
+                "status": "Concluído",
+                "solicitante": "Gustavo Pereira",
+                "telefone": "(11) 2658-8176"
+        },
+        {
+                "id": "CALL-102",
+                "escola": "EE Cândido Rondon, Marechal",
+                "cie": "010613",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "RECEBIMENTO DOS NOVOS TABLETS NA UNIDADE ESCOLAR - MARECHAL RONDON",
+                "data": "14/09/2026",
+                "status": "Concluído",
+                "solicitante": "Lucas Conceição da Silva (Proati)",
+                "telefone": "26588131"
+        },
+        {
+                "id": "CALL-101",
+                "escola": "EE Claro Camargo Ribeiro",
+                "cie": "010479",
+                "tipo": "Telefonia",
+                "relato": "Sem telefone. Técnico já foi na escola e não conseguiu resolver o problema",
+                "data": "10/09/2026",
+                "status": "Em Atendimento (FDE)",
+                "solicitante": "Elaine Ferreira de Castro Ribeiro",
+                "telefone": "26588206"
+        },
+        {
+                "id": "CALL-99",
+                "escola": "EE Paulo da Costa Pan Chacon, Professor",
+                "cie": "921439",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Configurar novos tablets Adicionar na planilha do inventário",
+                "data": "15/09/2026",
+                "status": "Concluído",
+                "solicitante": "Luciana Rodrigues da Silva",
+                "telefone": "26588161"
+        },
+        {
+                "id": "CALL-98",
+                "escola": "EE Air Ferreira do Nascimento, Professor",
+                "cie": "352561",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Configuração dos Tablets novos",
+                "data": "15/09/2026",
+                "status": "Concluído",
+                "solicitante": "Ana Charlene Alves Soares",
+                "telefone": "1126588191"
+        },
+        {
+                "id": "CALL-97",
+                "escola": "EE Nestor de Camargo, Prefeito",
+                "cie": "040548",
+                "tipo": "Internet / Conectividade",
+                "relato": "Os tablets não estão se conectando à rede Wi-Fi.",
+                "data": "07/09/2026",
+                "status": "Concluído",
+                "solicitante": "João Antonio Frias",
+                "telefone": "26588022"
+        },
+        {
+                "id": "CALL-96",
+                "escola": "EE Luiz da Câmara Cascudo",
+                "cie": "044817",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Configuração de tablets novos e atualização de antigos.",
+                "data": "15/09/2026",
+                "status": "Concluído",
+                "solicitante": "Allan",
+                "telefone": "1126588226"
+        },
+        {
+                "id": "CALL-95",
+                "escola": "EE Henrique Sammartino, Alferes",
+                "cie": "010649",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Passar imagens em Tablet",
+                "data": "15/09/2026",
+                "status": "Concluído",
+                "solicitante": "Anderson Jerônimo",
+                "telefone": "26588171"
+        },
+        {
+                "id": "CALL-94",
+                "escola": "EE José Sérgio Pereira, Professor",
+                "cie": "011779",
+                "tipo": "Internet / Conectividade",
+                "relato": "Verificar conexão de Internet na secretaria - ILMA",
+                "data": "15/09/2026",
+                "status": "Concluído",
+                "solicitante": "Ilma",
+                "telefone": "41438353"
+        },
+        {
+                "id": "CALL-94",
+                "escola": "EE José Sérgio Pereira, Professor",
+                "cie": "011779",
+                "tipo": "Internet / Conectividade",
+                "relato": "Verificar conexão de Internet na secretaria - ILMA",
+                "data": "15/09/2026",
+                "status": "Concluído",
+                "solicitante": "Ilma",
+                "telefone": "41438353"
+        },
+        {
+                "id": "CALL-93",
+                "escola": "EE Iracema Rauen Maciel, Professora",
+                "cie": "SEE048161",
+                "tipo": "Internet / Conectividade",
+                "relato": "OS EQUIPAMENTOS ( TABLETS) NÃO INDICAM REDE PARA WI FI",
+                "data": "03/08/2026",
+                "status": "Concluído",
+                "solicitante": "Kelly B Piauilino",
+                "telefone": "11 2668-8182"
+        },
+        {
+                "id": "CALL-92",
+                "escola": "EE José Chaluppe",
+                "cie": "010388",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Foi identificado que vários equipamentos utilizados pelos alunos na Sala do Futuro apresentam problemas de funcionamento, impossibilitando sua utilização. É necessária a verificação e manutenção dos equipamentos para que possam voltar a ser utilizados normalmente.",
+                "data": "09/09/2026",
+                "status": "Concluído",
+                "solicitante": "Igor",
+                "telefone": "1126588126"
+        },
+        {
+                "id": "CALL-91",
+                "escola": "EE Iracema Rauen Maciel, Professora",
+                "cie": "35048161",
+                "tipo": "Telefonia",
+                "relato": "Escola não tem telefone funcionando",
+                "data": "31/08/2026",
+                "status": "Concluído",
+                "solicitante": "Rosemeire Rocha da Silva",
+                "telefone": "2658-8181"
+        },
+        {
+                "id": "CALL-90",
+                "escola": "EE Iracema Rauen Maciel, Professora",
+                "cie": "35048161",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Ao colocar os códigos para validar para á provas, foi detectados aparelhos sem atualização, preciso de ajuda dos técnicos .",
+                "data": "14/09/2026",
+                "status": "Concluído",
+                "solicitante": "Rosemeire Rocha da Silva",
+                "telefone": "2658-8181"
+        },
+        {
+                "id": "CALL-89",
+                "escola": "EE Wilmar Soares da Silva",
+                "cie": "918787",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Olá! Sobre o teste com o software Lock Down Browser, ele está disponível nas imagens que a DE disponibiliza com o Windows mas e quanto aos Chrome?! É necessário baixar uma versão para os mesmos? Obrigado.",
+                "data": "14/09/2026",
+                "status": "Concluído",
+                "solicitante": "Marcos Menezes de Souza",
+                "telefone": "(11) 2658-8251"
+        },
+        {
+                "id": "CALL-88",
+                "escola": "EE Wilmar Soares da Silva",
+                "cie": "918777",
+                "tipo": "Telefonia",
+                "relato": "Sem sinal de linha",
+                "data": "13/09/2026",
+                "status": "Concluído",
+                "solicitante": "Patrícia Aparecida Fernandes",
+                "telefone": "26588251"
+        },
+        {
+                "id": "CALL-87",
+                "escola": "EE Claro Camargo Ribeiro",
+                "cie": "010479",
+                "tipo": "Internet / Conectividade",
+                "relato": "Sem internet e sem telefone",
+                "data": "13/09/2026",
+                "status": "Pendente",
+                "solicitante": "Elaine Ferreira de Castro Ribeiro",
+                "telefone": "11 26588206"
+        },
+        {
+                "id": "CALL-86",
+                "escola": "EE Paulo de Abreu",
+                "cie": "908548",
+                "tipo": "Equipamentos e Tablets",
+                "relato": "Temos 30 tablets e 10 notebooks precisando passar imagem",
+                "data": "13/09/2026",
+                "status": "Concluído",
+                "solicitante": "Mateus Lima Rodrigues da Silva",
+                "telefone": "11 2658 8141"
+        }
+]
       },
       'Hardware': {
         titulo: 'Equipamentos de Hardware',
@@ -9764,10 +10504,10 @@ const carroCSS = `
         pasta: 'Hardware',
         registros: [
           { id: 'HW-08941', polo: 'Polo Regional Itapevi Centro', equip: 'Lote 120 Notebooks Positivo Master N1400 (Alunos)', data: '20/10/2026', status: 'Disponível' },
-          { id: 'HW-08912', polo: 'EE Homem-Aranha (Peter Parker)', equip: '42 Desktops Lenovo ThinkCentre i5 (Informática)', data: '18/10/2026', status: 'Disponível' },
-          { id: 'HW-08890', polo: 'EE Batman (Bruce Wayne)', equip: '18 Desktops Administrativos Dell OptiPlex (Secretaria)', data: '16/10/2026', status: 'Disponível' },
-          { id: 'HW-08845', polo: 'EE Pantera Negra (T\'Challa)', equip: '35 Laptops Educacionais Positivo Celeron', data: '14/10/2026', status: 'Manutenção' },
-          { id: 'HW-08799', polo: 'EE Capitão América (Steve Rogers)', equip: '04 Servidores Locais de Cache e Conteúdo', data: '09/10/2026', status: 'Disponível' }
+          { id: 'HW-08912', polo: 'EE Alayde Domingues C. Macedo', equip: '42 Desktops Lenovo ThinkCentre i5 (Informática)', data: '18/10/2026', status: 'Disponível' },
+          { id: 'HW-08890', polo: 'EE Leonor Mendes de Barros', equip: '18 Desktops Administrativos Dell OptiPlex (Secretaria)', data: '16/10/2026', status: 'Disponível' },
+          { id: 'HW-08845', polo: 'EE Henrique Fernando Gomes, Estudante', equip: '35 Laptops Educacionais Positivo Celeron', data: '14/10/2026', status: 'Manutenção' },
+          { id: 'HW-08799', polo: 'EE Caio Prado Júnior, Deputado', equip: '04 Servidores Locais de Cache e Conteúdo', data: '09/10/2026', status: 'Disponível' }
         ]
       },
       'Rede': {
@@ -9776,11 +10516,11 @@ const carroCSS = `
         desc: 'Switches, racks, firewalls, nobreaks e demais equipamentos de conectividade de rede.',
         pasta: 'Rede',
         registros: [
-          { id: 'RED-2041', polo: 'EE Capitã Marvel (Carol Danvers)', equip: 'Switch Aruba Instant On 1930 24G 4SFP/SFP+ PoE+ 370W', data: '19/10/2026', status: 'Operacional' },
-          { id: 'RED-2035', polo: 'EE Mulher-Maravilha (Diana Prince)', equip: 'Access Point HP Aruba AP-505 Wi-Fi 6 Corporativo', data: '17/10/2026', status: 'Operacional' },
-          { id: 'RED-2018', polo: 'EE Viúva Negra (Natasha Romanoff)', equip: 'Nobreak SMS Sinus Triad 3kVA com Módulo Baterias', data: '15/10/2026', status: 'Operacional' },
+          { id: 'RED-2041', polo: 'EE Claro Camargo Ribeiro', equip: 'Switch Aruba Instant On 1930 24G 4SFP/SFP+ PoE+ 370W', data: '19/10/2026', status: 'Operacional' },
+          { id: 'RED-2035', polo: 'EE Prof. Itajahy Feitosa Martins', equip: 'Access Point HP Aruba AP-505 Wi-Fi 6 Corporativo', data: '17/10/2026', status: 'Operacional' },
+          { id: 'RED-2018', polo: 'EE Oswaldo Sammartino', equip: 'Nobreak SMS Sinus Triad 3kVA com Módulo Baterias', data: '15/10/2026', status: 'Operacional' },
           { id: 'RED-1994', polo: 'Polo Regional Itapevi', equip: 'Firewall Fortinet FortiGate 60F de borda', data: '11/10/2026', status: 'Operacional' },
-          { id: 'RED-1970', polo: 'EE Thor Odinson', equip: 'Rack 19" 24U fechado com guia vertical de cabos', data: '05/10/2026', status: 'Operacional' }
+          { id: 'RED-1970', polo: 'EE José Wilson Padinha, Prof.', equip: 'Rack 19" 24U fechado com guia vertical de cabos', data: '05/10/2026', status: 'Operacional' }
         ]
       },
       'Educatrons': {
@@ -9789,11 +10529,11 @@ const carroCSS = `
         desc: 'Inventário de TVs e Educatrons integrados com suporte multimídia e projeção interativa.',
         pasta: 'Educatrons',
         registros: [
-          { id: 'EDU-0412', polo: 'EE Homem-Aranha (Peter Parker)', equip: '14 Educatrons 75" Promethean 4K c/ Computador Integrado', data: '21/10/2026', status: 'Em Uso' },
-          { id: 'EDU-0398', polo: 'EE Capitão América (Steve Rogers)', equip: '12 Educatrons 75" Multilaser Ultra HD', data: '18/10/2026', status: 'Em Uso' },
-          { id: 'EDU-0382', polo: 'EE Capitã Marvel (Carol Danvers)', equip: '08 TVs LED 65" Samsung Crystal para Auditório/Professores', data: '16/10/2026', status: 'Em Uso' },
-          { id: 'EDU-0371', polo: 'EE Batman (Bruce Wayne)', equip: '10 Educatrons 75" 4K com Suporte com Rodízios', data: '12/10/2026', status: 'Em Uso' },
-          { id: 'EDU-0355', polo: 'EE Doutor Estranho (Stephen Strange)', equip: '02 Educatrons 75" aguardando calibração de touch', data: '08/10/2026', status: 'Manutenção' }
+          { id: 'EDU-0412', polo: 'EE Alayde Domingues C. Macedo', equip: '14 Educatrons 75" Promethean 4K c/ Computador Integrado', data: '21/10/2026', status: 'Em Uso' },
+          { id: 'EDU-0398', polo: 'EE Caio Prado Júnior, Deputado', equip: '12 Educatrons 75" Multilaser Ultra HD', data: '18/10/2026', status: 'Em Uso' },
+          { id: 'EDU-0382', polo: 'EE Claro Camargo Ribeiro', equip: '08 TVs LED 65" Samsung Crystal para Auditório/Professores', data: '16/10/2026', status: 'Em Uso' },
+          { id: 'EDU-0371', polo: 'EE Leonor Mendes de Barros', equip: '10 Educatrons 75" 4K com Suporte com Rodízios', data: '12/10/2026', status: 'Em Uso' },
+          { id: 'EDU-0355', polo: 'EE Josepha Pinto Chiavelli, Profª', equip: '02 Educatrons 75" aguardando calibração de touch', data: '08/10/2026', status: 'Manutenção' }
         ]
       },
       'Recarga': {
@@ -9802,11 +10542,11 @@ const carroCSS = `
         desc: 'Plataformas e carrinhos inteligentes de recarga para notebooks e tablets dos estudantes.',
         pasta: 'Recarga',
         registros: [
-          { id: 'REC-0198', polo: 'EE Homem-Aranha (Peter Parker)', equip: '03 Carrinhos de Recarga Inteligente 36 Portas USB-C c/ Timer', data: '20/10/2026', status: 'Operacional' },
-          { id: 'REC-0185', polo: 'EE Pantera Negra (T\'Challa)', equip: '02 Gabinetes de Recarga Móvel 30 Baias com Ventilação', data: '17/10/2026', status: 'Operacional' },
-          { id: 'REC-0177', polo: 'EE Viúva Negra (Natasha Romanoff)', equip: '02 Plataformas de Recarga Rápida com chave e rodízios', data: '14/10/2026', status: 'Operacional' },
-          { id: 'REC-0164', polo: 'EE Mulher-Maravilha (Diana Prince)', equip: '01 Carrinho de Recarga 36 baias (troca de tomada)', data: '11/10/2026', status: 'Manutenção' },
-          { id: 'REC-0150', polo: 'EE Thor Odinson', equip: '03 Gabinetes de Recarga Inteligente 36 baias', data: '06/10/2026', status: 'Operacional' }
+          { id: 'REC-0198', polo: 'EE Alayde Domingues C. Macedo', equip: '03 Carrinhos de Recarga Inteligente 36 Portas USB-C c/ Timer', data: '20/10/2026', status: 'Operacional' },
+          { id: 'REC-0185', polo: 'EE Henrique Fernando Gomes, Estudante', equip: '02 Gabinetes de Recarga Móvel 30 Baias com Ventilação', data: '17/10/2026', status: 'Operacional' },
+          { id: 'REC-0177', polo: 'EE Oswaldo Sammartino', equip: '02 Plataformas de Recarga Rápida com chave e rodízios', data: '14/10/2026', status: 'Operacional' },
+          { id: 'REC-0164', polo: 'EE Prof. Itajahy Feitosa Martins', equip: '01 Carrinho de Recarga 36 baias (troca de tomada)', data: '11/10/2026', status: 'Manutenção' },
+          { id: 'REC-0150', polo: 'EE José Wilson Padinha, Prof.', equip: '03 Gabinetes de Recarga Inteligente 36 baias', data: '06/10/2026', status: 'Operacional' }
         ]
       }
     };
@@ -9854,12 +10594,19 @@ const carroCSS = `
       const callsBanner = document.getElementById('seintec-sharepoint-calls-banner');
       const callsFrameContainer = document.getElementById('seintec-calls-excel-container');
 
+      const kpiBar = document.getElementById('seintec-calls-kpi-bar');
+      const filterBtns = document.getElementById('seintec-calls-filter-buttons');
+
       if (idBase === 'Atendimentos') {
         if (callsBanner) callsBanner.style.display = 'block';
-        renderizarRegistrosCalls(base);
+        if (kpiBar) kpiBar.style.display = 'block';
+        if (filterBtns) filterBtns.style.display = 'flex';
+        renderizarRegistrosCalls(base, 'todos');
       } else {
         if (callsBanner) callsBanner.style.display = 'none';
         if (callsFrameContainer) callsFrameContainer.style.display = 'none';
+        if (kpiBar) kpiBar.style.display = 'none';
+        if (filterBtns) filterBtns.style.display = 'none';
         if (dadosExcelCarregados) {
           renderizarTabelaExcelSeintec();
         } else {
@@ -9875,40 +10622,184 @@ const carroCSS = `
       alternarAbaSeintec('registros');
     }
 
-    function renderizarRegistrosCalls(base) {
+    let filtroAtivoCalls = 'todos';
+    let chamadosCallsFiltrados = [];
+
+    function renderizarRegistrosCalls(base, filtro = 'todos') {
+      filtroAtivoCalls = filtro;
+      const registros = base.registros || [];
+
+      // Atualiza os KPIs Executivos
+      const total = registros.length;
+      const pendentes = registros.filter(r => r.status === 'Pendente').length;
+      const emAndamento = registros.filter(r => r.status && r.status.includes('Em Atendimento')).length;
+      const internet = registros.filter(r => (r.tipo && r.tipo.includes('Internet')) || (r.relato && /(wifi|wi-fi|internet|link|fibra)/i.test(r.relato))).length;
+      const equipamentos = registros.filter(r => (r.tipo && r.tipo.includes('Equip')) || (r.relato && /(tablet|computador|notebook|chromebook|educatron|impressora)/i.test(r.relato))).length;
+      const concluidos = registros.filter(r => r.status === 'Concluído').length;
+
+      const elTotal = document.getElementById('kpi-calls-total');
+      if (elTotal) elTotal.innerText = total;
+      const elPend = document.getElementById('kpi-calls-pendentes');
+      if (elPend) elPend.innerText = pendentes;
+      const elEmAnd = document.getElementById('kpi-calls-em-andamento');
+      if (elEmAnd) elEmAnd.innerText = emAndamento;
+      const elNet = document.getElementById('kpi-calls-internet');
+      if (elNet) elNet.innerText = internet;
+      const elEq = document.getElementById('kpi-calls-equipamentos');
+      if (elEq) elEq.innerText = equipamentos;
+
+      const cTodos = document.getElementById('count-filter-todos');
+      if (cTodos) cTodos.innerText = total;
+      const cPend = document.getElementById('count-filter-pendente');
+      if (cPend) cPend.innerText = pendentes;
+      const cAtend = document.getElementById('count-filter-atendimento');
+      if (cAtend) cAtend.innerText = emAndamento;
+      const cNet = document.getElementById('count-filter-internet');
+      if (cNet) cNet.innerText = internet;
+      const cEq = document.getElementById('count-filter-equip');
+      if (cEq) cEq.innerText = equipamentos;
+      const cConc = document.getElementById('count-filter-concluido');
+      if (cConc) cConc.innerText = concluidos;
+
+      // Filtragem dos registros
+      let filtrados = registros;
+      if (filtro === 'Pendente') {
+        filtrados = registros.filter(r => r.status === 'Pendente');
+      } else if (filtro === 'Em Atendimento') {
+        filtrados = registros.filter(r => r.status && r.status.includes('Em Atendimento'));
+      } else if (filtro === 'Internet') {
+        filtrados = registros.filter(r => (r.tipo && r.tipo.includes('Internet')) || (r.relato && /(wifi|wi-fi|internet|link|fibra)/i.test(r.relato)));
+      } else if (filtro === 'Equipamentos') {
+        filtrados = registros.filter(r => (r.tipo && r.tipo.includes('Equip')) || (r.relato && /(tablet|computador|notebook|chromebook|educatron|impressora)/i.test(r.relato)));
+      } else if (filtro === 'Concluído') {
+        filtrados = registros.filter(r => r.status === 'Concluído');
+      }
+
+      chamadosCallsFiltrados = filtrados;
+
+      // Cabeçalho da Visão Sintética da Dirigente (apenas colunas essenciais)
       const thead = document.getElementById('panel-seintec-thead');
       thead.innerHTML = `
         <tr>
-          <th>Protocolo / Chamado (Call)</th>
-          <th>Unidade Escolar / Polo</th>
-          <th>Demanda / Especificação Técnica</th>
-          <th>Data / Horário</th>
-          <th>Situação do Atendimento</th>
+          <th style="width: 120px;">Protocolo</th>
+          <th style="min-width: 220px;">Unidade Escolar & CIE</th>
+          <th style="width: 170px;">Classificação</th>
+          <th>Demanda / Síntese do Problema</th>
+          <th style="width: 110px;">Abertura</th>
+          <th style="width: 150px; text-align: center;">Situação Executiva</th>
+          <th style="width: 100px; text-align: center;">Ação</th>
         </tr>
       `;
 
       const tbody = document.getElementById('panel-seintec-tbody');
       tbody.innerHTML = "";
-      base.registros.forEach(reg => {
-        const tr = document.createElement('tr');
-        const badgeClass = reg.status.includes('Atendido') || reg.status.includes('Concluído')
-          ? 'status-badge-ok'
-          : (reg.status.includes('Em') ? 'status-badge-warn' : 'status-badge-info');
 
-        tr.innerHTML = `
-          <td><strong style="color: #2563eb; font-weight: 700;">${reg.id}</strong></td>
-          <td><strong>${reg.polo}</strong></td>
-          <td>${reg.equip}</td>
-          <td><span style="font-size: 0.8rem; color: #475569;">📅 ${reg.data}</span></td>
-          <td><span class="status-badge-inline ${badgeClass}">${reg.status}</span></td>
+      if (filtrados.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; padding: 2.5rem 1rem; color: #64748b;">
+              <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">🔍</span>
+              <strong>Nenhum chamado encontrado com o filtro selecionado.</strong>
+            </td>
+          </tr>
         `;
-        tbody.appendChild(tr);
-      });
+      } else {
+        filtrados.forEach(reg => {
+          const tr = document.createElement('tr');
+
+          // Badges de Status Executivo
+          let statusBadgeHtml = '';
+          if (reg.status === 'Pendente') {
+            statusBadgeHtml = '<span class="status-badge-inline" style="background: rgba(239, 68, 68, 0.15); color: #dc2626; border: 1px solid #ef4444; font-weight: 700;">🔴 Pendente</span>';
+          } else if (reg.status && reg.status.includes('Em Atendimento')) {
+            statusBadgeHtml = '<span class="status-badge-inline" style="background: rgba(245, 158, 11, 0.15); color: #b45309; border: 1px solid #f59e0b; font-weight: 700;">🟡 Em Atendimento</span>';
+          } else {
+            statusBadgeHtml = '<span class="status-badge-inline" style="background: rgba(16, 185, 129, 0.15); color: #047857; border: 1px solid #10b981; font-weight: 700;">🟢 Concluído</span>';
+          }
+
+          // Tag de Classificação
+          let tipoTagHtml = '';
+          if (reg.tipo && reg.tipo.includes('Internet')) {
+            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #e0f2fe; color: #0369a1; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #bae6fd;">🌐 Internet/Wi-Fi</span>';
+          } else if (reg.tipo && reg.tipo.includes('Telef')) {
+            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #fef3c7; color: #92400e; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #fde68a;">📞 Telefonia</span>';
+          } else {
+            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #f3e8ff; color: #6b21a8; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #e9d5ff;">💻 Equip./Tablets</span>';
+          }
+
+          // Extrai o nome limpo da escola e CIE
+          const escolaNome = reg.escola || reg.polo || 'Escola Estadual';
+          const cieTexto = reg.cie ? `CIE: ${reg.cie}` : '';
+
+          tr.innerHTML = `
+            <td><strong style="color: #2563eb; font-weight: 800; font-family: monospace; font-size: 0.85rem;">#${reg.id}</strong></td>
+            <td>
+              <strong style="color: var(--text-main); font-size: 0.88rem;">${escolaNome}</strong>
+              ${cieTexto ? `<div style="font-size: 0.72rem; color: #64748b; font-weight: 600; margin-top: 0.15rem;">${cieTexto}</div>` : ''}
+            </td>
+            <td>${tipoTagHtml}</td>
+            <td style="font-size: 0.84rem; color: #334155; line-height: 1.35;" title="${reg.relato || reg.equip}">
+              ${reg.relato || reg.equip}
+            </td>
+            <td><span style="font-size: 0.78rem; color: #64748b; font-weight: 600;">📅 ${reg.data}</span></td>
+            <td style="text-align: center;">${statusBadgeHtml}</td>
+            <td style="text-align: center;">
+              <button type="button" class="btn-call-view" onclick="abrirModalDetalheCall('${reg.id}')" title="Ver detalhes completos do chamado">
+                🔍 Detalhes
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
 
       const contador = document.getElementById('seintec-table-records-counter');
-      if (contador) contador.innerText = `${base.registros.length} chamados registrados (Aba Calls)`;
+      if (contador) contador.innerText = `${filtrados.length} chamados exibidos (Filtro: ${filtro.toUpperCase()})`;
       const badgeReg = document.getElementById('badge-contador-registros');
-      if (badgeReg) badgeReg.innerText = `(${base.registros.length})`;
+      if (badgeReg) badgeReg.innerText = `(${filtrados.length})`;
+    }
+
+    function filtrarCallsPorStatus(filtro) {
+      document.querySelectorAll('.btn-call-filter').forEach(btn => btn.classList.remove('active'));
+      const mapping = {
+        'todos': 'btn-call-filter-todos',
+        'Pendente': 'btn-call-filter-pendente',
+        'Em Atendimento': 'btn-call-filter-atendimento',
+        'Internet': 'btn-call-filter-internet',
+        'Equipamentos': 'btn-call-filter-equip',
+        'Concluído': 'btn-call-filter-concluido'
+      };
+      const btn = document.getElementById(mapping[filtro] || 'btn-call-filter-todos');
+      if (btn) btn.classList.add('active');
+
+      const base = SEINTEC_BASES_CONFIG['Atendimentos'];
+      renderizarRegistrosCalls(base, filtro);
+    }
+
+    function abrirModalDetalheCall(idChamado) {
+      const base = SEINTEC_BASES_CONFIG['Atendimentos'];
+      const chamado = (base.registros || []).find(r => r.id === idChamado);
+      if (!chamado) return;
+
+      const modal = document.getElementById('modal-detalhe-call');
+      if (!modal) return;
+
+      document.getElementById('modal-call-id').innerText = '#' + chamado.id;
+      document.getElementById('modal-call-escola').innerText = chamado.escola || chamado.polo;
+      document.getElementById('modal-call-cie').innerText = chamado.cie ? ('CIE: ' + chamado.cie) : 'CIE Oficial';
+      document.getElementById('modal-call-data').innerText = chamado.data || 'Recente';
+      document.getElementById('modal-call-tipo').innerText = chamado.tipo || 'Demanda Técnica';
+      document.getElementById('modal-call-relato').innerText = chamado.relato || chamado.equip;
+      document.getElementById('modal-call-solicitante').innerText = chamado.solicitante || 'Gestão da Unidade Escolar';
+      document.getElementById('modal-call-telefone').innerText = chamado.telefone || '(11) 2658-8000';
+      document.getElementById('modal-call-status').innerText = chamado.status || 'Pendente';
+
+      modal.style.display = 'flex';
+    }
+
+    function fecharModalDetalheCall() {
+      const modal = document.getElementById('modal-detalhe-call');
+      if (modal) modal.style.display = 'none';
     }
 
     function alternarModoVisualizacaoCalls() {
@@ -11038,6 +11929,71 @@ const carroCSS = `
 
       <div class="agenda-modal-footer">
         <button type="button" class="btn-visitas-limpar" onclick="fecharModalMapaVisitas()">Fechar Mapa</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL EXECUTIVO: DETALHES COMPLETOS DO CHAMADO (SEINTEC CALLS) -->
+  <div id="modal-detalhe-call" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalDetalheCall()">
+    <div class="agenda-modal-card" style="max-width: 650px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <span style="font-size: 0.72rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">SEINTEC • DETALHAMENTO DO CHAMADO</span>
+          <h3 id="modal-call-id" style="font-size: 1.35rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0; font-family: monospace;">#CALL-000</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalDetalheCall()" style="background: none; border: none; color: #ffffff; font-size: 1.4rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div class="agenda-modal-body" style="padding: 1.5rem; max-height: 70vh; overflow-y: auto; background: #ffffff;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+            <div>
+              <span style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Unidade Escolar</span>
+              <h4 id="modal-call-escola" style="margin: 0.15rem 0 0 0; font-size: 1.05rem; font-weight: 800; color: #0b2351;">Escola Estadual</h4>
+              <span id="modal-call-cie" style="font-size: 0.75rem; color: #64748b; font-weight: 600;">CIE: 000000</span>
+            </div>
+            <div style="text-align: right;">
+              <span style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Situação</span>
+              <div id="modal-call-status" style="font-size: 0.82rem; font-weight: 800; color: #2563eb; margin-top: 0.15rem;">Pendente</div>
+              <span id="modal-call-data" style="font-size: 0.75rem; color: #64748b;">📅 15/10/2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="background: #f1f5f9; padding: 0.85rem; border-radius: 8px;">
+            <span style="font-size: 0.7rem; font-weight: 700; color: #475569; text-transform: uppercase; display: block;">Classificação</span>
+            <strong id="modal-call-tipo" style="font-size: 0.88rem; color: #0f172a;">Equipamentos e Tablets</strong>
+          </div>
+          <div style="background: #f1f5f9; padding: 0.85rem; border-radius: 8px;">
+            <span style="font-size: 0.7rem; font-weight: 700; color: #475569; text-transform: uppercase; display: block;">Solicitante na Escola</span>
+            <strong id="modal-call-solicitante" style="font-size: 0.88rem; color: #0f172a;">Gestão Escolar</strong>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <span style="font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 0.4rem;">Relato Completo da Demanda Técnica:</span>
+          <div id="modal-call-relato" style="background: #fff8f8; border: 1.5px solid #fecaca; border-radius: 8px; padding: 1rem; font-size: 0.88rem; color: #1e293b; line-height: 1.5;">
+            Descrição do problema
+          </div>
+        </div>
+
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 0.85rem; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <span style="font-size: 0.7rem; font-weight: 700; color: #1e40af; text-transform: uppercase; display: block;">Telefones / Contato na UE</span>
+            <strong id="modal-call-telefone" style="font-size: 0.88rem; color: #1e3a8a;">(11) 2658-8000</strong>
+          </div>
+          <a href="https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=view&activeCell=Calls!A1" target="_blank" style="font-size: 0.75rem; font-weight: 700; color: #2563eb; text-decoration: underline;">
+            Abrir Planilha Oficial ↗
+          </a>
+        </div>
+      </div>
+
+      <div class="agenda-modal-footer" style="padding: 1rem 1.5rem; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button type="button" class="btn-mudar-data" onclick="fecharModalDetalheCall()" style="padding: 0.5rem 1.25rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px;">
+          Fechar
+        </button>
       </div>
     </div>
   </div>
