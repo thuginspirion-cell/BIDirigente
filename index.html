@@ -53,6 +53,48 @@
     
     // === DICIONÁRIO OFICIAL DE ESCOLAS EXTRAÍDO DOS NOMES DOS ARQUIVOS DE INVENTÁRIO (InventarioRC - V2) ===
     const DICIONARIO_OFICIAL_INVENTARIO = {
+  "11778": {
+    "cie": "011778",
+    "cieOriginal": "11778",
+    "nomeOficialBruto": "SENOR ABRAVANEL",
+    "nomeOficial": "Senor Abravanel",
+    "arquivo": "11778 - SENOR ABRAVANEL - INVENTÁRIO.xlsx"
+  },
+  "011778": {
+    "cie": "011778",
+    "cieOriginal": "11778",
+    "nomeOficialBruto": "SENOR ABRAVANEL",
+    "nomeOficial": "Senor Abravanel",
+    "arquivo": "11778 - SENOR ABRAVANEL - INVENTÁRIO.xlsx"
+  },
+  "11779": {
+    "cie": "011779",
+    "cieOriginal": "11779",
+    "nomeOficialBruto": "EDINER FERREIRA DE MORAES PROFESSORA",
+    "nomeOficial": "Ediner Ferreira de Moraes Professora",
+    "arquivo": "11779 - EDINER FERREIRA DE MORAES PROFESSORA - INVENTÁRIO.xlsx"
+  },
+  "011779": {
+    "cie": "011779",
+    "cieOriginal": "11779",
+    "nomeOficialBruto": "EDINER FERREIRA DE MORAES PROFESSORA",
+    "nomeOficial": "Ediner Ferreira de Moraes Professora",
+    "arquivo": "11779 - EDINER FERREIRA DE MORAES PROFESSORA - INVENTÁRIO.xlsx"
+  },
+  "11780": {
+    "cie": "011780",
+    "cieOriginal": "11780",
+    "nomeOficialBruto": "MICHELA TREVIZAN PROFESSORA",
+    "nomeOficial": "Michela Trevizan Professora",
+    "arquivo": "11780 - MICHELA TREVIZAN PROFESSORA - INVENTÁRIO.xlsx"
+  },
+  "011780": {
+    "cie": "011780",
+    "cieOriginal": "11780",
+    "nomeOficialBruto": "MICHELA TREVIZAN PROFESSORA",
+    "nomeOficial": "Michela Trevizan Professora",
+    "arquivo": "11780 - MICHELA TREVIZAN PROFESSORA - INVENTÁRIO.xlsx"
+  },
   "9787": {
     "cie": "009787",
     "cieOriginal": "9787",
@@ -7401,7 +7443,7 @@ const carroCSS = `
             </div>
             <h2 class="hero-main-title">BI Dirigente • Painel Integrado de Gestão</h2>
             <p class="hero-main-desc">
-              Visão panorâmica consolidada da liderança regional: indicadores em tempo real, acompanhamento dos setores da Diretoria e monitoramento contínuo das 57 escolas estaduais.
+              Visão panorâmica consolidada da liderança regional: indicadores em tempo real, acompanhamento dos setores da Diretoria e monitoramento contínuo das 60 escolas estaduais.
             </p>
           </div>
           <div class="executive-hero-right">
@@ -7420,10 +7462,10 @@ const carroCSS = `
             </div>
 
             <div class="kpi-cards-inner">
-              <div class="kpi-mini-box" onclick="abrirEscolas()" style="cursor: pointer;" title="Clique para abrir a gestão das 57 escolas estaduais">
+              <div class="kpi-mini-box" onclick="abrirEscolas()" style="cursor: pointer;" title="Clique para abrir a gestão das 60 escolas estaduais">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: var(--brand-gold);"></span>
-                  <span class="kpi-big-number" id="kpi-escolas">57</span>
+                  <span class="kpi-big-number" id="kpi-escolas">60</span>
                 </div>
                 <span class="kpi-mini-label">Escolas na rede ↗</span>
               </div>
@@ -7487,7 +7529,7 @@ const carroCSS = `
             <input type="text" id="home-search-input" placeholder="Busca geral: Escola, CIE, responsável, assunto..." onkeydown="if(event.key==='Enter') aplicarFiltrosHome()">
           </div>
           <select id="home-filter-escola" class="filter-select" style="max-width: 280px; text-overflow: ellipsis;" onchange="aoMudarFiltroEscolaHome(this.value)">
-            <option value="">Escola: Todas</option>
+            <option value="">🏫 Escola: Todas (60 Escolas Oficiais)</option>
             <option value="352561">Air Ferreira do Nascimento Professor (CIE: 352561)</option>
             <option value="009878">Alayde Domingues Couto Macedo Professora (CIE: 009878)</option>
             <option value="009912">Aldeia de Barueri (CIE: 009912)</option>
@@ -7500,6 +7542,7 @@ const carroCSS = `
             <option value="010480">Dimaraes Antonio Sandei Professor (CIE: 010480)</option>
             <option value="908563">Dolores Garcia Paschoalin (CIE: 908563)</option>
             <option value="010364">Dorvalino Abilio Teixeira (CIE: 010364)</option>
+            <option value="011779">Ediner Ferreira de Moraes Professora (CIE: 011779)</option>
             <option value="923874">Eliana Andres de Almeida Souza Professora (CIE: 923874)</option>
             <option value="048173">Eliza de Oliveira Ribeiro (CIE: 048173)</option>
             <option value="921440">Giuseppe Angelo Bertolli Padre (CIE: 921440)</option>
@@ -7528,6 +7571,7 @@ const carroCSS = `
             <option value="910454">Maria Soares Santos Professora (CIE: 910454)</option>
             <option value="044933">Mario Joaquim Escobar de Andrade (CIE: 044933)</option>
             <option value="048975">Mary Mallet Cyrino Professora (CIE: 048975)</option>
+            <option value="011780">Michela Trevizan Professora (CIE: 011780)</option>
             <option value="041385">Moacir Thomaz da Silva (CIE: 041385)</option>
             <option value="044921">Myrthes Therezinha Assad Villela Profa (CIE: 044921)</option>
             <option value="010443">Nacif Amin Chalupe (CIE: 010443)</option>
@@ -7542,6 +7586,7 @@ const carroCSS = `
             <option value="035440">Republica de Cuba (CIE: 035440)</option>
             <option value="009830">Republica do Equador (CIE: 009830)</option>
             <option value="048999">Romeo Mecca Padre (CIE: 048999)</option>
+            <option value="011778">Senor Abravanel (CIE: 011778)</option>
             <option value="496790">Terezinha Palone da Silva Domingues Profa (CIE: 496790)</option>
             <option value="010397">Vicente Themudo Lessa Professor (CIE: 010397)</option>
             <option value="918787">Wilmar Soares da Silva (CIE: 918787)</option>
@@ -7639,7 +7684,7 @@ const carroCSS = `
               <span class="setor-mini-chip">Hardware & Redes</span>
               <span class="setor-mini-chip">Educatrons</span>
               <span class="setor-mini-chip">Plataformas Recarga</span>
-              <span class="setor-mini-chip">57 Escolas Mapeadas</span>
+              <span class="setor-mini-chip">60 Escolas Mapeadas</span>
             </div>
             <div class="centro-card-action">
               <span>Consultar Base SEINTEC</span>
@@ -7723,14 +7768,14 @@ const carroCSS = `
           <div class="centro-card" onclick="abrirCentro('CGE')" style="cursor: pointer;" title="Acessar Gestão da Rede Escolar">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: #f59e0b;">🏫</div>
-              <span class="centro-status-pill" style="color: #0284c7; background: #e0f2fe; font-weight: 700;">🟢 57 Escolas</span>
+              <span class="centro-status-pill" style="color: #0284c7; background: #e0f2fe; font-weight: 700;">🟢 60 Escolas</span>
             </div>
             <h3 class="centro-title">SEGRE • Gestão da Rede Escolar</h3>
             <div class="centro-subtitle">Supervisão pedagógica regional, matrículas e modulação</div>
 
             <div class="centro-metrics-box" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.5rem; margin-bottom: 0.9rem; text-align: center;">
               <div>
-                <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">57</div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">60</div>
                 <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Escolas</div>
               </div>
               <div>
@@ -10242,6 +10287,54 @@ const carroCSS = `
     "educatrons": 12,
     "status": "Normal",
     "motivo": "Unidade em monitoramento regular"
+  },
+  {
+    "id": "esc-058",
+    "cie": "011778",
+    "nome": "Senor Abravanel",
+    "nomeOficialBruto": "SENOR ABRAVANEL",
+    "arquivoInventario": "11778 - SENOR ABRAVANEL - INVENTÁRIO.xlsx",
+    "cidade": "Itapevi",
+    "bairro": "Itapevi",
+    "tipo": "Regular",
+    "segmento": "Ensino Fundamental e Médio",
+    "diretor": "Cíntia",
+    "telefone": "(11) 2658-8122",
+    "educatrons": 8,
+    "status": "Normal",
+    "motivo": "Unidade escolar integrada na regional (Polo Dr. José Neyde Cesar Lessa)"
+  },
+  {
+    "id": "esc-059",
+    "cie": "011779",
+    "nome": "Ediner Ferreira de Moraes Professora",
+    "nomeOficialBruto": "EDINER FERREIRA DE MORAES PROFESSORA",
+    "arquivoInventario": "11779 - EDINER FERREIRA DE MORAES PROFESSORA - INVENTÁRIO.xlsx",
+    "cidade": "Itapevi",
+    "bairro": "Itapevi",
+    "tipo": "Regular",
+    "segmento": "Ensino Fundamental e Médio",
+    "diretor": "Ilma",
+    "telefone": "(11) 2658-8000",
+    "educatrons": 8,
+    "status": "Normal",
+    "motivo": "Unidade escolar integrada na regional (Polo Prof. José Sérgio Pereira)"
+  },
+  {
+    "id": "esc-060",
+    "cie": "011780",
+    "nome": "Michela Trevizan Professora",
+    "nomeOficialBruto": "MICHELA TREVIZAN PROFESSORA",
+    "arquivoInventario": "11780 - MICHELA TREVIZAN PROFESSORA - INVENTÁRIO.xlsx",
+    "cidade": "Itapevi",
+    "bairro": "Itapevi",
+    "tipo": "Regular",
+    "segmento": "Ensino Fundamental e Médio",
+    "diretor": "Victor",
+    "telefone": "(11) 2658-8100",
+    "educatrons": 8,
+    "status": "Normal",
+    "motivo": "Unidade escolar integrada na regional (Polo Paulo de Abreu)"
   }
 ];
 
@@ -10249,7 +10342,7 @@ const carroCSS = `
 
     function carregarEscolasLocalStorage() {
       try {
-        const salvo = localStorage.getItem('ure_itapevi_escolas_v4');
+        const salvo = localStorage.getItem('ure_itapevi_escolas_v5');
         if (salvo) {
           listaEscolas = JSON.parse(salvo);
           if (listaEscolas.some(e => e.nome.includes('Prof. José Barreto') || e.nome.includes('Raul Briquet') || e.nome.includes('Celso Pacheco'))) {
@@ -10267,7 +10360,7 @@ const carroCSS = `
 
     function salvarEscolasLocalStorage() {
       try {
-        localStorage.setItem('ure_itapevi_escolas_v4', JSON.stringify(listaEscolas));
+        localStorage.setItem('ure_itapevi_escolas_v5', JSON.stringify(listaEscolas));
       } catch (e) {}
     }
 
