@@ -4033,10 +4033,34 @@ function imprimirAgendaCarro() {
       transition: var(--transition);
     }
 
+    .gab-metric-card {
+      position: relative;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
     .gab-metric-card:hover {
-      box-shadow: var(--shadow-md);
-      border-color: #cbd5e1;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+      border-color: #93c5fd;
       transform: translateY(-2px);
+    }
+    .gab-metric-card.selected {
+      border: 2px solid #f09b0c !important;
+      box-shadow: 0 0 0 4px rgba(240, 155, 12, 0.22), 0 10px 25px rgba(240, 155, 12, 0.15) !important;
+      transform: translateY(-3px) !important;
+    }
+    .gab-metric-card.selected::before {
+      content: '✓ ATIVO';
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 0.62rem;
+      font-weight: 800;
+      color: #92400e;
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
     }
 
     .gab-card-tag-row {
@@ -4170,15 +4194,35 @@ function imprimirAgendaCarro() {
       position: relative;
     }
 
+    .base-card-item {
+      position: relative;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
     .base-card-item:hover {
-      border-color: #cbd5e1;
+      border-color: #93c5fd;
       transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
     }
 
     .base-card-item.selected {
-      border-color: var(--accent-red);
-      box-shadow: 0 0 0 2px var(--accent-red-soft), var(--shadow-sm);
+      border: 2px solid #2563eb !important;
+      background: #ffffff !important;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18), 0 10px 25px rgba(37, 99, 235, 0.15) !important;
+      transform: translateY(-3px) !important;
+    }
+    .base-card-item.selected::before {
+      content: '✓ SELECIONADO';
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #2563eb;
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.28);
+      padding: 0.15rem 0.52rem;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
     }
 
     .base-item-top {
@@ -6999,13 +7043,35 @@ const carroCSS = `
     }
 
 
-    /* ESTILOS EXECUTIVOS DA ABA CALLS */
+    /* ESTILOS EXECUTIVOS DA ABA CALLS COM DESTAQUE ATIVO */
     .calls-kpi-card {
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
     }
     .calls-kpi-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    }
+    .calls-kpi-card.selected {
+      transform: translateY(-4px) scale(1.025) !important;
+      outline: 3px solid #ffffff !important;
+      outline-offset: 2px !important;
+      box-shadow: 0 0 0 5px #f09b0c, 0 14px 30px rgba(0, 0, 0, 0.5) !important;
+      z-index: 2;
+    }
+    .calls-kpi-card.selected::after {
+      content: '● FILTRO ATIVO';
+      position: absolute;
+      top: -9px;
+      right: 10px;
+      background: #f09b0c;
+      color: #0b192c;
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      letter-spacing: 0.04em;
     }
     .btn-call-filter {
       padding: 0.35rem 0.75rem;
@@ -7976,7 +8042,7 @@ const carroCSS = `
         <div class="seintec-metric-row">
 
           <!-- Card 1: TOTAL DE EQUIPAMENTOS -->
-          <div class="gab-metric-card seintec-card-blue" onclick="selecionarBaseSeintec('Hardware')">
+          <div class="gab-metric-card seintec-card-blue" onclick="destacarMetricCard(this); selecionarBaseSeintec('Hardware');">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">TOTAL DE EQUIPAMENTOS</span>
             </div>
@@ -7993,7 +8059,7 @@ const carroCSS = `
           </div>
 
           <!-- Card 2: ADMINISTRATIVOS -->
-          <div class="gab-metric-card seintec-card-red" onclick="selecionarBaseSeintec('Hardware')">
+          <div class="gab-metric-card seintec-card-red" onclick="destacarMetricCard(this); selecionarBaseSeintec('Hardware');">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">ADMINISTRATIVOS</span>
             </div>
@@ -8010,7 +8076,7 @@ const carroCSS = `
           </div>
 
           <!-- Card 3: PEDAGÓGICOS -->
-          <div class="gab-metric-card seintec-card-lightblue" onclick="selecionarBaseSeintec('Hardware')">
+          <div class="gab-metric-card seintec-card-lightblue" onclick="destacarMetricCard(this); selecionarBaseSeintec('Hardware');">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">PEDAGÓGICOS</span>
             </div>
@@ -8027,7 +8093,7 @@ const carroCSS = `
           </div>
 
           <!-- Card 4: DISPONÍVEIS PARA USO -->
-          <div class="gab-metric-card seintec-card-crimson" onclick="selecionarBaseSeintec('Hardware')">
+          <div class="gab-metric-card seintec-card-crimson" onclick="destacarMetricCard(this); selecionarBaseSeintec('Hardware');">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">DISPONÍVEIS PARA USO</span>
             </div>
@@ -8047,7 +8113,7 @@ const carroCSS = `
           </div>
 
           <!-- Card 5: MANUTENÇÃO / CHAMADO -->
-          <div class="gab-metric-card seintec-card-amber" onclick="selecionarBaseSeintec('Atendimentos')">
+          <div class="gab-metric-card seintec-card-amber" onclick="destacarMetricCard(this); selecionarBaseSeintec('Atendimentos');">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">MANUTENÇÃO / CHAMADO</span>
             </div>
@@ -8064,7 +8130,7 @@ const carroCSS = `
           </div>
 
           <!-- Card 6: INSERVÍVEL / DANIFICADOS -->
-          <div class="gab-metric-card seintec-card-teal" onclick="selecionarBaseSeintec('Demandas')">
+          <div class="gab-metric-card seintec-card-teal" onclick="destacarMetricCard(this); selecionarBaseSeintec('Demandas');">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">INSERVÍVEL / DANIFICADOS</span>
             </div>
@@ -8109,7 +8175,7 @@ const carroCSS = `
           </div>
 
           <!-- 2. Atendimentos -->
-          <div class="base-card-item" id="card-seintec-Atendimentos" onclick="selecionarBaseSeintec('Atendimentos')" style="border-top: 3px solid #3b82f6;">
+          <div class="base-card-item" id="card-seintec-Atendimentos" onclick="selecionarBaseSeintec('Atendimentos')">
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-blue">🛠️</div>
               <span class="base-card-title">Atendimentos</span>
@@ -8252,31 +8318,31 @@ const carroCSS = `
               </div>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.75rem;">
                 <!-- Total Chamados -->
-                <div class="calls-kpi-card" onclick="filtrarCallsPorStatus('todos')" title="Ver todos os chamados" style="cursor: pointer; background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border: 1px solid #1e3a8a; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                <div class="calls-kpi-card selected" id="kpi-card-calls-todos" onclick="filtrarCallsPorStatus('todos')" title="Ver todos os chamados" style="cursor: pointer; background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border: 1px solid #1e3a8a; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
                   <div style="font-size: 0.68rem; font-weight: 800; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.05em;">TOTAL MONITORADO</div>
                   <div style="font-size: 1.6rem; font-weight: 800; color: #38bdf8; margin-top: 0.15rem;" id="kpi-calls-total">35</div>
                   <div style="font-size: 0.7rem; color: #94a3b8;">Base SEINTEC</div>
                 </div>
                 <!-- Pendentes (Atenção) -->
-                <div class="calls-kpi-card" onclick="filtrarCallsPorStatus('Pendente')" title="Filtrar chamados pendentes" style="cursor: pointer; background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%); border: 1px solid #ef4444; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                <div class="calls-kpi-card" id="kpi-card-calls-Pendente" onclick="filtrarCallsPorStatus('Pendente')" title="Filtrar chamados pendentes" style="cursor: pointer; background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%); border: 1px solid #ef4444; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
                   <div style="font-size: 0.68rem; font-weight: 800; color: #fca5a5; text-transform: uppercase; letter-spacing: 0.05em;">🔴 PENDENTES (ATENÇÃO)</div>
                   <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-pendentes">12</div>
                   <div style="font-size: 0.7rem; color: #fecaca;">Aguardando atendimento</div>
                 </div>
                 <!-- Em Atendimento (FDE) -->
-                <div class="calls-kpi-card" onclick="filtrarCallsPorStatus('Em Atendimento')" title="Filtrar chamados em atendimento" style="cursor: pointer; background: linear-gradient(135deg, #451a03 0%, #78350f 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                <div class="calls-kpi-card" id="kpi-card-calls-atendimento" onclick="filtrarCallsPorStatus('Em Atendimento')" title="Filtrar chamados em atendimento" style="cursor: pointer; background: linear-gradient(135deg, #451a03 0%, #78350f 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
                   <div style="font-size: 0.68rem; font-weight: 800; color: #fde68a; text-transform: uppercase; letter-spacing: 0.05em;">🟡 EM ATENDIMENTO (FDE)</div>
                   <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-em-andamento">11</div>
                   <div style="font-size: 0.7rem; color: #fef3c7;">Em análise técnica</div>
                 </div>
                 <!-- Internet & Conectividade -->
-                <div class="calls-kpi-card" onclick="filtrarCallsPorStatus('Internet')" title="Filtrar falhas de internet e Wi-Fi" style="cursor: pointer; background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%); border: 1px solid #38bdf8; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                <div class="calls-kpi-card" id="kpi-card-calls-Internet" onclick="filtrarCallsPorStatus('Internet')" title="Filtrar falhas de internet e Wi-Fi" style="cursor: pointer; background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%); border: 1px solid #38bdf8; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
                   <div style="font-size: 0.68rem; font-weight: 800; color: #bae6fd; text-transform: uppercase; letter-spacing: 0.05em;">🌐 INTERNET / WI-FI</div>
                   <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-internet">10</div>
                   <div style="font-size: 0.7rem; color: #e0f2fe;">Conectividade e link fibra</div>
                 </div>
                 <!-- Equipamentos & Tablets -->
-                <div class="calls-kpi-card" onclick="filtrarCallsPorStatus('Equipamentos')" title="Filtrar tablets e equipamentos" style="cursor: pointer; background: linear-gradient(135deg, #064e3b 0%, #047857 100%); border: 1px solid #34d399; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                <div class="calls-kpi-card" id="kpi-card-calls-Equipamentos" onclick="filtrarCallsPorStatus('Equipamentos')" title="Filtrar tablets e equipamentos" style="cursor: pointer; background: linear-gradient(135deg, #064e3b 0%, #047857 100%); border: 1px solid #34d399; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
                   <div style="font-size: 0.68rem; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.05em;">💻 TABLETS & EQUIPAMENTOS</div>
                   <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-equipamentos">22</div>
                   <div style="font-size: 0.7rem; color: #d1fae5;">Tablets, Educatrons e PCs</div>
@@ -26207,6 +26273,10 @@ const carroCSS = `
       return Math.round(bytes / 1024) + ' KB';
     }
 
+        function destacarMetricCard(el) {
+      document.querySelectorAll('#pane-seintec .gab-metric-card').forEach(c => c.classList.remove('selected'));
+      if (el) el.classList.add('selected');
+    }
     function selecionarBaseSeintec(idBase) {
       const base = SEINTEC_BASES_CONFIG[idBase];
       if (!base) return;
@@ -26469,6 +26539,18 @@ const carroCSS = `
       };
       const btn = document.getElementById(mapping[filtro] || 'btn-call-filter-todos');
       if (btn) btn.classList.add('active');
+
+      // Destacar o card KPI correspondente
+      document.querySelectorAll('.calls-kpi-card').forEach(c => c.classList.remove('selected'));
+      const kpiCardMap = {
+        'todos': 'kpi-card-calls-todos',
+        'Pendente': 'kpi-card-calls-Pendente',
+        'Em Atendimento': 'kpi-card-calls-atendimento',
+        'Internet': 'kpi-card-calls-Internet',
+        'Equipamentos': 'kpi-card-calls-Equipamentos'
+      };
+      const cardAtivo = document.getElementById(kpiCardMap[filtro]);
+      if (cardAtivo) cardAtivo.classList.add('selected');
 
       const base = SEINTEC_BASES_CONFIG['Atendimentos'];
       renderizarRegistrosCalls(base, filtro);
