@@ -7365,31 +7365,13 @@ const carroCSS = `
         <div class="executive-hero">
           <div class="executive-hero-left">
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.6rem;">
-              <span class="hero-pretitle" style="margin-bottom: 0;">⭐ PAINEL EXECUTIVO • URE ITAPEVI</span>
+              <span class="hero-pretitle" style="margin-bottom: 0;">⭐ DIRETORIA REGIONAL DE ENSINO DE ITAPEVI • URE ITAPEVI</span>
               <span style="font-size: 0.72rem; background: rgba(240, 155, 12, 0.22); color: #f09b0c; border: 1px solid rgba(240, 155, 12, 0.45); padding: 2px 8px; border-radius: 20px; font-weight: 700;">🟢 Rede 100% Operacional</span>
             </div>
-            <h2 class="hero-main-title">Gestão que transforma realidades</h2>
+            <h2 class="hero-main-title">BI Dirigente • Painel Integrado de Gestão</h2>
             <p class="hero-main-desc">
-              Painel de liderança e tomada de decisão da Dirigente Regional de Ensino: acompanhe indicadores, identifique prioridades e fortaleça as 57 escolas estaduais da região.
+              Visão panorâmica consolidada da liderança regional: indicadores em tempo real, acompanhamento dos setores da Diretoria e monitoramento contínuo das 57 escolas estaduais.
             </p>
-            <!-- Atalhos de Ação Rápida no Hero -->
-            <div class="hero-quick-actions" style="display: flex; gap: 0.6rem; margin-top: 1.25rem; flex-wrap: wrap;">
-              <button type="button" onclick="abrirMinhaGestao()" class="btn-hero-action" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; padding: 0.45rem 0.95rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
-                <span>⏱️</span> Minha Gestão
-              </button>
-              <button type="button" onclick="abrirAgenda()" class="btn-hero-action" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; padding: 0.45rem 0.95rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
-                <span>📅</span> Agenda Oficial
-              </button>
-              <button type="button" onclick="abrirCarroOficial()" class="btn-hero-action" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; padding: 0.45rem 0.95rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
-                <span>🚗</span> Carro Oficial
-              </button>
-              <button type="button" onclick="abrirVisitas()" class="btn-hero-action" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; padding: 0.45rem 0.95rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
-                <span>✔️</span> Visitas da Dirigente
-              </button>
-              <button type="button" onclick="abrirEscolas()" class="btn-hero-action" style="background: rgba(240, 155, 12, 0.25); border: 1px solid rgba(240, 155, 12, 0.5); color: #fef08a; padding: 0.45rem 0.95rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
-                <span>🏫</span> Rede 360° (57 Escolas)
-              </button>
-            </div>
           </div>
           <div class="executive-hero-right">
             <div class="hero-crest-watermark" style="opacity: 0.35; width: 145px; height: 145px; position: relative; right: auto; top: auto; transform: none;">
@@ -7398,7 +7380,6 @@ const carroCSS = `
           </div>
         </div>
 
-        <!-- 2. INDICADORES DA REDE & VISITAS DA DIRIGENTE (PULSO EXECUTIVO) -->
         <div class="indicators-split">
           
           <div class="kpi-row-card">
@@ -7589,135 +7570,233 @@ const carroCSS = `
           </div>
         </div>
 
-        <!-- 5. SEÇÃO: CENTROS REGIONAIS DA DIRETORIA (NAVEGAÇÃO DEPARTAMENTAL) -->
-        <div class="section-title-row" style="margin-top: 1rem;">
+        <!-- 5. SEÇÃO: PAINEL GERAL DOS SETORES DA DIRETORIA (MÉTRICAS & INDICADORES CONSOLIDADOS) -->
+        <div class="section-title-row" style="margin-top: 1.25rem;">
           <div class="section-main-heading">
-            <span>🏛️ Centros Regionais da Diretoria</span>
+            <span>🏛️ Painel dos Setores • Métricas e Dados Consolidados</span>
           </div>
-          <span class="section-see-all" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Subir ao topo ↑</span>
+          <span class="section-see-all" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" style="cursor: pointer;">Subir ao topo ↑</span>
         </div>
 
         <div class="centros-grid">
 
-          <!-- CENTRO 1: SEINTEC -->
+          <!-- SETOR 1: SEINTEC -->
           <div class="centro-card" onclick="abrirSeintec()" style="cursor: pointer;" title="Acessar base completa de tecnologia e dados">
             <div class="centro-card-top">
-              <div class="centro-card-badge" style="background: var(--brand-teal);">T</div>
-              <span class="centro-status-pill">Tecnologia & Dados</span>
+              <div class="centro-card-badge" style="background: var(--brand-teal);">💻</div>
+              <span class="centro-status-pill" style="color: #0d9488; background: #ccfbf1; font-weight: 700;">🟢 74,9% Disp.</span>
             </div>
-            <h3 class="centro-title">SEINTEC</h3>
-            <div class="centro-subtitle">Informações Educacionais e Tecnologia</div>
+            <h3 class="centro-title">SEINTEC • Informações & Tecnologia</h3>
+            <div class="centro-subtitle">Hardware, conectividade, sistemas e suporte escolar</div>
+            
+            <div class="centro-metrics-box" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.5rem; margin-bottom: 0.9rem; text-align: center;">
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">15.098</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Equipamentos</div>
+              </div>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #059669;">11.307</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Disponíveis</div>
+              </div>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #d97706;">1.164</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Manutenção</div>
+              </div>
+            </div>
+
             <div class="centro-setores-tags">
-              <span class="setor-mini-chip">Hardware (15.098 itens)</span>
-              <span class="setor-mini-chip">Infra & Rede</span>
-              <span class="setor-mini-chip">TVs & Educatrons</span>
-              <span class="setor-mini-chip">Plataformas de Recarga</span>
+              <span class="setor-mini-chip">Hardware & Redes</span>
+              <span class="setor-mini-chip">Educatrons</span>
+              <span class="setor-mini-chip">Plataformas Recarga</span>
+              <span class="setor-mini-chip">57 Escolas Mapeadas</span>
             </div>
             <div class="centro-card-action">
-              <span>Acessar Base de Tecnologia</span>
+              <span>Consultar Base SEINTEC</span>
               <span>→</span>
             </div>
           </div>
 
-          <!-- CENTRO 2: ASURE (Gabinete) -->
+          <!-- SETOR 2: ASURE (Gabinete) -->
           <div class="centro-card" onclick="abrirAssessoriaTecnica()" style="cursor: pointer;" title="Acessar Gabinete da Dirigente e Assessoria">
             <div class="centro-card-top">
-              <div class="centro-card-badge" style="background: var(--brand-navy); border: 1.5px solid var(--brand-gold);">G</div>
-              <span class="centro-status-pill">Gabinete Dirigente</span>
+              <div class="centro-card-badge" style="background: var(--brand-navy); border: 1.5px solid var(--brand-gold);">🏛️</div>
+              <span class="centro-status-pill" style="color: #2563eb; background: #dbeafe; font-weight: 700;">🟢 90,6% Metas</span>
             </div>
-            <h3 class="centro-title">ASURE</h3>
-            <div class="centro-subtitle">Assessoria da URE / Gabinete da Dirigente</div>
+            <h3 class="centro-title">ASURE • Gabinete & Assessoria</h3>
+            <div class="centro-subtitle">Rotina executiva da dirigente, termos de visita e ouvidoria</div>
+
+            <div class="centro-metrics-box" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.5rem; margin-bottom: 0.9rem; text-align: center;">
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">145</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Visitas Feitas</div>
+              </div>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #2563eb;">160</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Meta Mensal</div>
+              </div>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #059669;">100%</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Atendimentos</div>
+              </div>
+            </div>
+
             <div class="centro-setores-tags">
-              <span class="setor-mini-chip">Assessoria Técnica</span>
-              <span class="setor-mini-chip">Ouvidoria Fala.SP</span>
               <span class="setor-mini-chip">Termos de Visita</span>
-              <span class="setor-mini-chip">Folha de Ponto</span>
+              <span class="setor-mini-chip">Ouvidoria Fala.SP</span>
+              <span class="setor-mini-chip">Despachos & Agenda</span>
+              <span class="setor-mini-chip">Carro Oficial</span>
             </div>
             <div class="centro-card-action">
-              <span>Acessar Gabinete & Assessoria</span>
+              <span>Consultar Gabinete & Visitas</span>
               <span>→</span>
             </div>
           </div>
 
-          <!-- CENTRO 3: SEAFIN -->
-          <div class="centro-card" onclick="abrirCentro('CAF')" style="cursor: pointer;" title="Acessar Centro de Administração e Finanças">
+          <!-- SETOR 3: SEAFIN -->
+          <div class="centro-card" onclick="abrirCentro('CAF')" style="cursor: pointer;" title="Acessar Centro de Administração, Finanças e NOM Obras">
             <div class="centro-card-top">
-              <div class="centro-card-badge" style="background: #10b981;">$</div>
-              <span class="centro-status-pill">Administração & Finanças</span>
+              <div class="centro-card-badge" style="background: #10b981;">💼</div>
+              <span class="centro-status-pill" style="color: #b45309; background: #fef3c7; font-weight: 700;">🟡 Obras em Foco</span>
             </div>
-            <h3 class="centro-title">SEAFIN</h3>
-            <div class="centro-subtitle">Seção de Administração, Finanças e Infraestrutura</div>
+            <h3 class="centro-title">SEAFIN • Finanças, Suprimentos & Obras</h3>
+            <div class="centro-subtitle">Execução orçamentária, obras escolares (NOM) e contratos</div>
+
+            <div class="centro-metrics-box" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.5rem; margin-bottom: 0.9rem; text-align: center;">
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #b45309;">3</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Intervenções</div>
+              </div>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #059669;">PDDE</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Paulista</div>
+              </div>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">100%</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Contratos</div>
+              </div>
+            </div>
+
             <div class="centro-setores-tags">
-              <span class="setor-mini-chip">SEAFIN (Orçamento)</span>
               <span class="setor-mini-chip">NOM (Obras & Manutenção)</span>
-              <span class="setor-mini-chip">Patrimônio & Contratos</span>
+              <span class="setor-mini-chip">Patrimônio</span>
+              <span class="setor-mini-chip">Alimentação Escolar</span>
+              <span class="setor-mini-chip">Suprimentos</span>
             </div>
             <div class="centro-card-action">
-              <span>Acessar Centro & Setores</span>
+              <span>Consultar Finanças & NOM</span>
               <span>→</span>
             </div>
           </div>
 
-          <!-- CENTRO 4: SEGRE -->
+          <!-- SETOR 4: SEGRE -->
           <div class="centro-card" onclick="abrirCentro('CGE')" style="cursor: pointer;" title="Acessar Gestão da Rede Escolar">
             <div class="centro-card-top">
-              <div class="centro-card-badge" style="background: #f59e0b;">R</div>
-              <span class="centro-status-pill">Rede Escolar</span>
+              <div class="centro-card-badge" style="background: #f59e0b;">🏫</div>
+              <span class="centro-status-pill" style="color: #0284c7; background: #e0f2fe; font-weight: 700;">🟢 57 Escolas</span>
             </div>
-            <h3 class="centro-title">SEGRE</h3>
-            <div class="centro-subtitle">Seção de Gestão da Rede Escolar</div>
+            <h3 class="centro-title">SEGRE • Gestão da Rede Escolar</h3>
+            <div class="centro-subtitle">Supervisão pedagógica regional, matrículas e modulação</div>
+
+            <div class="centro-metrics-box" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.5rem; margin-bottom: 0.9rem; text-align: center;">
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">57</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Escolas</div>
+              </div>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #0284c7;">Polos</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Supervisão</div>
+              </div>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #059669;">Ativo</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Demanda Vagas</div>
+              </div>
+            </div>
+
             <div class="centro-setores-tags">
-              <span class="setor-mini-chip">SEGRE (Supervisão Regional)</span>
-              <span class="setor-mini-chip">Planejamento de Vagas</span>
-              <span class="setor-mini-chip">Articulação Municipal</span>
+              <span class="setor-mini-chip">Supervisores de Ensino</span>
+              <span class="setor-mini-chip">Vida Escolar</span>
+              <span class="setor-mini-chip">Fluxo & Matrícula</span>
+              <span class="setor-mini-chip">Articulação</span>
             </div>
             <div class="centro-card-action">
-              <span>Acessar Centro & Setores</span>
+              <span>Consultar Rede & Supervisão</span>
               <span>→</span>
             </div>
           </div>
 
-          <!-- CENTRO 5: SEPES -->
+          <!-- SETOR 5: SEPES -->
           <div class="centro-card" onclick="abrirCentro('CRH')" style="cursor: pointer;" title="Acessar Recursos Humanos e Pessoal">
             <div class="centro-card-top">
-              <div class="centro-card-badge" style="background: #8b5cf6;">H</div>
-              <span class="centro-status-pill">Pessoas & RH</span>
+              <div class="centro-card-badge" style="background: #8b5cf6;">👥</div>
+              <span class="centro-status-pill" style="color: #7c3aed; background: #ede9fe; font-weight: 700;">🟢 Atribuição OK</span>
             </div>
-            <h3 class="centro-title">SEPES</h3>
-            <div class="centro-subtitle">Seção de Pessoal / Recursos Humanos</div>
+            <h3 class="centro-title">SEPES • Pessoal & Recursos Humanos</h3>
+            <div class="centro-subtitle">Folha de pagamento, frequência, evolução funcional e evolução</div>
+
+            <div class="centro-metrics-box" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.5rem; margin-bottom: 0.9rem; text-align: center;">
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #7c3aed;">SED</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Frequência</div>
+              </div>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #059669;">Folha</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Em Dia</div>
+              </div>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">Docentes</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Modulados</div>
+              </div>
+            </div>
+
             <div class="centro-setores-tags">
-              <span class="setor-mini-chip">Pagamento & Vencimentos</span>
               <span class="setor-mini-chip">Controle de Frequência</span>
               <span class="setor-mini-chip">Evolução Funcional</span>
+              <span class="setor-mini-chip">Contratos & Licenças</span>
+              <span class="setor-mini-chip">Abonos</span>
             </div>
             <div class="centro-card-action">
-              <span>Acessar Centro & Setores</span>
+              <span>Consultar Pessoal & RH</span>
               <span>→</span>
             </div>
           </div>
 
-          <!-- CENTRO 6: EEC -->
+          <!-- SETOR 6: EEC -->
           <div class="centro-card" onclick="abrirCentro('NPE')" style="cursor: pointer;" title="Acessar Equipe Pedagógica e Currículo">
             <div class="centro-card-top">
-              <div class="centro-card-badge" style="background: #06b6d4;">P</div>
-              <span class="centro-status-pill">Pedagógico</span>
+              <div class="centro-card-badge" style="background: #06b6d4;">📚</div>
+              <span class="centro-status-pill" style="color: #0891b2; background: #cffafe; font-weight: 700;">🟢 Avaliações</span>
             </div>
-            <h3 class="centro-title">EEC</h3>
-            <div class="centro-subtitle">Equipe de Especialistas em Currículo e Formação</div>
+            <h3 class="centro-title">EEC • Especialistas em Currículo & Pedagógico</h3>
+            <div class="centro-subtitle">Formação docente, Prova Paulista, SARESP e apoio pedagógico</div>
+
+            <div class="centro-metrics-box" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.5rem; margin-bottom: 0.9rem; text-align: center;">
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #0891b2;">SARESP</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Acompanhamento</div>
+              </div>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #059669;">Paulista</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Diagnósticos</div>
+              </div>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #1e293b;">Formação</div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 600;">Coordenadores</div>
+              </div>
+            </div>
+
             <div class="centro-setores-tags">
-              <span class="setor-mini-chip">Currículo & Avaliações</span>
-              <span class="setor-mini-chip">Formação de Professores</span>
+              <span class="setor-mini-chip">Currículo Paulista</span>
               <span class="setor-mini-chip">Educação Especial</span>
+              <span class="setor-mini-chip">Análise de Dados</span>
+              <span class="setor-mini-chip">Oficinas</span>
             </div>
             <div class="centro-card-action">
-              <span>Acessar Centro & Setores</span>
+              <span>Consultar Currículo & Formação</span>
               <span>→</span>
             </div>
           </div>
 
-        </div>
-
-      </section>
+        </div></section>
 
       <!-- ======================================================= -->
       <!-- VIEW 2: VISÃO DO CENTRO & SEUS SETORES (COM UPLOAD) -->
