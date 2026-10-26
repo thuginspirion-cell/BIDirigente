@@ -9,6 +9,45 @@ function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
 
+/**
+ * Sincronização Dinâmica da Planilha SEINTEC do SharePoint (Calls 2026)
+ * Obtém o fluxo oficial do Excel sem exigir login e retorna base64 para processamento rápido no cliente.
+ */
+function sincronizarPlanilhaSharepoint() {
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&download=1";
+  try {
+    var response = UrlFetchApp.fetch(url, {
+      muteHttpExceptions: true,
+      followRedirects: true,
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+      }
+    });
+
+    if (response.getResponseCode() === 200) {
+      var bytes = response.getBlob().getBytes();
+      var base64 = Utilities.base64Encode(bytes);
+      return {
+        sucesso: true,
+        dadosBase64: base64,
+        tamanhoBytes: bytes.length,
+        timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+        data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
+      };
+    } else {
+      return {
+        sucesso: false,
+        erro: "Status HTTP " + response.getResponseCode()
+      };
+    }
+  } catch (err) {
+    return {
+      sucesso: false,
+      erro: err.toString()
+    };
+  }
+}
+
 function getConsolidatedData() {
   var eventosReaisCalendar = [];
   try {
