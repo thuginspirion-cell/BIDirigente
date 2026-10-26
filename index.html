@@ -10,7 +10,7 @@
   <meta property="og:description" content="Painel de Gestão da Rede Escolar, Minha Gestão, Agenda Executiva e Frota Oficial.">
   <meta property="og:image" content="logo_ure_itapevi_480.png">
   <link rel="icon" type="image/png" href="logo_ure_itapevi_480.png">
-  <title>BI da Dirigente - Gestão da Rede Escolar | URE Itapevi</title>
+  <title>BI Dirigente</title>
   
   <!-- Tipografia Inter & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -514,7 +514,7 @@
             <div class="agenda-event-meta-row">
               <span>📍 Local: <strong>${c.local || 'Gabinete'}</strong></span>
               ${c.link ? `<a href="${c.link}" target="_blank" style="color: #2563eb; text-decoration: underline; font-weight: 600;">🔗 Acessar Link</a>` : ''}
-              <span>⚡ Prioridade: <strong>${c.prioridade || 'Normal'}</strong></span>
+              <span>${c.prioridade === 'Alta' ? '⚡ ' : (c.prioridade === 'Baixa' ? '🌱 ' : '🔹 ')}Prioridade: <strong>${c.prioridade || 'Normal'}</strong></span>
             </div>
           </div>
           <div class="agenda-event-actions">
@@ -705,6 +705,7 @@
       document.getElementById('form-agenda-link').value = "";
       document.getElementById('form-agenda-setor').value = "Gabinete / URE";
       document.getElementById('form-agenda-status').value = "Agendado";
+      document.getElementById('form-agenda-prioridade').value = "Normal";
       document.getElementById('form-agenda-desc').value = "";
 
       const modal = document.getElementById('modal-agenda-compromisso');
@@ -733,6 +734,7 @@
       document.getElementById('form-agenda-link').value = evento.link || "";
       document.getElementById('form-agenda-setor').value = evento.setor || "Gabinete / URE";
       document.getElementById('form-agenda-status').value = evento.status || "Agendado";
+      document.getElementById('form-agenda-prioridade').value = evento.prioridade || "Normal";
       document.getElementById('form-agenda-desc').value = evento.descricao || "";
 
       const modal = document.getElementById('modal-agenda-compromisso');
@@ -760,6 +762,7 @@
       const link = document.getElementById('form-agenda-link').value.trim();
       const setor = document.getElementById('form-agenda-setor').value;
       const status = document.getElementById('form-agenda-status').value;
+      const prioridade = (document.getElementById('form-agenda-prioridade') ? document.getElementById('form-agenda-prioridade').value : '') || 'Normal';
       const descricao = document.getElementById('form-agenda-desc').value.trim();
 
       if (!titulo || !data || !horaInicio || !horaFim) {
@@ -787,6 +790,7 @@
             local,
             link,
             setor,
+            prioridade,
             status,
             descricao
           };
@@ -805,7 +809,7 @@
           local,
           link,
           setor,
-          prioridade: tipo === 'Reunião' || tipo === 'Visita Técnica' ? 'Alta' : 'Normal',
+          prioridade,
           status,
           descricao
         };
@@ -10631,6 +10635,15 @@ const carroCSS = `
                 <option value="Agendado">Agendado</option>
                 <option value="Concluído">Concluído</option>
                 <option value="Cancelado">Cancelado</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Prioridade</label>
+              <select id="form-agenda-prioridade" class="agenda-form-select">
+                <option value="Alta">⚡ Alta</option>
+                <option value="Normal" selected>Normal</option>
+                <option value="Baixa">🌱 Baixa</option>
               </select>
             </div>
 

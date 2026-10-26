@@ -3,7 +3,7 @@ function doGet(e) {
     .evaluate()
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
     .addMetaTag('viewport', 'width=device-width, initial-scale=1')
-    .setTitle('BI da Dirigente - Gestão da Rede Escolar | URE Itapevi');
+    .setTitle('BI Dirigente');
 }
 
 function include(filename) {
@@ -194,7 +194,12 @@ function getGoogleCalendarEvents(dataIsoOpcional) {
       var matchTipo = desc.match(/\[Tipo:\s*([^\]]+)\]/);
       if (matchTipo) tipo = matchTipo[1];
       
-      if (tipo === "Reunião" || tipo === "Visita Técnica") prioridade = "Alta";
+      var matchPrioridade = desc.match(/\[Prioridade:\s*([^\]]+)\]/);
+      if (matchPrioridade) {
+        prioridade = matchPrioridade[1];
+      } else if (tipo === "Reunião" || tipo === "Visita Técnica") {
+        prioridade = "Alta";
+      }
       
       lista.push({
         id: ev.getId(),
@@ -208,7 +213,7 @@ function getGoogleCalendarEvents(dataIsoOpcional) {
         setor: setor,
         prioridade: prioridade,
         status: status,
-        descricao: desc.replace(/\[(Status|Setor|Tipo):[^\]]+\]\s*/g, "").trim()
+        descricao: desc.replace(/\[(Status|Setor|Tipo|Prioridade):[^\]]+\]\s*/g, "").trim()
       });
     }
     return lista;
@@ -231,6 +236,7 @@ function salvarGoogleCalendarEvent(dados) {
     
     var descFormatada = "[Setor: " + (dados.setor || "Gabinete") + "] " +
                         "[Tipo: " + (dados.tipo || "Reunião") + "] " +
+                        "[Prioridade: " + (dados.prioridade || "Normal") + "] " +
                         "[Status: " + (dados.status || "Agendado") + "]\n" +
                         (dados.descricao || "");
                         
