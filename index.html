@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Painel Oficial de Gestão e BI da Dirigente Regional de Ensino • URE Itapevi">
   <meta property="og:title" content="BI da Dirigente • URE Itapevi">
-  <meta property="og:description" content="Painel de Gestão da Rede Escolar, Minha Gestão Hoje, Agenda Executiva e Frota Oficial.">
+  <meta property="og:description" content="Painel de Gestão da Rede Escolar, Minha Gestão, Agenda Executiva e Frota Oficial.">
   <meta property="og:image" content="logo_ure_itapevi_480.png">
   <link rel="icon" type="image/png" href="logo_ure_itapevi_480.png">
   <title>BI da Dirigente - Gestão da Rede Escolar | URE Itapevi</title>
@@ -20,7 +20,7 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script>
     // ==============================================================
-    // 16. SISTEMA INTEGRADO: MINHA GESTÃO HOJE & AGENDA DA DIRIGENTE
+    // 16. SISTEMA INTEGRADO: MINHA GESTÃO & AGENDA DA DIRIGENTE
     // ==============================================================
 
     const HORARIOS_EXPEDIENTE = [
@@ -130,6 +130,38 @@
       }
     }
 
+    /**
+     * Sincronização Dinâmica com o Google Calendar da Conta Institucional
+     * Conecta diretamente com CalendarApp do Google Apps Script sem gastar cota no Google Drive
+     */
+    function carregarGoogleCalendar(dataIsoOpcional, callback) {
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(eventos) {
+            if (eventos && Array.isArray(eventos) && eventos.length > 0) {
+              // Se filtrou por data específica, atualiza os do dia mantendo os demais
+              if (dataIsoOpcional) {
+                const outrosDias = AGENDA_COMPROMISSOS.filter(c => c.data !== dataIsoOpcional);
+                AGENDA_COMPROMISSOS = [...eventos, ...outrosDias];
+              } else {
+                AGENDA_COMPROMISSOS = eventos;
+              }
+              salvarAgendaStorage();
+              renderizarMinhaGestao();
+              renderizarAgenda();
+            }
+            if (typeof callback === 'function') callback(eventos);
+          })
+          .withFailureHandler(function(err) {
+            console.warn("Google Calendar indisponível, utilizando dados locais:", err);
+            if (typeof callback === 'function') callback(null);
+          })
+          .getGoogleCalendarEvents(dataIsoOpcional);
+      } else {
+        if (typeof callback === 'function') callback(AGENDA_COMPROMISSOS);
+      }
+    }
+
     // Formatação de data por extenso em Português (Ex: "sábado 17 de outubro de 2026")
     function formatarDataExtensoPtBr(dataIso) {
       if (!dataIso) return '';
@@ -178,7 +210,7 @@
       }
     }
 
-    function abrirMinhaGestaoHoje(dataOpcional) {
+    function abrirMinhaGestao(dataOpcional) {
       esconderTodasAsPanes();
       const pane = document.getElementById('pane-gestao-hoje');
       if (pane) pane.classList.add('active');
@@ -186,13 +218,19 @@
       const sideBtn = document.getElementById('side-btn-gestao');
       if (sideBtn) sideBtn.classList.add('active');
 
-      atualizarBreadcrumbTopo('02 - Minha Gestão Hoje');
+      atualizarBreadcrumbTopo('02 - Minha Gestão');
 
       if (dataOpcional) {
         dataAtivaGestaoHoje = dataOpcional;
       }
-      renderizarMinhaGestaoHoje();
+      renderizarMinhaGestao();
+      carregarGoogleCalendar(dataAtivaGestaoHoje);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Alias para compatibilidade com chamadas pré-existentes
+    function abrirMinhaGestaoHoje(dataOpcional) {
+      abrirMinhaGestao(dataOpcional);
     }
 
     function abrirAgenda(dataOpcional) {
@@ -211,6 +249,7 @@
         if (inputData) inputData.value = dataOpcional;
       }
       renderizarAgenda();
+      carregarGoogleCalendar();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -228,8 +267,8 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // --- RENDERIZAÇÃO: MINHA GESTÃO HOJE (100% FIEL AO PRINT) ---
-    function renderizarMinhaGestaoHoje() {
+    // --- RENDERIZAÇÃO: MINHA GESTÃO (ROTINA & COMPROMISSOS) ---
+    function renderizarMinhaGestao() {
       // 1. Atualiza a data do cabeçalho
       const textoData = formatarDataExtensoPtBr(dataAtivaGestaoHoje);
       const dataEl = document.getElementById('gestao-hoje-data-texto');
@@ -366,10 +405,20 @@
       }
     }
 
-    function atualizarDiaGestaoHoje() {
+    function renderizarMinhaGestaoHoje() {
+      renderizarMinhaGestao();
+    }
+
+    function atualizarDiaGestao() {
       dataAtivaGestaoHoje = obterDataHojeIso();
-      renderizarMinhaGestaoHoje();
-      mostrarToastAgenda('Linha do tempo atualizada com sucesso!', '🔄');
+      renderizarMinhaGestao();
+      carregarGoogleCalendar(dataAtivaGestaoHoje, function() {
+        mostrarToastAgenda('Linha do tempo e Google Calendar sincronizados!', '🔄');
+      });
+    }
+
+    function atualizarDiaGestaoHoje() {
+      atualizarDiaGestao();
     }
 
     function abrirSeletorDataGestao() {
@@ -383,7 +432,8 @@
     function aoMudarDataGestao(novaData) {
       if (novaData) {
         dataAtivaGestaoHoje = novaData;
-        renderizarMinhaGestaoHoje();
+        renderizarMinhaGestao();
+        carregarGoogleCalendar(novaData);
         mostrarToastAgenda(`Data alterada para ${formatarDataExtensoPtBr(novaData)}`, '📅');
       }
     }
@@ -722,6 +772,7 @@
         return;
       }
 
+      let eventoParaSincronizar = null;
       if (id) {
         // Atualiza compromisso existente
         const index = AGENDA_COMPROMISSOS.findIndex(c => c.id === id);
@@ -739,6 +790,7 @@
             status,
             descricao
           };
+          eventoParaSincronizar = AGENDA_COMPROMISSOS[index];
           mostrarToastAgenda('Compromisso atualizado com sucesso!', '✏');
         }
       } else {
@@ -758,16 +810,31 @@
           descricao
         };
         AGENDA_COMPROMISSOS.push(novoEvento);
+        eventoParaSincronizar = novoEvento;
         mostrarToastAgenda('Novo compromisso agendado com sucesso!', '✅');
       }
 
       salvarAgendaStorage();
 
       // Sincroniza e reflete imediatamente nos dois menus!
-      renderizarMinhaGestaoHoje();
+      renderizarMinhaGestao();
       renderizarAgenda();
-
       fecharModalAgenda();
+
+      // Sincronização em segundo plano com o Google Calendar
+      if (eventoParaSincronizar && typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            if (res && res.id && eventoParaSincronizar) {
+              eventoParaSincronizar.id = res.id;
+              salvarAgendaStorage();
+            }
+          })
+          .withFailureHandler(function(err) {
+            console.warn("Aviso: Falha ao sincronizar com Google Calendar:", err);
+          })
+          .salvarGoogleCalendarEvent(eventoParaSincronizar);
+      }
     }
 
     function alternarStatusConcluido(id) {
@@ -783,8 +850,12 @@
       }
 
       salvarAgendaStorage();
-      renderizarMinhaGestaoHoje();
+      renderizarMinhaGestao();
       renderizarAgenda();
+
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run.salvarGoogleCalendarEvent(evento);
+      }
     }
 
     function cancelarCompromisso(id) {
@@ -794,9 +865,13 @@
       if (confirm(`Deseja realmente cancelar o compromisso "${evento.titulo}"?`)) {
         evento.status = 'Cancelado';
         salvarAgendaStorage();
-        renderizarMinhaGestaoHoje();
+        renderizarMinhaGestao();
         renderizarAgenda();
         mostrarToastAgenda('Compromisso cancelado (horário liberado na timeline)!', '⚠️');
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run.salvarGoogleCalendarEvent(evento);
+        }
       }
     }
 
@@ -804,13 +879,20 @@
       const index = AGENDA_COMPROMISSOS.findIndex(c => c.id === id);
       if (index === -1) return;
 
-      const titulo = AGENDA_COMPROMISSOS[index].titulo;
+      const eventoAlvo = AGENDA_COMPROMISSOS[index];
+      const titulo = eventoAlvo.titulo;
+      const idParaExcluir = eventoAlvo.id;
+
       if (confirm(`Tem certeza que deseja excluir o compromisso "${titulo}" permanentemente?`)) {
         AGENDA_COMPROMISSOS.splice(index, 1);
         salvarAgendaStorage();
-        renderizarMinhaGestaoHoje();
+        renderizarMinhaGestao();
         renderizarAgenda();
         mostrarToastAgenda('Compromisso excluído com sucesso!', '🗑');
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run.excluirGoogleCalendarEvent(idParaExcluir);
+        }
       }
     }
 
@@ -1366,9 +1448,10 @@ function imprimirAgendaCarro() {
 
     // Inicialização da Agenda ao carregar
     document.addEventListener("DOMContentLoaded", function () {
-      renderizarMinhaGestaoHoje();
+      renderizarMinhaGestao();
       renderizarAgenda();
       renderizarCarroOficial();
+      carregarGoogleCalendar();
     });
 
   </script>
@@ -3725,10 +3808,10 @@ function imprimirAgendaCarro() {
     }
   
     /* ============================================================== */
-    /* 15. CSS MINHA GESTÃO HOJE & AGENDA DA DIRIGENTE (DESIGN PREMIUM) */
+    /* 15. CSS MINHA GESTÃO & AGENDA DA DIRIGENTE (DESIGN PREMIUM)    */
     /* ============================================================== */
 
-    /* Badge Superior Oficial do Print (ex: 02 - Minha Gestão Hoje) */
+    /* Badge Superior Oficial do Print (ex: 02 - Minha Gestão) */
     .topbar-screen-badge {
       display: inline-flex;
       align-items: center;
@@ -3762,7 +3845,7 @@ function imprimirAgendaCarro() {
       font-weight: 800;
     }
 
-    /* --- HERO BANNER MINHA GESTÃO HOJE (100% FIEL AO PRINT) --- */
+    /* --- HERO BANNER MINHA GESTÃO (ROTEIRO & COMPROMISSOS) --- */
     .gestao-header-card {
       background: linear-gradient(135deg, #101626 0%, #151b31 60%, #19203a 100%);
       border-radius: var(--radius-md);
@@ -6270,11 +6353,11 @@ const carroCSS = `
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-gestao" onclick="abrirMinhaGestaoHoje()" title="Minha Gestão Hoje - Compromissos do dia">
+            <button class="nav-item-btn" id="side-btn-gestao" onclick="abrirMinhaGestao()" title="Minha Gestão - Rotina Executiva">
               <span class="nav-item-icon">⏱️</span>
               <div class="sidebar-item-text">
-                <span class="sidebar-item-main">Minha Gestão Hoje</span>
-                <span class="sidebar-item-sub">Compromissos do dia</span>
+                <span class="sidebar-item-main">Minha Gestão</span>
+                <span class="sidebar-item-sub">Rotina Executiva</span>
               </div>
             </button>
           </li>
@@ -7436,18 +7519,18 @@ const carroCSS = `
       </section>
 
       <!-- ============================================== -->
-      <!-- VIEW 5: MINHA GESTÃO HOJE (FIEL AO PRINT)      -->
+      <!-- VIEW 5: MINHA GESTÃO (ROTEIRO & COMPROMISSOS)   -->
       <!-- ============================================== -->
       <section id="pane-gestao-hoje" class="view-pane">
 
-        <!-- HEADER DA GESTÃO HOJE (ESTILO EXECUTIVO DO PRINT) -->
+        <!-- HEADER DA GESTÃO (ESTILO EXECUTIVO) -->
         <div class="gestao-header-card">
           <div class="gestao-header-inner">
             <div class="gestao-header-left">
               <span class="gestao-pretitle">ROTINA EXECUTIVA • GABINETE DA DIRIGENTE</span>
-              <h2 class="gestao-main-title">Minha Gestão Hoje</h2>
+              <h2 class="gestao-main-title">Minha Gestão</h2>
               <p class="gestao-main-desc">
-                Sua linha do tempo de hoje, das 7h às 17h, atualizada automaticamente pela Agenda compartilhada.
+                Sua linha do tempo executiva, das 7h às 17h, sincronizada automaticamente com o Google Calendar.
               </p>
               <div class="gestao-date-row">
                 <div class="gestao-date-badge">
@@ -7571,7 +7654,7 @@ const carroCSS = `
               <button class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);" onclick="abrirModalNovoCompromisso()">
                 <span>+ Novo Compromisso</span>
               </button>
-              <button class="btn-gestao-refresh" onclick="abrirMinhaGestaoHoje()">
+              <button class="btn-gestao-refresh" onclick="abrirMinhaGestao()">
                 <span>⏱️</span>
                 <span>Ver Linha do Tempo</span>
               </button>
@@ -9076,7 +9159,7 @@ const carroCSS = `
         return;
       }
       if (idElemento === 'gestao-hoje-section' || idBotao === 'side-btn-gestao') {
-        abrirMinhaGestaoHoje();
+        abrirMinhaGestao();
         return;
       }
       if (idElemento === 'agenda-section' || idBotao === 'side-btn-agenda') {

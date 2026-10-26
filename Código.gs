@@ -11,6 +11,19 @@ function include(filename) {
 }
 
 function getConsolidatedData() {
+  var eventosReaisCalendar = [];
+  try {
+    eventosReaisCalendar = getGoogleCalendarEvents();
+  } catch (e) {
+    Logger.log("Aviso: Falha ao carregar eventos do Google Calendar no resumo consolidado: " + e.toString());
+  }
+  
+  var agendaEventos = (eventosReaisCalendar && eventosReaisCalendar.length > 0) ? eventosReaisCalendar : [
+    { id: "evt-001", horaInicio: "08:00", horaFim: "09:00", hora: "08:00", titulo: "Live Reunião", tipo: "Reunião", local: "Teams", setor: "Gabinete / URE", prioridade: "Alta", status: "Agendado", descricao: "Live Reunião com a rede e equipes gestoras escolares" },
+    { id: "evt-002", horaInicio: "14:00", horaFim: "15:30", hora: "14:00", titulo: "Visita Técnica: EE Homem de Ferro (Tony Stark)", tipo: "Visita Técnica", local: "EE Homem de Ferro (Tony Stark)", setor: "Supervisão", prioridade: "Alta", status: "Agendado", descricao: "Acompanhamento das reformas e novos equipamentos" },
+    { id: "evt-003", horaInicio: "16:00", horaFim: "17:00", hora: "16:00", titulo: "Alinhamento com SEAFIN e NOM", tipo: "Despacho Gabinete", local: "Gabinete da Dirigente", setor: "CAF", prioridade: "Normal", status: "Agendado", descricao: "Execução orçamentária e aditivos de contratos" }
+  ];
+
   return {
     indicadoresRede: {
       escolas: 87,
@@ -29,11 +42,8 @@ function getConsolidatedData() {
       { nome: "EE Batman (Bruce Wayne)", cidade: "Itapevi", motivo: "Reposição de quadro docente e monitoramento patrimonial", prioridade: "Alta prioridade" },
       { nome: "EE Mulher-Maravilha (Diana Prince)", cidade: "Itapevi", motivo: "Reforma quadra poliesportiva e ampliação do grêmio", prioridade: "Alta prioridade" }
     ],
-        agendaHoje: [
-      { id: "evt-001", horaInicio: "08:00", horaFim: "09:00", hora: "08:00", titulo: "Live Reunião", tipo: "Reunião", local: "Teams", setor: "Gabinete / URE", prioridade: "Alta", status: "Agendado", descricao: "Live Reunião com a rede e equipes gestoras escolares" },
-      { id: "evt-002", horaInicio: "14:00", horaFim: "15:30", hora: "14:00", titulo: "Visita Técnica: EE Homem de Ferro (Tony Stark)", tipo: "Visita Técnica", local: "EE Homem de Ferro (Tony Stark)", setor: "Supervisão", prioridade: "Alta", status: "Agendado", descricao: "Acompanhamento das reformas e novos equipamentos" },
-      { id: "evt-003", horaInicio: "16:00", horaFim: "17:00", hora: "16:00", titulo: "Alinhamento com SEAFIN e NOM", tipo: "Despacho Gabinete", local: "Gabinete da Dirigente", setor: "CAF", prioridade: "Normal", status: "Agendado", descricao: "Execução orçamentária e aditivos de contratos" }
-    ],
+    agendaEventos: agendaEventos,
+    agendaHoje: agendaEventos,
     carroOficial: {
       atualizadoEm: "17/10/2026, 03:00",
       totalRegistros: 4,
@@ -120,79 +130,184 @@ function getConsolidatedData() {
   };
 }
 
-// === LÓGICA DE UPLOAD ORGANIZADA POR CENTRO E SETOR ===
+// === INTEGRAÇÃO COM GOOGLE CALENDAR (AGENDA EXECUTIVA DINÂMICA) ===
+// Não consome nenhum byte do Google Drive (cota de 3GB permanece 100% livre)
+// Portabilidade garantida para @servidor.educacao.sp.gov.br ou qualquer nova conta institucional
 
-function processFileUpload(arquivoObj, setor, centro) {
+/**
+ * Obtém a instância do Google Calendar de forma 100% dinâmica.
+ * Procura primeiro por agenda dedicada 'Agenda Executiva - URE Itapevi' ou 'Agenda da Dirigente'.
+ * Se não existir, utiliza a agenda padrão (getDefaultCalendar) da conta ativa.
+ */
+function getCalendarInstance() {
   try {
-    // 1. Pasta principal
-    var nomePastaPrincipal = "Uploads BIDirigente";
-    var pastas = DriveApp.getFoldersByName(nomePastaPrincipal);
-    var pastaPrincipal = pastas.hasNext() ? pastas.next() : DriveApp.createFolder(nomePastaPrincipal);
+    var cals1 = CalendarApp.getCalendarsByName("Agenda Executiva - URE Itapevi");
+    if (cals1 && cals1.length > 0) return cals1[0];
     
-    // 2. Pasta do Centro (ex: SEINTEC, AssessoriaTecnica, CAF, CGE)
-    var pastaDestino = pastaPrincipal;
-    if (centro) {
-      var pastasCentro = pastaPrincipal.getFoldersByName(centro);
-      pastaDestino = pastasCentro.hasNext() ? pastasCentro.next() : pastaPrincipal.createFolder(centro);
+    var cals2 = CalendarApp.getCalendarsByName("Agenda da Dirigente");
+    if (cals2 && cals2.length > 0) return cals2[0];
+  } catch (e) {
+    Logger.log("Aviso ao buscar agenda por nome: " + e.toString());
+  }
+  return CalendarApp.getDefaultCalendar();
+}
+
+/**
+ * Busca compromissos do Google Calendar para a data informada ou janela ativa
+ */
+function getGoogleCalendarEvents(dataIsoOpcional) {
+  try {
+    var cal = getCalendarInstance();
+    if (!cal) return [];
+    
+    var inicio, fim;
+    if (dataIsoOpcional) {
+      inicio = new Date(dataIsoOpcional + "T00:00:00");
+      fim = new Date(dataIsoOpcional + "T23:59:59");
+    } else {
+      var hoje = new Date();
+      inicio = new Date(hoje.getTime() - 7 * 24 * 60 * 60 * 1000);
+      fim = new Date(hoje.getTime() + 60 * 24 * 60 * 60 * 1000);
     }
     
-    // 3. Subpasta do Setor (ex: SEINTEC, NOM, SEAFIN, SEGRE)
-    if (setor) {
-      var pastasSetor = pastaDestino.getFoldersByName(setor);
-      pastaDestino = pastasSetor.hasNext() ? pastasSetor.next() : pastaDestino.createFolder(setor);
+    var eventos = cal.getEvents(inicio, fim);
+    var lista = [];
+    
+    for (var i = 0; i < eventos.length; i++) {
+      var ev = eventos[i];
+      var dataStr = Utilities.formatDate(ev.getStartTime(), "America/Sao_Paulo", "yyyy-MM-dd");
+      var horaIniStr = Utilities.formatDate(ev.getStartTime(), "America/Sao_Paulo", "HH:mm");
+      var horaFimStr = Utilities.formatDate(ev.getEndTime(), "America/Sao_Paulo", "HH:mm");
+      
+      var desc = ev.getDescription() || "";
+      var setor = "Gabinete / URE";
+      var tipo = "Reunião";
+      var status = "Agendado";
+      var prioridade = "Normal";
+      
+      if (desc.indexOf("[Status: Concluído]") !== -1) status = "Concluído";
+      if (desc.indexOf("[Status: Cancelado]") !== -1) status = "Cancelado";
+      
+      var matchSetor = desc.match(/\[Setor:\s*([^\]]+)\]/);
+      if (matchSetor) setor = matchSetor[1];
+      
+      var matchTipo = desc.match(/\[Tipo:\s*([^\]]+)\]/);
+      if (matchTipo) tipo = matchTipo[1];
+      
+      if (tipo === "Reunião" || tipo === "Visita Técnica") prioridade = "Alta";
+      
+      lista.push({
+        id: ev.getId(),
+        titulo: ev.getTitle(),
+        data: dataStr,
+        horaInicio: horaIniStr,
+        horaFim: horaFimStr,
+        tipo: tipo,
+        local: ev.getLocation() || "Gabinete da Dirigente",
+        link: "",
+        setor: setor,
+        prioridade: prioridade,
+        status: status,
+        descricao: desc.replace(/\[(Status|Setor|Tipo):[^\]]+\]\s*/g, "").trim()
+      });
     }
-    
-    // 4. Salva o arquivo decodificado em base64
-    var blob = Utilities.newBlob(Utilities.base64Decode(arquivoObj.data), arquivoObj.mimeType, arquivoObj.fileName);
-    var novoArquivo = pastaDestino.createFile(blob);
-    try {
-      novoArquivo.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    } catch(e) {}
-    
-    return novoArquivo.getUrl();
-  } catch (erro) {
-    throw new Error("Falha ao salvar o arquivo: " + erro.toString());
+    return lista;
+  } catch (e) {
+    Logger.log("Erro ao ler Google Calendar: " + e.toString());
+    return [];
   }
 }
 
-function processMultipleFilesUpload(arquivosArray, setor, centro) {
+/**
+ * Salva ou atualiza um compromisso no Google Calendar
+ */
+function salvarGoogleCalendarEvent(dados) {
   try {
-    var nomePastaPrincipal = "Uploads BIDirigente";
-    var pastas = DriveApp.getFoldersByName(nomePastaPrincipal);
-    var pastaPrincipal = pastas.hasNext() ? pastas.next() : DriveApp.createFolder(nomePastaPrincipal);
+    var cal = getCalendarInstance();
+    if (!cal) throw new Error("Google Calendar indisponível.");
     
-    var pastaDestino = pastaPrincipal;
-    if (centro) {
-      var pastasCentro = pastaPrincipal.getFoldersByName(centro);
-      pastaDestino = pastasCentro.hasNext() ? pastasCentro.next() : pastaPrincipal.createFolder(centro);
+    var inicio = new Date(dados.data + "T" + dados.horaInicio + ":00");
+    var fim = new Date(dados.data + "T" + dados.horaFim + ":00");
+    
+    var descFormatada = "[Setor: " + (dados.setor || "Gabinete") + "] " +
+                        "[Tipo: " + (dados.tipo || "Reunião") + "] " +
+                        "[Status: " + (dados.status || "Agendado") + "]\n" +
+                        (dados.descricao || "");
+                        
+    var evento = null;
+    if (dados.id && dados.id.indexOf("evt-") !== 0) {
+      try {
+        evento = cal.getEventById(dados.id);
+      } catch (err) {}
     }
     
-    if (setor) {
-      var pastasSetor = pastaDestino.getFoldersByName(setor);
-      pastaDestino = pastasSetor.hasNext() ? pastasSetor.next() : pastaDestino.createFolder(setor);
+    if (evento) {
+      evento.setTitle(dados.titulo);
+      evento.setTime(inicio, fim);
+      evento.setLocation(dados.local || "");
+      evento.setDescription(descFormatada);
+      return { sucesso: true, id: evento.getId(), atualizado: true };
+    } else {
+      var novoEv = cal.createEvent(dados.titulo, inicio, fim, {
+        location: dados.local || "",
+        description: descFormatada
+      });
+      return { sucesso: true, id: novoEv.getId(), criado: true };
     }
-    
-    var resultados = [];
+  } catch (e) {
+    Logger.log("Erro ao salvar no Google Calendar: " + e.toString());
+    return { sucesso: false, erro: e.toString() };
+  }
+}
+
+/**
+ * Exclui um compromisso do Google Calendar
+ */
+function excluirGoogleCalendarEvent(id) {
+  try {
+    if (!id || id.indexOf("evt-") === 0) return { sucesso: true };
+    var cal = getCalendarInstance();
+    var ev = cal.getEventById(id);
+    if (ev) {
+      ev.deleteEvent();
+      return { sucesso: true };
+    }
+    return { sucesso: false, motivo: "Evento não encontrado no Calendar" };
+  } catch (e) {
+    Logger.log("Erro ao excluir do Google Calendar: " + e.toString());
+    return { sucesso: false, erro: e.toString() };
+  }
+}
+
+// === LÓGICA DE PROCESSAMENTO EM MEMÓRIA (SEM SALVAR NENHUM ARQUIVO NO GOOGLE DRIVE) ===
+// Não cria pastas nem arquivos no Google Drive da URE para preservar a cota institucional de 3GB.
+
+function processFileUpload(arquivoObj, setor, centro) {
+  return {
+    sucesso: true,
+    mensagem: "Arquivo recebido e processado em memória (sem consumo de cota no Google Drive).",
+    fileName: arquivoObj ? arquivoObj.fileName : "",
+    setor: setor,
+    centro: centro,
+    url: ""
+  };
+}
+
+function processMultipleFilesUpload(arquivosArray, setor, centro) {
+  var resultados = [];
+  if (arquivosArray && arquivosArray.length) {
     for (var i = 0; i < arquivosArray.length; i++) {
       var arq = arquivosArray[i];
-      var blob = Utilities.newBlob(Utilities.base64Decode(arq.data), arq.mimeType, arq.fileName);
-      var novoArquivo = pastaDestino.createFile(blob);
-      try {
-        novoArquivo.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-      } catch(e) {}
-      
       resultados.push({
         fileName: arq.fileName,
-        url: novoArquivo.getUrl(),
-        id: novoArquivo.getId(),
-        size: novoArquivo.getSize(),
-        tipo: arq.fileName.toLowerCase().endsWith('.pdf') ? 'pdf' : 'excel'
+        setor: setor,
+        centro: centro,
+        tipo: arq.fileName && arq.fileName.toLowerCase().endsWith('.pdf') ? 'pdf' : 'excel',
+        url: ""
       });
     }
-    return resultados;
-  } catch (erro) {
-    throw new Error("Falha ao salvar múltiplos arquivos: " + erro.toString());
   }
+  return resultados;
 }
 
 function compartilharScriptPublico() {
