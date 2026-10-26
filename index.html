@@ -2790,7 +2790,8 @@ function imprimirAgendaCarro() {
 
     .executive-hero-left {
       padding: 2.2rem 2.5rem;
-      max-width: 650px;
+      flex: 1;
+      max-width: 860px;
       z-index: 2;
     }
 
@@ -2807,12 +2808,20 @@ function imprimirAgendaCarro() {
     }
 
     .hero-main-title {
-      font-size: 2rem;
+      font-size: 1.85rem;
       font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
       margin-bottom: 0.6rem;
-      color: #ffffff;
+      color: #ffffff !important;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 950px) {
+      .hero-main-title {
+        white-space: normal;
+        font-size: 1.5rem;
+      }
     }
 
     .hero-main-desc {
@@ -2823,25 +2832,17 @@ function imprimirAgendaCarro() {
 
     .executive-hero-right {
       position: relative;
-      width: 440px;
+      width: 250px;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      padding-right: 2.5rem;
-      background: linear-gradient(90deg, #061129 0%, rgba(11, 35, 81, 0.4) 30%, transparent 100%),
-                  radial-gradient(circle at right, rgba(240, 155, 12, 0.18) 0%, transparent 65%);
+      justify-content: center;
+      padding-right: 2rem;
+      background: radial-gradient(circle at center, rgba(11, 35, 81, 0.4) 0%, transparent 75%);
     }
 
-    /* Faixa diagonal decorativa em ouro nobre */
+    /* Faixa diagonal decorativa removida conforme solicitação */
     .executive-hero-right::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 40px;
-      background: linear-gradient(to bottom right, transparent 50%, #f09b0c 50%, #f09b0c 55%, transparent 55%);
-      opacity: 0.85;
+      display: none !important;
     }
 
     /* Selo / Marca d'água no Hero Banner */
@@ -7441,7 +7442,7 @@ const carroCSS = `
               <span class="hero-pretitle" style="margin-bottom: 0;">⭐ DIRETORIA REGIONAL DE ENSINO DE ITAPEVI • URE ITAPEVI</span>
               <span style="font-size: 0.72rem; background: rgba(240, 155, 12, 0.22); color: #f09b0c; border: 1px solid rgba(240, 155, 12, 0.45); padding: 2px 8px; border-radius: 20px; font-weight: 700;">🟢 Rede 100% Operacional</span>
             </div>
-            <h2 class="hero-main-title">BI Dirigente • Painel Integrado de Gestão</h2>
+            <h2 class="hero-main-title" style="color: #ffffff !important; white-space: nowrap;">BI Dirigente • Painel Integrado de Gestão</h2>
             <p class="hero-main-desc">
               Visão panorâmica consolidada da liderança regional: indicadores em tempo real, acompanhamento dos setores da Diretoria e monitoramento contínuo das 60 escolas estaduais.
             </p>
