@@ -7361,14 +7361,35 @@ const carroCSS = `
       <!-- ============================================== -->
       <section id="pane-home" class="view-pane active">
 
-        <!-- HERO BANNER EXECUTIVO COM BRASÃO OFICIAL -->
+        <!-- 1. HERO BANNER EXECUTIVO COM BRASÃO OFICIAL & ATALHOS RÁPIDOS -->
         <div class="executive-hero">
           <div class="executive-hero-left">
-            <span class="hero-pretitle">⭐ PAINEL EXECUTIVO • URE ITAPEVI</span>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.6rem;">
+              <span class="hero-pretitle" style="margin-bottom: 0;">⭐ PAINEL EXECUTIVO • URE ITAPEVI</span>
+              <span style="font-size: 0.72rem; background: rgba(240, 155, 12, 0.22); color: #f09b0c; border: 1px solid rgba(240, 155, 12, 0.45); padding: 2px 8px; border-radius: 20px; font-weight: 700;">🟢 Rede 100% Operacional</span>
+            </div>
             <h2 class="hero-main-title">Gestão que transforma realidades</h2>
             <p class="hero-main-desc">
-              Acompanhe indicadores, identifique prioridades e fortaleça a rede de ensino de Itapevi e região.
+              Painel de liderança e tomada de decisão da Dirigente Regional de Ensino: acompanhe indicadores, identifique prioridades e fortaleça as 57 escolas estaduais da região.
             </p>
+            <!-- Atalhos de Ação Rápida no Hero -->
+            <div class="hero-quick-actions" style="display: flex; gap: 0.6rem; margin-top: 1.25rem; flex-wrap: wrap;">
+              <button type="button" onclick="abrirMinhaGestao()" class="btn-hero-action" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; padding: 0.45rem 0.95rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
+                <span>⏱️</span> Minha Gestão
+              </button>
+              <button type="button" onclick="abrirAgenda()" class="btn-hero-action" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; padding: 0.45rem 0.95rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
+                <span>📅</span> Agenda Oficial
+              </button>
+              <button type="button" onclick="abrirCarroOficial()" class="btn-hero-action" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; padding: 0.45rem 0.95rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
+                <span>🚗</span> Carro Oficial
+              </button>
+              <button type="button" onclick="abrirVisitas()" class="btn-hero-action" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; padding: 0.45rem 0.95rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
+                <span>✔️</span> Visitas da Dirigente
+              </button>
+              <button type="button" onclick="abrirEscolas()" class="btn-hero-action" style="background: rgba(240, 155, 12, 0.25); border: 1px solid rgba(240, 155, 12, 0.5); color: #fef08a; padding: 0.45rem 0.95rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
+                <span>🏫</span> Rede 360° (57 Escolas)
+              </button>
+            </div>
           </div>
           <div class="executive-hero-right">
             <div class="hero-crest-watermark" style="opacity: 0.35; width: 145px; height: 145px; position: relative; right: auto; top: auto; transform: none;">
@@ -7377,11 +7398,81 @@ const carroCSS = `
           </div>
         </div>
 
-        <!-- BARRA DE PESQUISA E FILTROS -->
+        <!-- 2. INDICADORES DA REDE & VISITAS DA DIRIGENTE (PULSO EXECUTIVO) -->
+        <div class="indicators-split">
+          
+          <div class="kpi-row-card">
+            <div class="kpi-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <span class="kpi-row-title">Indicadores da rede</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Painel consolidado em tempo real</span>
+            </div>
+
+            <div class="kpi-cards-inner">
+              <div class="kpi-mini-box" onclick="abrirEscolas()" style="cursor: pointer;" title="Clique para abrir a gestão das 57 escolas estaduais">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: var(--brand-gold);"></span>
+                  <span class="kpi-big-number" id="kpi-escolas">57</span>
+                </div>
+                <span class="kpi-mini-label">Escolas na rede ↗</span>
+              </div>
+
+              <div class="kpi-mini-box" onclick="abrirSeintec()" style="cursor: pointer;" title="Clique para abrir a base SEINTEC de tecnologia">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: #3b82f6;"></span>
+                  <span class="kpi-big-number" id="kpi-hardware-home">15.098</span>
+                </div>
+                <span class="kpi-mini-label">Equipamentos TI ↗</span>
+              </div>
+
+              <div class="kpi-mini-box" onclick="abrirVisitas()" style="cursor: pointer;" title="Clique para consultar termos de visitas realizadas">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: #10b981;"></span>
+                  <span class="kpi-big-number" id="kpi-visitas">145</span>
+                </div>
+                <span class="kpi-mini-label">Visitas realizadas ↗</span>
+              </div>
+
+              <div class="kpi-mini-box" onclick="abrirEscolas('atencao')" style="cursor: pointer;" title="Clique para visualizar as 3 escolas em alta prioridade">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: #ef4444;"></span>
+                  <span class="kpi-big-number" id="kpi-alertas-home" style="color: #ef4444;">3</span>
+                </div>
+                <span class="kpi-mini-label">Em atenção prioritária ↗</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gauge Circular das Visitas da Dirigente -->
+          <div class="gauge-card" onclick="abrirVisitas()" style="cursor: pointer;" title="Clique para abrir o painel de visitas da Dirigente">
+            <div class="gauge-header">
+              <div>
+                <div class="gauge-title">Visitas da Dirigente</div>
+                <div class="gauge-sub">Acompanhamento da rede estadual</div>
+              </div>
+            </div>
+
+            <div class="gauge-center-box">
+              <div class="circular-progress-wrap">
+                <div class="circular-progress-inner">90%</div>
+              </div>
+              <div class="gauge-stats-text">
+                <strong>145 de 160</strong>
+                visitas concluídas este mês
+              </div>
+            </div>
+
+            <div style="text-align: right;">
+              <span class="gauge-footer-link" onclick="event.stopPropagation(); abrirVisitas();" style="cursor: pointer;">Ver plano de visitas →</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3. BARRA DE PESQUISA E FILTROS EXECUTIVOS -->
         <div class="filter-card">
           <div class="search-input-wrap">
             <span class="search-icon-abs">🔍</span>
-            <input type="text" id="home-search-input" placeholder="Busca geral: Escola, assunto, responsável, processo..." onkeydown="if(event.key==='Enter') aplicarFiltrosHome()">
+            <input type="text" id="home-search-input" placeholder="Busca geral: Escola, CIE, responsável, assunto..." onkeydown="if(event.key==='Enter') aplicarFiltrosHome()">
           </div>
           <select id="home-filter-escola" class="filter-select" style="max-width: 280px; text-overflow: ellipsis;" onchange="aoMudarFiltroEscolaHome(this.value)">
             <option value="">Escola: Todas</option>
@@ -7443,35 +7534,30 @@ const carroCSS = `
             <option value="010397">Vicente Themudo Lessa Professor (CIE: 010397)</option>
             <option value="918787">Wilmar Soares da Silva (CIE: 918787)</option>
           </select>
-          <select class="filter-select">
-            <option>Centro: Todos</option>
-            <option>SEINTEC</option>
-            <option>CAF</option>
-            <option>CGE</option>
-            <option>GAB</option>
+          <select id="home-filter-centro" class="filter-select" onchange="aoMudarFiltroCentroHome(this.value)">
+            <option value="">🏛️ Centros / Núcleos: Todos</option>
+            <option value="SEINTEC">SEINTEC (Tecnologia & Dados)</option>
+            <option value="GAB">ASURE (Gabinete da Dirigente)</option>
+            <option value="CAF">SEAFIN (Administração & Finanças)</option>
+            <option value="CGE">SEGRE (Gestão da Rede Escolar)</option>
+            <option value="CRH">SEPES (Pessoas / RH)</option>
+            <option value="NPE">EEC (Especialistas em Currículo)</option>
           </select>
-          <select class="filter-select">
-            <option>Situação: Todas</option>
-            <option>Concluído</option>
-            <option>Em andamento</option>
-          </select>
-          <select class="filter-select">
-            <option>Prioridade: Todas</option>
-            <option>Alta</option>
-            <option>Média</option>
-          </select>
-          <button class="btn-apply-filters" onclick="aplicarFiltrosHome()">
-            <span>-</span> Aplicar
+          <button class="btn-apply-filters" onclick="aplicarFiltrosHome()" style="display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer;">
+            <span>🔍</span> Filtrar
+          </button>
+          <button type="button" class="btn-apply-filters" onclick="limparFiltrosHome()" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); cursor: pointer;" title="Limpar filtros da Home">
+            <span>↺</span> Limpar
           </button>
         </div>
 
-        <!-- SEÇÃO: ESCOLAS EM ATENÇÃO (DO PRINT) -->
+        <!-- 4. SEÇÃO: ESCOLAS EM ATENÇÃO (GESTÃO POR EXCEÇÃO) -->
         <div class="section-title-row">
           <div class="section-main-heading">
             <span style="color: var(--accent-red); font-size: 1.1rem;">⚠️</span>
             <span>Em foco: escolas que exigem atenção</span>
           </div>
-          <span class="section-see-all" style="cursor: pointer;" onclick="abrirEscolas('atencao')" title="Ver escolas em atenção">Ver todas →</span>
+          <span class="section-see-all" style="cursor: pointer;" onclick="abrirEscolas('atencao')" title="Ver todas as escolas em atenção">Ver todas as prioridades →</span>
         </div>
 
         <div class="atencao-grid">
@@ -7503,9 +7589,7 @@ const carroCSS = `
           </div>
         </div>
 
-        <!-- ======================================================== -->
-        <!-- NOVIDADE SOLICITADA: DIVISÃO POR CENTROS NA HOME -->
-        <!-- ======================================================== -->
+        <!-- 5. SEÇÃO: CENTROS REGIONAIS DA DIRETORIA (NAVEGAÇÃO DEPARTAMENTAL) -->
         <div class="section-title-row" style="margin-top: 1rem;">
           <div class="section-main-heading">
             <span>🏛️ Centros Regionais da Diretoria</span>
@@ -7516,7 +7600,7 @@ const carroCSS = `
         <div class="centros-grid">
 
           <!-- CENTRO 1: SEINTEC -->
-          <div class="centro-card" onclick="abrirSeintec()">
+          <div class="centro-card" onclick="abrirSeintec()" style="cursor: pointer;" title="Acessar base completa de tecnologia e dados">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: var(--brand-teal);">T</div>
               <span class="centro-status-pill">Tecnologia & Dados</span>
@@ -7524,8 +7608,8 @@ const carroCSS = `
             <h3 class="centro-title">SEINTEC</h3>
             <div class="centro-subtitle">Informações Educacionais e Tecnologia</div>
             <div class="centro-setores-tags">
-              <span class="setor-mini-chip">Demandas & Atendimentos</span>
-              <span class="setor-mini-chip">Hardware & Redes</span>
+              <span class="setor-mini-chip">Hardware (15.098 itens)</span>
+              <span class="setor-mini-chip">Infra & Rede</span>
               <span class="setor-mini-chip">TVs & Educatrons</span>
               <span class="setor-mini-chip">Plataformas de Recarga</span>
             </div>
@@ -7535,8 +7619,28 @@ const carroCSS = `
             </div>
           </div>
 
-          <!-- CENTRO 2: CAF -->
-          <div class="centro-card" onclick="abrirCentro('CAF')">
+          <!-- CENTRO 2: ASURE (Gabinete) -->
+          <div class="centro-card" onclick="abrirAssessoriaTecnica()" style="cursor: pointer;" title="Acessar Gabinete da Dirigente e Assessoria">
+            <div class="centro-card-top">
+              <div class="centro-card-badge" style="background: var(--brand-navy); border: 1.5px solid var(--brand-gold);">G</div>
+              <span class="centro-status-pill">Gabinete Dirigente</span>
+            </div>
+            <h3 class="centro-title">ASURE</h3>
+            <div class="centro-subtitle">Assessoria da URE / Gabinete da Dirigente</div>
+            <div class="centro-setores-tags">
+              <span class="setor-mini-chip">Assessoria Técnica</span>
+              <span class="setor-mini-chip">Ouvidoria Fala.SP</span>
+              <span class="setor-mini-chip">Termos de Visita</span>
+              <span class="setor-mini-chip">Folha de Ponto</span>
+            </div>
+            <div class="centro-card-action">
+              <span>Acessar Gabinete & Assessoria</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- CENTRO 3: SEAFIN -->
+          <div class="centro-card" onclick="abrirCentro('CAF')" style="cursor: pointer;" title="Acessar Centro de Administração e Finanças">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: #10b981;">$</div>
               <span class="centro-status-pill">Administração & Finanças</span>
@@ -7554,8 +7658,8 @@ const carroCSS = `
             </div>
           </div>
 
-          <!-- CENTRO 3: CGE -->
-          <div class="centro-card" onclick="abrirCentro('CGE')">
+          <!-- CENTRO 4: SEGRE -->
+          <div class="centro-card" onclick="abrirCentro('CGE')" style="cursor: pointer;" title="Acessar Gestão da Rede Escolar">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: #f59e0b;">R</div>
               <span class="centro-status-pill">Rede Escolar</span>
@@ -7573,31 +7677,11 @@ const carroCSS = `
             </div>
           </div>
 
-          <!-- CENTRO 4: GAB -->
-          <div class="centro-card" onclick="abrirCentro('GAB')">
-            <div class="centro-card-top">
-              <div class="centro-card-badge" style="background: var(--brand-navy); border: 1.5px solid var(--brand-gold);">G</div>
-              <span class="centro-status-pill">Gabinete Dirigente</span>
-            </div>
-            <h3 class="centro-title">ASURE</h3>
-            <div class="centro-subtitle">Assessoria da URE / Gabinete da Dirigente</div>
-            <div class="centro-setores-tags">
-              <span class="setor-mini-chip">Assessoria Técnica</span>
-              <span class="setor-mini-chip">Ouvidoria Fala.SP</span>
-              <span class="setor-mini-chip">Termos de Visita</span>
-              <span class="setor-mini-chip">Folha de Ponto</span>
-            </div>
-            <div class="centro-card-action">
-              <span>Acessar Centro & Setores</span>
-              <span>→</span>
-            </div>
-          </div>
-
-          <!-- CENTRO 5: CRH -->
-          <div class="centro-card" onclick="abrirCentro('CRH')">
+          <!-- CENTRO 5: SEPES -->
+          <div class="centro-card" onclick="abrirCentro('CRH')" style="cursor: pointer;" title="Acessar Recursos Humanos e Pessoal">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: #8b5cf6;">H</div>
-              <span class="centro-status-pill">Pessoas</span>
+              <span class="centro-status-pill">Pessoas & RH</span>
             </div>
             <h3 class="centro-title">SEPES</h3>
             <div class="centro-subtitle">Seção de Pessoal / Recursos Humanos</div>
@@ -7612,8 +7696,8 @@ const carroCSS = `
             </div>
           </div>
 
-          <!-- CENTRO 6: NPE -->
-          <div class="centro-card" onclick="abrirCentro('NPE')">
+          <!-- CENTRO 6: EEC -->
+          <div class="centro-card" onclick="abrirCentro('NPE')" style="cursor: pointer;" title="Acessar Equipe Pedagógica e Currículo">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: #06b6d4;">P</div>
               <span class="centro-status-pill">Pedagógico</span>
@@ -7628,76 +7712,6 @@ const carroCSS = `
             <div class="centro-card-action">
               <span>Acessar Centro & Setores</span>
               <span>→</span>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- SEÇÃO: INDICADORES DA REDE & VISITAS DA DIRIGENTE -->
-        <div class="indicators-split">
-          
-          <div class="kpi-row-card">
-            <div class="kpi-row-header">
-              <span class="kpi-row-title">Indicadores da rede</span>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">Situação final do painel consolidado</span>
-            </div>
-
-            <div class="kpi-cards-inner">
-              <div class="kpi-mini-box">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: var(--brand-gold);"></span>
-                  <span class="kpi-big-number" id="kpi-escolas">87</span>
-                </div>
-                <span class="kpi-mini-label" style="cursor: pointer;" onclick="abrirEscolas()" title="Abrir gestão de escolas">Escolas na rede ↗</span>
-              </div>
-
-              <div class="kpi-mini-box">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: #3b82f6;"></span>
-                  <span class="kpi-big-number">6</span>
-                </div>
-                <span class="kpi-mini-label">Centros Ativos</span>
-              </div>
-
-              <div class="kpi-mini-box">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: #10b981;"></span>
-                  <span class="kpi-big-number" id="kpi-visitas">145</span>
-                </div>
-                <span class="kpi-mini-label">Visitas realizadas</span>
-              </div>
-
-              <div class="kpi-mini-box">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: #f59e0b;"></span>
-                  <span class="kpi-big-number">0</span>
-                </div>
-                <span class="kpi-mini-label">Demandas críticas</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gauge Circular das Visitas da Dirigente -->
-          <div class="gauge-card">
-            <div class="gauge-header">
-              <div>
-                <div class="gauge-title">Visitas da Dirigente</div>
-                <div class="gauge-sub">Acompanhamento da rede estadual</div>
-              </div>
-            </div>
-
-            <div class="gauge-center-box">
-              <div class="circular-progress-wrap">
-                <div class="circular-progress-inner">90%</div>
-              </div>
-              <div class="gauge-stats-text">
-                <strong>145 de 160</strong>
-                visitas concluídas este mês
-              </div>
-            </div>
-
-            <div style="text-align: right;">
-              <span class="gauge-footer-link">Ver plano de visitas →</span>
             </div>
           </div>
 
@@ -11049,7 +11063,55 @@ const carroCSS = `
       aplicarFiltrosHome();
     }
 
+    function limparFiltrosHome() {
+      const selectEscola = document.getElementById('home-filter-escola');
+      if (selectEscola) selectEscola.value = '';
+      const searchInput = document.getElementById('home-search-input');
+      if (searchInput) searchInput.value = '';
+      const selectCentro = document.getElementById('home-filter-centro');
+      if (selectCentro) selectCentro.value = '';
+    }
+
+    function aoMudarFiltroCentroHome(sigla) {
+      if (!sigla) return;
+      if (sigla === 'SEINTEC') abrirSeintec();
+      else if (sigla === 'GAB') abrirAssessoriaTecnica();
+      else abrirCentro(sigla);
+    }
+
     function aplicarFiltrosHome() {
+      const selectEscola = document.getElementById('home-filter-escola');
+      const searchInput = document.getElementById('home-search-input');
+      const selectCentro = document.getElementById('home-filter-centro');
+
+      const cie = selectEscola ? selectEscola.value : '';
+      const termo = searchInput ? searchInput.value.trim() : '';
+      const centro = selectCentro ? selectCentro.value : '';
+
+      if (centro) {
+        aoMudarFiltroCentroHome(centro);
+        return;
+      }
+
+      if (cie) {
+        abrirEscolaPorCie(cie);
+        return;
+      }
+
+      if (termo) {
+        abrirEscolas();
+        setTimeout(() => {
+          const input = document.getElementById('escolas-search-input');
+          if (input) {
+            input.value = termo;
+            filtrarEscolas();
+          }
+        }, 120);
+        return;
+      }
+    }
+
+    function _old_aplicarFiltrosHome_disabled() {
       const selectEscola = document.getElementById('home-filter-escola');
       const searchInput = document.getElementById('home-search-input');
 
