@@ -2308,7 +2308,9 @@ function ordenarTabelaDom(tableId, colIndex, type) {
       th.classList.add(currentDir === 'asc' ? 'sort-active-asc' : 'sort-active-desc');
       if (pill) {
         var arrow = currentDir === 'asc' ? '▲' : '▼';
-        var label = (type === 'number' || type === 'date') ? (currentDir === 'asc' ? 'Mais Antigo' : 'Mais Recente') : (currentDir === 'asc' ? 'A-Z' : 'Z-A');
+        var label = (type === 'number' || type === 'num') 
+          ? (currentDir === 'asc' ? 'Menor' : 'Maior')
+          : (type === 'date' ? (currentDir === 'asc' ? 'Mais Antigo' : 'Mais Recente') : (currentDir === 'asc' ? 'A-Z' : 'Z-A'));
         pill.innerHTML = '<span class="sort-arrow">' + arrow + '</span> <span class="sort-label">' + label + '</span>';
       }
     } else if (pill) {
@@ -2316,15 +2318,53 @@ function ordenarTabelaDom(tableId, colIndex, type) {
     }
   });
 
+  function parseDateBr(str) {
+    if (!str) return 0;
+    var m = str.match(/(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/);
+    if (m) {
+      var d = parseInt(m[1], 10);
+      var mo = parseInt(m[2], 10) - 1;
+      var y = parseInt(m[3], 10);
+      if (y < 100) y += 2000;
+      return new Date(y, mo, d).getTime();
+    }
+    var mIso = str.match(/(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})/);
+    if (mIso) {
+      return new Date(parseInt(mIso[1], 10), parseInt(mIso[2], 10) - 1, parseInt(mIso[3], 10)).getTime();
+    }
+    return 0;
+  }
+
   rows.sort(function(a, b) {
     var cellA = a.children[colIndex] ? a.children[colIndex].innerText.trim() : '';
     var cellB = b.children[colIndex] ? b.children[colIndex].innerText.trim() : '';
-    if (type === 'number') {
+
+    var effectiveType = type;
+    if (effectiveType === 'auto') {
+      if (/^\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}/.test(cellA) && /^\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}/.test(cellB)) {
+        effectiveType = 'date';
+      } else if (!isNaN(parseFloat(cellA.replace(/[^\d.-]/g, ''))) && !isNaN(parseFloat(cellB.replace(/[^\d.-]/g, '')))) {
+        effectiveType = 'number';
+      } else {
+        effectiveType = 'str';
+      }
+    }
+
+    if (effectiveType === 'date') {
+      var tA = parseDateBr(cellA);
+      var tB = parseDateBr(cellB);
+      return currentDir === 'asc' ? tA - tB : tB - tA;
+    }
+
+    if (effectiveType === 'number' || effectiveType === 'num') {
       var numA = parseFloat(cellA.replace(/[^\d.-]/g, '')) || 0;
       var numB = parseFloat(cellB.replace(/[^\d.-]/g, '')) || 0;
       return currentDir === 'asc' ? numA - numB : numB - numA;
     }
-    return currentDir === 'asc' ? cellA.localeCompare(cellB, 'pt-BR') : cellB.localeCompare(cellA, 'pt-BR');
+
+    return currentDir === 'asc' 
+      ? cellA.localeCompare(cellB, 'pt-BR', { numeric: true, sensitivity: 'base' }) 
+      : cellB.localeCompare(cellA, 'pt-BR', { numeric: true, sensitivity: 'base' });
   });
 
   rows.forEach(function(r) { tbody.appendChild(r); });
@@ -9747,7 +9787,12 @@ function imprimirAgendaCarro() {
                       <span class="th-sort-pill" id="sort-pill-esc-segmento"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
                     </div>
                   </th>
-                  <th><span class="th-title-text">Direção & Contato</span></th>
+                  <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('diretor')" title="Classificar por Direção (Ordem Alfabética A-Z / Z-A)">
+                    <div class="th-sort-wrapper">
+                      <span class="th-title-text">Direção & Contato</span>
+                      <span class="th-sort-pill" id="sort-pill-esc-diretor"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                    </div>
+                  </th>
                   <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('educatrons')" style="text-align: center; width: 165px;" title="Classificar por Educatrons (Maior pro Menor ou Menor pro Maior)">
                     <div class="th-sort-wrapper center">
                       <span class="th-title-text">Educatrons</span>
@@ -11111,7 +11156,7 @@ function imprimirAgendaCarro() {
       }
 
       // Atualizar ícones nos cabeçalhos <th>
-      var campos = ['cie', 'nome', 'cidade', 'segmento', 'educatrons', 'status'];
+      var campos = ['cie', 'nome', 'cidade', 'segmento', 'diretor', 'educatrons', 'status'];
       campos.forEach(function(c) {
         var icon = document.getElementById('sort-icon-esc-' + c);
         var pill = document.getElementById('sort-pill-esc-' + c);
