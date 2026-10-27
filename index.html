@@ -4662,6 +4662,109 @@ function imprimirAgendaCarro() {
     .status-badge-info { background: #e0f2fe; color: #075985; }
 
     /* ============================================================ */
+    /* SISTEMA DE ORDENAÇÃO DE COLUNAS E TABELAS (DATA & ALFABÉTICA) */
+    /* ============================================================ */
+    th.sortable-th {
+      cursor: pointer !important;
+      user-select: none;
+      position: relative;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      white-space: nowrap;
+    }
+    th.sortable-th:hover {
+      background-color: #f1f5f9 !important;
+      color: #0b2351 !important;
+    }
+    .th-sort-wrapper {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      width: 100%;
+    }
+    .sort-icon-indicator {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      color: #94a3b8;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+    th.sortable-th:hover .sort-icon-indicator {
+      color: #0b2351;
+    }
+    th.sort-active-asc {
+      background-color: #eff6ff !important;
+      color: #1d4ed8 !important;
+      border-bottom: 2px solid #2563eb !important;
+    }
+    th.sort-active-asc .sort-icon-indicator {
+      color: #2563eb !important;
+      font-weight: 800;
+      transform: translateY(-1px);
+    }
+    th.sort-active-desc {
+      background-color: #eff6ff !important;
+      color: #1d4ed8 !important;
+      border-bottom: 2px solid #2563eb !important;
+    }
+    th.sort-active-desc .sort-icon-indicator {
+      color: #2563eb !important;
+      font-weight: 800;
+      transform: translateY(1px);
+    }
+
+    /* Barra de Botões de Ordenação Rápida (Por Data e Alfabética) */
+    .table-sort-toolbar {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.3rem 0.55rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      flex-wrap: wrap;
+    }
+    .table-sort-label {
+      font-size: 0.73rem;
+      font-weight: 800;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-right: 0.15rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .btn-sort-pill {
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: #334155;
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.15s ease;
+      line-height: 1.2;
+    }
+    .btn-sort-pill:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+      border-color: #94a3b8;
+      transform: translateY(-1px);
+    }
+    .btn-sort-pill.active {
+      background: linear-gradient(135deg, #0b2351 0%, #133979 100%);
+      color: #ffffff !important;
+      border-color: #0b2351;
+      box-shadow: 0 2px 6px rgba(11, 35, 81, 0.25);
+    }
+
+    /* ============================================================ */
     /* ESTILOS ESPECÍFICOS SEINTEC: 6 CARDS, SPARKLINES & BASES     */
     /* ============================================================ */
     .seintec-metric-row {
@@ -8445,15 +8548,35 @@ function imprimirAgendaCarro() {
 
           <!-- Conteúdo 1: Tabela de Registros -->
           <div class="detail-tab-content active" id="tab-content-registros">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 0.75rem;">
+              <div class="table-sort-toolbar" id="toolbar-sort-gabinete">
+                <span class="table-sort-label"><span>↕</span> Ordenar:</span>
+                <button type="button" class="btn-sort-pill active" id="btn-sort-gab-data-desc" onclick="aplicarOrdenacaoGabinete('data', 'desc')" title="Por Data Registro: Mais Recente">📅 Data Recente</button>
+                <button type="button" class="btn-sort-pill" id="btn-sort-gab-data-asc" onclick="aplicarOrdenacaoGabinete('data', 'asc')" title="Por Data Registro: Mais Antiga">📅 Data Antiga</button>
+                <button type="button" class="btn-sort-pill" id="btn-sort-gab-alfa-asc" onclick="aplicarOrdenacaoGabinete('alfabetica', 'asc')" title="Ordem Alfabética: Origem / Solicitante (A-Z)">🔤 A-Z</button>
+                <button type="button" class="btn-sort-pill" id="btn-sort-gab-alfa-desc" onclick="aplicarOrdenacaoGabinete('alfabetica', 'desc')" title="Ordem Alfabética: Origem / Solicitante (Z-A)">🔤 Z-A</button>
+              </div>
+            </div>
+
             <div class="records-table-wrap">
-              <table class="records-table">
+              <table class="records-table" id="panel-records-table">
                 <thead>
                   <tr>
-                    <th>Identificador / Protocolo</th>
-                    <th>Origem / Solicitante</th>
-                    <th>Assunto / Descrição</th>
-                    <th>Data Registro</th>
-                    <th>Situação</th>
+                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-records-table', 0)" title="Clique para ordenar por Identificador">
+                      <div class="th-sort-wrapper"><span>Identificador / Protocolo</span><span class="sort-icon-indicator">↕</span></div>
+                    </th>
+                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-records-table', 1)" title="Clique para ordenar por Origem / Solicitante (Alfabética)">
+                      <div class="th-sort-wrapper"><span>Origem / Solicitante</span><span class="sort-icon-indicator">↕</span></div>
+                    </th>
+                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-records-table', 2)" title="Clique para ordenar por Assunto">
+                      <div class="th-sort-wrapper"><span>Assunto / Descrição</span><span class="sort-icon-indicator">↕</span></div>
+                    </th>
+                    <th class="sortable-th sort-active-desc" onclick="ordenarTabelaDom('panel-records-table', 3)" title="Clique para ordenar por Data de Registro">
+                      <div class="th-sort-wrapper"><span>Data Registro</span><span class="sort-icon-indicator">▼</span></div>
+                    </th>
+                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-records-table', 4)" title="Clique para ordenar por Situação">
+                      <div class="th-sort-wrapper"><span>Situação</span><span class="sort-icon-indicator">↕</span></div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody id="panel-records-tbody">
@@ -8892,17 +9015,36 @@ function imprimirAgendaCarro() {
                   placeholder="🔍 Buscar na tabela em tempo real..."
                   oninput="filtrarTabelaSeintec(this.value)">
               </div>
+
+              <!-- BARRA DE ORDENAÇÃO RÁPIDA: DATA E ALFABÉTICA -->
+              <div class="table-sort-toolbar" id="toolbar-sort-seintec" style="margin-left: auto;">
+                <span class="table-sort-label"><span>↕</span> Ordenar:</span>
+                <button type="button" class="btn-sort-pill active" id="btn-sort-seintec-data-desc" onclick="aplicarOrdenacaoSeintec('data', 'desc')" title="Data: Mais Recente primeiro">📅 Data Recente</button>
+                <button type="button" class="btn-sort-pill" id="btn-sort-seintec-data-asc" onclick="aplicarOrdenacaoSeintec('data', 'asc')" title="Data: Mais Antiga primeiro">📅 Data Antiga</button>
+                <button type="button" class="btn-sort-pill" id="btn-sort-seintec-alfa-asc" onclick="aplicarOrdenacaoSeintec('alfabetica', 'asc')" title="Ordem Alfabética (A-Z)">🔤 A-Z</button>
+                <button type="button" class="btn-sort-pill" id="btn-sort-seintec-alfa-desc" onclick="aplicarOrdenacaoSeintec('alfabetica', 'desc')" title="Ordem Alfabética (Z-A)">🔤 Z-A</button>
+              </div>
             </div>
 
             <div class="records-table-wrap">
               <table class="records-table" id="panel-seintec-table">
                 <thead id="panel-seintec-thead">
                   <tr>
-                    <th>Identificador / Patrimônio</th>
-                    <th>Polo / Unidade Escolar</th>
-                    <th>Equipamento / Especificação</th>
-                    <th>Data Registro</th>
-                    <th>Situação Operacional</th>
+                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-seintec-table', 0)" title="Clique para ordenar">
+                      <div class="th-sort-wrapper"><span>Identificador / Patrimônio</span><span class="sort-icon-indicator">↕</span></div>
+                    </th>
+                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-seintec-table', 1)" title="Clique para ordenar">
+                      <div class="th-sort-wrapper"><span>Polo / Unidade Escolar</span><span class="sort-icon-indicator">↕</span></div>
+                    </th>
+                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-seintec-table', 2)" title="Clique para ordenar">
+                      <div class="th-sort-wrapper"><span>Equipamento / Especificação</span><span class="sort-icon-indicator">↕</span></div>
+                    </th>
+                    <th class="sortable-th sort-active-desc" onclick="ordenarTabelaDom('panel-seintec-table', 3)" title="Clique para ordenar por Data">
+                      <div class="th-sort-wrapper"><span>Data Registro</span><span class="sort-icon-indicator">▼</span></div>
+                    </th>
+                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-seintec-table', 4)" title="Clique para ordenar por Situação">
+                      <div class="th-sort-wrapper"><span>Situação Operacional</span><span class="sort-icon-indicator">↕</span></div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody id="panel-seintec-tbody">
@@ -9392,6 +9534,15 @@ function imprimirAgendaCarro() {
             <option value="Em Reforma">Em Reforma / Obras</option>
           </select>
 
+          <div class="table-sort-toolbar" id="toolbar-sort-escolas" style="margin-left: auto;">
+            <span class="table-sort-label"><span>↕</span> Ordenar:</span>
+            <button type="button" class="btn-sort-pill active" id="btn-sort-esc-nome-asc" onclick="ordenarTabelaEscolas('nome', 'asc')" title="Ordem Alfabética (A-Z)">🔤 A-Z</button>
+            <button type="button" class="btn-sort-pill" id="btn-sort-esc-nome-desc" onclick="ordenarTabelaEscolas('nome', 'desc')" title="Ordem Alfabética (Z-A)">🔤 Z-A</button>
+            <button type="button" class="btn-sort-pill" id="btn-sort-esc-cidade" onclick="ordenarTabelaEscolas('cidade', 'asc')" title="Por Município (A-Z)">🏢 Cidade</button>
+            <button type="button" class="btn-sort-pill" id="btn-sort-esc-cie" onclick="ordenarTabelaEscolas('cie', 'asc')" title="Por Código CIE">🔢 CIE</button>
+            <button type="button" class="btn-sort-pill" id="btn-sort-esc-educatrons" onclick="ordenarTabelaEscolas('educatrons', 'desc')" title="Por Educatrons">💻 Educatrons</button>
+          </div>
+
           <div class="escolas-count-badge" id="escolas-count-badge">
             Exibindo 0 de 0 escolas
           </div>
@@ -9400,16 +9551,28 @@ function imprimirAgendaCarro() {
         <!-- TABELA DINÂMICA DE ESCOLAS -->
         <div class="escolas-table-card">
           <div class="escolas-table-responsive">
-            <table class="escolas-table">
+            <table class="escolas-table" id="escolas-main-table">
               <thead>
                 <tr>
-                  <th style="width: 90px;">CIE</th>
-                  <th>Unidade Escolar</th>
-                  <th>Município / Endereço</th>
-                  <th>Segmento</th>
+                  <th class="sortable-th" onclick="alternarOrdenacaoThEscolas('cie')" style="width: 90px;" title="Clique para ordenar por Código CIE">
+                    <div class="th-sort-wrapper"><span>CIE</span><span class="sort-icon-indicator" id="sort-icon-esc-cie">↕</span></div>
+                  </th>
+                  <th class="sortable-th sort-active-asc" onclick="alternarOrdenacaoThEscolas('nome')" title="Clique para ordenar por Unidade Escolar (Alfabética A-Z / Z-A)">
+                    <div class="th-sort-wrapper"><span>Unidade Escolar</span><span class="sort-icon-indicator" id="sort-icon-esc-nome">▲</span></div>
+                  </th>
+                  <th class="sortable-th" onclick="alternarOrdenacaoThEscolas('cidade')" title="Clique para ordenar por Município">
+                    <div class="th-sort-wrapper"><span>Município / Endereço</span><span class="sort-icon-indicator" id="sort-icon-esc-cidade">↕</span></div>
+                  </th>
+                  <th class="sortable-th" onclick="alternarOrdenacaoThEscolas('segmento')" title="Clique para ordenar por Segmento">
+                    <div class="th-sort-wrapper"><span>Segmento</span><span class="sort-icon-indicator" id="sort-icon-esc-segmento">↕</span></div>
+                  </th>
                   <th>Direção & Contato</th>
-                  <th style="text-align: center;">Educatrons</th>
-                  <th>Situação</th>
+                  <th class="sortable-th" onclick="alternarOrdenacaoThEscolas('educatrons')" style="text-align: center;" title="Clique para ordenar por Educatrons">
+                    <div class="th-sort-wrapper" style="justify-content: center;"><span>Educatrons</span><span class="sort-icon-indicator" id="sort-icon-esc-educatrons">↕</span></div>
+                  </th>
+                  <th class="sortable-th" onclick="alternarOrdenacaoThEscolas('status')" title="Clique para ordenar por Situação">
+                    <div class="th-sort-wrapper"><span>Situação</span><span class="sort-icon-indicator" id="sort-icon-esc-status">↕</span></div>
+                  </th>
                   <th style="text-align: right; width: 140px;">Ações</th>
                 </tr>
               </thead>
@@ -10718,6 +10881,65 @@ function imprimirAgendaCarro() {
       if (kpiHome) kpiHome.innerText = total;
     }
 
+    // === ESTADO E MECANISMO DE ORDENAÇÃO DE ESCOLAS ===
+    var ordenacaoEscolasAtual = { campo: 'nome', ordem: 'asc' }; // Padrão oficial: Ordem Alfabética (A-Z)
+
+    function ordenarTabelaEscolas(campo, ordem) {
+      if (ordem) {
+        ordenacaoEscolasAtual.campo = campo;
+        ordenacaoEscolasAtual.ordem = ordem;
+      } else {
+        if (ordenacaoEscolasAtual.campo === campo) {
+          ordenacaoEscolasAtual.ordem = ordenacaoEscolasAtual.ordem === 'asc' ? 'desc' : 'asc';
+        } else {
+          ordenacaoEscolasAtual.campo = campo;
+          ordenacaoEscolasAtual.ordem = 'asc';
+        }
+      }
+      atualizarIndicadoresOrdenacaoEscolas();
+      filtrarEscolas();
+    }
+
+    function alternarOrdenacaoThEscolas(campo) {
+      ordenarTabelaEscolas(campo);
+    }
+
+    function atualizarIndicadoresOrdenacaoEscolas() {
+      // Atualizar botões de pílula da barra de ordenação
+      document.querySelectorAll('#toolbar-sort-escolas .btn-sort-pill').forEach(function(btn) {
+        btn.classList.remove('active');
+      });
+      if (ordenacaoEscolasAtual.campo === 'nome') {
+        var btnNome = document.getElementById(ordenacaoEscolasAtual.ordem === 'asc' ? 'btn-sort-esc-nome-asc' : 'btn-sort-esc-nome-desc');
+        if (btnNome) btnNome.classList.add('active');
+      } else if (ordenacaoEscolasAtual.campo === 'cidade') {
+        var btnCid = document.getElementById('btn-sort-esc-cidade');
+        if (btnCid) btnCid.classList.add('active');
+      } else if (ordenacaoEscolasAtual.campo === 'cie') {
+        var btnCie = document.getElementById('btn-sort-esc-cie');
+        if (btnCie) btnCie.classList.add('active');
+      } else if (ordenacaoEscolasAtual.campo === 'educatrons') {
+        var btnEdu = document.getElementById('btn-sort-esc-educatrons');
+        if (btnEdu) btnEdu.classList.add('active');
+      }
+
+      // Atualizar ícones nos cabeçalhos <th>
+      var campos = ['cie', 'nome', 'cidade', 'segmento', 'educatrons', 'status'];
+      campos.forEach(function(c) {
+        var icon = document.getElementById('sort-icon-esc-' + c);
+        var th = icon ? icon.closest('th') : null;
+        if (th) {
+          th.classList.remove('sort-active-asc', 'sort-active-desc');
+        }
+        if (ordenacaoEscolasAtual.campo === c) {
+          if (icon) icon.textContent = ordenacaoEscolasAtual.ordem === 'asc' ? '▲' : '▼';
+          if (th) th.classList.add(ordenacaoEscolasAtual.ordem === 'asc' ? 'sort-active-asc' : 'sort-active-desc');
+        } else {
+          if (icon) icon.textContent = '↕';
+        }
+      });
+    }
+
     function filtrarEscolas() {
       const termo = (document.getElementById('escolas-search-input')?.value || '').toLowerCase().trim();
       const cidade = document.getElementById('escolas-filter-cidade')?.value || '';
@@ -10736,6 +10958,21 @@ function imprimirAgendaCarro() {
         const matchStatus = !status || e.status === status;
 
         return matchTermo && matchCidade && matchTipo && matchStatus;
+      });
+
+      // Aplica ordenação ativa aos registros filtrados
+      filtradas.sort(function(a, b) {
+        var valA = a[ordenacaoEscolasAtual.campo] !== undefined ? a[ordenacaoEscolasAtual.campo] : '';
+        var valB = b[ordenacaoEscolasAtual.campo] !== undefined ? b[ordenacaoEscolasAtual.campo] : '';
+        if (ordenacaoEscolasAtual.campo === 'educatrons') {
+          var numA = Number(valA) || 0;
+          var numB = Number(valB) || 0;
+          return ordenacaoEscolasAtual.ordem === 'asc' ? numA - numB : numB - numA;
+        }
+        var strA = String(valA).trim();
+        var strB = String(valB).trim();
+        var comp = strA.localeCompare(strB, 'pt-BR', { sensitivity: 'base', numeric: true });
+        return ordenacaoEscolasAtual.ordem === 'asc' ? comp : -comp;
       });
 
       renderizarTabelaEscolas(filtradas);
@@ -28652,6 +28889,152 @@ function imprimirAgendaCarro() {
         }, false);
       }
     });
+
+    // =========================================================================
+    // MOTOR UNIVERSAL DE ORDENAÇÃO DE TABELAS (DOM & DADOS)
+    // Suporte: Data (Recente/Antiga), Ordem Alfabética (A-Z/Z-A), Números e Status
+    // =========================================================================
+
+    function extrairValorCelulaDom(td) {
+      if (!td) return '';
+      if (td.hasAttribute('data-sort')) return td.getAttribute('data-sort').trim();
+      return td.innerText.trim();
+    }
+
+    function parseValorParaOrdenacao(val) {
+      if (!val) return { tipo: 'str', val: '' };
+      
+      // 1. Tentar interpretar como data brasileira (DD/MM/AAAA ou DD/MM/AAAA HH:mm)
+      var dataMatch = val.match(/(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})/);
+      if (dataMatch) {
+        var dia = parseInt(dataMatch[1], 10);
+        var mes = parseInt(dataMatch[2], 10) - 1;
+        var ano = parseInt(dataMatch[3], 10);
+        if (ano < 100) ano += 2000;
+        var hora = 0, min = 0;
+        var horaMatch = val.match(/(\d{1,2}):(\d{2})/);
+        if (horaMatch) {
+          hora = parseInt(horaMatch[1], 10);
+          min = parseInt(horaMatch[2], 10);
+        }
+        var d = new Date(ano, mes, dia, hora, min);
+        if (!isNaN(d.getTime())) {
+          return { tipo: 'date', val: d.getTime() };
+        }
+      }
+
+      // 2. Tentar interpretar como número puro (inclusive CIE ou quantitativos)
+      var limpo = val.replace(/[R$\s%]/g, '').replace(/\./g, '').replace(',', '.');
+      if (limpo !== '' && !isNaN(Number(limpo)) && !isNaN(parseFloat(limpo))) {
+        return { tipo: 'num', val: Number(limpo) };
+      }
+
+      // 3. Fallback: string para ordenação alfabética
+      return { tipo: 'str', val: val.trim() };
+    }
+
+    function ordenarTabelaDom(tableId, colIndex, forceOrder) {
+      var table = typeof tableId === 'string' ? document.getElementById(tableId) : tableId;
+      if (!table) return;
+
+      var thead = table.querySelector('thead');
+      var tbody = table.querySelector('tbody');
+      if (!tbody) return;
+
+      var rows = Array.from(tbody.querySelectorAll('tr'));
+      if (rows.length <= 1) return;
+
+      // Determinar ordem atual
+      var currentOrder = 'asc';
+      var ths = thead ? thead.querySelectorAll('th') : [];
+      var targetTh = ths[colIndex];
+
+      if (forceOrder) {
+        currentOrder = forceOrder;
+      } else {
+        if (targetTh && targetTh.classList.contains('sort-active-asc')) {
+          currentOrder = 'desc';
+        } else {
+          currentOrder = 'asc';
+        }
+      }
+
+      // Atualizar classes visuais e indicadores nos THs
+      ths.forEach(function(th, idx) {
+        th.classList.remove('sort-active-asc', 'sort-active-desc');
+        var ind = th.querySelector('.sort-icon-indicator');
+        if (ind) {
+          ind.textContent = '↕';
+        }
+      });
+
+      if (targetTh) {
+        targetTh.classList.add(currentOrder === 'asc' ? 'sort-active-asc' : 'sort-active-desc');
+        var indTarget = targetTh.querySelector('.sort-icon-indicator');
+        if (indTarget) {
+          indTarget.textContent = currentOrder === 'asc' ? '▲' : '▼';
+        }
+      }
+
+      // Ordenar linhas
+      rows.sort(function(rowA, rowB) {
+        var cellA = rowA.children[colIndex];
+        var cellB = rowB.children[colIndex];
+        var valA = parseValorParaOrdenacao(extrairValorCelulaDom(cellA));
+        var valB = parseValorParaOrdenacao(extrairValorCelulaDom(cellB));
+
+        var res = 0;
+        if (valA.tipo === 'date' && valB.tipo === 'date') {
+          res = valA.val - valB.val;
+        } else if (valA.tipo === 'num' && valB.tipo === 'num') {
+          res = valA.val - valB.val;
+        } else {
+          var strA = String(valA.val || '');
+          var strB = String(valB.val || '');
+          res = strA.localeCompare(strB, 'pt-BR', { sensitivity: 'base', numeric: true });
+        }
+
+        return currentOrder === 'asc' ? res : -res;
+      });
+
+      // Reanexa as linhas ordenadas no tbody
+      rows.forEach(function(r) {
+        tbody.appendChild(r);
+      });
+    }
+
+    // === ATALHOS DA BARRA DE ORDENAÇÃO: SEINTEC ===
+    function aplicarOrdenacaoSeintec(tipo, ordem) {
+      document.querySelectorAll('#toolbar-sort-seintec .btn-sort-pill').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      var btnId = 'btn-sort-seintec-' + (tipo === 'data' ? ('data-' + ordem) : ('alfa-' + ordem));
+      var btnEl = document.getElementById(btnId);
+      if (btnEl) btnEl.classList.add('active');
+
+      if (tipo === 'data') {
+        ordenarTabelaDom('panel-seintec-table', 3, ordem);
+      } else if (tipo === 'alfabetica') {
+        var colAlfa = (baseAtivaSeintec === 'Atendimentos') ? 0 : 1;
+        ordenarTabelaDom('panel-seintec-table', colAlfa, ordem);
+      }
+    }
+
+    // === ATALHOS DA BARRA DE ORDENAÇÃO: GABINETE / CENTROS / ASURE ===
+    function aplicarOrdenacaoGabinete(tipo, ordem) {
+      document.querySelectorAll('#toolbar-sort-gabinete .btn-sort-pill').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      var btnId = 'btn-sort-gab-' + (tipo === 'data' ? ('data-' + ordem) : ('alfa-' + ordem));
+      var btnEl = document.getElementById(btnId);
+      if (btnEl) btnEl.classList.add('active');
+
+      if (tipo === 'data') {
+        ordenarTabelaDom('panel-records-table', 3, ordem);
+      } else if (tipo === 'alfabetica') {
+        ordenarTabelaDom('panel-records-table', 1, ordem);
+      }
+    }
   </script>
 
   <!-- Modal de Pré-Visualização de PDF -->
