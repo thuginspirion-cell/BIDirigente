@@ -27990,12 +27990,37 @@ function imprimirAgendaCarro() {
       const thead = document.getElementById('panel-seintec-thead');
       thead.innerHTML = `
         <tr>
-          <th style="min-width: 240px;">Unidade Escolar & CIE</th>
-          <th style="width: 170px;">Classificação</th>
-          <th>Demanda / Síntese do Problema</th>
-          <th style="width: 110px;">Abertura</th>
-          <th style="width: 150px; text-align: center;">Situação Executiva</th>
-          <th style="width: 100px; text-align: center;">Ação</th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 0)" style="min-width: 240px;" title="Classificar por Unidade Escolar">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Unidade Escolar & CIE</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 1)" style="width: 170px;" title="Classificar por Classificação">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Classificação</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 2)" title="Classificar por Demanda">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Demanda / Síntese do Problema</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 3)" style="width: 110px;" title="Classificar por Data de Abertura">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Abertura</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 4)" style="width: 150px; text-align: center;" title="Classificar por Situação Executiva">
+            <div class="th-sort-wrapper center">
+              <span class="th-title-text">Situação Executiva</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th style="width: 100px; text-align: center;"><span class="th-title-text">Ação</span></th>
         </tr>
       `;
 
@@ -28142,11 +28167,36 @@ function imprimirAgendaCarro() {
       const thead = document.getElementById('panel-seintec-thead');
       thead.innerHTML = `
         <tr>
-          <th>Identificador / Patrimônio</th>
-          <th>Polo / Unidade Escolar</th>
-          <th>Equipamento / Especificação</th>
-          <th>Data Registro</th>
-          <th>Situação Operacional</th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 0)" title="Classificar por Identificador">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Identificador / Patrimônio</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 1)" title="Classificar por Polo / Unidade Escolar">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Polo / Unidade Escolar</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 2)" title="Classificar por Equipamento">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Equipamento / Especificação</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 3)" title="Classificar por Data de Registro">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Data Registro</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 4)" title="Classificar por Situação Operacional">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Situação Operacional</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
         </tr>
       `;
 
@@ -28273,12 +28323,42 @@ function imprimirAgendaCarro() {
       const thead = document.getElementById('panel-seintec-thead');
       thead.innerHTML = `
         <tr>
-          <th style="min-width: 250px;">Unidade Escolar & CIE</th>
-          <th style="width: 130px;">Ambiente</th>
-          <th style="min-width: 170px;">Categoria / Tipo</th>
-          <th style="min-width: 230px;">Equipamento & Fabricante / Modelo</th>
-          <th style="width: 150px;">Nº de Série / Hostname</th>
-          <th style="width: 140px; text-align: center;">Situação</th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 0)" style="min-width: 250px;" title="Classificar por Unidade Escolar">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Unidade Escolar & CIE</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 1)" style="width: 130px;" title="Classificar por Ambiente">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Ambiente</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 2)" style="min-width: 170px;" title="Classificar por Categoria">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Categoria / Tipo</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 3)" style="min-width: 230px;" title="Classificar por Equipamento">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Equipamento & Fabricante / Modelo</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 4)" style="width: 150px;" title="Classificar por Nº de Série">
+            <div class="th-sort-wrapper">
+              <span class="th-title-text">Nº de Série / Hostname</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 5)" style="width: 140px; text-align: center;" title="Classificar por Situação">
+            <div class="th-sort-wrapper center">
+              <span class="th-title-text">Situação</span>
+              <span class="sort-arrow">↕</span>
+            </div>
+          </th>
         </tr>
       `;
 
@@ -28657,13 +28737,23 @@ function imprimirAgendaCarro() {
         }
       }
 
-      // 3. Renderiza Cabeçalhos Dinâmicos <thead>
+      // 3. Renderiza Cabeçalhos Dinâmicos <thead> com ordenação nativa limpa
       const thead = document.getElementById('panel-seintec-thead');
       thead.innerHTML = "";
       const trHead = document.createElement('tr');
-      sheetData.headers.forEach(h => {
+      sheetData.headers.forEach((h, colIdx) => {
         const th = document.createElement('th');
-        th.innerText = h;
+        th.className = 'th-sortable';
+        th.title = 'Classificar por ' + h;
+        th.innerHTML = `
+          <div class="th-sort-wrapper">
+            <span class="th-title-text">${h}</span>
+            <span class="sort-arrow">↕</span>
+          </div>
+        `;
+        th.onclick = function() {
+          ordenarTabelaDom('panel-seintec-table', colIdx);
+        };
         trHead.appendChild(th);
       });
       thead.appendChild(trHead);
@@ -29213,9 +29303,12 @@ function imprimirAgendaCarro() {
           if (!added) continue;
           for (var i = 0; i < added.length; i++) {
             var node = added[i];
-            if (node.nodeType === 1 && (node.tagName === 'TABLE' || (node.querySelector && node.querySelector('table')))) {
-              hasNewTables = true;
-              break;
+            if (node.nodeType === 1) {
+              if (node.tagName === 'TABLE' || node.tagName === 'THEAD' || node.tagName === 'TR' || node.tagName === 'TH' ||
+                  (node.querySelector && (node.querySelector('table') || node.querySelector('thead')))) {
+                hasNewTables = true;
+                break;
+              }
             }
           }
           if (hasNewTables) break;
