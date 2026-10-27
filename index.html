@@ -1623,6 +1623,15 @@
 // ==============================================================
 
 const STORAGE_KEY_CARRO = 'BI_DIRIGENTE_CARRO_DATA_V1';
+const STORAGE_KEY_CARRO_CALENDAR = 'BI_DIRIGENTE_CARRO_CALENDAR_URL';
+
+let carroCalendarUrl = (function() {
+  try {
+    return localStorage.getItem(STORAGE_KEY_CARRO_CALENDAR) || '';
+  } catch (e) {
+    return '';
+  }
+})();
 
 function inicializarCarroPadrao() {
   return {
@@ -1642,9 +1651,9 @@ function inicializarCarroPadrao() {
         destino: "EE Prof. Lênio Vieira de Moraes e Região Central de Itapevi",
         horarioSaida: "08:30",
         horarioRetorno: "16:30",
-        origemFonte: "SEFISC - Agenda",
+        origemFonte: "Calendário Compartilhado",
         tipoRegistro: "Reserva de carro oficial",
-        badgeOrigem: "Leitura do Excel",
+        badgeOrigem: "Calendário Oficial",
         status: "Agendado",
         observacoes: "Deslocamento institucional para acompanhamento pedagógico, vistoria das obras e entrega de novos equipamentos escolares."
       },
@@ -1661,9 +1670,9 @@ function inicializarCarroPadrao() {
         destino: "SEDUC Central - Praça da República, 53 - São Paulo",
         horarioSaida: "07:30",
         horarioRetorno: "17:00",
-        origemFonte: "SEFISC - Agenda",
+        origemFonte: "Calendário Compartilhado",
         tipoRegistro: "Reserva de carro oficial",
-        badgeOrigem: "Leitura do Excel",
+        badgeOrigem: "Calendário Oficial",
         status: "Concluído",
         observacoes: "Entrega de termos de convênios escolares e despacho na Coordenadoria de Gestão da Educação Básica (CGEB)."
       },
@@ -1680,9 +1689,9 @@ function inicializarCarroPadrao() {
         destino: "Escolas Polo Itapevi e Jandira",
         horarioSaida: "08:00",
         horarioRetorno: "17:00",
-        origemFonte: "SEFISC - Controle de uso",
+        origemFonte: "Controle de Uso",
         tipoRegistro: "Situação do veículo: EXTERNO",
-        badgeOrigem: "Leitura do Excel",
+        badgeOrigem: "Calendário Oficial",
         status: "Registrado",
         observacoes: "DIAS 15 E 16/10/2026 DAS 8 ÀS 17H. Vistoria técnica nos laboratórios de informática, verificação dos Educatrons e suporte de conectividade."
       },
@@ -1699,9 +1708,9 @@ function inicializarCarroPadrao() {
         destino: "EE Leonor Mendes de Barros e EE Prof. Itajahy Feitosa Martins",
         horarioSaida: "09:00",
         horarioRetorno: "15:00",
-        origemFonte: "SEFISC - Controle de uso",
+        origemFonte: "Controle de Uso",
         tipoRegistro: "Transporte de Suprimentos",
-        badgeOrigem: "Leitura do Excel",
+        badgeOrigem: "Calendário Oficial",
         status: "Concluído",
         observacoes: "Distribuição complementar de materiais de apoio pedagógico e insumos de manutenção predial."
       }
@@ -1738,9 +1747,9 @@ function salvarCarroStorage() {
 }
 
 let dataAtivaCarro = "2026-10-17"; // Data de referência idêntica à do print
-let subTabAtivaCarro = "feed"; // "feed", "frota", "todos"
+let subTabAtivaCarro = "calendario"; // "calendario", "feed", "frota", "todos"
 
-function abrirCarroOficial(dataOpcional) {
+function abrirCarroOficial(dataOpcional, tabOpcional) {
   esconderTodasAsPanes();
   const pane = document.getElementById('pane-carro');
   if (pane) pane.classList.add('active');
@@ -1748,13 +1757,16 @@ function abrirCarroOficial(dataOpcional) {
   const sideBtn = document.getElementById('side-btn-carro');
   if (sideBtn) sideBtn.classList.add('active');
 
-  atualizarBreadcrumbTopo('06 - Carro Oficial & Logística da Dirigente');
+  atualizarBreadcrumbTopo('06 - Carro Oficial & Calendário da Frota');
 
   if (dataOpcional) {
     dataAtivaCarro = dataOpcional;
   }
+  if (tabOpcional) {
+    subTabAtivaCarro = tabOpcional;
+  }
   renderizarCarroOficial();
-      atualizarMetricasSuperioresSeintec();
+  atualizarMetricasSuperioresSeintec();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1827,38 +1839,58 @@ function renderizarCarroOficial() {
   if (kpiVeic) kpiVeic.innerText = veiculosUnicos || 2;
 
   const heroCount = document.getElementById('carro-hero-count');
-  if (heroCount) heroCount.innerText = `${regHoje} registro(s) - SEFISC`;
+  if (heroCount) heroCount.innerText = `${regHoje} registro(s)`;
 
   const alertQtd = document.getElementById('carro-qtd-registros-alert');
   if (alertQtd) alertQtd.innerText = CARRO_DATA.registros.length;
 
+  const alertStatus = document.getElementById('carro-alert-calendar-status');
+  if (alertStatus) {
+    alertStatus.innerText = carroCalendarUrl ? 'Sincronizado via Calendário Compartilhado' : 'Ambiente preparado para consulta';
+  }
+
   const syncLabel = document.getElementById('carro-sync-label');
   if (syncLabel) syncLabel.innerText = `Sincronizado ${CARRO_DATA.sincronizadoEm || '17:16'}`;
 
-  // Renderização da view conforme subtab
-  const containerFeed = document.getElementById('carro-feed-list');
+  // Atualizar botões de sub-tabs
+  document.querySelectorAll('.carro-subtab-btn').forEach(b => b.classList.remove('active'));
+  const btnAtivo = document.getElementById('carro-subtab-' + subTabAtivaCarro);
+  if (btnAtivo) btnAtivo.classList.add('active');
+
+  // Alternar contêineres conforme subtab ativa
+  const containerCalendario = document.getElementById('carro-calendario-container');
+  const containerFeed = document.getElementById('carro-feed-container');
   const containerFrota = document.getElementById('carro-frota-container');
   const subFeedHeader = document.getElementById('carro-feed-sub');
 
-  if (!containerFeed) return;
-
-  if (subTabAtivaCarro === 'frota') {
+  if (subTabAtivaCarro === 'calendario') {
+    if (containerCalendario) containerCalendario.style.display = 'block';
+    if (containerFeed) containerFeed.style.display = 'none';
+    if (containerFrota) containerFrota.style.display = 'none';
+    renderizarCalendarioCarroEmbed();
+    return;
+  } else if (subTabAtivaCarro === 'frota') {
+    if (containerCalendario) containerCalendario.style.display = 'none';
     if (containerFeed) containerFeed.style.display = 'none';
     if (containerFrota) containerFrota.style.display = 'grid';
     renderizarFrotaCards();
     return;
   } else {
+    // 'feed' ou 'todos'
+    if (containerCalendario) containerCalendario.style.display = 'none';
     if (containerFeed) containerFeed.style.display = 'block';
     if (containerFrota) containerFrota.style.display = 'none';
   }
 
-  // Filtragem dos registros
+  // Filtragem dos registros no feed
+  const containerList = document.getElementById('carro-feed-list');
+  if (!containerList) return;
+
   let registrosExibir = [];
   if (subTabAtivaCarro === 'todos') {
     registrosExibir = [...CARRO_DATA.registros].sort((a,b) => b.data.localeCompare(a.data));
     if (subFeedHeader) subFeedHeader.innerText = "Exibindo todos os agendamentos registrados na base de dados.";
   } else {
-    // Modo padrão (Print): Se houver no dia, exibe os do dia. Se não houver, exibe os mais recentes com aviso fiel ao print!
     const doDia = CARRO_DATA.registros.filter(r => r.data === dataAtivaCarro);
     if (doDia.length > 0) {
       registrosExibir = doDia;
@@ -1870,18 +1902,18 @@ function renderizarCarroOficial() {
   }
 
   if (registrosExibir.length === 0) {
-    containerFeed.innerHTML = `
+    containerList.innerHTML = `
       <div style="background: #ffffff; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 2.5rem; text-align: center; color: #64748b;">
         <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">🚗</span>
         <h3 style="font-size: 1.1rem; color: #0f172a; margin-bottom: 0.25rem;">Nenhum registro de deslocamento encontrado</h3>
-        <p style="font-size: 0.85rem; margin: 0 0 1rem 0;">Não foram identificados registros nesta data ou nos arquivos da SEFISC.</p>
+        <p style="font-size: 0.85rem; margin: 0 0 1rem 0;">Não foram identificados registros nesta data no calendário de agendamento.</p>
         <button class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro()">+ Solicitar Carro Oficial</button>
       </div>
     `;
     return;
   }
 
-  containerFeed.innerHTML = registrosExibir.map(reg => {
+  containerList.innerHTML = registrosExibir.map(reg => {
     const dataCurta = formatarDataCurtaBr(reg.data);
     const statusClass = (reg.status === 'Concluído' ? 'concluido' : (reg.status === 'Em Trânsito' ? 'transito' : 'agendado'));
     const pillClass = reg.origemFonte && reg.origemFonte.includes('Controle') ? 'carro-pill-controle' : 'carro-pill-agenda';
@@ -1890,12 +1922,12 @@ function renderizarCarroOficial() {
       <div class="carro-card">
         <div class="carro-card-left">
           <span class="carro-card-date-day">${dataCurta}</span>
-          <span class="carro-card-source-tag">SEFISC</span>
+          <span class="carro-card-source-tag">CARRO</span>
         </div>
         <div class="carro-card-body">
           <div class="carro-card-top-row">
             <h4 class="carro-card-main-title">${reg.titulo || 'Reserva de carro oficial'}</h4>
-            <span class="carro-badge-excel">${reg.badgeOrigem || 'Leitura do Excel'}</span>
+            <span class="carro-badge-excel">${reg.badgeOrigem || 'Calendário Oficial'}</span>
           </div>
 
           <div class="carro-card-grid">
@@ -1939,14 +1971,197 @@ function renderizarCarroOficial() {
           ` : ''}
 
           <div class="carro-card-footer">
-            <span class="carro-pill-tag ${pillClass}">${reg.origemFonte || 'SEFISC - Agenda'}</span>
+            <span class="carro-pill-tag ${pillClass}">${reg.origemFonte || 'Calendário Compartilhado'}</span>
             ${reg.periodo ? `<span class="carro-pill-tag carro-pill-periodo">Período: ${reg.periodo}</span>` : ''}
-            <span class="carro-pill-status ${statusClass}">${reg.status || 'Registrado'}</span>
+            <span class="carro-pill-status ${statusClass}">${reg.status || 'Agendado'}</span>
           </div>
         </div>
       </div>
     `;
   }).join('');
+}
+
+function converterParaEmbedUrl(url) {
+  if (!url) return '';
+  url = url.trim();
+
+  // Se já for link de embed do Google Calendar
+  if (url.includes('calendar.google.com/calendar/embed')) {
+    if (!url.includes('ctz=')) {
+      url += (url.includes('?') ? '&' : '?') + 'ctz=America%2FSao_Paulo';
+    }
+    return url;
+  }
+
+  // Se for link de compartilhamento do Google Calendar com cid (ex: ...?cid=Y19...)
+  if (url.includes('calendar.google.com') && url.includes('cid=')) {
+    try {
+      const u = new URL(url);
+      const cid = u.searchParams.get('cid');
+      if (cid) {
+        return `https://calendar.google.com/calendar/embed?src=${encodeURIComponent(cid)}&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0`;
+      }
+    } catch(e) {}
+  }
+
+  // Se for endereço de e-mail / ID de agenda institucional
+  if (url.includes('@') && !url.includes('http')) {
+    return `https://calendar.google.com/calendar/embed?src=${encodeURIComponent(url)}&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0`;
+  }
+
+  return url;
+}
+
+function renderizarCalendarioCarroEmbed() {
+  const container = document.getElementById('carro-calendar-content');
+  const linkExterno = document.getElementById('carro-link-abrir-agenda');
+  if (!container) return;
+
+  if (!carroCalendarUrl) {
+    if (linkExterno) linkExterno.style.display = 'none';
+    container.innerHTML = `
+      <div class="carro-calendar-placeholder-card">
+        <div class="carro-cal-icon-wrapper">
+          <span style="font-size: 3.2rem;">📅</span>
+          <span class="carro-cal-badge-pulse">Ambiente Pronto</span>
+        </div>
+        <h3 style="font-size: 1.35rem; font-weight: 800; color: #0b2351; margin: 0.85rem 0 0.4rem 0;">
+          Ambiente Preparado para o Calendário de Agendamento
+        </h3>
+        <p style="font-size: 0.92rem; color: #64748b; max-width: 640px; margin: 0 auto 1.5rem auto; line-height: 1.6;">
+          O módulo <strong>Carro Oficial</strong> foi ajustado para consulta e visualização contínua.
+          <strong>Modo 100% de consulta e visualização</strong> — nenhum arquivo precisa ser enviado. 
+          Assim que o link do calendário for fornecido, a grade de horários e os itinerários serão carregados automaticamente neste espaço.
+        </p>
+        <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+          <button class="btn-carro-action" onclick="abrirModalConfigCalendarCarro()" style="padding: 0.65rem 1.35rem; font-size: 0.9rem;">
+            <span>🔗 Inserir Link do Calendário</span>
+          </button>
+          <button class="btn-carro-action secondary" onclick="alternarSubTabCarro('feed')" style="padding: 0.65rem 1.35rem; font-size: 0.9rem;">
+            <span>📋 Ver Lançamentos & Viagens</span>
+          </button>
+        </div>
+        <div class="carro-cal-info-features">
+          <div class="carro-cal-feature-item">
+            <span style="font-size: 1.3rem; display: block; margin-bottom: 0.25rem;">🔒</span>
+            <strong style="color: #0f172a; font-size: 0.88rem; display: block;">Modo Somente Leitura</strong>
+            <span style="color: #64748b; font-size: 0.78rem;">Visualização segura dos itinerários oficiais sem risco de alteração acidental.</span>
+          </div>
+          <div class="carro-cal-feature-item">
+            <span style="font-size: 1.3rem; display: block; margin-bottom: 0.25rem;">⚡</span>
+            <strong style="color: #0f172a; font-size: 0.88rem; display: block;">Zero Upload de Arquivos</strong>
+            <span style="color: #64748b; font-size: 0.78rem;">Sincronização direta via link na nuvem, sem planilhas locais ou consumo de cota.</span>
+          </div>
+          <div class="carro-cal-feature-item">
+            <span style="font-size: 1.3rem; display: block; margin-bottom: 0.25rem;">🌐</span>
+            <strong style="color: #0f172a; font-size: 0.88rem; display: block;">Multiplataforma</strong>
+            <span style="color: #64748b; font-size: 0.78rem;">Compatível com Google Agenda, Outlook Web e feeds iCal/ICS.</span>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // Link configurado!
+  const embedUrl = converterParaEmbedUrl(carroCalendarUrl);
+  if (linkExterno) {
+    linkExterno.style.display = 'inline-flex';
+  }
+
+  container.innerHTML = `
+    <div class="carro-calendar-frame-container">
+      <div class="carro-calendar-toolbar">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);"></span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #0f172a;">Grade do Calendário Oficial Conectada</span>
+          <span style="font-size: 0.72rem; color: #047857; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 0.15rem 0.5rem; border-radius: 9999px; font-weight: 700;">Somente Leitura</span>
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button class="btn-carro-action secondary" onclick="abrirCalendarioExterno()" title="Abrir em tela inteira em nova aba">
+            <span>↗ Nova Aba</span>
+          </button>
+          <button class="btn-carro-action secondary" onclick="abrirModalConfigCalendarCarro()" title="Alterar ou atualizar link">
+            <span>⚙️ Alterar Link</span>
+          </button>
+          <button class="btn-carro-action secondary" onclick="recarregarIframeCalendario()" title="Recarregar calendário">
+            <span>🔄 Recarregar</span>
+          </button>
+        </div>
+      </div>
+      <iframe id="carro-calendar-iframe" src="${embedUrl}" class="carro-calendar-iframe" frameborder="0" scrolling="yes" title="Calendário de Agendamento de Carros Oficiais"></iframe>
+    </div>
+  `;
+}
+
+function abrirCalendarioExterno() {
+  if (carroCalendarUrl) {
+    window.open(carroCalendarUrl, '_blank');
+  } else {
+    abrirModalConfigCalendarCarro();
+  }
+}
+
+function recarregarIframeCalendario() {
+  const iframe = document.getElementById('carro-calendar-iframe');
+  if (iframe) {
+    const cur = iframe.src;
+    iframe.src = '';
+    setTimeout(() => { iframe.src = cur; }, 100);
+    mostrarToastAgenda('Calendário recarregado!', '🔄');
+  }
+}
+
+function abrirModalConfigCalendarCarro() {
+  const modal = document.getElementById('modal-config-calendar-carro');
+  const input = document.getElementById('input-url-calendario-carro');
+  if (input) {
+    input.value = carroCalendarUrl || '';
+  }
+  if (modal) modal.style.display = 'flex';
+}
+
+function fecharModalConfigCalendarCarro() {
+  const modal = document.getElementById('modal-config-calendar-carro');
+  if (modal) modal.style.display = 'none';
+}
+
+function salvarConfigCalendarioCarro() {
+  const input = document.getElementById('input-url-calendario-carro');
+  if (!input) return;
+  const url = input.value.trim();
+  
+  carroCalendarUrl = url;
+  try {
+    localStorage.setItem(STORAGE_KEY_CARRO_CALENDAR, url);
+  } catch(e) {}
+
+  if (typeof google !== 'undefined' && google.script && google.script.run) {
+    google.script.run
+      .withSuccessHandler(function() {
+        console.log("Config do calendário salva no Apps Script com sucesso.");
+      })
+      .salvarCarroCalendarConfig(url);
+  }
+
+  fecharModalConfigCalendarCarro();
+  subTabAtivaCarro = 'calendario';
+  renderizarCarroOficial();
+  mostrarToastAgenda(url ? "Calendário sincronizado com sucesso!" : "Configuração atualizada!", "📅");
+}
+
+function inicializarConfiguracaoCalendarioCarro() {
+  if (typeof google !== 'undefined' && google.script && google.script.run) {
+    google.script.run
+      .withSuccessHandler(function(urlSalva) {
+        if (urlSalva && !carroCalendarUrl) {
+          carroCalendarUrl = urlSalva;
+          try { localStorage.setItem(STORAGE_KEY_CARRO_CALENDAR, urlSalva); } catch(e) {}
+          renderizarCarroOficial();
+        }
+      })
+      .getCarroCalendarConfig();
+  }
 }
 
 function renderizarFrotaCards() {
@@ -2027,8 +2242,14 @@ function atualizarCarroOficial() {
   const horaStr = String(agora.getHours()).padStart(2, '0') + ':' + String(agora.getMinutes()).padStart(2, '0');
   CARRO_DATA.sincronizadoEm = horaStr;
   salvarCarroStorage();
-  renderizarCarroOficial();
-  mostrarToastAgenda("Base do SEFISC sincronizada com sucesso!", "🚗");
+  
+  // Se for embed, recarrega
+  if (subTabAtivaCarro === 'calendario') {
+    renderizarCalendarioCarroEmbed();
+  } else {
+    renderizarCarroOficial();
+  }
+  mostrarToastAgenda("Calendário de Carro Oficial sincronizado!", "🚗");
 }
 
 function abrirModalNovaSolicitacaoCarro() {
@@ -2075,7 +2296,7 @@ function salvarSolicitacaoCarro(event) {
     destino: destino,
     horarioSaida: saida || '08:00',
     horarioRetorno: retorno || '17:00',
-    origemFonte: 'SEFISC - Agenda',
+    origemFonte: 'Calendário Compartilhado',
     tipoRegistro: 'Reserva de carro oficial',
     badgeOrigem: 'Cadastrado no BI',
     status: 'Agendado',
@@ -2086,88 +2307,22 @@ function salvarSolicitacaoCarro(event) {
   salvarCarroStorage();
   fecharModalCarro();
   dataAtivaCarro = data;
+  subTabAtivaCarro = 'feed';
   renderizarCarroOficial();
   mostrarToastAgenda("Solicitação de veículo salva com sucesso!", "✅");
 }
 
 function abrirModalOrigemDrive() {
-  const modal = document.getElementById('modal-origem-drive');
-  if (modal) modal.style.display = 'flex';
+  abrirModalConfigCalendarCarro();
 }
 
 function fecharModalOrigemDrive() {
-  const modal = document.getElementById('modal-origem-drive');
-  if (modal) modal.style.display = 'none';
-}
-
-let setorImportacaoSelecionado = 'SEFISC';
-
-function abrirModalImportarSetor() {
-  const modal = document.getElementById('modal-importar-setor');
-  if (modal) modal.style.display = 'flex';
-}
-
-function fecharModalImportarSetor() {
-  const modal = document.getElementById('modal-importar-setor');
-  if (modal) modal.style.display = 'none';
-}
-
-function dispararUploadAposSetor() {
-  const select = document.getElementById('form-import-setor-origem');
-  if (select) {
-    setorImportacaoSelecionado = select.value;
-  }
-  fecharModalImportarSetor();
-  const input = document.getElementById('input-importar-excel-carro');
-  if (input) {
-    input.value = '';
-    input.click();
-  }
-}
-
-function processarArquivoImportacao(input) {
-  const file = input.files[0];
-  if (!file) return;
-
-  const setorNome = setorImportacaoSelecionado || 'Setor';
-
-  if (typeof XLSX === 'undefined') {
-    mostrarToastAgenda(`Arquivo recebido de ${setorNome}! Processamento local concluído.`, "📥");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-      const rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
-      
-      console.log(`Planilha do setor [${setorNome}] processada com ${rows.length} linhas.`);
-      
-      // Atualiza badge de aviso se existir
-      const alertSetor = document.getElementById('carro-alert-setor-nome');
-      if (alertSetor) alertSetor.innerText = setorNome;
-      
-      mostrarToastAgenda(`Planilha de ${setorNome} importada com sucesso! (${rows.length} linhas)`, "📊");
-    } catch (err) {
-      alert("Erro ao ler planilha: " + err.message);
-    }
-  };
-  reader.readAsArrayBuffer(file);
-}
-
-// Mantido para compatibilidade
-function importarPlanilhaSefisc(input) {
-  setorImportacaoSelecionado = 'SEFISC';
-  processarArquivoImportacao(input);
+  fecharModalConfigCalendarCarro();
 }
 
 function imprimirAgendaCarro() {
   window.print();
 }
-
 
     // Inicialização da Agenda ao carregar
     document.addEventListener("DOMContentLoaded", function () {
@@ -2175,6 +2330,7 @@ function imprimirAgendaCarro() {
       renderizarAgenda();
       renderizarCarroOficial();
       carregarGoogleCalendar();
+      inicializarConfiguracaoCalendarioCarro();
     });
 
   </script>
@@ -5647,13 +5803,96 @@ function imprimirAgendaCarro() {
       opacity: 1;
     }
 
-  const fs = require('fs');
+    /* ============================================================== */
+    /* 17. ESTILOS: CARRO OFICIAL & CALENDÁRIO DA FROTA               */
+    /* ============================================================== */
+    .carro-calendar-placeholder-card {
+      background: #ffffff;
+      border: 2px dashed #cbd5e1;
+      border-radius: var(--radius-lg);
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: 0 4px 18px rgba(11, 35, 81, 0.04);
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .carro-cal-icon-wrapper {
+      display: inline-flex;
+      position: relative;
+      margin-bottom: 0.5rem;
+    }
+    .carro-cal-badge-pulse {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.2rem 0.65rem;
+      position: absolute;
+      top: -6px;
+      right: -55px;
+      letter-spacing: 0.03em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .carro-cal-badge-pulse::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+    .carro-cal-info-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #f1f5f9;
+      text-align: left;
+    }
+    .carro-cal-feature-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+      transition: all 0.2s;
+    }
+    .carro-cal-feature-item:hover {
+      background: #ffffff;
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .carro-calendar-frame-container {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(11, 35, 81, 0.06);
+      margin-bottom: 1.5rem;
+    }
+    .carro-calendar-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 1.25rem;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .carro-calendar-iframe {
+      width: 100%;
+      height: 760px;
+      min-height: 600px;
+      border: none;
+      display: block;
+      background: #ffffff;
+    }
 
-// 1. CSS for Carro Oficial
-const carroCSS = `
-    /* ============================================================== */
-    /* 17. ESTILOS: CARRO OFICIAL & LOGÍSTICA DA DIRIGENTE (SEFISC)   */
-    /* ============================================================== */
     .nav-item-btn#side-btn-carro.active {
       background: linear-gradient(135deg, #f09b0c 0%, #c77800 100%) !important;
       color: #ffffff !important;
@@ -8887,37 +9126,43 @@ const carroCSS = `
       <!-- ============================================== -->
       <section id="pane-carro" class="view-pane">
 
-        <!-- HEADER PRINCIPAL DO CARRO OFICIAL (ESTILO DO PRINT) -->
+        <!-- HEADER PRINCIPAL DO CARRO OFICIAL -->
         <div class="carro-header-card">
           <div class="carro-header-inner">
             <div class="carro-header-left">
               <span class="gestao-pretitle" style="color: #d48208;">LOGÍSTICA DA DIRIGENTE</span>
-              <h2 class="gestao-main-title" style="margin-bottom: 0.35rem;">Carro Oficial</h2>
+              <h2 class="gestao-main-title" style="margin-bottom: 0.35rem;">Carro Oficial • Calendário de Agendamento</h2>
               <p class="gestao-main-desc" style="margin: 0;">
-                Deslocamentos do dia com veículo, destino, horários, motorista e registros do SEFISC.
+                Visualização e consulta da agenda de veículos oficiais em tempo real. Acesso direto ao calendário compartilhado com itinerários, horários e condutores (modo somente leitura).
               </p>
             </div>
 
             <div class="carro-header-actions">
-              <span class="carro-badge-sefisc-top">Alimentado pelo SEFISC • Somente Leitura</span>
-              <button class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro()">
+              <span class="carro-badge-sefisc-top" id="carro-badge-status-top">📅 Calendário Compartilhado • Somente Leitura</span>
+              <button class="btn-carro-action" onclick="abrirModalConfigCalendarCarro()" title="Configurar ou verificar o link do calendário compartilhado">
+                <span>⚙️ Link do Calendário</span>
+              </button>
+              <button class="btn-carro-action secondary" onclick="abrirModalNovaSolicitacaoCarro()" title="Registrar solicitação de veículo">
                 <span>+ Solicitar Carro</span>
               </button>
             </div>
           </div>
         </div>
 
-        <!-- BANNER DE SINCRONIZAÇÃO E ALERTAS DO EXCEL SEFISC -->
+        <!-- BANNER DE SINCRONIZAÇÃO EM NUVEM -->
         <div class="carro-sync-alert">
           <div class="carro-sync-alert-text">
-            <span>📊</span>
+            <span>📅</span>
             <span>
-              <strong id="carro-alert-setor-nome">SEFISC</strong> • <span id="carro-qtd-registros-alert">4</span> registro(s) identificados no Excel • Somente leitura • Sincronização automática • Excel atualizado em <strong id="carro-excel-atualizado-hora">17/10/2026, 03:00</strong>.
+              <strong id="carro-alert-calendar-title">Calendário Oficial</strong> • <span id="carro-alert-calendar-status">Ambiente preparado para consulta</span> • <span id="carro-qtd-registros-alert">4</span> agendamento(s) mapeados • Somente leitura • Sincronização em nuvem sem upload de arquivos.
             </span>
-            <a href="javascript:void(0)" onclick="abrirModalOrigemDrive()" class="carro-link-drive">Ver Excel no Drive ↗</a>
+            <a href="javascript:void(0)" id="carro-link-abrir-agenda" onclick="abrirCalendarioExterno()" class="carro-link-drive" style="display: none;">Abrir Calendário Completo ↗</a>
           </div>
 
           <div class="carro-sync-alert-actions">
+            <button class="btn-carro-action secondary" onclick="atualizarCarroOficial()" title="Recarregar calendário e sincronizar agendamentos">
+              <span>🔄 Atualizar</span>
+            </button>
             <button class="btn-carro-action secondary" onclick="imprimirAgendaCarro()" title="Imprimir Ordem de Tráfego / Saída de Veículos para a portaria">
               <span>🖨️ Imprimir Ordem</span>
             </button>
@@ -8965,50 +9210,15 @@ const carroCSS = `
 
         </div>
 
-        <!-- BARRA INTERATIVA DE NAVEGAÇÃO DE DATAS -->
-        <div class="carro-date-nav-bar">
-          <div class="carro-date-controls">
-            <button class="btn-carro-nav" onclick="navegarDataCarro(-1)" title="Dia anterior">◀</button>
-            <button class="btn-carro-hoje" onclick="navegarDataCarro('hoje')" title="Voltar para a data de referência">Hoje</button>
-            <button class="btn-carro-nav" onclick="navegarDataCarro(1)" title="Próximo dia">▶</button>
-          </div>
-
-          <div class="carro-date-extenso" id="carro-date-extenso">
-            sábado, 17 de outubro de 2026
-          </div>
-
-          <div class="carro-date-right-tools">
-            <label style="font-size: 0.82rem; color: #64748b; font-weight: 600;">Ir para a data:</label>
-            <input type="date" class="carro-date-input" id="carro-input-data" onchange="aoMudarDataCarro(this.value)">
-            <span class="carro-sync-time" id="carro-sync-label">Sincronizado 17:16</span>
-            <button class="btn-carro-refresh" onclick="atualizarCarroOficial()" title="Forçar sincronização">
-              <span>🔄</span>
-              <span>Atualizar</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- BANNER ESCURO EM DESTAQUE COM O DIA ATIVO -->
-        <div class="carro-hero-date-banner">
-          <div class="carro-hero-left">
-            <span class="carro-hero-dia-semana" id="carro-hero-dia-semana">SÁBADO</span>
-            <h3 class="carro-hero-data" id="carro-hero-data">17 de outubro de 2026</h3>
-            <p class="carro-hero-desc">
-              Registros do SEFISC: nesta data ou, quando não houver lançamentos, os próximos agendamentos e os mais recentes.
-            </p>
-          </div>
-
-          <div class="carro-hero-badges">
-            <span class="badge-sefisc-count" id="carro-hero-count">0 registro(s) - SEFISC</span>
-            <span class="badge-sefisc-tag">Registros do SEFISC</span>
-          </div>
-        </div>
-
-        <!-- SUB-TABS: FEED SEFISC vs FROTA URE -->
+        <!-- SUB-TABS: CALENDÁRIO vs DESLOCAMENTOS vs FROTA vs HISTÓRICO -->
         <div class="carro-subtabs-bar">
-          <button class="carro-subtab-btn active" id="carro-subtab-feed" onclick="alternarSubTabCarro('feed')">
+          <button class="carro-subtab-btn active" id="carro-subtab-calendario" onclick="alternarSubTabCarro('calendario')">
+            <span>📅</span>
+            <span>Calendário de Agendamento</span>
+          </button>
+          <button class="carro-subtab-btn" id="carro-subtab-feed" onclick="alternarSubTabCarro('feed')">
             <span>📋</span>
-            <span>Últimos Lançamentos do SEFISC</span>
+            <span>Deslocamentos do Dia & Próximos</span>
           </button>
           <button class="carro-subtab-btn" id="carro-subtab-frota" onclick="alternarSubTabCarro('frota')">
             <span>🚙</span>
@@ -9020,12 +9230,56 @@ const carroCSS = `
           </button>
         </div>
 
-        <!-- FEED DE CARDS DE DESLOCAMENTO -->
-        <div id="carro-feed-container">
+        <!-- CONTAINER 1: VISUALIZAÇÃO DO CALENDÁRIO EMBED / PLACEHOLDER -->
+        <div id="carro-calendario-container">
+          <div id="carro-calendar-content"></div>
+        </div>
+
+        <!-- CONTAINER 2: FEED DE CARDS DE DESLOCAMENTO COM NAVEGAÇÃO DE DATAS -->
+        <div id="carro-feed-container" style="display: none;">
+          <!-- BARRA INTERATIVA DE NAVEGAÇÃO DE DATAS -->
+          <div class="carro-date-nav-bar">
+            <div class="carro-date-controls">
+              <button class="btn-carro-nav" onclick="navegarDataCarro(-1)" title="Dia anterior">◀</button>
+              <button class="btn-carro-hoje" onclick="navegarDataCarro('hoje')" title="Voltar para a data de referência">Hoje</button>
+              <button class="btn-carro-nav" onclick="navegarDataCarro(1)" title="Próximo dia">▶</button>
+            </div>
+
+            <div class="carro-date-extenso" id="carro-date-extenso">
+              sábado, 17 de outubro de 2026
+            </div>
+
+            <div class="carro-date-right-tools">
+              <label style="font-size: 0.82rem; color: #64748b; font-weight: 600;">Ir para a data:</label>
+              <input type="date" class="carro-date-input" id="carro-input-data" onchange="aoMudarDataCarro(this.value)">
+              <span class="carro-sync-time" id="carro-sync-label">Sincronizado 17:16</span>
+              <button class="btn-carro-refresh" onclick="atualizarCarroOficial()" title="Forçar sincronização">
+                <span>🔄</span>
+                <span>Atualizar</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- BANNER ESCURO EM DESTAQUE COM O DIA ATIVO -->
+          <div class="carro-hero-date-banner">
+            <div class="carro-hero-left">
+              <span class="carro-hero-dia-semana" id="carro-hero-dia-semana">SÁBADO</span>
+              <h3 class="carro-hero-data" id="carro-hero-data">17 de outubro de 2026</h3>
+              <p class="carro-hero-desc">
+                Deslocamentos agendados para a data selecionada ou próximos compromissos da frota.
+              </p>
+            </div>
+
+            <div class="carro-hero-badges">
+              <span class="badge-sefisc-count" id="carro-hero-count">0 registro(s)</span>
+              <span class="badge-sefisc-tag">Frota Oficial</span>
+            </div>
+          </div>
+
           <div class="carro-feed-header">
             <div class="carro-feed-title">
               <span>🚗</span>
-              <span>Últimos lançamentos do Excel da SEFISC</span>
+              <span>Lançamentos de Deslocamentos de Veículos</span>
             </div>
             <p class="carro-feed-sub" id="carro-feed-sub">
               Ainda não há agendamentos futuros na fonte; confira os lançamentos mais recentes abaixo.
@@ -9036,7 +9290,7 @@ const carroCSS = `
           <div id="carro-feed-list"></div>
         </div>
 
-        <!-- GRID DE VEÍCULOS DA FROTA (SUBTAB FROTA) -->
+        <!-- CONTAINER 3: GRID DE VEÍCULOS DA FROTA (SUBTAB FROTA) -->
         <div id="carro-frota-container" class="frota-grid" style="display: none;"></div>
 
       </section>
@@ -28630,41 +28884,50 @@ const carroCSS = `
 
 
 
-  <!-- MODAL: DETALHES DA PLANILHA NO DRIVE (SEFISC) -->
-  <div id="modal-origem-drive" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalOrigemDrive()">
-    <div class="agenda-modal-card" style="max-width: 540px;">
-      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">
+  <!-- MODAL: CONFIGURAÇÃO DO LINK DO CALENDÁRIO DO CARRO OFICIAL -->
+  <div id="modal-config-calendar-carro" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalConfigCalendarCarro()">
+    <div class="agenda-modal-card" style="max-width: 580px;">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%);">
         <div>
-          <span style="font-size: 0.72rem; font-weight: 800; color: #dcfce7; letter-spacing: 0.05em; text-transform: uppercase;">INTEGRAÇÃO SEFISC</span>
-          <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Planilha Oficial no Google Drive</h3>
+          <span style="font-size: 0.72rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">CARRO OFICIAL • SOMENTE LEITURA</span>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Configurar Calendário de Agendamento</h3>
         </div>
-        <button type="button" class="agenda-modal-close" onclick="fecharModalOrigemDrive()">✕</button>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalConfigCalendarCarro()">✕</button>
       </div>
 
       <div class="agenda-modal-body" style="padding: 1.5rem;">
         <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem; display: flex; gap: 0.75rem; align-items: flex-start;">
-          <span style="font-size: 1.5rem;">📁</span>
+          <span style="font-size: 1.5rem;">📅</span>
           <div>
-            <strong style="color: #14532d; font-size: 0.95rem; display: block; margin-bottom: 0.2rem;">Controle_Frota_SEFISC_2026.xlsx</strong>
-            <p style="font-size: 0.82rem; color: #166534; margin: 0;">Pasta oficial: <code>Google Drive > URE Itapevi > CAF > SEFISC > Frota</code></p>
+            <strong style="color: #14532d; font-size: 0.95rem; display: block; margin-bottom: 0.2rem;">Integração por Link Direto (Sem Upload de Arquivos)</strong>
+            <p style="font-size: 0.82rem; color: #166534; margin: 0;">Cole o link compartilhado da agenda dos carros (Google Agenda, Outlook Web ou feed iCal). O sistema exibirá a visualização e sincronizará os dados automaticamente em modo somente leitura.</p>
           </div>
         </div>
 
-        <ul style="font-size: 0.85rem; color: #475569; line-height: 1.6; margin: 0 0 1.25rem 1.2rem;">
-          <li><strong>Leitura Automática:</strong> Sincronizada a cada 1 hora ou manualmente pelo botão Atualizar.</li>
-          <li><strong>Modo Somente Leitura:</strong> As alterações manuais no BI são salvas no armazenamento local e não sobrescrevem a planilha original do fiscal de tráfego.</li>
-          <li><strong>Importação Direta:</strong> Caso receba um arquivo atualizado por e-mail ou WhatsApp, use o botão <em>"Importar Excel SEFISC"</em> no topo da página.</li>
-        </ul>
+        <div class="agenda-form-group agenda-form-full" style="margin-bottom: 1.2rem;">
+          <label class="agenda-form-label" style="font-weight: 700; color: #1e293b; margin-bottom: 0.4rem; display: block;">Link / URL do Calendário Compartilhado:</label>
+          <input type="url" id="input-url-calendario-carro" class="agenda-form-input" placeholder="Ex: https://calendar.google.com/calendar/embed?src=... ou link de compartilhamento" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem;">
+          <small style="color: #64748b; font-size: 0.75rem; display: block; margin-top: 0.35rem;">
+            Aceita: Link público do Google Calendar, link de incorporação (embed), Outlook Web Calendar ou endereço de e-mail da agenda institucional.
+          </small>
+        </div>
 
-        <div style="display: flex; gap: 0.75rem;">
-          <button type="button" class="btn-carro-action" style="flex: 1; justify-content: center;" onclick="fecharModalOrigemDrive(); mostrarToastAgenda('Abrindo pasta no Google Drive...', '📁');">
-            <span>Abrir no Google Drive ↗</span>
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.85rem; margin-bottom: 1.25rem; font-size: 0.82rem; color: #475569;">
+          <strong>💡 Como obter o link:</strong> No Google Calendar da conta responsável, clique nos 3 pontinhos ao lado da agenda > <em>Configurações e Compartilhamento</em> > copie o <strong>URL público para esta agenda</strong> ou a <strong>URL pública para incorporar</strong>.
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button type="button" class="btn-mudar-data" onclick="fecharModalConfigCalendarCarro()" style="padding: 0.6rem 1.2rem; border: 1px solid #cbd5e1; border-radius: 6px; background: #ffffff; cursor: pointer;">Cancelar</button>
+          <button type="button" class="btn-carro-action" onclick="salvarConfigCalendarioCarro()" style="padding: 0.6rem 1.2rem;">
+            <span>Salvar e Sincronizar</span>
           </button>
-          <button type="button" class="btn-mudar-data" onclick="fecharModalOrigemDrive()">Fechar</button>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- MODAL: DETALHES DO CALENDÁRIO (COMPATIBILIDADE) -->
+  <div id="modal-origem-drive" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalConfigCalendarCarro()"></div>
 
 <div id="agenda-toast" class="agenda-toast">
     <span id="agenda-toast-icon">✅</span>
