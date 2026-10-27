@@ -4662,13 +4662,13 @@ function imprimirAgendaCarro() {
     .status-badge-info { background: #e0f2fe; color: #075985; }
 
     /* ============================================================ */
-    /* SISTEMA DE ORDENAÇÃO DE COLUNAS E TABELAS (DATA & ALFABÉTICA) */
+    /* SISTEMA DE ORDENAÇÃO DE COLUNAS (SETAS NOS CABEÇALHOS <th>)  */
     /* ============================================================ */
     th.sortable-th {
       cursor: pointer !important;
       user-select: none;
       position: relative;
-      transition: background-color 0.2s ease, color 0.2s ease;
+      transition: background-color 0.15s ease, color 0.15s ease;
       white-space: nowrap;
     }
     th.sortable-th:hover {
@@ -4678,8 +4678,7 @@ function imprimirAgendaCarro() {
     .th-sort-wrapper {
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      width: 100%;
+      gap: 0.35rem;
     }
     .sort-icon-indicator {
       display: inline-flex;
@@ -4687,10 +4686,12 @@ function imprimirAgendaCarro() {
       justify-content: center;
       font-size: 0.72rem;
       color: #94a3b8;
-      transition: color 0.2s ease, transform 0.2s ease;
+      transition: color 0.15s ease, transform 0.15s ease;
+      opacity: 0.6;
     }
     th.sortable-th:hover .sort-icon-indicator {
       color: #0b2351;
+      opacity: 1;
     }
     th.sort-active-asc {
       background-color: #eff6ff !important;
@@ -4700,6 +4701,7 @@ function imprimirAgendaCarro() {
     th.sort-active-asc .sort-icon-indicator {
       color: #2563eb !important;
       font-weight: 800;
+      opacity: 1;
       transform: translateY(-1px);
     }
     th.sort-active-desc {
@@ -4710,58 +4712,8 @@ function imprimirAgendaCarro() {
     th.sort-active-desc .sort-icon-indicator {
       color: #2563eb !important;
       font-weight: 800;
+      opacity: 1;
       transform: translateY(1px);
-    }
-
-    /* Barra de Botões de Ordenação Rápida (Por Data e Alfabética) */
-    .table-sort-toolbar {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 0.3rem 0.55rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-      flex-wrap: wrap;
-    }
-    .table-sort-label {
-      font-size: 0.73rem;
-      font-weight: 800;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-right: 0.15rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-    .btn-sort-pill {
-      border: 1px solid #cbd5e1;
-      background: #f8fafc;
-      color: #334155;
-      font-size: 0.74rem;
-      font-weight: 600;
-      padding: 0.25rem 0.55rem;
-      border-radius: 6px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      transition: all 0.15s ease;
-      line-height: 1.2;
-    }
-    .btn-sort-pill:hover {
-      background: #e2e8f0;
-      color: #0f172a;
-      border-color: #94a3b8;
-      transform: translateY(-1px);
-    }
-    .btn-sort-pill.active {
-      background: linear-gradient(135deg, #0b2351 0%, #133979 100%);
-      color: #ffffff !important;
-      border-color: #0b2351;
-      box-shadow: 0 2px 6px rgba(11, 35, 81, 0.25);
     }
 
     /* ============================================================ */
@@ -8548,16 +8500,6 @@ function imprimirAgendaCarro() {
 
           <!-- Conteúdo 1: Tabela de Registros -->
           <div class="detail-tab-content active" id="tab-content-registros">
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 0.75rem;">
-              <div class="table-sort-toolbar" id="toolbar-sort-gabinete">
-                <span class="table-sort-label"><span>↕</span> Ordenar:</span>
-                <button type="button" class="btn-sort-pill active" id="btn-sort-gab-data-desc" onclick="aplicarOrdenacaoGabinete('data', 'desc')" title="Por Data Registro: Mais Recente">📅 Data Recente</button>
-                <button type="button" class="btn-sort-pill" id="btn-sort-gab-data-asc" onclick="aplicarOrdenacaoGabinete('data', 'asc')" title="Por Data Registro: Mais Antiga">📅 Data Antiga</button>
-                <button type="button" class="btn-sort-pill" id="btn-sort-gab-alfa-asc" onclick="aplicarOrdenacaoGabinete('alfabetica', 'asc')" title="Ordem Alfabética: Origem / Solicitante (A-Z)">🔤 A-Z</button>
-                <button type="button" class="btn-sort-pill" id="btn-sort-gab-alfa-desc" onclick="aplicarOrdenacaoGabinete('alfabetica', 'desc')" title="Ordem Alfabética: Origem / Solicitante (Z-A)">🔤 Z-A</button>
-              </div>
-            </div>
-
             <div class="records-table-wrap">
               <table class="records-table" id="panel-records-table">
                 <thead>
@@ -9014,15 +8956,6 @@ function imprimirAgendaCarro() {
                 <input type="text" id="seintec-table-search" class="table-search-input" style="min-width: 260px;"
                   placeholder="🔍 Buscar na tabela em tempo real..."
                   oninput="filtrarTabelaSeintec(this.value)">
-              </div>
-
-              <!-- BARRA DE ORDENAÇÃO RÁPIDA: DATA E ALFABÉTICA -->
-              <div class="table-sort-toolbar" id="toolbar-sort-seintec" style="margin-left: auto;">
-                <span class="table-sort-label"><span>↕</span> Ordenar:</span>
-                <button type="button" class="btn-sort-pill active" id="btn-sort-seintec-data-desc" onclick="aplicarOrdenacaoSeintec('data', 'desc')" title="Data: Mais Recente primeiro">📅 Data Recente</button>
-                <button type="button" class="btn-sort-pill" id="btn-sort-seintec-data-asc" onclick="aplicarOrdenacaoSeintec('data', 'asc')" title="Data: Mais Antiga primeiro">📅 Data Antiga</button>
-                <button type="button" class="btn-sort-pill" id="btn-sort-seintec-alfa-asc" onclick="aplicarOrdenacaoSeintec('alfabetica', 'asc')" title="Ordem Alfabética (A-Z)">🔤 A-Z</button>
-                <button type="button" class="btn-sort-pill" id="btn-sort-seintec-alfa-desc" onclick="aplicarOrdenacaoSeintec('alfabetica', 'desc')" title="Ordem Alfabética (Z-A)">🔤 Z-A</button>
               </div>
             </div>
 
@@ -9534,16 +9467,7 @@ function imprimirAgendaCarro() {
             <option value="Em Reforma">Em Reforma / Obras</option>
           </select>
 
-          <div class="table-sort-toolbar" id="toolbar-sort-escolas" style="margin-left: auto;">
-            <span class="table-sort-label"><span>↕</span> Ordenar:</span>
-            <button type="button" class="btn-sort-pill active" id="btn-sort-esc-nome-asc" onclick="ordenarTabelaEscolas('nome', 'asc')" title="Ordem Alfabética (A-Z)">🔤 A-Z</button>
-            <button type="button" class="btn-sort-pill" id="btn-sort-esc-nome-desc" onclick="ordenarTabelaEscolas('nome', 'desc')" title="Ordem Alfabética (Z-A)">🔤 Z-A</button>
-            <button type="button" class="btn-sort-pill" id="btn-sort-esc-cidade" onclick="ordenarTabelaEscolas('cidade', 'asc')" title="Por Município (A-Z)">🏢 Cidade</button>
-            <button type="button" class="btn-sort-pill" id="btn-sort-esc-cie" onclick="ordenarTabelaEscolas('cie', 'asc')" title="Por Código CIE">🔢 CIE</button>
-            <button type="button" class="btn-sort-pill" id="btn-sort-esc-educatrons" onclick="ordenarTabelaEscolas('educatrons', 'desc')" title="Por Educatrons">💻 Educatrons</button>
-          </div>
-
-          <div class="escolas-count-badge" id="escolas-count-badge">
+          <div class="escolas-count-badge" id="escolas-count-badge" style="margin-left: auto;">
             Exibindo 0 de 0 escolas
           </div>
         </div>
