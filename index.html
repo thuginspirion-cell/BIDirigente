@@ -1861,25 +1861,36 @@ function renderizarCarroOficial() {
   const containerCalendario = document.getElementById('carro-calendario-container');
   const containerFeed = document.getElementById('carro-feed-container');
   const containerFrota = document.getElementById('carro-frota-container');
+  const containerHistorico = document.getElementById('carro-historico-container');
   const subFeedHeader = document.getElementById('carro-feed-sub');
 
   if (subTabAtivaCarro === 'calendario') {
     if (containerCalendario) containerCalendario.style.display = 'block';
     if (containerFeed) containerFeed.style.display = 'none';
     if (containerFrota) containerFrota.style.display = 'none';
+    if (containerHistorico) containerHistorico.style.display = 'none';
     renderizarCalendarioCarroEmbed();
     return;
   } else if (subTabAtivaCarro === 'frota') {
     if (containerCalendario) containerCalendario.style.display = 'none';
     if (containerFeed) containerFeed.style.display = 'none';
     if (containerFrota) containerFrota.style.display = 'grid';
+    if (containerHistorico) containerHistorico.style.display = 'none';
     renderizarFrotaCards();
     return;
+  } else if (subTabAtivaCarro === 'todos') {
+    if (containerCalendario) containerCalendario.style.display = 'none';
+    if (containerFeed) containerFeed.style.display = 'none';
+    if (containerFrota) containerFrota.style.display = 'none';
+    if (containerHistorico) containerHistorico.style.display = 'block';
+    renderizarTabelaHistoricoCarro();
+    return;
   } else {
-    // 'feed' ou 'todos'
+    // 'feed'
     if (containerCalendario) containerCalendario.style.display = 'none';
     if (containerFeed) containerFeed.style.display = 'block';
     if (containerFrota) containerFrota.style.display = 'none';
+    if (containerHistorico) containerHistorico.style.display = 'none';
   }
 
   // Filtragem dos registros no feed
@@ -2213,6 +2224,110 @@ function alternarSubTabCarro(tab) {
   const btn = document.getElementById('carro-subtab-' + tab);
   if (btn) btn.classList.add('active');
   renderizarCarroOficial();
+}
+
+function renderizarTabelaHistoricoCarro(filtro) {
+  const tbody = document.getElementById('carro-historico-tbody');
+  if (!tbody) return;
+  const termo = (typeof filtro === 'string' ? filtro : (document.getElementById('carro-table-search')?.value || '')).toLowerCase().trim();
+  
+  const registros = [...(CARRO_DATA.registros || [])].sort((a,b) => (b.data || '').localeCompare(a.data || ''));
+  const filtrados = registros.filter(r => {
+    if (!termo) return true;
+    return (r.data && r.data.includes(termo)) ||
+      (r.horario && r.horario.toLowerCase().includes(termo)) ||
+      (r.veiculo && r.veiculo.toLowerCase().includes(termo)) ||
+      (r.placa && r.placa.toLowerCase().includes(termo)) ||
+      (r.destino && r.destino.toLowerCase().includes(termo)) ||
+      (r.itinerario && r.itinerario.toLowerCase().includes(termo)) ||
+      (r.solicitante && r.solicitante.toLowerCase().includes(termo)) ||
+      (r.setor && r.setor.toLowerCase().includes(termo)) ||
+      (r.motorista && r.motorista.toLowerCase().includes(termo)) ||
+      (r.status && r.status.toLowerCase().includes(termo));
+  });
+
+  if (filtrados.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 2rem; color: #64748b;">Nenhum deslocamento encontrado com os critérios de busca.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtrados.map(r => {
+    var dataBr = r.data ? r.data.split('-').reverse().join('/') : '-';
+    var hora = r.horario || '--:--';
+    var statusClass = r.status === 'Concluído' ? 'background: #dcfce7; color: #15803d;' : (r.status === 'Agendado' ? 'background: #dbeafe; color: #1e40af;' : 'background: #fef3c7; color: #b45309;');
+    return `<tr>
+      <td style="font-weight: 600; color: #0b2351; white-space: nowrap;">
+        📅 ${dataBr} <span style="display: block; font-size: 0.75rem; color: #64748b; font-weight: normal;">⏰ ${hora}</span>
+      </td>
+      <td>
+        <strong style="color: #1e293b;">${r.veiculo || 'Oficial'}</strong>
+        <span style="display: block; font-size: 0.75rem; color: #64748b; font-family: monospace;">${r.placa || ''}</span>
+      </td>
+      <td>
+        <div style="font-weight: 500; color: #1e293b;">${r.destino || '-'}</div>
+        <div style="font-size: 0.75rem; color: #64748b;">${r.itinerario || ''}</div>
+      </td>
+      <td>
+        <div style="font-weight: 500; color: #1e293b;">${r.solicitante || '-'}</div>
+        <div style="font-size: 0.75rem; color: #64748b;">${r.setor || ''}</div>
+      </td>
+      <td style="font-weight: 500; color: #334155;">
+        👤 ${r.motorista || 'A definir'}
+      </td>
+      <td>
+        <span style="display: inline-block; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; ${statusClass}">
+          ${r.status || 'Agendado'}
+        </span>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filtrarTabelaHistoricoCarro(termo) {
+  renderizarTabelaHistoricoCarro(termo);
+}
+
+function ordenarTabelaDom(tableId, colIndex, type) {
+  var table = document.getElementById(tableId);
+  if (!table) return;
+  var tbody = table.querySelector('tbody');
+  if (!tbody) return;
+  var rows = Array.from(tbody.querySelectorAll('tr'));
+  if (rows.length <= 1) return;
+
+  var currentDir = table.getAttribute('data-sort-dir') === 'asc' && table.getAttribute('data-sort-col') == colIndex ? 'desc' : 'asc';
+  table.setAttribute('data-sort-dir', currentDir);
+  table.setAttribute('data-sort-col', colIndex);
+
+  // Atualizar classes dos th
+  var ths = table.querySelectorAll('thead th');
+  ths.forEach(function(th, idx) {
+    th.classList.remove('sort-active-asc', 'sort-active-desc');
+    var pill = th.querySelector('.th-sort-pill');
+    if (idx === colIndex) {
+      th.classList.add(currentDir === 'asc' ? 'sort-active-asc' : 'sort-active-desc');
+      if (pill) {
+        var arrow = currentDir === 'asc' ? '▲' : '▼';
+        var label = (type === 'number' || type === 'date') ? (currentDir === 'asc' ? 'Mais Antigo' : 'Mais Recente') : (currentDir === 'asc' ? 'A-Z' : 'Z-A');
+        pill.innerHTML = '<span class="sort-arrow">' + arrow + '</span> <span class="sort-label">' + label + '</span>';
+      }
+    } else if (pill) {
+      pill.innerHTML = '<span class="sort-arrow">⇅</span> <span class="sort-label">Ordenar</span>';
+    }
+  });
+
+  rows.sort(function(a, b) {
+    var cellA = a.children[colIndex] ? a.children[colIndex].innerText.trim() : '';
+    var cellB = b.children[colIndex] ? b.children[colIndex].innerText.trim() : '';
+    if (type === 'number') {
+      var numA = parseFloat(cellA.replace(/[^\d.-]/g, '')) || 0;
+      var numB = parseFloat(cellB.replace(/[^\d.-]/g, '')) || 0;
+      return currentDir === 'asc' ? numA - numB : numB - numA;
+    }
+    return currentDir === 'asc' ? cellA.localeCompare(cellB, 'pt-BR') : cellB.localeCompare(cellA, 'pt-BR');
+  });
+
+  rows.forEach(function(r) { tbody.appendChild(r); });
 }
 
 function navegarDataCarro(direcaoOuHoje) {
@@ -4662,58 +4777,96 @@ function imprimirAgendaCarro() {
     .status-badge-info { background: #e0f2fe; color: #075985; }
 
     /* ============================================================ */
-    /* SISTEMA DE ORDENAÇÃO DE COLUNAS (SETAS NOS CABEÇALHOS <th>)  */
+    /* SISTEMA DE ORDENAÇÃO PREMIUM INTEGRADO AOS CABEÇALHOS (<th>) */
+    /* Ordem Alfabética (A-Z / Z-A) e Numérica (Maior / Menor)      */
     /* ============================================================ */
-    th.sortable-th {
+    th.th-sortable, th.sortable-th {
       cursor: pointer !important;
       user-select: none;
       position: relative;
-      transition: background-color 0.15s ease, color 0.15s ease;
+      transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
       white-space: nowrap;
     }
-    th.sortable-th:hover {
+    th.th-sortable:hover, th.sortable-th:hover {
       background-color: #f1f5f9 !important;
       color: #0b2351 !important;
     }
     .th-sort-wrapper {
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      justify-content: space-between;
+      width: 100%;
+      gap: 0.5rem;
     }
-    .sort-icon-indicator {
+    .th-sort-wrapper.center {
+      justify-content: center;
+    }
+    .th-title-text {
+      font-weight: 700;
+      color: inherit;
+    }
+    /* Pílula / Botão de Ordenação Integrado ao Cabeçalho */
+    .th-sort-pill {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      font-size: 0.72rem;
-      color: #94a3b8;
-      transition: color 0.15s ease, transform 0.15s ease;
-      opacity: 0.6;
+      gap: 0.28rem;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 0.2rem 0.48rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #64748b;
+      line-height: 1.1;
+      transition: all 0.18s ease;
+      cursor: pointer;
+      flex-shrink: 0;
     }
-    th.sortable-th:hover .sort-icon-indicator {
+    th.th-sortable:hover .th-sort-pill, th.sortable-th:hover .th-sort-pill {
+      background: #ffffff;
+      border-color: #94a3b8;
       color: #0b2351;
-      opacity: 1;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      transform: translateY(-1px);
     }
+    .th-sort-pill .sort-arrow {
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+    .th-sort-pill .sort-label {
+      font-size: 0.67rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    /* Estado Ativo: Crescente (A-Z, Menor->Maior, Mais Antiga) */
     th.sort-active-asc {
       background-color: #eff6ff !important;
       color: #1d4ed8 !important;
       border-bottom: 2px solid #2563eb !important;
     }
-    th.sort-active-asc .sort-icon-indicator {
-      color: #2563eb !important;
-      font-weight: 800;
-      opacity: 1;
-      transform: translateY(-1px);
+    th.sort-active-asc .th-sort-pill {
+      background: #dbeafe !important;
+      border-color: #93c5fd !important;
+      color: #1d4ed8 !important;
+      box-shadow: 0 1px 4px rgba(37, 99, 235, 0.2);
     }
+    th.sort-active-asc .th-sort-pill .sort-arrow {
+      color: #2563eb;
+    }
+    /* Estado Ativo: Decrescente (Z-A, Maior->Menor, Mais Recente) */
     th.sort-active-desc {
       background-color: #eff6ff !important;
       color: #1d4ed8 !important;
       border-bottom: 2px solid #2563eb !important;
     }
-    th.sort-active-desc .sort-icon-indicator {
-      color: #2563eb !important;
-      font-weight: 800;
-      opacity: 1;
-      transform: translateY(1px);
+    th.sort-active-desc .th-sort-pill {
+      background: #dbeafe !important;
+      border-color: #93c5fd !important;
+      color: #1d4ed8 !important;
+      box-shadow: 0 1px 4px rgba(37, 99, 235, 0.2);
+    }
+    th.sort-active-desc .th-sort-pill .sort-arrow {
+      color: #2563eb;
     }
 
     /* ============================================================ */
@@ -8504,20 +8657,35 @@ function imprimirAgendaCarro() {
               <table class="records-table" id="panel-records-table">
                 <thead>
                   <tr>
-                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-records-table', 0)" title="Clique para ordenar por Identificador">
-                      <div class="th-sort-wrapper"><span>Identificador / Protocolo</span><span class="sort-icon-indicator">↕</span></div>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('panel-records-table', 0, 'num')" title="Classificar por Identificador (Maior pro Menor ou Menor pro Maior)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Identificador / Protocolo</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">Maior/Menor</span></span>
+                      </div>
                     </th>
-                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-records-table', 1)" title="Clique para ordenar por Origem / Solicitante (Alfabética)">
-                      <div class="th-sort-wrapper"><span>Origem / Solicitante</span><span class="sort-icon-indicator">↕</span></div>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('panel-records-table', 1, 'str')" title="Classificar por Origem / Solicitante (Ordem Alfabética A-Z / Z-A)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Origem / Solicitante</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                      </div>
                     </th>
-                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-records-table', 2)" title="Clique para ordenar por Assunto">
-                      <div class="th-sort-wrapper"><span>Assunto / Descrição</span><span class="sort-icon-indicator">↕</span></div>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('panel-records-table', 2, 'str')" title="Classificar por Assunto / Descrição (Ordem Alfabética A-Z / Z-A)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Assunto / Descrição</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                      </div>
                     </th>
-                    <th class="sortable-th sort-active-desc" onclick="ordenarTabelaDom('panel-records-table', 3)" title="Clique para ordenar por Data de Registro">
-                      <div class="th-sort-wrapper"><span>Data Registro</span><span class="sort-icon-indicator">▼</span></div>
+                    <th class="th-sortable sort-active-desc" onclick="ordenarTabelaDom('panel-records-table', 3, 'date')" title="Classificar por Data de Registro (Mais Recente ou Mais Antiga)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Data Registro</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">▼</span> <span class="sort-label">Mais Recente</span></span>
+                      </div>
                     </th>
-                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-records-table', 4)" title="Clique para ordenar por Situação">
-                      <div class="th-sort-wrapper"><span>Situação</span><span class="sort-icon-indicator">↕</span></div>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('panel-records-table', 4, 'str')" title="Classificar por Situação (Ordem Alfabética A-Z / Z-A)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Situação</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                      </div>
                     </th>
                   </tr>
                 </thead>
@@ -8963,20 +9131,35 @@ function imprimirAgendaCarro() {
               <table class="records-table" id="panel-seintec-table">
                 <thead id="panel-seintec-thead">
                   <tr>
-                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-seintec-table', 0)" title="Clique para ordenar">
-                      <div class="th-sort-wrapper"><span>Identificador / Patrimônio</span><span class="sort-icon-indicator">↕</span></div>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 0, 'num')" title="Classificar por Patrimônio / ID (Maior pro Menor ou Menor pro Maior)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Identificador / Patrimônio</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">Maior/Menor</span></span>
+                      </div>
                     </th>
-                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-seintec-table', 1)" title="Clique para ordenar">
-                      <div class="th-sort-wrapper"><span>Polo / Unidade Escolar</span><span class="sort-icon-indicator">↕</span></div>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 1, 'str')" title="Classificar por Polo / Unidade Escolar (Ordem Alfabética A-Z / Z-A)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Polo / Unidade Escolar</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                      </div>
                     </th>
-                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-seintec-table', 2)" title="Clique para ordenar">
-                      <div class="th-sort-wrapper"><span>Equipamento / Especificação</span><span class="sort-icon-indicator">↕</span></div>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 2, 'str')" title="Classificar por Equipamento / Especificação (Ordem Alfabética A-Z / Z-A)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Equipamento / Especificação</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                      </div>
                     </th>
-                    <th class="sortable-th sort-active-desc" onclick="ordenarTabelaDom('panel-seintec-table', 3)" title="Clique para ordenar por Data">
-                      <div class="th-sort-wrapper"><span>Data Registro</span><span class="sort-icon-indicator">▼</span></div>
+                    <th class="th-sortable sort-active-desc" onclick="ordenarTabelaDom('panel-seintec-table', 3, 'date')" title="Classificar por Data de Registro (Mais Recente ou Mais Antiga)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Data Registro</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">▼</span> <span class="sort-label">Mais Recente</span></span>
+                      </div>
                     </th>
-                    <th class="sortable-th" onclick="ordenarTabelaDom('panel-seintec-table', 4)" title="Clique para ordenar por Situação">
-                      <div class="th-sort-wrapper"><span>Situação Operacional</span><span class="sort-icon-indicator">↕</span></div>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 4, 'str')" title="Classificar por Situação Operacional (Ordem Alfabética A-Z / Z-A)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Situação Operacional</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                      </div>
                     </th>
                   </tr>
                 </thead>
@@ -9368,6 +9551,68 @@ function imprimirAgendaCarro() {
         <!-- CONTAINER 3: GRID DE VEÍCULOS DA FROTA (SUBTAB FROTA) -->
         <div id="carro-frota-container" class="frota-grid" style="display: none;"></div>
 
+        <!-- CONTAINER 4: TABELA DO HISTÓRICO COMPLETO (SUBTAB TODOS) COM ORDENAÇÃO NAS COLUNAS -->
+        <div id="carro-historico-container" style="display: none;">
+          <div class="escolas-table-card" style="margin-top: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 0.75rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 1.2rem;">📁</span>
+                <strong style="color: #0b2351; font-size: 0.95rem;">Histórico Geral de Deslocamentos de Veículos</strong>
+              </div>
+              <input type="text" id="carro-table-search" class="table-search-input" style="min-width: 260px;"
+                placeholder="🔍 Filtrar no histórico em tempo real..."
+                oninput="filtrarTabelaHistoricoCarro(this.value)">
+            </div>
+            <div class="escolas-table-responsive">
+              <table class="escolas-table" id="carro-historico-table">
+                <thead>
+                  <tr>
+                    <th class="th-sortable sort-active-desc" onclick="ordenarTabelaDom('carro-historico-table', 0, 'date')" title="Classificar por Data do Deslocamento (Mais Recente ou Mais Antiga)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Data / Horário</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">▼</span> <span class="sort-label">Mais Recente</span></span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('carro-historico-table', 1, 'str')" title="Classificar por Veículo (Ordem Alfabética A-Z / Z-A)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Veículo & Placa</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('carro-historico-table', 2, 'str')" title="Classificar por Destino / Itinerário (Ordem Alfabética A-Z / Z-A)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Destino / Itinerário</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('carro-historico-table', 3, 'str')" title="Classificar por Solicitante / Setor (Ordem Alfabética A-Z / Z-A)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Solicitante / Setor</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('carro-historico-table', 4, 'str')" title="Classificar por Motorista (Ordem Alfabética A-Z / Z-A)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Motorista</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('carro-historico-table', 5, 'str')" title="Classificar por Situação (Ordem Alfabética A-Z / Z-A)">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Situação</span>
+                        <span class="th-sort-pill"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="carro-historico-tbody">
+                  <!-- Preenchido via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </section>
 
       <!-- ============================================== -->
@@ -9478,26 +9723,44 @@ function imprimirAgendaCarro() {
             <table class="escolas-table" id="escolas-main-table">
               <thead>
                 <tr>
-                  <th class="sortable-th" onclick="alternarOrdenacaoThEscolas('cie')" style="width: 90px;" title="Clique para ordenar por Código CIE">
-                    <div class="th-sort-wrapper"><span>CIE</span><span class="sort-icon-indicator" id="sort-icon-esc-cie">↕</span></div>
+                  <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('cie')" style="width: 140px;" title="Classificar por CIE (Maior pro Menor ou Menor pro Maior)">
+                    <div class="th-sort-wrapper">
+                      <span class="th-title-text">CIE</span>
+                      <span class="th-sort-pill" id="sort-pill-esc-cie"><span class="sort-arrow">⇅</span> <span class="sort-label">Maior/Menor</span></span>
+                    </div>
                   </th>
-                  <th class="sortable-th sort-active-asc" onclick="alternarOrdenacaoThEscolas('nome')" title="Clique para ordenar por Unidade Escolar (Alfabética A-Z / Z-A)">
-                    <div class="th-sort-wrapper"><span>Unidade Escolar</span><span class="sort-icon-indicator" id="sort-icon-esc-nome">▲</span></div>
+                  <th class="th-sortable sort-active-asc" onclick="alternarOrdenacaoThEscolas('nome')" title="Classificar por Unidade Escolar (Ordem Alfabética A-Z / Z-A)">
+                    <div class="th-sort-wrapper">
+                      <span class="th-title-text">Unidade Escolar</span>
+                      <span class="th-sort-pill" id="sort-pill-esc-nome"><span class="sort-arrow">▲</span> <span class="sort-label">A-Z</span></span>
+                    </div>
                   </th>
-                  <th class="sortable-th" onclick="alternarOrdenacaoThEscolas('cidade')" title="Clique para ordenar por Município">
-                    <div class="th-sort-wrapper"><span>Município / Endereço</span><span class="sort-icon-indicator" id="sort-icon-esc-cidade">↕</span></div>
+                  <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('cidade')" title="Classificar por Município (Ordem Alfabética A-Z / Z-A)">
+                    <div class="th-sort-wrapper">
+                      <span class="th-title-text">Município / Endereço</span>
+                      <span class="th-sort-pill" id="sort-pill-esc-cidade"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                    </div>
                   </th>
-                  <th class="sortable-th" onclick="alternarOrdenacaoThEscolas('segmento')" title="Clique para ordenar por Segmento">
-                    <div class="th-sort-wrapper"><span>Segmento</span><span class="sort-icon-indicator" id="sort-icon-esc-segmento">↕</span></div>
+                  <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('segmento')" title="Classificar por Segmento (Ordem Alfabética A-Z / Z-A)">
+                    <div class="th-sort-wrapper">
+                      <span class="th-title-text">Segmento</span>
+                      <span class="th-sort-pill" id="sort-pill-esc-segmento"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                    </div>
                   </th>
-                  <th>Direção & Contato</th>
-                  <th class="sortable-th" onclick="alternarOrdenacaoThEscolas('educatrons')" style="text-align: center;" title="Clique para ordenar por Educatrons">
-                    <div class="th-sort-wrapper" style="justify-content: center;"><span>Educatrons</span><span class="sort-icon-indicator" id="sort-icon-esc-educatrons">↕</span></div>
+                  <th><span class="th-title-text">Direção & Contato</span></th>
+                  <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('educatrons')" style="text-align: center; width: 165px;" title="Classificar por Educatrons (Maior pro Menor ou Menor pro Maior)">
+                    <div class="th-sort-wrapper center">
+                      <span class="th-title-text">Educatrons</span>
+                      <span class="th-sort-pill" id="sort-pill-esc-educatrons"><span class="sort-arrow">⇅</span> <span class="sort-label">Maior/Menor</span></span>
+                    </div>
                   </th>
-                  <th class="sortable-th" onclick="alternarOrdenacaoThEscolas('status')" title="Clique para ordenar por Situação">
-                    <div class="th-sort-wrapper"><span>Situação</span><span class="sort-icon-indicator" id="sort-icon-esc-status">↕</span></div>
+                  <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('status')" style="width: 140px;" title="Classificar por Situação (Ordem Alfabética A-Z / Z-A)">
+                    <div class="th-sort-wrapper">
+                      <span class="th-title-text">Situação</span>
+                      <span class="th-sort-pill" id="sort-pill-esc-status"><span class="sort-arrow">⇅</span> <span class="sort-label">A-Z</span></span>
+                    </div>
                   </th>
-                  <th style="text-align: right; width: 140px;">Ações</th>
+                  <th style="text-align: right; width: 140px;"><span class="th-title-text">Ações</span></th>
                 </tr>
               </thead>
               <tbody id="escolas-table-body">
@@ -10851,15 +11114,24 @@ function imprimirAgendaCarro() {
       var campos = ['cie', 'nome', 'cidade', 'segmento', 'educatrons', 'status'];
       campos.forEach(function(c) {
         var icon = document.getElementById('sort-icon-esc-' + c);
-        var th = icon ? icon.closest('th') : null;
+        var pill = document.getElementById('sort-pill-esc-' + c);
+        var th = (icon ? icon.closest('th') : null) || (pill ? pill.closest('th') : null);
         if (th) {
           th.classList.remove('sort-active-asc', 'sort-active-desc');
         }
         if (ordenacaoEscolasAtual.campo === c) {
-          if (icon) icon.textContent = ordenacaoEscolasAtual.ordem === 'asc' ? '▲' : '▼';
+          var arrow = ordenacaoEscolasAtual.ordem === 'asc' ? '▲' : '▼';
+          if (icon) icon.textContent = arrow;
           if (th) th.classList.add(ordenacaoEscolasAtual.ordem === 'asc' ? 'sort-active-asc' : 'sort-active-desc');
+          if (pill) {
+            var label = (c === 'educatrons' || c === 'cie') ? (ordenacaoEscolasAtual.ordem === 'asc' ? 'Menor' : 'Maior') : (ordenacaoEscolasAtual.ordem === 'asc' ? 'A-Z' : 'Z-A');
+            pill.innerHTML = '<span class="sort-arrow">' + arrow + '</span> <span class="sort-label">' + label + '</span>';
+          }
         } else {
           if (icon) icon.textContent = '↕';
+          if (pill) {
+            pill.innerHTML = '<span class="sort-arrow">⇅</span> <span class="sort-label">Ordenar</span>';
+          }
         }
       });
     }
