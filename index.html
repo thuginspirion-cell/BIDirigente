@@ -1986,27 +1986,27 @@ function converterParaEmbedUrl(url) {
   url = url.trim();
 
   // Se já for link de embed do Google Calendar
-  if (url.includes('calendar.google.com/calendar/embed')) {
-    if (!url.includes('ctz=')) {
-      url += (url.includes('?') ? '&' : '?') + 'ctz=America%2FSao_Paulo';
+  if (url.indexOf('calendar.google.com/calendar/embed') !== -1) {
+    if (url.indexOf('ctz=') === -1) {
+      url += (url.indexOf('?') !== -1 ? '&' : '?') + 'ctz=America%2FSao_Paulo';
     }
     return url;
   }
 
-  // Se for link de compartilhamento do Google Calendar com cid (ex: ...?cid=Y19...)
-  if (url.includes('calendar.google.com') && url.includes('cid=')) {
+  // Se for link de compartilhamento do Google Calendar com cid
+  if (url.indexOf('calendar.google.com') !== -1 && url.indexOf('cid=') !== -1) {
     try {
       const u = new URL(url);
       const cid = u.searchParams.get('cid');
       if (cid) {
-        return `https://calendar.google.com/calendar/embed?src=${encodeURIComponent(cid)}&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0`;
+        return 'https:' + '//calendar.google.com/calendar/embed?src=' + encodeURIComponent(cid) + '&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0';
       }
     } catch(e) {}
   }
 
   // Se for endereço de e-mail / ID de agenda institucional
-  if (url.includes('@') && !url.includes('http')) {
-    return `https://calendar.google.com/calendar/embed?src=${encodeURIComponent(url)}&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0`;
+  if (url.indexOf('@') !== -1 && url.indexOf('http') === -1) {
+    return 'https:' + '//calendar.google.com/calendar/embed?src=' + encodeURIComponent(url) + '&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0';
   }
 
   return url;
