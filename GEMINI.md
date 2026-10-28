@@ -9,3 +9,7 @@
 - **GAS**: Refere-se ao **Google Apps Script** (Web App / Editor):
   - Editor: `https://script.google.com/d/1Rmp1KzkMkRYv3LdW17U4ELQigb7xtD9IH9TfqEmaRo1xySYeVRuhc5fH/edit`
   - Deploy exec: `https://script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec`
+
+- **GHP**: Refere-se **SEMPRE** ao **GitHub Pages** do projeto:
+  - **Link do GHP**: https://thuginspirion-cell.github.io/BIDirigente/
+  - **Repositório GitHub**: https://github.com/thuginspirion-cell/BIDirigente
