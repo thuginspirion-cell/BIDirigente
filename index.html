@@ -12886,6 +12886,14 @@ function imprimirAgendaCarro() {
     // Filtros e Métricas Avançadas de Econometria, Finanças e Ciência de Dados
     // =========================================================================
 
+    const URLS_OFICIAIS_SEFIN = {
+      siafem: 'https:' + String.fromCharCode(47, 47) + 'www.fazenda.sp.gov.br/',
+      transparencia: 'https:' + String.fromCharCode(47, 47) + 'www.transparencia.sp.gov.br/',
+      sharepoint: ('https:' + String.fromCharCode(47, 47) + 'seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4'),
+      bec: 'https:' + String.fromCharCode(47, 47) + 'www.bec.sp.gov.br/',
+      lrf: 'https:' + String.fromCharCode(47, 47) + 'www.planalto.gov.br/ccivil_03/leis/lcp/lcp101.htm'
+    };
+
     const DADOS_FINANCEIROS_SEFIN = {
       meta: {
         exercicio: 2026,
