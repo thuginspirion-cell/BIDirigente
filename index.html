@@ -12909,7 +12909,7 @@ function imprimirAgendaCarro() {
     const DADOS_FINANCEIROS_SEFIN = {
       meta: {
         exercicioPadrao: 2026,
-        ultimaAtualizacao: "28/10/2026 20:45",
+        ultimaAtualizacao: "28/10/2026 21:00",
         fonteOficial: "Planilha Oficial SharePoint / SEAFIN / SEFIN",
         nomeArquivo: "Controle prestação de contas U.E..xlsx",
         pastaSharePoint: "Business Intelligence/Prestação de Contas U.E/",
@@ -13677,11 +13677,13 @@ function imprimirAgendaCarro() {
           if (aba === subAba) {
             btn.style.background = '#0284c7';
             btn.style.color = '#ffffff';
-            btn.style.fontWeight = '700';
+            btn.style.borderColor = '#0284c7';
+            btn.style.fontWeight = '800';
           } else {
-            btn.style.background = 'rgba(255,255,255,0.06)';
-            btn.style.color = '#cbd5e1';
-            btn.style.fontWeight = '500';
+            btn.style.background = '#f1f5f9';
+            btn.style.color = '#1e293b';
+            btn.style.borderColor = '#cbd5e1';
+            btn.style.fontWeight = '700';
           }
         }
         if (cont) {
@@ -13699,11 +13701,11 @@ function imprimirAgendaCarro() {
       if (estaOculto) {
         conteudo.style.display = 'block';
         if (seta) seta.style.transform = 'rotate(180deg)';
-        if (status) status.textContent = 'Clique para recolher notas';
+        if (status) status.textContent = 'Clique para recolher notas explicativas';
       } else {
         conteudo.style.display = 'none';
         if (seta) seta.style.transform = 'rotate(0deg)';
-        if (status) status.textContent = 'Clique para expandir notas e dicionário';
+        if (status) status.textContent = 'Clique para expandir notas e dicionário da planilha';
       }
     }
 
@@ -13780,62 +13782,64 @@ function imprimirAgendaCarro() {
 
     function renderizarTabelaRepassesHtml(lista) {
       if (!lista || lista.length === 0) {
-        return '<div style="text-align: center; padding: 2.5rem; color: #94a3b8;"><p style="font-size: 1.1rem; margin-bottom: 0.5rem;">🔍 Nenhum repasse escolar encontrado com os filtros selecionados.</p><button onclick="limparTodosFiltrosSefin()" style="background: #0284c7; color: #fff; border: none; padding: 6px 16px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">Limpar Filtros</button></div>';
+        return '<div style="text-align: center; padding: 2.5rem; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; color: #475569;"><p style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem;">🔍 Nenhum repasse escolar encontrado com os filtros selecionados.</p><button onclick="limparTodosFiltrosSefin()" style="background: #0284c7; color: #ffffff; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 800;">Limpar Filtros</button></div>';
       }
 
       const limite = filtrosSefinAvancados.limiteLinhas || 100;
       const exibidos = lista.slice(0, limite);
 
-      let html = '<div style="overflow-x: auto; max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">';
-      html += '<table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left;">';
-      html += '<thead style="background: rgba(15, 23, 42, 0.95); color: #94a3b8; font-weight: 700; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.04em; position: sticky; top: 0; z-index: 10;">';
+      let html = '<div style="overflow-x: auto; max-width: 100%; border-radius: 10px; border: 1.5px solid #cbd5e1; box-shadow: 0 4px 15px rgba(0,0,0,0.06); background: #ffffff;">';
+      html += '<table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">';
+      html += '<thead style="background: #0f172a; color: #ffffff; font-weight: 800; text-transform: uppercase; font-size: 0.74rem; letter-spacing: 0.05em; position: sticky; top: 0; z-index: 10;">';
       html += '<tr>';
-      html += '<th style="padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.12);">Ano</th>';
-      html += '<th style="padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.12);">Unidade Escolar & CIE</th>';
-      html += '<th style="padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.12);">Programa / Objeto</th>';
-      html += '<th style="padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.12); text-align: right;">Receita Total (P+Q)</th>';
-      html += '<th style="padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.12); text-align: right;">Despesa (U+V)</th>';
-      html += '<th style="padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.12); text-align: right;">Saldo em Conta (W+X)</th>';
-      html += '<th style="padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.12); text-align: center;">Status SED</th>';
+      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; width: 60px;">Ano</th>';
+      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; min-width: 260px;">Unidade Escolar & CIE</th>';
+      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; min-width: 220px;">Programa / Objeto</th>';
+      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 150px;">Receita Total (P+Q)</th>';
+      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 150px;">Despesa (U+V)</th>';
+      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 140px;">Saldo em Conta (W+X)</th>';
+      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: center; min-width: 130px;">Status SED</th>';
       html += '</tr>';
       html += '</thead>';
       html += '<tbody>';
 
       exibidos.forEach((r, idx) => {
-        const bg = idx % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.04)';
+        const bg = idx % 2 === 0 ? '#ffffff' : '#f8fafc';
         const st = (r.statusSed || '').toUpperCase();
-        let badgeBg = 'rgba(100, 116, 139, 0.2)';
-        let badgeColor = '#94a3b8';
-        let badgeBorder = 'rgba(100, 116, 139, 0.4)';
+        let badgeBg = '#f1f5f9';
+        let badgeColor = '#1e293b';
+        let badgeBorder = '#94a3b8';
 
         if (st.includes('APROVADA COM RESSALVA')) {
-          badgeBg = 'rgba(245, 158, 11, 0.15)';
-          badgeColor = '#fbbf24';
-          badgeBorder = 'rgba(245, 158, 11, 0.4)';
+          badgeBg = '#fef3c7';
+          badgeColor = '#92400e';
+          badgeBorder = '#f59e0b';
         } else if (st.includes('APROVADA')) {
-          badgeBg = 'rgba(16, 185, 129, 0.15)';
-          badgeColor = '#34d399';
-          badgeBorder = 'rgba(16, 185, 129, 0.4)';
+          badgeBg = '#d1fae5';
+          badgeColor = '#065f46';
+          badgeBorder = '#10b981';
         } else if (st.includes('ANDAMENTO')) {
-          badgeBg = 'rgba(2, 132, 199, 0.15)';
-          badgeColor = '#38bdf8';
-          badgeBorder = 'rgba(2, 132, 199, 0.4)';
+          badgeBg = '#e0f2fe';
+          badgeColor = '#075985';
+          badgeBorder = '#0284c7';
         } else if (st.includes('OMISSÃO') || st.includes('REPROVADA')) {
-          badgeBg = 'rgba(239, 68, 68, 0.15)';
-          badgeColor = '#f87171';
-          badgeBorder = 'rgba(239, 68, 68, 0.4)';
+          badgeBg = '#fee2e2';
+          badgeColor = '#991b1b';
+          badgeBorder = '#ef4444';
         }
 
-        const tagOrigem = r.origem === 'Paulista' ? '<span style="background: rgba(240, 155, 12, 0.15); color: #fbbf24; border: 1px solid rgba(240, 155, 12, 0.35); font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; margin-left: 4px;">Paulista</span>' : '<span style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.35); font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; margin-left: 4px;">Federal</span>';
+        const tagOrigem = r.origem === 'Paulista' 
+          ? '<span style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; font-size: 0.68rem; padding: 2px 7px; border-radius: 4px; font-weight: 800; margin-left: 5px;">Paulista</span>' 
+          : '<span style="background: #e0f2fe; color: #0369a1; border: 1.5px solid #0284c7; font-size: 0.68rem; padding: 2px 7px; border-radius: 4px; font-weight: 800; margin-left: 5px;">Federal</span>';
 
-        html += '<tr style="background: ' + bg + '; border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.15s;" onmouseover="this.style.background=\'rgba(2, 132, 199, 0.1)\'" onmouseout="this.style.background=\'' + bg + '\'">';
-        html += '<td style="padding: 8px 12px; font-weight: 700; color: #94a3b8;">' + r.ano + '</td>';
-        html += '<td style="padding: 8px 12px;"><div style="font-weight: 700; color: #ffffff;">' + r.escola + '</div><div style="font-size: 0.72rem; color: #64748b;">CIE: ' + r.cie + '</div></td>';
-        html += '<td style="padding: 8px 12px;"><div style="color: #cbd5e1; font-weight: 600;">' + r.programa + ' ' + tagOrigem + '</div></td>';
-        html += '<td style="padding: 8px 12px; text-align: right; font-weight: 700; color: #38bdf8;">' + formatarMoedaBrl(r.recTotal) + '<div style="font-size: 0.68rem; color: #64748b;">C: ' + formatarMoedaBrl(r.recC) + ' | K: ' + formatarMoedaBrl(r.recK) + '</div></td>';
-        html += '<td style="padding: 8px 12px; text-align: right; font-weight: 700; color: #10b981;">' + formatarMoedaBrl(r.despTotal) + '<div style="font-size: 0.68rem; color: #64748b;">C: ' + formatarMoedaBrl(r.despC) + ' | K: ' + formatarMoedaBrl(r.despK) + '</div></td>';
-        html += '<td style="padding: 8px 12px; text-align: right; font-weight: 700; color: #fbbf24;">' + formatarMoedaBrl(r.saldoTotal) + '</td>';
-        html += '<td style="padding: 8px 12px; text-align: center;"><span style="display: inline-block; background: ' + badgeBg + '; color: ' + badgeColor + '; border: 1px solid ' + badgeBorder + '; padding: 3px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 700;">' + (r.statusSed || 'Não Iniciado') + '</span></td>';
+        html += '<tr style="background: ' + bg + '; border-bottom: 1px solid #e2e8f0; transition: background 0.15s;" onmouseover="this.style.background=\'#f0f9ff\'" onmouseout="this.style.background=\'' + bg + '\'">';
+        html += '<td style="padding: 10px 14px; font-weight: 800; color: #0f172a; font-size: 0.88rem;">' + r.ano + '</td>';
+        html += '<td style="padding: 10px 14px;"><div style="font-weight: 800; color: #0f172a; font-size: 0.88rem; line-height: 1.35;">' + r.escola + '</div><div style="font-size: 0.74rem; font-weight: 700; color: #0284c7; margin-top: 3px;">CIE: ' + r.cie + '</div></td>';
+        html += '<td style="padding: 10px 14px;"><div style="color: #0f172a; font-weight: 700; font-size: 0.82rem; line-height: 1.3;">' + r.programa + ' ' + tagOrigem + '</div></td>';
+        html += '<td style="padding: 10px 14px; text-align: right;"><div style="font-weight: 800; color: #0369a1; font-size: 0.92rem;">' + formatarMoedaBrl(r.recTotal) + '</div><div style="font-size: 0.72rem; color: #475569; font-weight: 700; margin-top: 2px;">C: ' + formatarMoedaBrl(r.recC) + ' | K: ' + formatarMoedaBrl(r.recK) + '</div></td>';
+        html += '<td style="padding: 10px 14px; text-align: right;"><div style="font-weight: 800; color: #047857; font-size: 0.92rem;">' + formatarMoedaBrl(r.despTotal) + '</div><div style="font-size: 0.72rem; color: #475569; font-weight: 700; margin-top: 2px;">C: ' + formatarMoedaBrl(r.despC) + ' | K: ' + formatarMoedaBrl(r.despK) + '</div></td>';
+        html += '<td style="padding: 10px 14px; text-align: right;"><div style="font-weight: 800; color: #b45309; font-size: 0.92rem;">' + formatarMoedaBrl(r.saldoTotal) + '</div></td>';
+        html += '<td style="padding: 10px 14px; text-align: center;"><span style="display: inline-block; background: ' + badgeBg + '; color: ' + badgeColor + '; border: 1.5px solid ' + badgeBorder + '; padding: 4px 10px; border-radius: 12px; font-size: 0.72rem; font-weight: 800; white-space: nowrap;">' + (r.statusSed || 'Não Iniciado') + '</span></td>';
         html += '</tr>';
       });
 
@@ -13844,8 +13848,8 @@ function imprimirAgendaCarro() {
       html += '</div>';
 
       if (lista.length > limite) {
-        html += '<div style="text-align: center; margin-top: 1rem;">';
-        html += '<button onclick="carregarMaisLinhasSefin()" style="background: rgba(2, 132, 199, 0.2); border: 1px solid #0284c7; color: #38bdf8; font-weight: 700; font-size: 0.82rem; padding: 8px 22px; border-radius: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background=\'#0284c7\'; this.style.color=\'#ffffff\';" onmouseout="this.style.background=\'rgba(2, 132, 199, 0.2)\'; this.style.color=\'#38bdf8\';">Carregar Mais 100 Registros (Restam ' + (lista.length - limite) + ') ↓</button>';
+        html += '<div style="text-align: center; margin-top: 1.25rem;">';
+        html += '<button onclick="carregarMaisLinhasSefin()" style="background: #ffffff; border: 2px solid #0284c7; color: #0284c7; font-weight: 800; font-size: 0.86rem; padding: 10px 26px; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(2,132,199,0.15); transition: all 0.2s;" onmouseover="this.style.background=\'#0284c7\'; this.style.color=\'#ffffff\';" onmouseout="this.style.background=\'#ffffff\'; this.style.color=\'#0284c7\';">Carregar Mais 100 Registros (Restam ' + (lista.length - limite) + ') ↓</button>';
         html += '</div>';
       }
 
@@ -13859,7 +13863,7 @@ function imprimirAgendaCarro() {
         return;
       }
 
-      let csv = '\uFEFF'; // UTF-8 BOM
+      let csv = '\uFEFF';
       csv += 'Exercício;Escola;CIE;Programa;Origem;Receita_Custeio;Receita_Capital;Receita_Total;Despesa_Custeio;Despesa_Capital;Despesa_Total;Saldo_Total;Status_SED\r\n';
 
       lista.forEach(r => {
@@ -13915,51 +13919,49 @@ function imprimirAgendaCarro() {
       const anoAtivo = filtrosSefinAvancados.ano || '2026';
       const kpis = DADOS_FINANCEIROS_SEFIN.kpisPorAno[anoAtivo] || DADOS_FINANCEIROS_SEFIN.kpisPorAno["2026"];
       const listaRepasses = obterRepassesFiltradosSefin();
-
-      // Programas únicos disponíveis para o filtro
       const programasDoAno = Object.keys(kpis.programas || {});
 
       let html = `
-        <div class="sefin-dash-executive" style="padding: 0.5rem 0.2rem; color: #f8fafc; font-family: inherit;">
+        <div class="sefin-dash-executive" style="padding: 0.5rem 0.2rem; font-family: inherit;">
           
-          <!-- TOPO DO PAINEL SEAFIN / SEFIN -->
-          <div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); border: 1.5px solid rgba(240, 155, 12, 0.4); border-radius: 16px; padding: 1.4rem 1.6rem; margin-bottom: 1.25rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+          <!-- TOPO DO PAINEL SEAFIN / SEFIN (ALTO CONTRASTE) -->
+          <div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); border: 2px solid #f09b0c; border-radius: 16px; padding: 1.4rem 1.6rem; margin-bottom: 1.25rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
             <div>
               <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
-                <span style="font-size: 1.6rem;">💼</span>
-                <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">SEAFIN • Prestação de Contas & Finanças (SEFIN)</h2>
-                <span style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT</span>
+                <span style="font-size: 1.7rem;">💼</span>
+                <h2 style="font-size: 1.45rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">SEAFIN • Prestação de Contas & Finanças (SEFIN)</h2>
+                <span style="background: #d1fae5; color: #065f46; border: 1.5px solid #10b981; font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT</span>
               </div>
-              <p style="font-size: 0.86rem; color: #cbd5e1; margin: 0; max-width: 820px; line-height: 1.4;">
-                Controle e acompanhamento da prestação de contas dos repasses do <strong>PDDE Paulista</strong> e <strong>PDDE Federal</strong> para as Associações de Pais e Mestres (APMs) das 60 unidades escolares da Diretoria Regional de Itapevi.
+              <p style="font-size: 0.88rem; color: #f1f5f9; margin: 0; max-width: 820px; line-height: 1.45; font-weight: 500;">
+                Controle e acompanhamento da prestação de contas dos repasses do <strong style="color: #ffffff;">PDDE Paulista</strong> e <strong style="color: #ffffff;">PDDE Federal</strong> para as Associações de Pais e Mestres (APMs) das 60 unidades escolares da Diretoria Regional de Itapevi.
               </p>
-              <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.65rem; font-size: 0.76rem; color: #94a3b8;">
-                <span>📁 <strong>Arquivo:</strong> ${DADOS_FINANCEIROS_SEFIN.meta.nomeArquivo}</span>
-                <span>👤 <strong>Conta:</strong> ${DADOS_FINANCEIROS_SEFIN.meta.contaResponsavel}</span>
-                <span>🕒 <strong>Atualizado:</strong> ${DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao}</span>
+              <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.65rem; font-size: 0.78rem; color: #cbd5e1; font-weight: 600;">
+                <span>📁 <strong>Arquivo:</strong> <span style="color: #ffffff;">${DADOS_FINANCEIROS_SEFIN.meta.nomeArquivo}</span></span>
+                <span>👤 <strong>Conta:</strong> <span style="color: #ffffff;">${DADOS_FINANCEIROS_SEFIN.meta.contaResponsavel}</span></span>
+                <span>🕒 <strong>Atualizado:</strong> <span style="color: #ffffff;">${DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao}</span></span>
               </div>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
               <div style="display: flex; gap: 0.6rem;">
-                <button onclick="sincronizarDashboardSefin()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #ffffff; padding: 7px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.16)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+                <button onclick="sincronizarDashboardSefin()" style="background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.3); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
                   🔄 Sincronizar Base
                 </button>
-                <a href="${DADOS_FINANCEIROS_SEFIN.meta.sharepointUrl}" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0f172a; border: none; padding: 7px 16px; border-radius: 8px; font-size: 0.78rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.35); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                <a href="${DADOS_FINANCEIROS_SEFIN.meta.sharepointUrl}" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
                   📊 Abrir Excel no 365 ↗
                 </a>
               </div>
-              <div style="font-size: 0.7rem; color: #94a3b8;">Base contábil com ${DADOS_FINANCEIROS_SEFIN.meta.totalRegistros} repasses auditáveis</div>
+              <div style="font-size: 0.74rem; color: #93c5fd; font-weight: 700;">Base oficial com ${DADOS_FINANCEIROS_SEFIN.meta.totalRegistros} repasses auditáveis</div>
             </div>
           </div>
 
-          <!-- BARRA DE SELEÇÃO DE EXERCÍCIO (ANO) -->
-          <div style="background: #0f172a; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 0.85rem 1.2rem; margin-bottom: 1.25rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+          <!-- BARRA DE SELEÇÃO DE EXERCÍCIO (ANO) - ALTO CONTRASTE -->
+          <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 0.9rem 1.25rem; margin-bottom: 1.25rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
             <div style="display: flex; align-items: center; gap: 0.85rem;">
-              <span style="font-size: 1.15rem;">📅</span>
+              <span style="font-size: 1.3rem;">📅</span>
               <div>
-                <label for="sefin-seletor-ano-header" style="font-size: 0.76rem; font-weight: 800; color: #f09b0c; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.2rem;">Exercício / Ano da Prestação de Contas:</label>
-                <select id="sefin-seletor-ano-header" onchange="alterarExercicioSefin(this.value)" style="background: #1e293b; border: 1.5px solid #0284c7; color: #ffffff; padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 0.88rem; cursor: pointer; outline: none;">
+                <label for="sefin-seletor-ano-header" style="font-size: 0.78rem; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.25rem;">Exercício / Ano da Prestação de Contas:</label>
+                <select id="sefin-seletor-ano-header" onchange="alterarExercicioSefin(this.value)" style="background: #f8fafc; border: 2px solid #0284c7; color: #0f172a; padding: 7px 14px; border-radius: 8px; font-weight: 800; font-size: 0.92rem; cursor: pointer; outline: none;">
                   <option value="2026" ${anoAtivo === '2026' ? 'selected' : ''}>2026 (Exercício Vigente - 176 repasses)</option>
                   <option value="2025" ${anoAtivo === '2025' ? 'selected' : ''}>2025 (240 repasses)</option>
                   <option value="2024" ${anoAtivo === '2024' ? 'selected' : ''}>2024 (240 repasses)</option>
@@ -13968,150 +13970,152 @@ function imprimirAgendaCarro() {
                   <option value="2021" ${anoAtivo === '2021' ? 'selected' : ''}>2021 (754 repasses)</option>
                   <option value="2020" ${anoAtivo === '2020' ? 'selected' : ''}>2020 (401 repasses)</option>
                   <option value="2019" ${anoAtivo === '2019' ? 'selected' : ''}>2019 (212 repasses)</option>
-                  <option value="todos" ${anoAtivo === 'todos' ? 'selected' : ''}>Todos os Exercícios (Série Histórica Consolidada - 2.999 repasses)</option>
+                  <option value="todos" ${anoAtivo === 'todos' ? 'selected' : ''}>Todos os Exercícios (Série Histórica Completa - 2.999 repasses)</option>
                 </select>
               </div>
             </div>
 
-            <div style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600; background: rgba(2, 132, 199, 0.1); border: 1px solid rgba(2, 132, 199, 0.3); padding: 6px 14px; border-radius: 8px;">
+            <div style="font-size: 0.84rem; color: #0369a1; font-weight: 800; background: #e0f2fe; border: 1.5px solid #0284c7; padding: 7px 16px; border-radius: 8px;">
               <span>${kpis.legenda}</span>
             </div>
           </div>
 
-          <!-- GRID DE KPIS REAIS DA PLANILHA (DIMENSÕES PROPORCIONAIS) -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+          <!-- GRID DE 5 KPIS REAIS (ALTO CONTRASTE CLARO COM APENAS O NÚMERO EM DESTAQUE) -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.1rem; margin-bottom: 1.35rem;">
             
             <!-- CARD 1: RECEITA TOTAL REPASSADA (COLUNAS P + Q) -->
-            <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 1.15rem 1.1rem; min-height: 135px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.25);">
+            <div style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 14px; padding: 1.2rem; min-height: 140px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.08);">
               <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                  <span style="font-size: 0.74rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Receita Repassada às APMs</span>
-                  <span style="font-size: 1.1rem;">💰</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <span style="font-size: 0.76rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.04em;">Receita Repassada às APMs</span>
+                  <span style="font-size: 1.25rem;">💰</span>
                 </div>
-                <div style="font-size: clamp(1.2rem, 1.7vw, 1.5rem); font-weight: 800; color: #38bdf8; letter-spacing: -0.02em; line-height: 1.2; margin: 0.2rem 0;" title="${formatarMoedaBrl(kpis.totalReceita)}">
+                <div style="font-size: clamp(1.3rem, 1.8vw, 1.65rem); font-weight: 900; color: #0284c7; letter-spacing: -0.02em; line-height: 1.2; margin: 0.2rem 0;" title="${formatarMoedaBrl(kpis.totalReceita)}">
                   ${formatarMoedaBrl(kpis.totalReceita)}
                 </div>
               </div>
-              <div style="font-size: 0.72rem; color: #94a3b8; padding-top: 0.45rem; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between;">
-                <span>Custeio: <strong style="color: #ffffff;">${formatarMoedaBrl(kpis.recCusteio)}</strong></span>
-                <span>Capital: <strong style="color: #ffffff;">${formatarMoedaBrl(kpis.recCapital)}</strong></span>
+              <div style="font-size: 0.74rem; color: #334155; padding-top: 0.5rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
+                <span>Custeio: <strong style="color: #0f172a; font-weight: 800;">${formatarMoedaBrl(kpis.recCusteio)}</strong></span>
+                <span>Capital: <strong style="color: #0f172a; font-weight: 800;">${formatarMoedaBrl(kpis.recCapital)}</strong></span>
               </div>
             </div>
 
-            <!-- CARD 2: DESPESAS EXECUTADAS PELAS ESCOLAS (COLUNAS U + V) -->
-            <div style="background: rgba(16, 185, 129, 0.06); border: 1.5px solid rgba(16, 185, 129, 0.35); border-radius: 14px; padding: 1.15rem 1.1rem; min-height: 135px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.25);">
+            <!-- CARD 2: DESPESAS REALIZADAS PELAS ESCOLAS (COLUNAS U + V) -->
+            <div style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 14px; padding: 1.2rem; min-height: 140px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.08);">
               <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                  <span style="font-size: 0.74rem; font-weight: 700; color: #34d399; text-transform: uppercase; letter-spacing: 0.05em;">Despesas Realizadas</span>
-                  <span style="font-size: 1.1rem;">📝</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <span style="font-size: 0.76rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.04em;">Despesas Realizadas pelas Escolas</span>
+                  <span style="font-size: 1.25rem;">📝</span>
                 </div>
-                <div style="font-size: clamp(1.2rem, 1.7vw, 1.5rem); font-weight: 800; color: #10b981; letter-spacing: -0.02em; line-height: 1.2; margin: 0.2rem 0;" title="${formatarMoedaBrl(kpis.totalDespesa)}">
+                <div style="font-size: clamp(1.3rem, 1.8vw, 1.65rem); font-weight: 900; color: #047857; letter-spacing: -0.02em; line-height: 1.2; margin: 0.2rem 0;" title="${formatarMoedaBrl(kpis.totalDespesa)}">
                   ${formatarMoedaBrl(kpis.totalDespesa)}
                 </div>
               </div>
-              <div style="font-size: 0.72rem; color: #34d399; padding-top: 0.45rem; border-top: 1px solid rgba(16, 185, 129, 0.2); display: flex; justify-content: space-between; font-weight: 700;">
+              <div style="font-size: 0.74rem; color: #047857; padding-top: 0.5rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 800;">
                 <span>${formatarPct(kpis.taxaExecucao)} Executado</span>
-                <span style="color: #94a3b8; font-weight: 500;">C: ${formatarMoedaBrl(kpis.despCusteio)}</span>
+                <span style="color: #334155; font-weight: 700;">C: <strong style="color: #0f172a;">${formatarMoedaBrl(kpis.despCusteio)}</strong></span>
               </div>
             </div>
 
-            <!-- CARD 3: SALDO EM CONTA / A REPROGRAMAR (COLUNAS W + X) -->
-            <div style="background: rgba(240, 155, 12, 0.06); border: 1.5px solid rgba(240, 155, 12, 0.35); border-radius: 14px; padding: 1.15rem 1.1rem; min-height: 135px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.25);">
+            <!-- CARD 3: SALDO EM CONTA BANCÁRIA (COLUNAS W + X) -->
+            <div style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 14px; padding: 1.2rem; min-height: 140px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.08);">
               <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                  <span style="font-size: 0.74rem; font-weight: 700; color: #fbbf24; text-transform: uppercase; letter-spacing: 0.05em;">Saldo em Conta Bancária</span>
-                  <span style="font-size: 1.1rem;">🏦</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <span style="font-size: 0.76rem; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.04em;">Saldo em Conta Bancária (APMs)</span>
+                  <span style="font-size: 1.25rem;">🏦</span>
                 </div>
-                <div style="font-size: clamp(1.2rem, 1.7vw, 1.5rem); font-weight: 800; color: #f59e0b; letter-spacing: -0.02em; line-height: 1.2; margin: 0.2rem 0;" title="${formatarMoedaBrl(kpis.totalSaldo)}">
+                <div style="font-size: clamp(1.3rem, 1.8vw, 1.65rem); font-weight: 900; color: #b45309; letter-spacing: -0.02em; line-height: 1.2; margin: 0.2rem 0;" title="${formatarMoedaBrl(kpis.totalSaldo)}">
                   ${formatarMoedaBrl(kpis.totalSaldo)}
                 </div>
               </div>
-              <div style="font-size: 0.72rem; color: #fbbf24; padding-top: 0.45rem; border-top: 1px solid rgba(240, 155, 12, 0.2); display: flex; justify-content: space-between;">
+              <div style="font-size: 0.74rem; color: #78350f; padding-top: 0.5rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 800;">
                 <span>Saldo a Reprogramar</span>
-                <span style="color: #94a3b8;">Contas APMs</span>
+                <span style="color: #334155; font-weight: 700;">Contas APMs</span>
               </div>
             </div>
 
-            <!-- CARD 4: REPASSES & ESCOLAS ATENDIDAS -->
-            <div style="background: rgba(59, 130, 246, 0.06); border: 1.5px solid rgba(59, 130, 246, 0.35); border-radius: 14px; padding: 1.15rem 1.1rem; min-height: 135px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.25);">
+            <!-- CARD 4: TOTAL DE REPASSES CADASTRADOS (APENAS O NÚMERO LIMPO) -->
+            <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 14px; padding: 1.2rem; min-height: 140px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
               <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                  <span style="font-size: 0.74rem; font-weight: 700; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.05em;">Repasses & Escolas</span>
-                  <span style="font-size: 1.1rem;">🏫</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <span style="font-size: 0.76rem; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.04em;">Total de Repasses às APMs</span>
+                  <span style="font-size: 1.25rem;">🏫</span>
                 </div>
-                <div style="font-size: clamp(1.2rem, 1.7vw, 1.5rem); font-weight: 800; color: #60a5fa; letter-spacing: -0.02em; line-height: 1.2; margin: 0.2rem 0;">
-                  ${kpis.totalRepasses} Repasses
+                <div style="font-size: clamp(1.4rem, 2vw, 1.85rem); font-weight: 900; color: #0f172a; letter-spacing: -0.02em; line-height: 1.2; margin: 0.2rem 0;">
+                  ${kpis.totalRepasses.toLocaleString('pt-BR')}
                 </div>
               </div>
-              <div style="font-size: 0.72rem; color: #93c5fd; padding-top: 0.45rem; border-top: 1px solid rgba(59, 130, 246, 0.2); display: flex; justify-content: space-between; font-weight: 600;">
+              <div style="font-size: 0.74rem; color: #0369a1; padding-top: 0.5rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>${kpis.totalEscolas} Escolas Atendidas</span>
-                <span style="color: #94a3b8;">Rede URE Itapevi</span>
+                <span style="color: #475569; font-weight: 700;">Rede Regional</span>
               </div>
             </div>
 
-            <!-- CARD 5: REGULARIDADE NA SED (COLUNA Y) -->
-            <div style="background: rgba(139, 92, 246, 0.06); border: 1.5px solid rgba(139, 92, 246, 0.35); border-radius: 14px; padding: 1.15rem 1.1rem; min-height: 135px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.25);">
+            <!-- CARD 5: SITUAÇÃO SED (APENAS O NÚMERO LIMPO COM O TÍTULO EXPLICANDO) -->
+            <div style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 14px; padding: 1.2rem; min-height: 140px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.08);">
               <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                  <span style="font-size: 0.74rem; font-weight: 700; color: #c4b5fd; text-transform: uppercase; letter-spacing: 0.05em;">Situação SED</span>
-                  <span style="font-size: 1.1rem;">✅</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <span style="font-size: 0.76rem; font-weight: 800; color: #5b21b6; text-transform: uppercase; letter-spacing: 0.04em;">
+                    ${anoAtivo === '2026' ? 'Prestações em Andamento (SED)' : 'Prestações Aprovadas (SED)'}
+                  </span>
+                  <span style="font-size: 1.25rem;">✅</span>
                 </div>
-                <div style="font-size: clamp(1.2rem, 1.7vw, 1.5rem); font-weight: 800; color: #a78bfa; letter-spacing: -0.02em; line-height: 1.2; margin: 0.2rem 0;">
-                  ${anoAtivo === '2026' ? kpis.emAndamento + ' Em Andamento' : formatarPct(kpis.taxaAprovacao) + ' Aprovadas'}
+                <div style="font-size: clamp(1.4rem, 2vw, 1.85rem); font-weight: 900; color: #6d28d9; letter-spacing: -0.02em; line-height: 1.2; margin: 0.2rem 0;">
+                  ${anoAtivo === '2026' ? kpis.emAndamento.toLocaleString('pt-BR') : formatarPct(kpis.taxaAprovacao)}
                 </div>
               </div>
-              <div style="font-size: 0.72rem; color: #c4b5fd; padding-top: 0.45rem; border-top: 1px solid rgba(139, 92, 246, 0.2); display: flex; justify-content: space-between;">
-                <span>${kpis.aprovadas} Aprovadas</span>
-                <span>${kpis.ressalvas} Ressalvas</span>
+              <div style="font-size: 0.74rem; color: #4c1d95; padding-top: 0.5rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 800;">
+                <span>${kpis.aprovadas.toLocaleString('pt-BR')} Aprovadas</span>
+                <span>${kpis.ressalvas.toLocaleString('pt-BR')} Ressalvas</span>
               </div>
             </div>
 
           </div>
 
-          <!-- NAVEGAÇÃO DE SUB-ABAS DO SEAFIN -->
-          <div style="display: flex; gap: 0.5rem; margin-bottom: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.65rem;">
-            <button id="btn-subaba-sefin-repasses" onclick="alternarSubAbaSefin('repasses')" style="background: #0284c7; color: #ffffff; border: none; padding: 7px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">
+          <!-- NAVEGAÇÃO DE SUB-ABAS (ALTO CONTRASTE) -->
+          <div style="display: flex; gap: 0.6rem; margin-bottom: 1.15rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.75rem;">
+            <button id="btn-subaba-sefin-repasses" onclick="alternarSubAbaSefin('repasses')" style="background: #0284c7; color: #ffffff; border: 2px solid #0284c7; padding: 8px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 6px rgba(2,132,199,0.2);">
               🏫 Repasses por Unidade Escolar (${listaRepasses.length})
             </button>
-            <button id="btn-subaba-sefin-programas" onclick="alternarSubAbaSefin('programas')" style="background: rgba(255,255,255,0.06); color: #cbd5e1; border: none; padding: 7px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">
+            <button id="btn-subaba-sefin-programas" onclick="alternarSubAbaSefin('programas')" style="background: #f1f5f9; color: #1e293b; border: 2px solid #cbd5e1; padding: 8px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">
               📊 Distribuição por Programa (${programasDoAno.length})
             </button>
-            <button id="btn-subaba-sefin-regularidade" onclick="alternarSubAbaSefin('regularidade')" style="background: rgba(255,255,255,0.06); color: #cbd5e1; border: none; padding: 7px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">
+            <button id="btn-subaba-sefin-regularidade" onclick="alternarSubAbaSefin('regularidade')" style="background: #f1f5f9; color: #1e293b; border: 2px solid #cbd5e1; padding: 8px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">
               📋 Prestação de Contas SED (${kpis.totalRepasses})
             </button>
           </div>
 
-          <!-- SUB-ABA 1: REPASSES POR ESCOLA (TABELA INTERATIVA COM FILTROS) -->
+          <!-- SUB-ABA 1: REPASSES POR ESCOLA (TABELA INTERATIVA COM FILTROS DE ALTO CONTRASTE) -->
           <div id="conteudo-subaba-sefin-repasses" style="display: block;">
             
-            <!-- FILTROS DA TABELA -->
-            <div style="background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.85rem; align-items: flex-end;">
+            <!-- FILTROS DA TABELA (ALTO CONTRASTE CLARO) -->
+            <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 1.1rem 1.3rem; margin-bottom: 1.1rem; display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: flex-end; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
               
-              <div style="flex: 1 1 220px;">
-                <label style="display: block; font-size: 0.72rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.35rem;">Buscar Escola ou CIE:</label>
-                <input id="sefin-busca-escola" type="text" placeholder="Digite o nome da escola ou CIE..." value="${filtrosSefinAvancados.termoBusca || ''}" oninput="atualizarFiltroAvancadoSefin('termoBusca', this.value)" style="width: 100%; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #ffffff; padding: 7px 12px; border-radius: 8px; font-size: 0.84rem; outline: none;">
+              <div style="flex: 1 1 230px;">
+                <label style="display: block; font-size: 0.74rem; font-weight: 800; color: #0f172a; text-transform: uppercase; margin-bottom: 0.35rem;">Buscar Escola ou CIE:</label>
+                <input id="sefin-busca-escola" type="text" placeholder="Digite o nome da escola ou CIE..." value="${filtrosSefinAvancados.termoBusca || ''}" oninput="atualizarFiltroAvancadoSefin('termoBusca', this.value)" style="width: 100%; background: #ffffff; border: 1.5px solid #94a3b8; color: #0f172a; padding: 8px 12px; border-radius: 8px; font-size: 0.86rem; font-weight: 700; outline: none;">
               </div>
 
-              <div style="flex: 1 1 180px;">
-                <label style="display: block; font-size: 0.72rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.35rem;">Programa / Objeto:</label>
-                <select id="sefin-filtro-programa" onchange="atualizarFiltroAvancadoSefin('programa', this.value)" style="width: 100%; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #ffffff; padding: 7px 10px; border-radius: 8px; font-size: 0.82rem; outline: none;">
+              <div style="flex: 1 1 190px;">
+                <label style="display: block; font-size: 0.74rem; font-weight: 800; color: #0f172a; text-transform: uppercase; margin-bottom: 0.35rem;">Programa / Objeto:</label>
+                <select id="sefin-filtro-programa" onchange="atualizarFiltroAvancadoSefin('programa', this.value)" style="width: 100%; background: #ffffff; border: 1.5px solid #94a3b8; color: #0f172a; padding: 8px 12px; border-radius: 8px; font-size: 0.84rem; font-weight: 700; outline: none;">
                   <option value="todos">Todos os Programas</option>
                   ${programasDoAno.map(p => '<option value="' + p + '" ' + (filtrosSefinAvancados.programa === p ? 'selected' : '') + '>' + p + '</option>').join('')}
                 </select>
               </div>
 
-              <div style="flex: 0 1 130px;">
-                <label style="display: block; font-size: 0.72rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.35rem;">Origem:</label>
-                <select id="sefin-filtro-origem" onchange="atualizarFiltroAvancadoSefin('origem', this.value)" style="width: 100%; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #ffffff; padding: 7px 10px; border-radius: 8px; font-size: 0.82rem; outline: none;">
+              <div style="flex: 0 1 140px;">
+                <label style="display: block; font-size: 0.74rem; font-weight: 800; color: #0f172a; text-transform: uppercase; margin-bottom: 0.35rem;">Origem:</label>
+                <select id="sefin-filtro-origem" onchange="atualizarFiltroAvancadoSefin('origem', this.value)" style="width: 100%; background: #ffffff; border: 1.5px solid #94a3b8; color: #0f172a; padding: 8px 12px; border-radius: 8px; font-size: 0.84rem; font-weight: 700; outline: none;">
                   <option value="todos">Todas</option>
                   <option value="Paulista" ${filtrosSefinAvancados.origem === 'Paulista' ? 'selected' : ''}>Paulista</option>
                   <option value="Federal" ${filtrosSefinAvancados.origem === 'Federal' ? 'selected' : ''}>Federal</option>
                 </select>
               </div>
 
-              <div style="flex: 0 1 150px;">
-                <label style="display: block; font-size: 0.72rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.35rem;">Status SED:</label>
-                <select id="sefin-filtro-status" onchange="atualizarFiltroAvancadoSefin('statusSed', this.value)" style="width: 100%; background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #ffffff; padding: 7px 10px; border-radius: 8px; font-size: 0.82rem; outline: none;">
+              <div style="flex: 0 1 160px;">
+                <label style="display: block; font-size: 0.74rem; font-weight: 800; color: #0f172a; text-transform: uppercase; margin-bottom: 0.35rem;">Status SED:</label>
+                <select id="sefin-filtro-status" onchange="atualizarFiltroAvancadoSefin('statusSed', this.value)" style="width: 100%; background: #ffffff; border: 1.5px solid #94a3b8; color: #0f172a; padding: 8px 12px; border-radius: 8px; font-size: 0.84rem; font-weight: 700; outline: none;">
                   <option value="todos">Todos os Status</option>
                   <option value="APROVADA" ${filtrosSefinAvancados.statusSed === 'APROVADA' ? 'selected' : ''}>Aprovada</option>
                   <option value="APROVADA COM RESSALVA" ${filtrosSefinAvancados.statusSed === 'APROVADA COM RESSALVA' ? 'selected' : ''}>Aprovada com Ressalva</option>
@@ -14120,11 +14124,11 @@ function imprimirAgendaCarro() {
                 </select>
               </div>
 
-              <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <button onclick="limparTodosFiltrosSefin()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; padding: 7px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">
+              <div style="display: flex; gap: 0.6rem; align-items: center;">
+                <button onclick="limparTodosFiltrosSefin()" style="background: #ffffff; border: 1.5px solid #cbd5e1; color: #0f172a; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: background 0.15s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#ffffff'">
                   Limpar
                 </button>
-                <button onclick="exportarBalanceteSefinCsv()" style="background: #10b981; color: #ffffff; border: none; padding: 7px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
+                <button onclick="exportarBalanceteSefinCsv()" style="background: #047857; color: #ffffff; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 6px rgba(4,120,87,0.3);">
                   📥 Exportar CSV
                 </button>
               </div>
@@ -14132,7 +14136,7 @@ function imprimirAgendaCarro() {
             </div>
 
             <!-- CONTADOR DE REGISTROS -->
-            <div id="sefin-contador-linhas" style="font-size: 0.78rem; color: #94a3b8; font-weight: 600; margin-bottom: 0.6rem; padding-left: 0.25rem;">
+            <div id="sefin-contador-linhas" style="font-size: 0.84rem; color: #0f172a; font-weight: 800; margin-bottom: 0.65rem; padding-left: 0.25rem;">
               Exibindo ${Math.min(listaRepasses.length, filtrosSefinAvancados.limiteLinhas)} de ${listaRepasses.length} repasses encontrados
             </div>
 
@@ -14145,26 +14149,26 @@ function imprimirAgendaCarro() {
 
           <!-- SUB-ABA 2: DISTRIBUIÇÃO POR PROGRAMA -->
           <div id="conteudo-subaba-sefin-programas" style="display: none;">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 0.5rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.1rem; margin-top: 0.5rem;">
               ${programasDoAno.map(progNome => {
                 const p = kpis.programas[progNome];
                 const pct = p.receita > 0 ? (p.despesa / p.receita) * 100 : 0;
                 return `
-                  <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-                    <div style="font-weight: 700; font-size: 0.92rem; color: #ffffff; margin-bottom: 0.4rem;">${progNome}</div>
-                    <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 0.65rem;">${p.repasses} repasses cadastrados no ano</div>
-                    <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.25rem;">
-                      <span style="color: #94a3b8;">Receita Total:</span>
-                      <span style="color: #38bdf8; font-weight: 700;">${formatarMoedaBrl(p.receita)}</span>
+                  <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 1.25rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                    <div style="font-weight: 800; font-size: 0.94rem; color: #0f172a; margin-bottom: 0.35rem; line-height: 1.3;">${progNome}</div>
+                    <div style="font-size: 0.78rem; color: #0369a1; font-weight: 700; margin-bottom: 0.75rem;">${p.repasses} repasses cadastrados no ano</div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.84rem; margin-bottom: 0.35rem;">
+                      <span style="color: #475569; font-weight: 600;">Receita Total:</span>
+                      <span style="color: #0369a1; font-weight: 800;">${formatarMoedaBrl(p.receita)}</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.6rem;">
-                      <span style="color: #94a3b8;">Despesa Realizada:</span>
-                      <span style="color: #10b981; font-weight: 700;">${formatarMoedaBrl(p.despesa)}</span>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.84rem; margin-bottom: 0.65rem;">
+                      <span style="color: #475569; font-weight: 600;">Despesa Realizada:</span>
+                      <span style="color: #047857; font-weight: 800;">${formatarMoedaBrl(p.despesa)}</span>
                     </div>
-                    <div style="background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 0.35rem;">
-                      <div style="background: #10b981; height: 100%; width: ${Math.min(100, Math.round(pct))}%;"></div>
+                    <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 0.4rem;">
+                      <div style="background: #047857; height: 100%; width: ${Math.min(100, Math.round(pct))}%;"></div>
                     </div>
-                    <div style="font-size: 0.72rem; color: #34d399; text-align: right; font-weight: 700;">${formatarPct(pct)} de execução</div>
+                    <div style="font-size: 0.76rem; color: #047857; text-align: right; font-weight: 800;">${formatarPct(pct)} de execução</div>
                   </div>
                 `;
               }).join('')}
@@ -14173,82 +14177,82 @@ function imprimirAgendaCarro() {
 
           <!-- SUB-ABA 3: PRESTAÇÃO DE CONTAS SED -->
           <div id="conteudo-subaba-sefin-regularidade" style="display: none;">
-            <div style="background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.5rem; margin-top: 0.5rem;">
-              <h4 style="font-size: 1rem; font-weight: 700; color: #ffffff; margin: 0 0 1rem 0;">Status Oficial da Prestação de Contas no Sistema SED (Ano ${anoAtivo})</h4>
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                  <div style="font-size: 1.8rem; font-weight: 800; color: #34d399;">${kpis.aprovadas}</div>
-                  <div style="font-size: 0.78rem; font-weight: 700; color: #a7f3d0; text-transform: uppercase;">Aprovadas sem Ressalva</div>
+            <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 1.5rem; margin-top: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+              <h4 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin: 0 0 1.25rem 0;">Status Oficial da Prestação de Contas no Sistema SED (Ano ${anoAtivo})</h4>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.1rem; margin-bottom: 1.5rem;">
+                <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 1.2rem; text-align: center;">
+                  <div style="font-size: 2rem; font-weight: 900; color: #166534;">${kpis.aprovadas}</div>
+                  <div style="font-size: 0.8rem; font-weight: 800; color: #15803d; text-transform: uppercase;">Aprovadas sem Ressalva</div>
                 </div>
-                <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                  <div style="font-size: 1.8rem; font-weight: 800; color: #fbbf24;">${kpis.ressalvas}</div>
-                  <div style="font-size: 0.78rem; font-weight: 700; color: #fde68a; text-transform: uppercase;">Aprovadas com Ressalva</div>
+                <div style="background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 12px; padding: 1.2rem; text-align: center;">
+                  <div style="font-size: 2rem; font-weight: 900; color: #92400e;">${kpis.ressalvas}</div>
+                  <div style="font-size: 0.8rem; font-weight: 800; color: #b45309; text-transform: uppercase;">Aprovadas com Ressalva</div>
                 </div>
-                <div style="background: rgba(2, 132, 199, 0.1); border: 1px solid rgba(2, 132, 199, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                  <div style="font-size: 1.8rem; font-weight: 800; color: #38bdf8;">${kpis.emAndamento}</div>
-                  <div style="font-size: 0.78rem; font-weight: 700; color: #bae6fd; text-transform: uppercase;">Em Andamento</div>
+                <div style="background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 1.2rem; text-align: center;">
+                  <div style="font-size: 2rem; font-weight: 900; color: #075985;">${kpis.emAndamento}</div>
+                  <div style="font-size: 0.8rem; font-weight: 800; color: #0284c7; text-transform: uppercase;">Em Andamento</div>
                 </div>
-                <div style="background: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 10px; padding: 1rem; text-align: center;">
-                  <div style="font-size: 1.8rem; font-weight: 800; color: #cbd5e1;">${kpis.outros}</div>
-                  <div style="font-size: 0.78rem; font-weight: 700; color: #e2e8f0; text-transform: uppercase;">Em Análise / Outros</div>
+                <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 1.2rem; text-align: center;">
+                  <div style="font-size: 2rem; font-weight: 900; color: #1e293b;">${kpis.outros}</div>
+                  <div style="font-size: 0.8rem; font-weight: 800; color: #475569; text-transform: uppercase;">Em Análise / Outros</div>
                 </div>
               </div>
-              <p style="font-size: 0.82rem; color: #94a3b8; line-height: 1.4; margin: 0;">
+              <p style="font-size: 0.86rem; color: #334155; line-height: 1.5; margin: 0; font-weight: 500;">
                 A regularidade das Associações de Pais e Mestres (APMs) no sistema SED é pré-requisito indispensável para a liberação de novos repasses e parcelas do PDDE Paulista pela SEDUC-SP.
               </p>
             </div>
           </div>
 
-          <!-- NOTAS EXPLICATIVAS RETRÁTEIS (BASE REAL DO SHAREPOINT) -->
-          <div style="margin-top: 1.75rem; border: 1.5px solid rgba(240, 155, 12, 0.35); border-radius: 14px; background: rgba(15, 23, 42, 0.8); overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+          <!-- NOTAS EXPLICATIVAS RETRÁTEIS (ALTO CONTRASTE CLARO) -->
+          <div style="margin-top: 1.75rem; border: 1.5px solid #cbd5e1; border-radius: 14px; background: #ffffff; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.06);">
             
-            <div id="sefin-notas-header-toggle" onclick="alternarRecolherNotasSefin()" style="padding: 1rem 1.4rem; background: linear-gradient(90deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%); cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;" title="Clique para expandir ou recolher as notas metodológicas">
+            <div id="sefin-notas-header-toggle" onclick="alternarRecolherNotasSefin()" style="padding: 1.1rem 1.4rem; background: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;" title="Clique para expandir ou recolher as notas metodológicas">
               <div style="display: flex; align-items: center; gap: 0.65rem;">
-                <span style="font-size: 1.15rem;">📖</span>
+                <span style="font-size: 1.25rem;">📖</span>
                 <div>
-                  <h4 style="font-size: 0.92rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.01em;">Notas Metodológicas e Dicionário de Colunas da Planilha Oficial</h4>
-                  <div id="sefin-notas-toggle-status" style="font-size: 0.74rem; color: #f09b0c; font-weight: 600; margin-top: 2px;">Clique para recolher notas</div>
+                  <h4 style="font-size: 0.95rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.01em;">Notas Metodológicas e Dicionário de Colunas da Planilha Oficial</h4>
+                  <div id="sefin-notas-toggle-status" style="font-size: 0.76rem; color: #f09b0c; font-weight: 700; margin-top: 2px;">Clique para recolher notas explicativas</div>
                 </div>
               </div>
-              <div id="sefin-notas-seta-indicadora" style="font-size: 1.1rem; color: #f09b0c; transition: transform 0.3s; transform: rotate(180deg);">▼</div>
+              <div id="sefin-notas-seta-indicadora" style="font-size: 1.15rem; color: #f09b0c; transition: transform 0.3s; transform: rotate(180deg);">▼</div>
             </div>
 
-            <div id="sefin-notas-conteudo-expansivel" style="padding: 1.4rem; border-top: 1px solid rgba(255,255,255,0.08); display: block;">
+            <div id="sefin-notas-conteudo-expansivel" style="padding: 1.4rem; border-top: 1px solid #e2e8f0; display: block; background: #ffffff;">
               
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 1rem;">
-                  <strong style="color: #38bdf8; font-size: 0.84rem; display: block; margin-bottom: 0.3rem;">💰 Total Receita (Colunas P e Q)</strong>
-                  <p style="font-size: 0.78rem; color: #cbd5e1; margin: 0; line-height: 1.4;">
-                    Representa o montante total creditado na conta bancária da APM escolar, segregado em <strong>Custeio (P)</strong> (materiais de consumo, pequenos serviços) e <strong>Capital (Q)</strong> (equipamentos e bens patrimoniais). Inclui repasses do FNDE, recursos próprios e rendimentos financeiros.
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.1rem; margin-bottom: 1.25rem;">
+                <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 1.1rem;">
+                  <strong style="color: #0369a1; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">💰 Total Receita (Colunas P e Q)</strong>
+                  <p style="font-size: 0.82rem; color: #334155; margin: 0; line-height: 1.5; font-weight: 500;">
+                    Representa o montante total creditado na conta bancária da APM escolar, segregado em <strong>Custeio (P)</strong> (materiais de consumo, pequenos reparos) e <strong>Capital (Q)</strong> (equipamentos e bens patrimoniais). Inclui repasses do FNDE, recursos próprios e rendimentos financeiros.
                   </p>
                 </div>
 
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 1rem;">
-                  <strong style="color: #10b981; font-size: 0.84rem; display: block; margin-bottom: 0.3rem;">📝 Despesas Realizadas (Colunas U e V)</strong>
-                  <p style="font-size: 0.78rem; color: #cbd5e1; margin: 0; line-height: 1.4;">
+                <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 1.1rem;">
+                  <strong style="color: #047857; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">📝 Despesas Realizadas (Colunas U e V)</strong>
+                  <p style="font-size: 0.82rem; color: #334155; margin: 0; line-height: 1.5; font-weight: 500;">
                     Gastos efetivamente executados e comprovados pela equipe gestora da Unidade Escolar mediante notas fiscais, recibos e balancetes prestados e validados no sistema da Secretaria da Educação.
                   </p>
                 </div>
 
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 1rem;">
-                  <strong style="color: #fbbf24; font-size: 0.84rem; display: block; margin-bottom: 0.3rem;">🏦 Saldo a Reprogramar (Colunas W e X)</strong>
-                  <p style="font-size: 0.78rem; color: #cbd5e1; margin: 0; line-height: 1.4;">
+                <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 1.1rem;">
+                  <strong style="color: #b45309; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">🏦 Saldo a Reprogramar (Colunas W e X)</strong>
+                  <p style="font-size: 0.82rem; color: #334155; margin: 0; line-height: 1.5; font-weight: 500;">
                     Recursos remanescentes em conta bancária que não foram executados até o término do exercício fiscal e que são reprogramados para utilização no ano seguinte mediante novo plano de aplicação escolar.
                   </p>
                 </div>
 
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 1rem;">
-                  <strong style="color: #a78bfa; font-size: 0.84rem; display: block; margin-bottom: 0.3rem;">🏛️ Status SED & Origem (Colunas Y e Z)</strong>
-                  <p style="font-size: 0.78rem; color: #cbd5e1; margin: 0; line-height: 1.4;">
+                <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 1.1rem;">
+                  <strong style="color: #6d28d9; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">🏛️ Status SED & Origem (Colunas Y e Z)</strong>
+                  <p style="font-size: 0.82rem; color: #334155; margin: 0; line-height: 1.5; font-weight: 500;">
                     <strong>Status SED:</strong> Parecer da Seção de Finanças (SEFIN) na Secretaria Escolar Digital (Aprovada, Aprovada com Ressalva, Em Andamento).<br>
                     <strong>Origem:</strong> Identifica se o recurso provém do Governo Estadual (PDDE Paulista) ou Federal (FNDE).
                   </p>
                 </div>
               </div>
 
-              <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 0.85rem; font-size: 0.75rem; color: #94a3b8; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
-                <span>Fonte Oficial: <strong>Controle prestação de contas U.E..xlsx</strong> (Microsoft SharePoint Corporativo)</span>
-                <span>Responsabilidade: <strong>SEAFIN / SEFIN • Diretoria de Ensino da Região de Itapevi</strong></span>
+              <div style="border-top: 1.5px solid #e2e8f0; padding-top: 0.85rem; font-size: 0.78rem; color: #475569; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-weight: 600;">
+                <span>Fonte Oficial: <strong style="color: #0f172a;">Controle prestação de contas U.E..xlsx</strong> (Microsoft SharePoint Corporativo)</span>
+                <span>Responsabilidade: <strong style="color: #0f172a;">SEAFIN / SEFIN • Diretoria de Ensino da Região de Itapevi</strong></span>
               </div>
 
             </div>
