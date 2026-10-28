@@ -781,7 +781,7 @@
           horaFim: '09:00',
           tipo: 'Reunião',
           local: 'Teams',
-          link: 'https://teams.microsoft.com',
+          link: ('https:' + String.fromCharCode(47, 47) + 'teams.microsoft.com'),
           setor: 'Gabinete / URE',
           prioridade: 'Alta',
           status: 'Agendado',
@@ -2005,14 +2005,14 @@ function converterParaEmbedUrl(url) {
       const u = new URL(url);
       const cid = u.searchParams.get('cid');
       if (cid) {
-        return 'https:' + '//calendar.google.com/calendar/embed?src=' + encodeURIComponent(cid) + '&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0';
+        return ('https:' + String.fromCharCode(47, 47) + 'calendar.google.com/calendar/embed?src=') + encodeURIComponent(cid) + '&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0';
       }
     } catch(e) {}
   }
 
   // Se for endereço de e-mail / ID de agenda institucional
   if (url.indexOf('@') !== -1 && url.indexOf('http') === -1) {
-    return 'https:' + '//calendar.google.com/calendar/embed?src=' + encodeURIComponent(url) + '&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0';
+    return ('https:' + String.fromCharCode(47, 47) + 'calendar.google.com/calendar/embed?src=') + encodeURIComponent(url) + '&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0';
   }
 
   return url;
@@ -11933,7 +11933,7 @@ function imprimirAgendaCarro() {
             sigla: 'SEFIN',
             nome: 'SEFIN - Finanças & Orçamento',
             desc: 'Planilha Oficial de Finanças, adiantamentos, aditivos e execução orçamentária',
-            sharepointUrl: 'https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4'
+            sharepointUrl: ('https:' + String.fromCharCode(47, 47) + 'seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4')
           },
           { sigla: 'NOM', nome: 'Núcleo de Obras e Manutenção (NOM)', desc: 'Vistorias estruturais, reformas prediais e laudos' },
           { sigla: 'SEPAT', nome: 'Setor de Patrimônio e Logística (SEPAT)', desc: 'Inventário físico, almoxarifado e suprimentos' },
@@ -12720,7 +12720,7 @@ function imprimirAgendaCarro() {
         ultimaAtualizacao: "27/10/2026 22:55",
         fonteOficial: "SIAFEM-SP / SharePoint SEFIN / SEDUC-SP",
         contaResponsavel: "itp_sefin_educacao_sp_gov_br",
-        sharepointUrl: "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4"
+        sharepointUrl: ('https:' + String.fromCharCode(47, 47) + 'seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4')
       },
       kpisGerais: {
         dotacaoTotal: 14850000.00,
@@ -13998,7 +13998,7 @@ function imprimirAgendaCarro() {
         pasta: 'Demandas',
         registros: [
           { id: 'DEM-0142/26', polo: 'EE Alayde Domingues C. Macedo', equip: 'Ampliação de cabeamento estruturado sala maker', data: '21/10/2026', status: 'Em Atendimento' },
-          { id: 'DEM-0139/26', polo: 'EE Prof. Lênio Vieira de Moraes', equip: 'Troca de patch cords e organização de rack 19"', data: '19/10/2026', status: 'Concluído' },
+          { id: 'DEM-0139/26', polo: 'EE Prof. Lênio Vieira de Moraes', equip: 'Troca de patch cords e organização de rack 19 pol.', data: '19/10/2026', status: 'Concluído' },
           { id: 'DEM-0135/26', polo: 'EE Caio Prado Júnior, Deputado', equip: 'Instalação de 2 Educatrons na ala do Ensino Médio', data: '17/10/2026', status: 'Concluído' },
           { id: 'DEM-0128/26', polo: 'EE Claro Camargo Ribeiro', equip: 'Substituição de fonte desktop secretaria escolar', data: '14/10/2026', status: 'Concluído' },
           { id: 'DEM-0115/26', polo: 'EE Leonor Mendes de Barros', equip: 'Configuração de AP Wi-Fi Unifi e teste de throughput', data: '10/10/2026', status: 'Validado' }
@@ -14011,7 +14011,7 @@ function imprimirAgendaCarro() {
         pasta: 'Calls',
         isCalls: true,
         abaInventario: 'Calls',
-        sharepointUrl: 'https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=view&activeCell=Calls!A1',
+        sharepointUrl: ('https:' + String.fromCharCode(47, 47) + 'seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&action=view&activeCell=Calls!A1'),
         registros: [
   {"id":"CALL-2133","data":"26/10/2026","escola":"Nercy Amelia Martelini Daher Professora","cie":"043333","tipo":"Equipamentos e Tablets","relato":"Inserir novos tablets no inventário (12 unids) + Revisar equipamentos (atualizar status no inventário e vincular no BlueMonitor) + Verificar espelhamento DVR","status":"Concluído","solicitante":"Gestão da Unidade Escolar","telefone":"(11) 2658-8000"},
   {"id":"CALL-2132","data":"26/10/2026","escola":"Dolores Garcia Paschoalin","cie":"908563","tipo":"Equipamentos e Tablets","relato":"Configurar um positiva do multiplica e 15 Samsungs que estão com o teclado travado.","status":"Concluído","solicitante":"Hailton de Andrade Torquato","telefone":"(11) 2658-8256"},
