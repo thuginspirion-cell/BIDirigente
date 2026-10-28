@@ -910,7 +910,16 @@
       setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
-    // --- FUNÇÕES DE NAVEGAÇÃO DE VIEWS ATUALIZADAS ---
+    // --- FUNÇÕES DE NAVEGAÇÃO DE VIEWS ATUALIZADAS & RESILIENTES (100% BLINDADAS) ---
+    function rolarAoTopoSuave() {
+      try {
+        if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+          rolarAoTopoSuave();
+        }
+      } catch (e) {
+        try { window.scrollTo(0, 0); } catch (err) {}
+      }
+    }
     function esconderTodasAsPanes() {
       document.querySelectorAll('.view-pane').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
@@ -943,7 +952,7 @@
       }
       renderizarMinhaGestao();
       carregarGoogleCalendar(dataAtivaGestaoHoje);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      rolarAoTopoSuave();
     }
 
     // Alias para compatibilidade com chamadas pré-existentes
@@ -968,7 +977,7 @@
       }
       renderizarAgenda();
       carregarGoogleCalendar();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      rolarAoTopoSuave();
     }
 
     // Atualiza mostrarHome para controlar a pane e o breadcrumb
@@ -982,7 +991,7 @@
       if (sideBtn) sideBtn.classList.add('active');
 
       atualizarBreadcrumbTopo('');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      rolarAoTopoSuave();
     };
 
     // --- RENDERIZAÇÃO: MINHA GESTÃO (ROTINA & COMPROMISSOS) ---
@@ -1767,7 +1776,7 @@ function abrirCarroOficial(dataOpcional, tabOpcional) {
   }
   renderizarCarroOficial();
   atualizarMetricasSuperioresSeintec();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  rolarAoTopoSuave();
 }
 
 function formatarDataCurtaBr(dataIso) {
@@ -11100,7 +11109,7 @@ function imprimirAgendaCarro() {
       }
 
       filtrarEscolas();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      rolarAoTopoSuave();
     }
 
     function atualizarKpisEscolas() {
@@ -11570,7 +11579,7 @@ function imprimirAgendaCarro() {
       carregarVisitasLocalStorage();
 
       atualizarPainelVisitas();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      rolarAoTopoSuave();
     }
 
     function atualizarPainelVisitas() {
@@ -12041,7 +12050,7 @@ function imprimirAgendaCarro() {
       if (el) {
         setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        rolarAoTopoSuave();
       }
     }
 
@@ -12545,7 +12554,7 @@ function imprimirAgendaCarro() {
       document.getElementById('pane-home').classList.add('active');
       document.getElementById('side-btn-home').classList.add('active');
       atualizarBreadcrumbTopo('');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      rolarAoTopoSuave();
     }
 
     function abrirCentro(siglaCentro) {
@@ -12594,7 +12603,7 @@ function imprimirAgendaCarro() {
       const sideBtn = document.getElementById(`side-btn-${siglaCentro}`);
       if (sideBtn) sideBtn.classList.add('active');
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      rolarAoTopoSuave();
     }
 
     function selecionarSetor(siglaCentro, siglaSetor, botaoClicado) {
@@ -13763,7 +13772,7 @@ function imprimirAgendaCarro() {
       if (sideBtn) sideBtn.classList.add('active');
 
       selecionarBaseGabinete('TermosVisita');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      rolarAoTopoSuave();
     }
 
     function selecionarBaseGabinete(idBase) {
@@ -15057,7 +15066,7 @@ function imprimirAgendaCarro() {
   {"id":"CALL-1107","data":"12/05/2026","escola":"Maria Cristina Lopes","cie":"010376","tipo":"Equipamentos e Tablets","relato":"Problemas com os notebook, tablets, Impressora em rede","status":"Concluído","solicitante":"Gestão da Unidade Escolar","telefone":"(11) 2658-8000"},
   {"id":"CALL-1106","data":"12/05/2026","escola":"Henrique Sammartino Alferes","cie":"010649","tipo":"Equipamentos e Tablets","relato":"Verificar computadores com necessidade de manutenção e acessos Contato Margarete Albuquerque","status":"Concluído","solicitante":"Gestão da Unidade Escolar","telefone":"(11) 2658-8000"},
   {"id":"CALL-1105","data":"12/05/2026","escola":"Oswaldo Sammartino","cie":"010662","tipo":"Equipamentos e Tablets","relato":"Finalizar a configuração dos equipamentos Secretaria","status":"Concluído","solicitante":"Gestão da Unidade Escolar","telefone":"(11) 2658-8000"},
-  {"id":"CALL-1104","data":"12/05/2026","escola":"Dolores Garcia Paschoalin","cie":"908563","tipo":"Equipamentos e Tablets","relato":"Verificar 24 Equipamentos faltando teclas. 19 multi`s e 05 positivos.","status":"Concluído","solicitante":"Gestão da Unidade Escolar","telefone":"(11) 2658-8000"},
+  {"id":"CALL-1104","data":"12/05/2026","escola":"Dolores Garcia Paschoalin","cie":"908563","tipo":"Equipamentos e Tablets","relato":"Verificar 24 Equipamentos faltando teclas. 19 multi's e 05 positivos.","status":"Concluído","solicitante":"Gestão da Unidade Escolar","telefone":"(11) 2658-8000"},
   {"id":"CALL-1103","data":"11/05/2026","escola":"Moacir Thomaz da Silva","cie":"041385","tipo":"Equipamentos e Tablets","relato":"Verificar computadores com necessidade de manutenção e acessos","status":"Concluído","solicitante":"Gestão da Unidade Escolar","telefone":"(11) 2658-8000"},
   {"id":"CALL-1102","data":"11/05/2026","escola":"Henrique Sammartino Alferes","cie":"010649","tipo":"Equipamentos e Tablets","relato":"Verificar computadores com necessidade de manutenção e acessos Contato Margarete Albuquerque","status":"Concluído","solicitante":"Gestão da Unidade Escolar","telefone":"(11) 2658-8000"},
   {"id":"CALL-1101","data":"11/05/2026","escola":"Oswaldo Sammartino","cie":"010662","tipo":"Equipamentos e Tablets","relato":"Configurar a Impressora a Laser. Contato Ivete","status":"Concluído","solicitante":"Gestão da Unidade Escolar","telefone":"(11) 2658-8000"},
@@ -15406,7 +15415,7 @@ function imprimirAgendaCarro() {
       if (sideBtn) sideBtn.classList.add('active');
 
       selecionarBaseSeintec('Hardware');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      rolarAoTopoSuave();
     }
 
     let arquivosSelecionadosSeintec = [];
@@ -16950,6 +16959,16 @@ function imprimirAgendaCarro() {
     window.sincronizarSharepointCalls = sincronizarSharepointCalls;
     window.iniciarTimerSincronizacao = iniciarTimerSincronizacao;
     window.processarPlanilhaSharepointBase64 = processarPlanilhaSharepointBase64;
+    window.mostrarHome = mostrarHome;
+    window.abrirMinhaGestao = abrirMinhaGestao;
+    window.abrirAgenda = abrirAgenda;
+    window.abrirCarroOficial = abrirCarroOficial;
+    window.abrirVisitas = abrirVisitas;
+    window.abrirEscolas = abrirEscolas;
+    window.abrirCentro = abrirCentro;
+    window.abrirSeintec = abrirSeintec;
+    window.abrirAssessoriaTecnica = abrirAssessoriaTecnica;
+    window.selecionarSetor = selecionarSetor;
 
     // Inicialização do suporte de arrastar e soltar (drag & drop)
     document.addEventListener("DOMContentLoaded", function() {
