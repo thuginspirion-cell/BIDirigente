@@ -1240,7 +1240,7 @@
             <div class="agenda-event-desc">${c.descricao || 'Sem pauta informada.'}</div>
             <div class="agenda-event-meta-row">
               <span>📍 Local: <strong>${c.local || 'Gabinete'}</strong></span>
-              ${c.link ? `<a href="${c.link}" target="_blank" style="color: #2563eb; text-decoration: underline; font-weight: 600;">🔗 Acessar Link</a>` : ''}
+              ${c.link ? ('<a href=\"' + c.link + '\" target=\"_blank\" style=\"color: #2563eb; text-decoration: underline; font-weight: 600;\">🔗 Acessar Link</a>') : ''}
               <span>${c.prioridade === 'Alta' ? '⚡ ' : (c.prioridade === 'Baixa' ? '🌱 ' : '🔹 ')}Prioridade: <strong>${c.prioridade || 'Normal'}</strong></span>
             </div>
           </div>
@@ -1937,6 +1937,12 @@ function renderizarCarroOficial() {
     const dataCurta = formatarDataCurtaBr(reg.data);
     const statusClass = (reg.status === 'Concluído' ? 'concluido' : (reg.status === 'Em Trânsito' ? 'transito' : 'agendado'));
     const pillClass = reg.origemFonte && reg.origemFonte.includes('Controle') ? 'carro-pill-controle' : 'carro-pill-agenda';
+    const veiculoHtml = reg.veiculo ? ('<div class="carro-meta-item"><span class="carro-meta-label">🚗 Veículo</span><span class="carro-meta-val">' + reg.veiculo + (reg.placa ? ' (' + reg.placa + ')' : '') + '</span></div>') : '';
+    const solicitanteSetor = (reg.solicitante || 'Gabinete da Dirigente') + (reg.setor ? ' • ' + reg.setor : '');
+    const motoristaHtml = reg.motorista ? ('<div class="carro-meta-item"><span class="carro-meta-label">👨‍✈️ Motorista Designado</span><span class="carro-meta-val">' + reg.motorista + '</span></div>') : '';
+    const horarioHtml = (reg.horarioSaida || reg.horarioRetorno) ? ('<div class="carro-meta-item"><span class="carro-meta-label">⏰ Horário Previsto</span><span class="carro-meta-val">' + (reg.horarioSaida || '08:00') + ' às ' + (reg.horarioRetorno || '17:00') + '</span></div>') : '';
+    const obsHtml = reg.observacoes ? ('<div class="carro-obs-box"><div class="carro-obs-label">Observações</div><div>' + reg.observacoes + '</div></div>') : '';
+    const periodoHtml = reg.periodo ? ('<span class="carro-pill-tag carro-pill-periodo">Período: ' + reg.periodo + '</span>') : '';
 
     return `
       <div class="carro-card">
@@ -1951,12 +1957,7 @@ function renderizarCarroOficial() {
           </div>
 
           <div class="carro-card-grid">
-            ${reg.veiculo ? `
-              <div class="carro-meta-item">
-                <span class="carro-meta-label">🚗 Veículo</span>
-                <span class="carro-meta-val">${reg.veiculo} ${reg.placa ? `(${reg.placa})` : ''}</span>
-              </div>
-            ` : ''}
+            ${veiculoHtml}
             
             <div class="carro-meta-item">
               <span class="carro-meta-label">📍 Destino / Situação</span>
@@ -1965,34 +1966,19 @@ function renderizarCarroOficial() {
 
             <div class="carro-meta-item">
               <span class="carro-meta-label">👤 Solicitante / Usuário</span>
-              <span class="carro-meta-val">${reg.solicitante || 'Gabinete da Dirigente'} ${reg.setor ? `• ${reg.setor}` : ''}</span>
+              <span class="carro-meta-val">${solicitanteSetor}</span>
             </div>
 
-            ${reg.motorista ? `
-              <div class="carro-meta-item">
-                <span class="carro-meta-label">👨‍✈️ Motorista Designado</span>
-                <span class="carro-meta-val">${reg.motorista}</span>
-              </div>
-            ` : ''}
+            ${motoristaHtml}
 
-            ${(reg.horarioSaida || reg.horarioRetorno) ? `
-              <div class="carro-meta-item">
-                <span class="carro-meta-label">⏰ Horário Previsto</span>
-                <span class="carro-meta-val">${reg.horarioSaida || '08:00'} às ${reg.horarioRetorno || '17:00'}</span>
-              </div>
-            ` : ''}
+            ${horarioHtml}
           </div>
 
-          ${reg.observacoes ? `
-            <div class="carro-obs-box">
-              <div class="carro-obs-label">Observações</div>
-              <div>${reg.observacoes}</div>
-            </div>
-          ` : ''}
+          ${obsHtml}
 
           <div class="carro-card-footer">
             <span class="carro-pill-tag ${pillClass}">${reg.origemFonte || 'Calendário Compartilhado'}</span>
-            ${reg.periodo ? `<span class="carro-pill-tag carro-pill-periodo">Período: ${reg.periodo}</span>` : ''}
+            ${periodoHtml}
             <span class="carro-pill-status ${statusClass}">${reg.status || 'Agendado'}</span>
           </div>
         </div>
@@ -15765,7 +15751,7 @@ function imprimirAgendaCarro() {
             </td>
             <td>
               <strong style="color: var(--text-main); font-size: 0.88rem;">${escolaNomeFormatado}</strong>
-              ${cieTexto ? `<div style="font-size: 0.72rem; color: #64748b; font-weight: 600; margin-top: 0.15rem;">${cieTexto}</div>` : ''}
+              ${cieTexto ? ('<div style=\"font-size: 0.72rem; color: #64748b; font-weight: 600; margin-top: 0.15rem;\">' + cieTexto + '</div>') : ''}
             </td>
             <td>${tipoTagHtml}</td>
             <td style="font-size: 0.84rem; color: #334155; line-height: 1.35;" title="${reg.relato || reg.equip}">
