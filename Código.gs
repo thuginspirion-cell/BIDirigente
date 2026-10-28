@@ -13,6 +13,45 @@ function include(filename) {
  * Sincronização Dinâmica da Planilha SEINTEC do SharePoint (Calls 2026)
  * Obtém o fluxo oficial do Excel sem exigir login e retorna base64 para processamento rápido no cliente.
  */
+/**
+ * Sincronização Dinâmica da Planilha SEFIN (Administração e Finanças) do SharePoint
+ * Obtém o fluxo oficial do Excel sem exigir login e retorna base64 para processamento rápido no cliente.
+ */
+function sincronizarPlanilhaSefin() {
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4&download=1";
+  try {
+    var response = UrlFetchApp.fetch(url, {
+      muteHttpExceptions: true,
+      followRedirects: true,
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+      }
+    });
+
+    if (response.getResponseCode() === 200) {
+      var bytes = response.getBlob().getBytes();
+      var base64 = Utilities.base64Encode(bytes);
+      return {
+        sucesso: true,
+        dadosBase64: base64,
+        tamanhoBytes: bytes.length,
+        timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+        data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
+      };
+    } else {
+      return {
+        sucesso: false,
+        erro: "Status HTTP " + response.getResponseCode()
+      };
+    }
+  } catch (err) {
+    return {
+      sucesso: false,
+      erro: err.toString()
+    };
+  }
+}
+
 function sincronizarPlanilhaSharepoint() {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&download=1";
   try {
@@ -58,27 +97,27 @@ function getConsolidatedData() {
   
   var agendaEventos = (eventosReaisCalendar && eventosReaisCalendar.length > 0) ? eventosReaisCalendar : [
     { id: "evt-001", horaInicio: "08:00", horaFim: "09:00", hora: "08:00", titulo: "Live Reunião", tipo: "Reunião", local: "Teams", setor: "Gabinete / URE", prioridade: "Alta", status: "Agendado", descricao: "Live Reunião com a rede e equipes gestoras escolares" },
-    { id: "evt-002", horaInicio: "14:00", horaFim: "15:30", hora: "14:00", titulo: "Visita Técnica: EE Homem de Ferro (Tony Stark)", tipo: "Visita Técnica", local: "EE Homem de Ferro (Tony Stark)", setor: "Supervisão", prioridade: "Alta", status: "Agendado", descricao: "Acompanhamento das reformas e novos equipamentos" },
+    { id: "evt-002", horaInicio: "14:00", horaFim: "15:30", hora: "14:00", titulo: "Visita Técnica: EE Lenio Vieira de Moraes Professor", tipo: "Visita Técnica", local: "EE Lenio Vieira de Moraes Professor", setor: "Supervisão", prioridade: "Alta", status: "Agendado", descricao: "Acompanhamento das reformas e novos equipamentos" },
     { id: "evt-003", horaInicio: "16:00", horaFim: "17:00", hora: "16:00", titulo: "Alinhamento com SEAFIN e NOM", tipo: "Despacho Gabinete", local: "Gabinete da Dirigente", setor: "CAF", prioridade: "Normal", status: "Agendado", descricao: "Execução orçamentária e aditivos de contratos" }
   ];
 
   return {
     indicadoresRede: {
-      escolas: 87,
+      escolas: 60,
       nucleos: 6,
-      visitas: 145,
+      visitas: 54,
       demandasAtivas: 0,
-      eficiencia: "85%"
+      eficiencia: "90%"
     },
     visitasDirigente: {
-      concluidas: 145,
-      meta: 160,
+      concluidas: 54,
+      meta: 60,
       percentual: 90
     },
     escolasAtencao: [
-      { nome: "EE Homem de Ferro (Tony Stark)", cidade: "Itapevi", motivo: "Demanda de infraestrutura elétrica e novos equipamentos de tecnologia", prioridade: "Alta prioridade" },
-      { nome: "EE Batman (Bruce Wayne)", cidade: "Itapevi", motivo: "Reposição de quadro docente e monitoramento patrimonial", prioridade: "Alta prioridade" },
-      { nome: "EE Mulher-Maravilha (Diana Prince)", cidade: "Itapevi", motivo: "Reforma quadra poliesportiva e ampliação do grêmio", prioridade: "Alta prioridade" }
+      { nome: "EE Lenio Vieira de Moraes Professor", cidade: "Itapevi", motivo: "Demanda de infraestrutura elétrica e novos equipamentos de tecnologia", prioridade: "Alta prioridade" },
+      { nome: "EE Leonor Mendes de Barros", cidade: "Itapevi", motivo: "Reposição de quadro docente e monitoramento patrimonial", prioridade: "Alta prioridade" },
+      { nome: "EE Itajahy Feitosa Martins Professor", cidade: "Itapevi", motivo: "Reforma quadra poliesportiva e ampliação do grêmio", prioridade: "Alta prioridade" }
     ],
     agendaEventos: agendaEventos,
     agendaHoje: agendaEventos,
@@ -90,13 +129,13 @@ function getConsolidatedData() {
           id: "car-001",
           data: "2026-10-17",
           periodo: "2026-10-17 a 2026-10-17",
-          titulo: "Visita Técnica Regional: Polo Itapevi e EE Homem de Ferro (Tony Stark)",
+          titulo: "Visita Técnica Regional: Polo Itapevi e EE Lenio Vieira de Moraes Professor",
           veiculo: "Chevrolet Spin 1.8 7L (Oficial)",
           placa: "EDE-9842",
           motorista: "Carlos Alberto da Silva",
           solicitante: "Dirigente Regional de Ensino",
           setor: "Gabinete / Supervisão",
-          destino: "EE Homem de Ferro (Tony Stark) e Região Central de Itapevi",
+          destino: "EE Lenio Vieira de Moraes Professor e Região Central de Itapevi",
           horarioSaida: "08:30",
           horarioRetorno: "16:30",
           origemFonte: "SEFISC - Agenda",
@@ -150,7 +189,7 @@ function getConsolidatedData() {
           motorista: "João Mendes",
           solicitante: "Núcleo de Obras e Manutenção - NOM / CAF",
           setor: "CAF",
-          destino: "EE Batman (Bruce Wayne) e EE Mulher-Maravilha (Diana Prince)",
+          destino: "EE Leonor Mendes de Barros e EE Itajahy Feitosa Martins Professor",
           horarioSaida: "09:00",
           horarioRetorno: "15:00",
           origemFonte: "SEFISC - Controle de uso",
