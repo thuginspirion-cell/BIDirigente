@@ -810,7 +810,7 @@
           tipo: 'Despacho Gabinete',
           local: 'Gabinete da Dirigente',
           link: '',
-          setor: 'CAF',
+          setor: 'SEAFIN',
           prioridade: 'Normal',
           status: 'Agendado',
           descricao: 'Despacho orçamentário sobre aditivos contratuais e execução física dos recursos do PDDE Paulista.'
@@ -1712,8 +1712,8 @@ function inicializarCarroPadrao() {
         veiculo: "Fiat Fiorino 1.4 (Serviço)",
         placa: "FGH-2231",
         motorista: "João Mendes",
-        solicitante: "Núcleo de Obras e Manutenção - NOM / CAF",
-        setor: "CAF",
+        solicitante: "Núcleo de Obras e Manutenção - NOM / SEAFIN",
+        setor: "SEAFIN",
         destino: "EE Leonor Mendes de Barros e EE Prof. Itajahy Feitosa Martins",
         horarioSaida: "09:00",
         horarioRetorno: "15:00",
@@ -3165,7 +3165,7 @@ function imprimirAgendaCarro() {
       box-shadow: 0 4px 12px rgba(240, 155, 12, 0.35);
     }
 
-    /* Variante de Alto Contraste para Cabeçalhos Claros (Centro: CAF, SEFIN, CGE, CRH, NPE) */
+    /* Variante de Alto Contraste para Cabeçalhos Claros (Centro: SEAFIN, SEFIN, CGE, CRH, NPE) */
     .centro-banner-header .btn-pane-sync,
     .carro-header-card .btn-pane-sync,
     .visitas-header-card .btn-pane-sync {
@@ -7963,11 +7963,11 @@ function imprimirAgendaCarro() {
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-CAF" onclick="abrirCentro('CAF')" title="SEAFIN - Finanças, Compras e Serviços">
-              <span class="centro-icon-badge" title="SEAFIN - Finanças, Compras e Serviços">💼</span>
+            <button class="nav-item-btn" id="side-btn-CAF" onclick="abrirCentro('SEAFIN')" title="SEAFIN - Serviço de Administração e Finanças">
+              <span class="centro-icon-badge" title="SEAFIN - Serviço de Administração e Finanças">💼</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">SEAFIN</span>
-                <span class="sidebar-item-sub">Finanças, Compras e Serviços</span>
+                <span class="sidebar-item-sub">Serviço de Administração e Finanças</span>
               </div>
             </button>
           </li>
@@ -8222,7 +8222,7 @@ function imprimirAgendaCarro() {
             <option value="">🏛️ Centros / Núcleos: Todos</option>
             <option value="SEINTEC">SEINTEC (Tecnologia & Dados)</option>
             <option value="GAB">ASURE (Gabinete da Dirigente)</option>
-            <option value="CAF">SEAFIN (Administração & Finanças)</option>
+            <option value="CAF">SEAFIN - Serviço de Administração e Finanças</option>
             <option value="CGE">SEGRE (Gestão da Rede Escolar)</option>
             <option value="CRH">SEPES (Pessoas / RH)</option>
             <option value="NPE">EEC (Especialistas em Currículo)</option>
@@ -8406,13 +8406,13 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- SETOR 3: SEAFIN -->
-          <div class="centro-card" id="card-setor-seafin" onclick="destacarCentroNaHome('CAF')" style="cursor: pointer;" title="SEAFIN - Finanças e Obras NOM">
+          <div class="centro-card" id="card-setor-seafin" onclick="destacarCentroNaHome('SEAFIN')" style="cursor: pointer;" title="SEAFIN - Serviço de Administração e Finanças">
             <div class="centro-card-top">
               <div class="centro-card-badge" style="background: #10b981;">💼</div>
-              <span class="centro-status-pill" id="home-seafin-status" style="color: #b45309; background: #fef3c7; font-weight: 700;">🟡 Obras em Foco</span>
+              <span class="centro-status-pill" id="home-seafin-status" style="color: #b45309; background: #fef3c7; font-weight: 700;">🟢 Ativo</span>
             </div>
-            <h3 class="centro-title">SEAFIN • Finanças, Suprimentos & Obras</h3>
-            <div class="centro-subtitle">Execução orçamentária, obras escolares (NOM) e contratos</div>
+            <h3 class="centro-title">SEAFIN • Serviço de Administração e Finanças</h3>
+            <div class="centro-subtitle">Atividades administrativas, financeiras, orçamentárias, compras e gestão documental</div>
 
             <div class="centro-metrics-box" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.5rem; margin-bottom: 0.9rem; text-align: center;">
               <div>
@@ -12074,6 +12074,14 @@ function imprimirAgendaCarro() {
 
 
 
+    const URLS_OFICIAIS_SEFIN = {
+      siafem: 'https:' + String.fromCharCode(47, 47) + 'www.fazenda.sp.gov.br/',
+      transparencia: 'https:' + String.fromCharCode(47, 47) + 'www.transparencia.sp.gov.br/',
+      sharepoint: ('https:' + String.fromCharCode(47, 47) + 'seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4'),
+      bec: 'https:' + String.fromCharCode(47, 47) + 'www.bec.sp.gov.br/',
+      lrf: 'https:' + String.fromCharCode(47, 47) + 'www.planalto.gov.br/ccivil_03/leis/lcp/lcp101.htm'
+    };
+
     // Estrutura Hierárquica: CENTROS -> SETORES
     const ESTRUTURA_ORGANIZACIONAL = {
       'SEINTEC': {
@@ -12091,17 +12099,17 @@ function imprimirAgendaCarro() {
       },
       'SEAFIN': {
         sigla: 'SEAFIN',
-        nome: 'SEAFIN - Administração e Finanças',
-        descricao: 'Gestão orçamentária, aditivos contratuais, suprimentos, obras, manutenção predial e patrimônio regional.',
+        nome: 'SEAFIN - Serviço de Administração e Finanças',
+        descricao: 'É o setor responsável por atividades administrativas, financeiras, orçamentárias, compras e gestão documental.',
         icone: '💼',
         cor: '#0b2351',
-        driveFolder: 'Uploads BIDirigente / CAF',
+        driveFolder: 'Uploads BIDirigente / SEAFIN',
         setores: [
           {
             sigla: 'SEFIN',
-            nome: 'SEFIN - Finanças & Orçamento',
-            desc: 'Planilha Oficial de Finanças, adiantamentos, aditivos e execução orçamentária',
-            sharepointUrl: ('https:' + String.fromCharCode(47, 47) + 'seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4')
+            nome: 'SEFIN - Seção de Finanças',
+            desc: 'É a área que cuida do controle e acompanhamento da execução financeira, prestação de contas, reservas de recursos e demais rotinas financeiras.',
+            sharepointUrl: URLS_OFICIAIS_SEFIN.sharepoint
           },
           { sigla: 'NOM', nome: 'Núcleo de Obras e Manutenção (NOM)', desc: 'Vistorias estruturais, reformas prediais e laudos' },
           { sigla: 'SEPAT', nome: 'Setor de Patrimônio e Logística (SEPAT)', desc: 'Inventário físico, almoxarifado e suprimentos' },
@@ -12148,7 +12156,7 @@ function imprimirAgendaCarro() {
       }
     };
     // Aliases para retrocompatibilidade
-    ESTRUTURA_ORGANIZACIONAL['CAF'] = ESTRUTURA_ORGANIZACIONAL['SEAFIN'];
+    ESTRUTURA_ORGANIZACIONAL['CAF'] = ESTRUTURA_ORGANIZACIONAL['SEAFIN']; // Alias para compatibilidade
     ESTRUTURA_ORGANIZACIONAL['CGE'] = ESTRUTURA_ORGANIZACIONAL['SEGRE'];
     ESTRUTURA_ORGANIZACIONAL['CRH'] = ESTRUTURA_ORGANIZACIONAL['SEPES'];
     ESTRUTURA_ORGANIZACIONAL['NPE'] = ESTRUTURA_ORGANIZACIONAL['EEC'];
@@ -12629,6 +12637,7 @@ function imprimirAgendaCarro() {
         'SEINTEC': 'card-setor-seintec',
         'GAB': 'card-setor-asure',
         'CAF': 'card-setor-seafin',
+        'SEAFIN': 'card-setor-seafin',
         'CGE': 'card-setor-segre',
         'CRH': 'card-setor-sepes',
         'NPE': 'card-setor-eec'
@@ -12759,7 +12768,7 @@ function imprimirAgendaCarro() {
 
       // Atualiza Sidebar
       document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
-      const sideBtn = document.getElementById(`side-btn-${siglaCentro}`);
+      const sideBtn = document.getElementById(`side-btn-${siglaCentro}`) || (siglaCentro === 'SEAFIN' ? document.getElementById('side-btn-CAF') : null);
       if (sideBtn) sideBtn.classList.add('active');
 
       rolarAoTopoSuave();
@@ -12885,14 +12894,6 @@ function imprimirAgendaCarro() {
     // PAINEL DE INTELIGÊNCIA FINANCEIRA E ORÇAMENTÁRIA (SEFIN / SEAFIN)
     // Filtros e Métricas Avançadas de Econometria, Finanças e Ciência de Dados
     // =========================================================================
-
-    const URLS_OFICIAIS_SEFIN = {
-      siafem: 'https:' + String.fromCharCode(47, 47) + 'www.fazenda.sp.gov.br/',
-      transparencia: 'https:' + String.fromCharCode(47, 47) + 'www.transparencia.sp.gov.br/',
-      sharepoint: ('https:' + String.fromCharCode(47, 47) + 'seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4'),
-      bec: 'https:' + String.fromCharCode(47, 47) + 'www.bec.sp.gov.br/',
-      lrf: 'https:' + String.fromCharCode(47, 47) + 'www.planalto.gov.br/ccivil_03/leis/lcp/lcp101.htm'
-    };
 
     const DADOS_FINANCEIROS_SEFIN = {
       meta: {
@@ -13318,27 +13319,64 @@ function imprimirAgendaCarro() {
 
           <!-- ========================================================================= -->
           <!-- NOTAS METODOLÓGICAS, DICIONÁRIO DE MÉTRICAS E FONTES OFICIAIS COM LINKS   -->
+          <!-- RECURSO RETRÁTIL (OCULTO POR PADRÃO, EXPANSÍVEL AO CLIQUE)                 -->
           <!-- ========================================================================= -->
-          <div id="sefin-notas-explicativas-box" style="margin-top: 2.4rem; border-top: 1.5px solid rgba(240, 155, 12, 0.4); padding-top: 2rem;">
+          <div id="sefin-notas-explicativas-box" style="margin-top: 2.2rem; border-top: 1.5px solid rgba(240, 155, 12, 0.4); padding-top: 1.5rem;">
             
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
-              <div>
-                <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
-                  <span style="font-size: 1.4rem;">📚</span>
-                  <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">
-                    Notas Metodológicas, Dicionário de Indicadores & Fontes Oficiais
-                  </h3>
+            <!-- HEADER RETRÁTIL INTERATIVO (CLIQUE PARA EXPANDIR / RECOLHER) -->
+            <div id="sefin-notas-header-toggle" onclick="alternarRecolherNotasSefin()" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 100%); border: 1.5px solid rgba(240, 155, 12, 0.5); border-radius: 14px; padding: 1.15rem 1.4rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.25s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.25); user-select: none;" onmouseover="this.style.background='rgba(30, 41, 59, 0.95)'; this.style.borderColor='#f09b0c';" onmouseout="this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 100%)'; this.style.borderColor='rgba(240, 155, 12, 0.5)';">
+              
+              <div style="display: flex; align-items: center; gap: 0.9rem;">
+                <div style="font-size: 1.6rem; background: rgba(240, 155, 12, 0.15); border: 1px solid #f09b0c; border-radius: 10px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;">
+                  📚
                 </div>
-                <p style="margin: 0; font-size: 0.85rem; color: #94a3b8; max-width: 820px; line-height: 1.55;">
-                  Documentação analítica em estrita conformidade com as Normas Brasileiras de Contabilidade Aplicadas ao Setor Público (NBC TSP / MCASP), Lei Federal nº 4.320/1964, Lei Complementar nº 101/2000 (LRF) e regulamentações do Tribunal de Contas do Estado de São Paulo (TCE-SP).
-                </p>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+                    <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">
+                      Notas Metodológicas, Dicionário de Indicadores & Fontes Oficiais
+                    </h3>
+                    <span style="background: rgba(240, 155, 12, 0.15); border: 1px solid #f09b0c; color: #f09b0c; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 12px;">
+                      Recurso Retrátil
+                    </span>
+                    <span style="background: rgba(59, 130, 246, 0.15); border: 1px solid #3b82f6; color: #60a5fa; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 12px;">
+                      Clique para Expandir / Recolher
+                    </span>
+                  </div>
+                  <p style="margin: 0.25rem 0 0 0; font-size: 0.82rem; color: #94a3b8; line-height: 1.4;">
+                    Consulta aprofundada de conceitos contábeis da Lei nº 4.320/64, regras do Art. 42 da LRF e links governamentais (SIAFEM, Transparência, SharePoint).
+                  </p>
+                </div>
               </div>
 
-              <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 0.55rem 1rem; font-size: 0.78rem; color: #cbd5e1; display: flex; align-items: center; gap: 0.5rem;">
-                <span style="color: #34d399; font-size: 1rem;">🛡️</span>
-                <span>Auditabilidade Contábil: <strong>100% Rastreável SIAFEM</strong></span>
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span id="sefin-notas-toggle-status" style="font-size: 0.76rem; color: #cbd5e1; font-weight: 700; background: rgba(255,255,255,0.06); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.12);">
+                  Recolhido (Clique para abrir)
+                </span>
+                <div id="sefin-notas-toggle-icon" style="font-size: 1.1rem; color: #f09b0c; font-weight: 800; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: rgba(240,155,12,0.1); border-radius: 50%; transition: transform 0.3s ease;">
+                  ▼
+                </div>
               </div>
+
             </div>
+
+            <!-- CORPO EXPANSÍVEL (OCULTO POR PADRÃO: display: none) -->
+            <div id="sefin-notas-conteudo-expansivel" style="display: none; margin-top: 1.4rem;">
+              
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.1rem 1.35rem;">
+                <div>
+                  <h4 style="margin: 0 0 0.35rem 0; font-size: 1.05rem; font-weight: 800; color: #ffffff;">
+                    Fundamentação Regulatória & Governança Orçamentária
+                  </h4>
+                  <p style="margin: 0; font-size: 0.84rem; color: #94a3b8; max-width: 820px; line-height: 1.55;">
+                    Documentação analítica em estrita conformidade com as Normas Brasileiras de Contabilidade Aplicadas ao Setor Público (NBC TSP / MCASP), Lei Federal nº 4.320/1964, Lei Complementar nº 101/2000 (LRF) e regulamentações do Tribunal de Contas do Estado de São Paulo (TCE-SP).
+                  </p>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 0.55rem 1rem; font-size: 0.78rem; color: #cbd5e1; display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="color: #34d399; font-size: 1rem;">🛡️</span>
+                  <span>Auditabilidade Contábil: <strong>100% Rastreável SIAFEM</strong></span>
+                </div>
+              </div>
 
             <!-- FONTES OFICIAIS E LINKS EXTERNOS CLICÁVEIS -->
             <div style="margin-bottom: 1.8rem;">
@@ -13528,18 +13566,50 @@ function imprimirAgendaCarro() {
               </div>
             </div>
 
-            <!-- RODAPÉ DE RESPONSABILIDADE TÉCNICA E CONTATO SEFIN -->
+            <!-- RODAPÉ DE RESPONSABILIDADE TÉCNICA E CONTATO SEAFIN / SEFIN -->
             <div style="margin-top: 1.5rem; text-align: center; font-size: 0.76rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 1rem;">
-              <span>Centro de Administração e Finanças (CAF) • Núcleo de Finanças e Orçamento (SEFIN) • Diretoria de Ensino da Região de Itapevi</span><br>
+              <span>SEAFIN - Serviço de Administração e Finanças • SEFIN - Seção de Finanças • Diretoria de Ensino da Região de Itapevi</span><br>
               <span style="color: #64748b;">Responsabilidade Técnica: <code style="color: #cbd5e1;">itp_sefin_educacao_sp_gov_br</code> • SIAFEM Unidade Gestora Executora 080345</span>
             </div>
 
-          </div>
+            </div> <!-- Fechamento do #sefin-notas-conteudo-expansivel -->
+
+          </div> <!-- Fechamento do #sefin-notas-explicativas-box -->
 
         </div>
       `;
 
       alternarSubAbaSefin(subAbaSefinAtiva);
+    }
+
+    function alternarRecolherNotasSefin() {
+      const container = document.getElementById('sefin-notas-conteudo-expansivel');
+      const icon = document.getElementById('sefin-notas-toggle-icon');
+      const status = document.getElementById('sefin-notas-toggle-status');
+      if (!container) return;
+
+      const isHidden = (container.style.display === 'none' || getComputedStyle(container).display === 'none');
+      if (isHidden) {
+        container.style.display = 'block';
+        if (icon) {
+          icon.innerHTML = '▲';
+          icon.style.transform = 'rotate(180deg)';
+        }
+        if (status) {
+          status.innerText = 'Expandido (Clique para recolher)';
+          status.style.color = '#34d399';
+        }
+      } else {
+        container.style.display = 'none';
+        if (icon) {
+          icon.innerHTML = '▼';
+          icon.style.transform = 'rotate(0deg)';
+        }
+        if (status) {
+          status.innerText = 'Recolhido (Clique para abrir)';
+          status.style.color = '#cbd5e1';
+        }
+      }
     }
 
     function alternarSubAbaSefin(subAba) {
@@ -14398,7 +14468,7 @@ function imprimirAgendaCarro() {
 
           case 'centro':
             const centroSigla = (document.getElementById('atual-centro-sigla') ? document.getElementById('atual-centro-sigla').value : 'Centro');
-            if (centroSigla === 'CAF' && typeof sincronizarDashboardSefin === 'function') {
+            if ((centroSigla === 'CAF' || centroSigla === 'SEAFIN') && typeof sincronizarDashboardSefin === 'function') {
               sincronizarDashboardSefin();
             }
             mostrarToastAgenda('Módulo ' + centroSigla + ' e seus setores sincronizados às ' + agoraStr, '🏛️');
@@ -18053,7 +18123,7 @@ function imprimirAgendaCarro() {
               <select id="form-agenda-setor" class="agenda-form-select">
                 <option value="Gabinete / URE">Gabinete / URE</option>
                 <option value="SEINTEC">SEINTEC (Tecnologia)</option>
-                <option value="CAF">CAF (Finanças & Infraestrutura)</option>
+                <option value="SEAFIN">SEAFIN (Serviço de Administração e Finanças)</option>
                 <option value="CGE">CGE (Rede Escolar)</option>
                 <option value="CRH">CRH (Recursos Humanos)</option>
                 <option value="NPE">NPE (Núcleo Pedagógico)</option>
@@ -18150,7 +18220,7 @@ function imprimirAgendaCarro() {
               <select id="form-carro-setor" class="agenda-form-select">
                 <option value="Gabinete da Dirigente">Gabinete da Dirigente</option>
                 <option value="Supervisão de Ensino">Supervisão de Ensino</option>
-                <option value="CAF - Infraestrutura e Finanças">CAF</option>
+                <option value="SEAFIN - Serviço de Administração e Finanças">SEAFIN</option>
                 <option value="SEINTEC - Tecnologia">SEINTEC</option>
                 <option value="CGE - Gestão Escolar">CGE</option>
                 <option value="CRH - Recursos Humanos">CRH</option>
