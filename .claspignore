@@ -11,3 +11,5 @@ node_modules/**
 package*.json
 scratch/**
 .nojekyll
+GEMINI.md
+.agents/**
