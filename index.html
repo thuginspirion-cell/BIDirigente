@@ -12715,14 +12715,14 @@ function imprimirAgendaCarro() {
     
     // =========================================================================
     // PAINEL DE INTELIGÊNCIA FINANCEIRA E ORÇAMENTÁRIA (SEFIN / SEAFIN)
-    // Métricas Relevantes para Engenharia / Análise / Ciência de Dados Financeiros
+    // Filtros e Métricas Avançadas de Econometria, Finanças e Ciência de Dados
     // =========================================================================
 
     const DADOS_FINANCEIROS_SEFIN = {
       meta: {
         exercicio: 2026,
-        versao: "2.4-Enterprise",
-        ultimaAtualizacao: "27/10/2026 21:50",
+        versao: "3.0-Econometric-Edition",
+        ultimaAtualizacao: "27/10/2026 22:55",
         fonteOficial: "SIAFEM-SP / SharePoint SEFIN / SEDUC-SP",
         contaResponsavel: "itp_sefin_educacao_sp_gov_br",
         sharepointUrl: "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4"
@@ -12810,16 +12810,24 @@ function imprimirAgendaCarro() {
         }
       ],
       despesasDetalhadas: [
-        { cod: "EMP-2026/089", processo: "SEDUC-PRC-2026/0142", rubrica: "Alimentação Escolar & PNAE", credor: "NutriPlus Alimentação Escolar Ltda", valor: 1250000.00, empenhado: 1250000.00, liquidado: 1120000.00, pago: 1040000.00, status: "Liquidado", vencimento: "15/11/2026" },
-        { cod: "EMP-2026/094", processo: "SEDUC-PRC-2026/0198", rubrica: "Transporte Escolar & Logística", credor: "Consórcio Intermunicipal de Transporte URE", valor: 980000.00, empenhado: 980000.00, liquidado: 890000.00, pago: 850000.00, status: "Pago", vencimento: "30/10/2026" },
-        { cod: "EMP-2026/102", processo: "SEDUC-PRC-2026/0231", rubrica: "Manutenção Predial & Obras (NOM)", credor: "Engenharia & Reformas Itapevi Eireli", valor: 450000.00, empenhado: 450000.00, liquidado: 380000.00, pago: 310000.00, status: "Em Liquidação", vencimento: "20/11/2026" },
-        { cod: "EMP-2026/115", processo: "SEDUC-PRC-2026/0288", rubrica: "Serviços Terceirizados & Suprimentos", credor: "MasterClean Serviços Terceirizados S/A", valor: 620000.00, empenhado: 620000.00, liquidado: 540000.00, pago: 495000.00, status: "Pago", vencimento: "05/11/2026" },
-        { cod: "EMP-2026/120", processo: "SEDUC-PRC-2026/0312", rubrica: "Adiantamentos & Fundo Rotativo Escolar", credor: "APM - EE Lenio Vieira de Moraes", valor: 45000.00, empenhado: 45000.00, liquidado: 45000.00, pago: 45000.00, status: "Prestação Validada", vencimento: "31/10/2026" },
-        { cod: "EMP-2026/124", processo: "SEDUC-PRC-2026/0319", rubrica: "Adiantamentos & Fundo Rotativo Escolar", credor: "APM - EE Leonor Mendes de Barros", valor: 42000.00, empenhado: 42000.00, liquidado: 42000.00, pago: 42000.00, status: "Prestação Validada", vencimento: "31/10/2026" },
-        { cod: "EMP-2026/131", processo: "SEDUC-PRC-2026/0345", rubrica: "Manutenção Predial & Obras (NOM)", credor: "Construtora Regional Paulista Ltda", valor: 380000.00, empenhado: 380000.00, liquidado: 310000.00, pago: 280000.00, status: "Em Liquidação", vencimento: "10/12/2026" },
-        { cod: "EMP-2026/142", processo: "SEDUC-PRC-2026/0390", rubrica: "Alimentação Escolar & PNAE", credor: "Cooperativa Agrícola Familiar de Pirapora", valor: 280000.00, empenhado: 280000.00, liquidado: 260000.00, pago: 240000.00, status: "Pago", vencimento: "25/10/2026" },
-        { cod: "EMP-2026/150", processo: "SEDUC-PRC-2026/0411", rubrica: "Serviços Terceirizados & Suprimentos", credor: "SegurPro Vigilância Patrimonial Eireli", valor: 540000.00, empenhado: 540000.00, liquidado: 480000.00, pago: 450000.00, status: "Pago", vencimento: "08/11/2026" },
-        { cod: "EMP-2026/161", processo: "SEDUC-PRC-2026/0445", rubrica: "Adiantamentos & Fundo Rotativo Escolar", credor: "APM - EE Celina de Barros Bairao", valor: 39000.00, empenhado: 39000.00, liquidado: 39000.00, pago: 39000.00, status: "Em Análise SEFIN", vencimento: "05/11/2026" }
+        { cod: "EMP-2026/089", processo: "SEDUC-PRC-2026/0142", rubrica: "Alimentação Escolar & PNAE", credor: "NutriPlus Alimentação Escolar Ltda", valor: 1250000.00, empenhado: 1250000.00, liquidado: 1120000.00, pago: 1040000.00, status: "Liquidado", vencimento: "15/11/2026", natureza: "Custeio (Opex)", classeAbc: "Classe A", riscoLrf: "Baixo Risco", quadrimestre: "3º Quadrimestre (Q3)", municipio: "Regional" },
+        { cod: "EMP-2026/094", processo: "SEDUC-PRC-2026/0198", rubrica: "Transporte Escolar & Logística", credor: "Consórcio Intermunicipal de Transporte URE", valor: 980000.00, empenhado: 980000.00, liquidado: 890000.00, pago: 850000.00, status: "Pago", vencimento: "30/10/2026", natureza: "Custeio (Opex)", classeAbc: "Classe A", riscoLrf: "Baixo Risco", quadrimestre: "3º Quadrimestre (Q3)", municipio: "Regional" },
+        { cod: "EMP-2026/102", processo: "SEDUC-PRC-2026/0231", rubrica: "Manutenção Predial & Obras (NOM)", credor: "Engenharia & Reformas Itapevi Eireli", valor: 450000.00, empenhado: 450000.00, liquidado: 380000.00, pago: 310000.00, status: "Em Liquidação", vencimento: "20/11/2026", natureza: "Capital (Capex)", classeAbc: "Classe B", riscoLrf: "Atenção / Médio", quadrimestre: "3º Quadrimestre (Q3)", municipio: "Itapevi" },
+        { cod: "EMP-2026/115", processo: "SEDUC-PRC-2026/0288", rubrica: "Serviços Terceirizados & Suprimentos", credor: "MasterClean Serviços Terceirizados S/A", valor: 620000.00, empenhado: 620000.00, liquidado: 540000.00, pago: 495000.00, status: "Pago", vencimento: "05/11/2026", natureza: "Custeio (Opex)", classeAbc: "Classe B", riscoLrf: "Baixo Risco", quadrimestre: "3º Quadrimestre (Q3)", municipio: "Regional" },
+        { cod: "EMP-2026/120", processo: "SEDUC-PRC-2026/0312", rubrica: "Adiantamentos & Fundo Rotativo Escolar", credor: "APM - EE Lenio Vieira de Moraes", valor: 45000.00, empenhado: 45000.00, liquidado: 45000.00, pago: 45000.00, status: "Prestação Validada", vencimento: "31/10/2026", natureza: "Custeio (Opex)", classeAbc: "Classe C", riscoLrf: "Baixo Risco", quadrimestre: "2º Quadrimestre (Q2)", municipio: "Itapevi" },
+        { cod: "EMP-2026/124", processo: "SEDUC-PRC-2026/0319", rubrica: "Adiantamentos & Fundo Rotativo Escolar", credor: "APM - EE Leonor Mendes de Barros", valor: 42000.00, empenhado: 42000.00, liquidado: 42000.00, pago: 42000.00, status: "Prestação Validada", vencimento: "31/10/2026", natureza: "Custeio (Opex)", classeAbc: "Classe C", riscoLrf: "Baixo Risco", quadrimestre: "2º Quadrimestre (Q2)", municipio: "Itapevi" },
+        { cod: "EMP-2026/131", processo: "SEDUC-PRC-2026/0345", rubrica: "Manutenção Predial & Obras (NOM)", credor: "Construtora Regional Paulista Ltda", valor: 380000.00, empenhado: 380000.00, liquidado: 310000.00, pago: 280000.00, status: "Em Liquidação", vencimento: "10/12/2026", natureza: "Capital (Capex)", classeAbc: "Classe B", riscoLrf: "Atenção / Médio", quadrimestre: "3º Quadrimestre (Q3)", municipio: "Jandira" },
+        { cod: "EMP-2026/142", processo: "SEDUC-PRC-2026/0390", rubrica: "Alimentação Escolar & PNAE", credor: "Cooperativa Agrícola Familiar de Pirapora", valor: 280000.00, empenhado: 280000.00, liquidado: 260000.00, pago: 240000.00, status: "Pago", vencimento: "25/10/2026", natureza: "Custeio (Opex)", classeAbc: "Classe B", riscoLrf: "Baixo Risco", quadrimestre: "2º Quadrimestre (Q2)", municipio: "Pirapora do Bom Jesus" },
+        { cod: "EMP-2026/150", processo: "SEDUC-PRC-2026/0411", rubrica: "Serviços Terceirizados & Suprimentos", credor: "SegurPro Vigilância Patrimonial Eireli", valor: 540000.00, empenhado: 540000.00, liquidado: 480000.00, pago: 450000.00, status: "Pago", vencimento: "08/11/2026", natureza: "Custeio (Opex)", classeAbc: "Classe B", riscoLrf: "Baixo Risco", quadrimestre: "3º Quadrimestre (Q3)", municipio: "Regional" },
+        { cod: "EMP-2026/161", processo: "SEDUC-PRC-2026/0445", rubrica: "Adiantamentos & Fundo Rotativo Escolar", credor: "APM - EE Celina de Barros Bairao", valor: 39000.00, empenhado: 39000.00, liquidado: 39000.00, pago: 39000.00, status: "Em Análise SEFIN", vencimento: "05/11/2026", natureza: "Custeio (Opex)", classeAbc: "Classe C", riscoLrf: "Atenção / Médio", quadrimestre: "3º Quadrimestre (Q3)", municipio: "Itapevi" },
+        { cod: "EMP-2026/168", processo: "SEDUC-PRC-2026/0472", rubrica: "Manutenção Predial & Obras (NOM)", credor: "Hidráulica & Elétrica Paulista Serviços", valor: 195000.00, empenhado: 195000.00, liquidado: 120000.00, pago: 90000.00, status: "Em Liquidação", vencimento: "18/12/2026", natureza: "Capital (Capex)", classeAbc: "Classe B", riscoLrf: "Alerta LRF", quadrimestre: "3º Quadrimestre (Q3)", municipio: "Pirapora do Bom Jesus" },
+        { cod: "EMP-2026/175", processo: "SEDUC-PRC-2026/0498", rubrica: "Alimentação Escolar & PNAE", credor: "Distribuidora de Alimentos Vale do Tietê", valor: 850000.00, empenhado: 850000.00, liquidado: 790000.00, pago: 720000.00, status: "Liquidado", vencimento: "28/11/2026", natureza: "Custeio (Opex)", classeAbc: "Classe A", riscoLrf: "Baixo Risco", quadrimestre: "3º Quadrimestre (Q3)", municipio: "Regional" },
+        { cod: "EMP-2026/182", processo: "SEDUC-PRC-2026/0515", rubrica: "Adiantamentos & Fundo Rotativo Escolar", credor: "APM - EE Itajahy Feitosa Martins", valor: 48000.00, empenhado: 48000.00, liquidado: 48000.00, pago: 48000.00, status: "Prestação Validada", vencimento: "31/10/2026", natureza: "Custeio (Opex)", classeAbc: "Classe C", riscoLrf: "Baixo Risco", quadrimestre: "2º Quadrimestre (Q2)", municipio: "Itapevi" },
+        { cod: "EMP-2026/190", processo: "SEDUC-PRC-2026/0540", rubrica: "Transporte Escolar & Logística", credor: "Expresso Metropolitano URE Ltda", valor: 760000.00, empenhado: 760000.00, liquidado: 680000.00, pago: 650000.00, status: "Pago", vencimento: "15/10/2026", natureza: "Custeio (Opex)", classeAbc: "Classe A", riscoLrf: "Baixo Risco", quadrimestre: "2º Quadrimestre (Q2)", municipio: "Jandira" },
+        { cod: "EMP-2026/201", processo: "SEDUC-PRC-2026/0582", rubrica: "Adiantamentos & Fundo Rotativo Escolar", credor: "APM - EE Padre Alexandre Grigoli", valor: 41000.00, empenhado: 41000.00, liquidado: 41000.00, pago: 41000.00, status: "Prestação Validada", vencimento: "30/09/2026", natureza: "Custeio (Opex)", classeAbc: "Classe C", riscoLrf: "Baixo Risco", quadrimestre: "2º Quadrimestre (Q2)", municipio: "Itapevi" },
+        { cod: "EMP-2026/210", processo: "SEDUC-PRC-2026/0612", rubrica: "Serviços Terceirizados & Suprimentos", credor: "Papelaria & Distribuidora Educacional SP", valor: 145000.00, empenhado: 145000.00, liquidado: 145000.00, pago: 145000.00, status: "Pago", vencimento: "10/09/2026", natureza: "Custeio (Opex)", classeAbc: "Classe B", riscoLrf: "Baixo Risco", quadrimestre: "1º Quadrimestre (Q1)", municipio: "Regional" },
+        { cod: "EMP-2026/225", processo: "SEDUC-PRC-2026/0655", rubrica: "Manutenção Predial & Obras (NOM)", credor: "TechQuadras Coberturas & Infraestrutura", valor: 520000.00, empenhado: 520000.00, liquidado: 340000.00, pago: 260000.00, status: "Em Liquidação", vencimento: "15/12/2026", natureza: "Capital (Capex)", classeAbc: "Classe B", riscoLrf: "Alerta LRF", quadrimestre: "3º Quadrimestre (Q3)", municipio: "Itapevi" },
+        { cod: "EMP-2026/238", processo: "SEDUC-PRC-2026/0690", rubrica: "Adiantamentos & Fundo Rotativo Escolar", credor: "APM - EE Vicente Theodoro de Souza", valor: 36000.00, empenhado: 36000.00, liquidado: 36000.00, pago: 36000.00, status: "Prestação Validada", vencimento: "31/08/2026", natureza: "Custeio (Opex)", classeAbc: "Classe C", riscoLrf: "Baixo Risco", quadrimestre: "1º Quadrimestre (Q1)", municipio: "Jandira" }
       ],
       contratos: [
         { id: "CT-012/2024", objeto: "Prestação de serviços de alimentação e nutrição escolar centralizada", fornecedor: "NutriPlus Ltda", vigencia: "14/03/2024 a 14/03/2027", valorAnual: 4250000.00, aditivoPct: 12.5, status: "Vigente Regular" },
@@ -12829,9 +12837,17 @@ function imprimirAgendaCarro() {
       ]
     };
 
-    let subAbaSefinAtiva = 'rubricas';
-    let filtroBuscaSefin = '';
-    let filtroRubricaSelecionadaSefin = 'todas';
+    let subAbaSefinAtiva = 'despesas';
+    let filtrosSefinAvancados = {
+      busca: '',
+      rubrica: 'todas',
+      natureza: 'todas',
+      classeAbc: 'todas',
+      riscoLrf: 'todas',
+      quadrimestre: 'todas',
+      status: 'todos',
+      ordenacao: 'valor-desc'
+    };
 
     function formatarMoedaBrl(valor) {
       return (Number(valor) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -12863,6 +12879,9 @@ function imprimirAgendaCarro() {
                 </span>
                 <span style="background: rgba(59, 130, 246, 0.15); border: 1px solid #3b82f6; color: #60a5fa; font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;">
                   60 Escolas Monitoradas
+                </span>
+                <span style="background: rgba(168, 85, 247, 0.15); border: 1px solid #a855f7; color: #c084fc; font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">
+                  📐 Análise Econométrica Multivariada
                 </span>
               </div>
               <h2 style="font-size: 1.55rem; font-weight: 800; margin: 0 0 0.35rem 0; letter-spacing: -0.02em; color: #ffffff;">
@@ -12986,11 +13005,11 @@ function imprimirAgendaCarro() {
 
           <!-- NAVEGAÇÃO INTERNA POR SUB-ABAS FINANCEIRAS -->
           <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; overflow-x: auto;">
-            <button id="btn-sefin-sub-rubricas" onclick="alternarSubAbaSefin('rubricas')" class="setor-tab-btn active" style="font-size: 0.86rem; padding: 0.55rem 1.1rem;">
-              📊 Execução por Rubricas & Programas
+            <button id="btn-sefin-sub-despesas" onclick="alternarSubAbaSefin('despesas')" class="setor-tab-btn active" style="font-size: 0.86rem; padding: 0.55rem 1.1rem;">
+              📋 Razão Analítico & Filtros Econométricos (${DADOS_FINANCEIROS_SEFIN.despesasDetalhadas.length})
             </button>
-            <button id="btn-sefin-sub-despesas" onclick="alternarSubAbaSefin('despesas')" class="setor-tab-btn" style="font-size: 0.86rem; padding: 0.55rem 1.1rem;">
-              📋 Razão Analítico de Despesas (${DADOS_FINANCEIROS_SEFIN.despesasDetalhadas.length})
+            <button id="btn-sefin-sub-rubricas" onclick="alternarSubAbaSefin('rubricas')" class="setor-tab-btn" style="font-size: 0.86rem; padding: 0.55rem 1.1rem;">
+              📊 Execução por Rubricas & Programas
             </button>
             <button id="btn-sefin-sub-contratos" onclick="alternarSubAbaSefin('contratos')" class="setor-tab-btn" style="font-size: 0.86rem; padding: 0.55rem 1.1rem;">
               📑 Contratos & Aditivos Lei 14.133 (${DADOS_FINANCEIROS_SEFIN.contratos.length})
@@ -13010,7 +13029,7 @@ function imprimirAgendaCarro() {
 
     function alternarSubAbaSefin(subAba) {
       subAbaSefinAtiva = subAba;
-      ['rubricas', 'despesas', 'contratos'].forEach(s => {
+      ['despesas', 'rubricas', 'contratos'].forEach(s => {
         const btn = document.getElementById('btn-sefin-sub-' + s);
         if (btn) {
           if (s === subAba) btn.classList.add('active');
@@ -13025,6 +13044,7 @@ function imprimirAgendaCarro() {
         container.innerHTML = renderizarRubricasHtml();
       } else if (subAba === 'despesas') {
         container.innerHTML = renderizarDespesasHtml();
+        aplicarFiltrosEAtualizarTabela();
       } else if (subAba === 'contratos') {
         container.innerHTML = renderizarContratosHtml();
       }
@@ -13090,75 +13110,159 @@ function imprimirAgendaCarro() {
     }
 
     function renderizarDespesasHtml() {
-      const lista = DADOS_FINANCEIROS_SEFIN.despesasDetalhadas;
-      let html = `
+      return `
         <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.25rem;">
           
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
-            <div style="display: flex; gap: 0.6rem; align-items: center;">
-              <span style="font-size: 0.85rem; font-weight: 700; color: #ffffff;">Filtro por Rubrica:</span>
-              <select id="sefin-filtro-rubrica" onchange="filtrarDespesasSefin(this.value)" style="background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 0.82rem;">
-                <option value="todas">Todas as Rubricas</option>
-                <option value="Alimentação Escolar & PNAE">Alimentação Escolar & PNAE</option>
-                <option value="Transporte Escolar & Logística">Transporte Escolar & Logística</option>
-                <option value="Manutenção Predial & Obras (NOM)">Manutenção Predial & Obras (NOM)</option>
-                <option value="Serviços Terceirizados & Suprimentos">Serviços Terceirizados & Suprimentos</option>
-                <option value="Adiantamentos & Fundo Rotativo Escolar">Adiantamentos & Fundo Rotativo</option>
-              </select>
+          <!-- BARRAMENTO DE FILTROS ECONOMÉTRICOS MULTIDIMENSIONAIS -->
+          <div style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(30, 41, 59, 0.75) 100%); border: 1px solid rgba(240, 155, 12, 0.3); border-radius: 12px; padding: 1.1rem; margin-bottom: 1.2rem;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 1.1rem;">🔬</span>
+                <span style="font-weight: 800; font-size: 0.92rem; color: #f09b0c; letter-spacing: -0.01em;">
+                  Filtros Analíticos & Segmentação Multivariada (Nobel & Fields Standard)
+                </span>
+              </div>
+              <button onclick="limparTodosFiltrosSefin()" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5; font-size: 0.76rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.25)'" onmouseout="this.style.background='rgba(239,68,68,0.15)'">
+                ↺ Limpar Filtros
+              </button>
             </div>
-            <div style="font-size: 0.8rem; color: #94a3b8;">
-              Exibindo <strong>${lista.length}</strong> empenhos estruturais do exercício
+
+            <!-- LINHA 1 DE FILTROS -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.75rem; margin-bottom: 0.75rem;">
+              
+              <div>
+                <label style="display: block; font-size: 0.72rem; color: #94a3b8; font-weight: 700; margin-bottom: 3px;">
+                  🔍 Busca Global Instantânea:
+                </label>
+                <input type="text" id="sefin-filtro-busca" value="${filtrosSefinAvancados.busca}" oninput="atualizarFiltroAvancadoSefin('busca', this.value)" placeholder="Empenho, credor, escola..." style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem;">
+              </div>
+
+              <div>
+                <label style="display: block; font-size: 0.72rem; color: #94a3b8; font-weight: 700; margin-bottom: 3px;">
+                  📂 Rubrica Programática:
+                </label>
+                <select id="sefin-filtro-rubrica" onchange="atualizarFiltroAvancadoSefin('rubrica', this.value)" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem;">
+                  <option value="todas">Todas as Rubricas</option>
+                  <option value="Alimentação Escolar & PNAE">Alimentação Escolar & PNAE</option>
+                  <option value="Transporte Escolar & Logística">Transporte Escolar & Logística</option>
+                  <option value="Manutenção Predial & Obras (NOM)">Manutenção Predial & Obras (NOM)</option>
+                  <option value="Serviços Terceirizados & Suprimentos">Serviços Terceirizados & Suprimentos</option>
+                  <option value="Adiantamentos & Fundo Rotativo Escolar">Adiantamentos & Fundo Rotativo</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="display: block; font-size: 0.72rem; color: #94a3b8; font-weight: 700; margin-bottom: 3px;">
+                  ⚖️ Natureza (Capex vs. Opex):
+                </label>
+                <select id="sefin-filtro-natureza" onchange="atualizarFiltroAvancadoSefin('natureza', this.value)" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem;">
+                  <option value="todas">Todas as Naturezas</option>
+                  <option value="Custeio (Opex)">Custeio Operacional (Opex)</option>
+                  <option value="Capital (Capex)">Investimento / Obras (Capex)</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="display: block; font-size: 0.72rem; color: #94a3b8; font-weight: 700; margin-bottom: 3px;">
+                  📊 Curva ABC (Pareto-Lorenz):
+                </label>
+                <select id="sefin-filtro-abc" onchange="atualizarFiltroAvancadoSefin('classeAbc', this.value)" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem;">
+                  <option value="todas">Todas as Classes</option>
+                  <option value="Classe A">Classe A (Top 20% Impacto Orçamentário)</option>
+                  <option value="Classe B">Classe B (Impacto Médio Intermediário)</option>
+                  <option value="Classe C">Classe C (Fundo Rotativo & Pulverizado)</option>
+                </select>
+              </div>
+
             </div>
+
+            <!-- LINHA 2 DE FILTROS -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.75rem;">
+              
+              <div>
+                <label style="display: block; font-size: 0.72rem; color: #94a3b8; font-weight: 700; margin-bottom: 3px;">
+                  ⚠️ Matriz de Risco LRF (Settlement Risk):
+                </label>
+                <select id="sefin-filtro-risco" onchange="atualizarFiltroAvancadoSefin('riscoLrf', this.value)" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem;">
+                  <option value="todas">Todos os Níveis de Risco</option>
+                  <option value="Baixo Risco">🟢 Baixo Risco (Liquidado &gt; 90%)</option>
+                  <option value="Atenção / Médio">🟡 Atenção / Médio (70% - 90%)</option>
+                  <option value="Alerta LRF">🔴 Alerta LRF / Represamento (&lt; 70%)</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="display: block; font-size: 0.72rem; color: #94a3b8; font-weight: 700; margin-bottom: 3px;">
+                  📅 Coorte / Quadrimestre Fiscal:
+                </label>
+                <select id="sefin-filtro-quadrimestre" onchange="atualizarFiltroAvancadoSefin('quadrimestre', this.value)" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem;">
+                  <option value="todas">Todos os Quadrimestres</option>
+                  <option value="1º Quadrimestre (Q1)">1º Quadrimestre (Q1: Jan-Abr)</option>
+                  <option value="2º Quadrimestre (Q2)">2º Quadrimestre (Q2: Mai-Ago)</option>
+                  <option value="3º Quadrimestre (Q3)">3º Quadrimestre (Q3: Set-Dez)</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="display: block; font-size: 0.72rem; color: #94a3b8; font-weight: 700; margin-bottom: 3px;">
+                  🏷️ Status do Ciclo Orçamentário:
+                </label>
+                <select id="sefin-filtro-status" onchange="atualizarFiltroAvancadoSefin('status', this.value)" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem;">
+                  <option value="todos">Todos os Status</option>
+                  <option value="Pago">Pago</option>
+                  <option value="Liquidado">Liquidado</option>
+                  <option value="Em Liquidação">Em Liquidação</option>
+                  <option value="Prestação Validada">Prestação Validada</option>
+                  <option value="Em Análise SEFIN">Em Análise SEFIN</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="display: block; font-size: 0.72rem; color: #94a3b8; font-weight: 700; margin-bottom: 3px;">
+                  ↕️ Ordenação Quantitativa:
+                </label>
+                <select id="sefin-filtro-ordenacao" onchange="atualizarFiltroAvancadoSefin('ordenacao', this.value)" style="width: 100%; box-sizing: border-box; background: #0f172a; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem;">
+                  <option value="valor-desc">Maior Valor Empenhado (Top-Down)</option>
+                  <option value="valor-asc">Menor Valor Empenhado (Bottom-Up)</option>
+                  <option value="liquidado-desc">Maior Liquidação (Atestado)</option>
+                  <option value="pago-desc">Maior Pagamento Efetivo</option>
+                  <option value="cod-asc">Código do Empenho (Cronológico)</option>
+                </select>
+              </div>
+
+            </div>
+
           </div>
 
+          <!-- RESUMO ECONOMÉTRICO DINÂMICO (RECALCULADO EM TEMPO REAL) -->
+          <div id="sefin-metricas-dinamicas-box" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-bottom: 1.2rem;">
+            <!-- Gerado dinamicamente via aplicarFiltrosEAtualizarTabela -->
+          </div>
+
+          <!-- TABELA COM RESULTADOS FILTRADOS -->
           <div style="overflow-x: auto;">
             <table class="escolas-tabela" style="width: 100%; font-size: 0.82rem;">
               <thead>
                 <tr>
                   <th style="text-align: left; padding: 8px;">Código / Processo</th>
-                  <th style="text-align: left; padding: 8px;">Rubrica Programática</th>
-                  <th style="text-align: left; padding: 8px;">Credor / Fornecedor</th>
-                  <th style="text-align: right; padding: 8px;">Valor Total</th>
-                  <th style="text-align: right; padding: 8px;">Liquidado</th>
+                  <th style="text-align: left; padding: 8px;">Rubrica & Natureza</th>
+                  <th style="text-align: left; padding: 8px;">Credor / Escola</th>
+                  <th style="text-align: center; padding: 8px;">Curva ABC</th>
+                  <th style="text-align: right; padding: 8px;">Valor Empenhado</th>
+                  <th style="text-align: right; padding: 8px;">Liquidado (%)</th>
                   <th style="text-align: right; padding: 8px;">Pago</th>
-                  <th style="text-align: center; padding: 8px;">Status LRF</th>
+                  <th style="text-align: center; padding: 8px;">Risco LRF & Status</th>
                 </tr>
               </thead>
               <tbody id="sefin-despesas-tbody">
-      `;
-
-      lista.forEach(d => {
-        let badgeStyle = "background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981;";
-        if (d.status.includes('Liquidação') || d.status.includes('Análise')) {
-          badgeStyle = "background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b;";
-        }
-        html += `
-          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-            <td style="padding: 10px 8px;">
-              <strong style="color: #ffffff;">${d.cod}</strong><br>
-              <small style="color: #94a3b8;">${d.processo}</small>
-            </td>
-            <td style="padding: 10px 8px; color: #cbd5e1;">${d.rubrica}</td>
-            <td style="padding: 10px 8px; font-weight: 600; color: #ffffff;">${d.credor}</td>
-            <td style="padding: 10px 8px; text-align: right; color: #ffffff; font-weight: 700;">${formatarMoedaBrl(d.valor)}</td>
-            <td style="padding: 10px 8px; text-align: right; color: #60a5fa;">${formatarMoedaBrl(d.liquidado)}</td>
-            <td style="padding: 10px 8px; text-align: right; color: #34d399; font-weight: 600;">${formatarMoedaBrl(d.pago)}</td>
-            <td style="padding: 10px 8px; text-align: center;">
-              <span style="display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 700; ${badgeStyle}">
-                ${d.status}
-              </span>
-            </td>
-          </tr>
-        `;
-      });
-
-      html += `
+                <!-- Gerado dinamicamente -->
               </tbody>
             </table>
           </div>
+
         </div>
       `;
-      return html;
     }
 
     function renderizarContratosHtml() {
@@ -13201,57 +13305,229 @@ function imprimirAgendaCarro() {
       return html;
     }
 
-    function filtrarDespesasSefin(rubrica) {
-      filtroRubricaSelecionadaSefin = rubrica;
+    function atualizarFiltroAvancadoSefin(campo, valor) {
+      filtrosSefinAvancados[campo] = valor;
+      aplicarFiltrosEAtualizarTabela();
+    }
+
+    function limparTodosFiltrosSefin() {
+      filtrosSefinAvancados = {
+        busca: '',
+        rubrica: 'todas',
+        natureza: 'todas',
+        classeAbc: 'todas',
+        riscoLrf: 'todas',
+        quadrimestre: 'todas',
+        status: 'todos',
+        ordenacao: 'valor-desc'
+      };
+
+      const elBusca = document.getElementById('sefin-filtro-busca');
+      if (elBusca) elBusca.value = '';
+      const elRub = document.getElementById('sefin-filtro-rubrica');
+      if (elRub) elRub.value = 'todas';
+      const elNat = document.getElementById('sefin-filtro-natureza');
+      if (elNat) elNat.value = 'todas';
+      const elAbc = document.getElementById('sefin-filtro-abc');
+      if (elAbc) elAbc.value = 'todas';
+      const elRisco = document.getElementById('sefin-filtro-risco');
+      if (elRisco) elRisco.value = 'todas';
+      const elQuad = document.getElementById('sefin-filtro-quadrimestre');
+      if (elQuad) elQuad.value = 'todas';
+      const elStat = document.getElementById('sefin-filtro-status');
+      if (elStat) elStat.value = 'todos';
+      const elOrd = document.getElementById('sefin-filtro-ordenacao');
+      if (elOrd) elOrd.value = 'valor-desc';
+
+      aplicarFiltrosEAtualizarTabela();
+    }
+
+    function obterDespesasFiltradasSefin() {
+      const termo = (filtrosSefinAvancados.busca || '').toLowerCase().trim();
+      let lista = DADOS_FINANCEIROS_SEFIN.despesasDetalhadas.filter(d => {
+        if (filtrosSefinAvancados.rubrica !== 'todas' && d.rubrica !== filtrosSefinAvancados.rubrica) return false;
+        if (filtrosSefinAvancados.natureza !== 'todas' && d.natureza !== filtrosSefinAvancados.natureza) return false;
+        if (filtrosSefinAvancados.classeAbc !== 'todas' && d.classeAbc !== filtrosSefinAvancados.classeAbc) return false;
+        if (filtrosSefinAvancados.riscoLrf !== 'todas' && d.riscoLrf !== filtrosSefinAvancados.riscoLrf) return false;
+        if (filtrosSefinAvancados.quadrimestre !== 'todas' && d.quadrimestre !== filtrosSefinAvancados.quadrimestre) return false;
+        if (filtrosSefinAvancados.status !== 'todos' && d.status !== filtrosSefinAvancados.status) return false;
+
+        if (termo) {
+          const matchCod = (d.cod || '').toLowerCase().includes(termo);
+          const matchPrc = (d.processo || '').toLowerCase().includes(termo);
+          const matchCred = (d.credor || '').toLowerCase().includes(termo);
+          const matchRub = (d.rubrica || '').toLowerCase().includes(termo);
+          const matchMun = (d.municipio || '').toLowerCase().includes(termo);
+          if (!matchCod && !matchPrc && !matchCred && !matchRub && !matchMun) return false;
+        }
+
+        return true;
+      });
+
+      // Ordenação
+      lista.sort((a, b) => {
+        if (filtrosSefinAvancados.ordenacao === 'valor-desc') return b.valor - a.valor;
+        if (filtrosSefinAvancados.ordenacao === 'valor-asc') return a.valor - b.valor;
+        if (filtrosSefinAvancados.ordenacao === 'liquidado-desc') return b.liquidado - a.liquidado;
+        if (filtrosSefinAvancados.ordenacao === 'pago-desc') return b.pago - a.pago;
+        if (filtrosSefinAvancados.ordenacao === 'cod-asc') return a.cod.localeCompare(b.cod);
+        return 0;
+      });
+
+      return lista;
+    }
+
+    function aplicarFiltrosEAtualizarTabela() {
+      const lista = obterDespesasFiltradasSefin();
+
+      // 1. Atualiza Métricas Dinâmicas
+      const boxMetricas = document.getElementById('sefin-metricas-dinamicas-box');
+      if (boxMetricas) {
+        let totalEmp = 0;
+        let totalLiq = 0;
+        let totalPago = 0;
+        lista.forEach(d => {
+          totalEmp += d.valor;
+          totalLiq += d.liquidado;
+          totalPago += d.pago;
+        });
+
+        const passivoPendente = totalLiq - totalPago;
+        const taxaLiq = totalEmp > 0 ? (totalLiq / totalEmp * 100) : 0;
+        const taxaPago = totalLiq > 0 ? (totalPago / totalLiq * 100) : 0;
+
+        boxMetricas.innerHTML = `
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 0.75rem 0.9rem;">
+            <span style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; display: block;">Amostra Selecionada (N)</span>
+            <strong style="font-size: 1.15rem; color: #ffffff;">${lista.length} de ${DADOS_FINANCEIROS_SEFIN.despesasDetalhadas.length}</strong>
+            <span style="font-size: 0.72rem; color: #38bdf8; display: block; margin-top: 2px;">${((lista.length / DADOS_FINANCEIROS_SEFIN.despesasDetalhadas.length) * 100).toFixed(0)}% do universo</span>
+          </div>
+
+          <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 0.75rem 0.9rem;">
+            <span style="font-size: 0.7rem; color: #34d399; text-transform: uppercase; font-weight: 700; display: block;">Total Empenhado Filtrado</span>
+            <strong style="font-size: 1.15rem; color: #10b981;">${formatarMoedaBrl(totalEmp)}</strong>
+            <span style="font-size: 0.72rem; color: #34d399; display: block; margin-top: 2px;">${((totalEmp / DADOS_FINANCEIROS_SEFIN.kpisGerais.empenhado) * 100).toFixed(1)}% do total regional</span>
+          </div>
+
+          <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 10px; padding: 0.75rem 0.9rem;">
+            <span style="font-size: 0.7rem; color: #60a5fa; text-transform: uppercase; font-weight: 700; display: block;">Taxa Liquidação (ESI)</span>
+            <strong style="font-size: 1.15rem; color: #60a5fa;">${formatarPct(taxaLiq)}</strong>
+            <span style="font-size: 0.72rem; color: #93c5fd; display: block; margin-top: 2px;">${formatarMoedaBrl(totalLiq)} atestado</span>
+          </div>
+
+          <div style="background: rgba(139, 92, 246, 0.05); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 10px; padding: 0.75rem 0.9rem;">
+            <span style="font-size: 0.7rem; color: #a78bfa; text-transform: uppercase; font-weight: 700; display: block;">Desembolso Efetivo</span>
+            <strong style="font-size: 1.15rem; color: #c4b5fd;">${formatarMoedaBrl(totalPago)}</strong>
+            <span style="font-size: 0.72rem; color: #a78bfa; display: block; margin-top: 2px;">${formatarPct(taxaPago)} do liquidado</span>
+          </div>
+
+          <div style="background: rgba(240, 155, 12, 0.05); border: 1px solid rgba(240, 155, 12, 0.3); border-radius: 10px; padding: 0.75rem 0.9rem;">
+            <span style="font-size: 0.7rem; color: #fbbf24; text-transform: uppercase; font-weight: 700; display: block;">Passivo a Pagar (Δ)</span>
+            <strong style="font-size: 1.15rem; color: #f09b0c;">${formatarMoedaBrl(passivoPendente)}</strong>
+            <span style="font-size: 0.72rem; color: #fbbf24; display: block; margin-top: 2px;">Medições a liquidar</span>
+          </div>
+        `;
+      }
+
+      // 2. Atualiza Linhas da Tabela
       const tbody = document.getElementById('sefin-despesas-tbody');
       if (!tbody) return;
-      const lista = DADOS_FINANCEIROS_SEFIN.despesasDetalhadas.filter(d => {
-        return rubrica === 'todas' || d.rubrica === rubrica;
-      });
+
+      if (lista.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 2.5rem 1rem; color: #94a3b8;">
+              <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🔍</div>
+              <div style="font-size: 1rem; font-weight: 700; color: #ffffff;">Nenhuma despesa localizada com os filtros selecionados</div>
+              <p style="font-size: 0.82rem; margin: 0.4rem 0 1rem 0;">Ajuste os parâmetros ou redefina os filtros para visualizar os dados.</p>
+              <button onclick="limparTodosFiltrosSefin()" style="background: rgba(240,155,12,0.2); border: 1px solid #f09b0c; color: #f09b0c; font-size: 0.8rem; font-weight: 700; padding: 6px 14px; border-radius: 8px; cursor: pointer;">
+                ↺ Redefinir Todos os Filtros
+              </button>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
       let html = '';
       lista.forEach(d => {
-        let badgeStyle = "background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981;";
-        if (d.status.includes('Liquidação') || d.status.includes('Análise')) {
-          badgeStyle = "background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b;";
+        let badgeRiscoStyle = "background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981;";
+        if (d.riscoLrf === 'Atenção / Médio') {
+          badgeRiscoStyle = "background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b;";
+        } else if (d.riscoLrf === 'Alerta LRF') {
+          badgeRiscoStyle = "background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444;";
         }
+
+        let badgeAbcStyle = "background: rgba(240, 155, 12, 0.15); color: #f09b0c; border: 1px solid #f09b0c;";
+        if (d.classeAbc === 'Classe B') {
+          badgeAbcStyle = "background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid #3b82f6;";
+        } else if (d.classeAbc === 'Classe C') {
+          badgeAbcStyle = "background: rgba(148, 163, 184, 0.15); color: #cbd5e1; border: 1px solid #94a3b8;";
+        }
+
+        const pctLiq = d.valor > 0 ? ((d.liquidado / d.valor) * 100).toFixed(0) : 0;
+
         html += `
-          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.03)'" onmouseout="this.style.background='transparent'">
             <td style="padding: 10px 8px;">
-              <strong style="color: #ffffff;">${d.cod}</strong><br>
-              <small style="color: #94a3b8;">${d.processo}</small>
+              <strong style="color: #ffffff; font-size: 0.84rem;">${d.cod}</strong><br>
+              <small style="color: #94a3b8; font-size: 0.72rem;">${d.processo}</small>
             </td>
-            <td style="padding: 10px 8px; color: #cbd5e1;">${d.rubrica}</td>
-            <td style="padding: 10px 8px; font-weight: 600; color: #ffffff;">${d.credor}</td>
-            <td style="padding: 10px 8px; text-align: right; color: #ffffff; font-weight: 700;">${formatarMoedaBrl(d.valor)}</td>
-            <td style="padding: 10px 8px; text-align: right; color: #60a5fa;">${formatarMoedaBrl(d.liquidado)}</td>
-            <td style="padding: 10px 8px; text-align: right; color: #34d399; font-weight: 600;">${formatarMoedaBrl(d.pago)}</td>
+            <td style="padding: 10px 8px;">
+              <span style="color: #ffffff; font-weight: 600;">${d.rubrica}</span><br>
+              <span style="font-size: 0.7rem; color: #94a3b8;">${d.natureza} • ${d.quadrimestre}</span>
+            </td>
+            <td style="padding: 10px 8px;">
+              <span style="font-weight: 600; color: #ffffff;">${d.credor}</span><br>
+              <small style="color: #94a3b8; font-size: 0.72rem;">📍 ${d.municipio}</small>
+            </td>
             <td style="padding: 10px 8px; text-align: center;">
-              <span style="display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 700; ${badgeStyle}">
-                ${d.status}
+              <span style="display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; ${badgeAbcStyle}">
+                ${d.classeAbc}
               </span>
+            </td>
+            <td style="padding: 10px 8px; text-align: right; color: #ffffff; font-weight: 800;">
+              ${formatarMoedaBrl(d.valor)}
+            </td>
+            <td style="padding: 10px 8px; text-align: right;">
+              <span style="color: #60a5fa; font-weight: 700;">${formatarMoedaBrl(d.liquidado)}</span>
+              <div style="background: rgba(255,255,255,0.1); height: 5px; border-radius: 3px; overflow: hidden; margin-top: 3px; width: 70px; margin-left: auto;">
+                <div style="background: #3b82f6; height: 100%; width: ${pctLiq}%;"></div>
+              </div>
+              <small style="font-size: 0.68rem; color: #94a3b8;">${pctLiq}% atestado</small>
+            </td>
+            <td style="padding: 10px 8px; text-align: right; color: #34d399; font-weight: 700;">
+              ${formatarMoedaBrl(d.pago)}
+            </td>
+            <td style="padding: 10px 8px; text-align: center;">
+              <span style="display: block; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 700; ${badgeRiscoStyle}; margin-bottom: 2px;">
+                ${d.riscoLrf}
+              </span>
+              <small style="font-size: 0.7rem; color: #cbd5e1;">${d.status}</small>
             </td>
           </tr>
         `;
       });
+
       tbody.innerHTML = html;
     }
 
     function exportarBalanceteSefinCsv() {
-      const lista = DADOS_FINANCEIROS_SEFIN.despesasDetalhadas;
-      let csv = 'Código;Processo;Rubrica;Credor;Valor Total (R$);Empenhado (R$);Liquidado (R$);Pago (R$);Status LRF;Vencimento\n';
+      const lista = obterDespesasFiltradasSefin();
+      let csv = 'Código;Processo;Rubrica;Natureza;Classe ABC;Credor;Município;Valor Empenhado (R$);Liquidado (R$);Pago (R$);Risco LRF;Status;Quadrimestre;Vencimento\n';
       lista.forEach(d => {
-        csv += `"${d.cod}";"${d.processo}";"${d.rubrica}";"${d.credor}";${d.valor};${d.empenhado};${d.liquidado};${d.pago};"${d.status}";"${d.vencimento}"\n`;
+        csv += `"${d.cod}";"${d.processo}";"${d.rubrica}";"${d.natureza}";"${d.classeAbc}";"${d.credor}";"${d.municipio}";${d.valor};${d.liquidado};${d.pago};"${d.riscoLrf}";"${d.status}";"${d.quadrimestre}";"${d.vencimento}"\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.setAttribute('href', url);
-      link.setAttribute('download', 'Balancete_SEFIN_URE_Itapevi_2026.csv');
+      link.setAttribute('download', `Balancete_SEFIN_Filtrado_${lista.length}_Registros.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       if (typeof mostrarToastAgenda === 'function') {
-        mostrarToastAgenda('Balancete financeiro exportado com sucesso!', '📊');
+        mostrarToastAgenda(`Balancete com ${lista.length} registros exportado!`, '📊');
       }
     }
 
