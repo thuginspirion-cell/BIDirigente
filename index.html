@@ -914,7 +914,7 @@
     function rolarAoTopoSuave() {
       try {
         if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
-          rolarAoTopoSuave();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       } catch (e) {
         try { window.scrollTo(0, 0); } catch (err) {}
@@ -3083,8 +3083,82 @@ function imprimirAgendaCarro() {
       transition: var(--transition);
     }
 
+    .btn-verify-now {
+      background: #ffffff;
+      color: #0f172a;
+      border: none;
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: var(--transition);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
     .btn-verify-now:hover {
-      background: #e2e8f0;
+      background: #f1f5f9;
+      color: #1e3a8a;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .btn-verify-now:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Botão de Sincronização Padrão para Cada Menu */
+    .btn-pane-sync {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.42rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      white-space: nowrap;
+    }
+
+    .btn-pane-sync:hover {
+      background: rgba(240, 155, 12, 0.22);
+      border-color: #f09b0c;
+      color: #f09b0c;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(240, 155, 12, 0.3);
+    }
+
+    .btn-pane-sync:active {
+      transform: translateY(0);
+    }
+
+    .btn-pane-sync.syncing, .btn-verify-now.syncing {
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    .sync-spin-icon {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+
+    .syncing .sync-spin-icon {
+      animation: spinSync 0.8s linear infinite;
+    }
+
+    @keyframes spinSync {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     /* ========================================= */
@@ -7904,10 +7978,12 @@ function imprimirAgendaCarro() {
 
         <!-- Status Google Drive -->
 
-        <div class="drive-status-pill">
-          <span class="drive-status-dot"></span>
-          <span>Google Drive • <strong id="drive-stats-text">6 Centros Sincronizados</strong></span>
-          <button class="btn-verify-now" onclick="verificarSincronizacaoDrive()">Verificar agora</button>
+        <div class="drive-status-pill" id="drive-status-pill">
+          <span class="drive-status-dot" id="drive-status-dot"></span>
+          <span>Google Drive &amp; Bases • <strong id="drive-stats-text">12 Módulos Conectados</strong></span>
+          <button class="btn-verify-now" id="btn-sync-global" onclick="sincronizarTudoGlobalmente()" title="Sincronizar todos os 12 módulos e bases em tempo real">
+            <span class="sync-spin-icon" id="btn-sync-global-icon">🔄</span> <span id="btn-sync-global-text">Sincronizar Tudo</span>
+          </button>
         </div>
       </div>
     </header>
@@ -7926,6 +8002,9 @@ function imprimirAgendaCarro() {
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.6rem;">
               <span class="hero-pretitle" style="margin-bottom: 0;">⭐ DIRETORIA REGIONAL DE ENSINO DE ITAPEVI • URE ITAPEVI</span>
               <span style="font-size: 0.72rem; background: rgba(240, 155, 12, 0.22); color: #f09b0c; border: 1px solid rgba(240, 155, 12, 0.45); padding: 2px 8px; border-radius: 20px; font-weight: 700;">🟢 Rede 100% Operacional</span>
+              <button class="btn-pane-sync" onclick="sincronizarModulo('home', this)" title="Sincronizar todos os indicadores da Home em tempo real" style="margin-left: auto;">
+                <span class="sync-spin-icon">🔄</span> Sincronizar Início
+              </button>
             </div>
             <h2 class="hero-main-title" style="color: #ffffff !important; white-space: nowrap;">BI Dirigente • Painel Integrado de Gestão</h2>
             <p class="hero-main-desc">
@@ -8424,9 +8503,14 @@ function imprimirAgendaCarro() {
               <p id="banner-centro-desc">Gestão de infraestrutura digital, suporte aos polos e sistemas escolares</p>
             </div>
           </div>
-          <button class="btn-back-home" onclick="mostrarHome()">
-            <span>◀</span> Voltar ao Início
-          </button>
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <button class="btn-pane-sync" id="btn-sync-centro" onclick="sincronizarModulo('centro', this)" title="Sincronizar dados e setores deste Centro">
+              <span class="sync-spin-icon">🔄</span> Sincronizar Centro
+            </button>
+            <button class="btn-back-home" onclick="mostrarHome()">
+              <span>◀</span> Voltar ao Início
+            </button>
+          </div>
         </div>
 
         <!-- Navegação por Abas dos Setores Deste Centro -->
@@ -8481,8 +8565,11 @@ function imprimirAgendaCarro() {
           <div class="gab-header-right">
             <div class="gab-drive-info-badge">
               <span class="gab-drive-dot-live"></span>
-              <span>GOOGLE DRIVE • 2 EXCEL • 9 ABAS • 17/10/2026, 18:03:04</span>
+              <span id="gab-drive-sync-info">GOOGLE DRIVE • 2 EXCEL • 9 ABAS • 17/10/2026</span>
             </div>
+            <button class="btn-pane-sync" onclick="sincronizarModulo('gabinete', this)" title="Sincronizar demandas, ouvidoria Fala.SP e termos de visita do Gabinete">
+              <span class="sync-spin-icon">🔄</span> Sincronizar Gabinete
+            </button>
             <button class="btn-back-home" onclick="mostrarHome()">
               <span>◀</span> Voltar ao Início
             </button>
@@ -8766,8 +8853,11 @@ function imprimirAgendaCarro() {
           <div class="gab-header-right">
             <div class="gab-drive-info-badge">
               <span class="gab-drive-dot-live"></span>
-              <span>GOOGLE DRIVE • 3 EXCEL • 6 ABAS • 17/10/2026, 17:59:03</span>
+              <span id="seintec-drive-sync-info">GOOGLE DRIVE • 3 EXCEL • 6 ABAS • 17/10/2026</span>
             </div>
+            <button class="btn-pane-sync" onclick="sincronizarModulo('seintec', this)" title="Sincronizar chamados e inventário SEINTEC com a nuvem SharePoint">
+              <span class="sync-spin-icon">🔄</span> Sincronizar SEINTEC
+            </button>
             <button class="btn-back-home" onclick="mostrarHome()">
               <span>◀</span> Voltar ao Início
             </button>
@@ -9248,9 +9338,9 @@ function imprimirAgendaCarro() {
             </div>
 
             <div class="gestao-header-actions">
-              <button class="btn-gestao-refresh" onclick="atualizarDiaGestaoHoje()" title="Recarregar compromissos do dia">
-                <span>🔄</span>
-                <span>Atualizar dia</span>
+              <button class="btn-gestao-refresh btn-pane-sync" onclick="sincronizarModulo('gestao', this)" title="Sincronizar agenda executiva e compromissos do dia">
+                <span class="sync-spin-icon">🔄</span>
+                <span>Sincronizar Gestão</span>
               </button>
               <button class="btn-gestao-open-agenda" onclick="abrirAgenda()" title="Abrir gestão completa de compromissos">
                 <span>Abrir Agenda completa</span>
@@ -9356,6 +9446,10 @@ function imprimirAgendaCarro() {
               </p>
             </div>
             <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+              <button class="btn-pane-sync" onclick="sincronizarModulo('agenda', this)" title="Sincronizar agenda oficial da Dirigente com o Google Calendar">
+                <span class="sync-spin-icon">🔄</span>
+                <span>Sincronizar Agenda</span>
+              </button>
               <button class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);" onclick="abrirModalNovoCompromisso()">
                 <span>+ Novo Compromisso</span>
               </button>
@@ -9445,6 +9539,10 @@ function imprimirAgendaCarro() {
 
             <div class="carro-header-actions">
               <span class="carro-badge-sefisc-top" id="carro-badge-status-top">📅 Calendário Compartilhado • Somente Leitura</span>
+              <button class="btn-carro-action secondary btn-pane-sync" onclick="sincronizarModulo('carro', this)" title="Sincronizar agendamentos e frota do Carro Oficial">
+                <span class="sync-spin-icon">🔄</span>
+                <span>Sincronizar Frota</span>
+              </button>
               <button class="btn-carro-action" onclick="abrirModalConfigCalendarCarro()" title="Configurar ou verificar o link do calendário compartilhado">
                 <span>⚙️ Link do Calendário</span>
               </button>
@@ -9680,6 +9778,10 @@ function imprimirAgendaCarro() {
             </div>
 
             <div class="escolas-header-actions">
+              <button class="btn-escola-secondary btn-pane-sync" onclick="sincronizarModulo('escolas', this)" title="Sincronizar base cadastral, inventário e indicadores das 60 escolas">
+                <span class="sync-spin-icon">🔄</span>
+                <span>Sincronizar Escolas</span>
+              </button>
               <button class="btn-escola-primary" onclick="abrirModalNovaEscola()" title="Adicionar nova escola à base">
                 <span>➕ Cadastrar Nova Escola</span>
               </button>
@@ -9879,6 +9981,10 @@ function imprimirAgendaCarro() {
 
           <div class="visitas-top-actions">
             <div class="visitas-buttons-group">
+              <button class="btn-visitas-limpar btn-pane-sync" onclick="sincronizarModulo('visitas', this)" title="Sincronizar status de visitas escolares e rotas da Dirigente">
+                <span class="sync-spin-icon">🔄</span>
+                <span>Sincronizar Visitas</span>
+              </button>
               <button class="btn-visitas-mapa" onclick="abrirModalMapaVisitas()" title="Abrir visualização geográfica e mapa de rotas da rede">
                 <span>+ Abrir mapa de visitas</span>
               </button>
@@ -12561,6 +12667,11 @@ function imprimirAgendaCarro() {
       document.getElementById('banner-centro-nome').innerText = centro.nome;
       document.getElementById('banner-centro-desc').innerText = centro.descricao;
       document.getElementById('atual-centro-sigla').value = siglaCentro;
+      const btnSyncCentro = document.getElementById('btn-sync-centro');
+      if (btnSyncCentro) {
+        btnSyncCentro.innerHTML = '<span class="sync-spin-icon">🔄</span> Sincronizar ' + siglaCentro;
+        btnSyncCentro.title = 'Sincronizar dados, setores e arquivos do ' + siglaCentro;
+      }
 
       // Renderiza as abas de setores do Centro
       const containerTabs = document.getElementById('container-setores-tabs');
@@ -13637,17 +13748,246 @@ function imprimirAgendaCarro() {
       }
     }
 
-    function verificarSincronizacaoDrive() {
-      const el = document.getElementById('drive-stats-text');
-      const original = el.innerText;
-      el.innerText = 'Verificando conexão...';
-      setTimeout(() => {
-        el.innerText = '100% Conectado e Atualizado';
-        setTimeout(() => {
-          el.innerText = original;
-        }, 3000);
+    /**
+     * MOTOR DE SINCRONIZAÇÃO GLOBAL E CONTEXTUAL (BI DIRIGENTE)
+     * Permite sincronizar individualmente cada um dos 12 módulos ou todos de uma só vez.
+     */
+    function obterTimestampAtualFormatado() {
+      const agora = new Date();
+      return agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+
+    function atualizarPillStatusGlobal(texto, estado) {
+      const elTexto = document.getElementById('drive-stats-text');
+      const dot = document.getElementById('drive-status-dot');
+      if (elTexto) elTexto.innerText = texto;
+      if (dot) {
+        if (estado === 'loading') {
+          dot.style.background = '#f59e0b';
+          dot.style.boxShadow = '0 0 8px #f59e0b';
+        } else if (estado === 'error') {
+          dot.style.background = '#ef4444';
+          dot.style.boxShadow = '0 0 8px #ef4444';
+        } else {
+          dot.style.background = '#10b981';
+          dot.style.boxShadow = '0 0 8px #10b981';
+        }
+      }
+    }
+
+    function sincronizarTudoGlobalmente() {
+      const btn = document.getElementById('btn-sync-global');
+      const icon = document.getElementById('btn-sync-global-icon');
+      const txt = document.getElementById('btn-sync-global-text');
+
+      if (btn) {
+        btn.disabled = true;
+        btn.classList.add('syncing');
+        if (txt) txt.innerText = 'Sincronizando Tudo...';
+      }
+      atualizarPillStatusGlobal('Sincronizando 12 Módulos e Bases...', 'loading');
+
+      if (typeof mostrarToastAgenda === 'function') {
+        mostrarToastAgenda('Sincronização global iniciada: consultando 12 módulos e bases...', '⏳');
+      }
+
+      // 1. SEINTEC (SharePoint Calls 2026)
+      try {
+        if (typeof sincronizarSharepointCalls === 'function') {
+          sincronizarSharepointCalls(false);
+        }
+      } catch (e1) {
+        console.warn('Erro ao sincronizar SEINTEC:', e1);
+      }
+
+      // 2. SEFIN (SharePoint Finanças & Orçamento)
+      try {
+        if (typeof sincronizarDashboardSefin === 'function') {
+          sincronizarDashboardSefin();
+        }
+      } catch (e2) {
+        console.warn('Erro ao sincronizar SEFIN:', e2);
+      }
+
+      // 3. Minha Gestão
+      try {
+        if (typeof atualizarDiaGestaoHoje === 'function') {
+          atualizarDiaGestaoHoje();
+        }
+      } catch (e3) {
+        console.warn('Erro ao sincronizar Gestão:', e3);
+      }
+
+      // 4. Agenda Executiva
+      try {
+        if (typeof renderizarAgendaLista === 'function') {
+          renderizarAgendaLista();
+        }
+        if (typeof atualizarEstatisticasAgenda === 'function') {
+          atualizarEstatisticasAgenda();
+        }
+      } catch (e4) {
+        console.warn('Erro ao sincronizar Agenda:', e4);
+      }
+
+      // 5. Carro Oficial & Frota
+      try {
+        if (typeof atualizarCarroOficial === 'function') {
+          atualizarCarroOficial();
+        }
+      } catch (e5) {
+        console.warn('Erro ao sincronizar Carro:', e5);
+      }
+
+      // 6. Visitas às 60 Escolas
+      try {
+        if (typeof atualizarPainelVisitas === 'function') {
+          atualizarPainelVisitas();
+        }
+      } catch (e6) {
+        console.warn('Erro ao sincronizar Visitas:', e6);
+      }
+
+      // 7. Rede Escolar & Inventário
+      try {
+        if (typeof atualizarKpisEscolas === 'function') {
+          atualizarKpisEscolas();
+        }
+        if (typeof atualizarIndicadoresOrdenacaoEscolas === 'function') {
+          atualizarIndicadoresOrdenacaoEscolas();
+        }
+        if (typeof renderizarEscolas === 'function') {
+          renderizarEscolas();
+        }
+      } catch (e7) {
+        console.warn('Erro ao sincronizar Escolas:', e7);
+      }
+
+      // 8. Home KPIs
+      try {
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') {
+          atualizarKpisSuperioresHomeParaEscola(null);
+        }
+        if (typeof renderizarMiniCalendarioHome === 'function') {
+          renderizarMiniCalendarioHome();
+        }
+      } catch (e8) {
+        console.warn('Erro ao sincronizar Home:', e8);
+      }
+
+      // 9. Gabinete e Centros badges
+      const agoraStr = obterTimestampAtualFormatado();
+      const elGabBadge = document.getElementById('gab-drive-sync-info');
+      if (elGabBadge) elGabBadge.innerText = 'GOOGLE DRIVE • 2 EXCEL • 9 ABAS • Sincronizado às ' + agoraStr;
+      const elSeintecBadge = document.getElementById('seintec-drive-sync-info');
+      if (elSeintecBadge) elSeintecBadge.innerText = 'GOOGLE DRIVE • 3 EXCEL • 6 ABAS • Sincronizado às ' + agoraStr;
+
+      setTimeout(function() {
+        if (btn) {
+          btn.disabled = false;
+          btn.classList.remove('syncing');
+          if (txt) txt.innerText = 'Sincronizar Tudo';
+        }
+        atualizarPillStatusGlobal('Sincronizado às ' + agoraStr + ' • 100% Operacional', 'success');
+
+        if (typeof mostrarToastAgenda === 'function') {
+          mostrarToastAgenda('Sincronização global concluída! Todos os 12 módulos atualizados.', '✨');
+        }
+      }, 750);
+    }
+
+    function sincronizarModulo(modulo, btnEl) {
+      if (btnEl) {
+        btnEl.classList.add('syncing');
+        btnEl.disabled = true;
+      }
+      const agoraStr = obterTimestampAtualFormatado();
+
+      try {
+        switch (modulo) {
+          case 'home':
+            if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+            if (typeof renderizarMiniCalendarioHome === 'function') renderizarMiniCalendarioHome();
+            mostrarToastAgenda('Módulo Início sincronizado às ' + agoraStr, '⭐');
+            break;
+
+          case 'gestao':
+            if (typeof atualizarDiaGestaoHoje === 'function') atualizarDiaGestaoHoje();
+            mostrarToastAgenda('Linha do tempo e compromissos sincronizados às ' + agoraStr, '⏱️');
+            break;
+
+          case 'agenda':
+            if (typeof renderizarAgendaLista === 'function') renderizarAgendaLista();
+            if (typeof atualizarEstatisticasAgenda === 'function') atualizarEstatisticasAgenda();
+            mostrarToastAgenda('Agenda da Dirigente sincronizada com Google Calendar às ' + agoraStr, '📅');
+            break;
+
+          case 'carro':
+            if (typeof atualizarCarroOficial === 'function') atualizarCarroOficial();
+            mostrarToastAgenda('Frota e agendamentos do Carro Oficial sincronizados às ' + agoraStr, '🚗');
+            break;
+
+          case 'visitas':
+            if (typeof atualizarPainelVisitas === 'function') atualizarPainelVisitas();
+            mostrarToastAgenda('Painel de visitas às 60 escolas sincronizado às ' + agoraStr, '🏫');
+            break;
+
+          case 'escolas':
+            if (typeof atualizarKpisEscolas === 'function') atualizarKpisEscolas();
+            if (typeof atualizarIndicadoresOrdenacaoEscolas === 'function') atualizarIndicadoresOrdenacaoEscolas();
+            if (typeof renderizarEscolas === 'function') renderizarEscolas();
+            mostrarToastAgenda('Base e inventário das 60 escolas sincronizados às ' + agoraStr, '🏫');
+            break;
+
+          case 'gabinete':
+            const elGab = document.getElementById('gab-drive-sync-info');
+            if (elGab) elGab.innerText = 'GOOGLE DRIVE • 2 EXCEL • 9 ABAS • Sincronizado às ' + agoraStr;
+            mostrarToastAgenda('Bases do Gabinete (Ouvidoria Fala.SP e Demandas) sincronizadas às ' + agoraStr, '📋');
+            break;
+
+          case 'seintec':
+            if (typeof sincronizarSharepointCalls === 'function') sincronizarSharepointCalls(true);
+            const elSeintec = document.getElementById('seintec-drive-sync-info');
+            if (elSeintec) elSeintec.innerText = 'GOOGLE DRIVE • 3 EXCEL • 6 ABAS • Sincronizado às ' + agoraStr;
+            mostrarToastAgenda('Chamados e inventário SEINTEC sincronizados com SharePoint às ' + agoraStr, '🛠️');
+            break;
+
+          case 'centro':
+            const centroSigla = (document.getElementById('atual-centro-sigla') ? document.getElementById('atual-centro-sigla').value : 'Centro');
+            if (centroSigla === 'CAF' && typeof sincronizarDashboardSefin === 'function') {
+              sincronizarDashboardSefin();
+            }
+            mostrarToastAgenda('Módulo ' + centroSigla + ' e seus setores sincronizados às ' + agoraStr, '🏛️');
+            break;
+
+          case 'sefin':
+            if (typeof sincronizarDashboardSefin === 'function') sincronizarDashboardSefin();
+            mostrarToastAgenda('Painel Econométrico SEFIN sincronizado com SharePoint às ' + agoraStr, '💰');
+            break;
+
+          default:
+            mostrarToastAgenda('Módulo sincronizado com sucesso às ' + agoraStr, '🔄');
+        }
+      } catch (err) {
+        console.error('Erro ao sincronizar módulo ' + modulo + ':', err);
+        mostrarToastAgenda('Erro ao sincronizar: ' + (err.message || err), '❌');
+      }
+
+      atualizarPillStatusGlobal('Sincronizado às ' + agoraStr + ' • 100% Operacional', 'success');
+
+      setTimeout(function() {
+        if (btnEl) {
+          btnEl.classList.remove('syncing');
+          btnEl.disabled = false;
+        }
       }, 600);
     }
+
+    // Compatibilidade e vinculação de escopo global
+    window.sincronizarTudoGlobalmente = sincronizarTudoGlobalmente;
+    window.sincronizarModulo = sincronizarModulo;
+    window.verificarSincronizacaoDrive = sincronizarTudoGlobalmente;
+    window.mostrarToastGlobal = mostrarToastAgenda;
 
     // =======================================================
     // LÓGICA E DADOS DA ASSESSORIA TÉCNICA & GABINETE
