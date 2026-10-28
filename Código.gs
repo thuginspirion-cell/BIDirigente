@@ -98,7 +98,7 @@ function getConsolidatedData() {
   var agendaEventos = (eventosReaisCalendar && eventosReaisCalendar.length > 0) ? eventosReaisCalendar : [
     { id: "evt-001", horaInicio: "08:00", horaFim: "09:00", hora: "08:00", titulo: "Live Reunião", tipo: "Reunião", local: "Teams", setor: "Gabinete / URE", prioridade: "Alta", status: "Agendado", descricao: "Live Reunião com a rede e equipes gestoras escolares" },
     { id: "evt-002", horaInicio: "14:00", horaFim: "15:30", hora: "14:00", titulo: "Visita Técnica: EE Lenio Vieira de Moraes Professor", tipo: "Visita Técnica", local: "EE Lenio Vieira de Moraes Professor", setor: "Supervisão", prioridade: "Alta", status: "Agendado", descricao: "Acompanhamento das reformas e novos equipamentos" },
-    { id: "evt-003", horaInicio: "16:00", horaFim: "17:00", hora: "16:00", titulo: "Alinhamento com SEAFIN e NOM", tipo: "Despacho Gabinete", local: "Gabinete da Dirigente", setor: "CAF", prioridade: "Normal", status: "Agendado", descricao: "Execução orçamentária e aditivos de contratos" }
+    { id: "evt-003", horaInicio: "16:00", horaFim: "17:00", hora: "16:00", titulo: "Alinhamento com SEAFIN e NOM", tipo: "Despacho Gabinete", local: "Gabinete da Dirigente", setor: "SEAFIN", prioridade: "Normal", status: "Agendado", descricao: "Execução orçamentária e aditivos de contratos" }
   ];
 
   return {
@@ -187,8 +187,8 @@ function getConsolidatedData() {
           veiculo: "Fiat Fiorino 1.4 (Serviço)",
           placa: "FGH-2231",
           motorista: "João Mendes",
-          solicitante: "Núcleo de Obras e Manutenção - NOM / CAF",
-          setor: "CAF",
+          solicitante: "Núcleo de Obras e Manutenção - NOM / SEAFIN",
+          setor: "SEAFIN",
           destino: "EE Leonor Mendes de Barros e EE Itajahy Feitosa Martins Professor",
           horarioSaida: "09:00",
           horarioRetorno: "15:00",
