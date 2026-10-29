@@ -6781,7 +6781,7 @@ function imprimirAgendaCarro() {
 
     .carro-card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
       gap: 0.75rem 1.5rem;
       margin-bottom: 0.85rem;
     }
@@ -14127,23 +14127,23 @@ function imprimirAgendaCarro() {
       function formatarValorKpiCard(valor) {
         if (typeof valor !== 'number' || isNaN(valor)) valor = 0;
         const numStr = valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        // Fontes aumentadas em +15% com margem lateral estrita de 5px
-        let fontSizeCard = '1.45rem';
+        // Fontes ampliadas em mais +15% com margem lateral estrita de 5px
+        let fontSizeCard = '1.65rem';
         if (numStr.length >= 14) {
-          fontSizeCard = 'clamp(1.10rem, 1.24vw, 1.26rem)';
+          fontSizeCard = 'clamp(1.26rem, 1.42vw, 1.45rem)';
         } else if (numStr.length >= 12) {
-          fontSizeCard = 'clamp(1.20rem, 1.38vw, 1.36rem)';
+          fontSizeCard = 'clamp(1.38rem, 1.58vw, 1.56rem)';
         } else if (numStr.length >= 10) {
-          fontSizeCard = 'clamp(1.32rem, 1.50vw, 1.45rem)';
+          fontSizeCard = 'clamp(1.52rem, 1.72vw, 1.66rem)';
         } else {
-          fontSizeCard = 'clamp(1.40rem, 1.60vw, 1.54rem)';
+          fontSizeCard = 'clamp(1.60rem, 1.84vw, 1.78rem)';
         }
         return {
           html: '<span style="font-size: 0.82em; font-weight: 700; opacity: 0.85; margin-right: 3px;">R$</span>' + numStr,
           fontSize: fontSizeCard
         };
       }
-      const fonteKpiContagem = 'clamp(1.50rem, 1.78vw, 1.90rem)';
+      const fonteKpiContagem = 'clamp(1.72rem, 2.05vw, 2.18rem)';
       let html = `
         <div class="sefin-dash-executive" style="padding: 0.5rem 0.2rem; font-family: inherit;">
           
