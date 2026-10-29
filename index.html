@@ -13621,7 +13621,9 @@ function imprimirAgendaCarro() {
       statusSed: 'todos',
       termoBusca: '',
       subAba: 'repasses',
-      limiteLinhas: 100
+      limiteLinhas: 100,
+      ordenarPor: 'ano',
+      ordenarDirecao: 'desc'
     };
 
     function descompactarRepasseSefin(r) {
@@ -13672,6 +13674,8 @@ function imprimirAgendaCarro() {
       filtrosSefinAvancados.statusSed = 'todos';
       filtrosSefinAvancados.termoBusca = '';
       filtrosSefinAvancados.limiteLinhas = 100;
+      filtrosSefinAvancados.ordenarPor = 'ano';
+      filtrosSefinAvancados.ordenarDirecao = 'desc';
       renderizarDashboardFinanceiroSefin();
       if (typeof mostrarToastAgenda === 'function') {
         const descAno = novoAno === 'todos' ? 'Série Histórica Completa (2019-2026)' : 'Exercício ' + novoAno;
@@ -13740,14 +13744,94 @@ function imprimirAgendaCarro() {
           return true;
         });
 
-      // Ordenar por padrão do ano mais recente para o mais antigo (2026 -> 2019)
-      // Dentro do mesmo ano, ordenar pelo maior valor de repasse
+      const col = filtrosSefinAvancados.ordenarPor || 'ano';
+      const dir = filtrosSefinAvancados.ordenarDirecao || 'desc';
+
       filtrados.sort((a, b) => {
-        if (b.ano !== a.ano) return b.ano - a.ano;
-        return b.recTotal - a.recTotal;
+        if (col === 'ano') {
+          if (a.ano !== b.ano) {
+            return (dir === 'desc') ? (b.ano - a.ano) : (a.ano - b.ano);
+          }
+          return b.recTotal - a.recTotal;
+        }
+        if (col === 'recTotal') {
+          if (a.recTotal !== b.recTotal) {
+            return (dir === 'desc') ? (b.recTotal - a.recTotal) : (a.recTotal - b.recTotal);
+          }
+          return b.ano - a.ano;
+        }
+        if (col === 'despTotal') {
+          if (a.despTotal !== b.despTotal) {
+            return (dir === 'desc') ? (b.despTotal - a.despTotal) : (a.despTotal - b.despTotal);
+          }
+          return b.ano - a.ano;
+        }
+        if (col === 'saldoTotal') {
+          if (a.saldoTotal !== b.saldoTotal) {
+            return (dir === 'desc') ? (b.saldoTotal - a.saldoTotal) : (a.saldoTotal - b.saldoTotal);
+          }
+          return b.ano - a.ano;
+        }
+        if (col === 'escola') {
+          const cmp = (a.escola || '').localeCompare(b.escola || '', 'pt-BR');
+          if (cmp !== 0) return (dir === 'desc') ? -cmp : cmp;
+          return b.ano - a.ano;
+        }
+        if (col === 'programa') {
+          const cmp = (a.programa || '').localeCompare(b.programa || '', 'pt-BR');
+          if (cmp !== 0) return (dir === 'desc') ? -cmp : cmp;
+          return b.recTotal - a.recTotal;
+        }
+        if (col === 'statusSed') {
+          const cmp = (a.statusSed || '').localeCompare(b.statusSed || '', 'pt-BR');
+          if (cmp !== 0) return (dir === 'desc') ? -cmp : cmp;
+          return b.ano - a.ano;
+        }
+        return 0;
       });
 
       return filtrados;
+    }
+
+    function alternarOrdenacaoTabelaSefin(coluna) {
+      if (filtrosSefinAvancados.ordenarPor === coluna) {
+        filtrosSefinAvancados.ordenarDirecao = (filtrosSefinAvancados.ordenarDirecao === 'desc') ? 'asc' : 'desc';
+      } else {
+        filtrosSefinAvancados.ordenarPor = coluna;
+        if (coluna === 'escola' || coluna === 'programa' || coluna === 'statusSed') {
+          filtrosSefinAvancados.ordenarDirecao = 'asc';
+        } else {
+          filtrosSefinAvancados.ordenarDirecao = 'desc';
+        }
+      }
+      filtrosSefinAvancados.limiteLinhas = 100;
+      aplicarFiltrosEAtualizarTabela();
+
+      if (typeof mostrarToastAgenda === 'function') {
+        const nomesColunas = {
+          ano: 'Exercício / Ano',
+          escola: 'Unidade Escolar',
+          programa: 'Programa',
+          recTotal: 'Receita Total',
+          despTotal: 'Despesa',
+          saldoTotal: 'Saldo em Conta',
+          statusSed: 'Status SED'
+        };
+        const dirTexto = (filtrosSefinAvancados.ordenarDirecao === 'desc')
+          ? (coluna === 'ano' ? 'Mais recente primeiro (2026 → 2019)' : 'Maior primeiro')
+          : (coluna === 'ano' ? 'Mais antigo primeiro (2019 → 2026)' : 'Menor primeiro');
+        mostrarToastAgenda((nomesColunas[coluna] || coluna) + ': ' + dirTexto, '↕️');
+      }
+    }
+
+    function gerarIndicadorOrdenacaoSefin(coluna) {
+      const ativa = (filtrosSefinAvancados.ordenarPor || 'ano') === coluna;
+      const dir = filtrosSefinAvancados.ordenarDirecao || 'desc';
+      if (ativa) {
+        const seta = (dir === 'desc') ? '▼' : '▲';
+        return '<span style="color: #38bdf8; font-weight: 900; margin-left: 6px; font-size: 0.8rem;">' + seta + '</span>';
+      }
+      return '<span style="color: #64748b; font-size: 0.72rem; margin-left: 6px; opacity: 0.6;">↕</span>';
     }
 
     function atualizarFiltroAvancadoSefin(campo, valor) {
@@ -13790,7 +13874,15 @@ function imprimirAgendaCarro() {
 
       const lista = obterRepassesFiltradosSefin();
       if (contador) {
-        contador.textContent = 'Exibindo ' + Math.min(lista.length, filtrosSefinAvancados.limiteLinhas) + ' de ' + lista.length + ' repasses encontrados (Ano mais recente primeiro)';
+        let descOrd = '';
+        if (filtrosSefinAvancados.ordenarPor === 'ano') {
+          descOrd = (filtrosSefinAvancados.ordenarDirecao === 'desc') ? ' (Ano mais recente primeiro: 2026 → 2019)' : ' (Ano mais antigo primeiro: 2019 → 2026)';
+        } else if (filtrosSefinAvancados.ordenarPor === 'recTotal') {
+          descOrd = (filtrosSefinAvancados.ordenarDirecao === 'desc') ? ' (Maior receita primeiro)' : ' (Menor receita primeiro)';
+        } else if (filtrosSefinAvancados.ordenarPor === 'escola') {
+          descOrd = (filtrosSefinAvancados.ordenarDirecao === 'desc') ? ' (Escola Z → A)' : ' (Escola A → Z)';
+        }
+        contador.textContent = 'Exibindo ' + Math.min(lista.length, filtrosSefinAvancados.limiteLinhas) + ' de ' + lista.length + ' repasses encontrados' + descOrd;
       }
       containerTabela.innerHTML = renderizarTabelaRepassesHtml(lista);
     }
@@ -13804,16 +13896,16 @@ function imprimirAgendaCarro() {
       const exibidos = lista.slice(0, limite);
 
       let html = '<div style="overflow-x: auto; max-width: 100%; border-radius: 10px; border: 1.5px solid #cbd5e1; box-shadow: 0 4px 15px rgba(0,0,0,0.06); background: #ffffff;">';
-      html += '<table style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">';
+      html += '<table id="tabela-repasses-sefin" data-no-sort="true" class="no-sort-table" style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">';
       html += '<thead style="background: #0f172a; color: #ffffff; font-weight: 800; text-transform: uppercase; font-size: 0.74rem; letter-spacing: 0.05em; position: sticky; top: 0; z-index: 10;">';
       html += '<tr>';
-      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; width: 65px;">Ano ▼</th>';
-      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; min-width: 260px;">Unidade Escolar & CIE</th>';
-      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; min-width: 220px;">Programa / Objeto</th>';
-      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 150px;">Receita Total (P+Q)</th>';
-      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 150px;">Despesa (U+V)</th>';
-      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 140px;">Saldo em Conta (W+X)</th>';
-      html += '<th style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: center; min-width: 130px;">Status SED</th>';
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'ano\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; width: 85px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para alternar ordenação por Ano (Mais recente / Mais antigo)">Ano ' + gerarIndicadorOrdenacaoSefin('ano') + '</th>';
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'escola\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; min-width: 260px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para ordenar por Nome da Escola">Unidade Escolar & CIE ' + gerarIndicadorOrdenacaoSefin('escola') + '</th>';
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'programa\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; min-width: 220px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para ordenar por Programa">Programa / Objeto ' + gerarIndicadorOrdenacaoSefin('programa') + '</th>';
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'recTotal\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 155px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para ordenar por Receita Total">Receita Total (P+Q) ' + gerarIndicadorOrdenacaoSefin('recTotal') + '</th>';
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'despTotal\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 155px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para ordenar por Despesa">Despesa (U+V) ' + gerarIndicadorOrdenacaoSefin('despTotal') + '</th>';
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'saldoTotal\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 145px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para ordenar por Saldo em Conta">Saldo em Conta (W+X) ' + gerarIndicadorOrdenacaoSefin('saldoTotal') + '</th>';
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'statusSed\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: center; min-width: 130px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para ordenar por Situação SED">Status SED ' + gerarIndicadorOrdenacaoSefin('statusSed') + '</th>';
       html += '</tr>';
       html += '</thead>';
       html += '<tbody>';
@@ -14219,7 +14311,7 @@ function imprimirAgendaCarro() {
             <!-- BARRA DE CONTAGEM E BOTÃO SUTIL EXPORTAR XLSX -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; padding: 0 0.25rem;">
               <div id="sefin-contador-linhas" style="font-size: 0.82rem; color: #475569; font-weight: 700;">
-                Exibindo ${Math.min(listaRepasses.length, filtrosSefinAvancados.limiteLinhas)} de ${listaRepasses.length} repasses encontrados (Ano mais recente primeiro)
+                Exibindo ${Math.min(listaRepasses.length, filtrosSefinAvancados.limiteLinhas)} de ${listaRepasses.length} repasses encontrados ${filtrosSefinAvancados.ordenarPor === 'ano' ? (filtrosSefinAvancados.ordenarDirecao === 'desc' ? '(Ano mais recente primeiro: 2026 → 2019)' : '(Ano mais antigo primeiro: 2019 → 2026)') : ''}
               </div>
               <button onclick="exportarBalanceteSefinXlsx()" style="background: #ffffff; border: 1.5px solid #cbd5e1; color: #475569; padding: 5px 13px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.35rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'; this.style.borderColor='#94a3b8'; this.style.color='#0f172a';" onmouseout="this.style.background='#ffffff'; this.style.borderColor='#cbd5e1'; this.style.color='#475569';" title="Exportar dados filtrados para planilha Excel (.xlsx)">
                 <span>📊 Exportar XLSX</span>
