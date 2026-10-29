@@ -14,3 +14,4 @@ scratch/**
 GEMINI.md
 .agents/**
 .temp_chrome_profile/**
+.temp_chrome_*/**

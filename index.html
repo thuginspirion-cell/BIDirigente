@@ -7801,7 +7801,78 @@ function imprimirAgendaCarro() {
       color: #ffffff;
       box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
     }
-    .btn-call-view {
+        /* CARDS & FILTROS DO INVENTÁRIO (HARDWARE / REDE / EDUCATRONS / RECARGA) */
+    .inv-kpi-card {
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .inv-kpi-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12) !important;
+    }
+    .inv-kpi-card.selected {
+      border-color: #0284c7 !important;
+      box-shadow: 0 0 0 2.5px rgba(2, 132, 199, 0.35), 0 8px 20px rgba(2, 132, 199, 0.18) !important;
+      background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%) !important;
+    }
+    .inv-kpi-badge-active {
+      display: none;
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background: #0284c7;
+      color: #ffffff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.3);
+    }
+    .inv-kpi-card.selected .inv-kpi-badge-active {
+      display: inline-block;
+    }
+    .btn-inv-filter {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-inv-filter:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+      color: #0f172a;
+    }
+    .btn-inv-filter.active {
+      background: #0284c7;
+      border-color: #0284c7;
+      color: #ffffff !important;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
+    }
+    .btn-inv-filter.active .filter-count-badge {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+    .filter-count-badge {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+.btn-call-view {
       background: #eff6ff;
       border: 1px solid #bfdbfe;
       color: #1d4ed8;
@@ -9180,6 +9251,39 @@ function imprimirAgendaCarro() {
             </button>
           </div>
 
+          <!-- BANNER EXECUTIVO OFICIAL DE GESTÃO DO PARQUE TECNOLÓGICO SEINTEC / NIT -->
+          <div id="seintec-inventario-banner" style="display: none; background: linear-gradient(135deg, #091e3a 0%, #0f3057 55%, #00587a 100%); border-radius: 14px; padding: 18px 24px; color: #fff; margin-bottom: 20px; box-shadow: 0 10px 25px -5px rgba(15, 48, 87, 0.35); border: 1px solid rgba(255, 255, 255, 0.12); position: relative; overflow: hidden;">
+            <div style="position: absolute; right: -25px; bottom: -35px; opacity: 0.08; font-size: 160px; pointer-events: none; user-select: none;">💻</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; position: relative; z-index: 2;">
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; font-size: 26px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 12px rgba(0,0,0,0.15);" id="seintec-inv-banner-icon">
+                  💻
+                </div>
+                <div>
+                  <div style="font-size: 10.5px; font-weight: 800; letter-spacing: 1px; color: #38bdf8; text-transform: uppercase; margin-bottom: 2px;">
+                    NIT / SEINTEC • DIRETORIA DE ENSINO • ITAPEVI
+                  </div>
+                  <h3 id="seintec-inv-banner-title" style="margin: 0; font-size: 18px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px;">
+                    Gestão Executiva do Parque de Hardware & Conectividade
+                  </h3>
+                  <p id="seintec-inv-banner-subtitle" style="margin: 3px 0 0; font-size: 12px; color: #cbd5e1; font-weight: 500;">
+                    Inventário Oficial Consolidado das 57 Escolas Estaduais + Sede Regional (15.773 equipamentos)
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <div style="background: rgba(15, 23, 42, 0.45); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 10px; padding: 7px 14px; text-align: right;">
+                  <div style="font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Taxa de Disponibilidade (Uptime)</div>
+                  <div id="seintec-inv-uptime-pct" style="font-size: 17px; font-weight: 900; color: #10b981;">76,1%</div>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 7px 14px;">
+                  <div style="font-size: 10px; color: #bae6fd; font-weight: 700; text-transform: uppercase;">Unidades Monitoradas</div>
+                  <div id="seintec-inv-escolas-count" style="font-size: 17px; font-weight: 900; color: #ffffff;">57 Escolas + URE</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- BANNER OFICIAL PARA ATENDIMENTOS -->
           <div id="seintec-sharepoint-calls-banner" style="display: none; background: linear-gradient(135deg, #07152f 0%, #0b2351 60%, #1e3a8a 100%); border: 1.5px solid rgba(240, 155, 12, 0.45); border-radius: 14px; padding: 1.1rem 1.4rem; margin-bottom: 1.25rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
@@ -9224,6 +9328,112 @@ function imprimirAgendaCarro() {
               </div>
               <button class="btn-file-action btn-remove" onclick="restaurarBasePadraoSeintec()">
                 <span>↩ Restaurar Registros Padrão</span>
+              </button>
+            </div>
+
+            <!-- SEINTEC INVENTÁRIO (HARDWARE) KPI BAR -->
+            <div id="seintec-inventario-kpi-bar" style="display: none; margin-bottom: 18px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.8px; color: #64748b; text-transform: uppercase;">
+                  📊 PAINEL EXECUTIVO • STATUS OPERACIONAL DO PARQUE TECNOLÓGICO
+                </span>
+                <span style="font-size: 11px; font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 3px 10px; border-radius: 999px;">
+                  Clique no card para filtrar a tabela instantaneamente
+                </span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                <!-- 1. Total Equipamentos -->
+                <div class="inv-kpi-card selected" id="inv-kpi-total" onclick="filtrarInventarioPorStatus('todos', this)" style="background: #ffffff; border: 1.5px solid #0284c7; border-radius: 12px; padding: 14px 16px; cursor: pointer; position: relative;">
+                  <span class="inv-kpi-badge-active">● FILTRO ATIVO</span>
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <span style="font-size: 11px; font-weight: 800; color: #0369a1; text-transform: uppercase;">Total do Parque</span>
+                    <span style="font-size: 18px;">💻</span>
+                  </div>
+                  <div id="inv-kpi-val-total" style="font-size: 26px; font-weight: 900; color: #0c4a6e; margin-top: 4px; line-height: 1;">15.773</div>
+                  <div id="inv-kpi-sub-total" style="font-size: 11px; color: #64748b; margin-top: 6px; font-weight: 600;">100% dos ativos mapeados</div>
+                </div>
+
+                <!-- 2. Disponíveis / Operacionais -->
+                <div class="inv-kpi-card" id="inv-kpi-disponivel" onclick="filtrarInventarioPorStatus('Disponível', this)" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; cursor: pointer; position: relative;">
+                  <span class="inv-kpi-badge-active">● FILTRO ATIVO</span>
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <span style="font-size: 11px; font-weight: 800; color: #047857; text-transform: uppercase;">Disponíveis (Uptime)</span>
+                    <span style="font-size: 18px;">✅</span>
+                  </div>
+                  <div id="inv-kpi-val-disponivel" style="font-size: 26px; font-weight: 900; color: #065f46; margin-top: 4px; line-height: 1;">12.005</div>
+                  <div id="inv-kpi-sub-disponivel" style="font-size: 11px; color: #059669; margin-top: 6px; font-weight: 600;">76,1% em uso normal</div>
+                </div>
+
+                <!-- 3. Danificados / Sinistros -->
+                <div class="inv-kpi-card" id="inv-kpi-danificado" onclick="filtrarInventarioPorStatus('Danificado', this)" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; cursor: pointer; position: relative;">
+                  <span class="inv-kpi-badge-active">● FILTRO ATIVO</span>
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <span style="font-size: 11px; font-weight: 800; color: #b91c1c; text-transform: uppercase;">Danificados (Atenção)</span>
+                    <span style="font-size: 18px;">⚠️</span>
+                  </div>
+                  <div id="inv-kpi-val-danificado" style="font-size: 26px; font-weight: 900; color: #991b1b; margin-top: 4px; line-height: 1;">1.674</div>
+                  <div id="inv-kpi-sub-danificado" style="font-size: 11px; color: #dc2626; margin-top: 6px; font-weight: 600;">10,6% requerem reparo</div>
+                </div>
+
+                <!-- 4. Em Manutenção / Chamado Aberto -->
+                <div class="inv-kpi-card" id="inv-kpi-manutencao" onclick="filtrarInventarioPorStatus('Em manutenção', this)" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; cursor: pointer; position: relative;">
+                  <span class="inv-kpi-badge-active">● FILTRO ATIVO</span>
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <span style="font-size: 11px; font-weight: 800; color: #d97706; text-transform: uppercase;">Em Manutenção / OS</span>
+                    <span style="font-size: 18px;">🔧</span>
+                  </div>
+                  <div id="inv-kpi-val-manutencao" style="font-size: 26px; font-weight: 900; color: #b45309; margin-top: 4px; line-height: 1;">1.144</div>
+                  <div id="inv-kpi-sub-manutencao" style="font-size: 11px; color: #d97706; margin-top: 6px; font-weight: 600;">7,3% em assistência/OS</div>
+                </div>
+
+                <!-- 5. Inservíveis / Descarte -->
+                <div class="inv-kpi-card" id="inv-kpi-inservivel" onclick="filtrarInventarioPorStatus('Inservível', this)" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; cursor: pointer; position: relative;">
+                  <span class="inv-kpi-badge-active">● FILTRO ATIVO</span>
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <span style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase;">Inservíveis (Baixa)</span>
+                    <span style="font-size: 18px;">📦</span>
+                  </div>
+                  <div id="inv-kpi-val-inservivel" style="font-size: 26px; font-weight: 900; color: #334155; margin-top: 4px; line-height: 1;">950</div>
+                  <div id="inv-kpi-sub-inservivel" style="font-size: 11px; color: #64748b; margin-top: 6px; font-weight: 600;">6,0% prontos p/ descarte</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SEINTEC INVENTÁRIO (HARDWARE) FAST-FILTER PILLS -->
+            <div id="seintec-inventario-filter-buttons" style="display: none; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; padding: 10px 14px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+              <span style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; margin-right: 4px; display: flex; align-items: center; gap: 5px;">
+                <span>⚡ Filtros Rápidos:</span>
+              </span>
+
+              <button type="button" class="btn-inv-filter active" id="btn-inv-filter-todos" onclick="filtrarInventarioPorStatus('todos', null)">
+                Todos os Equipamentos <span class="filter-count-badge" id="badge-inv-cnt-todos">15.773</span>
+              </button>
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-disponivel" onclick="filtrarInventarioPorStatus('Disponível', null)">
+                🟢 Disponíveis <span class="filter-count-badge" id="badge-inv-cnt-disponivel">12.005</span>
+              </button>
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-danificado" onclick="filtrarInventarioPorStatus('Danificado', null)">
+                🔴 Danificados <span class="filter-count-badge" id="badge-inv-cnt-danificado">1.674</span>
+              </button>
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-manutencao" onclick="filtrarInventarioPorStatus('Em manutenção', null)">
+                🟠 Manutenção / OS <span class="filter-count-badge" id="badge-inv-cnt-manutencao">1.144</span>
+              </button>
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-inservivel" onclick="filtrarInventarioPorStatus('Inservível', null)">
+                ⚪ Inservíveis <span class="filter-count-badge" id="badge-inv-cnt-inservivel">950</span>
+              </button>
+
+              <!-- Categorias Especiais de Hardware -->
+              <span style="height: 18px; width: 1px; background: #cbd5e1; margin: 0 4px;"></span>
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-cat-notebook" onclick="filtrarInventarioPorStatus('cat:Notebook', null)">
+                💻 Notebooks <span class="filter-count-badge" id="badge-inv-cnt-notebook">8.059</span>
+              </button>
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-cat-tablet" onclick="filtrarInventarioPorStatus('cat:Tablet', null)">
+                📱 Tablets <span class="filter-count-badge" id="badge-inv-cnt-tablet">6.456</span>
+              </button>
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-cat-desktop" onclick="filtrarInventarioPorStatus('cat:Desktop', null)">
+                🖥️ Desktops <span class="filter-count-badge" id="badge-inv-cnt-desktop">957</span>
+              </button>
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-amb-pedagogico" onclick="filtrarInventarioPorStatus('amb:Pedagógico', null)">
+                🎓 Pedagógico <span class="filter-count-badge" id="badge-inv-cnt-pedagogico">14.453</span>
               </button>
             </div>
 
@@ -15462,18 +15672,33 @@ function imprimirAgendaCarro() {
       const kpiBar = document.getElementById('seintec-calls-kpi-bar');
       const filterBtns = document.getElementById('seintec-calls-filter-buttons');
 
+      const invBanner = document.getElementById('seintec-inventario-banner');
+      const invKpiBar = document.getElementById('seintec-inventario-kpi-bar');
+      const invFilterBtns = document.getElementById('seintec-inventario-filter-buttons');
+
       if (idBase === 'Atendimentos') {
         if (callsBanner) callsBanner.style.display = 'block';
         if (kpiBar) kpiBar.style.display = 'block';
         if (filterBtns) filterBtns.style.display = 'flex';
+        if (invBanner) invBanner.style.display = 'none';
+        if (invKpiBar) invKpiBar.style.display = 'none';
+        if (invFilterBtns) invFilterBtns.style.display = 'none';
         renderizarRegistrosCalls(base, 'todos');
       } else if (base.isInventario) {
         if (callsBanner) callsBanner.style.display = 'none';
         if (kpiBar) kpiBar.style.display = 'none';
         if (filterBtns) filterBtns.style.display = 'none';
+        if (invBanner) invBanner.style.display = 'block';
+        if (invKpiBar) invKpiBar.style.display = 'block';
+        if (invFilterBtns) invFilterBtns.style.display = 'flex';
         limiteExibicaoInventario = 100;
+        filtroInventarioStatusAtivo = 'todos';
+        atualizarMetricasInventario(idBase);
         renderizarTabelaInventario(idBase);
       } else {
+        if (invBanner) invBanner.style.display = 'none';
+        if (invKpiBar) invKpiBar.style.display = 'none';
+        if (invFilterBtns) invFilterBtns.style.display = 'none';
         if (callsBanner) callsBanner.style.display = 'none';
         if (kpiBar) kpiBar.style.display = 'none';
         if (filterBtns) filterBtns.style.display = 'none';
@@ -15866,6 +16091,207 @@ function imprimirAgendaCarro() {
     let limiteExibicaoInventario = 100;
     let filtroEscolaCieAtivo = '';
 
+    let filtroInventarioStatusAtivo = 'todos';
+
+    function atualizarMetricasInventario(idBase) {
+      const base = SEINTEC_BASES_CONFIG[idBase || baseAtivaSeintec];
+      if (!base || !base.isInventario) return;
+
+      const tipo = base.tipoInventario; // 'hardware', 'rede', 'educatrons', 'recarga'
+      const rawTuples = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES[tipo]) || [];
+
+      // Filtro por escola selecionada no dropdown se houver
+      const filteredTuples = (filtroEscolaCieAtivo && filtroEscolaCieAtivo !== '' && filtroEscolaCieAtivo !== 'todas')
+        ? rawTuples.filter(item => String(item[0]) === String(filtroEscolaCieAtivo))
+        : rawTuples;
+
+      const total = filteredTuples.length;
+      let disponiveis = 0;
+      let danificados = 0;
+      let manutencao = 0;
+      let inserviveis = 0;
+
+      let catNotebook = 0;
+      let catTablet = 0;
+      let catDesktop = 0;
+      let ambPedagogico = 0;
+      let ambAdmin = 0;
+
+      for (let i = 0; i < total; i++) {
+        const item = filteredTuples[i];
+        const ambiente = (item[1] || '').trim();
+        const categoria = (item[2] || '').trim();
+        const status = (item[5] || '').trim();
+
+        const sNorm = status.toLowerCase();
+        if (sNorm === 'disponível' || sNorm === 'disponivel') {
+          disponiveis++;
+        } else if (sNorm.includes('danif')) {
+          danificados++;
+        } else if (sNorm.includes('manuten') || sNorm.includes('chamado') || sNorm.includes('peça') || sNorm.includes('peca')) {
+          manutencao++;
+        } else if (sNorm.includes('inserv') || sNorm.includes('descarte') || sNorm.includes('baixa')) {
+          inserviveis++;
+        } else {
+          disponiveis++; // fallback
+        }
+
+        // Ambientes
+        if (ambiente.toLowerCase().includes('pedag')) {
+          ambPedagogico++;
+        } else {
+          ambAdmin++;
+        }
+
+        // Categorias específicas de hardware
+        const cNorm = categoria.toLowerCase();
+        if (cNorm.includes('notebook')) catNotebook++;
+        else if (cNorm.includes('tablet')) catTablet++;
+        else if (cNorm.includes('desktop') || cNorm.includes('computador')) catDesktop++;
+      }
+
+      // 1. Atualizar Banner Executivo
+      const bannerIcon = document.getElementById('seintec-inv-banner-icon');
+      const bannerTitle = document.getElementById('seintec-inv-banner-title');
+      const bannerSub = document.getElementById('seintec-inv-banner-subtitle');
+      const bannerUptime = document.getElementById('seintec-inv-uptime-pct');
+      const bannerEscolas = document.getElementById('seintec-inv-escolas-count');
+
+      if (bannerIcon) bannerIcon.innerText = base.icone || '💻';
+      if (bannerTitle) bannerTitle.innerText = `Gestão Executiva: ${base.titulo}`;
+
+      const uptimePct = total > 0 ? ((disponiveis / total) * 100).toFixed(1).replace('.', ',') : '0,0';
+      if (bannerUptime) bannerUptime.innerText = `${uptimePct}%`;
+
+      if (bannerSub) {
+        if (filtroEscolaCieAtivo && filtroEscolaCieAtivo !== '' && filtroEscolaCieAtivo !== 'todas') {
+          const escObj = (typeof ESCOLAS_CONFIG !== 'undefined' && ESCOLAS_CONFIG[filtroEscolaCieAtivo]) || null;
+          const escNome = escObj ? escObj.nome : `CIE ${filtroEscolaCieAtivo}`;
+          bannerSub.innerText = `Visão Detalhada da Unidade: ${escNome} (${total.toLocaleString('pt-BR')} itens catalogados)`;
+        } else {
+          bannerSub.innerText = `Inventário Oficial Consolidado das 57 Escolas Estaduais + Sede Regional (${total.toLocaleString('pt-BR')} equipamentos)`;
+        }
+      }
+
+      if (bannerEscolas) {
+        bannerEscolas.innerText = (filtroEscolaCieAtivo && filtroEscolaCieAtivo !== '' && filtroEscolaCieAtivo !== 'todas')
+          ? '1 Escola Selecionada'
+          : '57 Escolas + URE';
+      }
+
+      // 2. Atualizar Cards KPI
+      const setVal = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = val.toLocaleString('pt-BR');
+      };
+
+      setVal('inv-kpi-val-total', total);
+      setVal('inv-kpi-val-disponivel', disponiveis);
+      setVal('inv-kpi-val-danificado', danificados);
+      setVal('inv-kpi-val-manutencao', manutencao);
+      setVal('inv-kpi-val-inservivel', inserviveis);
+
+      const subTotal = document.getElementById('inv-kpi-sub-total');
+      const subDisp = document.getElementById('inv-kpi-sub-disponivel');
+      const subDani = document.getElementById('inv-kpi-sub-danificado');
+      const subManu = document.getElementById('inv-kpi-sub-manutencao');
+      const subInse = document.getElementById('inv-kpi-sub-inservivel');
+
+      if (subTotal) subTotal.innerText = `100% dos ativos mapeados`;
+      if (subDisp) {
+        const pct = total > 0 ? ((disponiveis / total) * 100).toFixed(1).replace('.', ',') : '0,0';
+        subDisp.innerText = `${pct}% em uso normal`;
+      }
+      if (subDani) {
+        const pct = total > 0 ? ((danificados / total) * 100).toFixed(1).replace('.', ',') : '0,0';
+        subDani.innerText = `${pct}% requerem reparo`;
+      }
+      if (subManu) {
+        const pct = total > 0 ? ((manutencao / total) * 100).toFixed(1).replace('.', ',') : '0,0';
+        subManu.innerText = `${pct}% em assistência/OS`;
+      }
+      if (subInse) {
+        const pct = total > 0 ? ((inserviveis / total) * 100).toFixed(1).replace('.', ',') : '0,0';
+        subInse.innerText = `${pct}% prontos p/ descarte`;
+      }
+
+      // 3. Atualizar Botões de Filtro
+      const setBadge = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = val.toLocaleString('pt-BR');
+      };
+
+      setBadge('badge-inv-cnt-todos', total);
+      setBadge('badge-inv-cnt-disponivel', disponiveis);
+      setBadge('badge-inv-cnt-danificado', danificados);
+      setBadge('badge-inv-cnt-manutencao', manutencao);
+      setBadge('badge-inv-cnt-inservivel', inserviveis);
+
+      // 4. Pills de Categorias Dinâmicas
+      const btnNotebook = document.getElementById('btn-inv-filter-cat-notebook');
+      const btnTablet = document.getElementById('btn-inv-filter-cat-tablet');
+      const btnDesktop = document.getElementById('btn-inv-filter-cat-desktop');
+      const btnPedagogico = document.getElementById('btn-inv-filter-amb-pedagogico');
+
+      if (tipo === 'hardware') {
+        if (btnNotebook) { btnNotebook.style.display = 'inline-flex'; setBadge('badge-inv-cnt-notebook', catNotebook); }
+        if (btnTablet) { btnTablet.style.display = 'inline-flex'; setBadge('badge-inv-cnt-tablet', catTablet); }
+        if (btnDesktop) { btnDesktop.style.display = 'inline-flex'; setBadge('badge-inv-cnt-desktop', catDesktop); }
+        if (btnPedagogico) { btnPedagogico.style.display = 'inline-flex'; setBadge('badge-inv-cnt-pedagogico', ambPedagogico); }
+      } else {
+        if (btnNotebook) btnNotebook.style.display = 'none';
+        if (btnTablet) btnTablet.style.display = 'none';
+        if (btnDesktop) btnDesktop.style.display = 'none';
+        if (btnPedagogico) { btnPedagogico.style.display = 'inline-flex'; setBadge('badge-inv-cnt-pedagogico', ambPedagogico); }
+      }
+    }
+
+    function filtrarInventarioPorStatus(statusKey, cardEl) {
+      filtroInventarioStatusAtivo = statusKey;
+
+      // Sincronizar estilo dos Cards KPI
+      document.querySelectorAll('#seintec-inventario-kpi-bar .inv-kpi-card').forEach(c => c.classList.remove('selected'));
+      if (cardEl) {
+        cardEl.classList.add('selected');
+      } else {
+        // Tentar encontrar card correspondente
+        if (statusKey === 'todos') {
+          const c = document.getElementById('inv-kpi-total');
+          if (c) c.classList.add('selected');
+        } else if (statusKey === 'Disponível') {
+          const c = document.getElementById('inv-kpi-disponivel');
+          if (c) c.classList.add('selected');
+        } else if (statusKey === 'Danificado') {
+          const c = document.getElementById('inv-kpi-danificado');
+          if (c) c.classList.add('selected');
+        } else if (statusKey === 'Em manutenção') {
+          const c = document.getElementById('inv-kpi-manutencao');
+          if (c) c.classList.add('selected');
+        } else if (statusKey === 'Inservível') {
+          const c = document.getElementById('inv-kpi-inservivel');
+          if (c) c.classList.add('selected');
+        }
+      }
+
+      // Sincronizar estilo dos Botões Pills
+      document.querySelectorAll('#seintec-inventario-filter-buttons .btn-inv-filter').forEach(btn => btn.classList.remove('active'));
+      let btnMatch = null;
+      if (statusKey === 'todos') btnMatch = document.getElementById('btn-inv-filter-todos');
+      else if (statusKey === 'Disponível') btnMatch = document.getElementById('btn-inv-filter-disponivel');
+      else if (statusKey === 'Danificado') btnMatch = document.getElementById('btn-inv-filter-danificado');
+      else if (statusKey === 'Em manutenção') btnMatch = document.getElementById('btn-inv-filter-manutencao');
+      else if (statusKey === 'Inservível') btnMatch = document.getElementById('btn-inv-filter-inservivel');
+      else if (statusKey === 'cat:Notebook') btnMatch = document.getElementById('btn-inv-filter-cat-notebook');
+      else if (statusKey === 'cat:Tablet') btnMatch = document.getElementById('btn-inv-filter-cat-tablet');
+      else if (statusKey === 'cat:Desktop') btnMatch = document.getElementById('btn-inv-filter-cat-desktop');
+      else if (statusKey === 'amb:Pedagógico') btnMatch = document.getElementById('btn-inv-filter-amb-pedagogico');
+
+      if (btnMatch) btnMatch.classList.add('active');
+
+      limiteExibicaoInventario = 100;
+      renderizarTabelaInventario(baseAtivaSeintec);
+    }
+
     function aoMudarFiltroEscolaSeintec(cie) {
       filtroEscolaCieAtivo = cie || '';
       atualizarMetricasSuperioresSeintec();
@@ -15874,6 +16300,7 @@ function imprimirAgendaCarro() {
         const base = SEINTEC_BASES_CONFIG['Atendimentos'];
         renderizarRegistrosCalls(base, filtroAtivoCalls || 'todos');
       } else if (SEINTEC_BASES_CONFIG[baseAtivaSeintec] && SEINTEC_BASES_CONFIG[baseAtivaSeintec].isInventario) {
+        atualizarMetricasInventario(baseAtivaSeintec);
         renderizarTabelaInventario(baseAtivaSeintec);
       } else {
         filtrarTabelaSeintec(document.getElementById('seintec-table-search') ? document.getElementById('seintec-table-search').value : '');
@@ -15899,6 +16326,34 @@ function imprimirAgendaCarro() {
       let filtrados = todosItens;
       if (filtroEscolaCieAtivo) {
         filtrados = filtrados.filter(item => item[0] === filtroEscolaCieAtivo);
+      }
+
+      // Filtro Executivo de Status / Categoria / Ambiente dos Cards e Pills do Inventário
+      if (filtroInventarioStatusAtivo && filtroInventarioStatusAtivo !== 'todos') {
+        if (filtroInventarioStatusAtivo === 'Disponível') {
+          filtrados = filtrados.filter(item => {
+            const s = (item[5] || '').toLowerCase();
+            return s === 'disponível' || s === 'disponivel';
+          });
+        } else if (filtroInventarioStatusAtivo === 'Danificado') {
+          filtrados = filtrados.filter(item => (item[5] || '').toLowerCase().includes('danif'));
+        } else if (filtroInventarioStatusAtivo === 'Em manutenção') {
+          filtrados = filtrados.filter(item => {
+            const s = (item[5] || '').toLowerCase();
+            return s.includes('manuten') || s.includes('chamado') || s.includes('peça') || s.includes('peca');
+          });
+        } else if (filtroInventarioStatusAtivo === 'Inservível') {
+          filtrados = filtrados.filter(item => {
+            const s = (item[5] || '').toLowerCase();
+            return s.includes('inserv') || s.includes('descarte') || s.includes('baixa');
+          });
+        } else if (filtroInventarioStatusAtivo.startsWith('cat:')) {
+          const cat = filtroInventarioStatusAtivo.replace('cat:', '').toLowerCase();
+          filtrados = filtrados.filter(item => (item[2] || '').toLowerCase().includes(cat));
+        } else if (filtroInventarioStatusAtivo.startsWith('amb:')) {
+          const amb = filtroInventarioStatusAtivo.replace('amb:', '').toLowerCase();
+          filtrados = filtrados.filter(item => (item[1] || '').toLowerCase().includes(amb));
+        }
       }
 
       // Filtro Métrico Superior dos Cards
@@ -16028,14 +16483,17 @@ function imprimirAgendaCarro() {
           const statusRaw = item[5] || 'Disponível';
 
           let statusBadgeClass = 'status-badge-ok';
-          let statusBadgeStyle = 'background: rgba(16, 185, 129, 0.15); color: #047857; border: 1px solid #10b981; font-weight: 700;';
+          let statusBadgeStyle = 'background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; font-weight: 700;';
           const stLower = statusRaw.toLowerCase();
-          if (stLower.includes('manuten') || stLower.includes('reparo') || stLower.includes('defeito') || stLower.includes('chamado')) {
-            statusBadgeClass = 'status-badge-warn';
-            statusBadgeStyle = 'background: rgba(245, 158, 11, 0.15); color: #b45309; border: 1px solid #f59e0b; font-weight: 700;';
-          } else if (stLower.includes('inserv') || stLower.includes('baixa') || stLower.includes('quebr') || stLower.includes('furto')) {
+          if (stLower.includes('danif')) {
             statusBadgeClass = 'status-badge-danger';
-            statusBadgeStyle = 'background: rgba(239, 68, 68, 0.15); color: #dc2626; border: 1px solid #ef4444; font-weight: 700;';
+            statusBadgeStyle = 'background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; font-weight: 700;';
+          } else if (stLower.includes('manuten') || stLower.includes('reparo') || stLower.includes('defeito') || stLower.includes('chamado') || stLower.includes('peça') || stLower.includes('peca')) {
+            statusBadgeClass = 'status-badge-warn';
+            statusBadgeStyle = 'background: #fffbeb; color: #b45309; border: 1px solid #fde68a; font-weight: 700;';
+          } else if (stLower.includes('inserv') || stLower.includes('baixa') || stLower.includes('descarte') || stLower.includes('obsoleto') || stLower.includes('quebr') || stLower.includes('furto')) {
+            statusBadgeClass = 'status-badge-neutro';
+            statusBadgeStyle = 'background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; font-weight: 700;';
           }
 
           const tr = document.createElement('tr');
@@ -16096,6 +16554,8 @@ function imprimirAgendaCarro() {
     function fecharPainelSeintec() {
       const panel = document.getElementById('seintec-base-detail-panel');
       if (panel) panel.style.display = 'none';
+      baseAtivaSeintec = null;
+      filtroInventarioStatusAtivo = 'todos';
       document.querySelectorAll('#pane-seintec .base-card-item').forEach(card => card.classList.remove('selected'));
     }
 
