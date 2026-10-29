@@ -13959,13 +13959,13 @@ function imprimirAgendaCarro() {
       html += '<div style="display: inline-flex; align-items: center; gap: 0.25rem;"><span>Programa / Objeto</span>' + gerarIndicadorOrdenacaoSefin('programa') + '</div></th>';
 
       html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'recTotal\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 155px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Classificar por Receita Total">';
-      html += '<div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 0.25rem; width: 100%;"><span>Receita Total (P+Q)</span>' + gerarIndicadorOrdenacaoSefin('recTotal') + '</div></th>';
+      html += '<div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 0.25rem; width: 100%;"><span>Receita Total (Custeio + Capital)</span>' + gerarIndicadorOrdenacaoSefin('recTotal') + '</div></th>';
 
       html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'despTotal\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 155px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Classificar por Despesa">';
-      html += '<div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 0.25rem; width: 100%;"><span>Despesa (U+V)</span>' + gerarIndicadorOrdenacaoSefin('despTotal') + '</div></th>';
+      html += '<div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 0.25rem; width: 100%;"><span>Despesa Executada (Custeio + Capital)</span>' + gerarIndicadorOrdenacaoSefin('despTotal') + '</div></th>';
 
       html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'saldoTotal\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 145px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Classificar por Saldo em Conta">';
-      html += '<div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 0.25rem; width: 100%;"><span>Saldo em Conta (W+X)</span>' + gerarIndicadorOrdenacaoSefin('saldoTotal') + '</div></th>';
+      html += '<div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 0.25rem; width: 100%;"><span>Saldo Remanescente (Contas APM)</span>' + gerarIndicadorOrdenacaoSefin('saldoTotal') + '</div></th>';
 
       html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'statusSed\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: center; min-width: 130px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Classificar por Situação SED">';
       html += '<div style="display: inline-flex; align-items: center; justify-content: center; gap: 0.25rem; width: 100%;"><span>Status SED</span>' + gerarIndicadorOrdenacaoSefin('statusSed') + '</div></th>';
@@ -14007,8 +14007,8 @@ function imprimirAgendaCarro() {
         html += '<td style="padding: 10px 14px; font-weight: 800; color: #0f172a; font-size: 0.88rem;">' + r.ano + '</td>';
         html += '<td style="padding: 10px 14px;"><div style="font-weight: 800; color: #0f172a; font-size: 0.88rem; line-height: 1.35;">' + r.escola + '</div><div style="font-size: 0.74rem; font-weight: 700; color: #0284c7; margin-top: 3px;">CIE: ' + r.cie + '</div></td>';
         html += '<td style="padding: 10px 14px;"><div style="color: #0f172a; font-weight: 700; font-size: 0.82rem; line-height: 1.3;">' + r.programa + ' ' + tagOrigem + '</div></td>';
-        html += '<td style="padding: 8px 14px; text-align: right; vertical-align: middle;"><div style="font-weight: 800; color: #0369a1; font-size: 0.92rem; line-height: 1.25; margin-bottom: 3px;">' + formatarMoedaBrl(r.recTotal) + '</div><div style="font-size: 0.72rem; color: #475569; font-weight: 700; line-height: 1.35; white-space: nowrap;">C: ' + formatarMoedaBrl(r.recC) + '</div><div style="font-size: 0.72rem; color: #64748b; font-weight: 700; line-height: 1.35; white-space: nowrap;">K: ' + formatarMoedaBrl(r.recK) + '</div></td>';
-        html += '<td style="padding: 8px 14px; text-align: right; vertical-align: middle;"><div style="font-weight: 800; color: #047857; font-size: 0.92rem; line-height: 1.25; margin-bottom: 3px;">' + formatarMoedaBrl(r.despTotal) + '</div><div style="font-size: 0.72rem; color: #475569; font-weight: 700; line-height: 1.35; white-space: nowrap;">C: ' + formatarMoedaBrl(r.despC) + '</div><div style="font-size: 0.72rem; color: #64748b; font-weight: 700; line-height: 1.35; white-space: nowrap;">K: ' + formatarMoedaBrl(r.despK) + '</div></td>';
+        html += '<td style="padding: 8px 14px; text-align: right; vertical-align: middle;"><div style="font-weight: 800; color: #0369a1; font-size: 0.92rem; line-height: 1.25; margin-bottom: 3px;">' + formatarMoedaBrl(r.recTotal) + '</div><div style="font-size: 0.72rem; color: #334155; font-weight: 700; line-height: 1.35; white-space: nowrap;" title="Custeio: Materiais de consumo e pequenos reparos"><span style="color: #64748b; font-weight: 600;">Custeio (C):</span> ' + formatarMoedaBrl(r.recC) + '</div><div style="font-size: 0.72rem; color: #334155; font-weight: 700; line-height: 1.35; white-space: nowrap;" title="Capital: Bens permanentes e equipamentos patrimoniais"><span style="color: #64748b; font-weight: 600;">Capital (K):</span> ' + formatarMoedaBrl(r.recK) + '</div></td>';
+        html += '<td style="padding: 8px 14px; text-align: right; vertical-align: middle;"><div style="font-weight: 800; color: #047857; font-size: 0.92rem; line-height: 1.25; margin-bottom: 3px;">' + formatarMoedaBrl(r.despTotal) + '</div><div style="font-size: 0.72rem; color: #334155; font-weight: 700; line-height: 1.35; white-space: nowrap;" title="Custeio: Gastos executados em consumo/serviços"><span style="color: #64748b; font-weight: 600;">Custeio (C):</span> ' + formatarMoedaBrl(r.despC) + '</div><div style="font-size: 0.72rem; color: #334155; font-weight: 700; line-height: 1.35; white-space: nowrap;" title="Capital: Gastos executados em equipamentos permanentes"><span style="color: #64748b; font-weight: 600;">Capital (K):</span> ' + formatarMoedaBrl(r.despK) + '</div></td>';
         html += '<td style="padding: 10px 14px; text-align: right;"><div style="font-weight: 800; color: #b45309; font-size: 0.92rem;">' + formatarMoedaBrl(r.saldoTotal) + '</div></td>';
         html += '<td style="padding: 10px 14px; text-align: center;"><span style="display: inline-block; background: ' + badgeBg + '; color: ' + badgeColor + '; border: 1.5px solid ' + badgeBorder + '; padding: 4px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 800; white-space: nowrap;">' + (r.statusSed || 'Não Iniciado') + '</span></td>';
         html += '</tr>';
@@ -14481,42 +14481,98 @@ function imprimirAgendaCarro() {
               <div id="sefin-notas-seta-indicadora" style="font-size: 1.15rem; color: #f09b0c; transition: transform 0.3s; transform: rotate(180deg);">▼</div>
             </div>
 
-            <div id="sefin-notas-conteudo-expansivel" style="padding: 1.4rem; border-top: 1px solid #e2e8f0; display: block; background: #ffffff;">
+            <div id="sefin-notas-conteudo-expansivel" style="padding: 1.5rem; border-top: 1px solid #e2e8f0; display: block; background: #ffffff;">
               
+              <!-- GLOSSÁRIO DE SIGLAS & CLASSIFICAÇÃO ORÇAMENTÁRIA (SEDUC-SP / FNDE) -->
+              <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.35rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                  <span style="font-size: 1.2rem;">📑</span>
+                  <h5 style="margin: 0; font-size: 0.92rem; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.03em;">
+                    Glossário Normativo de Rubricas & Siglas Oficiais (SEDUC / FNDE)
+                  </h5>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1rem;">
+                  <!-- C: CUSTEIO -->
+                  <div style="background: #ffffff; border-left: 4px solid #0284c7; border-radius: 8px; padding: 0.85rem 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.25rem;">
+                      <strong style="color: #0369a1; font-size: 0.86rem; font-weight: 800;">Rubrica "C" • Custeio (Despesas Correntes)</strong>
+                      <span style="background: #e0f2fe; color: #0369a1; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">Lei Federal 4.320/64</span>
+                    </div>
+                    <p style="font-size: 0.78rem; color: #334155; margin: 0; line-height: 1.45;">
+                      Destinado à manutenção diária da unidade escolar. <strong>Exemplos permitidos:</strong> aquisição de material de consumo (papel, toner, itens pedagógicos, kits de robótica e materiais do Novo Ensino Médio), materiais descartáveis e de higiene (Dignidade Íntima), pequenas reformas e manutenções prediais/elétricas e contratação de serviços contábeis da APM. <em>É vedada a conversão unilateral para bens permanentes.</em>
+                    </p>
+                  </div>
+
+                  <!-- K: CAPITAL -->
+                  <div style="background: #ffffff; border-left: 4px solid #059669; border-radius: 8px; padding: 0.85rem 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.25rem;">
+                      <strong style="color: #047857; font-size: 0.86rem; font-weight: 800;">Rubrica "K" • Capital (Bens Permanentes & Patrimônio)</strong>
+                      <span style="background: #d1fae5; color: #065f46; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">Res. SEDUC 11/2024</span>
+                    </div>
+                    <p style="font-size: 0.78rem; color: #334155; margin: 0; line-height: 1.45;">
+                      A sigla <strong>"K"</strong> adota a convenção contábil e econômica internacional para <em>Kapital</em> (diferenciando de Custo/Consumo). Aplica-se exclusivamente a bens com vida útil superior a 2 anos e incorporação patrimonial obrigatória: computadores, telas Educatron, condicionadores de ar, impressoras, armários de aço, mobiliário e equipamentos de laboratório.
+                    </p>
+                  </div>
+
+                  <!-- APM -->
+                  <div style="background: #ffffff; border-left: 4px solid #d97706; border-radius: 8px; padding: 0.85rem 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                    <strong style="color: #b45309; font-size: 0.86rem; display: block; margin-bottom: 0.25rem; font-weight: 800;">APM • Associação de Pais e Mestres</strong>
+                    <p style="font-size: 0.78rem; color: #334155; margin: 0; line-height: 1.45;">
+                      Entidade jurídica de direito privado sem fins lucrativos que gerencia os recursos públicos escolares e responde legalmente pela correta execução e prestação de contas dos repasses perante a Diretoria de Ensino e órgãos de controle externo (TCE-SP e TCU).
+                    </p>
+                  </div>
+
+                  <!-- PDDE Paulista & Federal -->
+                  <div style="background: #ffffff; border-left: 4px solid #7c3aed; border-radius: 8px; padding: 0.85rem 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                    <strong style="color: #6d28d9; font-size: 0.86rem; display: block; margin-bottom: 0.25rem; font-weight: 800;">Origens: PDDE Paulista (Lei 17.149/19) e PDDE Federal (FNDE)</strong>
+                    <p style="font-size: 0.78rem; color: #334155; margin: 0; line-height: 1.45;">
+                      <strong>Paulista:</strong> Recursos estaduais transferidos pela SEDUC-SP via subcontas específicas (Manutenção, Sala Maker, Novo Ensino Médio, AVCB, etc.).<br>
+                      <strong>Federal:</strong> Transferências diretas do FNDE/MEC (Educação Básica, Qualidade, Estrutura e Mais Educação).
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- DICIONÁRIO DE CAMPOS DA PLANILHA OFICIAL -->
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.1rem; margin-bottom: 1.25rem;">
                 <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 1.1rem;">
-                  <strong style="color: #0369a1; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">💰 Total Receita (Colunas P e Q)</strong>
+                  <strong style="color: #0369a1; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">💰 Receita Total (Custeio + Capital)</strong>
                   <p style="font-size: 0.82rem; color: #334155; margin: 0; line-height: 1.5; font-weight: 500;">
-                    Representa o montante total creditado na conta bancária da APM escolar, segregado em <strong>Custeio (P)</strong> (materiais de consumo, pequenos reparos) e <strong>Capital (Q)</strong> (equipamentos e bens patrimoniais). Inclui repasses do FNDE, recursos próprios e rendimentos financeiros.
+                    Montante total creditado na conta bancária da APM escolar, segregado em <strong>Custeio (C)</strong> e <strong>Capital (K)</strong>. Corresponde às colunas P e Q da base oficial. Inclui os repasses iniciais, complementações e eventuais rendimentos de aplicação financeira.
                   </p>
                 </div>
 
                 <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 1.1rem;">
-                  <strong style="color: #047857; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">📝 Despesas Realizadas (Colunas U e V)</strong>
+                  <strong style="color: #047857; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">📝 Despesas Executadas (Custeio + Capital)</strong>
                   <p style="font-size: 0.82rem; color: #334155; margin: 0; line-height: 1.5; font-weight: 500;">
-                    Gastos efetivamente executados e comprovados pela equipe gestora da Unidade Escolar mediante notas fiscais, recibos e balancetes prestados e validados no sistema da Secretaria da Educação.
+                    Gastos efetivamente executados e comprovados pela equipe gestora da Unidade Escolar (colunas U e V), comprovados mediante notas fiscais eletrônicas, orçamentos prévios (mínimo de três propostas), recibos e balancetes validados pela Diretoria Regional de Ensino.
                   </p>
                 </div>
 
                 <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 1.1rem;">
-                  <strong style="color: #b45309; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">🏦 Saldo a Reprogramar (Colunas W e X)</strong>
+                  <strong style="color: #b45309; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">🏦 Saldo Remanescente a Reprogramar</strong>
                   <p style="font-size: 0.82rem; color: #334155; margin: 0; line-height: 1.5; font-weight: 500;">
-                    Recursos remanescentes em conta bancária que não foram executados até o término do exercício fiscal e que são reprogramados para utilização no ano seguinte mediante novo plano de aplicação escolar.
+                    Recursos que permaneceram em conta bancária ao término do exercício fiscal (colunas W e X). Esses valores não são perdidos: são formalmente reprogramados para utilização no ano seguinte mediante novo Plano de Aplicação Financeira aprovado pelo Conselho da APM.
                   </p>
                 </div>
 
                 <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 1.1rem;">
-                  <strong style="color: #6d28d9; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">🏛️ Status SED & Origem (Colunas Y e Z)</strong>
+                  <strong style="color: #6d28d9; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">🏛️ Situação SED (Parecer Conclusivo da SEFIN)</strong>
                   <p style="font-size: 0.82rem; color: #334155; margin: 0; line-height: 1.5; font-weight: 500;">
-                    <strong>Status SED:</strong> Parecer da Seção de Finanças (SEFIN) na Secretaria Escolar Digital (Aprovada, Aprovada com Ressalva, Em Andamento).<br>
-                    <strong>Origem:</strong> Identifica se o recurso provém do Governo Estadual (PDDE Paulista) ou Federal (FNDE).
+                    Parecer formal auditado pela equipe técnica do SEAFIN/SEFIN na Secretaria Escolar Digital:<br>
+                    • <strong>Aprovada:</strong> Prestação regular, sem inconformidades.<br>
+                    • <strong>Aprovada com Ressalva:</strong> Aprovada com pequenas pendências formais corrigíveis.<br>
+                    • <strong>Em Andamento:</strong> Documentação em análise técnica dentro do prazo regulamentar.
                   </p>
                 </div>
               </div>
 
+              <!-- RODAPÉ DE AUDITORIA E BASE -->
               <div style="border-top: 1.5px solid #e2e8f0; padding-top: 0.85rem; font-size: 0.78rem; color: #475569; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-weight: 600;">
-                <span>Fonte Oficial: <strong style="color: #0f172a;">Controle prestação de contas U.E..xlsx</strong> (Microsoft SharePoint Corporativo)</span>
-                <span>Responsabilidade: <strong style="color: #0f172a;">SEAFIN / SEFIN • Diretoria de Ensino da Região de Itapevi</strong></span>
+                <span>Fonte Oficial: <strong style="color: #0f172a;">Controle prestação de contas U.E..xlsx</strong> (SharePoint Corporativo SEDUC)</span>
+                <span>Unidade Responsável: <strong style="color: #0f172a;">SEAFIN / SEFIN • Diretoria de Ensino da Região de Itapevi</strong></span>
+                <span>Normativas: <strong style="color: #0284c7;">Res. SEDUC 11/2024 • Res. CD/FNDE 15/2021</strong></span>
               </div>
 
             </div>
