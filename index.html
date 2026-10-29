@@ -3673,8 +3673,20 @@ function imprimirAgendaCarro() {
 
     .kpi-cards-inner {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+    }
+
+    @media (max-width: 1200px) {
+      .kpi-cards-inner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .kpi-cards-inner {
+        grid-template-columns: 1fr;
+      }
     }
 
     .kpi-mini-box {
@@ -8089,6 +8101,7 @@ function imprimirAgendaCarro() {
             </div>
 
             <div class="kpi-cards-inner">
+              <!-- 1. Escolas na Rede -->
               <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('escolas')" style="cursor: pointer;" title="Exibir todas as 60 escolas estaduais na Home">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: var(--brand-gold);"></span>
@@ -8097,6 +8110,7 @@ function imprimirAgendaCarro() {
                 <span class="kpi-mini-label" id="kpi-lbl-escolas">Escolas na rede</span>
               </div>
 
+              <!-- 2. Equipamentos TI -->
               <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('hardware')" style="cursor: pointer;" title="Focar nas métricas de Hardware e Tecnologia">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #3b82f6;"></span>
@@ -8105,20 +8119,40 @@ function imprimirAgendaCarro() {
                 <span class="kpi-mini-label" id="kpi-lbl-hardware">Equipamentos TI</span>
               </div>
 
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('visitas')" style="cursor: pointer;" title="Focar no acompanhamento de visitas e chamados">
+              <!-- 3. Recursos SEFIN / PDDE -->
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('sefin')" style="cursor: pointer;" title="Gestão Orçamentária SEAFIN / SEFIN: Total de repasses geridos">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #10b981;"></span>
-                  <span class="kpi-big-number" id="kpi-visitas">54</span>
+                  <span class="kpi-big-number" id="kpi-recursos-sefin" style="color: #059669; font-size: 1.35rem;">R$ 10,1M</span>
                 </div>
-                <span class="kpi-mini-label" id="kpi-lbl-visitas">Visitas realizadas</span>
+                <span class="kpi-mini-label" id="kpi-lbl-recursos-sefin">Recursos PDDE (2026)</span>
               </div>
 
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('atencao')" style="cursor: pointer;" title="Filtrar escolas em atenção prioritária">
+              <!-- 4. Execução Orçamentária SEFIN -->
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('sefin')" style="cursor: pointer;" title="Execução orçamentária das APMs no exercício vigente">
                 <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: #ef4444;"></span>
-                  <span class="kpi-big-number" id="kpi-alertas-home" style="color: #ef4444;">3</span>
+                  <span class="kpi-color-dot" style="background: #0ea5e9;"></span>
+                  <span class="kpi-big-number" id="kpi-execucao-sefin">47,2%</span>
                 </div>
-                <span class="kpi-mini-label" id="kpi-lbl-atencao">Em atenção prioritária</span>
+                <span class="kpi-mini-label" id="kpi-lbl-execucao-sefin">Taxa Execução (R$ 4,76M)</span>
+              </div>
+
+              <!-- 5. Repasses Auditados -->
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('sefin')" style="cursor: pointer;" title="Termos e repasses ativos sob monitoramento pelo SEAFIN">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: #8b5cf6;"></span>
+                  <span class="kpi-big-number" id="kpi-repasses-sefin">176</span>
+                </div>
+                <span class="kpi-mini-label" id="kpi-lbl-repasses-sefin">Repasses Auditados</span>
+              </div>
+
+              <!-- 6. Visitas / Acompanhamento Regional -->
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('visitas')" style="cursor: pointer;" title="Acompanhamento in loco da Dirigente nas 60 escolas">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: #f59e0b;"></span>
+                  <span class="kpi-big-number" id="kpi-visitas">54</span>
+                </div>
+                <span class="kpi-mini-label" id="kpi-lbl-visitas">Visitas Realizadas (90%)</span>
               </div>
             </div>
           </div>
@@ -12482,6 +12516,18 @@ function imprimirAgendaCarro() {
 
       if (kpiAlertas) kpiAlertas.textContent = dados.emAtencao ? '1' : '0';
       if (lblAlertas) lblAlertas.textContent = dados.emAtencao ? 'Atenção prioritária' : 'Monitoramento regular';
+      const kpiRec = document.getElementById('kpi-recursos-sefin');
+      const lblRec = document.getElementById('kpi-lbl-recursos-sefin');
+      const kpiExec = document.getElementById('kpi-execucao-sefin');
+      const lblExec = document.getElementById('kpi-lbl-execucao-sefin');
+      const kpiRep = document.getElementById('kpi-repasses-sefin');
+      const lblRep = document.getElementById('kpi-lbl-repasses-sefin');
+      if (kpiRec) kpiRec.textContent = dados.emAtencao ? 'Auditando' : 'Regular';
+      if (lblRec) lblRec.textContent = 'Status SEFIN / APM';
+      if (kpiExec) kpiExec.textContent = '100%';
+      if (lblExec) lblExec.textContent = 'Adimplência Contábil';
+      if (kpiRep) kpiRep.textContent = 'Ativo';
+      if (lblRep) lblRep.textContent = 'Termo de Cooperação';
 
       const gaugePct = document.getElementById('home-gauge-pct');
       const gaugeVal = document.getElementById('home-gauge-val');
@@ -12575,6 +12621,18 @@ function imprimirAgendaCarro() {
       if (lblVisitas) lblVisitas.textContent = 'Visitas realizadas';
 
       if (kpiAlertas) kpiAlertas.textContent = '3';
+      const kpiRec = document.getElementById('kpi-recursos-sefin');
+      const lblRec = document.getElementById('kpi-lbl-recursos-sefin');
+      const kpiExec = document.getElementById('kpi-execucao-sefin');
+      const lblExec = document.getElementById('kpi-lbl-execucao-sefin');
+      const kpiRep = document.getElementById('kpi-repasses-sefin');
+      const lblRep = document.getElementById('kpi-lbl-repasses-sefin');
+      if (kpiRec) kpiRec.textContent = 'R$ 10,1M';
+      if (lblRec) lblRec.textContent = 'Recursos PDDE (2026)';
+      if (kpiExec) kpiExec.textContent = '47,2%';
+      if (lblExec) lblExec.textContent = 'Taxa Execução (R$ 4,76M)';
+      if (kpiRep) kpiRep.textContent = '176';
+      if (lblRep) lblRep.textContent = 'Repasses Auditados';
       if (lblAlertas) lblAlertas.textContent = 'Em atenção prioritária';
 
       const gaugePct = document.getElementById('home-gauge-pct');
@@ -12701,6 +12759,8 @@ function imprimirAgendaCarro() {
         if (kpi) kpi.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else if (tipo === 'hardware') {
         destacarCentroNaHome('SEINTEC');
+      } else if (tipo === 'sefin') {
+        destacarCentroNaHome('SEAFIN');
       } else if (tipo === 'visitas') {
         const gauge = document.getElementById('home-gauge-pct');
         if (gauge) gauge.scrollIntoView({ behavior: 'smooth', block: 'center' });
