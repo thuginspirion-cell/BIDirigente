@@ -14135,8 +14135,8 @@ function imprimirAgendaCarro() {
       const kpis = DADOS_FINANCEIROS_SEFIN.kpisPorAno[anoAtivo] || DADOS_FINANCEIROS_SEFIN.kpisPorAno["2026"];
       const listaRepasses = obterRepassesFiltradosSefin();
       const programasDoAno = Object.keys(kpis.programas || {});
-      const fonteKpiValor = (anoAtivo === 'todos') ? 'clamp(0.96rem, 1.06vw, 1.18rem)' : 'clamp(1.06rem, 1.18vw, 1.30rem)';
-      const fonteKpiContagem = (anoAtivo === 'todos') ? 'clamp(1.18rem, 1.38vw, 1.50rem)' : 'clamp(1.26rem, 1.50vw, 1.62rem)';
+      const fonteKpiValor = (anoAtivo === 'todos') ? 'clamp(1.06rem, 1.17vw, 1.30rem)' : 'clamp(1.17rem, 1.30vw, 1.43rem)';
+      const fonteKpiContagem = (anoAtivo === 'todos') ? 'clamp(1.30rem, 1.52vw, 1.65rem)' : 'clamp(1.38rem, 1.65vw, 1.78rem)';
       function formatarValorKpiCard(valor) {
         if (typeof valor !== 'number' || isNaN(valor)) valor = 0;
         const numStr = valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
