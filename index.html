@@ -14075,6 +14075,13 @@ function imprimirAgendaCarro() {
       const kpis = DADOS_FINANCEIROS_SEFIN.kpisPorAno[anoAtivo] || DADOS_FINANCEIROS_SEFIN.kpisPorAno["2026"];
       const listaRepasses = obterRepassesFiltradosSefin();
       const programasDoAno = Object.keys(kpis.programas || {});
+      const fonteKpiValor = (anoAtivo === 'todos') ? 'clamp(0.80rem, 0.88vw, 0.98rem)' : 'clamp(0.88rem, 0.98vw, 1.08rem)';
+      const fonteKpiContagem = (anoAtivo === 'todos') ? 'clamp(0.98rem, 1.15vw, 1.25rem)' : 'clamp(1.05rem, 1.25vw, 1.35rem)';
+      function formatarValorKpiCard(valor) {
+        if (typeof valor !== 'number' || isNaN(valor)) valor = 0;
+        const numStr = valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        return '<span style="font-size: 0.82em; font-weight: 700; opacity: 0.85; margin-right: 2px;">R$</span>' + numStr;
+      }
 
       let html = `
         <div class="sefin-dash-executive" style="padding: 0.5rem 0.2rem; font-family: inherit;">
@@ -14136,7 +14143,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- GRID DE 5 KPIS REAIS (TITULOS RESUMIDOS, TIPOGRAFIA EQUILIBRADA, SEM TRANSBORDAMENTO) -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
             
             <!-- CARD 1: RECEITA TOTAL -->
             <div style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.85rem 0.75rem; min-height: 122px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); min-width: 0;">
@@ -14145,8 +14152,8 @@ function imprimirAgendaCarro() {
                   <span style="font-size: 0.72rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.03em;">Receita Total</span>
                   <span style="font-size: 1.2rem;">💰</span>
                 </div>
-                <div style="font-size: clamp(0.92rem, 1.05vw, 1.15rem); font-weight: 800; color: #0284c7; letter-spacing: -0.025em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${formatarMoedaBrl(kpis.totalReceita)}">
-                  ${formatarMoedaBrl(kpis.totalReceita)}
+                <div style="font-size: ${fonteKpiValor}; font-weight: 800; color: #0284c7; letter-spacing: -0.025em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Receita Total: ${formatarMoedaBrl(kpis.totalReceita)}">
+                  ${formatarValorKpiCard(kpis.totalReceita)}
                 </div>
               </div>
               <div style="font-size: 0.70rem; color: #475569; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 600;">
@@ -14162,8 +14169,8 @@ function imprimirAgendaCarro() {
                   <span style="font-size: 0.72rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.03em;">Despesas</span>
                   <span style="font-size: 1.2rem;">📝</span>
                 </div>
-                <div style="font-size: clamp(0.92rem, 1.05vw, 1.15rem); font-weight: 800; color: #047857; letter-spacing: -0.025em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${formatarMoedaBrl(kpis.totalDespesa)}">
-                  ${formatarMoedaBrl(kpis.totalDespesa)}
+                <div style="font-size: ${fonteKpiValor}; font-weight: 800; color: #047857; letter-spacing: -0.025em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Despesas Realizadas: ${formatarMoedaBrl(kpis.totalDespesa)}">
+                  ${formatarValorKpiCard(kpis.totalDespesa)}
                 </div>
               </div>
               <div style="font-size: 0.70rem; color: #047857; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 800;">
@@ -14179,8 +14186,8 @@ function imprimirAgendaCarro() {
                   <span style="font-size: 0.72rem; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.03em;">Saldo em Conta</span>
                   <span style="font-size: 1.2rem;">🏦</span>
                 </div>
-                <div style="font-size: clamp(0.92rem, 1.05vw, 1.15rem); font-weight: 800; color: #b45309; letter-spacing: -0.025em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${formatarMoedaBrl(kpis.totalSaldo)}">
-                  ${formatarMoedaBrl(kpis.totalSaldo)}
+                <div style="font-size: ${fonteKpiValor}; font-weight: 800; color: #b45309; letter-spacing: -0.025em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Saldo em Conta APMs: ${formatarMoedaBrl(kpis.totalSaldo)}">
+                  ${formatarValorKpiCard(kpis.totalSaldo)}
                 </div>
               </div>
               <div style="font-size: 0.70rem; color: #78350f; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 800;">
@@ -14196,7 +14203,7 @@ function imprimirAgendaCarro() {
                   <span style="font-size: 0.72rem; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.03em;">Total Repasses</span>
                   <span style="font-size: 1.2rem;">🏫</span>
                 </div>
-                <div style="font-size: clamp(1.10rem, 1.35vw, 1.40rem); font-weight: 800; color: #0f172a; letter-spacing: -0.02em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <div style="font-size: ${fonteKpiContagem}; font-weight: 800; color: #0f172a; letter-spacing: -0.02em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                   ${kpis.totalRepasses.toLocaleString('pt-BR')}
                 </div>
               </div>
@@ -14215,7 +14222,7 @@ function imprimirAgendaCarro() {
                   </span>
                   <span style="font-size: 1.2rem;">✅</span>
                 </div>
-                <div style="font-size: clamp(1.10rem, 1.35vw, 1.40rem); font-weight: 800; color: #6d28d9; letter-spacing: -0.02em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <div style="font-size: ${fonteKpiContagem}; font-weight: 800; color: #6d28d9; letter-spacing: -0.02em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                   ${anoAtivo === '2026' ? kpis.emAndamento.toLocaleString('pt-BR') : formatarPct(kpis.taxaAprovacao)}
                 </div>
               </div>
