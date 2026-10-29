@@ -14124,14 +14124,26 @@ function imprimirAgendaCarro() {
       const kpis = DADOS_FINANCEIROS_SEFIN.kpisPorAno[anoAtivo] || DADOS_FINANCEIROS_SEFIN.kpisPorAno["2026"];
       const listaRepasses = obterRepassesFiltradosSefin();
       const programasDoAno = Object.keys(kpis.programas || {});
-      const fonteKpiValor = (anoAtivo === 'todos') ? 'clamp(1.35rem, 1.55vw, 1.70rem)' : 'clamp(1.45rem, 1.70vw, 1.85rem)';
-      const fonteKpiContagem = (anoAtivo === 'todos') ? 'clamp(1.55rem, 1.85vw, 2.05rem)' : 'clamp(1.65rem, 2.00vw, 2.20rem)';
       function formatarValorKpiCard(valor) {
         if (typeof valor !== 'number' || isNaN(valor)) valor = 0;
         const numStr = valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        return '<span style="font-size: 0.82em; font-weight: 700; opacity: 0.85; margin-right: 2px;">R$</span>' + numStr;
+        // Calibragem precisa para preencher toda a largura com margem de segurança de 5px em cada lado sem cortar
+        let fontSizeCard = '1.28rem';
+        if (numStr.length >= 14) {
+          fontSizeCard = 'clamp(0.96rem, 1.08vw, 1.10rem)';
+        } else if (numStr.length >= 12) {
+          fontSizeCard = 'clamp(1.05rem, 1.20vw, 1.18rem)';
+        } else if (numStr.length >= 10) {
+          fontSizeCard = 'clamp(1.15rem, 1.30vw, 1.26rem)';
+        } else {
+          fontSizeCard = 'clamp(1.22rem, 1.40vw, 1.34rem)';
+        }
+        return {
+          html: '<span style="font-size: 0.82em; font-weight: 700; opacity: 0.85; margin-right: 3px;">R$</span>' + numStr,
+          fontSize: fontSizeCard
+        };
       }
-
+      const fonteKpiContagem = 'clamp(1.30rem, 1.55vw, 1.65rem)';
       let html = `
         <div class="sefin-dash-executive" style="padding: 0.5rem 0.2rem; font-family: inherit;">
           
@@ -14201,9 +14213,10 @@ function imprimirAgendaCarro() {
                   <span style="font-size: 0.78rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.03em;">Receita Total</span>
                   <span style="font-size: 1.2rem;">💰</span>
                 </div>
-                <div style="font-size: ${fonteKpiValor}; font-weight: 800; color: #0284c7; letter-spacing: -0.025em; line-height: 1.2; margin: 0.35rem 0 0.25rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Receita Total: ${formatarMoedaBrl(kpis.totalReceita)}">
-                  ${formatarValorKpiCard(kpis.totalReceita)}
-                </div>
+                ${(() => {
+                  const val = formatarValorKpiCard(kpis.totalReceita);
+                  return `<div style="font-size: ${val.fontSize}; font-weight: 800; color: #0284c7; letter-spacing: -0.02em; line-height: 1.2; margin: 0.25rem 0; padding: 0 5px; white-space: nowrap;" title="Receita Total: ${formatarMoedaBrl(kpis.totalReceita)}">${val.html}</div>`;
+                })()}
               </div>
               <div style="font-size: 0.74rem; color: #475569; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 600;">
                 <span>Custeio: <strong style="color: #0f172a; font-weight: 800;">${formatarMoedaAbreviada(kpis.recCusteio)}</strong></span>
@@ -14218,9 +14231,10 @@ function imprimirAgendaCarro() {
                   <span style="font-size: 0.78rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.03em;">Despesas</span>
                   <span style="font-size: 1.2rem;">📝</span>
                 </div>
-                <div style="font-size: ${fonteKpiValor}; font-weight: 800; color: #047857; letter-spacing: -0.025em; line-height: 1.2; margin: 0.35rem 0 0.25rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Despesas Realizadas: ${formatarMoedaBrl(kpis.totalDespesa)}">
-                  ${formatarValorKpiCard(kpis.totalDespesa)}
-                </div>
+                ${(() => {
+                  const val = formatarValorKpiCard(kpis.totalDespesa);
+                  return `<div style="font-size: ${val.fontSize}; font-weight: 800; color: #047857; letter-spacing: -0.02em; line-height: 1.2; margin: 0.25rem 0; padding: 0 5px; white-space: nowrap;" title="Despesas Realizadas: ${formatarMoedaBrl(kpis.totalDespesa)}">${val.html}</div>`;
+                })()}
               </div>
               <div style="font-size: 0.74rem; color: #047857; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 800;">
                 <span>${formatarPct(kpis.taxaExecucao)} executado</span>
@@ -14235,9 +14249,10 @@ function imprimirAgendaCarro() {
                   <span style="font-size: 0.78rem; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.03em;">Saldo em Conta</span>
                   <span style="font-size: 1.2rem;">🏦</span>
                 </div>
-                <div style="font-size: ${fonteKpiValor}; font-weight: 800; color: #b45309; letter-spacing: -0.025em; line-height: 1.2; margin: 0.35rem 0 0.25rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="Saldo em Conta APMs: ${formatarMoedaBrl(kpis.totalSaldo)}">
-                  ${formatarValorKpiCard(kpis.totalSaldo)}
-                </div>
+                ${(() => {
+                  const val = formatarValorKpiCard(kpis.totalSaldo);
+                  return `<div style="font-size: ${val.fontSize}; font-weight: 800; color: #b45309; letter-spacing: -0.02em; line-height: 1.2; margin: 0.25rem 0; padding: 0 5px; white-space: nowrap;" title="Saldo em Conta APMs: ${formatarMoedaBrl(kpis.totalSaldo)}">${val.html}</div>`;
+                })()}
               </div>
               <div style="font-size: 0.74rem; color: #78350f; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 800;">
                 <span>A Reprogramar</span>
