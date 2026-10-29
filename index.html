@@ -13829,9 +13829,9 @@ function imprimirAgendaCarro() {
       const dir = filtrosSefinAvancados.ordenarDirecao || 'desc';
       if (ativa) {
         const seta = (dir === 'desc') ? '▼' : '▲';
-        return '<span style="color: #38bdf8; font-weight: 900; margin-left: 6px; font-size: 0.8rem;">' + seta + '</span>';
+        return '<span class="sort-arrow" style="color: #38bdf8; font-weight: 900; margin-left: 5px; font-size: 0.82rem; line-height: 1;">' + seta + '</span>';
       }
-      return '<span style="color: #64748b; font-size: 0.72rem; margin-left: 6px; opacity: 0.6;">↕</span>';
+      return '<span class="sort-arrow" style="color: #94a3b8; font-size: 0.82rem; margin-left: 5px; line-height: 1;">↕</span>';
     }
 
     function atualizarFiltroAvancadoSefin(campo, valor) {
@@ -13899,13 +13899,28 @@ function imprimirAgendaCarro() {
       html += '<table id="tabela-repasses-sefin" data-no-sort="true" class="no-sort-table" style="width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left;">';
       html += '<thead style="background: #0f172a; color: #ffffff; font-weight: 800; text-transform: uppercase; font-size: 0.74rem; letter-spacing: 0.05em; position: sticky; top: 0; z-index: 10;">';
       html += '<tr>';
-      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'ano\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; width: 85px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para alternar ordenação por Ano (Mais recente / Mais antigo)">Ano ' + gerarIndicadorOrdenacaoSefin('ano') + '</th>';
-      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'escola\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; min-width: 260px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para ordenar por Nome da Escola">Unidade Escolar & CIE ' + gerarIndicadorOrdenacaoSefin('escola') + '</th>';
-      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'programa\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; min-width: 220px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para ordenar por Programa">Programa / Objeto ' + gerarIndicadorOrdenacaoSefin('programa') + '</th>';
-      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'recTotal\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 155px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para ordenar por Receita Total">Receita Total (P+Q) ' + gerarIndicadorOrdenacaoSefin('recTotal') + '</th>';
-      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'despTotal\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 155px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para ordenar por Despesa">Despesa (U+V) ' + gerarIndicadorOrdenacaoSefin('despTotal') + '</th>';
-      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'saldoTotal\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 145px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para ordenar por Saldo em Conta">Saldo em Conta (W+X) ' + gerarIndicadorOrdenacaoSefin('saldoTotal') + '</th>';
-      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'statusSed\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: center; min-width: 130px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Clique para ordenar por Situação SED">Status SED ' + gerarIndicadorOrdenacaoSefin('statusSed') + '</th>';
+      
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'ano\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; width: 85px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Classificar por Ano">';
+      html += '<div style="display: inline-flex; align-items: center; gap: 0.25rem;"><span>Ano</span>' + gerarIndicadorOrdenacaoSefin('ano') + '</div></th>';
+
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'escola\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; min-width: 260px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Classificar por Unidade Escolar">';
+      html += '<div style="display: inline-flex; align-items: center; gap: 0.25rem;"><span>Unidade Escolar & CIE</span>' + gerarIndicadorOrdenacaoSefin('escola') + '</div></th>';
+
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'programa\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; min-width: 220px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Classificar por Programa">';
+      html += '<div style="display: inline-flex; align-items: center; gap: 0.25rem;"><span>Programa / Objeto</span>' + gerarIndicadorOrdenacaoSefin('programa') + '</div></th>';
+
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'recTotal\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 155px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Classificar por Receita Total">';
+      html += '<div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 0.25rem; width: 100%;"><span>Receita Total (P+Q)</span>' + gerarIndicadorOrdenacaoSefin('recTotal') + '</div></th>';
+
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'despTotal\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 155px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Classificar por Despesa">';
+      html += '<div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 0.25rem; width: 100%;"><span>Despesa (U+V)</span>' + gerarIndicadorOrdenacaoSefin('despTotal') + '</div></th>';
+
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'saldoTotal\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: right; min-width: 145px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Classificar por Saldo em Conta">';
+      html += '<div style="display: inline-flex; align-items: center; justify-content: flex-end; gap: 0.25rem; width: 100%;"><span>Saldo em Conta (W+X)</span>' + gerarIndicadorOrdenacaoSefin('saldoTotal') + '</div></th>';
+
+      html += '<th data-no-sort="true" class="no-sort" onclick="alternarOrdenacaoTabelaSefin(\'statusSed\')" style="padding: 12px 14px; border-bottom: 2px solid #0284c7; text-align: center; min-width: 130px; cursor: pointer; user-select: none; transition: background 0.15s;" onmouseover="this.style.background=\'#1e293b\'" onmouseout="this.style.background=\'#0f172a\'" title="Classificar por Situação SED">';
+      html += '<div style="display: inline-flex; align-items: center; justify-content: center; gap: 0.25rem; width: 100%;"><span>Status SED</span>' + gerarIndicadorOrdenacaoSefin('statusSed') + '</div></th>';
+      
       html += '</tr>';
       html += '</thead>';
       html += '<tbody>';
