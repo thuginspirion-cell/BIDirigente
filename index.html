@@ -14136,90 +14136,90 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- GRID DE 5 KPIS REAIS (TITULOS RESUMIDOS, TIPOGRAFIA EQUILIBRADA, SEM TRANSBORDAMENTO) -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
             
             <!-- CARD 1: RECEITA TOTAL -->
-            <div style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 1.1rem 1rem; min-height: 128px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); min-width: 0;">
+            <div style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.85rem 0.75rem; min-height: 122px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); min-width: 0;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                  <span style="font-size: 0.74rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.04em;">Receita Total</span>
+                  <span style="font-size: 0.72rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.03em;">Receita Total</span>
                   <span style="font-size: 1.2rem;">💰</span>
                 </div>
-                <div style="font-size: clamp(1.2rem, 1.4vw, 1.48rem); font-weight: 800; color: #0284c7; letter-spacing: -0.01em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${formatarMoedaBrl(kpis.totalReceita)}">
+                <div style="font-size: clamp(0.92rem, 1.05vw, 1.15rem); font-weight: 800; color: #0284c7; letter-spacing: -0.025em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${formatarMoedaBrl(kpis.totalReceita)}">
                   ${formatarMoedaBrl(kpis.totalReceita)}
                 </div>
               </div>
-              <div style="font-size: 0.72rem; color: #475569; padding-top: 0.45rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 600;">
+              <div style="font-size: 0.70rem; color: #475569; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 600;">
                 <span>Custeio: <strong style="color: #0f172a; font-weight: 800;">${formatarMoedaAbreviada(kpis.recCusteio)}</strong></span>
                 <span>Capital: <strong style="color: #0f172a; font-weight: 800;">${formatarMoedaAbreviada(kpis.recCapital)}</strong></span>
               </div>
             </div>
 
             <!-- CARD 2: DESPESAS -->
-            <div style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 1.1rem 1rem; min-height: 128px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); min-width: 0;">
+            <div style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.85rem 0.75rem; min-height: 122px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); min-width: 0;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                  <span style="font-size: 0.74rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.04em;">Despesas</span>
+                  <span style="font-size: 0.72rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.03em;">Despesas</span>
                   <span style="font-size: 1.2rem;">📝</span>
                 </div>
-                <div style="font-size: clamp(1.2rem, 1.4vw, 1.48rem); font-weight: 800; color: #047857; letter-spacing: -0.01em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${formatarMoedaBrl(kpis.totalDespesa)}">
+                <div style="font-size: clamp(0.92rem, 1.05vw, 1.15rem); font-weight: 800; color: #047857; letter-spacing: -0.025em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${formatarMoedaBrl(kpis.totalDespesa)}">
                   ${formatarMoedaBrl(kpis.totalDespesa)}
                 </div>
               </div>
-              <div style="font-size: 0.72rem; color: #047857; padding-top: 0.45rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 800;">
+              <div style="font-size: 0.70rem; color: #047857; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 800;">
                 <span>${formatarPct(kpis.taxaExecucao)} executado</span>
                 <span style="color: #475569; font-weight: 600;">C: <strong style="color: #0f172a;">${formatarMoedaAbreviada(kpis.despCusteio)}</strong></span>
               </div>
             </div>
 
             <!-- CARD 3: SALDO EM CONTA -->
-            <div style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 1.1rem 1rem; min-height: 128px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08); min-width: 0;">
+            <div style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.85rem 0.75rem; min-height: 122px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08); min-width: 0;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                  <span style="font-size: 0.74rem; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.04em;">Saldo em Conta</span>
+                  <span style="font-size: 0.72rem; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.03em;">Saldo em Conta</span>
                   <span style="font-size: 1.2rem;">🏦</span>
                 </div>
-                <div style="font-size: clamp(1.2rem, 1.4vw, 1.48rem); font-weight: 800; color: #b45309; letter-spacing: -0.01em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${formatarMoedaBrl(kpis.totalSaldo)}">
+                <div style="font-size: clamp(0.92rem, 1.05vw, 1.15rem); font-weight: 800; color: #b45309; letter-spacing: -0.025em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${formatarMoedaBrl(kpis.totalSaldo)}">
                   ${formatarMoedaBrl(kpis.totalSaldo)}
                 </div>
               </div>
-              <div style="font-size: 0.72rem; color: #78350f; padding-top: 0.45rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 800;">
+              <div style="font-size: 0.70rem; color: #78350f; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 800;">
                 <span>A Reprogramar</span>
                 <span style="color: #475569; font-weight: 600;">Contas APMs</span>
               </div>
             </div>
 
             <!-- CARD 4: REPASSES (NÚMERO LIMPO) -->
-            <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 1.1rem 1rem; min-height: 128px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.05); min-width: 0;">
+            <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 0.85rem 0.75rem; min-height: 122px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.05); min-width: 0;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                  <span style="font-size: 0.74rem; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.04em;">Total Repasses</span>
+                  <span style="font-size: 0.72rem; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.03em;">Total Repasses</span>
                   <span style="font-size: 1.2rem;">🏫</span>
                 </div>
-                <div style="font-size: clamp(1.35rem, 1.7vw, 1.75rem); font-weight: 800; color: #0f172a; letter-spacing: -0.01em; line-height: 1.2; margin: 0.15rem 0;">
+                <div style="font-size: clamp(1.10rem, 1.35vw, 1.40rem); font-weight: 800; color: #0f172a; letter-spacing: -0.02em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                   ${kpis.totalRepasses.toLocaleString('pt-BR')}
                 </div>
               </div>
-              <div style="font-size: 0.72rem; color: #0369a1; padding-top: 0.45rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
+              <div style="font-size: 0.70rem; color: #0369a1; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>${kpis.totalEscolas} Escolas</span>
                 <span style="color: #475569; font-weight: 600;">Rede Regional</span>
               </div>
             </div>
 
             <!-- CARD 5: SITUAÇÃO SED (NÚMERO LIMPO) -->
-            <div style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 1.1rem 1rem; min-height: 128px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.08); min-width: 0;">
+            <div style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.85rem 0.75rem; min-height: 122px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.08); min-width: 0;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                  <span style="font-size: 0.74rem; font-weight: 800; color: #5b21b6; text-transform: uppercase; letter-spacing: 0.04em;">
+                  <span style="font-size: 0.72rem; font-weight: 800; color: #5b21b6; text-transform: uppercase; letter-spacing: 0.03em;">
                     ${anoAtivo === '2026' ? 'Andamento SED' : 'Aprovação SED'}
                   </span>
                   <span style="font-size: 1.2rem;">✅</span>
                 </div>
-                <div style="font-size: clamp(1.35rem, 1.7vw, 1.75rem); font-weight: 800; color: #6d28d9; letter-spacing: -0.01em; line-height: 1.2; margin: 0.15rem 0;">
+                <div style="font-size: clamp(1.10rem, 1.35vw, 1.40rem); font-weight: 800; color: #6d28d9; letter-spacing: -0.02em; line-height: 1.2; margin: 0.15rem 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                   ${anoAtivo === '2026' ? kpis.emAndamento.toLocaleString('pt-BR') : formatarPct(kpis.taxaAprovacao)}
                 </div>
               </div>
-              <div style="font-size: 0.72rem; color: #4c1d95; padding-top: 0.45rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
+              <div style="font-size: 0.70rem; color: #4c1d95; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 ${anoAtivo === '2026'
                   ? '<span><strong>' + kpis.emAndamento + '</strong> em andamento</span><span>' + kpis.outros + ' em análise</span>'
                   : '<span><strong>' + kpis.aprovadas.toLocaleString('pt-BR') + '</strong> aprovadas</span><span><strong>' + kpis.ressalvas.toLocaleString('pt-BR') + '</strong> ressalvas</span>'}
