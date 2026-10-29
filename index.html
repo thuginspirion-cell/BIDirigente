@@ -14127,23 +14127,23 @@ function imprimirAgendaCarro() {
       function formatarValorKpiCard(valor) {
         if (typeof valor !== 'number' || isNaN(valor)) valor = 0;
         const numStr = valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        // Calibragem precisa para preencher toda a largura com margem de segurança de 5px em cada lado sem cortar
-        let fontSizeCard = '1.28rem';
+        // Fontes aumentadas em +15% com margem lateral estrita de 5px
+        let fontSizeCard = '1.45rem';
         if (numStr.length >= 14) {
-          fontSizeCard = 'clamp(0.96rem, 1.08vw, 1.10rem)';
+          fontSizeCard = 'clamp(1.10rem, 1.24vw, 1.26rem)';
         } else if (numStr.length >= 12) {
-          fontSizeCard = 'clamp(1.05rem, 1.20vw, 1.18rem)';
+          fontSizeCard = 'clamp(1.20rem, 1.38vw, 1.36rem)';
         } else if (numStr.length >= 10) {
-          fontSizeCard = 'clamp(1.15rem, 1.30vw, 1.26rem)';
+          fontSizeCard = 'clamp(1.32rem, 1.50vw, 1.45rem)';
         } else {
-          fontSizeCard = 'clamp(1.22rem, 1.40vw, 1.34rem)';
+          fontSizeCard = 'clamp(1.40rem, 1.60vw, 1.54rem)';
         }
         return {
           html: '<span style="font-size: 0.82em; font-weight: 700; opacity: 0.85; margin-right: 3px;">R$</span>' + numStr,
           fontSize: fontSizeCard
         };
       }
-      const fonteKpiContagem = 'clamp(1.30rem, 1.55vw, 1.65rem)';
+      const fonteKpiContagem = 'clamp(1.50rem, 1.78vw, 1.90rem)';
       let html = `
         <div class="sefin-dash-executive" style="padding: 0.5rem 0.2rem; font-family: inherit;">
           
@@ -14204,7 +14204,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- GRID DE 5 KPIS REAIS (TITULOS RESUMIDOS, TIPOGRAFIA EQUILIBRADA, SEM TRANSBORDAMENTO) -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
             
             <!-- CARD 1: RECEITA TOTAL -->
             <div style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); min-width: 0;">
