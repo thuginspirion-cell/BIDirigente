@@ -53,18 +53,49 @@ function sincronizarPlanilhaSefin() {
 }
 
 function sincronizarPlanilhaSharepoint() {
-  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP&download=1";
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/cQq57JtcgOx0TYN_WRWdCyPLEgUCWtCBVpIXsMYmQoivNUmH6w?download=1";
   try {
-    var response = UrlFetchApp.fetch(url, {
+    // 1. Primeira chamada sem seguir redirect para capturar os cookies de sessão anônima do SharePoint
+    var resp1 = UrlFetchApp.fetch(url, {
+      muteHttpExceptions: true,
+      followRedirects: false,
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+      }
+    });
+
+    var headers1 = resp1.getAllHeaders();
+    var setCookie = headers1["Set-Cookie"] || headers1["set-cookie"];
+    var cookieHeader = "";
+
+    if (setCookie) {
+      if (Array.isArray(setCookie)) {
+        cookieHeader = setCookie.map(function(c) { return c.split(";")[0]; }).join("; ");
+      } else {
+        cookieHeader = String(setCookie).split(";")[0];
+      }
+    }
+
+    var location1 = headers1["Location"] || headers1["location"];
+    var downloadUrl = url;
+
+    if (location1) {
+      downloadUrl = (location1.indexOf("http") === 0) ? location1 : ("https://seesp-my.sharepoint.com" + location1);
+    }
+
+    // 2. Segunda chamada com o Cookie repassado (retorna 200 e os 943 KB do XLSX real)
+    var response = UrlFetchApp.fetch(downloadUrl, {
       muteHttpExceptions: true,
       followRedirects: true,
       headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Cookie": cookieHeader
       }
     });
 
     if (response.getResponseCode() === 200) {
-      var bytes = response.getBlob().getBytes();
+      var blob = response.getBlob();
+      var bytes = blob.getBytes();
       var base64 = Utilities.base64Encode(bytes);
       return {
         sucesso: true,
@@ -76,7 +107,7 @@ function sincronizarPlanilhaSharepoint() {
     } else {
       return {
         sucesso: false,
-        erro: "Status HTTP " + response.getResponseCode()
+        erro: "Status HTTP " + response.getResponseCode() + " no download do Excel."
       };
     }
   } catch (err) {
