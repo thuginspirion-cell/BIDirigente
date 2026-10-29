@@ -14135,8 +14135,8 @@ function imprimirAgendaCarro() {
       const kpis = DADOS_FINANCEIROS_SEFIN.kpisPorAno[anoAtivo] || DADOS_FINANCEIROS_SEFIN.kpisPorAno["2026"];
       const listaRepasses = obterRepassesFiltradosSefin();
       const programasDoAno = Object.keys(kpis.programas || {});
-      const fonteKpiValor = (anoAtivo === 'todos') ? 'clamp(0.80rem, 0.88vw, 0.98rem)' : 'clamp(0.88rem, 0.98vw, 1.08rem)';
-      const fonteKpiContagem = (anoAtivo === 'todos') ? 'clamp(0.98rem, 1.15vw, 1.25rem)' : 'clamp(1.05rem, 1.25vw, 1.35rem)';
+      const fonteKpiValor = (anoAtivo === 'todos') ? 'clamp(0.96rem, 1.06vw, 1.18rem)' : 'clamp(1.06rem, 1.18vw, 1.30rem)';
+      const fonteKpiContagem = (anoAtivo === 'todos') ? 'clamp(1.18rem, 1.38vw, 1.50rem)' : 'clamp(1.26rem, 1.50vw, 1.62rem)';
       function formatarValorKpiCard(valor) {
         if (typeof valor !== 'number' || isNaN(valor)) valor = 0;
         const numStr = valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -14206,7 +14206,7 @@ function imprimirAgendaCarro() {
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
             
             <!-- CARD 1: RECEITA TOTAL -->
-            <div style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.85rem 0.75rem; min-height: 122px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); min-width: 0;">
+            <div style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); min-width: 0;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.72rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.03em;">Receita Total</span>
@@ -14223,7 +14223,7 @@ function imprimirAgendaCarro() {
             </div>
 
             <!-- CARD 2: DESPESAS -->
-            <div style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.85rem 0.75rem; min-height: 122px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); min-width: 0;">
+            <div style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); min-width: 0;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.72rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.03em;">Despesas</span>
@@ -14240,7 +14240,7 @@ function imprimirAgendaCarro() {
             </div>
 
             <!-- CARD 3: SALDO EM CONTA -->
-            <div style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.85rem 0.75rem; min-height: 122px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08); min-width: 0;">
+            <div style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08); min-width: 0;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.72rem; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.03em;">Saldo em Conta</span>
@@ -14257,7 +14257,7 @@ function imprimirAgendaCarro() {
             </div>
 
             <!-- CARD 4: REPASSES (NÚMERO LIMPO) -->
-            <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 0.85rem 0.75rem; min-height: 122px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.05); min-width: 0;">
+            <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.05); min-width: 0;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.72rem; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.03em;">Total Repasses</span>
@@ -14274,7 +14274,7 @@ function imprimirAgendaCarro() {
             </div>
 
             <!-- CARD 5: SITUAÇÃO SED (NÚMERO LIMPO) -->
-            <div style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.85rem 0.75rem; min-height: 122px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.08); min-width: 0;">
+            <div style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.08); min-width: 0;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.72rem; font-weight: 800; color: #5b21b6; text-transform: uppercase; letter-spacing: 0.03em;">
