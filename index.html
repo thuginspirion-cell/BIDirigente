@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -17741,7 +17741,7 @@ function imprimirAgendaCarro() {
                     titulo: 'Erro ao Processar Planilha Remota',
                     mensagem: 'O arquivo foi recebido mas não pôde ser interpretado. A base local consolidada permanece ativa.',
                     detalhes: 'Detalhe: ' + (e.message || e),
-                    duracao: 7000
+                    duracao: 0
                   });
                 }
               }
@@ -17755,7 +17755,7 @@ function imprimirAgendaCarro() {
                   titulo: 'Não foi possível sincronizar os chamados',
                   mensagem: 'O SharePoint retornou instabilidade. A base de contingência local de 1.335 chamados permanece 100% ativa.',
                   detalhes: (res && res.erro) ? res.erro : 'Serviço temporariamente indisponível',
-                  duracao: 7000
+                  duracao: 0
                 });
               }
             }
@@ -17774,7 +17774,7 @@ function imprimirAgendaCarro() {
                 titulo: 'Falha na Comunicação com SharePoint',
                 mensagem: 'Não foi possível conectar ao servidor de nuvem. A base local consolidada permanece ativa.',
                 detalhes: (err && err.toString()) ? 'Detalhe: ' + err.toString() : 'Conexão interrompida',
-                duracao: 7000
+                duracao: 0
               });
             }
           })

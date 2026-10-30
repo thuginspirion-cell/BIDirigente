@@ -1,9 +1,28 @@
+/**
+ * BI Dirigente — Web App Entry Point
+ * Deploy: executeAs=USER_DEPLOYING, access=ANYONE_ANONYMOUS
+ * Scopes: script.external_request, calendar, drive, spreadsheets
+ *
+ * IMPORTANTE: Este script DEVE ser deployado como USER_DEPLOYING para que
+ * o UrlFetchApp funcione sem erros de permissão.
+ * Em caso de erro "Você não tem permissão para chamar UrlFetchApp.fetch":
+ *   1. Confirme que appsscript.json tem executeAs="USER_DEPLOYING"
+ *   2. Crie um NOVO deploy: npx clasp push -f && npx clasp deploy -i <ID> -d "..."
+ */
 function doGet(e) {
   if (e && e.parameter && e.parameter.action) {
     var action = e.parameter.action;
-    var output = { sucesso: false, erro: "Ação não reconhecida" };
+    var output = { sucesso: false, erro: 'Ação não reconhecida' };
 
     try {
+      // Verificação preventiva: UrlFetchApp só está disponível se executeAs=USER_DEPLOYING
+      if (typeof UrlFetchApp === 'undefined') {
+        throw new Error(
+          'UrlFetchApp indisponível. Certifique-se de que o deploy usa executeAs=USER_DEPLOYING ' +
+          'e que o scope https://www.googleapis.com/auth/script.external_request está declarado no manifesto.'
+        );
+      }
+
       if (action === 'sincronizarSharepoint' || action === 'sincronizarCalls') {
         output = sincronizarPlanilhaSharepoint();
       } else if (action === 'sincronizarInventario') {
@@ -12,9 +31,26 @@ function doGet(e) {
         output = sincronizarPlanilhaSefin();
       } else if (action === 'diagnostico') {
         output = executarDiagnosticoConexoes();
+      } else if (action === 'ping') {
+        // Diagnóstico rápido: verifica se o GAS está online e com permissões corretas
+        output = {
+          sucesso: true,
+          mensagem: 'BI Dirigente GAS Online',
+          urlFetchDisponivel: (typeof UrlFetchApp !== 'undefined'),
+          timestamp: Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM/yyyy HH:mm:ss'),
+          executeAs: 'USER_DEPLOYING'
+        };
       }
     } catch (err) {
-      output = { sucesso: false, erro: err.toString() };
+      var errMsg = err.toString();
+      output = {
+        sucesso: false,
+        erro: errMsg,
+        dica: errMsg.indexOf('UrlFetchApp') >= 0
+          ? 'Erro de permissão: recrie o deploy com executeAs=USER_DEPLOYING. ' +
+            'Execute: npx clasp push -f && npx clasp deploy -i <ID> -d "fix permissao"'
+          : 'Erro interno no servidor GAS.'
+      };
     }
 
     return ContentService.createTextOutput(JSON.stringify(output))
