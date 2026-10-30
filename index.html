@@ -3122,7 +3122,7 @@ function imprimirAgendaCarro() {
     .topbar {
       background: linear-gradient(180deg, #091738 0%, #061129 100%);
       color: white;
-      padding: 0.85rem 2rem;
+      padding: 0.85rem 3.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -3431,10 +3431,23 @@ function imprimirAgendaCarro() {
     /* 3. CONTEÚDO DAS VIEWS */
     /* ========================================= */
     .view-container {
-      padding: 1.5rem 2rem 3rem;
-      max-width: 1400px;
+      padding: 2.2rem 3.5rem 4.5rem;
+      max-width: 1600px;
       width: 100%;
       margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 1200px) {
+      .view-container {
+        padding: 1.5rem 2rem 3rem;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .view-container {
+        padding: 1.5rem 2.5rem 3rem;
+      }
     }
 
     .view-pane {
@@ -8624,9 +8637,7 @@ function imprimirAgendaCarro() {
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.6rem;">
               <span class="hero-pretitle" style="margin-bottom: 0;">⭐ DIRETORIA REGIONAL DE ENSINO DE ITAPEVI • URE ITAPEVI</span>
               <span style="font-size: 0.72rem; background: rgba(240, 155, 12, 0.22); color: #f09b0c; border: 1px solid rgba(240, 155, 12, 0.45); padding: 2px 8px; border-radius: 20px; font-weight: 700;">🟢 Rede 100% Operacional</span>
-              <button class="btn-pane-sync" onclick="sincronizarModulo('home', this)" title="Sincronizar todos os indicadores da Home em tempo real" style="margin-left: auto;">
-                <span class="sync-spin-icon">🔄</span> Sincronizar Início
-              </button>
+              
             </div>
             <h2 class="hero-main-title" style="color: #ffffff !important; white-space: nowrap;">BI Dirigente • Painel Integrado de Gestão</h2>
             <p class="hero-main-desc">
@@ -9761,7 +9772,7 @@ function imprimirAgendaCarro() {
                   <div id="seintec-inv-escolas-count" style="font-size: 17px; font-weight: 900; color: #ffffff;">60 Escolas Estaduais</div>
                 </div>
                 <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
-                  <button type="button" id="btn-sync-inventario-now" class="btn-inv-tag btn-sync-now" onclick="sincronizarInventarioSharepoint(true)" style="background: #0284c7; color: #ffffff; border: 1px solid #38bdf8; font-size: 0.8rem; padding: 0.45rem 0.95rem; font-weight: 700; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);" title="Verificar e sincronizar inventário diretamente da pasta pública do SharePoint">
+                  <button type="button" id="btn-sync-inventario-now" class="btn-inv-tag btn-sync-now" style="display: none !important;" onclick="sincronizarInventarioSharepoint(true)" style="background: #0284c7; color: #ffffff; border: 1px solid #38bdf8; font-size: 0.8rem; padding: 0.45rem 0.95rem; font-weight: 700; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);" title="Verificar e sincronizar inventário diretamente da pasta pública do SharePoint">
                     <span id="sync-inv-icon">🔄</span> Sincronizar Inventário
                   </button>
                   <div style="font-size: 9.5px; color: #bae6fd; font-weight: 600;" id="sync-inv-status-text">
