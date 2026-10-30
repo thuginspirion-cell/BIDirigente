@@ -913,7 +913,11 @@
       const detalhes = config.detalhes || (tipo === 'loading' ? 'SharePoint Cloud • Conectando...' : 'SharePoint Cloud • 100% Operacional');
       const hora = config.hora || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
       
-      let duracao = (typeof config.duracao === 'number') ? config.duracao : (tipo === 'loading' ? 0 : (tipo === 'error' ? 7000 : 5000));
+      // Erros e avisos de falha permanecem na tela INDEFINIDAMENTE até o usuário fechar manualmente (duracao = 0)
+      let duracao = (typeof config.duracao === 'number') ? config.duracao : (tipo === 'loading' ? 0 : (tipo === 'error' ? 0 : 5000));
+      if (tipo === 'error') {
+        duracao = 0; // Fechamento exclusivamente manual
+      }
 
       const container = document.getElementById('sync-alert-toast-container');
       if (!container) return;
@@ -953,7 +957,7 @@
               <div class="sync-alert-tag">${tag}</div>
               <h4 class="sync-alert-title" title="${titulo}">${titulo}</h4>
             </div>
-            <button type="button" class="sync-alert-close" onclick="fecharAlertaSincronizacao()" title="Fechar alerta">✕</button>
+            <button type="button" class="sync-alert-close" onclick="fecharAlertaSincronizacao()" title="Fechar alerta (fechamento manual)" style="cursor: pointer; font-size: 1rem; font-weight: 800;">✕</button>
           </div>
           <p class="sync-alert-message">${mensagem}</p>
           <div class="sync-alert-footer">
@@ -962,6 +966,7 @@
               <span>${detalhes}</span>
             </div>
             <div class="sync-alert-meta-item">
+              ${tipo === 'error' ? '<span style="font-size: 0.68rem; color: #fca5a5; font-weight: 700; background: rgba(239, 68, 68, 0.25); border: 1px solid rgba(248, 113, 113, 0.4); border-radius: 4px; padding: 2px 6px; margin-right: 4px;">FECHAR MANUALMENTE (✕)</span>' : ''}
               <span>${hora}</span>
             </div>
           </div>
@@ -10614,7 +10619,7 @@ function imprimirAgendaCarro() {
             <option value="Itapevi">Itapevi</option>
             <option value="Jandira">Jandira</option>
             <option value="Pirapora do Bom Jesus">Pirapora do Bom Jesus</option>
-            <option value="Santana de Parnaíba">Santana de Parnaíba</option>
+            <option value="Barueri">Barueri</option>
           </select>
 
           <select id="escolas-filter-tipo" class="escolas-select-filter" onchange="filtrarEscolas()">
@@ -18542,7 +18547,7 @@ function imprimirAgendaCarro() {
                 <option value="Itapevi">Itapevi</option>
                 <option value="Jandira">Jandira</option>
                 <option value="Pirapora do Bom Jesus">Pirapora do Bom Jesus</option>
-                <option value="Santana de Parnaíba">Santana de Parnaíba</option>
+                <option value="Barueri">Barueri</option>
               </select>
             </div>
 
