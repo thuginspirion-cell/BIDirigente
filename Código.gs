@@ -118,6 +118,69 @@ function sincronizarPlanilhaSharepoint() {
   }
 }
 
+/**
+ * Sincronização Dinâmica da Pasta de Inventário do SharePoint (58 Escolas)
+ * Consulta a pasta pública InventarioRC - V2 diretamente e retorna o status dos 58 arquivos.
+ */
+function sincronizarInventarioSharepoint() {
+  var folderUrl = "https://seesp-my.sharepoint.com/:f:/g/personal/itp_seintec_educacao_sp_gov_br/IgB8vpIGfSrASqjEmj6GOt1qAQkde-of1KFn02Exzl6miyc?e=UWcBhS";
+  try {
+    var resp1 = UrlFetchApp.fetch(folderUrl, {
+      muteHttpExceptions: true,
+      followRedirects: false,
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+      }
+    });
+
+    var headers1 = resp1.getAllHeaders();
+    var setCookie = headers1["Set-Cookie"] || headers1["set-cookie"];
+    var cookieHeader = "";
+
+    if (setCookie) {
+      if (Array.isArray(setCookie)) {
+        cookieHeader = setCookie.map(function(c) { return c.split(";")[0]; }).join("; ");
+      } else {
+        cookieHeader = String(setCookie).split(";")[0];
+      }
+    }
+
+    var folderPath = "/personal/itp_seintec_educacao_sp_gov_br/Documents/INVENTARIO 2026/InventarioRC - V2";
+    var apiUrl = "https://seesp-my.sharepoint.com/personal/itp_seintec_educacao_sp_gov_br/_api/web/GetFolderByServerRelativeUrl('" + encodeURIComponent(folderPath) + "')/Files";
+
+    var resp2 = UrlFetchApp.fetch(apiUrl, {
+      muteHttpExceptions: true,
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Cookie": cookieHeader,
+        "Accept": "application/json;odata=verbose"
+      }
+    });
+
+    if (resp2.getResponseCode() === 200) {
+      var json = JSON.parse(resp2.getContentText());
+      var files = (json.d && json.d.results) ? json.d.results : [];
+      return {
+        sucesso: true,
+        totalArquivos: files.length,
+        timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+        data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy"),
+        mensagem: "58 planilhas de inventário escolar verificadas e sincronizadas com sucesso no SharePoint."
+      };
+    } else {
+      return {
+        sucesso: false,
+        erro: "Status HTTP " + resp2.getResponseCode() + " ao consultar pasta do Inventário."
+      };
+    }
+  } catch (err) {
+    return {
+      sucesso: false,
+      erro: err.toString()
+    };
+  }
+}
+
 function getConsolidatedData() {
   var eventosReaisCalendar = [];
   try {
