@@ -8995,7 +8995,7 @@ function imprimirAgendaCarro() {
               </div>
               <div>
                 <div class="centro-metric-val" id="home-seafin-m1" style="color: #b45309; font-weight: 800; font-size: 1.15rem; line-height: 1.2;">176 Repasses</div>
-                <div class="centro-metric-lbl" id="home-seafin-lbl1" style="color: #64748b; font-weight: 600; font-size: 0.67rem; text-transform: uppercase; margin-top: 2px;">57 Escolas (2026)</div>
+                <div class="centro-metric-lbl" id="home-seafin-lbl1" style="color: #64748b; font-weight: 600; font-size: 0.67rem; text-transform: uppercase; margin-top: 2px;">60 Escolas (2026)</div>
               </div>
             </div>
 
@@ -9662,10 +9662,10 @@ function imprimirAgendaCarro() {
               <div class="base-avatar-badge base-ico-green">💻</div>
               <span class="base-card-title">Equipamentos de Hardware</span>
             </div>
-            <p class="base-card-desc">15.098 notebooks, desktops e tablets inventariados nas 60 escolas oficiais.</p>
+            <p class="base-card-desc">15.873 notebooks, desktops e tablets inventariados nas 60 escolas oficiais.</p>
             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem;">
               <span class="base-card-action-link">Filtrar inventário →</span>
-              <span style="font-size: 0.65rem; background: rgba(16, 185, 129, 0.15); color: #059669; border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;">15.098 itens</span>
+              <span style="font-size: 0.65rem; background: rgba(16, 185, 129, 0.15); color: #059669; border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;">15.873 itens</span>
             </div>
           </div>
 
@@ -9675,10 +9675,10 @@ function imprimirAgendaCarro() {
               <div class="base-avatar-badge base-ico-yellow-badge">🌐</div>
               <span class="base-card-title">Equipamentos de Rede</span>
             </div>
-            <p class="base-card-desc">555 switches, roteadores, nobreaks e racks nas 57 escolas oficiais.</p>
+            <p class="base-card-desc">542 switches, roteadores, nobreaks e racks nas 57 escolas oficiais.</p>
             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem;">
               <span class="base-card-action-link">Filtrar inventário →</span>
-              <span style="font-size: 0.65rem; background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;">555 itens</span>
+              <span style="font-size: 0.65rem; background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;">542 itens</span>
             </div>
           </div>
 
@@ -16001,27 +16001,27 @@ function imprimirAgendaCarro() {
       'Hardware': {
         titulo: 'Equipamentos de Hardware',
         icone: '💻',
-        desc: 'Inventário Oficial Consolidado de Hardware das 60 Escolas Estaduais (15.098 equipamentos mapeados)',
+        desc: 'Inventário Oficial Consolidado de Hardware das 60 Escolas Estaduais (15.873 equipamentos mapeados)',
         pasta: 'Hardware',
         isInventario: true,
         tipoInventario: 'hardware',
-        totalItens: 15098,
+        totalItens: 15873,
         registros: []
       },
       'Rede': {
         titulo: 'Equipamentos de Rede',
         icone: '🌐',
-        desc: 'Inventário Oficial de Equipamentos de Rede das 57 Escolas Estaduais (555 switches, roteadores e racks)',
+        desc: 'Inventário Oficial de Equipamentos de Rede das 60 Escolas Estaduais (555 switches, roteadores e racks)',
         pasta: 'Rede',
         isInventario: true,
         tipoInventario: 'rede',
-        totalItens: 555,
+        totalItens: 542,
         registros: []
       },
       'Educatrons': {
         titulo: 'TVs e Educatrons',
         icone: '📺',
-        desc: 'Inventário Oficial de TVs e Educatrons das 57 Escolas Estaduais (734 equipamentos mapeados)',
+        desc: 'Inventário Oficial de TVs e Educatrons das 60 Escolas Estaduais (734 equipamentos mapeados)',
         pasta: 'Educatrons',
         isInventario: true,
         tipoInventario: 'educatrons',
@@ -16031,7 +16031,7 @@ function imprimirAgendaCarro() {
       'Recarga': {
         titulo: 'Plataforma de Recarga',
         icone: '🔋',
-        desc: 'Inventário Oficial de Plataformas de Recarga das 57 Escolas Estaduais (198 carrinhos mapeados)',
+        desc: 'Inventário Oficial de Plataformas de Recarga das 60 Escolas Estaduais (198 carrinhos mapeados)',
         pasta: 'Recarga',
         isInventario: true,
         tipoInventario: 'recarga',
@@ -16082,6 +16082,33 @@ function imprimirAgendaCarro() {
     }
 
     function atualizarMetricasSuperioresSeintec() {
+      // Sincroniza dinamicamente os badges e descricoes dos cards de selecao do SEINTEC
+      if (window.INVENTARIO_COMPLETO_TUPLES) {
+        var hwTot = (window.INVENTARIO_COMPLETO_TUPLES.hardware || []).length;
+        var redeTot = (window.INVENTARIO_COMPLETO_TUPLES.rede || []).length;
+        var eduTot = (window.INVENTARIO_COMPLETO_TUPLES.educatrons || []).length;
+        var recTot = (window.INVENTARIO_COMPLETO_TUPLES.recarga || []).length;
+
+        var elBadgeHw = document.querySelector("#card-seintec-Hardware span[style*='border-radius: 999px']");
+        if (elBadgeHw && hwTot > 0) elBadgeHw.innerText = hwTot.toLocaleString("pt-BR") + " itens";
+        var elDescHw = document.querySelector("#card-seintec-Hardware .base-card-desc");
+        if (elDescHw && hwTot > 0) elDescHw.innerText = hwTot.toLocaleString("pt-BR") + " notebooks, desktops e tablets inventariados nas 60 escolas oficiais.";
+
+        var elBadgeRede = document.querySelector("#card-seintec-Rede span[style*='border-radius: 999px']");
+        if (elBadgeRede && redeTot > 0) elBadgeRede.innerText = redeTot.toLocaleString("pt-BR") + " itens";
+        var elDescRede = document.querySelector("#card-seintec-Rede .base-card-desc");
+        if (elDescRede && redeTot > 0) elDescRede.innerText = redeTot.toLocaleString("pt-BR") + " switches, roteadores, nobreaks e racks nas 60 escolas oficiais.";
+
+        var elBadgeEdu = document.querySelector("#card-seintec-Educatrons span[style*='border-radius: 999px']");
+        if (elBadgeEdu && eduTot > 0) elBadgeEdu.innerText = eduTot.toLocaleString("pt-BR") + " itens";
+        var elDescEdu = document.querySelector("#card-seintec-Educatrons .base-card-desc");
+        if (elDescEdu && eduTot > 0) elDescEdu.innerText = eduTot.toLocaleString("pt-BR") + " televisores e Educatrons inventariados nas 60 escolas oficiais.";
+
+        var elBadgeRec = document.querySelector("#card-seintec-Recarga span[style*='border-radius: 999px']");
+        if (elBadgeRec && recTot > 0) elBadgeRec.innerText = recTot.toLocaleString("pt-BR") + " itens";
+        var elDescRec = document.querySelector("#card-seintec-Recarga .base-card-desc");
+        if (elDescRec && recTot > 0) elDescRec.innerText = recTot.toLocaleString("pt-BR") + " carrinhos e plataformas de recarga nas 60 escolas oficiais.";
+      }
       const hw = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware) ? window.INVENTARIO_COMPLETO_TUPLES.hardware : [];
       let itens = hw;
       if (filtroEscolaCieAtivo) {
@@ -16671,7 +16698,7 @@ function imprimirAgendaCarro() {
           const escNome = escObj ? escObj.nome : `CIE ${filtroEscolaCieAtivo}`;
           bannerSub.innerText = `Visão Detalhada da Unidade: ${escNome} (${total.toLocaleString('pt-BR')} itens catalogados)`;
         } else {
-          bannerSub.innerText = `Inventário Oficial Consolidado das 57 Escolas Estaduais + Sede Regional (${total.toLocaleString('pt-BR')} equipamentos)`;
+          bannerSub.innerText = `Inventário Oficial Consolidado das 60 Escolas Estaduais + Sede Regional (${total.toLocaleString('pt-BR')} equipamentos)`;
         }
       }
 
