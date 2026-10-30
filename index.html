@@ -8660,7 +8660,7 @@ function imprimirAgendaCarro() {
               <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('hardware')" style="cursor: pointer;" title="Focar nas métricas de Hardware e Tecnologia">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #3b82f6;"></span>
-                  <span class="kpi-big-number" id="kpi-hardware-home">15.975</span>
+                  <span class="kpi-big-number" id="kpi-hardware-home">15.873</span>
                 </div>
                 <span class="kpi-mini-label" id="kpi-lbl-hardware">Equipamentos TI</span>
               </div>
@@ -13201,23 +13201,65 @@ function imprimirAgendaCarro() {
       const lblVisitas = document.getElementById('kpi-lbl-visitas');
       const lblAlertas = document.getElementById('kpi-lbl-atencao');
 
-      if (kpiEscolas) kpiEscolas.textContent = '1';
-      if (lblEscolas) lblEscolas.textContent = 'Escola: CIE ' + dados.cie;
-
-      if (kpiHw) kpiHw.textContent = dados.hwTotal.toLocaleString('pt-BR');
-      if (lblHw) lblHw.textContent = dados.hwPctDisp + '% Disponíveis';
-
-      if (kpiVisitas) kpiVisitas.textContent = dados.callsTotal;
-      if (lblVisitas) lblVisitas.textContent = 'Chamados / Atendimentos';
-
-      if (kpiAlertas) kpiAlertas.textContent = dados.emAtencao ? '1' : '0';
-      if (lblAlertas) lblAlertas.textContent = dados.emAtencao ? 'Atenção prioritária' : 'Monitoramento regular';
       const kpiRec = document.getElementById('kpi-recursos-sefin');
       const lblRec = document.getElementById('kpi-lbl-recursos-sefin');
       const kpiExec = document.getElementById('kpi-execucao-sefin');
       const lblExec = document.getElementById('kpi-lbl-execucao-sefin');
       const kpiRep = document.getElementById('kpi-repasses-sefin');
       const lblRep = document.getElementById('kpi-lbl-repasses-sefin');
+
+      const gaugePct = document.getElementById('home-gauge-pct');
+      const gaugeVal = document.getElementById('home-gauge-val');
+      const gaugeSub = document.getElementById('home-gauge-sub');
+
+      // Se dados for nulo ou indefinido, restaura a visao consolidada de TODA a rede de 60 escolas
+      if (!dados) {
+        if (kpiEscolas) kpiEscolas.textContent = '60';
+        if (lblEscolas) lblEscolas.textContent = 'Escolas na rede';
+
+        const hwTot = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware) ? window.INVENTARIO_COMPLETO_TUPLES.hardware.length : 15873;
+        const hwDispCount = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware)
+          ? window.INVENTARIO_COMPLETO_TUPLES.hardware.filter(t => (t[5] || '').toLowerCase().includes('dispon')).length
+          : 12105;
+        const hwPct = hwTot > 0 ? ((hwDispCount / hwTot) * 100).toFixed(1).replace('.', ',') : '76,3';
+
+        if (kpiHw) kpiHw.textContent = hwTot.toLocaleString('pt-BR');
+        if (lblHw) lblHw.textContent = 'Equipamentos TI';
+
+        if (kpiVisitas) kpiVisitas.textContent = '54';
+        if (lblVisitas) lblVisitas.textContent = 'Visitas Realizadas (90%)';
+
+        if (kpiAlertas) kpiAlertas.textContent = '3';
+        if (lblAlertas) lblAlertas.textContent = 'Demandas Críticas';
+
+        if (kpiRec) kpiRec.textContent = 'R$ 10,1M';
+        if (lblRec) lblRec.textContent = 'Recursos PDDE (2026)';
+
+        if (kpiExec) kpiExec.textContent = '47,2%';
+        if (lblExec) lblExec.textContent = 'Taxa Execução (R$ 4,76M)';
+
+        if (kpiRep) kpiRep.textContent = '176';
+        if (lblRep) lblRep.textContent = 'Repasses Auditados';
+
+        if (gaugePct) gaugePct.textContent = hwPct + '%';
+        if (gaugeVal) gaugeVal.textContent = hwDispCount.toLocaleString('pt-BR') + ' de ' + hwTot.toLocaleString('pt-BR');
+        if (gaugeSub) gaugeSub.textContent = 'equipamentos operacionais na rede regional';
+        return;
+      }
+
+      // Visao filtrada para uma escola especifica selecionada
+      if (kpiEscolas) kpiEscolas.textContent = '1';
+      if (lblEscolas) lblEscolas.textContent = 'Escola: CIE ' + (dados.cie || '---');
+
+      if (kpiHw) kpiHw.textContent = (dados.hwTotal || 0).toLocaleString('pt-BR');
+      if (lblHw) lblHw.textContent = (dados.hwPctDisp || '0') + '% Disponíveis';
+
+      if (kpiVisitas) kpiVisitas.textContent = dados.callsTotal || 0;
+      if (lblVisitas) lblVisitas.textContent = 'Chamados / Atendimentos';
+
+      if (kpiAlertas) kpiAlertas.textContent = dados.emAtencao ? '1' : '0';
+      if (lblAlertas) lblAlertas.textContent = dados.emAtencao ? 'Atenção prioritária' : 'Monitoramento regular';
+
       if (kpiRec) kpiRec.textContent = dados.emAtencao ? 'Auditando' : 'Regular';
       if (lblRec) lblRec.textContent = 'Status SEFIN / APM';
       if (kpiExec) kpiExec.textContent = '100%';
@@ -13225,12 +13267,8 @@ function imprimirAgendaCarro() {
       if (kpiRep) kpiRep.textContent = 'Ativo';
       if (lblRep) lblRep.textContent = 'Termo de Cooperação';
 
-      const gaugePct = document.getElementById('home-gauge-pct');
-      const gaugeVal = document.getElementById('home-gauge-val');
-      const gaugeSub = document.getElementById('home-gauge-sub');
-
-      if (gaugePct) gaugePct.textContent = dados.hwPctDisp + '%';
-      if (gaugeVal) gaugeVal.textContent = dados.hwDisp + ' de ' + dados.hwTotal;
+      if (gaugePct) gaugePct.textContent = (dados.hwPctDisp || '0') + '%';
+      if (gaugeVal) gaugeVal.textContent = (dados.hwDisp || 0) + ' de ' + (dados.hwTotal || 0);
       if (gaugeSub) gaugeSub.textContent = 'itens de TI disponíveis na unidade';
     }
 
