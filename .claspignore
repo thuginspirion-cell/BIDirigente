@@ -1,12 +1,10 @@
-.git/**
+﻿.git/**
 README.md
 .clasp.json
 .claspignore
 gh-pages-redirect/**
 *.png
 *.jpg
-server.js
-roteador.html
 node_modules/**
 package*.json
 scratch/**
@@ -15,3 +13,7 @@ GEMINI.md
 .agents/**
 .temp_chrome_profile/**
 .temp_chrome_*/**
+data/**
+*.js
+*.json
+!appsscript.json
