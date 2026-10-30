@@ -883,6 +883,7 @@
               }
               salvarAgendaStorage();
               renderizarMinhaGestao();
+      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
               renderizarAgenda();
             }
             if (typeof callback === 'function') callback(eventos);
@@ -1136,6 +1137,7 @@
         dataAtivaGestaoHoje = dataOpcional;
       }
       renderizarMinhaGestao();
+      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
       carregarGoogleCalendar(dataAtivaGestaoHoje);
       rolarAoTopoSuave();
     }
@@ -1319,11 +1321,13 @@
 
     function renderizarMinhaGestaoHoje() {
       renderizarMinhaGestao();
+      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
     }
 
     function atualizarDiaGestao() {
       dataAtivaGestaoHoje = obterDataHojeIso();
       renderizarMinhaGestao();
+      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
       carregarGoogleCalendar(dataAtivaGestaoHoje, function() {
         mostrarToastAgenda('Linha do tempo e Google Calendar sincronizados!', '🔄');
       });
@@ -1345,6 +1349,7 @@
       if (novaData) {
         dataAtivaGestaoHoje = novaData;
         renderizarMinhaGestao();
+      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         carregarGoogleCalendar(novaData);
         mostrarToastAgenda(`Data alterada para ${formatarDataExtensoPtBr(novaData)}`, '📅');
       }
@@ -1734,6 +1739,7 @@
 
       // Sincroniza e reflete imediatamente nos dois menus!
       renderizarMinhaGestao();
+      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
       renderizarAgenda();
       fecharModalAgenda();
 
@@ -1767,6 +1773,7 @@
 
       salvarAgendaStorage();
       renderizarMinhaGestao();
+      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
       renderizarAgenda();
 
       if (typeof google !== 'undefined' && google.script && google.script.run) {
@@ -1782,6 +1789,7 @@
         evento.status = 'Cancelado';
         salvarAgendaStorage();
         renderizarMinhaGestao();
+      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         renderizarAgenda();
         mostrarToastAgenda('Compromisso cancelado (horário liberado na timeline)!', '⚠️');
 
@@ -1803,6 +1811,7 @@
         AGENDA_COMPROMISSOS.splice(index, 1);
         salvarAgendaStorage();
         renderizarMinhaGestao();
+      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         renderizarAgenda();
         mostrarToastAgenda('Compromisso excluído com sucesso!', '🗑');
 
@@ -2695,6 +2704,7 @@ function imprimirAgendaCarro() {
     // Inicialização da Agenda ao carregar
     document.addEventListener("DOMContentLoaded", function () {
       renderizarMinhaGestao();
+      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
       renderizarAgenda();
       renderizarCarroOficial();
       carregarGoogleCalendar();
@@ -9662,10 +9672,10 @@ function imprimirAgendaCarro() {
               <div class="base-avatar-badge base-ico-green">💻</div>
               <span class="base-card-title">Equipamentos de Hardware</span>
             </div>
-            <p class="base-card-desc">15.873 notebooks, desktops e tablets inventariados nas 60 escolas oficiais.</p>
+            <p class="base-card-desc" id="seintec-card-desc-Hardware">Carregando inventário...</p>
             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem;">
               <span class="base-card-action-link">Filtrar inventário →</span>
-              <span style="font-size: 0.65rem; background: rgba(16, 185, 129, 0.15); color: #059669; border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;">15.873 itens</span>
+              <span style="font-size: 0.65rem; background: rgba(16, 185, 129, 0.15); color: #059669; border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;" id="seintec-card-badge-Hardware">-- itens</span>
             </div>
           </div>
 
@@ -9675,10 +9685,10 @@ function imprimirAgendaCarro() {
               <div class="base-avatar-badge base-ico-yellow-badge">🌐</div>
               <span class="base-card-title">Equipamentos de Rede</span>
             </div>
-            <p class="base-card-desc">542 switches, roteadores, nobreaks e racks nas 57 escolas oficiais.</p>
+            <p class="base-card-desc" id="seintec-card-desc-Rede">Carregando inventário...</p>
             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem;">
               <span class="base-card-action-link">Filtrar inventário →</span>
-              <span style="font-size: 0.65rem; background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;">542 itens</span>
+              <span style="font-size: 0.65rem; background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;" id="seintec-card-badge-Rede">-- itens</span>
             </div>
           </div>
 
@@ -9688,10 +9698,10 @@ function imprimirAgendaCarro() {
               <div class="base-avatar-badge base-ico-blue">📺</div>
               <span class="base-card-title">TVs e Educatrons</span>
             </div>
-            <p class="base-card-desc">734 televisores e Educatrons inventariados nas 57 escolas oficiais.</p>
+            <p class="base-card-desc" id="seintec-card-desc-Educatrons">Carregando inventário...</p>
             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem;">
               <span class="base-card-action-link">Filtrar inventário →</span>
-              <span style="font-size: 0.65rem; background: rgba(59, 130, 246, 0.15); color: #2563eb; border: 1px solid rgba(59, 130, 246, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;">734 itens</span>
+              <span style="font-size: 0.65rem; background: rgba(59, 130, 246, 0.15); color: #2563eb; border: 1px solid rgba(59, 130, 246, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;" id="seintec-card-badge-Educatrons">-- itens</span>
             </div>
           </div>
 
@@ -9701,10 +9711,10 @@ function imprimirAgendaCarro() {
               <div class="base-avatar-badge base-ico-green">🔋</div>
               <span class="base-card-title">Plataforma de Recarga</span>
             </div>
-            <p class="base-card-desc">198 carrinhos e plataformas de recarga nas 57 escolas oficiais.</p>
+            <p class="base-card-desc" id="seintec-card-desc-Recarga">Carregando inventário...</p>
             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem;">
               <span class="base-card-action-link">Filtrar inventário →</span>
-              <span style="font-size: 0.65rem; background: rgba(16, 185, 129, 0.15); color: #059669; border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;">198 itens</span>
+              <span style="font-size: 0.65rem; background: rgba(16, 185, 129, 0.15); color: #059669; border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.15rem 0.45rem; border-radius: 999px; font-weight: 700;" id="seintec-card-badge-Recarga">-- itens</span>
             </div>
           </div>
 
@@ -16043,7 +16053,7 @@ function imprimirAgendaCarro() {
     let baseAtivaSeintec = 'Hardware';
 
     function abrirSeintec() {
-      setTimeout(atualizarMetricasSuperioresSeintec, 50);
+      setTimeout(atualizarMetricasSuperioresSeintec, 50); setTimeout(sincronizarCardsBasesSeintec, 60);
       esconderTodasAsPanes();
       document.getElementById('pane-seintec').classList.add('active');
       atualizarBreadcrumbTopo('06 - SEINTEC Tecnologia');
@@ -16081,7 +16091,44 @@ function imprimirAgendaCarro() {
       selecionarBaseSeintec('Hardware');
     }
 
+        function sincronizarCardsBasesSeintec() {
+      if (!window.INVENTARIO_COMPLETO_TUPLES) return;
+      var hw = (window.INVENTARIO_COMPLETO_TUPLES.hardware || []).length;
+      var rede = (window.INVENTARIO_COMPLETO_TUPLES.rede || []).length;
+      var edu = (window.INVENTARIO_COMPLETO_TUPLES.educatrons || []).length;
+      var rec = (window.INVENTARIO_COMPLETO_TUPLES.recarga || []).length;
+
+      var bHw = document.getElementById("seintec-card-badge-Hardware");
+      var dHw = document.getElementById("seintec-card-desc-Hardware");
+      if (bHw) bHw.innerText = hw.toLocaleString("pt-BR") + " itens";
+      if (dHw) dHw.innerText = hw.toLocaleString("pt-BR") + " notebooks, desktops e tablets inventariados nas 60 escolas oficiais.";
+
+      var bRede = document.getElementById("seintec-card-badge-Rede");
+      var dRede = document.getElementById("seintec-card-desc-Rede");
+      if (bRede) bRede.innerText = rede.toLocaleString("pt-BR") + " itens";
+      if (dRede) dRede.innerText = rede.toLocaleString("pt-BR") + " switches, roteadores, nobreaks e racks nas 60 escolas oficiais.";
+
+      var bEdu = document.getElementById("seintec-card-badge-Educatrons");
+      var dEdu = document.getElementById("seintec-card-desc-Educatrons");
+      if (bEdu) bEdu.innerText = edu.toLocaleString("pt-BR") + " itens";
+      if (dEdu) dEdu.innerText = edu.toLocaleString("pt-BR") + " televisores e Educatrons inventariados nas 60 escolas oficiais.";
+
+      var bRec = document.getElementById("seintec-card-badge-Recarga");
+      var dRec = document.getElementById("seintec-card-desc-Recarga");
+      if (bRec) bRec.innerText = rec.toLocaleString("pt-BR") + " itens";
+      if (dRec) dRec.innerText = rec.toLocaleString("pt-BR") + " carrinhos e plataformas de recarga nas 60 escolas oficiais.";
+
+      // Também sincroniza as configurações dos objetos caso existam
+      if (typeof SEINTEC_BASES_CONFIG !== "undefined") {
+        if (SEINTEC_BASES_CONFIG["Hardware"]) SEINTEC_BASES_CONFIG["Hardware"].totalItens = hw;
+        if (SEINTEC_BASES_CONFIG["Rede"]) SEINTEC_BASES_CONFIG["Rede"].totalItens = rede;
+        if (SEINTEC_BASES_CONFIG["Educatrons"]) SEINTEC_BASES_CONFIG["Educatrons"].totalItens = edu;
+        if (SEINTEC_BASES_CONFIG["Recarga"]) SEINTEC_BASES_CONFIG["Recarga"].totalItens = rec;
+      }
+    }
+
     function atualizarMetricasSuperioresSeintec() {
+      sincronizarCardsBasesSeintec();
       // Sincroniza dinamicamente os badges e descricoes dos cards de selecao do SEINTEC
       if (window.INVENTARIO_COMPLETO_TUPLES) {
         var hwTot = (window.INVENTARIO_COMPLETO_TUPLES.hardware || []).length;
