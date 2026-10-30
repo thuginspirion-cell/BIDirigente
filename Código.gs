@@ -1,4 +1,4 @@
-/**
+﻿/**
  * BI Dirigente — Web App Entry Point
  * Deploy: executeAs=USER_DEPLOYING, access=ANYONE_ANONYMOUS
  * Scopes: script.external_request, calendar, drive, spreadsheets
@@ -241,7 +241,7 @@ function sincronizarInventarioSharepoint() {
         totalArquivos: files.length,
         timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
         data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy"),
-        totalEquipamentos: 17453,
+        totalEquipamentos: 17347,
         mensagem: "60 planilhas de inventário escolar verificadas e sincronizadas com sucesso no SharePoint."
       };
     } else {
