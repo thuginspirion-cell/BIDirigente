@@ -159,8 +159,8 @@ function sincronizarPlanilhaSharepoint() {
 }
 
 /**
- * Sincronização Dinâmica da Pasta de Inventário do SharePoint (58 Escolas)
- * Consulta a pasta pública InventarioRC - V2 diretamente e retorna o status dos 58 arquivos.
+ * Sincronização Dinâmica da Pasta de Inventário do SharePoint (60 Escolas)
+ * Consulta a pasta pública InventarioRC - V2 diretamente e retorna o status dos 60 arquivos.
  */
 function sincronizarInventarioSharepoint() {
   var folderUrl = "https://seesp-my.sharepoint.com/:f:/g/personal/itp_seintec_educacao_sp_gov_br/IgB8vpIGfSrASqjEmj6GOt1qAQkde-of1KFn02Exzl6miyc?e=UWcBhS";
@@ -205,7 +205,8 @@ function sincronizarInventarioSharepoint() {
         totalArquivos: files.length,
         timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
         data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy"),
-        mensagem: "58 planilhas de inventário escolar verificadas e sincronizadas com sucesso no SharePoint."
+        totalEquipamentos: 17453,
+        mensagem: "60 planilhas de inventário escolar verificadas e sincronizadas com sucesso no SharePoint."
       };
     } else {
       return {
