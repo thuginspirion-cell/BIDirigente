@@ -8410,7 +8410,283 @@ function imprimirAgendaCarro() {
       color: #ffffff;
     }
 
-  </style>
+  
+
+/* ========================================================
+   SISTEMA DE DESIGN RESPONSIVO MULTI-DISPOSITIVO UNIFICADO
+   (4K Widescreen, Tablets & Smartphones)
+   ======================================================== */
+
+/* ----------------------------------------------------
+   1. SUPORTE A 4K & DISPLAYS WIDESCREEN ULTRA-GRANDES (>= 2560px)
+   ---------------------------------------------------- */
+@media (min-width: 2560px) {
+  html {
+    font-size: 17.5px; /* Escala elegante de zoom visual sem distorção */
+  }
+
+  .view-container {
+    max-width: 2000px !important;
+    padding: 2.5rem 4rem 5rem !important;
+  }
+
+  .topbar {
+    padding: 1.1rem 4rem !important;
+  }
+
+  .executive-hero {
+    padding: 2.2rem 3rem !important;
+  }
+
+  .seintec-metric-row {
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 1.25rem !important;
+  }
+}
+
+/* ----------------------------------------------------
+   2. SUPORTE A TABLETS & NOTEBOOKS COMPACTOS (769px a 1100px)
+   ---------------------------------------------------- */
+@media (max-width: 1100px) {
+  .view-container {
+    padding: 1.25rem 1.5rem 3rem !important;
+    max-width: 100% !important;
+  }
+
+  .topbar {
+    padding: 0.75rem 1.25rem !important;
+    gap: 0.6rem !important;
+  }
+
+  .indicators-split {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .seintec-metric-row {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.65rem !important;
+  }
+
+  .gab-metric-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .gestao-kpi-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  .bases-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+  }
+}
+
+/* ----------------------------------------------------
+   3. SUPORTE A SMARTPHONES & TELAS ESTREITAS (<= 768px)
+   ---------------------------------------------------- */
+@media (max-width: 768px) {
+  body {
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* SIDEBAR OFF-CANVAS / GAVETA MOBILE */
+  .sidebar {
+    position: fixed !important;
+    left: -270px;
+    top: 0;
+    bottom: 0;
+    width: 260px !important;
+    z-index: 99999 !important;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .sidebar.mobile-open {
+    left: 0 !important;
+  }
+
+  /* BACKDROP PARA FECHAR AO TOCAR FORA */
+  .mobile-sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 99990;
+  }
+
+  .mobile-sidebar-backdrop.active {
+    display: block !important;
+  }
+
+  /* BOTÃO DE FECHAR DENTRO DA GAVETA NO CELULAR */
+  .sidebar.mobile-open .sidebar-collapse-btn {
+    display: block !important;
+  }
+
+  /* ÁREA DE CONTEÚDO NO CELULAR */
+  .main-content {
+    width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  .view-container {
+    padding: 1rem 0.85rem 3rem !important;
+    width: 100% !important;
+  }
+
+  /* TOPBAR ADAPTADA AO CELULAR */
+  .topbar {
+    padding: 0.65rem 0.85rem !important;
+  }
+
+  .topbar-right-group {
+    width: 100% !important;
+    justify-content: space-between !important;
+    margin-top: 0.4rem !important;
+  }
+
+  .topbar-title-wrap h1 {
+    font-size: 0.88rem !important;
+  }
+
+  .quick-access-card {
+    display: none !important; /* Oculta atalhos pesados no celular para não poluir */
+  }
+
+  /* HERO BANNER & HEADER EM COLUNA ÚNICA */
+  .executive-hero {
+    flex-direction: column !important;
+    padding: 1.25rem 1rem !important;
+    gap: 1rem !important;
+  }
+
+  .executive-hero-right {
+    display: none !important; /* Remove brasão d'água no celular para priorizar espaço */
+  }
+
+  .hero-main-title {
+    font-size: 1.25rem !important;
+    white-space: normal !important;
+    line-height: 1.25 !important;
+  }
+
+  .hero-main-desc {
+    font-size: 0.8rem !important;
+  }
+
+  /* GRIDS 100% RESPONSIVOS */
+  .kpi-cards-inner {
+    grid-template-columns: 1fr !important;
+  }
+
+  .seintec-metric-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  .gab-metric-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  .gestao-kpi-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .agenda-kpi-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .carro-kpi-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .escolas-kpi-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .bases-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* FILTROS E BARRAS DE AÇÃO */
+  .filters-card-body {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .filter-input-wrap,
+  .filter-select-wrap {
+    width: 100% !important;
+  }
+
+  .filters-actions {
+    width: 100% !important;
+    justify-content: stretch !important;
+  }
+
+  .btn-filter, .btn-clear {
+    flex: 1 !important;
+    justify-content: center !important;
+  }
+
+  /* TABELAS COM SCROLL TOUCH HORIZONTAL PERFEITO */
+  .records-table-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .records-table {
+    min-width: 650px !important; /* Garante que os dados nunca fiquem espremidos ilegíveis */
+  }
+
+  .table-dynamic-toolbar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+
+  .table-toolbar-left, .table-toolbar-right {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  /* BOTÃO FLUTUANTE DE MENU NO MOBILE */
+  .mobile-nav-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f09b0c 0%, #b45309 100%);
+    color: #ffffff;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(240, 155, 12, 0.4);
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-nav-toggle {
+    display: none !important;
+  }
+  .mobile-sidebar-backdrop {
+    display: none !important;
+  }
+}
+
+
+</style>
 </head>
 
 <body>
@@ -8418,6 +8694,7 @@ function imprimirAgendaCarro() {
   <!-- ============================================== -->
   <!-- 1. SIDEBAR LATERAL ESCURA -->
   <!-- ============================================== -->
+  <div id="mobile-sidebar-backdrop" class="mobile-sidebar-backdrop" onclick="toggleMobileSidebar()"></div>
   <aside class="sidebar">
     <div class="sidebar-header">
       <button class="sidebar-collapse-btn" id="sidebar-toggle-btn" onclick="toggleSidebar()" title="Recolher barra lateral" aria-label="Recolher barra lateral">◀</button>
@@ -8576,6 +8853,7 @@ function imprimirAgendaCarro() {
     <!-- TOPBAR SUPERIOR COM ACESSOS OFICIAIS & BRASÃO -->
     <header class="topbar">
       <div class="topbar-left">
+        <button type="button" class="mobile-nav-toggle" onclick="toggleMobileSidebar()" title="Abrir menu de navegação" aria-label="Abrir menu">☰</button>
         <!-- Indicador da Tela Ativa (quando navega pelos menus) -->
         <div id="topbar-view-indicator" class="topbar-screen-badge" style="display: none;"></div>
       </div>
@@ -18948,5 +19226,38 @@ function imprimirAgendaCarro() {
     </div>
   </div>
 
+<script>
+    /* ========================================================
+       CONTROLE RESPONSIVO MOBILE & DRAWER DA SIDEBAR
+       ======================================================== */
+    function toggleMobileSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const backdrop = document.getElementById('mobile-sidebar-backdrop');
+      if (!sidebar) return;
+      const isOpen = sidebar.classList.toggle('mobile-open');
+      if (backdrop) {
+        if (isOpen) {
+          backdrop.classList.add('active');
+        } else {
+          backdrop.classList.remove('active');
+        }
+      }
+    }
+
+    // Auto-fecha a sidebar no celular quando o usuário clica em qualquer botão do menu
+    document.addEventListener('DOMContentLoaded', function() {
+      const navButtons = document.querySelectorAll('.sidebar-nav .nav-item-btn, .sidebar-brand-crest');
+      navButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            const sidebar = document.querySelector('.sidebar');
+            const backdrop = document.getElementById('mobile-sidebar-backdrop');
+            if (sidebar) sidebar.classList.remove('mobile-open');
+            if (backdrop) backdrop.classList.remove('active');
+          }
+        });
+      });
+    });
+</script>
 </body>
 </html>
