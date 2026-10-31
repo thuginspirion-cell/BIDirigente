@@ -3431,8 +3431,8 @@ function imprimirAgendaCarro() {
     /* 3. CONTEÚDO DAS VIEWS */
     /* ========================================= */
     .view-container {
-      padding: 1.5rem 2rem 3rem;
-      max-width: 1400px;
+      padding: 1.5rem 2.25rem 3.5rem;
+      max-width: 1610px;
       width: 100%;
       margin: 0 auto;
       box-sizing: border-box;
@@ -4972,23 +4972,13 @@ function imprimirAgendaCarro() {
 
     .base-card-item.selected {
       border: 2px solid #2563eb !important;
-      background: #ffffff !important;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18), 0 10px 25px rgba(37, 99, 235, 0.15) !important;
+      background: linear-gradient(145deg, #eff6ff 0%, #dbeafe 100%) !important;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2), 0 10px 25px rgba(37, 99, 235, 0.15) !important;
       transform: translateY(-3px) !important;
     }
     .base-card-item.selected::before {
-      content: '✓ SELECIONADO';
-      position: absolute;
-      top: 10px;
-      right: 12px;
-      font-size: 0.65rem;
-      font-weight: 800;
-      color: #2563eb;
-      background: rgba(37, 99, 235, 0.1);
-      border: 1px solid rgba(37, 99, 235, 0.28);
-      padding: 0.15rem 0.52rem;
-      border-radius: 999px;
-      letter-spacing: 0.04em;
+      content: '';
+      display: none !important;
     }
 
     .base-item-top {
@@ -5154,6 +5144,8 @@ function imprimirAgendaCarro() {
       border-radius: var(--radius-sm);
       overflow-x: auto;
       background: #ffffff;
+      width: 100% !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
 
     .records-table {
@@ -8426,7 +8418,7 @@ function imprimirAgendaCarro() {
   }
 
   .view-container {
-    max-width: 2000px !important;
+    max-width: 2300px !important;
     padding: 2.5rem 4rem 5rem !important;
   }
 
@@ -17316,31 +17308,31 @@ function imprimirAgendaCarro() {
       const thead = document.getElementById('panel-seintec-thead');
       thead.innerHTML = `
         <tr>
-          <th class="th-sortable sort-active-asc" onclick="ordenarTabelaDom('panel-seintec-table', 0)" style="width: 28%; min-width: 200px;" title="Classificar por Unidade Escolar">
+          <th class="th-sortable sort-active-asc" onclick="ordenarTabelaDom('panel-seintec-table', 0)" style="width: 32%; min-width: 250px;" title="Classificar por Unidade Escolar">
             <div class="th-sort-wrapper">
               <span class="th-title-text">Unidade Escolar & CIE</span>
               <span class="sort-arrow">▲</span>
             </div>
           </th>
-          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 1)" style="width: 13%;" title="Classificar por Ambiente">
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 1)" style="width: 15%; min-width: 120px;" title="Classificar por Ambiente">
             <div class="th-sort-wrapper">
               <span class="th-title-text">Ambiente</span>
               <span class="sort-arrow">↕</span>
             </div>
           </th>
-          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 2)" style="width: 16%;" title="Classificar por Categoria">
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 2)" style="width: 17%; min-width: 140px;" title="Classificar por Categoria">
             <div class="th-sort-wrapper">
               <span class="th-title-text">Categoria / Tipo</span>
               <span class="sort-arrow">↕</span>
             </div>
           </th>
-          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 3)" style="width: 23%;" title="Classificar por Equipamento">
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 3)" style="width: 22%; min-width: 180px;" title="Classificar por Equipamento">
             <div class="th-sort-wrapper">
               <span class="th-title-text">Equipamento & Fabricante / Modelo</span>
               <span class="sort-arrow">↕</span>
             </div>
           </th>
-          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 4)" style="width: 12%;" title="Classificar por Nº de Série">
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 4)" style="width: 14%; min-width: 130px;" title="Classificar por Nº de Série">
             <div class="th-sort-wrapper">
               <span class="th-title-text">Nº de Série / Hostname</span>
               <span class="sort-arrow">↕</span>
