@@ -8559,6 +8559,55 @@ function imprimirAgendaCarro() {
 /* ----------------------------------------------------
    1. SUPORTE A 4K & DISPLAYS WIDESCREEN ULTRA-GRANDES (>= 2560px)
    ---------------------------------------------------- */
+
+    /* EQUALIZAÇÃO EXECUTIVA DOS MENUS DO GRUPO GESTÃO DA REDE */
+    #pane-gestao-hoje,
+    #pane-agenda,
+    #pane-carro,
+    #pane-escolas,
+    #pane-visitas {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .gestao-header-card,
+    .agenda-header,
+    .carro-header-card,
+    .escolas-header-card,
+    .visitas-header-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      margin-bottom: 1.5rem !important;
+    }
+
+    .gestao-header-left,
+    .escolas-header-left {
+      max-width: none !important;
+      width: auto !important;
+    }
+
+    .gestao-kpi-grid,
+    .agenda-kpi-grid,
+    .carro-kpi-grid,
+    .escolas-kpi-grid,
+    .visitas-kpi-grid {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin-bottom: 1.5rem !important;
+    }
+
+    .gestao-timeline-card,
+    .carro-table-card,
+    .escolas-table-card,
+    .visitas-table-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      margin-bottom: 2rem !important;
+    }
+
 @media (min-width: 2560px) {
   html {
     font-size: 17.5px; /* Escala elegante de zoom visual sem distorção */
@@ -8573,13 +8622,31 @@ function imprimirAgendaCarro() {
     padding: 1.1rem 4rem !important;
   }
 
-  .executive-hero {
+  .executive-hero,
+  .gestao-header-card,
+  .agenda-header,
+  .carro-header-card,
+  .escolas-header-card,
+  .visitas-header-card,
+  .gab-header-bar {
     padding: 2.2rem 3rem !important;
+    border-radius: 16px !important;
   }
 
   .seintec-metric-row {
     grid-template-columns: repeat(6, 1fr) !important;
     gap: 1.25rem !important;
+  }
+
+  .gestao-kpi-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .carro-kpi-grid,
+  .escolas-kpi-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
   }
 }
 
@@ -10166,14 +10233,7 @@ function imprimirAgendaCarro() {
                 </div>
               </div>
               <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                <div style="background: rgba(15, 23, 42, 0.45); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 10px; padding: 7px 14px; text-align: right;">
-                  <div style="font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Taxa de Disponibilidade (Uptime)</div>
-                  <div id="seintec-inv-uptime-pct" style="font-size: 17px; font-weight: 900; color: #10b981;">76,1%</div>
-                </div>
-                <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 7px 14px;">
-                  <div style="font-size: 10px; color: #bae6fd; font-weight: 700; text-transform: uppercase;">Unidades Monitoradas</div>
-                  <div id="seintec-inv-escolas-count" style="font-size: 17px; font-weight: 900; color: #ffffff;">60</div>
-                </div>
+                
                 <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
                   <button type="button" id="btn-sync-inventario-now" class="btn-inv-tag btn-sync-now" style="display: none !important;" onclick="sincronizarInventarioSharepoint(true)" style="background: #0284c7; color: #ffffff; border: 1px solid #38bdf8; font-size: 0.8rem; padding: 0.45rem 0.95rem; font-weight: 700; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);" title="Verificar e sincronizar inventário diretamente da pasta pública do SharePoint">
                     <span id="sync-inv-icon">🔄</span> Sincronizar Inventário
