@@ -131,6 +131,16 @@ function sincronizarPlanilhaSefin() {
 function sincronizarPlanilhaSharepoint() {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/cQq57JtcgOx0TYN_WRWdCyPLEgUCWtCBVpIXsMYmQoivNUmH6w?download=1";
   try {
+    if (typeof UrlFetchApp === "undefined") {
+      return {
+        sucesso: true,
+        usarBaseLocal: true,
+        aviso: "Base de contingência local ativa",
+        timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+        data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
+      };
+    }
+
     // 1. Primeira chamada sem seguir redirect para capturar os cookies de sessão anônima do SharePoint
     var resp1 = UrlFetchApp.fetch(url, {
       muteHttpExceptions: true,
@@ -182,14 +192,20 @@ function sincronizarPlanilhaSharepoint() {
       };
     } else {
       return {
-        sucesso: false,
-        erro: "Status HTTP " + response.getResponseCode() + " no download do Excel."
+        sucesso: true,
+        usarBaseLocal: true,
+        aviso: "Status HTTP " + response.getResponseCode() + " no SharePoint. Contingência local ativa.",
+        timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+        data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
       };
     }
   } catch (err) {
     return {
-      sucesso: false,
-      erro: err.toString()
+      sucesso: true,
+      usarBaseLocal: true,
+      aviso: "Contingência local ativa: " + err.toString(),
+      timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+      data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
     };
   }
 }
