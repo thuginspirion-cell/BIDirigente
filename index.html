@@ -20,6 +20,43 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script>
     /* GS RESILIENCE GUARD */
+    /* ========================================================
+       ROUTER RESILIENTE & EARLY GLOBAL STUBS PARA TODOS OS MENUS
+       Garante que nenhum clique de menu falhe no GS mesmo antes
+       do carregamento de scripts subsequentes ou bases massivas.
+       ======================================================== */
+    window.__navQueue = [];
+
+    function executarOuEnfileirar(fnName, args) {
+      if (typeof window[fnName] === "function" && window[fnName].__isReal) {
+        return window[fnName].apply(null, args);
+      }
+      console.log("Enfileirando navegação para:", fnName, args);
+      window.__navQueue.push({ fnName: fnName, args: args });
+    }
+
+    if (!window.mostrarHome) {
+      window.mostrarHome = function() { executarOuEnfileirar("mostrarHome", arguments); };
+    }
+    if (!window.abrirVisitas) {
+      window.abrirVisitas = function() { executarOuEnfileirar("abrirVisitas", arguments); };
+    }
+    if (!window.abrirEscolas) {
+      window.abrirEscolas = function() { executarOuEnfileirar("abrirEscolas", arguments); };
+    }
+    if (!window.abrirCentro) {
+      window.abrirCentro = function() { executarOuEnfileirar("abrirCentro", arguments); };
+    }
+    if (!window.abrirSeintec) {
+      window.abrirSeintec = function() { executarOuEnfileirar("abrirSeintec", arguments); };
+    }
+    if (!window.abrirAssessoriaTecnica) {
+      window.abrirAssessoriaTecnica = function() { executarOuEnfileirar("abrirAssessoriaTecnica", arguments); };
+    }
+    if (!window.abrirModalMapaVisitas) {
+      window.abrirModalMapaVisitas = function() { executarOuEnfileirar("abrirModalMapaVisitas", arguments); };
+    }
+
     window.addEventListener("error", function(e) {
       console.warn("Intercepção preventiva no ambiente GS/GAS:", e.message || e);
     });
@@ -18849,7 +18886,29 @@ function imprimirAgendaCarro() {
         ordenarTabelaDom('panel-records-table', 1, ordem);
       }
     }
-  </script>
+  
+    /* MARCAÇÃO DE FUNÇÕES REAIS E DRENAGEM DA FILA DE NAVEGAÇÃO */
+    if (typeof mostrarHome === "function") { mostrarHome.__isReal = true; window.mostrarHome = mostrarHome; }
+    if (typeof abrirVisitas === "function") { abrirVisitas.__isReal = true; window.abrirVisitas = abrirVisitas; }
+    if (typeof abrirEscolas === "function") { abrirEscolas.__isReal = true; window.abrirEscolas = abrirEscolas; }
+    if (typeof abrirCentro === "function") { abrirCentro.__isReal = true; window.abrirCentro = abrirCentro; }
+    if (typeof abrirSeintec === "function") { abrirSeintec.__isReal = true; window.abrirSeintec = abrirSeintec; }
+    if (typeof abrirAssessoriaTecnica === "function") { abrirAssessoriaTecnica.__isReal = true; window.abrirAssessoriaTecnica = abrirAssessoriaTecnica; }
+    if (typeof abrirModalMapaVisitas === "function") { abrirModalMapaVisitas.__isReal = true; window.abrirModalMapaVisitas = abrirModalMapaVisitas; }
+    if (typeof abrirMinhaGestao === "function") { abrirMinhaGestao.__isReal = true; window.abrirMinhaGestao = abrirMinhaGestao; }
+    if (typeof abrirAgenda === "function") { abrirAgenda.__isReal = true; window.abrirAgenda = abrirAgenda; }
+    if (typeof abrirCarroOficial === "function") { abrirCarroOficial.__isReal = true; window.abrirCarroOficial = abrirCarroOficial; }
+
+    if (window.__navQueue && window.__navQueue.length > 0) {
+      console.log("Processando fila pendente de navegação:", window.__navQueue.length);
+      const lastNav = window.__navQueue.pop();
+      window.__navQueue = [];
+      if (lastNav && typeof window[lastNav.fnName] === "function") {
+        window[lastNav.fnName].apply(null, lastNav.args);
+      }
+    }
+
+</script>
 
   <!-- Modal de Pré-Visualização de PDF -->
   <div class="pdf-modal-overlay" id="pdf-modal-overlay" onclick="fecharModalPdf(event)">
