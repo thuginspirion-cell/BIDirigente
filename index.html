@@ -35,7 +35,16 @@
       window.__navQueue.push({ fnName: fnName, args: args });
     }
 
-    if (!window.mostrarHome) {
+        if (!window.abrirMinhaGestao) {
+      window.abrirMinhaGestao = function() { executarOuEnfileirar("abrirMinhaGestao", arguments); };
+    }
+    if (!window.abrirAgenda) {
+      window.abrirAgenda = function() { executarOuEnfileirar("abrirAgenda", arguments); };
+    }
+    if (!window.abrirCarroOficial) {
+      window.abrirCarroOficial = function() { executarOuEnfileirar("abrirCarroOficial", arguments); };
+    }
+if (!window.mostrarHome) {
       window.mostrarHome = function() { executarOuEnfileirar("mostrarHome", arguments); };
     }
     if (!window.abrirVisitas) {
@@ -1165,6 +1174,7 @@
     }
 
     function abrirMinhaGestao(dataOpcional) {
+      abrirMinhaGestao.__isReal = true; window.abrirMinhaGestao = abrirMinhaGestao;
       esconderTodasAsPanes();
       const pane = document.getElementById('pane-gestao-hoje');
       if (pane) pane.classList.add('active');
@@ -1189,6 +1199,7 @@
     }
 
     function abrirAgenda(dataOpcional) {
+      abrirAgenda.__isReal = true; window.abrirAgenda = abrirAgenda;
       esconderTodasAsPanes();
       const pane = document.getElementById('pane-agenda');
       if (pane) pane.classList.add('active');
@@ -1994,6 +2005,7 @@ let dataAtivaCarro = "2026-10-17"; // Data de referência idêntica à do print
 let subTabAtivaCarro = "calendario"; // "calendario", "feed", "frota", "todos"
 
 function abrirCarroOficial(dataOpcional, tabOpcional) {
+  abrirCarroOficial.__isReal = true; window.abrirCarroOficial = abrirCarroOficial;
   esconderTodasAsPanes();
   const pane = document.getElementById('pane-carro');
   if (pane) pane.classList.add('active');
@@ -2010,7 +2022,7 @@ function abrirCarroOficial(dataOpcional, tabOpcional) {
     subTabAtivaCarro = tabOpcional;
   }
   renderizarCarroOficial();
-  atualizarMetricasSuperioresSeintec();
+  try { if (typeof atualizarMetricasSuperioresSeintec === "function") atualizarMetricasSuperioresSeintec(); } catch(e) {}
   rolarAoTopoSuave();
 }
 
