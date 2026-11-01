@@ -19,6 +19,14 @@
   <!-- SheetJS para Leitura Automática e Instantânea de Planilhas Excel (.xlsx, .xls, .csv) -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script>
+    /* GS RESILIENCE GUARD */
+    window.addEventListener("error", function(e) {
+      console.warn("Intercepção preventiva no ambiente GS/GAS:", e.message || e);
+    });
+    window.addEventListener("unhandledrejection", function(e) {
+      console.warn("Promise rejeitada tratada preventivamente:", e.reason);
+    });
+
     // ==============================================================
     // 16. SISTEMA INTEGRADO: MINHA GESTÃO & AGENDA DA DIRIGENTE
     // ==============================================================
@@ -15908,7 +15916,7 @@ function imprimirAgendaCarro() {
               let linksHtml = `✅ <b>Sucesso!</b> ${resultados.length} arquivo(s) salvos na pasta <b>${centroAtual} / ${setorAtual}</b> do Google Drive:<ul style="margin-top: 0.5rem; padding-left: 1.2rem;">`;
               resultados.forEach(res => {
                 const icon = res.fileName.toLowerCase().endsWith('.pdf') ? '📕' : '📊';
-                linksHtml += `<li style="margin-bottom: 0.25rem;">${icon} <b>${res.fileName}</b> - <a href="${res.url}" target="_blank" style="color:#065f46; text-decoration: underline; font-weight:700;">Abrir Repositório Nuvem ↗</a></li>`;
+                linksHtml += `<li style="margin-bottom: 0.25rem;">${icon} <b>${res.fileName}</b> - <a href="${res.url}" target="_blank" rel="noopener noreferrer" style="color:#065f46; text-decoration: underline; font-weight:700;">Abrir Repositório Nuvem ↗</a></li>`;
               });
               linksHtml += `</ul>`;
               alertBox.innerHTML = linksHtml;
@@ -16504,7 +16512,7 @@ function imprimirAgendaCarro() {
               let linksHtml = `✅ <b>Sucesso!</b> ${resultados.length} documento(s) arquivados em <b>AssessoriaTecnica / ${base.pasta}</b>:<ul style="margin-top: 0.5rem; padding-left: 1.2rem;">`;
               resultados.forEach(res => {
                 const icon = res.fileName.toLowerCase().endsWith('.pdf') ? '📕' : '📊';
-                linksHtml += `<li style="margin-bottom: 0.25rem;">${icon} <b>${res.fileName}</b> - <a href="${res.url}" target="_blank" style="color: #065f46; font-weight: 700; text-decoration: underline;">Abrir Repositório Nuvem ↗</a></li>`;
+                linksHtml += `<li style="margin-bottom: 0.25rem;">${icon} <b>${res.fileName}</b> - <a href="${res.url}" target="_blank" rel="noopener noreferrer" style="color: #065f46; font-weight: 700; text-decoration: underline;">Abrir Repositório Nuvem ↗</a></li>`;
               });
               linksHtml += `</ul>`;
               alertBox.innerHTML = linksHtml;
@@ -18234,7 +18242,7 @@ function imprimirAgendaCarro() {
               let linksHtml = `✅ <b>Upload Concluído!</b> ${resultados.length} arquivo(s) salvos na pasta <b>SEINTEC / ${base.pasta}</b> do Drive:<br><ul style="margin-top: 0.5rem; padding-left: 1.2rem;">`;
               resultados.forEach(res => {
                 const icon = res.fileName.toLowerCase().endsWith('.pdf') ? '📕' : '📊';
-                linksHtml += `<li style="margin-bottom: 0.25rem;">${icon} <b>${res.fileName}</b> - <a href="${res.url}" target="_blank" style="color:#065f46; text-decoration: underline; font-weight:700;">Abrir Repositório Nuvem ↗</a></li>`;
+                linksHtml += `<li style="margin-bottom: 0.25rem;">${icon} <b>${res.fileName}</b> - <a href="${res.url}" target="_blank" rel="noopener noreferrer" style="color:#065f46; text-decoration: underline; font-weight:700;">Abrir Repositório Nuvem ↗</a></li>`;
               });
               linksHtml += `</ul>`;
 
