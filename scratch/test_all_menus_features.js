@@ -1,10 +1,10 @@
 const fs = require('fs');
 const html = fs.readFileSync('index.html', 'utf8');
 
-console.log('=== TESTE DOS 12 MENUS LATERAIS (RULE 3) ===');
+console.log('=== TESTE DOS 12+ MENUS LATERAIS (RULE 3) ===');
 const buttons = [
   'side-btn-home', 'side-btn-gestao', 'side-btn-agenda', 'side-btn-carro',
-  'side-btn-visitas', 'side-btn-escolas', 'side-btn-GAB', 'side-btn-SEINTEC',
+  'side-btn-visitas', 'side-btn-escolas', 'side-btn-mapa', 'side-btn-GAB', 'side-btn-SEINTEC',
   'side-btn-CAF', 'side-btn-CGE', 'side-btn-CRH', 'side-btn-NPE'
 ];
 
@@ -18,7 +18,7 @@ buttons.forEach(btnId => {
 console.log('\n=== TESTE DE PAINÉIS DE DESTINO (PANES) ===');
 const panes = [
   'pane-home', 'pane-gestao-hoje', 'pane-agenda', 'pane-carro',
-  'pane-visitas', 'pane-escolas', 'pane-gabinete', 'pane-seintec',
+  'pane-visitas', 'pane-escolas', 'pane-mapas', 'pane-gabinete', 'pane-seintec',
   'pane-centro'
 ];
 panes.forEach(paneId => {
@@ -35,6 +35,7 @@ const globalFunctions = [
   'abrirCarroOficial',
   'abrirVisitas',
   'abrirEscolas',
+  'abrirMapaRede',
   'abrirSeintec',
   'abrirCentro',
   'abrirAssessoriaTecnica',
