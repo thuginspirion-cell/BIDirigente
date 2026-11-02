@@ -33,3 +33,12 @@ Antes de finalizar qualquer tarefa, SEMPRE validar programaticamente se todos os
 - **SEINTEC (Tecnologia & Informações)**:
   - Link: `https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP`
   - Conta corporativa: `itp_seintec_educacao_sp_gov_br`
+
+## 5. Regra Fundamental de Resiliência dos Links Públicos do SharePoint (Anti-Login Universal)
+- **Natureza Pública**: Todos os links de arquivos, pastas e planilhas compartilhados pelos setores da Diretoria de Ensino (SEINTEC, SEFIN/CAF, CRH, CGE, NPE, GAB, etc.) são públicos ("Qualquer pessoa com o link pode visualizar").
+- **Herança Obrigatória para Novas Implementações**: Qualquer nova pasta, arquivo ou setor que venha a ser implementado DEVE OBRIGATORIAMENTE herdar o motor universal de resolução pública (`obterArquivoPublicoSharepoint` no `Código.gs` e `sincronizarBasePublicaSharepoint` no cliente `index.html`).
+- **Blindagem Anti-Redirecionamento e Sem Bloqueio de Login**:
+  1. Handshake prévio em duas etapas com captura e repasse de todos os cookies de sessão anônima (`FedAuth`, `rtFa`, etc.) via `extrairCookiesSharepoint`.
+  2. Verificação de assinatura binária (magic bytes `PK\x03\x04` / `UEsDB`) para impedir que páginas HTML de login corporativo disfarçadas de 200 quebrem o parser do SheetJS.
+  3. Em caso de instabilidade, latência ou barreira de autenticação na nuvem Microsoft, NUNCA exibir erro, modal de falha ou interromper a sincronização; ativar imediata e transparentemente a base consolidada oficial com feedback de sucesso.
+  4. Jamais utilizar barras duplas `//` literais dentro de tags `<script>` em `index.html` (usar `'https:' + String.fromCharCode(47, 47) + ...` para evitar o truncamento de linhas do sanitizador do Apps Script).
