@@ -10444,38 +10444,46 @@ function imprimirAgendaCarro() {
                 <span>⚡ Filtros Rápidos:</span>
               </span>
 
-              <button type="button" class="btn-inv-filter active" id="btn-inv-filter-todos" onclick="filtrarInventarioPorStatus('todos', null)">
-                Todos os Equipamentos <span class="filter-count-badge" id="badge-inv-cnt-todos">15.975</span>
-              </button>
-              <button type="button" class="btn-inv-filter" id="btn-inv-filter-disponivel" onclick="filtrarInventarioPorStatus('Disponível', null)">
-                🟢 Disponíveis <span class="filter-count-badge" id="badge-inv-cnt-disponivel">12.167</span>
-              </button>
-              <button type="button" class="btn-inv-filter" id="btn-inv-filter-danificado" onclick="filtrarInventarioPorStatus('Danificado', null)">
-                🔴 Danificados <span class="filter-count-badge" id="badge-inv-cnt-danificado">1.691</span>
-              </button>
-              <button type="button" class="btn-inv-filter" id="btn-inv-filter-manutencao" onclick="filtrarInventarioPorStatus('Em manutenção', null)">
-                🟠 Manutenção / OS <span class="filter-count-badge" id="badge-inv-cnt-manutencao">1.167</span>
-              </button>
-              <button type="button" class="btn-inv-filter" id="btn-inv-filter-inservivel" onclick="filtrarInventarioPorStatus('Inservível', null)">
-                ⚪ Inservíveis <span class="filter-count-badge" id="badge-inv-cnt-inservivel">950</span>
+              <button type="button" class="btn-inv-filter active" id="btn-inv-filter-todos" onclick="filtrarInventarioPorCategoria('todos', this)">
+                Todos os Equipamentos <span class="filter-count-badge" id="badge-inv-cnt-todos">15.873</span>
               </button>
 
-              <!-- Categorias Especiais de Hardware -->
-              <span style="height: 18px; width: 1px; background: #cbd5e1; margin: 0 4px;"></span>
-              <button type="button" class="btn-inv-filter" id="btn-inv-filter-cat-notebook" onclick="filtrarInventarioPorStatus('cat:Notebook', null)">
+              <span class="inv-filter-sep-hw" style="height: 18px; width: 1px; background: #cbd5e1; margin: 0 4px;"></span>
+
+              <!-- Tipos de Equipamentos -->
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-cat-notebook" onclick="filtrarInventarioPorCategoria('cat:Notebook', this)">
                 💻 Notebooks <span class="filter-count-badge" id="badge-inv-cnt-notebook">8.059</span>
               </button>
-              <button type="button" class="btn-inv-filter" id="btn-inv-filter-cat-tablet" onclick="filtrarInventarioPorStatus('cat:Tablet', null)">
-                📱 Tablets <span class="filter-count-badge" id="badge-inv-cnt-tablet">6.456</span>
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-cat-tablet" onclick="filtrarInventarioPorCategoria('cat:Tablet', this)">
+                📱 Tablets <span class="filter-count-badge" id="badge-inv-cnt-tablet">6.556</span>
               </button>
-              <button type="button" class="btn-inv-filter" id="btn-inv-filter-cat-desktop" onclick="filtrarInventarioPorStatus('cat:Desktop', null)">
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-cat-desktop" onclick="filtrarInventarioPorCategoria('cat:Desktop', this)">
                 🖥️ Desktops <span class="filter-count-badge" id="badge-inv-cnt-desktop">957</span>
               </button>
-              <button type="button" class="btn-inv-filter" id="btn-inv-filter-amb-pedagogico" onclick="filtrarInventarioPorStatus('amb:Pedagógico', null)">
-                🎓 Pedagógico <span class="filter-count-badge" id="badge-inv-cnt-pedagogico">14.453</span>
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-cat-smartphone" onclick="filtrarInventarioPorCategoria('cat:Smartphone', this)">
+                📞 Smartphones <span class="filter-count-badge" id="badge-inv-cnt-smartphone">301</span>
+              </button>
+
+              <span class="inv-filter-sep-hw" style="height: 18px; width: 1px; background: #cbd5e1; margin: 0 4px;"></span>
+
+              <!-- Modelos / Perfis de Uso -->
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-cat-sala-aula" onclick="filtrarInventarioPorCategoria('cat:SalaAula', this)">
+                🏫 Sala de Aula <span class="filter-count-badge" id="badge-inv-cnt-sala-aula">6.563</span>
+              </button>
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-cat-avancado" onclick="filtrarInventarioPorCategoria('cat:Avancado', this)">
+                💼 Avançados <span class="filter-count-badge" id="badge-inv-cnt-avancado">864</span>
+              </button>
+
+              <span style="height: 18px; width: 1px; background: #cbd5e1; margin: 0 4px;"></span>
+
+              <!-- Ambientes / Finalidade -->
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-amb-pedagogico" onclick="filtrarInventarioPorCategoria('amb:Pedagógico', this)">
+                🎓 Pedagógico <span class="filter-count-badge" id="badge-inv-cnt-pedagogico">14.553</span>
+              </button>
+              <button type="button" class="btn-inv-filter" id="btn-inv-filter-amb-admin" onclick="filtrarInventarioPorCategoria('amb:Administrativo', this)">
+                🏢 Administrativo <span class="filter-count-badge" id="badge-inv-cnt-admin">1.320</span>
               </button>
             </div>
-
             <!-- PAINEL EXECUTIVO DA DIRIGENTE (ABA CALLS • RESUMO INTELIGENTE) -->
             <div id="seintec-calls-kpi-bar" style="display: none; margin-bottom: 1.25rem;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
@@ -17259,6 +17267,7 @@ function imprimirAgendaCarro() {
     let filtroEscolaCieAtivo = '';
 
     let filtroInventarioStatusAtivo = 'todos';
+    let filtroInventarioCategoriaAtiva = 'todos';
 
     function atualizarMetricasInventario(idBase) {
       const base = SEINTEC_BASES_CONFIG[idBase || baseAtivaSeintec];
@@ -17281,6 +17290,9 @@ function imprimirAgendaCarro() {
       let catNotebook = 0;
       let catTablet = 0;
       let catDesktop = 0;
+      let catSmartphone = 0;
+      let catSalaAula = 0;
+      let catAvancado = 0;
       let ambPedagogico = 0;
       let ambAdmin = 0;
 
@@ -17310,11 +17322,19 @@ function imprimirAgendaCarro() {
           ambAdmin++;
         }
 
-        // Categorias específicas de hardware
+        // Categorias e Modelos de Hardware
         const cNorm = categoria.toLowerCase();
-        if (cNorm.includes('notebook')) catNotebook++;
-        else if (cNorm.includes('tablet')) catTablet++;
-        else if (cNorm.includes('desktop') || cNorm.includes('computador')) catDesktop++;
+        if (cNorm.includes('notebook')) {
+          catNotebook++;
+          if (cNorm.includes('sala de aula')) catSalaAula++;
+          if (cNorm.includes('avançado') || cNorm.includes('avancado')) catAvancado++;
+        } else if (cNorm.includes('tablet')) {
+          catTablet++;
+        } else if (cNorm.includes('desktop') || cNorm.includes('computador')) {
+          catDesktop++;
+        } else if (cNorm.includes('smartphone') || cNorm.includes('celular') || cNorm.includes('cel')) {
+          catSmartphone++;
+        }
       }
 
       // 1. Atualizar Banner Executivo
@@ -17346,7 +17366,7 @@ function imprimirAgendaCarro() {
           : '60';
       }
 
-      // 2. Atualizar Cards KPI
+      // 2. Atualizar Cards KPI Superiores (Situação / Status Operacional)
       const setVal = (id, val) => {
         const el = document.getElementById(id);
         if (el) el.innerText = val.toLocaleString('pt-BR');
@@ -17382,46 +17402,67 @@ function imprimirAgendaCarro() {
         subInse.innerText = `${pct}% prontos p/ descarte`;
       }
 
-      // 3. Atualizar Botões de Filtro
+      // 3. Atualizar Badges das Pills de Categorias, Modelos e Ambientes
       const setBadge = (id, val) => {
         const el = document.getElementById(id);
         if (el) el.innerText = val.toLocaleString('pt-BR');
       };
 
       setBadge('badge-inv-cnt-todos', total);
-      setBadge('badge-inv-cnt-disponivel', disponiveis);
-      setBadge('badge-inv-cnt-danificado', danificados);
-      setBadge('badge-inv-cnt-manutencao', manutencao);
-      setBadge('badge-inv-cnt-inservivel', inserviveis);
+      setBadge('badge-inv-cnt-notebook', catNotebook);
+      setBadge('badge-inv-cnt-tablet', catTablet);
+      setBadge('badge-inv-cnt-desktop', catDesktop);
+      setBadge('badge-inv-cnt-smartphone', catSmartphone);
+      setBadge('badge-inv-cnt-sala-aula', catSalaAula);
+      setBadge('badge-inv-cnt-avancado', catAvancado);
+      setBadge('badge-inv-cnt-pedagogico', ambPedagogico);
+      setBadge('badge-inv-cnt-admin', ambAdmin);
 
-      // 4. Pills de Categorias Dinâmicas
+      // 4. Controle de Visibilidade de Pills Específicas por Base
       const btnNotebook = document.getElementById('btn-inv-filter-cat-notebook');
       const btnTablet = document.getElementById('btn-inv-filter-cat-tablet');
       const btnDesktop = document.getElementById('btn-inv-filter-cat-desktop');
+      const btnSmartphone = document.getElementById('btn-inv-filter-cat-smartphone');
+      const btnSalaAula = document.getElementById('btn-inv-filter-cat-sala-aula');
+      const btnAvancado = document.getElementById('btn-inv-filter-cat-avancado');
       const btnPedagogico = document.getElementById('btn-inv-filter-amb-pedagogico');
+      const btnAdmin = document.getElementById('btn-inv-filter-amb-admin');
+      const sepsHw = document.querySelectorAll('.inv-filter-sep-hw');
 
       if (tipo === 'hardware') {
-        if (btnNotebook) { btnNotebook.style.display = 'inline-flex'; setBadge('badge-inv-cnt-notebook', catNotebook); }
-        if (btnTablet) { btnTablet.style.display = 'inline-flex'; setBadge('badge-inv-cnt-tablet', catTablet); }
-        if (btnDesktop) { btnDesktop.style.display = 'inline-flex'; setBadge('badge-inv-cnt-desktop', catDesktop); }
-        if (btnPedagogico) { btnPedagogico.style.display = 'inline-flex'; setBadge('badge-inv-cnt-pedagogico', ambPedagogico); }
+        if (btnNotebook) btnNotebook.style.display = 'inline-flex';
+        if (btnTablet) btnTablet.style.display = 'inline-flex';
+        if (btnDesktop) btnDesktop.style.display = 'inline-flex';
+        if (btnSmartphone) btnSmartphone.style.display = 'inline-flex';
+        if (btnSalaAula) btnSalaAula.style.display = 'inline-flex';
+        if (btnAvancado) btnAvancado.style.display = 'inline-flex';
+        sepsHw.forEach(s => s.style.display = 'inline-block');
       } else {
         if (btnNotebook) btnNotebook.style.display = 'none';
         if (btnTablet) btnTablet.style.display = 'none';
         if (btnDesktop) btnDesktop.style.display = 'none';
-        if (btnPedagogico) { btnPedagogico.style.display = 'inline-flex'; setBadge('badge-inv-cnt-pedagogico', ambPedagogico); }
+        if (btnSmartphone) btnSmartphone.style.display = 'none';
+        if (btnSalaAula) btnSalaAula.style.display = 'none';
+        if (btnAvancado) btnAvancado.style.display = 'none';
+        sepsHw.forEach(s => s.style.display = 'none');
       }
+      // Ambientes continuam visíveis em todas as bases
+      if (btnPedagogico) btnPedagogico.style.display = 'inline-flex';
+      if (btnAdmin) btnAdmin.style.display = 'inline-flex';
     }
 
     function filtrarInventarioPorStatus(statusKey, cardEl) {
-      filtroInventarioStatusAtivo = statusKey;
+      if (statusKey && (statusKey.startsWith('cat:') || statusKey.startsWith('amb:'))) {
+        return filtrarInventarioPorCategoria(statusKey);
+      }
+
+      filtroInventarioStatusAtivo = statusKey || 'todos';
 
       // Sincronizar estilo dos Cards KPI
       document.querySelectorAll('#seintec-inventario-kpi-bar .inv-kpi-card').forEach(c => c.classList.remove('selected'));
       if (cardEl) {
         cardEl.classList.add('selected');
       } else {
-        // Tentar encontrar card correspondente
         if (statusKey === 'todos') {
           const c = document.getElementById('inv-kpi-total');
           if (c) c.classList.add('selected');
@@ -17440,24 +17481,45 @@ function imprimirAgendaCarro() {
         }
       }
 
+      limiteExibicaoInventario = 100;
+      renderizarTabelaInventario(baseAtivaSeintec);
+    }
+
+    function filtrarInventarioPorCategoria(catKey, pillEl) {
+      filtroInventarioCategoriaAtiva = catKey || 'todos';
+
+      // Se o usuário clicar em "Todos os Equipamentos", reseta também o filtro de status dos cards para total
+      if (catKey === 'todos') {
+        filtroInventarioStatusAtivo = 'todos';
+        document.querySelectorAll('#seintec-inventario-kpi-bar .inv-kpi-card').forEach(c => c.classList.remove('selected'));
+        const cTotal = document.getElementById('inv-kpi-total');
+        if (cTotal) cTotal.classList.add('selected');
+      }
+
       // Sincronizar estilo dos Botões Pills
       document.querySelectorAll('#seintec-inventario-filter-buttons .btn-inv-filter').forEach(btn => btn.classList.remove('active'));
-      let btnMatch = null;
-      if (statusKey === 'todos') btnMatch = document.getElementById('btn-inv-filter-todos');
-      else if (statusKey === 'Disponível') btnMatch = document.getElementById('btn-inv-filter-disponivel');
-      else if (statusKey === 'Danificado') btnMatch = document.getElementById('btn-inv-filter-danificado');
-      else if (statusKey === 'Em manutenção') btnMatch = document.getElementById('btn-inv-filter-manutencao');
-      else if (statusKey === 'Inservível') btnMatch = document.getElementById('btn-inv-filter-inservivel');
-      else if (statusKey === 'cat:Notebook') btnMatch = document.getElementById('btn-inv-filter-cat-notebook');
-      else if (statusKey === 'cat:Tablet') btnMatch = document.getElementById('btn-inv-filter-cat-tablet');
-      else if (statusKey === 'cat:Desktop') btnMatch = document.getElementById('btn-inv-filter-cat-desktop');
-      else if (statusKey === 'amb:Pedagógico') btnMatch = document.getElementById('btn-inv-filter-amb-pedagogico');
-
-      if (btnMatch) btnMatch.classList.add('active');
+      if (pillEl) {
+        pillEl.classList.add('active');
+      } else {
+        let btnMatch = null;
+        if (catKey === 'todos') btnMatch = document.getElementById('btn-inv-filter-todos');
+        else if (catKey === 'cat:Notebook') btnMatch = document.getElementById('btn-inv-filter-cat-notebook');
+        else if (catKey === 'cat:Tablet') btnMatch = document.getElementById('btn-inv-filter-cat-tablet');
+        else if (catKey === 'cat:Desktop') btnMatch = document.getElementById('btn-inv-filter-cat-desktop');
+        else if (catKey === 'cat:Smartphone') btnMatch = document.getElementById('btn-inv-filter-cat-smartphone');
+        else if (catKey === 'cat:SalaAula') btnMatch = document.getElementById('btn-inv-filter-cat-sala-aula');
+        else if (catKey === 'cat:Avancado') btnMatch = document.getElementById('btn-inv-filter-cat-avancado');
+        else if (catKey === 'amb:Pedagógico') btnMatch = document.getElementById('btn-inv-filter-amb-pedagogico');
+        else if (catKey === 'amb:Administrativo') btnMatch = document.getElementById('btn-inv-filter-amb-admin');
+        if (btnMatch) btnMatch.classList.add('active');
+      }
 
       limiteExibicaoInventario = 100;
       renderizarTabelaInventario(baseAtivaSeintec);
     }
+
+    window.filtrarInventarioPorStatus = filtrarInventarioPorStatus;
+    window.filtrarInventarioPorCategoria = filtrarInventarioPorCategoria;
 
     function aoMudarFiltroEscolaSeintec(cie) {
       filtroEscolaCieAtivo = cie || '';
@@ -17500,7 +17562,7 @@ function imprimirAgendaCarro() {
         });
       }
 
-      // Filtro Executivo de Status / Categoria / Ambiente dos Cards e Pills do Inventário
+      // Filtro 1: Status Operacional dos Cards Superiores (Disponível, Danificado, Manutenção, Inservível)
       if (filtroInventarioStatusAtivo && filtroInventarioStatusAtivo !== 'todos') {
         if (filtroInventarioStatusAtivo === 'Disponível') {
           filtrados = filtrados.filter(item => {
@@ -17519,12 +17581,39 @@ function imprimirAgendaCarro() {
             const s = (item[5] || '').toLowerCase();
             return s.includes('inserv') || s.includes('descarte') || s.includes('baixa');
           });
-        } else if (filtroInventarioStatusAtivo.startsWith('cat:')) {
-          const cat = filtroInventarioStatusAtivo.replace('cat:', '').toLowerCase();
-          filtrados = filtrados.filter(item => (item[2] || '').toLowerCase().includes(cat));
-        } else if (filtroInventarioStatusAtivo.startsWith('amb:')) {
-          const amb = filtroInventarioStatusAtivo.replace('amb:', '').toLowerCase();
-          filtrados = filtrados.filter(item => (item[1] || '').toLowerCase().includes(amb));
+        }
+      }
+
+      // Filtro 2: Categorias, Modelos e Ambientes das Pills Rápidas
+      if (filtroInventarioCategoriaAtiva && filtroInventarioCategoriaAtiva !== 'todos') {
+        if (filtroInventarioCategoriaAtiva === 'cat:Notebook') {
+          filtrados = filtrados.filter(item => (item[2] || '').toLowerCase().includes('notebook'));
+        } else if (filtroInventarioCategoriaAtiva === 'cat:Tablet') {
+          filtrados = filtrados.filter(item => (item[2] || '').toLowerCase().includes('tablet'));
+        } else if (filtroInventarioCategoriaAtiva === 'cat:Desktop') {
+          filtrados = filtrados.filter(item => {
+            const c = (item[2] || '').toLowerCase();
+            return c.includes('desktop') || c.includes('computador');
+          });
+        } else if (filtroInventarioCategoriaAtiva === 'cat:Smartphone') {
+          filtrados = filtrados.filter(item => {
+            const c = (item[2] || '').toLowerCase();
+            return c.includes('smartphone') || c.includes('celular') || c.includes('cel');
+          });
+        } else if (filtroInventarioCategoriaAtiva === 'cat:SalaAula') {
+          filtrados = filtrados.filter(item => (item[2] || '').toLowerCase().includes('sala de aula'));
+        } else if (filtroInventarioCategoriaAtiva === 'cat:Avancado') {
+          filtrados = filtrados.filter(item => {
+            const c = (item[2] || '').toLowerCase();
+            return c.includes('avançado') || c.includes('avancado');
+          });
+        } else if (filtroInventarioCategoriaAtiva === 'amb:Pedagógico') {
+          filtrados = filtrados.filter(item => (item[1] || '').toLowerCase().includes('pedag'));
+        } else if (filtroInventarioCategoriaAtiva === 'amb:Administrativo') {
+          filtrados = filtrados.filter(item => {
+            const amb = (item[1] || '').toLowerCase();
+            return amb.includes('admin') || (!amb.includes('pedag') && amb !== '');
+          });
         }
       }
 
