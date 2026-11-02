@@ -1,136 +1,136 @@
+const { spawn } = require('child_process');
 const http = require('http');
 const fs = require('fs');
-const { spawn } = require('child_process');
+const path = require('path');
 
-const html = fs.readFileSync('index.html', 'utf8');
+const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const htmlPath = path.join(__dirname, '..', 'index.html');
 
 const server = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-  res.end(html);
+  fs.createReadStream(htmlPath).pipe(res);
 });
 
-server.listen(9889, async () => {
-  console.log('Server running on 9889');
-  const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-  const chrome = spawn(chromePath, [
+server.listen(9884, async () => {
+  const chromeProc = spawn(chromePath, [
     '--headless=new',
-    '--remote-debugging-port=9232',
+    '--remote-debugging-port=9227',
     '--disable-gpu',
     '--no-first-run',
     '--no-default-browser-check',
-    'http://localhost:9889'
+    'http://localhost:9884'
   ]);
 
   await new Promise(r => setTimeout(r, 2000));
 
   try {
-    const listRes = await fetch('http://localhost:9232/json');
+    const listRes = await fetch('http://localhost:9227/json');
     const targets = await listRes.json();
-    const pageTarget = targets.find(t => t.type === 'page');
-
-    const ws = new globalThis.WebSocket(pageTarget.webSocketDebuggerUrl);
+    const ws = new globalThis.WebSocket(targets[0].webSocketDebuggerUrl);
     await new Promise(res => ws.onopen = res);
 
-    let id = 1;
+    let msgId = 1;
     function send(method, params = {}) {
-      return new Promise(res => {
-        const msgId = id++;
-        const handler = (event) => {
-          const msg = JSON.parse(event.data);
-          if (msg.id === msgId) {
-            ws.removeEventListener('message', handler);
-            res(msg.result);
+      return new Promise((resolve) => {
+        const id = msgId++;
+        const onMsg = (event) => {
+          const resp = JSON.parse(event.data);
+          if (resp.id === id) {
+            ws.removeEventListener('message', onMsg);
+            resolve(resp.result);
           }
         };
-        ws.addEventListener('message', handler);
-        ws.send(JSON.stringify({ id: msgId, method, params }));
+        ws.addEventListener('message', onMsg);
+        ws.send(JSON.stringify({ id, method, params }));
       });
     }
 
     await send('Runtime.enable');
+    await send('Runtime.evaluate', {
+      expression: 'abrirMapaRede(); inicializarOuAtualizarMapaRede();'
+    });
+    await new Promise(r => setTimeout(r, 350));
 
-    // 1. Test Map Initialization and school count
+    // 1. Initial count check
     const r1 = await send('Runtime.evaluate', {
-      expression: `
-        new Promise(resolve => {
-          abrirMapaRede();
-          inicializarOuAtualizarMapaRede();
-          setTimeout(() => {
-            resolve({
-              paneActive: document.getElementById('pane-mapas').classList.contains('active'),
-              markersCount: marcadoresEscolasMapa.length,
-              cardsInListCount: document.querySelectorAll('#mapa-lista-escolas-container > div').length,
-              statusText: document.getElementById('mapa-status-exibicao').innerText,
-              boundsCheck: !!mapaRedeInstancia.options.maxBounds,
-              minZoom: mapaRedeInstancia.getMinZoom(),
-              maxZoom: mapaRedeInstancia.getMaxZoom(),
-              currentZoom: mapaRedeInstancia.getZoom(),
-              currentCenter: mapaRedeInstancia.getCenter()
-            });
-          }, 300);
-        })
-      `,
-      awaitPromise: true,
-      returnByValue: true
+      expression: `JSON.stringify({
+        markersCount: marcadoresEscolasMapa.length,
+        cardsCount: document.querySelectorAll('#mapa-lista-escolas-container > div').length,
+        status: document.getElementById('mapa-status-exibicao').innerText
+      })`
     });
-    console.log('1. Map Init Check:', r1.result.value);
+    console.log('1. Total Markers & Cards check:', r1.result.value);
 
-    // 2. Test focus school (Jardim Paulista) and popup contents
+    // 2. Test click on a card in the left list (Issue 1)
     const r2 = await send('Runtime.evaluate', {
-      expression: `
-        new Promise(resolve => {
-          focarEscolaNoMapaPorCie('908617'); // Jardim Paulista
-          setTimeout(() => {
-            const popup = document.querySelector('.leaflet-popup-content');
-            resolve({
-              popupFound: !!popup,
-              popupText: popup ? popup.innerText.slice(0, 160).replace(/\\n/g, ' ') : null,
-              hasGmapsLink: popup ? !!popup.querySelector('a[href*="google.com/maps/dir"]') : false,
-              hasAgendarCarro: popup ? !!popup.querySelector('button[onclick*="prepararAgendamentoCarro"]') : false
-            });
-          }, 700);
-        })
-      `,
-      awaitPromise: true,
-      returnByValue: true
+      expression: `new Promise(resolve => {
+        const firstCard = document.getElementById('mapa-lista-escolas-container').firstElementChild;
+        firstCard.click();
+        setTimeout(() => {
+          const popup = document.querySelector('.leaflet-popup-content');
+          resolve(JSON.stringify({
+            clickedCie: firstCard.dataset.cie,
+            hasPopup: !!popup,
+            popupPreview: popup ? popup.innerText.slice(0, 150).replace(/\\n/g, ' ') : null,
+            isCardAtivo: firstCard.classList.contains('ativo')
+          }));
+        }, 500);
+      })`,
+      awaitPromise: true
     });
-    console.log('2. School Focus & Popup Check:', r2.result.value);
+    console.log('2. Left Card Click check:', r2.result.value);
 
-    // 3. Test Layer switching (Satélite and Trânsito)
+    // 3. Test Pirapora (far north school - Issue 2)
     const r3 = await send('Runtime.evaluate', {
-      expression: `
-        alternarCamadaMapa('satelite');
-        const isSat = tipoCamadaGoogleAtiva === 'satelite';
-        alternarCamadaMapa('trafego');
-        const isTrafego = tipoCamadaGoogleAtiva === 'trafego';
-        alternarCamadaMapa('ruas');
-        const isRuas = tipoCamadaGoogleAtiva === 'ruas';
-        ({ isSat, isTrafego, isRuas })
-      `,
-      returnByValue: true
-    });
-    console.log('3. Layer Switcher Check:', r3.result.value);
+      expression: `new Promise(resolve => {
+        focarEscolaNoMapaPorCie('043333'); // Nercy Amelia Martelini Daher (Pirapora)
+        setTimeout(() => {
+          const popup = document.querySelector('.leaflet-popup-content');
+          const mapContainer = document.getElementById('mapa-container-leaflet');
+          const popupRect = popup ? popup.getBoundingClientRect() : null;
+          const containerRect = mapContainer ? mapContainer.getBoundingClientRect() : null;
 
-    // 4. Test City Filter (Barueri: 19 schools)
+          const topMargin = popupRect && containerRect ? (popupRect.top - containerRect.top) : null;
+          resolve(JSON.stringify({
+            hasPopup: !!popup,
+            topMarginPx: topMargin,
+            isInsideContainer: popupRect && containerRect ? (popupRect.top >= containerRect.top && popupRect.bottom <= containerRect.bottom) : false,
+            popupPreview: popup ? popup.innerText.slice(0, 120).replace(/\\n/g, ' ') : null
+          }));
+        }, 550);
+      })`,
+      awaitPromise: true
+    });
+    console.log('3. Pirapora Edge & Headroom check:', r3.result.value);
+
+    // 4. Test Enquadrar Todas (Issue 3)
     const r4 = await send('Runtime.evaluate', {
-      expression: `
-        filtrarMapaPorMunicipio('Barueri', document.getElementById('map-pill-barueri'));
-        ({
-          markersCount: marcadoresEscolasMapa.length,
-          cardsCount: document.querySelectorAll('#mapa-lista-escolas-container > div').length,
-          statusText: document.getElementById('mapa-status-exibicao').innerText
-        })
-      `,
-      returnByValue: true
+      expression: `new Promise(resolve => {
+        resetarVisualizacaoMapaRede();
+        setTimeout(() => {
+          const bounds = mapaRedeInstancia.getBounds();
+          const piraporaCoords = COORDENADAS_REDE_ESCOLAS['043333'];
+          const itapeviSouthCoords = COORDENADAS_REDE_ESCOLAS['352561'];
+          const containsNorth = bounds.contains(L.latLng(piraporaCoords));
+          const containsSouth = bounds.contains(L.latLng(itapeviSouthCoords));
+          resolve(JSON.stringify({
+            containsNorthernmostPirapora: containsNorth,
+            containsSouthernmostItapevi: containsSouth,
+            currentZoom: mapaRedeInstancia.getZoom()
+          }));
+        }, 600);
+      })`,
+      awaitPromise: true
     });
-    console.log('4. Barueri Filter Check:', r4.result.value);
+    console.log('4. Enquadramento Todas 60 check:', r4.result.value);
 
-    ws.close();
-  } catch(e) {
-    console.error('Error during test:', e);
-  } finally {
-    chrome.kill();
+    chromeProc.kill();
     server.close();
     process.exit(0);
+  } catch (err) {
+    console.error(err);
+    chromeProc.kill();
+    server.close();
+    process.exit(1);
   }
 });

@@ -12,7 +12,6 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(9882, async () => {
-  console.log('Test server started on 9882');
   const chromeProc = spawn(chromePath, [
     '--headless=new',
     '--remote-debugging-port=9228',
@@ -48,60 +47,95 @@ server.listen(9882, async () => {
     }
 
     await send('Runtime.enable');
-
-    console.log('Testing abrirMapaRede()...');
     await send('Runtime.evaluate', {
       expression: 'abrirMapaRede(); inicializarOuAtualizarMapaRede();'
     });
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise(r => setTimeout(r, 500));
 
-    // Test Jandira
-    const jandiraRes = await send('Runtime.evaluate', {
-      expression: `(function() {
-        filtrarMapaPorMunicipio('Jandira', document.getElementById('map-pill-jandira'));
-        return { markers: marcadoresEscolasMapa.length, status: document.getElementById('mapa-status-exibicao').innerText };
-      })()`,
+    // 1. Initial count check
+    const r1 = await send('Runtime.evaluate', {
+      expression: `(() => ({
+        markersCount: marcadoresEscolasMapa.length,
+        cardsCount: document.querySelectorAll('#mapa-lista-escolas-container > div').length,
+        status: document.getElementById('mapa-status-exibicao').innerText
+      }))()`,
       returnByValue: true
     });
-    console.log('Jandira:', jandiraRes.result.value);
+    console.log('1. Total Markers & Cards:', r1.result.value);
 
-    // Test Pirapora
-    const piraporaRes = await send('Runtime.evaluate', {
-      expression: `(function() {
-        filtrarMapaPorMunicipio('Pirapora', document.getElementById('map-pill-pirapora'));
-        return { markers: marcadoresEscolasMapa.length, status: document.getElementById('mapa-status-exibicao').innerText };
-      })()`,
+    // 2. Test click on a card in the left list (Issue 1)
+    const r2 = await send('Runtime.evaluate', {
+      expression: `new Promise(resolve => {
+        const firstCard = document.getElementById('mapa-lista-escolas-container').firstElementChild;
+        firstCard.click();
+        setTimeout(() => {
+          const popup = document.querySelector('.leaflet-popup-content');
+          resolve({
+            clickedCie: firstCard.dataset.cie,
+            hasPopup: !!popup,
+            popupPreview: popup ? popup.innerText.slice(0, 150).replace(/\\n/g, ' ') : null,
+            isCardAtivo: firstCard.classList.contains('ativo')
+          });
+        }, 500);
+      })`,
+      awaitPromise: true,
       returnByValue: true
     });
-    console.log('Pirapora:', piraporaRes.result.value);
+    console.log('2. Left Card Click:', r2.result.value);
 
-    // Test Visitadas
-    const visitadasRes = await send('Runtime.evaluate', {
-      expression: `(function() {
+    // 3. Test Pirapora (far north school - Issue 2)
+    const r3 = await send('Runtime.evaluate', {
+      expression: `new Promise(resolve => {
+        focarEscolaNoMapaPorCie('043333'); // Nercy Amelia Martelini Daher (Pirapora)
+        setTimeout(() => {
+          const popup = document.querySelector('.leaflet-popup-content');
+          const mapContainer = document.getElementById('mapa-container-leaflet');
+          const popupRect = popup ? popup.getBoundingClientRect() : null;
+          const containerRect = mapContainer ? mapContainer.getBoundingClientRect() : null;
+
+          const topMargin = popupRect && containerRect ? (popupRect.top - containerRect.top) : null;
+          resolve({
+            hasPopup: !!popup,
+            topMarginPx: topMargin,
+            isInsideContainer: popupRect && containerRect ? (popupRect.top >= containerRect.top && popupRect.bottom <= containerRect.bottom) : false,
+            popupPreview: popup ? popup.innerText.slice(0, 120).replace(/\\n/g, ' ') : null
+          });
+        }, 550);
+      })`,
+      awaitPromise: true,
+      returnByValue: true
+    });
+    console.log('3. Pirapora Edge & Headroom:', r3.result.value);
+
+    // 4. Test Enquadrar Todas (Issue 3)
+    const r4 = await send('Runtime.evaluate', {
+      expression: `new Promise(resolve => {
         resetarVisualizacaoMapaRede();
-        filtrarMapaPorVisita('visitadas', document.getElementById('map-pill-visitadas'));
-        return { markers: marcadoresEscolasMapa.length, status: document.getElementById('mapa-status-exibicao').innerText };
-      })()`,
+        setTimeout(() => {
+          const bounds = mapaRedeInstancia.getBounds();
+          const piraporaCoords = COORDENADAS_REDE_ESCOLAS['043333'];
+          const itapeviSouthCoords = COORDENADAS_REDE_ESCOLAS['352561'];
+          const containsNorth = bounds.contains(L.latLng(piraporaCoords));
+          const containsSouth = bounds.contains(L.latLng(itapeviSouthCoords));
+          resolve({
+            containsNorthernmostPirapora: containsNorth,
+            containsSouthernmostItapevi: containsSouth,
+            currentZoom: mapaRedeInstancia.getZoom()
+          });
+        }, 600);
+      })`,
+      awaitPromise: true,
       returnByValue: true
     });
-    console.log('Visitadas:', visitadasRes.result.value);
+    console.log('4. Enquadramento Todas 60:', r4.result.value);
 
-    // Test Search input
-    const searchRes = await send('Runtime.evaluate', {
-      expression: `(function() {
-        buscarNoMapaRede('Ivani');
-        return { markers: marcadoresEscolasMapa.length, status: document.getElementById('mapa-status-exibicao').innerText };
-      })()`,
-      returnByValue: true
-    });
-    console.log('Search "Ivani":', searchRes.result.value);
-
-    ws.close();
-  } catch (err) {
-    console.error('CDP test error:', err);
-  } finally {
     chromeProc.kill();
     server.close();
     process.exit(0);
+  } catch (err) {
+    console.error(err);
+    chromeProc.kill();
+    server.close();
+    process.exit(1);
   }
 });
