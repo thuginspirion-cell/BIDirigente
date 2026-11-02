@@ -11126,7 +11126,7 @@ function imprimirAgendaCarro() {
               <span class="escolas-pretitle">DIRETORIA REGIONAL DE ENSINO • URE ITAPEVI</span>
               <h2 class="escolas-main-title">Rede Escolar Estadual</h2>
               <p class="escolas-main-desc">
-                Gestão cadastral, indicadores de atendimento, unidades PEI, salas de tecnologia (Educatrons) e escolas em acompanhamento prioritário.
+                Gestão cadastral, indicadores de atendimento, unidades PEI, distribuição por município e escolas em acompanhamento prioritário.
               </p>
             </div>
 
@@ -11254,12 +11254,6 @@ function imprimirAgendaCarro() {
                     <div class="th-sort-wrapper">
                       <span class="th-title-text">Direção & Contato</span>
                       <span class="sort-arrow" id="sort-arrow-esc-diretor">↕</span>
-                    </div>
-                  </th>
-                  <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('educatrons')" style="text-align: center; width: 165px;" title="Classificar por Educatrons">
-                    <div class="th-sort-wrapper center">
-                      <span class="th-title-text">Educatrons</span>
-                      <span class="sort-arrow" id="sort-arrow-esc-educatrons">↕</span>
                     </div>
                   </th>
                   <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('status')" style="width: 140px;" title="Classificar por Situação">
@@ -12617,13 +12611,10 @@ function imprimirAgendaCarro() {
       } else if (ordenacaoEscolasAtual.campo === 'cie') {
         var btnCie = document.getElementById('btn-sort-esc-cie');
         if (btnCie) btnCie.classList.add('active');
-      } else if (ordenacaoEscolasAtual.campo === 'educatrons') {
-        var btnEdu = document.getElementById('btn-sort-esc-educatrons');
-        if (btnEdu) btnEdu.classList.add('active');
       }
 
       // Atualizar ícones nos cabeçalhos <th> (apenas setinha ↕, ▲ ou ▼)
-      var campos = ['cie', 'nome', 'cidade', 'segmento', 'diretor', 'educatrons', 'status'];
+      var campos = ['cie', 'nome', 'cidade', 'segmento', 'diretor', 'status'];
       campos.forEach(function(c) {
         var arrowEl = document.getElementById('sort-arrow-esc-' + c) ||
                       document.getElementById('sort-icon-esc-' + c) ||
@@ -12666,11 +12657,6 @@ function imprimirAgendaCarro() {
       filtradas.sort(function(a, b) {
         var valA = a[ordenacaoEscolasAtual.campo] !== undefined ? a[ordenacaoEscolasAtual.campo] : '';
         var valB = b[ordenacaoEscolasAtual.campo] !== undefined ? b[ordenacaoEscolasAtual.campo] : '';
-        if (ordenacaoEscolasAtual.campo === 'educatrons') {
-          var numA = Number(valA) || 0;
-          var numB = Number(valB) || 0;
-          return ordenacaoEscolasAtual.ordem === 'asc' ? numA - numB : numB - numA;
-        }
         var strA = String(valA).trim();
         var strB = String(valB).trim();
         var comp = strA.localeCompare(strB, 'pt-BR', { sensitivity: 'base', numeric: true });
@@ -12718,7 +12704,7 @@ function imprimirAgendaCarro() {
       if (!dados || dados.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" style="text-align: center; padding: 2.5rem 1rem; color: #64748b;">
+            <td colspan="7" style="text-align: center; padding: 2.5rem 1rem; color: #64748b;">
               <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">🔍</span>
               <strong>Nenhuma escola encontrada com os filtros selecionados.</strong>
               <p style="margin: 0.25rem 0 0 0; font-size: 0.8rem;">Tente ajustar os termos de pesquisa ou clique em "Cadastrar Nova Escola".</p>
@@ -12766,11 +12752,6 @@ function imprimirAgendaCarro() {
               <div style="font-weight: 600; color: #0f172a;">${e.diretor || 'Equipe Gestora'}</div>
               <div style="font-size: 0.74rem; color: #64748b;">${e.telefone || '(11) 4141-0000'}</div>
             </td>
-            <td style="text-align: center;">
-              <span style="font-weight: 800; color: var(--brand-navy); background: #f8fafc; border: 1px solid #e2e8f0; padding: 2px 8px; border-radius: 6px;">
-                ${e.educatrons || 0}
-              </span>
-            </td>
             <td>
               ${badgeStatus}
             </td>
@@ -12806,7 +12787,7 @@ function imprimirAgendaCarro() {
       document.getElementById('form-escola-diretor').value = esc.diretor || '';
       document.getElementById('form-escola-telefone').value = esc.telefone || '';
       document.getElementById('form-escola-bairro').value = esc.bairro || '';
-      document.getElementById('form-escola-educatrons').value = esc.educatrons || 16;
+      const elEduInput = document.getElementById('form-escola-educatrons'); if (elEduInput) elEduInput.value = esc.educatrons || 12;
       document.getElementById('form-escola-status').value = esc.status || 'Regular';
       document.getElementById('form-escola-obs').value = esc.motivo || '';
 
@@ -12829,7 +12810,7 @@ function imprimirAgendaCarro() {
       const diretor = document.getElementById('form-escola-diretor').value.trim();
       const telefone = document.getElementById('form-escola-telefone').value.trim();
       const bairro = document.getElementById('form-escola-bairro').value.trim();
-      const educatrons = parseInt(document.getElementById('form-escola-educatrons').value, 10) || 0;
+      const elEduInp = document.getElementById('form-escola-educatrons'); const educatrons = elEduInp ? (parseInt(elEduInp.value, 10) || 0) : 0;
       const status = document.getElementById('form-escola-status').value;
       const motivo = document.getElementById('form-escola-obs').value.trim();
 
@@ -19433,11 +19414,6 @@ function imprimirAgendaCarro() {
             <div class="agenda-form-group">
               <label class="agenda-form-label">Bairro / Localidade</label>
               <input type="text" id="form-escola-bairro" class="agenda-form-input" placeholder="Ex: Centro, Cohab, Jardim Briquet...">
-            </div>
-
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Educatrons Instalados</label>
-              <input type="number" id="form-escola-educatrons" class="agenda-form-input" value="16" min="0" max="60">
             </div>
 
             <div class="agenda-form-group agenda-form-full">
