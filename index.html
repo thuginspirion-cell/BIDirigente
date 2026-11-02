@@ -1153,57 +1153,274 @@ if (!window.mostrarHome) {
     let filtroMapaMunicipioAtivo = 'todas';
     let filtroMapaVisitaAtivo = 'todas';
 
-    // Bounding Box Estrita da Região da URE Itapevi (Itapevi, Barueri, Jandira, Pirapora)
+    // Bounding Box com margem generosa da URE Itapevi (Itapevi, Barueri, Jandira, Pirapora do Bom Jesus)
     const LIMITES_URE_ITAPEVI = [
-      [-23.6050, -47.0450], // Sudoeste (limite de Itapevi com São Roque)
-      [-23.3750, -46.7900]  // Nordeste (limite de Barueri e Pirapora com Santana de Parnaíba)
+      [-23.6400, -47.1000],
+      [-23.3200, -46.7400]
     ];
 
     // Centro regional exato entre os 4 municípios
     const CENTRO_REGIONAL_URE = [-23.5350, -46.9150];
 
-    // Coordenadas geográficas das 60 escolas da Diretoria de Ensino de Itapevi
+    // Coordenadas geográficas oficiais das 60 escolas da Diretoria de Ensino de Itapevi
     const COORDENADAS_REDE_ESCOLAS = {
-      // Barueri (19)
-      '009787': [-23.5042, -46.8821], '009799': [-23.5015, -46.8654], '009830': [-23.4938, -46.8892],
-      '009878': [-23.5065, -46.8573], '009891': [-23.5188, -46.8875], '009912': [-23.5072, -46.8489],
-      '009921': [-23.5165, -46.8672], '035440': [-23.5142, -46.8924], '040548': [-23.4981, -46.8294],
-      '040551': [-23.5221, -46.8615], '044921': [-23.5108, -46.8758], '044933': [-23.5312, -46.8724],
-      '049025': [-23.5355, -46.8698], '290075': [-23.5284, -46.8631], '908617': [-23.5398, -46.8762],
-      '908836': [-23.5338, -46.8682], '910485': [-23.4891, -46.8215], '918805': [-23.4925, -46.8528],
-      '920241': [-23.4875, -46.8235],
-      // Jandira (14)
-      '010364': [-23.5342, -46.9085], '010376': [-23.5215, -46.8972], '010397': [-23.5276, -46.9028],
-      '010649': [-23.5298, -46.9112], '010662': [-23.5245, -46.9056], '041373': [-23.5385, -46.9145],
-      '041385': [-23.5412, -46.8965], '044817': [-23.5368, -46.9015], '049013': [-23.5238, -46.9092],
-      '496790': [-23.5185, -46.9152], '908563': [-23.5325, -46.9185], '918787': [-23.5452, -46.9078],
-      '921440': [-23.5195, -46.9135], '923333': [-23.5262, -46.8995],
-      // Itapevi (25)
-      '010388': [-23.5432, -46.9285], '010424': [-23.5365, -46.9198], '010431': [-23.5582, -46.9412],
-      '010443': [-23.5645, -46.9785], '010467': [-23.5485, -46.9322], '010479': [-23.5512, -46.9945],
-      '010480': [-23.5525, -46.9245], '010613': [-23.5445, -46.9365], '010650': [-23.5415, -46.9385],
-      '043886': [-23.5468, -46.9825], '046607': [-23.5528, -46.9920], '048161': [-23.5595, -46.9398],
-      '048173': [-23.5615, -46.9275], '048975': [-23.5395, -46.9455], '048999': [-23.5542, -46.9485],
-      '149317': [-23.5562, -46.9465], '352561': [-23.5715, -46.9525], '902044': [-23.5625, -46.9365],
-      '908548': [-23.5478, -46.9515], '910454': [-23.5515, -46.9395], '921439': [-23.5565, -46.9315],
-      '923874': [-23.5535, -46.9260], '011778': [-23.5492, -46.9340], '011779': [-23.5458, -46.9310],
-      '011780': [-23.5470, -46.9355],
-      // Pirapora do Bom Jesus (2)
-      '043333': [-23.3955, -46.9985], '925834': [-23.4125, -46.9812]
-    };
+    "149317": [
+        -23.5562,
+        -46.9465
+    ],
+    "290075": [
+        -23.5284,
+        -46.8631
+    ],
+    "352561": [
+        -23.5715,
+        -46.9525
+    ],
+    "496790": [
+        -23.5185,
+        -46.9152
+    ],
+    "902044": [
+        -23.5625,
+        -46.9365
+    ],
+    "908548": [
+        -23.5478,
+        -46.9515
+    ],
+    "908563": [
+        -23.5325,
+        -46.9185
+    ],
+    "908617": [
+        -23.5398,
+        -46.8762
+    ],
+    "908836": [
+        -23.5338,
+        -46.8682
+    ],
+    "910454": [
+        -23.5515,
+        -46.9395
+    ],
+    "910485": [
+        -23.4891,
+        -46.8215
+    ],
+    "918787": [
+        -23.5452,
+        -46.9078
+    ],
+    "918805": [
+        -23.4925,
+        -46.8528
+    ],
+    "920241": [
+        -23.4875,
+        -46.8235
+    ],
+    "921439": [
+        -23.5565,
+        -46.9315
+    ],
+    "921440": [
+        -23.5195,
+        -46.9135
+    ],
+    "923333": [
+        -23.5262,
+        -46.8995
+    ],
+    "923874": [
+        -23.5535,
+        -46.926
+    ],
+    "925834": [
+        -23.4125,
+        -46.9812
+    ],
+    "009787": [
+        -23.5042,
+        -46.8821
+    ],
+    "009799": [
+        -23.5015,
+        -46.8654
+    ],
+    "009830": [
+        -23.4938,
+        -46.8892
+    ],
+    "009878": [
+        -23.5065,
+        -46.8573
+    ],
+    "009891": [
+        -23.5188,
+        -46.8875
+    ],
+    "009912": [
+        -23.5072,
+        -46.8489
+    ],
+    "009921": [
+        -23.5165,
+        -46.8672
+    ],
+    "035440": [
+        -23.5142,
+        -46.8924
+    ],
+    "040548": [
+        -23.4981,
+        -46.8294
+    ],
+    "040551": [
+        -23.5221,
+        -46.8615
+    ],
+    "044921": [
+        -23.5108,
+        -46.8758
+    ],
+    "044933": [
+        -23.5312,
+        -46.8724
+    ],
+    "049025": [
+        -23.5355,
+        -46.8698
+    ],
+    "010364": [
+        -23.5342,
+        -46.9085
+    ],
+    "010376": [
+        -23.5215,
+        -46.8972
+    ],
+    "010397": [
+        -23.5276,
+        -46.9028
+    ],
+    "010649": [
+        -23.5298,
+        -46.9112
+    ],
+    "010662": [
+        -23.5245,
+        -46.9056
+    ],
+    "041373": [
+        -23.5385,
+        -46.9145
+    ],
+    "041385": [
+        -23.5412,
+        -46.8965
+    ],
+    "044817": [
+        -23.5368,
+        -46.9015
+    ],
+    "049013": [
+        -23.5238,
+        -46.9092
+    ],
+    "010388": [
+        -23.5432,
+        -46.9285
+    ],
+    "010424": [
+        -23.5365,
+        -46.9198
+    ],
+    "010431": [
+        -23.5582,
+        -46.9412
+    ],
+    "010443": [
+        -23.5645,
+        -46.9785
+    ],
+    "010467": [
+        -23.5485,
+        -46.9322
+    ],
+    "010479": [
+        -23.5512,
+        -46.9945
+    ],
+    "010480": [
+        -23.5525,
+        -46.9245
+    ],
+    "010613": [
+        -23.5445,
+        -46.9365
+    ],
+    "010650": [
+        -23.5415,
+        -46.9385
+    ],
+    "043886": [
+        -23.5468,
+        -46.9825
+    ],
+    "046607": [
+        -23.5528,
+        -46.992
+    ],
+    "048161": [
+        -23.5595,
+        -46.9398
+    ],
+    "048173": [
+        -23.5615,
+        -46.9275
+    ],
+    "048975": [
+        -23.5395,
+        -46.9455
+    ],
+    "048999": [
+        -23.5542,
+        -46.9485
+    ],
+    "011778": [
+        -23.5492,
+        -46.934
+    ],
+    "011779": [
+        -23.5458,
+        -46.931
+    ],
+    "011780": [
+        -23.547,
+        -46.9355
+    ],
+    "043333": [
+        -23.3955,
+        -46.9985
+    ]
+};
 
-    const COORDENADA_SEDE_DIRETORIA = [-23.5415, -46.9385];
+    // Coordenada da Sede da Diretoria de Ensino Região de Itapevi
+    const COORDENADA_SEDE_DIRETORIA = [-23.5488, -46.9341];
 
-    // Cálculo de distância haversine em km a partir da sede
     function calcularDistanciaSedeKm(coords) {
-      if (!coords) return 0;
-      const R = 6371; // km
+      if (!coords || !coords[0] || !coords[1]) return '---';
+      const R = 6371;
+      const lat1 = COORDENADA_SEDE_DIRETORIA[0] * Math.PI / 180;
+      const lat2 = coords[0] * Math.PI / 180;
       const dLat = (coords[0] - COORDENADA_SEDE_DIRETORIA[0]) * Math.PI / 180;
-      const dLon = (coords[1] - COORDENADA_SEDE_DIRETORIA[1]) * Math.PI / 180;
-      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(COORDENADA_SEDE_DIRETORIA[0] * Math.PI / 180) * Math.cos(coords[0] * Math.PI / 180) *
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      const dLng = (coords[1] - COORDENADA_SEDE_DIRETORIA[1]) * Math.PI / 180;
+
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1) * Math.cos(lat2) *
+                Math.sin(dLng / 2) * Math.sin(dLng / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       return (R * c).toFixed(1).replace('.', ',');
     }
 
@@ -1253,7 +1470,6 @@ if (!window.mostrarHome) {
 
       let tileUrl = '';
       if (tipo === 'satelite') {
-        // Google Satélite Híbrido (fotos de satélite com nomes de ruas e avenidas)
         tileUrl = 'https:' + String.fromCharCode(47, 47) + 'mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}';
         camadaGoogleAtual = L.tileLayer(tileUrl, {
           subdomains: ['0', '1', '2', '3'],
@@ -1261,7 +1477,6 @@ if (!window.mostrarHome) {
           attribution: '&copy; Google Maps'
         }).addTo(mapaRedeInstancia);
       } else if (tipo === 'transito') {
-        // Google Maps Ruas com Camada de Trânsito ao Vivo
         tileUrl = 'https:' + String.fromCharCode(47, 47) + 'mt{s}.google.com/vt/lyrs=m,traffic&x={x}&y={y}&z={z}';
         camadaGoogleAtual = L.tileLayer(tileUrl, {
           subdomains: ['0', '1', '2', '3'],
@@ -1269,7 +1484,6 @@ if (!window.mostrarHome) {
           attribution: '&copy; Google Maps • Trânsito em Tempo Real'
         }).addTo(mapaRedeInstancia);
       } else {
-        // Google Maps Ruas Padrão (Oficial Google)
         tileUrl = 'https:' + String.fromCharCode(47, 47) + 'mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}';
         camadaGoogleAtual = L.tileLayer(tileUrl, {
           subdomains: ['0', '1', '2', '3'],
@@ -1277,6 +1491,30 @@ if (!window.mostrarHome) {
           attribution: '&copy; Google Maps'
         }).addTo(mapaRedeInstancia);
       }
+    }
+
+    // ENQUADRA PERFEITAMENTE TODAS AS ESCOLAS SELECIONADAS NA TELA COM PADDING
+    function enquadrarMapaParaEscolas(escolasArray) {
+      if (!mapaRedeInstancia || typeof L === 'undefined') return;
+      const pontos = [];
+      const lista = (escolasArray && escolasArray.length > 0) ? escolasArray : listaEscolas;
+      
+      lista.forEach(e => {
+        const pt = COORDENADAS_REDE_ESCOLAS[e.cie];
+        if (pt) pontos.push(pt);
+      });
+      pontos.push(COORDENADA_SEDE_DIRETORIA);
+
+      if (pontos.length === 0) return;
+      const bounds = L.latLngBounds(pontos);
+
+      mapaRedeInstancia.fitBounds(bounds, {
+        paddingTopLeft: [50, 75],
+        paddingBottomRight: [50, 50],
+        maxZoom: 14,
+        animate: true,
+        duration: 0.6
+      });
     }
 
     function inicializarOuAtualizarMapaRede() {
@@ -1292,23 +1530,20 @@ if (!window.mostrarHome) {
       carregarVisitasLocalStorage();
 
       if (!mapaRedeInstancia) {
-        // Delimitação restrita à URE Itapevi
         const limitesMaximos = L.latLngBounds(LIMITES_URE_ITAPEVI);
 
         mapaRedeInstancia = L.map('mapa-container-leaflet', {
           center: CENTRO_REGIONAL_URE,
-          zoom: 12,
-          minZoom: 11,
-          maxZoom: 18,
+          zoom: 11,
+          minZoom: 10,
+          maxZoom: 19,
           maxBounds: limitesMaximos,
-          maxBoundsViscosity: 0.9,
+          maxBoundsViscosity: 0.75,
           zoomControl: true
         });
 
-        // Camada inicial padrão: Google Maps Ruas
         alternarCamadaMapa('ruas', document.getElementById('btn-camada-google-ruas'));
 
-        // Marcador Especial: Sede da Diretoria de Ensino (URE Itapevi)
         const iconeSede = criarIconeMarcadorMapa('#0284c7', '🏛️');
         if (iconeSede) {
           L.marker(COORDENADA_SEDE_DIRETORIA, { icon: iconeSede })
@@ -1321,7 +1556,13 @@ if (!window.mostrarHome) {
               '<div style="margin-top: 8px;">' +
               '<a href="https:' + String.fromCharCode(47, 47) + 'www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Diretoria de Ensino Região de Itapevi') + '" target="_blank" rel="noopener noreferrer" style="display: block; text-align: center; background: #0b2351; color: #ffffff; text-decoration: none; padding: 5px 8px; border-radius: 6px; font-weight: 700; font-size: 0.72rem;">' +
               '📍 Abrir no Google Maps</a>' +
-              '</div></div>'
+              '</div></div>',
+              {
+                autoPan: true,
+                autoPanPaddingTopLeft: L.point(25, 95),
+                autoPanPaddingBottomRight: L.point(25, 30),
+                keepInView: true
+              }
             );
         }
       } else {
@@ -1330,36 +1571,59 @@ if (!window.mostrarHome) {
 
       renderizarMarcadoresNoMapa();
       atualizarContadoresFiltrosMapa();
+
+      setTimeout(() => {
+        if (mapaRedeInstancia) {
+          mapaRedeInstancia.invalidateSize();
+          enquadrarMapaParaEscolas(listaEscolas);
+        }
+      }, 200);
     }
 
     function focarSedeDiretoriaMapa() {
       if (mapaRedeInstancia) {
-        mapaRedeInstancia.setView(COORDENADA_SEDE_DIRETORIA, 15);
+        mapaRedeInstancia.flyTo(COORDENADA_SEDE_DIRETORIA, 15, { animate: true, duration: 0.7 });
       }
     }
 
     function focarEscolaNoMapaPorCie(cie) {
       if (!mapaRedeInstancia) return;
-      const coords = COORDENADAS_REDE_ESCOLAS[cie];
-      if (!coords) return;
+      const cieLimpo = String(cie || '').trim();
+      const coords = COORDENADAS_REDE_ESCOLAS[cieLimpo];
+      if (!coords) {
+        console.warn('Coordenadas não encontradas para o CIE:', cieLimpo);
+        return;
+      }
 
-      mapaRedeInstancia.flyTo(coords, 16, { animate: true, duration: 0.8 });
-      const markerObj = marcadoresEscolasMapa.find(m => m.cieEscola === cie);
+      document.querySelectorAll('.card-escola-mapa').forEach(c => c.classList.remove('ativo'));
+      const activeCard = document.getElementById('card-mapa-' + cieLimpo);
+      if (activeCard) {
+        activeCard.classList.add('ativo');
+        activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Headroom de latitude para centralizar popup perfeitamente sem corte superior
+      const latCentrado = coords[0] + 0.0035;
+      const lngCentrado = coords[1];
+
+      mapaRedeInstancia.flyTo([latCentrado, lngCentrado], 15, { animate: true, duration: 0.35 });
+
+      const markerObj = marcadoresEscolasMapa.find(m => String(m.cieEscola) === cieLimpo);
       if (markerObj) {
-        setTimeout(() => markerObj.openPopup(), 450);
+        setTimeout(() => {
+          markerObj.openPopup();
+        }, 280);
       }
     }
 
     function renderizarMarcadoresNoMapa(termoBusca) {
       if (!mapaRedeInstancia || typeof L === 'undefined') return;
 
-      // Limpar marcadores anteriores
       marcadoresEscolasMapa.forEach(m => mapaRedeInstancia.removeLayer(m));
       marcadoresEscolasMapa = [];
 
       const termo = (termoBusca || '').trim().toLowerCase();
       let escolasFiltradas = listaEscolas.filter(e => {
-        // Filtro por Município
         if (filtroMapaMunicipioAtivo !== 'todas') {
           if (filtroMapaMunicipioAtivo === 'Pirapora') {
             if (!e.cidade.includes('Pirapora')) return false;
@@ -1368,12 +1632,10 @@ if (!window.mostrarHome) {
           }
         }
 
-        // Filtro por Visita
         const isVis = visitasRegistro[e.id] && visitasRegistro[e.id].visitada;
         if (filtroMapaVisitaAtivo === 'visitadas' && !isVis) return false;
         if (filtroMapaVisitaAtivo === 'pendentes' && isVis) return false;
 
-        // Filtro por Termo de Busca
         if (termo) {
           const nomeNorm = (e.nome || '').toLowerCase();
           const cieNorm = (e.cie || '').toLowerCase();
@@ -1399,12 +1661,14 @@ if (!window.mostrarHome) {
             const isVis = visitasRegistro[e.id] && visitasRegistro[e.id].visitada;
             const distKm = calcularDistanciaSedeKm(COORDENADAS_REDE_ESCOLAS[e.cie]);
             const borderLeft = isVis ? '3.5px solid #10b981' : '3.5px solid #f59e0b';
-            return '<div onclick="focarEscolaNoMapaPorCie(\' + e.cie + \')" style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: ' + borderLeft + '; border-radius: 8px; padding: 7px 9px; cursor: pointer; transition: all 0.15s ease;" onmouseenter="this.style.background=\'#f1f5f9\'" onmouseleave="this.style.background=\'#f8fafc\'">' +
+            const cieStr = String(e.cie || '');
+            
+            return '<div class="card-escola-mapa" id="card-mapa-' + cieStr + '" data-cie="' + cieStr + '" onclick="focarEscolaNoMapaPorCie(this.dataset.cie)" style="border-left: ' + borderLeft + ';">' +
               '<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 4px;">' +
                 '<strong style="font-size: 0.8rem; color: #0b2351; line-height: 1.2;">' + e.nome + '</strong>' +
                 '<span style="font-size: 9.5px; font-weight: 800; padding: 1px 5px; border-radius: 4px; background: ' + (isVis ? '#dcfce7' : '#fef3c7') + '; color: ' + (isVis ? '#047857' : '#b45309') + '; white-space: nowrap;">' + (isVis ? 'Visitada' : 'Pendente') + '</span>' +
               '</div>' +
-              '<div style="font-size: 0.71rem; color: #64748b; margin-top: 2px;">CIE ' + (e.cie || '---') + ' • ' + e.cidade + '</div>' +
+              '<div style="font-size: 0.71rem; color: #64748b; margin-top: 2px;">CIE ' + cieStr + ' • ' + e.cidade + '</div>' +
               '<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 3px; font-size: 0.68rem; color: #475569;">' +
                 '<span>📍 ' + distKm + ' km da Sede</span>' +
                 '<span style="color: #0284c7; font-weight: 700;">Ver no Mapa ➔</span>' +
@@ -1426,8 +1690,10 @@ if (!window.mostrarHome) {
         const gmapsDirUrl = 'https:' + String.fromCharCode(47, 47) + 'www.google.com/maps/dir/?api=1&destination=' +
           encodeURIComponent(e.nome + ', ' + (e.bairro || '') + ', ' + e.cidade + ' - SP');
 
+        const gmapsStreetViewUrl = 'https:' + String.fromCharCode(47, 47) + 'www.google.com/maps/@?api=1&map_action=pano&viewpoint=' + coords[0] + ',' + coords[1];
+
         const popupContent =
-          '<div style="font-family: inherit; min-width: 250px; max-width: 310px; padding: 2px;">' +
+          '<div style="font-family: inherit; min-width: 260px; max-width: 320px; padding: 2px;">' +
             '<div style="display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 6px;">' +
               '<span style="font-size: 0.68rem; font-weight: 800; background: #e0f2fe; color: #0284c7; padding: 2px 6px; border-radius: 4px;">CIE ' + (e.cie || '---') + '</span>' +
               '<span style="font-size: 0.68rem; font-weight: 800; background: ' + (isVis ? '#dcfce7' : '#fef3c7') + '; color: ' + (isVis ? '#047857' : '#b45309') + '; padding: 2px 6px; border-radius: 4px;">' +
@@ -1450,11 +1716,14 @@ if (!window.mostrarHome) {
                 '🧭 Traçar Rota no Google Maps' +
               '</a>' +
               '<div style="display: flex; gap: 4px;">' +
-                '<button type="button" onclick="abrirCarroOficial();" style="flex: 1; background: #f09b0c; color: #ffffff; border: none; padding: 5px 6px; border-radius: 6px; font-weight: 700; font-size: 0.72rem; cursor: pointer;">' +
+                '<a href="' + gmapsStreetViewUrl + '" target="_blank" rel="noopener noreferrer" style="flex: 1; text-align: center; text-decoration: none; background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; padding: 5px 4px; border-radius: 6px; font-weight: 700; font-size: 0.71rem;">' +
+                  '📷 Street View' +
+                '</a>' +
+                '<button type="button" onclick="abrirCarroOficial();" style="flex: 1; background: #f09b0c; color: #ffffff; border: none; padding: 5px 4px; border-radius: 6px; font-weight: 700; font-size: 0.71rem; cursor: pointer;">' +
                   '🚗 Agendar Carro' +
                 '</button>' +
-                '<button type="button" onclick="abrirEscolaPorCie(\'' + e.cie + '\');" style="flex: 1; background: #ffffff; color: #334155; border: 1px solid #cbd5e1; padding: 5px 6px; border-radius: 6px; font-weight: 700; font-size: 0.72rem; cursor: pointer;">' +
-                  '🏫 Ver Unidade' +
+                '<button type="button" onclick="abrirEscolaPorCie(\'' + e.cie + '\');" style="flex: 1; background: #ffffff; color: #334155; border: 1px solid #cbd5e1; padding: 5px 4px; border-radius: 6px; font-weight: 700; font-size: 0.71rem; cursor: pointer;">' +
+                  '🏫 Ficha' +
                 '</button>' +
               '</div>' +
             '</div>' +
@@ -1462,9 +1731,20 @@ if (!window.mostrarHome) {
 
         const marker = L.marker(coords, { icon: iconUsado })
           .addTo(mapaRedeInstancia)
-          .bindPopup(popupContent);
+          .bindPopup(popupContent, {
+            autoPan: true,
+            autoPanPaddingTopLeft: L.point(25, 95),
+            autoPanPaddingBottomRight: L.point(25, 30),
+            keepInView: true,
+            closeButton: true
+          });
 
-        marker.cieEscola = e.cie;
+        marker.cieEscola = String(e.cie);
+        marker.on('click', function() {
+          const latCentrado = coords[0] + 0.0035;
+          mapaRedeInstancia.panTo([latCentrado, coords[1]], { animate: true, duration: 0.4 });
+          focarEscolaNoMapaPorCie(e.cie);
+        });
         marcadoresEscolasMapa.push(marker);
       });
 
@@ -1474,55 +1754,35 @@ if (!window.mostrarHome) {
       }
     }
 
-    function atualizarContadoresFiltrosMapa() {
-      const setEl = (id, val) => {
-        const el = document.getElementById(id);
-        if (el) el.innerText = val;
-      };
-
-      setEl('map-cnt-todas', listaEscolas.length);
-      setEl('map-cnt-itapevi', listaEscolas.filter(e => e.cidade === 'Itapevi').length);
-      setEl('map-cnt-barueri', listaEscolas.filter(e => e.cidade === 'Barueri').length);
-      setEl('map-cnt-jandira', listaEscolas.filter(e => e.cidade === 'Jandira').length);
-      setEl('map-cnt-pirapora', listaEscolas.filter(e => e.cidade.includes('Pirapora')).length);
-
-      let vis = 0;
-      listaEscolas.forEach(e => {
-        if (visitasRegistro[e.id] && visitasRegistro[e.id].visitada) vis++;
+    function filtrarMapaPorMunicipio(municipio, btnEl) {
+      filtroMapaMunicipioAtivo = municipio;
+      document.querySelectorAll('#pane-mapas .btn-filter-pill').forEach(b => {
+        b.classList.remove('active');
+        b.style.background = '#f8fafc';
+        b.style.color = '#475569';
       });
-      setEl('map-cnt-visitadas', vis);
-      setEl('map-cnt-pendentes', listaEscolas.length - vis);
+      if (btnEl) {
+        btnEl.classList.add('active');
+        btnEl.style.background = '#0284c7';
+        btnEl.style.color = '#ffffff';
+      }
+      renderizarMarcadoresNoMapa(document.getElementById('mapa-search-input')?.value);
+
+      const filtradas = listaEscolas.filter(e => {
+        if (municipio === 'todas') return true;
+        if (municipio === 'Pirapora') return e.cidade.includes('Pirapora');
+        return e.cidade === municipio;
+      });
+      enquadrarMapaParaEscolas(filtradas);
     }
 
-    function filtrarMapaPorMunicipio(mun, btnEl) {
-      filtroMapaMunicipioAtivo = mun;
-      document.querySelectorAll('#mapa-filter-municipios button').forEach(btn => btn.classList.remove('active'));
-      if (btnEl) btnEl.classList.add('active');
-
-      renderizarMarcadoresNoMapa(document.getElementById('mapa-search-input') ? document.getElementById('mapa-search-input').value : '');
-
-      if (mapaRedeInstancia) {
-        if (mun === 'Itapevi') mapaRedeInstancia.flyTo([-23.548, -46.932], 13);
-        else if (mun === 'Barueri') mapaRedeInstancia.flyTo([-23.511, -46.876], 13);
-        else if (mun === 'Jandira') mapaRedeInstancia.flyTo([-23.528, -46.903], 14);
-        else if (mun === 'Pirapora') mapaRedeInstancia.flyTo([-23.405, -46.990], 13);
-        else mapaRedeInstancia.flyTo(CENTRO_REGIONAL_URE, 12);
-      }
-    }
-
-    function filtrarMapaPorVisita(visStatus, btnEl) {
-      if (filtroMapaVisitaAtivo === visStatus) {
-        filtroMapaVisitaAtivo = 'todas';
-        if (btnEl) btnEl.classList.remove('active');
-      } else {
-        filtroMapaVisitaAtivo = visStatus;
-        const bVis = document.getElementById('map-pill-visitadas');
-        const bPend = document.getElementById('map-pill-pendentes');
-        if (bVis) bVis.classList.remove('active');
-        if (bPend) bPend.classList.remove('active');
-        if (btnEl) btnEl.classList.add('active');
-      }
-      renderizarMarcadoresNoMapa(document.getElementById('mapa-search-input') ? document.getElementById('mapa-search-input').value : '');
+    function filtrarMapaPorVisita(status, btnEl) {
+      filtroMapaVisitaAtivo = status;
+      document.querySelectorAll('#pane-mapas button[id^="map-vis-"]').forEach(b => {
+        b.style.background = '#f1f5f9';
+      });
+      if (btnEl) btnEl.style.background = '#e2e8f0';
+      renderizarMarcadoresNoMapa(document.getElementById('mapa-search-input')?.value);
     }
 
     function buscarNoMapaRede(termo) {
@@ -1532,25 +1792,47 @@ if (!window.mostrarHome) {
     function resetarVisualizacaoMapaRede() {
       filtroMapaMunicipioAtivo = 'todas';
       filtroMapaVisitaAtivo = 'todas';
-      const searchInp = document.getElementById('mapa-search-input');
-      if (searchInp) searchInp.value = '';
+      const searchInput = document.getElementById('mapa-search-input');
+      if (searchInput) searchInput.value = '';
 
-      document.querySelectorAll('#mapa-filter-municipios button').forEach(b => b.classList.remove('active'));
-      const bTodas = document.getElementById('map-pill-todas');
-      if (bTodas) bTodas.classList.add('active');
-
-      const bVis = document.getElementById('map-pill-visitadas');
-      const bPend = document.getElementById('map-pill-pendentes');
-      if (bVis) bVis.classList.remove('active');
-      if (bPend) bPend.classList.remove('active');
+      const pillTodas = document.getElementById('map-pill-todas');
+      if (pillTodas) {
+        document.querySelectorAll('#pane-mapas .btn-filter-pill').forEach(b => {
+          b.classList.remove('active');
+          b.style.background = '#f8fafc';
+          b.style.color = '#475569';
+        });
+        pillTodas.classList.add('active');
+        pillTodas.style.background = '#0284c7';
+        pillTodas.style.color = '#ffffff';
+      }
 
       renderizarMarcadoresNoMapa();
-      if (mapaRedeInstancia) {
-        mapaRedeInstancia.flyTo(CENTRO_REGIONAL_URE, 12);
-      }
+      enquadrarMapaParaEscolas(listaEscolas);
     }
 
+    function atualizarContadoresFiltrosMapa() {
+      let totItapevi = 0, totBarueri = 0, totJandira = 0, totPirapora = 0;
+      listaEscolas.forEach(e => {
+        if (e.cidade === 'Itapevi') totItapevi++;
+        else if (e.cidade === 'Barueri') totBarueri++;
+        else if (e.cidade === 'Jandira') totJandira++;
+        else if (e.cidade && e.cidade.includes('Pirapora')) totPirapora++;
+      });
+
+      const pItapevi = document.getElementById('map-pill-itapevi');
+      if (pItapevi) pItapevi.innerText = 'Itapevi ' + totItapevi;
+      const pBarueri = document.getElementById('map-pill-barueri');
+      if (pBarueri) pBarueri.innerText = 'Barueri ' + totBarueri;
+      const pJandira = document.getElementById('map-pill-jandira');
+      if (pJandira) pJandira.innerText = 'Jandira ' + totJandira;
+      const pPirapora = document.getElementById('map-pill-pirapora');
+      if (pPirapora) pPirapora.innerText = 'Pirapora ' + totPirapora;
+    }
+
+    // Expor no escopo global
     window.abrirMapaRede = abrirMapaRede;
+    window.inicializarOuAtualizarMapaRede = inicializarOuAtualizarMapaRede;
     window.alternarCamadaMapa = alternarCamadaMapa;
     window.focarSedeDiretoriaMapa = focarSedeDiretoriaMapa;
     window.focarEscolaNoMapaPorCie = focarEscolaNoMapaPorCie;
@@ -1558,7 +1840,7 @@ if (!window.mostrarHome) {
     window.filtrarMapaPorVisita = filtrarMapaPorVisita;
     window.buscarNoMapaRede = buscarNoMapaRede;
     window.resetarVisualizacaoMapaRede = resetarVisualizacaoMapaRede;
-
+    window.enquadrarMapaParaEscolas = enquadrarMapaParaEscolas;    window.enquadrarMapaParaEscolas = enquadrarMapaParaEscolas;    window.enquadrarMapaParaEscolas = enquadrarMapaParaEscolas;    window.enquadrarMapaParaEscolas = enquadrarMapaParaEscolas;
     window.fecharAlertaSincronizacao = fecharAlertaSincronizacao;
     window.mostrarToastGlobal = mostrarToastGlobal;
 
@@ -11849,138 +12131,187 @@ function imprimirAgendaCarro() {
       <!-- ======================================================== -->
       <!-- VIEW 10: MAPA GEOGRÁFICO DA REDE ESCOLAR (URE ITAPEVI) -->
       <!-- ======================================================== -->
-      <section id="pane-mapas" class="view-pane">
+                              <section id="pane-mapas" class="view-pane">
 
-        <!-- HEADER PRINCIPAL COMPACTO & EXECUTIVO -->
-        <div style="background: linear-gradient(135deg, #0b2351 0%, #173877 100%); border-radius: 12px; padding: 1.15rem 1.5rem; margin-bottom: 1rem; color: #ffffff; box-shadow: 0 4px 14px rgba(11,35,81,0.12); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.85rem;">
+        <style>
+          .card-escola-mapa {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 7px 9px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+          }
+          .card-escola-mapa:hover {
+            background: #f1f5f9;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+          }
+          .card-escola-mapa.ativo {
+            background: #e0f2fe !important;
+            border-color: #0284c7 !important;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.2) !important;
+          }
+        </style>
+
+        <!-- HEADER PRINCIPAL EXECUTIVO COM RIBBON DE KPIS TERRITORIAIS -->
+        <div style="background: linear-gradient(135deg, #0b2351 0%, #173877 100%); border-radius: 12px; padding: 1.15rem 1.5rem; margin-bottom: 0.85rem; color: #ffffff; box-shadow: 0 4px 14px rgba(11,35,81,0.12); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.85rem;">
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="font-size: 0.72rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.06em; text-transform: uppercase;">DIRETORIA REGIONAL DE ENSINO • URE ITAPEVI</span>
-              <span style="font-size: 0.68rem; font-weight: 700; background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); padding: 1px 7px; border-radius: 999px;">Google Maps Integrado</span>
+              <span style="font-size: 0.68rem; font-weight: 700; background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); padding: 1px 7px; border-radius: 999px;">Google Maps Corporativo</span>
             </div>
-            <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0.2rem 0 0.1rem 0; color: #ffffff; letter-spacing: -0.01em;">Centro de Inteligência Territorial • 60 Escolas</h2>
-            <p style="margin: 0; font-size: 0.8rem; color: #cbd5e1;">
-              Delimitação estrita da URE Itapevi (Itapevi, Barueri, Jandira e Pirapora do Bom Jesus) com camadas do Google Maps e rotas GPS.
+            <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0.2rem 0 0 0; color: #ffffff; letter-spacing: -0.02em;">Centro de Inteligência Territorial • 60 Escolas</h2>
+            <p style="margin: 0.15rem 0 0 0; font-size: 0.8rem; color: #cbd5e1; opacity: 0.95;">
+              Delimitação operacional da URE Itapevi (Itapevi, Barueri, Jandira e Pirapora do Bom Jesus) com camadas oficiais Google Maps e rotas GPS.
             </p>
           </div>
-          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-            <button type="button" class="btn-visitas-action" onclick="abrirCarroOficial()" style="background: #f09b0c; color: #ffffff; border: none; padding: 0.45rem 0.95rem; border-radius: 7px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(240,155,12,0.35);">
-              <span>🚗</span> Solicitar Carro Oficial
+
+          <!-- BOTÕES RÁPIDOS DA GESTÃO -->
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <button type="button" onclick="abrirCarroOficial();" style="display: inline-flex; align-items: center; gap: 6px; background: #f09b0c; color: #ffffff; border: none; padding: 7px 14px; border-radius: 8px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 2px 6px rgba(240,155,12,0.3); transition: all 0.2s ease;">
+              <span>🚗 Solicitar Carro Oficial</span>
             </button>
-            <button type="button" class="btn-visitas-action" onclick="abrirVisitas()" style="background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.22); padding: 0.45rem 0.85rem; border-radius: 7px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-              <span>✔️</span> Visitas
+            <button type="button" onclick="abrirVisitas();" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); padding: 7px 12px; border-radius: 8px; font-weight: 600; font-size: 0.78rem; cursor: pointer; transition: all 0.2s ease;">
+              <span>📝 Visitas</span>
             </button>
-            <button type="button" class="btn-visitas-action" onclick="abrirEscolas()" style="background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.22); padding: 0.45rem 0.85rem; border-radius: 7px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-              <span>🏫</span> Escolas
+            <button type="button" onclick="abrirEscolaPorCie(''); abrirEscolas();" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); padding: 7px 12px; border-radius: 8px; font-weight: 600; font-size: 0.78rem; cursor: pointer; transition: all 0.2s ease;">
+              <span>🏫 Escolas</span>
             </button>
           </div>
         </div>
 
-        <!-- LAYOUT SPLIT COMMAND CENTER: COLUNA DE GESTÃO + COLUNA DE MAPA GOOGLE -->
-        <div style="display: grid; grid-template-columns: 360px 1fr; gap: 1rem; align-items: start;">
+        <!-- RIBBON EXECUTIVO DE KPIS TERRITORIAIS (VISÃO ANALÍTICA SÊNIOR) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.65rem; margin-bottom: 0.85rem;">
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.6rem 0.9rem; display: flex; align-items: center; gap: 0.7rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+            <div style="width: 34px; height: 34px; border-radius: 8px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">🏫</div>
+            <div>
+              <div style="font-size: 0.68rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Unidades na Rede</div>
+              <div style="font-size: 1.05rem; font-weight: 800; color: #0b2351; line-height: 1.2;">60 Escolas <span style="font-size: 0.68rem; color: #10b981; font-weight: 700;">(100% Pessoal/Ativa)</span></div>
+            </div>
+          </div>
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.6rem 0.9rem; display: flex; align-items: center; gap: 0.7rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+            <div style="width: 34px; height: 34px; border-radius: 8px; background: #fef3c7; color: #b45309; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">🏛️</div>
+            <div>
+              <div style="font-size: 0.68rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Sede da URE</div>
+              <div style="font-size: 1.05rem; font-weight: 800; color: #0b2351; line-height: 1.2;">Itapevi <span style="font-size: 0.68rem; color: #64748b; font-weight: 600;">(Av. Pres. Vargas, 900)</span></div>
+            </div>
+          </div>
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.6rem 0.9rem; display: flex; align-items: center; gap: 0.7rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+            <div style="width: 34px; height: 34px; border-radius: 8px; background: #dcfce7; color: #047857; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">📏</div>
+            <div>
+              <div style="font-size: 0.68rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Raio de Atendimento</div>
+              <div style="font-size: 1.05rem; font-weight: 800; color: #0b2351; line-height: 1.2;">~24,8 km <span style="font-size: 0.68rem; color: #64748b; font-weight: 600;">(Pirapora ao Norte)</span></div>
+            </div>
+          </div>
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.6rem 0.9rem; display: flex; align-items: center; gap: 0.7rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+            <div style="width: 34px; height: 34px; border-radius: 8px; background: #f1f5f9; color: #475569; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">🚦</div>
+            <div>
+              <div style="font-size: 0.68rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Malha Rodoviária</div>
+              <div style="font-size: 1.05rem; font-weight: 800; color: #0b2351; line-height: 1.2;">SP-280 & SP-274 <span style="font-size: 0.68rem; color: #0284c7; font-weight: 700;">(Tráfego Ativo)</span></div>
+            </div>
+          </div>
+        </div>
 
-          <!-- COLUNA ESQUERDA: LISTA DE ESCOLAS, BUSCA E FILTROS RÁPIDOS -->
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; height: 580px;">
+        <!-- SPLIT COMMAND CENTER: COLUNA ESQUERDA (BUSCA & ESCOLAS) + COLUNA DIREITA (GOOGLE MAPS) -->
+        <div style="display: flex; gap: 0.9rem; align-items: stretch; flex-wrap: wrap;">
+
+          <!-- COLUNA ESQUERDA: LISTA EXECUTIVA DE UNIDADES ESCOLARES -->
+          <div style="width: 360px; min-width: 320px; flex-shrink: 0; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; height: 570px;">
             
-            <!-- Campo de Busca Instantânea -->
-            <div style="position: relative; margin-bottom: 0.75rem;">
-              <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 0.84rem; color: #94a3b8;">🔍</span>
-              <input type="text" id="mapa-search-input" placeholder="Buscar por escola, CIE ou bairro..." oninput="buscarNoMapaRede(this.value)" style="width: 100%; padding: 0.5rem 0.75rem 0.5rem 2rem; border: 1.5px solid #cbd5e1; border-radius: 7px; font-size: 0.8rem; outline: none; background: #f8fafc;">
-            </div>
-
-            <!-- Abas de Município da URE -->
-            <div style="display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 0.65rem;" id="mapa-filter-municipios">
-              <button type="button" class="btn-inv-filter active" id="map-pill-todas" onclick="filtrarMapaPorMunicipio('todas', this)" style="padding: 4px 9px; font-size: 11px;">
-                Todas <span class="filter-count-badge" id="map-cnt-todas">60</span>
-              </button>
-              <button type="button" class="btn-inv-filter" id="map-pill-itapevi" onclick="filtrarMapaPorMunicipio('Itapevi', this)" style="padding: 4px 9px; font-size: 11px;">
-                Itapevi <span class="filter-count-badge" id="map-cnt-itapevi">25</span>
-              </button>
-              <button type="button" class="btn-inv-filter" id="map-pill-barueri" onclick="filtrarMapaPorMunicipio('Barueri', this)" style="padding: 4px 9px; font-size: 11px;">
-                Barueri <span class="filter-count-badge" id="map-cnt-barueri">19</span>
-              </button>
-              <button type="button" class="btn-inv-filter" id="map-pill-jandira" onclick="filtrarMapaPorMunicipio('Jandira', this)" style="padding: 4px 9px; font-size: 11px;">
-                Jandira <span class="filter-count-badge" id="map-cnt-jandira">14</span>
-              </button>
-              <button type="button" class="btn-inv-filter" id="map-pill-pirapora" onclick="filtrarMapaPorMunicipio('Pirapora', this)" style="padding: 4px 9px; font-size: 11px;">
-                Pirapora <span class="filter-count-badge" id="map-cnt-pirapora">2</span>
-              </button>
-            </div>
-
-            <!-- Filtros de Visitas da Dirigente -->
-            <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; padding-bottom: 0.65rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 0.65rem;">
-              <div style="display: flex; gap: 5px;">
-                <button type="button" class="btn-inv-filter" id="map-pill-visitadas" onclick="filtrarMapaPorVisita('visitadas', this)" style="padding: 3px 8px; font-size: 10.5px;">
-                  🟢 Visitadas <span class="filter-count-badge" id="map-cnt-visitadas">54</span>
-                </button>
-                <button type="button" class="btn-inv-filter" id="map-pill-pendentes" onclick="filtrarMapaPorVisita('pendentes', this)" style="padding: 3px 8px; font-size: 10.5px;">
-                  🟠 Pendentes <span class="filter-count-badge" id="map-cnt-pendentes">6</span>
-                </button>
+            <!-- BARRA DE PESQUISA SUPERIOR -->
+            <div style="padding: 0.85rem 0.9rem 0.6rem 0.9rem; border-bottom: 1px solid #f1f5f9;">
+              <div style="position: relative;">
+                <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 0.82rem; color: #94a3b8;">🔍</span>
+                <input type="text" id="mapa-search-input" placeholder="Buscar por escola, CIE ou bairro..." oninput="buscarNoMapaRede(this.value);" style="width: 100%; box-sizing: border-box; padding: 7px 10px 7px 30px; font-size: 0.78rem; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; transition: border-color 0.15s ease;" onfocus="this.style.borderColor='#0284c7'" onblur="this.style.borderColor='#cbd5e1'" />
               </div>
-              <span id="mapa-status-exibicao" style="font-size: 11px; font-weight: 700; color: #0b2351; white-space: nowrap;">60 escolas</span>
+
+              <!-- PILLS DE FILTROS POR MUNICÍPIO -->
+              <div style="display: flex; gap: 4px; flex-wrap: wrap; margin-top: 0.55rem;">
+                <button type="button" id="map-pill-todas" onclick="filtrarMapaPorMunicipio('todas', this);" class="btn-filter-pill active" style="font-size: 10.5px; padding: 3px 8px; border-radius: 999px; border: 1px solid #cbd5e1; background: #0284c7; color: #ffffff; cursor: pointer; font-weight: 700;">Todas 60</button>
+                <button type="button" id="map-pill-itapevi" onclick="filtrarMapaPorMunicipio('Itapevi', this);" class="btn-filter-pill" style="font-size: 10.5px; padding: 3px 8px; border-radius: 999px; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; font-weight: 600;">Itapevi 25</button>
+                <button type="button" id="map-pill-barueri" onclick="filtrarMapaPorMunicipio('Barueri', this);" class="btn-filter-pill" style="font-size: 10.5px; padding: 3px 8px; border-radius: 999px; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; font-weight: 600;">Barueri 19</button>
+                <button type="button" id="map-pill-jandira" onclick="filtrarMapaPorMunicipio('Jandira', this);" class="btn-filter-pill" style="font-size: 10.5px; padding: 3px 8px; border-radius: 999px; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; font-weight: 600;">Jandira 14</button>
+                <button type="button" id="map-pill-pirapora" onclick="filtrarMapaPorMunicipio('Pirapora', this);" class="btn-filter-pill" style="font-size: 10.5px; padding: 3px 8px; border-radius: 999px; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; font-weight: 600;">Pirapora 2</button>
+              </div>
+
+              <!-- FILTRO STATUS DE VISITAÇÃO & CONTADOR -->
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; font-size: 11px;">
+                <div style="display: flex; gap: 4px;">
+                  <button type="button" id="map-vis-todas" onclick="filtrarMapaPorVisita('todas', this);" style="background: #e2e8f0; color: #1e293b; border: none; padding: 2px 6px; border-radius: 4px; font-weight: 700; cursor: pointer; font-size: 10px;">Todas</button>
+                  <button type="button" id="map-vis-visitadas" onclick="filtrarMapaPorVisita('visitadas', this);" style="background: #f1f5f9; color: #047857; border: 1px solid #d1fae5; padding: 2px 6px; border-radius: 4px; font-weight: 700; cursor: pointer; font-size: 10px;">● Visitadas</button>
+                  <button type="button" id="map-vis-pendentes" onclick="filtrarMapaPorVisita('pendentes', this);" style="background: #f1f5f9; color: #b45309; border: 1px solid #fef3c7; padding: 2px 6px; border-radius: 4px; font-weight: 700; cursor: pointer; font-size: 10px;">▲ Pendentes</button>
+                </div>
+                <span id="mapa-status-exibicao" style="font-weight: 700; color: #64748b; font-size: 10.5px;">60 de 60 escolas</span>
+              </div>
             </div>
 
-            <!-- Lista Scrollável de Escolas Filtradas com Distância até a Sede -->
-            <div id="mapa-lista-escolas-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding-right: 4px;">
-              <!-- Cards gerados dinamicamente via JS -->
+            <!-- LISTAGEM COM ROLAGEM SUAVE DAS ESCOLAS -->
+            <div id="mapa-lista-escolas-container" style="flex: 1; overflow-y: auto; padding: 0.6rem; display: flex; flex-direction: column; gap: 0.45rem;">
+              <!-- Cards gerados via JS dinamicamente -->
             </div>
 
+            <!-- RODAPÉ DA LISTA -->
+            <div style="padding: 0.45rem 0.8rem; border-top: 1px solid #f1f5f9; background: #f8fafc; border-radius: 0 0 12px 12px; font-size: 10.5px; color: #64748b; display: flex; justify-content: space-between; align-items: center;">
+              <span>💡 Clique na escola para focar no mapa</span>
+              <span id="mapa-total-visitas-badge" style="font-weight: 700; color: #0284c7;">Diretoria de Ensino</span>
+            </div>
           </div>
 
-          <!-- COLUNA DIREITA: MAPA GOOGLE MAPS DELIMITADO & CAMADAS -->
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column;">
+          <!-- COLUNA DIREITA: MAPA GOOGLE MAPS LEAFLET -->
+          <div style="flex: 1; min-width: 480px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; flex-direction: column; height: 570px; overflow: hidden; position: relative;">
             
-            <!-- Barra Superior Flutuante de Camadas Google Maps & Ações Rápidas -->
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.65rem;">
-              <!-- Seletor de Camadas Google Maps -->
+            <!-- BARRA DE FERRAMENTAS SUPERIOR DO MAPA (CAMADAS GOOGLE MAPS & CONTROLES) -->
+            <div style="padding: 0.55rem 0.85rem; border-bottom: 1px solid #e2e8f0; background: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; z-index: 10;">
+              
+              <!-- SELETOR DE CAMADAS NATIVAS GOOGLE MAPS -->
               <div style="display: flex; gap: 4px; background: #f1f5f9; padding: 3px; border-radius: 8px;">
-                <button type="button" id="btn-camada-google-ruas" class="btn-inv-filter active" onclick="alternarCamadaMapa('ruas', this)" style="padding: 4px 10px; font-size: 11px; border: none; border-radius: 6px;">
-                  🗺️ Google Ruas
+                <button type="button" id="btn-camada-google-ruas" onclick="alternarCamadaMapa('ruas', this);" class="btn-camada-mapa active" style="font-size: 11px; padding: 4px 10px; border-radius: 6px; border: none; background: #0284c7; color: #ffffff; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                  <span>🗺️ Google Ruas</span>
                 </button>
-                <button type="button" id="btn-camada-google-satelite" class="btn-inv-filter" onclick="alternarCamadaMapa('satelite', this)" style="padding: 4px 10px; font-size: 11px; border: none; border-radius: 6px;">
-                  🛰️ Google Satélite
+                <button type="button" id="btn-camada-google-sat" onclick="alternarCamadaMapa('satelite', this);" class="btn-camada-mapa" style="font-size: 11px; padding: 4px 10px; border-radius: 6px; border: none; background: transparent; color: #475569; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                  <span>🛰️ Google Satélite</span>
                 </button>
-                <button type="button" id="btn-camada-google-transito" class="btn-inv-filter" onclick="alternarCamadaMapa('transito', this)" style="padding: 4px 10px; font-size: 11px; border: none; border-radius: 6px;">
-                  🚗 Trânsito ao Vivo
+                <button type="button" id="btn-camada-google-transito" onclick="alternarCamadaMapa('transito', this);" class="btn-camada-mapa" style="font-size: 11px; padding: 4px 10px; border-radius: 6px; border: none; background: transparent; color: #475569; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                  <span>🚗 Trânsito ao Vivo</span>
                 </button>
               </div>
 
-              <!-- Ações Rápidas de Foco Territorial -->
-              <div style="display: flex; gap: 5px;">
-                <button type="button" class="btn-inv-filter" onclick="focarSedeDiretoriaMapa()" title="Centralizar na Sede da Diretoria de Ensino" style="padding: 4px 9px; font-size: 11px;">
-                  🏛️ Sede URE
+              <!-- AÇÕES RÁPIDAS DE FOCO E NAVEGAÇÃO -->
+              <div style="display: flex; gap: 4px; align-items: center;">
+                <button type="button" onclick="focarSedeDiretoriaMapa();" title="Centralizar na Sede da Diretoria de Ensino" style="font-size: 11px; padding: 4px 9px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #334155; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                  <span>🏛️ Sede URE</span>
                 </button>
-                <button type="button" class="btn-inv-filter" onclick="resetarVisualizacaoMapaRede()" title="Enquadrar toda a URE Itapevi" style="padding: 4px 9px; font-size: 11px;">
-                  🔄 Focar Região
+                <button type="button" onclick="resetarVisualizacaoMapaRede();" title="Enquadrar todas as 60 escolas perfeitamente na tela" style="font-size: 11px; padding: 4px 9px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; color: #0284c7; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                  <span>🔄 Enquadrar Todas</span>
                 </button>
-                <a href="https://www.google.com/maps/search/Diretoria+de+Ensino+Itapevi" target="_blank" rel="noopener noreferrer" class="btn-inv-filter" title="Abrir visualização completa no site do Google Maps" style="padding: 4px 9px; font-size: 11px; text-decoration: none; color: #1e40af; background: #eff6ff; border-color: #bfdbfe;">
-                  ↗️ Google Maps
+                <a href="https://www.google.com/maps/search/?api=1&query=escolas+estaduais+itapevi+barueri+jandira+pirapora" target="_blank" rel="noopener noreferrer" style="font-size: 11px; padding: 4px 9px; border-radius: 6px; border: 1px solid #93c5fd; background: #eff6ff; color: #1d4ed8; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                  <span>↗️ Google Maps</span>
                 </a>
               </div>
+
             </div>
 
-            <!-- CONTAINER DO MAPA DELIMITADO (URE ITAPEVI FOCUS) -->
-            <div style="position: relative; width: 100%; height: 520px; border-radius: 10px; overflow: hidden; border: 1.5px solid #cbd5e1; background: #e2e8f0;">
-              <div id="mapa-container-leaflet" style="width: 100%; height: 100%; z-index: 1;"></div>
-            </div>
+            <!-- CONTAINER LEAFLET NATIVO -->
+            <div id="mapa-container-leaflet" style="flex: 1; width: 100%; min-height: 480px; background: #f8fafc; z-index: 1;"></div>
 
-            <!-- Legenda Compacta no Rodapé -->
-            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b; margin-top: 0.5rem; padding: 0 4px;">
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="display: flex; align-items: center; gap: 4px;">
-                  <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #10b981;"></span>
+            <!-- LEGENDA FLUTUANTE EM VIDRO (GLASSMORPHISM) -->
+            <div style="padding: 0.4rem 0.85rem; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; font-size: 11px; z-index: 10;">
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <span style="display: flex; align-items: center; gap: 5px; color: #065f46; font-weight: 700;">
+                  <span style="display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #10b981;"></span>
                   <b>Verde:</b> Visitada
                 </span>
-                <span style="display: flex; align-items: center; gap: 4px;">
-                  <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #f59e0b;"></span>
+                <span style="display: flex; align-items: center; gap: 5px; color: #92400e; font-weight: 700;">
+                  <span style="display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #f59e0b;"></span>
                   <b>Laranja:</b> Pendente
                 </span>
-                <span style="display: flex; align-items: center; gap: 4px;">
-                  <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #0284c7;"></span>
+                <span style="display: flex; align-items: center; gap: 5px; color: #0369a1; font-weight: 700;">
+                  <span style="display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #0284c7;"></span>
                   <b>Azul:</b> Sede URE Itapevi
                 </span>
               </div>
-              <span style="color: #94a3b8; font-size: 10.5px;">Área Restrita: URE Itapevi • Camadas Google Maps</span>
+              <span style="color: #94a3b8; font-size: 10.5px;">Enquadramento Dinâmico • URE Itapevi • Google Maps</span>
             </div>
 
           </div>
