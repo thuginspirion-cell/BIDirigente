@@ -2,8 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const XLSX = require('xlsx');
 
+const MESES_NOMES = [
+  '', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+];
+
 async function syncSematData() {
-  console.log('🔄 [SEMAT] Iniciando download da planilha SEMAT do SharePoint (26.5 MB)...');
+  console.log('🔄 [SEMAT] Iniciando download e tratamento completo da planilha SEMAT (26.5 MB)...');
   const rawUrl = 'https://seesp-my.sharepoint.com/:x:/g/personal/itp_semat_educacao_sp_gov_br/cQrYEXIt2H-VQ7J7y23DGOFPEgUCfXXr5h6IlHmqWJZMJFuU5Q?download=1';
   
   const res1 = await fetch(rawUrl, { redirect: 'manual' });
@@ -26,38 +31,58 @@ async function syncSematData() {
 
   const wb = XLSX.read(Buffer.from(buf), { type: 'buffer' });
 
-  function parseDateXlsx(val) {
-    if (!val) return '';
+  function parseDateXlsx(val, fallbackDate) {
     if (typeof val === 'number' && val >= 40000 && val <= 50000) {
       if (XLSX.SSF && typeof XLSX.SSF.parse_date_code === 'function') {
         const p = XLSX.SSF.parse_date_code(val);
-        if (p) return String(p.d).padStart(2, '0') + '/' + String(p.m).padStart(2, '0') + '/' + p.y;
+        if (p) {
+          const dStr = String(p.d).padStart(2, '0') + '/' + String(p.m).padStart(2, '0') + '/' + p.y;
+          return { str: dStr, mesNum: p.m, mesNome: MESES_NOMES[p.m] || 'Janeiro', timestamp: new Date(p.y, p.m - 1, p.d).getTime() };
+        }
       }
       const d = new Date(Math.round((val - 25569) * 86400 * 1000));
-      return String(d.getUTCDate()).padStart(2, '0') + '/' + String(d.getUTCMonth() + 1).padStart(2, '0') + '/' + d.getUTCFullYear();
+      const m = d.getUTCMonth() + 1;
+      const dStr = String(d.getUTCDate()).padStart(2, '0') + '/' + String(m).padStart(2, '0') + '/' + d.getUTCFullYear();
+      return { str: dStr, mesNum: m, mesNome: MESES_NOMES[m] || 'Janeiro', timestamp: d.getTime() };
     }
-    const str = String(val).trim();
-    const m = str.match(/(\d{1,2})[/-](\d{1,2})[/-]?(\d{2,4})?/);
-    if (m && m[1] && m[2]) {
-      let y = m[3] ? parseInt(m[3], 10) : 2026;
-      if (y < 100) y += 2000;
-      return String(m[1]).padStart(2, '0') + '/' + String(m[2]).padStart(2, '0') + '/' + y;
+    if (val) {
+      const str = String(val).trim();
+      const m = str.match(/(\d{1,2})[/-](\d{1,2})[/-]?(\d{2,4})?/);
+      if (m && m[1] && m[2]) {
+        let y = m[3] ? parseInt(m[3], 10) : 2026;
+        if (y < 100) y += 2000;
+        const dia = parseInt(m[1], 10);
+        const mes = parseInt(m[2], 10);
+        const dStr = String(dia).padStart(2, '0') + '/' + String(mes).padStart(2, '0') + '/' + y;
+        return { str: dStr, mesNum: mes, mesNome: MESES_NOMES[mes] || 'Janeiro', timestamp: new Date(y, mes - 1, dia).getTime() };
+      }
     }
-    return str;
+    // Fallback inteligente
+    const fb = fallbackDate || { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+    return fb;
   }
 
-  // 1. Processar ENTRADA SEI
+  // 1. Processar ENTRADA SEI (Todos os registros)
   const wsSei = wb.Sheets['ENTRADA SEI'];
   const rawSei = wsSei ? XLSX.utils.sheet_to_json(wsSei, { defval: '' }) : [];
   const processosSei = [];
+  let prevDateSei = { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+
   rawSei.forEach((r, idx) => {
     const prot = String(r['PROTOCOLO'] || '').trim();
     const ass = String(r['ASSUNTO'] || '').trim();
     if (!prot && !ass) return;
+    const rawD = r['DATA'] !== undefined && r['DATA'] !== '' ? r['DATA'] : r['Data'];
+    const dtObj = parseDateXlsx(rawD, prevDateSei);
+    if (rawD) prevDateSei = dtObj;
+
     processosSei.push({
       id: 'SEMAT-SEI-' + (idx + 1),
       protocolo: prot || 'S/N',
-      data: parseDateXlsx(r['DATA']),
+      data: dtObj.str,
+      mesNum: dtObj.mesNum,
+      mesNome: dtObj.mesNome,
+      timestamp: dtObj.timestamp,
       assunto: ass || 'Processo Administrativo',
       remetente: String(r['REMETENTE'] || '').trim(),
       interessado: String(r['INTERESSADO (A)'] || '').trim(),
@@ -66,48 +91,68 @@ async function syncSematData() {
     });
   });
 
-  // 2. Processar ATENDIMENTO EXTERNO (amostra de alta densidade: 300 mais recentes)
+  // 2. Processar ATENDIMENTO EXTERNO (Base Completa de Janeiro a Novembro)
   const wsAten = wb.Sheets['ATENDIMENTO EXTERNO'];
   const rawAten = wsAten ? XLSX.utils.sheet_to_json(wsAten, { defval: '' }) : [];
-  const totalAtendimentosExternos = rawAten.length;
-  const atendimentosRecentes = [];
-  const startAten = Math.max(0, rawAten.length - 300);
-  for (let i = rawAten.length - 1; i >= startAten; i--) {
-    const r = rawAten[i];
+  const atendimentos = [];
+  let prevDateAten = { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+  const contagemPorMesAten = {};
+
+  rawAten.forEach((r, idx) => {
     const aluno = String(r['NOME COMPLETO DO ALUNO '] || r['NOME COMPLETO DO ALUNO'] || '').trim();
-    if (!aluno) continue;
-    atendimentosRecentes.push({
-      id: 'ATEN-' + (i + 1),
-      data: parseDateXlsx(r['Data'] || r['DATA']),
+    if (!aluno) return;
+
+    const rawD = r['Data'] !== undefined && r['Data'] !== '' ? r['Data'] : r['DATA'];
+    const dtObj = parseDateXlsx(rawD, prevDateAten);
+    if (rawD) prevDateAten = dtObj;
+
+    contagemPorMesAten[dtObj.mesNum] = (contagemPorMesAten[dtObj.mesNum] || 0) + 1;
+
+    atendimentos.push({
+      id: 'ATEN-' + (idx + 1),
+      data: dtObj.str,
+      mesNum: dtObj.mesNum,
+      mesNome: dtObj.mesNome,
+      timestamp: dtObj.timestamp,
       hora: String(r['Hora'] || '').trim(),
       meio: String(r['MEIO DE ATENDIMENTO'] || 'Presencial').trim(),
-      solicitadoPor: String(r['SOLICITADO POR:'] || '').trim(),
+      solicitadoPor: String(r['SOLICITADO POR:'] || 'Responsável').trim(),
       aluno: aluno,
       ra: String(r['RA'] || '').trim() + (r['DG'] !== undefined && r['DG'] !== '' ? ('-' + r['DG']) : ''),
       escolaAtual: String(r['ESCOLA ATUAL'] || 'Fora da rede').trim(),
       serie: String(r['SÉRIE '] || r['SÉRIE'] || '').trim(),
       turnoAtual: String(r['TURNO ATUAL '] || '-').trim(),
-      escolaPretendida: String(r['ESCOLA PRETENDIDA'] || '').trim(),
-      turnoPretendido: String(r['TURNO PRETENDIDO'] || '').trim(),
+      escolaPretendida: String(r['ESCOLA PRETENDIDA'] || 'Não especificada').trim(),
+      turnoPretendido: String(r['TURNO PRETENDIDO'] || '-').trim(),
       motivo: String(r['MOTIVO'] || 'Solicitação de vaga/transferência').trim(),
       orientacao: String(r['ORIENTAÇÃO SEMAT'] || '').trim(),
       responsavel: String(r['RESPONSÁVEL'] || r['RESPONSÁVEL '] || 'SEMAT').trim()
     });
-  }
+  });
 
-  // 3. Processar MATRÍCULA MANUAL (amostra de 250 mais recentes)
+  // 3. Processar MATRÍCULA MANUAL (Base Completa de Janeiro a Novembro)
   const wsMatMan = wb.Sheets['MATRÍCULA MANUAL'];
   const rawMatMan = wsMatMan ? XLSX.utils.sheet_to_json(wsMatMan, { defval: '' }) : [];
-  const totalMatriculasManuais = rawMatMan.length;
-  const matriculasRecentes = [];
-  const startMat = Math.max(0, rawMatMan.length - 250);
-  for (let i = rawMatMan.length - 1; i >= startMat; i--) {
-    const r = rawMatMan[i];
+  const matriculas = [];
+  let prevDateMat = { str: '06/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 6).getTime() };
+  const contagemPorMesMat = {};
+
+  rawMatMan.forEach((r, idx) => {
     const aluno = String(r['NOME COMPLETO DO ALUNO '] || r['NOME COMPLETO DO ALUNO'] || '').trim();
-    if (!aluno) continue;
-    matriculasRecentes.push({
-      id: 'MAT-' + (i + 1),
-      data: parseDateXlsx(r['DATA']),
+    if (!aluno) return;
+
+    const rawD = r['DATA'] !== undefined && r['DATA'] !== '' ? r['DATA'] : r['Data'];
+    const dtObj = parseDateXlsx(rawD, prevDateMat);
+    if (rawD) prevDateMat = dtObj;
+
+    contagemPorMesMat[dtObj.mesNum] = (contagemPorMesMat[dtObj.mesNum] || 0) + 1;
+
+    matriculas.push({
+      id: 'MAT-' + (idx + 1),
+      data: dtObj.str,
+      mesNum: dtObj.mesNum,
+      mesNome: dtObj.mesNome,
+      timestamp: dtObj.timestamp,
       aluno: aluno,
       ra: String(r['RA'] || '').trim() + (r['DG'] !== undefined && r['DG'] !== '' ? ('-' + r['DG']) : ''),
       escola: String(r['ESCOLA'] || '').trim(),
@@ -117,12 +162,11 @@ async function syncSematData() {
       responsavel: String(r['RESPONSÁVEL '] || 'SEMAT').trim(),
       observacao: String(r['OBSERVAÇÃO'] || '').trim()
     });
-  }
+  });
 
-  // 4. E-mails e Trocas de Escola
+  // 4. Totais e Metadados
   const wsEmail = wb.Sheets['E-MAIL'];
   const totalEmails = wsEmail ? XLSX.utils.sheet_to_json(wsEmail, { header: 1 }).length : 6302;
-
   const wsTrocas = wb.Sheets['TROCAS DE ESCOLA'];
   const totalTrocas = wsTrocas ? XLSX.utils.sheet_to_json(wsTrocas, { header: 1 }).length : 4062;
 
@@ -131,7 +175,7 @@ async function syncSematData() {
     meta: {
       nomeArquivo: 'Livro Entrada 2026 SEMAT.xlsx',
       setor: 'SEMAT - Seção de Matrícula',
-      servicoPai: 'SEGRE - Serviço de Gestão da Rede Escolar',
+      servicoPai: 'Serviço de Gestão da Rede Escolar (SEGRE)',
       contaResponsavel: 'itp_semat_educacao_sp_gov_br',
       sharepointUrl: 'https://seesp-my.sharepoint.com/:x:/g/personal/itp_semat_educacao_sp_gov_br/cQrYEXIt2H-VQ7J7y23DGOFPEgUCfXXr5h6IlHmqWJZMJFuU5Q',
       atualizadoEm: new Date().toISOString(),
@@ -140,21 +184,25 @@ async function syncSematData() {
     },
     kpis: {
       totalSei: processosSei.length,
-      totalAtendimentos: totalAtendimentosExternos,
-      totalMatriculasManuais: totalMatriculasManuais,
+      totalAtendimentos: atendimentos.length,
+      totalMatriculasManuais: matriculas.length,
       totalTrocasEscola: totalTrocas,
-      totalEmails: totalEmails
+      totalEmails: totalEmails,
+      mesesAtendimentos: contagemPorMesAten,
+      mesesMatriculas: contagemPorMesMat
     },
     processosSei: processosSei,
-    atendimentosRecentes: atendimentosRecentes,
-    matriculasRecentes: matriculasRecentes
+    atendimentos: atendimentos,
+    matriculas: matriculas
   };
 
   const dataDir = path.join(__dirname, '..', 'data');
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
   const outPath = path.join(dataDir, 'semat_livro_2026.json');
-  fs.writeFileSync(outPath, JSON.stringify(payload, null, 2), 'utf8');
-  console.log(`💾 [SEMAT] JSON salvo com sucesso: ${outPath} (${(fs.statSync(outPath).size / 1024).toFixed(1)} KB)`);
+  fs.writeFileSync(outPath, JSON.stringify(payload), 'utf8');
+  console.log(`💾 [SEMAT] JSON completo salvo: ${outPath} (${(fs.statSync(outPath).size / 1024).toFixed(1)} KB)`);
+  console.log('📊 Resumo Mensal Atendimentos SEMAT:', contagemPorMesAten);
+  console.log('📊 Resumo Mensal Matrículas SEMAT:', contagemPorMesMat);
   return payload;
 }
 

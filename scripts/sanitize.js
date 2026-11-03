@@ -1,13 +1,16 @@
 const fs = require('fs');
 let html = fs.readFileSync('index.html', 'utf8');
 
-// Replace literal https:// in DADOS_SEGRE sharepointUrl
 const target = '"sharepointUrl": "https://seesp-my.sharepoint.com';
 const rep = '"sharepointUrl": "https:\\/\\/seesp-my.sharepoint.com';
-if (html.includes(target)) {
+let count = 0;
+while (html.includes(target)) {
   html = html.replace(target, rep);
+  count++;
+}
+if (count > 0) {
   fs.writeFileSync('index.html', html, 'utf8');
-  console.log('✔ Sanitized sharepointUrl in DADOS_SEGRE');
+  console.log(`✔ Sanitized ${count} occurrences of sharepointUrl in index.html`);
 } else {
-  console.log('ℹ Target not found or already sanitized');
+  console.log('ℹ All occurrences already sanitized');
 }

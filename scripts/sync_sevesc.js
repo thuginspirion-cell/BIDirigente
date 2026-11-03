@@ -2,8 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const XLSX = require('xlsx');
 
+const MESES_NOMES = [
+  '', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+];
+
 async function syncSevescData() {
-  console.log('🔄 [SEVESC] Iniciando download da planilha SEVESC do SharePoint (1.2 MB)...');
+  console.log('🔄 [SEVESC] Iniciando download e tratamento completo da planilha SEVESC (1.2 MB)...');
   const rawUrl = 'https://seesp-my.sharepoint.com/:x:/g/personal/itp_sevesc_educacao_sp_gov_br/cQroeBSCMXZCQbbGQSCaAqMaEgUCxrdIuNVbs_RPejCEfptcng?download=1';
   
   const res1 = await fetch(rawUrl, { redirect: 'manual' });
@@ -26,38 +31,56 @@ async function syncSevescData() {
 
   const wb = XLSX.read(Buffer.from(buf), { type: 'buffer' });
 
-  function parseDateXlsx(val) {
-    if (!val) return '';
+  function parseDateXlsx(val, fallbackDate) {
     if (typeof val === 'number' && val >= 40000 && val <= 50000) {
       if (XLSX.SSF && typeof XLSX.SSF.parse_date_code === 'function') {
         const p = XLSX.SSF.parse_date_code(val);
-        if (p) return String(p.d).padStart(2, '0') + '/' + String(p.m).padStart(2, '0') + '/' + p.y;
+        if (p) {
+          const dStr = String(p.d).padStart(2, '0') + '/' + String(p.m).padStart(2, '0') + '/' + p.y;
+          return { str: dStr, mesNum: p.m, mesNome: MESES_NOMES[p.m] || 'Janeiro', timestamp: new Date(p.y, p.m - 1, p.d).getTime() };
+        }
       }
       const d = new Date(Math.round((val - 25569) * 86400 * 1000));
-      return String(d.getUTCDate()).padStart(2, '0') + '/' + String(d.getUTCMonth() + 1).padStart(2, '0') + '/' + d.getUTCFullYear();
+      const m = d.getUTCMonth() + 1;
+      const dStr = String(d.getUTCDate()).padStart(2, '0') + '/' + String(m).padStart(2, '0') + '/' + d.getUTCFullYear();
+      return { str: dStr, mesNum: m, mesNome: MESES_NOMES[m] || 'Janeiro', timestamp: d.getTime() };
     }
-    const str = String(val).trim();
-    const m = str.match(/(\d{1,2})[/-](\d{1,2})[/-]?(\d{2,4})?/);
-    if (m && m[1] && m[2]) {
-      let y = m[3] ? parseInt(m[3], 10) : 2026;
-      if (y < 100) y += 2000;
-      return String(m[1]).padStart(2, '0') + '/' + String(m[2]).padStart(2, '0') + '/' + y;
+    if (val) {
+      const str = String(val).trim();
+      const m = str.match(/(\d{1,2})[/-](\d{1,2})[/-]?(\d{2,4})?/);
+      if (m && m[1] && m[2]) {
+        let y = m[3] ? parseInt(m[3], 10) : 2026;
+        if (y < 100) y += 2000;
+        const dia = parseInt(m[1], 10);
+        const mes = parseInt(m[2], 10);
+        const dStr = String(dia).padStart(2, '0') + '/' + String(mes).padStart(2, '0') + '/' + y;
+        return { str: dStr, mesNum: mes, mesNome: MESES_NOMES[mes] || 'Janeiro', timestamp: new Date(y, mes - 1, dia).getTime() };
+      }
     }
-    return str;
+    return fallbackDate || { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
   }
 
-  // 1. Processar ENTRADA SEI
+  // 1. Processar ENTRADA SEI (Todos os registros)
   const wsSei = wb.Sheets['ENTRADA SEI'];
   const rawSei = wsSei ? XLSX.utils.sheet_to_json(wsSei, { defval: '' }) : [];
   const processosSei = [];
+  let prevDateSei = { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+
   rawSei.forEach((r, idx) => {
     const prot = String(r['PROCESSO'] || r['PROTOCOLO'] || '').trim();
     const ass = String(r['ASSUNTO'] || '').trim();
     if (!prot && !ass) return;
+    const rawD = r['DATA'] !== undefined && r['DATA'] !== '' ? r['DATA'] : r['Data'];
+    const dtObj = parseDateXlsx(rawD, prevDateSei);
+    if (rawD) prevDateSei = dtObj;
+
     processosSei.push({
       id: 'SEVESC-SEI-' + (idx + 1),
       protocolo: prot || 'S/N',
-      data: parseDateXlsx(r['DATA']),
+      data: dtObj.str,
+      mesNum: dtObj.mesNum,
+      mesNome: dtObj.mesNome,
+      timestamp: dtObj.timestamp,
       assunto: ass || 'Processo de Vida Escolar',
       escola: String(r['ESCOLA'] || '').trim(),
       interessado: String(r['INTERESSADO (A)'] || '').trim(),
@@ -66,20 +89,30 @@ async function syncSevescData() {
     });
   });
 
-  // 2. Processar ATENDIMENTO (amostra de alta densidade: 300 mais recentes)
+  // 2. Processar ATENDIMENTO (Base Completa de Janeiro a Novembro)
   const wsAten = wb.Sheets['ATENDIMENTO '];
   const rawAten = wsAten ? XLSX.utils.sheet_to_json(wsAten, { defval: '' }) : [];
-  const totalAtendimentos = rawAten.length;
-  const atendimentosRecentes = [];
-  const startAten = Math.max(0, rawAten.length - 300);
-  for (let i = rawAten.length - 1; i >= startAten; i--) {
-    const r = rawAten[i];
+  const atendimentos = [];
+  let prevDateAten = { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+  const contagemPorMesAten = {};
+
+  rawAten.forEach((r, idx) => {
     const aluno = String(r['ELIZABETH FERREIRA DE FARIAS'] || r['SOLICITADO POR:'] || '').trim();
     const ass = String(r['ASSUNTO'] || '').trim();
-    if (!aluno && !ass) continue;
-    atendimentosRecentes.push({
-      id: 'SEVESC-ATEN-' + (i + 1),
-      data: parseDateXlsx(r['Data'] || r['DATA']),
+    if (!aluno && !ass) return;
+
+    const rawD = r['Data'] !== undefined && r['Data'] !== '' ? r['Data'] : r['DATA'];
+    const dtObj = parseDateXlsx(rawD, prevDateAten);
+    if (rawD) prevDateAten = dtObj;
+
+    contagemPorMesAten[dtObj.mesNum] = (contagemPorMesAten[dtObj.mesNum] || 0) + 1;
+
+    atendimentos.push({
+      id: 'SEVESC-ATEN-' + (idx + 1),
+      data: dtObj.str,
+      mesNum: dtObj.mesNum,
+      mesNome: dtObj.mesNome,
+      timestamp: dtObj.timestamp,
       meio: String(r['MEIO DE ATENDIMENTO'] || 'Presencial').trim(),
       solicitadoPor: String(r['SOLICITADO POR:'] || '').trim(),
       interessado: aluno,
@@ -90,22 +123,31 @@ async function syncSevescData() {
       situacao: String(r['SITUAÇÃO ATUAL'] || 'FINALIZADO').trim().toUpperCase(),
       responsavel: String(r['RESPONSÁVEL'] || 'SEVESC').trim()
     });
-  }
+  });
 
-  // 3. Processar E-MAILS / EXPEDIENTES (amostra de 250 mais recentes)
+  // 3. Processar E-MAILS / EXPEDIENTES (500 mais relevantes / recentes)
   const wsEmail = wb.Sheets['E-MAIL'];
   const rawEmail = wsEmail ? XLSX.utils.sheet_to_json(wsEmail, { defval: '' }) : [];
-  const totalEmails = rawEmail.length;
-  const emailsRecentes = [];
-  const startEmail = Math.max(0, rawEmail.length - 250);
+  const emails = [];
+  let prevDateEmail = { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+  const startEmail = Math.max(0, rawEmail.length - 400);
+
   for (let i = rawEmail.length - 1; i >= startEmail; i--) {
     const r = rawEmail[i];
     const ass = String(r['ASSUNTO'] || '').trim();
     const inter = String(r['Interessado'] || '').trim();
     if (!ass && !inter) continue;
-    emailsRecentes.push({
+
+    const rawD = r['DATA'] !== undefined && r['DATA'] !== '' ? r['DATA'] : r['Data'];
+    const dtObj = parseDateXlsx(rawD, prevDateEmail);
+    if (rawD) prevDateEmail = dtObj;
+
+    emails.push({
       id: 'SEVESC-MAIL-' + (i + 1),
-      data: parseDateXlsx(r['DATA']),
+      data: dtObj.str,
+      mesNum: dtObj.mesNum,
+      mesNome: dtObj.mesNome,
+      timestamp: dtObj.timestamp,
       hora: String(r['HORA'] || '').trim(),
       assunto: ass,
       interessado: inter,
@@ -120,7 +162,7 @@ async function syncSevescData() {
     meta: {
       nomeArquivo: 'Livro Entrada 2026 SEVESC.xlsx',
       setor: 'SEVESC - Seção de Vida Escolar',
-      servicoPai: 'SEGRE - Serviço de Gestão da Rede Escolar',
+      servicoPai: 'Serviço de Gestão da Rede Escolar (SEGRE)',
       contaResponsavel: 'itp_sevesc_educacao_sp_gov_br',
       sharepointUrl: 'https://seesp-my.sharepoint.com/:x:/g/personal/itp_sevesc_educacao_sp_gov_br/cQroeBSCMXZCQbbGQSCaAqMaEgUCxrdIuNVbs_RPejCEfptcng',
       atualizadoEm: new Date().toISOString(),
@@ -129,20 +171,22 @@ async function syncSevescData() {
     },
     kpis: {
       totalSei: processosSei.length,
-      totalAtendimentos: totalAtendimentos,
-      totalEmails: totalEmails,
-      totalProntuariosConcluintes: 1557
+      totalAtendimentos: atendimentos.length,
+      totalEmails: rawEmail.length,
+      totalProntuariosConcluintes: 1557,
+      mesesAtendimentos: contagemPorMesAten
     },
     processosSei: processosSei,
-    atendimentosRecentes: atendimentosRecentes,
-    emailsRecentes: emailsRecentes
+    atendimentos: atendimentos,
+    emails: emails
   };
 
   const dataDir = path.join(__dirname, '..', 'data');
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
   const outPath = path.join(dataDir, 'sevesc_livro_2026.json');
-  fs.writeFileSync(outPath, JSON.stringify(payload, null, 2), 'utf8');
-  console.log(`💾 [SEVESC] JSON salvo com sucesso: ${outPath} (${(fs.statSync(outPath).size / 1024).toFixed(1)} KB)`);
+  fs.writeFileSync(outPath, JSON.stringify(payload), 'utf8');
+  console.log(`💾 [SEVESC] JSON completo salvo: ${outPath} (${(fs.statSync(outPath).size / 1024).toFixed(1)} KB)`);
+  console.log('📊 Resumo Mensal Atendimentos SEVESC:', contagemPorMesAten);
   return payload;
 }
 
