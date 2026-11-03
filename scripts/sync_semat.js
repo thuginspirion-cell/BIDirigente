@@ -36,14 +36,18 @@ async function syncSematData() {
       if (XLSX.SSF && typeof XLSX.SSF.parse_date_code === 'function') {
         const p = XLSX.SSF.parse_date_code(val);
         if (p) {
-          const dStr = String(p.d).padStart(2, '0') + '/' + String(p.m).padStart(2, '0') + '/' + p.y;
-          return { str: dStr, mesNum: p.m, mesNome: MESES_NOMES[p.m] || 'Janeiro', timestamp: new Date(p.y, p.m - 1, p.d).getTime() };
+          let y = p.y;
+          if (y > 2026) y = 2026; // Previne erro de digitação de ano futuro
+          const dStr = String(p.d).padStart(2, '0') + '/' + String(p.m).padStart(2, '0') + '/' + y;
+          return { str: dStr, mesNum: p.m, mesNome: MESES_NOMES[p.m] || 'Janeiro', timestamp: new Date(y, p.m - 1, p.d).getTime() };
         }
       }
       const d = new Date(Math.round((val - 25569) * 86400 * 1000));
+      let y = d.getUTCFullYear();
+      if (y > 2026) y = 2026;
       const m = d.getUTCMonth() + 1;
-      const dStr = String(d.getUTCDate()).padStart(2, '0') + '/' + String(m).padStart(2, '0') + '/' + d.getUTCFullYear();
-      return { str: dStr, mesNum: m, mesNome: MESES_NOMES[m] || 'Janeiro', timestamp: d.getTime() };
+      const dStr = String(d.getUTCDate()).padStart(2, '0') + '/' + String(m).padStart(2, '0') + '/' + y;
+      return { str: dStr, mesNum: m, mesNome: MESES_NOMES[m] || 'Janeiro', timestamp: new Date(y, m - 1, d.getUTCDate()).getTime() };
     }
     if (val) {
       const str = String(val).trim();
@@ -51,6 +55,7 @@ async function syncSematData() {
       if (m && m[1] && m[2]) {
         let y = m[3] ? parseInt(m[3], 10) : 2026;
         if (y < 100) y += 2000;
+        if (y > 2026) y = 2026; // Clamp ano futuro
         const dia = parseInt(m[1], 10);
         const mes = parseInt(m[2], 10);
         const dStr = String(dia).padStart(2, '0') + '/' + String(mes).padStart(2, '0') + '/' + y;
@@ -99,10 +104,10 @@ async function syncSematData() {
   const contagemPorMesAten = {};
 
   rawAten.forEach((r, idx) => {
-    const aluno = String(r['NOME COMPLETO DO ALUNO '] || r['NOME COMPLETO DO ALUNO'] || '').trim();
+    const aluno = String(r['NOME COMPLETO DO ALUNO '] || r['NOME COMPLETO DO ALUNO'] || r['NOME COMPLETO'] || r['Nome'] || '').trim();
     if (!aluno) return;
 
-    const rawD = r['Data'] !== undefined && r['Data'] !== '' ? r['Data'] : r['DATA'];
+    const rawD = r['Data'] !== undefined && r['Data'] !== '' ? r['Data'] : (r['DATA'] !== undefined && r['DATA'] !== '' ? r['DATA'] : r['data']);
     const dtObj = parseDateXlsx(rawD, prevDateAten);
     if (rawD) prevDateAten = dtObj;
 
@@ -114,9 +119,9 @@ async function syncSematData() {
       mesNum: dtObj.mesNum,
       mesNome: dtObj.mesNome,
       timestamp: dtObj.timestamp,
-      hora: String(r['Hora'] || '').trim(),
+      hora: String(r['Hora'] || r['HORA'] || '').trim(),
       meio: String(r['MEIO DE ATENDIMENTO'] || 'Presencial').trim(),
-      solicitadoPor: String(r['SOLICITADO POR:'] || 'Responsável').trim(),
+      solicitadoPor: String(r['SOLICITADO POR:'] || r['SOLICITADO POR'] || 'Responsável').trim(),
       aluno: aluno,
       ra: String(r['RA'] || '').trim() + (r['DG'] !== undefined && r['DG'] !== '' ? ('-' + r['DG']) : ''),
       escolaAtual: String(r['ESCOLA ATUAL'] || 'Fora da rede').trim(),
@@ -138,10 +143,10 @@ async function syncSematData() {
   const contagemPorMesMat = {};
 
   rawMatMan.forEach((r, idx) => {
-    const aluno = String(r['NOME COMPLETO DO ALUNO '] || r['NOME COMPLETO DO ALUNO'] || '').trim();
+    const aluno = String(r['NOME COMPLETO DO ALUNO '] || r['NOME COMPLETO DO ALUNO'] || r['NOME COMPLETO'] || r['ALUNO'] || r['Nome'] || '').trim();
     if (!aluno) return;
 
-    const rawD = r['DATA'] !== undefined && r['DATA'] !== '' ? r['DATA'] : r['Data'];
+    const rawD = r['DATA'] !== undefined && r['DATA'] !== '' ? r['DATA'] : (r['Data'] !== undefined && r['Data'] !== '' ? r['Data'] : r['data']);
     const dtObj = parseDateXlsx(rawD, prevDateMat);
     if (rawD) prevDateMat = dtObj;
 
