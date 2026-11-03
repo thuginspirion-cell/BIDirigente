@@ -9767,7 +9767,7 @@ function imprimirAgendaCarro() {
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-CGE" onclick="abrirCentro('CGE')" title="SEGRE - Serviço de Gestão da Rede Escolar">
+            <button class="nav-item-btn" id="side-btn-CGE" onclick="abrirCentro('SEGRE')" title="SEGRE - Serviço de Gestão da Rede Escolar">
               <span class="centro-icon-badge" title="SEGRE - Vida Escolar, Matrícula">🏫</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">SEGRE</span>
@@ -10039,7 +10039,7 @@ function imprimirAgendaCarro() {
             <option value="SEINTEC">SEINTEC (Tecnologia & Dados)</option>
             <option value="GAB">ASURE (Gabinete da Dirigente)</option>
             <option value="CAF">SEAFIN - Serviço de Administração e Finanças</option>
-            <option value="CGE">SEGRE (Serviço de Gestão da Rede Escolar)</option>
+            <option value="SEGRE">SEGRE (Serviço de Gestão da Rede Escolar)</option>
             <option value="CRH">SEPES (Pessoas / RH)</option>
             <option value="NPE">EEC (Especialistas em Currículo)</option>
           </select>
@@ -10275,7 +10275,7 @@ function imprimirAgendaCarro() {
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                       <div style="width: 36px; height: 36px; border-radius: 8px; background: #fff7ed; color: #ea580c; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">🏫</div>
                       <div>
-                        <div style="font-weight: 800; color: #0f172a;">SEGRE / CGE • Serviço de Gestão da Rede Escolar</div>
+                        <div style="font-weight: 800; color: #0f172a;">SEGRE • Serviço de Gestão da Rede Escolar</div>
                         <div style="font-size: 0.7rem; color: #64748b;">Supervisão de Ensino, Matrícula e Vida Escolar</div>
                       </div>
                     </div>
@@ -10294,7 +10294,7 @@ function imprimirAgendaCarro() {
                     <div style="font-size: 0.7rem; color: #64748b;">Articulação contínua com os municípios</div>
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('CGE')" style="background: #ea580c; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#c2410c'" onmouseout="this.style.background='#ea580c'">
+                    <button onclick="abrirCentro('SEGRE')" style="background: #ea580c; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#c2410c'" onmouseout="this.style.background='#ea580c'">
                       Acessar SEGRE / Rede →
                     </button>
                   </td>
@@ -14992,6 +14992,9 @@ function imprimirAgendaCarro() {
         abrirSeintec();
         return;
       }
+      if (siglaCentro === 'CGE') {
+        siglaCentro = 'SEGRE';
+      }
       const centro = ESTRUTURA_ORGANIZACIONAL[siglaCentro];
       if (!centro) return;
 
@@ -15031,7 +15034,9 @@ function imprimirAgendaCarro() {
 
       // Atualiza Sidebar
       document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
-      const sideBtn = document.getElementById(`side-btn-${siglaCentro}`) || (siglaCentro === 'SEAFIN' ? document.getElementById('side-btn-CAF') : null);
+      const sideBtn = document.getElementById(`side-btn-${siglaCentro}`) || 
+                      (siglaCentro === 'SEAFIN' ? document.getElementById('side-btn-CAF') : null) ||
+                      (siglaCentro === 'SEGRE' ? document.getElementById('side-btn-CGE') : null);
       if (sideBtn) sideBtn.classList.add('active');
 
       rolarAoTopoSuave();
@@ -26002,13 +26007,52 @@ function imprimirAgendaCarro() {
             break;
 
           case 'centro':
-            const centroSigla = (document.getElementById('atual-centro-sigla') ? document.getElementById('atual-centro-sigla').value : 'Centro');
-            if ((centroSigla === 'CAF' || centroSigla === 'SEAFIN') && typeof sincronizarDashboardSefin === 'function') {
+            let centroSigla = (document.getElementById('atual-centro-sigla') ? document.getElementById('atual-centro-sigla').value : 'Centro');
+            if (centroSigla === 'CGE') centroSigla = 'SEGRE';
+
+            if (centroSigla === 'SEGRE') {
+              if (typeof mostrarAlertaSincronizacao === 'function') {
+                mostrarAlertaSincronizacao({
+                  tipo: 'loading',
+                  tag: 'SEGRE INTEGRAL',
+                  titulo: 'Sincronizando SEGRE Completo...',
+                  mensagem: 'Atualizando simultaneamente o SEGRE e todas as suas seções (SEMAT e SEVESC)...',
+                  detalhes: 'Download & Validação das bases oficiais no SharePoint',
+                  duracao: 0
+                });
+              }
+
+              // Sincroniza todas as planilhas e seções do SEGRE em paralelo
+              if (typeof sincronizarDashboardSegre === 'function') sincronizarDashboardSegre(true);
+              if (typeof sincronizarDashboardSemat === 'function') sincronizarDashboardSemat(true);
+              if (typeof sincronizarDashboardSevesc === 'function') sincronizarDashboardSevesc(true);
+
+              const setorAtivo = document.getElementById('atual-setor-sigla') ? document.getElementById('atual-setor-sigla').value : 'SEGRE';
+              setTimeout(function() {
+                if (setorAtivo === 'SEMAT' && typeof renderizarDashboardSemat === 'function') renderizarDashboardSemat();
+                else if (setorAtivo === 'SEVESC' && typeof renderizarDashboardSevesc === 'function') renderizarDashboardSevesc();
+                else if (typeof renderizarDashboardSegre === 'function') renderizarDashboardSegre();
+
+                if (typeof mostrarAlertaSincronizacao === 'function') {
+                  mostrarAlertaSincronizacao({
+                    tipo: 'success',
+                    tag: 'SEGRE ATUALIZADO',
+                    titulo: 'SEGRE e Todas as Seções Sincronizadas!',
+                    mensagem: 'Bases do SEGRE, SEMAT (Matrícula) e SEVESC (Vida Escolar) 100% atualizadas.',
+                    detalhes: 'Sincronizado às ' + new Date().toLocaleTimeString('pt-BR'),
+                    duracao: 4500
+                  });
+                }
+              }, 1200);
+
+              mostrarToastAgenda('SEGRE e todas as suas seções (SEMAT / SEVESC) sincronizados às ' + agoraStr, '🏫');
+              break;
+            } else if ((centroSigla === 'CAF' || centroSigla === 'SEAFIN') && typeof sincronizarDashboardSefin === 'function') {
               sincronizarDashboardSefin();
-            } else if ((centroSigla === 'CGE' || centroSigla === 'SEGRE') && typeof sincronizarDashboardSegre === 'function') {
-              sincronizarDashboardSegre();
+              mostrarToastAgenda('Módulo ' + centroSigla + ' e seus setores sincronizados às ' + agoraStr, '🏛️');
+            } else {
+              mostrarToastAgenda('Módulo ' + centroSigla + ' e seus setores sincronizados às ' + agoraStr, '🏛️');
             }
-            mostrarToastAgenda('Módulo ' + centroSigla + ' e seus setores sincronizados às ' + agoraStr, '🏛️');
             break;
 
           case 'semat':
@@ -29134,7 +29178,7 @@ function imprimirAgendaCarro() {
                 <option value="Gabinete / URE">Gabinete / URE</option>
                 <option value="SEINTEC">SEINTEC (Tecnologia)</option>
                 <option value="SEAFIN">SEAFIN (Serviço de Administração e Finanças)</option>
-                <option value="CGE">CGE (Rede Escolar)</option>
+                <option value="SEGRE">SEGRE (Serviço de Gestão da Rede Escolar)</option>
                 <option value="CRH">CRH (Recursos Humanos)</option>
                 <option value="NPE">NPE (Núcleo Pedagógico)</option>
                 <option value="Supervisão">Supervisão Regional</option>
@@ -29232,7 +29276,7 @@ function imprimirAgendaCarro() {
                 <option value="Supervisão de Ensino">Supervisão de Ensino</option>
                 <option value="SEAFIN - Serviço de Administração e Finanças">SEAFIN</option>
                 <option value="SEINTEC - Tecnologia">SEINTEC</option>
-                <option value="CGE - Gestão Escolar">CGE</option>
+                <option value="SEGRE - Gestão Escolar">SEGRE</option>
                 <option value="CRH - Recursos Humanos">CRH</option>
                 <option value="NPE - Núcleo Pedagógico">NPE</option>
               </select>
