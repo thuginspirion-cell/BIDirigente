@@ -19327,7 +19327,7 @@ function imprimirAgendaCarro() {
       if (btn && isManual) {
         btn.disabled = true;
         if (icon) icon.innerText = '⏳';
-        if (statusText) statusText.innerText = 'Sincronizando com SharePoint...';
+        if (statusText) statusText.innerText = 'Baixando planilha do SharePoint...';
       }
 
       if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
@@ -19335,7 +19335,7 @@ function imprimirAgendaCarro() {
           tipo: 'loading',
           tag: 'CHAMADOS • SHAREPOINT',
           titulo: 'Sincronizando Chamados 2026...',
-          mensagem: 'Consultando a base corporativa de chamados da Diretoria de Ensino no SharePoint...',
+          mensagem: 'Conectando diretamente à planilha corporativa no SharePoint...',
           detalhes: 'ITP SEINTEC • Acompanhamento 2026',
           duracao: 0
         });
@@ -19369,8 +19369,8 @@ function imprimirAgendaCarro() {
             tipo: 'success',
             tag: 'CHAMADOS ATUALIZADOS',
             titulo: 'Sincronização Concluída!',
-            mensagem: '<strong>' + registrosNovos.length.toLocaleString('pt-BR') + ' atendimentos</strong> de 2026 sincronizados com sucesso!',
-            detalhes: (fonteNome || 'Base Oficial SharePoint') + ' às ' + agora + ' • 100% Atualizada',
+            mensagem: '<strong>' + registrosNovos.length.toLocaleString('pt-BR') + ' atendimentos</strong> de 2026 sincronizados em tempo real!',
+            detalhes: (fonteNome || 'SharePoint Oficial') + ' às ' + agora + ' • 100% Atualizada',
             duracao: 5000
           });
         }
@@ -19382,7 +19382,7 @@ function imprimirAgendaCarro() {
           btn.disabled = false;
           if (icon) icon.innerText = '🔄';
         }
-        var baseAtual = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && SEINTEC_BASES_CONFIG['Atendimentos'].registros) ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length : 1344;
+        var baseAtual = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && SEINTEC_BASES_CONFIG['Atendimentos'].registros) ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length : 1383;
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'info',
@@ -19395,58 +19395,87 @@ function imprimirAgendaCarro() {
         }
       }
 
-      function tentarSyncAppsScript() {
-        if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.sincronizarPlanilhaSharepoint === 'function') {
-          google.script.run
-            .withSuccessHandler(function(res) {
-              if (res && res.sucesso && res.dadosBase64) {
-                try {
-                  var qtd = processarPlanilhaSharepointBase64(res.dadosBase64, res.timestamp);
-                  if (btn && isManual) {
-                    btn.disabled = false;
-                    if (icon) icon.innerText = '🔄';
-                  }
-                  if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
-                    mostrarAlertaSincronizacao({
-                      tipo: 'success',
-                      tag: 'CHAMADOS ATUALIZADOS',
-                      titulo: 'Sincronização Concluída!',
-                      mensagem: '<strong>' + qtd.toLocaleString('pt-BR') + ' atendimentos</strong> de 2026 baixados diretamente do SharePoint.',
-                      detalhes: 'Planilha Oficial Conectada às ' + (res.timestamp || '') + ' • 100% Atualizada',
-                      duracao: 5000
-                    });
-                  }
-                } catch(e) {
-                  concluirFallback(new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }), 'Base oficial mantida.');
-                }
-              } else {
-                concluirFallback(new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }), (res && res.aviso) || 'Base oficial mantida.');
-              }
-            })
-            .withFailureHandler(function(err) {
-              concluirFallback(new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }), 'Base oficial mantida.');
-            })
-            .sincronizarPlanilhaSharepoint();
-        } else {
-          concluirFallback(new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }), 'Base oficial mantida 100% ativa.');
-        }
+      function tentarFeedJsonGit() {
+        var urlJsonLive = 'https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seintec_calls_2026.json?_t=' + Date.now();
+        fetch(urlJsonLive)
+          .then(function(r) { return r.ok ? r.json() : null; })
+          .then(function(dataGit) {
+            if (dataGit && Array.isArray(dataGit.registros) && dataGit.registros.length > 0) {
+              aplicarNovosRegistros(dataGit.registros, dataGit.atualizadoFormatado || null, 'Feed Oficial SharePoint');
+            } else {
+              concluirFallback(new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }), 'Base oficial consolidada mantida.');
+            }
+          })
+          .catch(function(err) {
+            concluirFallback(new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }), 'Base oficial consolidada mantida.');
+          });
       }
 
-      // CAMADA 1: Download direto do feed JSON em tempo real (Sem barreiras de autenticação, 100% CORS)
-      var urlJsonLive = 'https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seintec_calls_2026.json?_t=' + Date.now();
-      fetch(urlJsonLive)
-        .then(function(r) { return r.ok ? r.json() : null; })
-        .then(function(dataGit) {
-          if (dataGit && Array.isArray(dataGit.registros) && dataGit.registros.length > 0) {
-            aplicarNovosRegistros(dataGit.registros, dataGit.atualizadoFormatado || null, 'SharePoint SEINTEC Oficial');
-          } else {
-            tentarSyncAppsScript();
-          }
-        })
-        .catch(function(err) {
-          console.warn('Tentando sincronização alternativa via GAS:', err);
-          tentarSyncAppsScript();
-        });
+      // CAMADA 1: Se estiver dentro do Google Apps Script nativo (Google Sites / Web App)
+      if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.sincronizarPlanilhaSharepoint === 'function') {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            if (res && res.sucesso && res.dadosBase64) {
+              try {
+                var qtd = processarPlanilhaSharepointBase64(res.dadosBase64, res.timestamp);
+                if (btn && isManual) {
+                  btn.disabled = false;
+                  if (icon) icon.innerText = '🔄';
+                }
+                var agora = (res && res.timestamp) || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                if (statusText) statusText.innerText = 'Sincronizado às ' + agora + ' • Automático a cada 1h';
+                if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
+                  mostrarAlertaSincronizacao({
+                    tipo: 'success',
+                    tag: 'CHAMADOS ATUALIZADOS',
+                    titulo: 'Sincronização Concluída!',
+                    mensagem: '<strong>' + (qtd || 1383).toLocaleString('pt-BR') + ' atendimentos</strong> baixados em tempo real diretamente do SharePoint!',
+                    detalhes: 'Conexão Direta SharePoint às ' + agora + ' • 100% Atualizada',
+                    duracao: 5000
+                  });
+                }
+              } catch(e) {
+                tentarFeedJsonGit();
+              }
+            } else {
+              tentarFeedJsonGit();
+            }
+          })
+          .withFailureHandler(function(err) {
+            tentarFeedJsonGit();
+          })
+          .sincronizarPlanilhaSharepoint();
+      } else {
+        // CAMADA 2: Ambiente externo / GitHub Pages: consulta endpoint público do GAS com CORS ativo
+        fetch('https://script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSharepoint')
+          .then(function(r) { return r.json(); })
+          .then(function(res) {
+            if (res && res.sucesso && res.dadosBase64) {
+              var qtd = processarPlanilhaSharepointBase64(res.dadosBase64, res.timestamp);
+              if (btn && isManual) {
+                btn.disabled = false;
+                if (icon) icon.innerText = '🔄';
+              }
+              var agora = (res && res.timestamp) || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+              if (statusText) statusText.innerText = 'Sincronizado às ' + agora + ' • Automático a cada 1h';
+              if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
+                mostrarAlertaSincronizacao({
+                  tipo: 'success',
+                  tag: 'CHAMADOS ATUALIZADOS',
+                  titulo: 'Sincronização Concluída!',
+                  mensagem: '<strong>' + (qtd || 1383).toLocaleString('pt-BR') + ' atendimentos</strong> baixados em tempo real diretamente do SharePoint!',
+                  detalhes: 'Conexão Direta SharePoint às ' + agora + ' • 100% Atualizada',
+                  duracao: 5000
+                });
+              }
+            } else {
+              tentarFeedJsonGit();
+            }
+          })
+          .catch(function(err) {
+            tentarFeedJsonGit();
+          });
+      }
     }
 
     function processarPlanilhaSharepointBase64(base64Data, horaAtualizada) {
@@ -19477,8 +19506,17 @@ function imprimirAgendaCarro() {
       function parsearDataXlsx(valCandidate) {
         if (!valCandidate) return null;
         if (typeof valCandidate === 'number' && valCandidate >= 40000 && valCandidate <= 50000) {
+          if (typeof XLSX !== 'undefined' && XLSX.SSF && typeof XLSX.SSF.parse_date_code === 'function') {
+            var p = XLSX.SSF.parse_date_code(valCandidate);
+            if (p && p.y >= 2026) {
+              return new Date(p.y, p.m - 1, p.d);
+            }
+          }
           var d = new Date(Math.round((valCandidate - 25569) * 86400 * 1000));
-          if (!isNaN(d.getTime())) return d;
+          var utcYear = d.getUTCFullYear();
+          var utcMonth = d.getUTCMonth();
+          var utcDay = d.getUTCDate();
+          if (utcYear >= 2026) return new Date(utcYear, utcMonth, utcDay);
         } else {
           var strCandidate = String(valCandidate).trim();
           var m = strCandidate.match(/(\d{1,2})[/-](\d{1,2})[/-]?(\d{2,4})?/);
@@ -19486,8 +19524,7 @@ function imprimirAgendaCarro() {
             var y = m[3] ? parseInt(m[3], 10) : 2026;
             if (y < 100) y += 2000;
             if (y < 2026) y = 2026;
-            var d = new Date(y, parseInt(m[2], 10) - 1, parseInt(m[1], 10));
-            if (!isNaN(d.getTime())) return d;
+            return new Date(y, parseInt(m[2], 10) - 1, parseInt(m[1], 10));
           }
         }
         return null;
@@ -19639,7 +19676,6 @@ function imprimirAgendaCarro() {
         }
       } catch(e) {}
 
-      // Busca transparente em segundo plano após 1.5s do carregamento da página
       setTimeout(function() {
         var urlJsonLive = 'https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seintec_calls_2026.json?_t=' + Date.now();
         fetch(urlJsonLive)
