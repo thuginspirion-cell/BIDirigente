@@ -5,13 +5,11 @@ const XLSX = require('xlsx');
 async function syncSharepointData() {
   console.log('🔄 Iniciando sincronização da planilha SEINTEC do SharePoint...');
 
-  // 1. Carrega dicionário oficial de escolas do index.html
   const htmlPath = path.join(__dirname, '..', 'index.html');
   const html = fs.readFileSync(htmlPath, 'utf8');
   const dictMatch = html.match(/DICIONARIO_OFICIAL_INVENTARIO\s*=\s*(\{[\s\S]*?\n\s*\});/);
   const dict = dictMatch ? eval('(' + dictMatch[1] + ')') : {};
 
-  // 2. Download do arquivo XLSX oficial da SEINTEC via SharePoint com cookies anônimos
   const sharepointUrl = 'https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/cQq57JtcgOx0TYN_WRWdCyPLEgUCWtCBVpIXsMYmQoivNUmH6w?download=1';
   
   const res1 = await fetch(sharepointUrl, { redirect: 'manual' });
@@ -46,8 +44,30 @@ async function syncSharepointData() {
   function parsearDataXlsx(valCandidate) {
     if (!valCandidate) return null;
     if (typeof valCandidate === 'number' && valCandidate >= 40000 && valCandidate <= 50000) {
+      if (XLSX.SSF && typeof XLSX.SSF.parse_date_code === 'function') {
+        const p = XLSX.SSF.parse_date_code(valCandidate);
+        if (p && p.y >= 2026) {
+          return {
+            ano: p.y,
+            mes: p.m,
+            dia: p.d,
+            dtStr: String(p.d).padStart(2, '0') + '/' + String(p.m).padStart(2, '0') + '/' + p.y
+          };
+        }
+      }
       var d = new Date(Math.round((valCandidate - 25569) * 86400 * 1000));
-      if (!isNaN(d.getTime())) return d;
+      // Corrige offset de timezone UTC vs Brasil
+      var utcYear = d.getUTCFullYear();
+      var utcMonth = d.getUTCMonth() + 1;
+      var utcDay = d.getUTCDate();
+      if (utcYear >= 2026) {
+        return {
+          ano: utcYear,
+          mes: utcMonth,
+          dia: utcDay,
+          dtStr: String(utcDay).padStart(2, '0') + '/' + String(utcMonth).padStart(2, '0') + '/' + utcYear
+        };
+      }
     } else {
       var strCandidate = String(valCandidate).trim();
       var m = strCandidate.match(/(\d{1,2})[/-](\d{1,2})[/-]?(\d{2,4})?/);
@@ -55,8 +75,14 @@ async function syncSharepointData() {
         var y = m[3] ? parseInt(m[3], 10) : 2026;
         if (y < 100) y += 2000;
         if (y < 2026) y = 2026;
-        var d = new Date(y, parseInt(m[2], 10) - 1, parseInt(m[1], 10));
-        if (!isNaN(d.getTime())) return d;
+        var dia = parseInt(m[1], 10);
+        var mes = parseInt(m[2], 10);
+        return {
+          ano: y,
+          mes: mes,
+          dia: dia,
+          dtStr: String(dia).padStart(2, '0') + '/' + String(mes).padStart(2, '0') + '/' + y
+        };
       }
     }
     return null;
@@ -102,19 +128,13 @@ async function syncSharepointData() {
     }
 
     var dataFinalObj = bestDateAbertura || bestDateVisita;
-    if (!dataFinalObj || dataFinalObj.getFullYear() < 2026) return;
+    if (!dataFinalObj || dataFinalObj.ano < 2026) return;
 
-    var dia = String(dataFinalObj.getDate()).padStart(2, '0');
-    var mes = String(dataFinalObj.getMonth() + 1).padStart(2, '0');
-    var ano = dataFinalObj.getFullYear();
-    var dtStr = dia + '/' + mes + '/' + ano;
+    var dtStr = dataFinalObj.dtStr;
 
     var dtVisitaStr = '';
     if (bestDateVisita) {
-      var diaV = String(bestDateVisita.getDate()).padStart(2, '0');
-      var mesV = String(bestDateVisita.getMonth() + 1).padStart(2, '0');
-      var anoV = bestDateVisita.getFullYear();
-      dtVisitaStr = diaV + '/' + mesV + '/' + anoV;
+      dtVisitaStr = bestDateVisita.dtStr;
     } else if (r['Data Visita'] || r['Data Atendimento']) {
       dtVisitaStr = String(r['Data Visita'] || r['Data Atendimento']).trim();
     }
