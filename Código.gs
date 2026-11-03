@@ -31,6 +31,10 @@ function doGet(e) {
         output = sincronizarPlanilhaSefin();
       } else if (action === 'sincronizarSegre') {
         output = sincronizarPlanilhaSegre();
+      } else if (action === 'sincronizarSemat') {
+        output = sincronizarPlanilhaSemat();
+      } else if (action === 'sincronizarSevesc') {
+        output = sincronizarPlanilhaSevesc();
       } else if (action === 'sincronizarGenerico' || action === 'obterArquivoPublico') {
         output = obterArquivoPublicoSharepoint(e.parameter.url, {
           nomeSetor: e.parameter.setor,
@@ -324,6 +328,58 @@ function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivo
  * Sincronização Dinâmica da Planilha SEGRE do SharePoint (Livro Entrada 2026)
  * Herda o motor universal de resolução pública anti-login
  */
+/**
+ * Sincronização Dinâmica da Planilha SEMAT do SharePoint (Livro Entrada 2026)
+ * Herda o motor universal de resolução pública anti-login
+ */
+function sincronizarPlanilhaSemat() {
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_semat_educacao_sp_gov_br/cQrYEXIt2H-VQ7J7y23DGOFPEgUCfXXr5h6IlHmqWJZMJFuU5Q?download=1";
+  try {
+    return obterArquivoPublicoSharepoint(url, {
+      nomeSetor: "SEMAT / SEGRE",
+      descricaoBase: "Livro Entrada 2026 SEMAT"
+    });
+  } catch (e) {
+    Logger.log("Aviso SEMAT: fallback leve ativado - " + e.toString());
+    try {
+      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/semat_livro_2026.json";
+      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+      if (res.getResponseCode() === 200) {
+        return JSON.parse(res.getContentText());
+      }
+    } catch (errMirror) {
+      Logger.log("Erro ao buscar mirror SEMAT: " + errMirror.toString());
+    }
+    return { sucesso: false, erro: e.toString() };
+  }
+}
+
+/**
+ * Sincronização Dinâmica da Planilha SEVESC do SharePoint (Livro Entrada 2026)
+ * Herda o motor universal de resolução pública anti-login
+ */
+function sincronizarPlanilhaSevesc() {
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sevesc_educacao_sp_gov_br/cQroeBSCMXZCQbbGQSCaAqMaEgUCxrdIuNVbs_RPejCEfptcng?download=1";
+  try {
+    return obterArquivoPublicoSharepoint(url, {
+      nomeSetor: "SEVESC / SEGRE",
+      descricaoBase: "Livro Entrada 2026 SEVESC"
+    });
+  } catch (e) {
+    Logger.log("Aviso SEVESC: fallback leve ativado - " + e.toString());
+    try {
+      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sevesc_livro_2026.json";
+      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+      if (res.getResponseCode() === 200) {
+        return JSON.parse(res.getContentText());
+      }
+    } catch (errMirror) {
+      Logger.log("Erro ao buscar mirror SEVESC: " + errMirror.toString());
+    }
+    return { sucesso: false, erro: e.toString() };
+  }
+}
+
 function sincronizarPlanilhaSegre() {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_segre_educacao_sp_gov_br/cQouoXOHq3vgRIXANB5q2uJjEgUCzXuNPLJKVLwuVFU2EtFcnw?download=1";
   try {

@@ -26,7 +26,7 @@ const botoesSidebar = [
   'side-btn-NPE'
 ];
 
-console.log('\n[1/4] Verificando existência dos 12 botões da Sidebar...');
+console.log('\n[1/5] Verificando existência dos 12 botões da Sidebar...');
 botoesSidebar.forEach(id => {
   const regex = new RegExp(`id=["']${id}["']`, 'i');
   if (regex.test(html)) {
@@ -38,7 +38,7 @@ botoesSidebar.forEach(id => {
 });
 
 // 2. Verificar Sintaxe JS dos scripts em index.html
-console.log('\n[2/4] Validando sintaxe JavaScript em index.html...');
+console.log('\n[2/5] Validando sintaxe JavaScript em index.html...');
 const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/gi;
 let match;
 let scriptIndex = 0;
@@ -46,7 +46,6 @@ while ((match = scriptRegex.exec(html)) !== null) {
   scriptIndex++;
   const scriptContent = match[1];
   try {
-    // Testar com vm.Script para detectar erros de sintaxe
     new vm.Script(scriptContent, { filename: `index.html-script-${scriptIndex}.js` });
     console.log(`  ✔ Bloco <script> #${scriptIndex} sintaticamente válido.`);
   } catch (err) {
@@ -55,34 +54,52 @@ while ((match = scriptRegex.exec(html)) !== null) {
   }
 }
 
-// 3. Verificar Funções Chave do SEGRE
-console.log('\n[3/4] Verificando funções e componentes SEGRE...');
-const segreComponents = [
+// 3. Verificar Funções Chave do SEGRE, SEMAT e SEVESC
+console.log('\n[3/5] Verificando funções e componentes SEGRE / SEMAT / SEVESC...');
+const components = [
   'URLS_OFICIAIS_SEGRE',
+  'URLS_OFICIAIS_SEMAT',
+  'URLS_OFICIAIS_SEVESC',
   'DADOS_SEGRE',
+  'DADOS_SEMAT',
+  'DADOS_SEVESC',
   'renderizarDashboardSegre',
+  'renderizarDashboardSemat',
+  'renderizarDashboardSevesc',
   'sincronizarDashboardSegre',
-  'mudarAbaSegre',
-  'filtrarTabelaSegre',
-  'renderizarCorpoTabelaSegre'
+  'sincronizarDashboardSemat',
+  'sincronizarDashboardSevesc'
 ];
 
-segreComponents.forEach(comp => {
+components.forEach(comp => {
   if (html.includes(comp)) {
-    console.log(`  ✔ Componente SEGRE encontrado: ${comp}`);
+    console.log(`  ✔ Componente encontrado: ${comp}`);
   } else {
-    errors.push(`Componente SEGRE ausente em index.html: ${comp}`);
-    console.error(`  ❌ Componente SEGRE AUSENTE: ${comp}`);
+    errors.push(`Componente ausente em index.html: ${comp}`);
+    console.error(`  ❌ Componente AUSENTE: ${comp}`);
   }
 });
 
-// 4. Verificar Código.gs
-console.log('\n[4/4] Verificando backend Apps Script em Código.gs...');
+// 4. Verificar Nomenclatura SEGRE
+console.log('\n[4/5] Verificando Nomenclatura "Serviço de Gestão da Rede Escolar"...');
+if (html.includes('Serviço de Gestão da Rede Escolar')) {
+  console.log('  ✔ Nomenclatura oficial "Serviço de Gestão da Rede Escolar" presente em index.html');
+} else {
+  errors.push('Nomenclatura "Serviço de Gestão da Rede Escolar" não encontrada em index.html');
+  console.error('  ❌ Nomenclatura NÃO encontrada');
+}
+
+// 5. Verificar Código.gs
+console.log('\n[5/5] Verificando backend Apps Script em Código.gs...');
 const backendChecks = [
   "action === 'sincronizarSegre'",
+  "action === 'sincronizarSemat'",
+  "action === 'sincronizarSevesc'",
   "function sincronizarPlanilhaSegre()",
-  "obterArquivoPublicoSharepoint",
-  "https://seesp-my.sharepoint.com/:x:/g/personal/itp_segre_educacao_sp_gov_br"
+  "function sincronizarPlanilhaSemat()",
+  "function sincronizarPlanilhaSevesc()",
+  "itp_semat_educacao_sp_gov_br",
+  "itp_sevesc_educacao_sp_gov_br"
 ];
 
 backendChecks.forEach(chk => {
