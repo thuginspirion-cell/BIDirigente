@@ -211,14 +211,31 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
       data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
     };
   } catch (err) {
+    var errStr = err.toString();
+    var isAuthErr = errStr.indexOf("UrlFetchApp") >= 0 || errStr.indexOf("permiss") >= 0;
     return {
-      sucesso: true,
+      sucesso: false,
+      erroAuth: isAuthErr,
       usarBaseLocal: true,
-      aviso: "Base do " + setor + " operando via contingência consolidada: " + err.toString(),
+      erro: errStr,
+      aviso: isAuthErr
+        ? "Google Apps Script requer autorização única do UrlFetchApp no editor: execute a função autorizarUrlFetch() no editor do Apps Script."
+        : "Base do " + setor + " operando via contingência consolidada: " + errStr,
       timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
       data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
     };
   }
+}
+
+/**
+ * Função utilitária de autorização em 1 clique para o Google Apps Script.
+ * Selecione esta função no topo do editor do Apps Script e clique em 'Executar'.
+ * O Google abrirá o diálogo de permissão; clique em 'Revisar permissões' -> 'Avançado' -> 'Permitir'.
+ */
+function autorizarUrlFetch() {
+  var res = UrlFetchApp.fetch("https://www.google.com", { muteHttpExceptions: true });
+  Logger.log("UrlFetchApp autorizado com sucesso! Código HTTP: " + res.getResponseCode());
+  return "UrlFetchApp autorizado com sucesso!";
 }
 
 /**
