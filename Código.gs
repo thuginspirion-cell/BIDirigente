@@ -29,6 +29,8 @@ function doGet(e) {
         output = sincronizarInventarioSharepoint();
       } else if (action === 'sincronizarSefin') {
         output = sincronizarPlanilhaSefin();
+      } else if (action === 'sincronizarSegre') {
+        output = sincronizarPlanilhaSegre();
       } else if (action === 'sincronizarGenerico' || action === 'obterArquivoPublico') {
         output = obterArquivoPublicoSharepoint(e.parameter.url, {
           nomeSetor: e.parameter.setor,
@@ -318,6 +320,35 @@ function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivo
  * Sincronização Dinâmica da Planilha SEFIN (Administração e Finanças) do SharePoint
  * Herda o motor universal de resolução pública anti-login
  */
+/**
+ * Sincronização Dinâmica da Planilha SEGRE do SharePoint (Livro Entrada 2026)
+ * Herda o motor universal de resolução pública anti-login
+ */
+function sincronizarPlanilhaSegre() {
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_segre_educacao_sp_gov_br/cQouoXOHq3vgRIXANB5q2uJjEgUCzXuNPLJKVLwuVFU2EtFcnw?download=1";
+  try {
+    return obterArquivoPublicoSharepoint(url, {
+      nomeSetor: "SEGRE / CGE",
+      descricaoBase: "Livro Entrada 2026 SEGRE"
+    });
+  } catch (e) {
+    Logger.log("Aviso SEGRE: fallback leve ativado - " + e.toString());
+    try {
+      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/segre_livro_2026.json";
+      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+      if (res.getResponseCode() === 200) {
+        return JSON.parse(res.getContentText());
+      }
+    } catch (errMirror) {
+      Logger.log("Erro ao buscar mirror SEGRE: " + errMirror.toString());
+    }
+    return {
+      sucesso: false,
+      erro: e.toString()
+    };
+  }
+}
+
 function sincronizarPlanilhaSefin() {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4&download=1";
   return obterArquivoPublicoSharepoint(url, {

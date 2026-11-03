@@ -33,6 +33,10 @@ Antes de finalizar qualquer tarefa, SEMPRE validar programaticamente se todos os
 - **SEINTEC (Tecnologia & Informações)**:
   - Link: `https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQC57JtcgOx0TYN_WRWdCyPLAZuHOVe0QbYAh6bcdD8gjKs?e=LTsOTP`
   - Conta corporativa: `itp_seintec_educacao_sp_gov_br`
+- **SEGRE (Gestão da Rede Escolar & Matrícula)**:
+  - Link: `https://seesp-my.sharepoint.com/:x:/g/personal/itp_segre_educacao_sp_gov_br/cQouoXOHq3vgRIXANB5q2uJjEgUCzXuNPLJKVLwuVFU2EtFcnw`
+  - Conta corporativa: `itp_segre_educacao_sp_gov_br`
+  - Arquivo: `Livro Entrada 2026 SEGRE.xlsx`
 
 ## 5. Regra Fundamental de Resiliência dos Links Públicos do SharePoint (Anti-Login Universal)
 - **Natureza Pública**: Todos os links de arquivos, pastas e planilhas compartilhados pelos setores da Diretoria de Ensino (SEINTEC, SEFIN/CAF, CRH, CGE, NPE, GAB, etc.) são públicos ("Qualquer pessoa com o link pode visualizar").
