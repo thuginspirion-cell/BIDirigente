@@ -17222,56 +17222,234 @@ function imprimirAgendaCarro() {
       renderizarCorpoTabelaSemat();
     }
 
+
+    function processarPlanilhaSematBase64(base64Data, timestamp) {
+      if (typeof XLSX === 'undefined') {
+        console.warn('SheetJS (XLSX) não disponível para SEMAT.');
+        return;
+      }
+      try {
+        const wb = XLSX.read(base64Data, { type: 'base64' });
+        const wsAten = wb.Sheets['ATENDIMENTO EXTERNO'];
+        const wsMat = wb.Sheets['MATRÍCULA MANUAL'];
+        const wsSei = wb.Sheets['ENTRADA SEI'];
+
+        const rawAten = wsAten ? XLSX.utils.sheet_to_json(wsAten, { defval: '' }) : [];
+        const rawMat = wsMat ? XLSX.utils.sheet_to_json(wsMat, { defval: '' }) : [];
+        const rawSei = wsSei ? XLSX.utils.sheet_to_json(wsSei, { defval: '' }) : [];
+
+        const mesesNomes = ['', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+        function parseDataXlsxLocal(val, fallback) {
+          if (typeof val === 'number' && val >= 40000 && val <= 50000) {
+            if (XLSX.SSF && typeof XLSX.SSF.parse_date_code === 'function') {
+              const p = XLSX.SSF.parse_date_code(val);
+              if (p) {
+                let y = p.y > 2026 ? 2026 : p.y;
+                const dStr = String(p.d).padStart(2, '0') + '/' + String(p.m).padStart(2, '0') + '/' + y;
+                return { str: dStr, mesNum: p.m, mesNome: mesesNomes[p.m] || 'Janeiro', timestamp: new Date(y, p.m - 1, p.d).getTime() };
+              }
+            }
+            const d = new Date(Math.round((val - 25569) * 86400 * 1000));
+            let y = d.getUTCFullYear() > 2026 ? 2026 : d.getUTCFullYear();
+            const m = d.getUTCMonth() + 1;
+            const dStr = String(d.getUTCDate()).padStart(2, '0') + '/' + String(m).padStart(2, '0') + '/' + y;
+            return { str: dStr, mesNum: m, mesNome: mesesNomes[m] || 'Janeiro', timestamp: new Date(y, m - 1, d.getUTCDate()).getTime() };
+          }
+          if (val) {
+            const m = String(val).trim().match(/(\d{1,2})[/-](\d{1,2})[/-]?(\d{2,4})?/);
+            if (m && m[1] && m[2]) {
+              let y = m[3] ? parseInt(m[3], 10) : 2026;
+              if (y < 100) y += 2000;
+              if (y > 2026) y = 2026;
+              const dia = parseInt(m[1], 10);
+              const mes = parseInt(m[2], 10);
+              const dStr = String(dia).padStart(2, '0') + '/' + String(mes).padStart(2, '0') + '/' + y;
+              return { str: dStr, mesNum: mes, mesNome: mesesNomes[mes] || 'Janeiro', timestamp: new Date(y, mes - 1, dia).getTime() };
+            }
+          }
+          return fallback || { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+        }
+
+        // Atendimentos
+        const atendimentos = [];
+        let prevDateAten = { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+        const contagemPorMesAten = {};
+
+        rawAten.forEach((r, idx) => {
+          const aluno = String(r['NOME COMPLETO DO ALUNO '] || r['NOME COMPLETO DO ALUNO'] || r['NOME COMPLETO'] || r['Nome'] || '').trim();
+          if (!aluno) return;
+          const rawD = r['Data'] !== undefined && r['Data'] !== '' ? r['Data'] : (r['DATA'] !== undefined && r['DATA'] !== '' ? r['DATA'] : r['data']);
+          const dtObj = parseDataXlsxLocal(rawD, prevDateAten);
+          if (rawD) prevDateAten = dtObj;
+          contagemPorMesAten[dtObj.mesNum] = (contagemPorMesAten[dtObj.mesNum] || 0) + 1;
+
+          atendimentos.push({
+            id: 'ATEN-' + (idx + 1),
+            data: dtObj.str,
+            mesNum: dtObj.mesNum,
+            mesNome: dtObj.mesNome,
+            timestamp: dtObj.timestamp,
+            hora: String(r['Hora'] || r['HORA'] || '').trim(),
+            meio: String(r['MEIO DE ATENDIMENTO'] || 'Presencial').trim(),
+            solicitadoPor: String(r['SOLICITADO POR:'] || r['SOLICITADO POR'] || 'Responsável').trim(),
+            aluno: aluno,
+            ra: String(r['RA'] || '').trim() + (r['DG'] !== undefined && r['DG'] !== '' ? ('-' + r['DG']) : ''),
+            escolaAtual: String(r['ESCOLA ATUAL'] || 'Fora da rede').trim(),
+            serie: String(r['SÉRIE '] || r['SÉRIE'] || '').trim(),
+            turnoAtual: String(r['TURNO ATUAL '] || '-').trim(),
+            escolaPretendida: String(r['ESCOLA PRETENDIDA'] || 'Não especificada').trim(),
+            turnoPretendido: String(r['TURNO PRETENDIDO'] || '-').trim(),
+            motivo: String(r['MOTIVO'] || 'Solicitação de vaga/transferência').trim(),
+            orientacao: String(r['ORIENTAÇÃO SEMAT'] || '').trim(),
+            responsavel: String(r['RESPONSÁVEL'] || r['RESPONSÁVEL '] || 'SEMAT').trim()
+          });
+        });
+
+        // Matrículas
+        const matriculas = [];
+        let prevDateMat = { str: '06/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 6).getTime() };
+        const contagemPorMesMat = {};
+
+        rawMat.forEach((r, idx) => {
+          const aluno = String(r['NOME COMPLETO DO ALUNO '] || r['NOME COMPLETO DO ALUNO'] || r['NOME COMPLETO'] || r['ALUNO'] || r['Nome'] || '').trim();
+          if (!aluno) return;
+          const rawD = r['DATA'] !== undefined && r['DATA'] !== '' ? r['DATA'] : (r['Data'] !== undefined && r['Data'] !== '' ? r['Data'] : r['data']);
+          const dtObj = parseDataXlsxLocal(rawD, prevDateMat);
+          if (rawD) prevDateMat = dtObj;
+          contagemPorMesMat[dtObj.mesNum] = (contagemPorMesMat[dtObj.mesNum] || 0) + 1;
+
+          matriculas.push({
+            id: 'MAT-' + (idx + 1),
+            data: dtObj.str,
+            mesNum: dtObj.mesNum,
+            mesNome: dtObj.mesNome,
+            timestamp: dtObj.timestamp,
+            aluno: aluno,
+            ra: String(r['RA'] || '').trim() + (r['DG'] !== undefined && r['DG'] !== '' ? ('-' + r['DG']) : ''),
+            escola: String(r['ESCOLA'] || '').trim(),
+            serie: String(r['SÉRIE '] || '').trim(),
+            classe: String(r['Nº CLASSE '] || '').trim(),
+            motivo: String(r['MOTIVO'] || 'Ajuste Escolar').trim(),
+            responsavel: String(r['RESPONSÁVEL '] || 'SEMAT').trim(),
+            observacao: String(r['OBSERVAÇÃO'] || '').trim()
+          });
+        });
+
+        // SEI
+        const processosSei = [];
+        let prevDateSei = { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+
+        rawSei.forEach((r, idx) => {
+          const prot = String(r['PROTOCOLO'] || '').trim();
+          const ass = String(r['ASSUNTO'] || '').trim();
+          if (!prot && !ass) return;
+          const rawD = r['DATA'] !== undefined && r['DATA'] !== '' ? r['DATA'] : r['Data'];
+          const dtObj = parseDataXlsxLocal(rawD, prevDateSei);
+          if (rawD) prevDateSei = dtObj;
+
+          processosSei.push({
+            id: 'SEMAT-SEI-' + (idx + 1),
+            protocolo: prot || 'S/N',
+            data: dtObj.str,
+            mesNum: dtObj.mesNum,
+            mesNome: dtObj.mesNome,
+            timestamp: dtObj.timestamp,
+            assunto: ass || 'Processo Administrativo',
+            remetente: String(r['REMETENTE'] || '').trim(),
+            interessado: String(r['INTERESSADO (A)'] || '').trim(),
+            situacao: String(r['SITUAÇÃO ATUAL'] || 'EM ANDAMENTO').trim().toUpperCase(),
+            responsavel: String(r['RESPONSÁVEL '] || r['RESPONSÁVEL'] || 'SEMAT').trim()
+          });
+        });
+
+        // Atualiza base viva
+        DADOS_SEMAT.atendimentos = atendimentos;
+        DADOS_SEMAT.matriculas = matriculas;
+        DADOS_SEMAT.processosSei = processosSei;
+        DADOS_SEMAT.kpis = DADOS_SEMAT.kpis || {};
+        DADOS_SEMAT.kpis.totalAtendimentos = atendimentos.length;
+        DADOS_SEMAT.kpis.totalMatriculasManuais = matriculas.length;
+        DADOS_SEMAT.kpis.totalSei = processosSei.length;
+        DADOS_SEMAT.kpis.mesesAtendimentos = contagemPorMesAten;
+        DADOS_SEMAT.kpis.mesesMatriculas = contagemPorMesMat;
+        if (DADOS_SEMAT.meta) {
+          DADOS_SEMAT.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
+        }
+
+        try {
+          localStorage.setItem('dados_semat_cache', JSON.stringify(DADOS_SEMAT));
+        } catch (eCache) {}
+
+        renderizarDashboardSemat();
+
+        if (typeof mostrarAlertaSincronizacao === 'function') {
+          mostrarAlertaSincronizacao({
+            tipo: 'success',
+            tag: 'SEMAT AO VIVO • SHAREPOINT',
+            titulo: 'Planilha SEMAT Atualizada em Tempo Real!',
+            mensagem: '<strong>' + atendimentos.length.toLocaleString('pt-BR') + ' atendimentos</strong> e <strong>' + matriculas.length.toLocaleString('pt-BR') + ' matrículas</strong> baixados do SharePoint agora.',
+            detalhes: 'Sincronizado diretamente às ' + new Date().toLocaleTimeString('pt-BR'),
+            duracao: 4500
+          });
+        }
+      } catch (errXlsx) {
+        console.error('Erro ao ler base64 SEMAT com SheetJS:', errXlsx);
+      }
+    }
+
     function sincronizarDashboardSemat(silencioso) {
       if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
           tag: 'SEMAT • SHAREPOINT',
-          titulo: 'Sincronizando SEMAT...',
-          mensagem: 'Consultando base de matrículas (26.54 MB) no SharePoint...',
-          detalhes: 'Conexão Anônima Pública • 100% Resiliente',
+          titulo: 'Sincronizando SEMAT Ao Vivo...',
+          mensagem: 'Baixando planilha oficial de matrículas (26.54 MB) do SharePoint em tempo real...',
+          detalhes: 'Conexão Anônima Pública • Leitura com SheetJS',
           duracao: 0
         });
-      }
-
-      const aplicarDados = function(novos) {
-        if (novos && novos.kpis) {
-          DADOS_SEMAT = novos;
-          try { localStorage.setItem('dados_semat_cache', JSON.stringify(novos)); } catch (e) {}
-        }
-        if (DADOS_SEMAT.meta) {
-          DADOS_SEMAT.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
-        }
-        renderizarDashboardSemat();
-        if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
-          mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: 'SEMAT ATUALIZADO',
-            titulo: 'SEMAT Sincronizado com Sucesso!',
-            mensagem: 'Base de matrículas atualizada com ' + (DADOS_SEMAT.kpis ? DADOS_SEMAT.kpis.totalAtendimentos : 2876) + ' atendimentos.',
-            detalhes: 'Sincronizado às ' + new Date().toLocaleTimeString('pt-BR'),
-            duracao: 4500
-          });
-        }
-      };
-
-      if (typeof google !== 'undefined' && google.script && google.script.run && google.script.run.sincronizarPlanilhaSemat) {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.sucesso !== false) aplicarDados(res);
-            else buscarMirror();
-          })
-          .withFailureHandler(function() { buscarMirror(); })
-          .sincronizarPlanilhaSemat();
-      } else {
-        buscarMirror();
       }
 
       function buscarMirror() {
         fetch(URLS_OFICIAIS_SEMAT.mirrorData + '?t=' + Date.now())
           .then(r => r.json())
-          .then(json => aplicarDados(json))
-          .catch(() => aplicarDados(DADOS_SEMAT));
+          .then(json => {
+            if (json && json.kpis) {
+              DADOS_SEMAT = json;
+              try { localStorage.setItem('dados_semat_cache', JSON.stringify(json)); } catch (e) {}
+              renderizarDashboardSemat();
+            }
+          })
+          .catch(e => console.warn('Aviso mirror SEMAT:', e));
+      }
+
+      if (typeof google !== 'undefined' && google.script && google.script.run && google.script.run.sincronizarPlanilhaSemat) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            if (res && res.sucesso && res.dadosBase64) {
+              processarPlanilhaSematBase64(res.dadosBase64, res.timestamp);
+            } else if (res && res.kpis) {
+              DADOS_SEMAT = res;
+              renderizarDashboardSemat();
+            } else {
+              buscarMirror();
+            }
+          })
+          .withFailureHandler(function() { buscarMirror(); })
+          .sincronizarPlanilhaSemat();
+      } else {
+        // No GitHub Pages / Navegador Externo: consulta endpoint público GAS com CORS para puxar o base64 ao vivo
+        const gasUrl = 'https://script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSemat';
+        fetch(gasUrl)
+          .then(r => r.json())
+          .then(res => {
+            if (res && res.sucesso && res.dadosBase64) {
+              processarPlanilhaSematBase64(res.dadosBase64, res.timestamp);
+            } else {
+              buscarMirror();
+            }
+          })
+          .catch(() => buscarMirror());
       }
     }
 
@@ -17656,56 +17834,227 @@ function imprimirAgendaCarro() {
       renderizarCorpoTabelaSevesc();
     }
 
+    function processarPlanilhaSevescBase64(base64Data, timestamp) {
+      if (typeof XLSX === 'undefined') {
+        console.warn('SheetJS (XLSX) não disponível para SEVESC.');
+        return;
+      }
+      try {
+        const wb = XLSX.read(base64Data, { type: 'base64' });
+        const wsAten = wb.Sheets['ATENDIMENTO '];
+        const wsSei = wb.Sheets['ENTRADA SEI'];
+        const wsEmail = wb.Sheets['E-MAIL'];
+
+        const rawAten = wsAten ? XLSX.utils.sheet_to_json(wsAten, { defval: '' }) : [];
+        const rawSei = wsSei ? XLSX.utils.sheet_to_json(wsSei, { defval: '' }) : [];
+        const rawEmail = wsEmail ? XLSX.utils.sheet_to_json(wsEmail, { defval: '' }) : [];
+
+        const mesesNomes = ['', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+        function parseDataXlsxLocal(val, fallback) {
+          if (typeof val === 'number' && val >= 40000 && val <= 50000) {
+            if (XLSX.SSF && typeof XLSX.SSF.parse_date_code === 'function') {
+              const p = XLSX.SSF.parse_date_code(val);
+              if (p) {
+                let y = p.y > 2026 ? 2026 : p.y;
+                const dStr = String(p.d).padStart(2, '0') + '/' + String(p.m).padStart(2, '0') + '/' + y;
+                return { str: dStr, mesNum: p.m, mesNome: mesesNomes[p.m] || 'Janeiro', timestamp: new Date(y, p.m - 1, p.d).getTime() };
+              }
+            }
+            const d = new Date(Math.round((val - 25569) * 86400 * 1000));
+            let y = d.getUTCFullYear() > 2026 ? 2026 : d.getUTCFullYear();
+            const m = d.getUTCMonth() + 1;
+            const dStr = String(d.getUTCDate()).padStart(2, '0') + '/' + String(m).padStart(2, '0') + '/' + y;
+            return { str: dStr, mesNum: m, mesNome: mesesNomes[m] || 'Janeiro', timestamp: new Date(y, m - 1, d.getUTCDate()).getTime() };
+          }
+          if (val) {
+            const m = String(val).trim().match(/(\d{1,2})[/-](\d{1,2})[/-]?(\d{2,4})?/);
+            if (m && m[1] && m[2]) {
+              let y = m[3] ? parseInt(m[3], 10) : 2026;
+              if (y < 100) y += 2000;
+              if (y > 2026) y = 2026;
+              const dia = parseInt(m[1], 10);
+              const mes = parseInt(m[2], 10);
+              const dStr = String(dia).padStart(2, '0') + '/' + String(mes).padStart(2, '0') + '/' + y;
+              return { str: dStr, mesNum: mes, mesNome: mesesNomes[mes] || 'Janeiro', timestamp: new Date(y, mes - 1, dia).getTime() };
+            }
+          }
+          return fallback || { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+        }
+
+        /* Atendimentos */
+        const atendimentos = [];
+        let prevDateAten = { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+        const contagemPorMesAten = {};
+
+        rawAten.forEach((r, idx) => {
+          const aluno = String(r['ELIZABETH FERREIRA DE FARIAS'] || r['SOLICITADO POR:'] || '').trim();
+          const ass = String(r['ASSUNTO'] || '').trim();
+          if (!aluno && !ass) return;
+
+          const rawD = r['Data'] !== undefined && r['Data'] !== '' ? r['Data'] : r['DATA'];
+          const dtObj = parseDataXlsxLocal(rawD, prevDateAten);
+          if (rawD) prevDateAten = dtObj;
+
+          contagemPorMesAten[dtObj.mesNum] = (contagemPorMesAten[dtObj.mesNum] || 0) + 1;
+
+          atendimentos.push({
+            id: 'SEVESC-ATEN-' + (idx + 1),
+            data: dtObj.str,
+            mesNum: dtObj.mesNum,
+            mesNome: dtObj.mesNome,
+            timestamp: dtObj.timestamp,
+            meio: String(r['MEIO DE ATENDIMENTO'] || 'Presencial').trim(),
+            solicitadoPor: String(r['SOLICITADO POR:'] || '').trim(),
+            interessado: aluno,
+            rgCin: String(r['RG/CIN'] || '').trim(),
+            escola: String(r['ESCOLA'] || '').trim(),
+            assunto: ass,
+            numSei: String(r['Nº SEI'] || r['N° SEI'] || '-').trim(),
+            situacao: String(r['SITUAÇÃO ATUAL'] || 'FINALIZADO').trim().toUpperCase(),
+            responsavel: String(r['RESPONSÁVEL'] || r['RESPONSÁVEL '] || 'SEVESC').trim()
+          });
+        });
+
+        /* Processos SEI */
+        const processosSei = [];
+        let prevDateSei = { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+
+        rawSei.forEach((r, idx) => {
+          const prot = String(r['PROCESSO'] || r['PROTOCOLO'] || '').trim();
+          const ass = String(r['ASSUNTO'] || '').trim();
+          if (!prot && !ass) return;
+          const rawD = r['DATA'] !== undefined && r['DATA'] !== '' ? r['DATA'] : r['Data'];
+          const dtObj = parseDataXlsxLocal(rawD, prevDateSei);
+          if (rawD) prevDateSei = dtObj;
+
+          processosSei.push({
+            id: 'SEVESC-SEI-' + (idx + 1),
+            protocolo: prot || 'S/N',
+            data: dtObj.str,
+            mesNum: dtObj.mesNum,
+            mesNome: dtObj.mesNome,
+            timestamp: dtObj.timestamp,
+            assunto: ass || 'Processo de Vida Escolar',
+            escola: String(r['ESCOLA'] || '').trim(),
+            interessado: String(r['INTERESSADO (A)'] || '').trim(),
+            situacao: String(r['SITUAÇÃO ATUAL'] || 'EM ANDAMENTO').trim().toUpperCase(),
+            responsavel: String(r['RESPONSÁVEL '] || r['RESPONSÁVEL'] || 'SEVESC').trim()
+          });
+        });
+
+        /* E-mails */
+        const emails = [];
+        let prevDateEmail = { str: '05/01/2026', mesNum: 1, mesNome: 'Janeiro', timestamp: new Date(2026, 0, 5).getTime() };
+        const startEmail = Math.max(0, rawEmail.length - 400);
+
+        for (let i = rawEmail.length - 1; i >= startEmail; i--) {
+          const r = rawEmail[i];
+          const ass = String(r['ASSUNTO'] || '').trim();
+          const inter = String(r['Interessado'] || '').trim();
+          if (!ass && !inter) continue;
+          const rawD = r['DATA'] !== undefined && r['DATA'] !== '' ? r['DATA'] : r['Data'];
+          const dtObj = parseDataXlsxLocal(rawD, prevDateEmail);
+          if (rawD) prevDateEmail = dtObj;
+
+          emails.push({
+            id: 'SEVESC-MAIL-' + (i + 1),
+            data: dtObj.str,
+            mesNum: dtObj.mesNum,
+            mesNome: dtObj.mesNome,
+            timestamp: dtObj.timestamp,
+            hora: String(r['HORA'] || '').trim(),
+            assunto: ass,
+            interessado: inter,
+            escola: String(r['ESCOLA'] || '').trim(),
+            situacao: String(r['SITUAÇÃO ATUAL'] || 'EM ANDAMENTO').trim().toUpperCase(),
+            responsavel: String(r['RESPONSÁVEL '] || 'SEVESC').trim()
+          });
+        }
+
+        DADOS_SEVESC.atendimentos = atendimentos;
+        DADOS_SEVESC.processosSei = processosSei;
+        DADOS_SEVESC.emails = emails;
+        DADOS_SEVESC.kpis = DADOS_SEVESC.kpis || {};
+        DADOS_SEVESC.kpis.totalAtendimentos = atendimentos.length;
+        DADOS_SEVESC.kpis.totalSei = processosSei.length;
+        DADOS_SEVESC.kpis.totalEmails = rawEmail.length;
+        DADOS_SEVESC.kpis.mesesAtendimentos = contagemPorMesAten;
+        if (DADOS_SEVESC.meta) {
+          DADOS_SEVESC.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
+        }
+
+        try { localStorage.setItem('dados_sevesc_cache', JSON.stringify(DADOS_SEVESC)); } catch (eCache) {}
+
+        renderizarDashboardSevesc();
+
+        if (typeof mostrarAlertaSincronizacao === 'function') {
+          mostrarAlertaSincronizacao({
+            tipo: 'success',
+            tag: 'SEVESC AO VIVO • SHAREPOINT',
+            titulo: 'Planilha SEVESC Atualizada em Tempo Real!',
+            mensagem: '<strong>' + atendimentos.length.toLocaleString('pt-BR') + ' atendimentos</strong> e <strong>' + processosSei.length.toLocaleString('pt-BR') + ' processos SEI</strong> baixados do SharePoint agora.',
+            detalhes: 'Sincronizado diretamente às ' + new Date().toLocaleTimeString('pt-BR'),
+            duracao: 4500
+          });
+        }
+      } catch (errXlsx) {
+        console.error('Erro ao ler base64 SEVESC com SheetJS:', errXlsx);
+      }
+    }
+
     function sincronizarDashboardSevesc(silencioso) {
       if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
           tag: 'SEVESC • SHAREPOINT',
-          titulo: 'Sincronizando SEVESC...',
-          mensagem: 'Consultando base de vida escolar (1.21 MB) no SharePoint...',
-          detalhes: 'Conexão Anônima Pública • 100% Resiliente',
+          titulo: 'Sincronizando SEVESC Ao Vivo...',
+          mensagem: 'Baixando planilha de vida escolar (1.21 MB) do SharePoint em tempo real...',
+          detalhes: 'Conexão Anônima Pública • Leitura com SheetJS',
           duracao: 0
         });
-      }
-
-      const aplicarDados = function(novos) {
-        if (novos && novos.kpis) {
-          DADOS_SEVESC = novos;
-          try { localStorage.setItem('dados_sevesc_cache', JSON.stringify(novos)); } catch (e) {}
-        }
-        if (DADOS_SEVESC.meta) {
-          DADOS_SEVESC.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
-        }
-        renderizarDashboardSevesc();
-        if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
-          mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: 'SEVESC ATUALIZADO',
-            titulo: 'SEVESC Sincronizado com Sucesso!',
-            mensagem: 'Base de vida escolar atualizada com ' + (DADOS_SEVESC.kpis ? DADOS_SEVESC.kpis.totalAtendimentos : 662) + ' atendimentos.',
-            detalhes: 'Sincronizado às ' + new Date().toLocaleTimeString('pt-BR'),
-            duracao: 4500
-          });
-        }
-      };
-
-      if (typeof google !== 'undefined' && google.script && google.script.run && google.script.run.sincronizarPlanilhaSevesc) {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.sucesso !== false) aplicarDados(res);
-            else buscarMirror();
-          })
-          .withFailureHandler(function() { buscarMirror(); })
-          .sincronizarPlanilhaSevesc();
-      } else {
-        buscarMirror();
       }
 
       function buscarMirror() {
         fetch(URLS_OFICIAIS_SEVESC.mirrorData + '?t=' + Date.now())
           .then(r => r.json())
-          .then(json => aplicarDados(json))
-          .catch(() => aplicarDados(DADOS_SEVESC));
+          .then(json => {
+            if (json && json.kpis) {
+              DADOS_SEVESC = json;
+              try { localStorage.setItem('dados_sevesc_cache', JSON.stringify(json)); } catch (e) {}
+              renderizarDashboardSevesc();
+            }
+          })
+          .catch(e => console.warn('Aviso mirror SEVESC:', e));
+      }
+
+      if (typeof google !== 'undefined' && google.script && google.script.run && google.script.run.sincronizarPlanilhaSevesc) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            if (res && res.sucesso && res.dadosBase64) {
+              processarPlanilhaSevescBase64(res.dadosBase64, res.timestamp);
+            } else if (res && res.kpis) {
+              DADOS_SEVESC = res;
+              renderizarDashboardSevesc();
+            } else {
+              buscarMirror();
+            }
+          })
+          .withFailureHandler(function() { buscarMirror(); })
+          .sincronizarPlanilhaSevesc();
+      } else {
+        /* No GitHub Pages / Navegador Externo */
+        const gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSevesc';
+        fetch(gasUrl)
+          .then(r => r.json())
+          .then(res => {
+            if (res && res.sucesso && res.dadosBase64) {
+              processarPlanilhaSevescBase64(res.dadosBase64, res.timestamp);
+            } else {
+              buscarMirror();
+            }
+          })
+          .catch(() => buscarMirror());
       }
     }
   
@@ -25618,49 +25967,135 @@ function imprimirAgendaCarro() {
       renderizarCorpoTabelaSegre();
     }
 
+    function processarPlanilhaSegreBase64(base64Data, timestamp) {
+      if (typeof XLSX === 'undefined') {
+        console.warn('SheetJS (XLSX) não disponível para SEGRE.');
+        return;
+      }
+      try {
+        const wb = XLSX.read(base64Data, { type: 'base64' });
+        const wsSei = wb.Sheets['ENTRADA SEI'];
+        const wsVagas = wb.Sheets['ATENDIMENTO VAGA'];
+
+        const rawSei = wsSei ? XLSX.utils.sheet_to_json(wsSei, { defval: '' }) : [];
+        const rawVagas = wsVagas ? XLSX.utils.sheet_to_json(wsVagas, { defval: '' }) : [];
+
+        function parseDataXlsxLocal(val) {
+          if (!val) return '';
+          if (typeof val === 'number' && val >= 40000 && val <= 50000) {
+            if (XLSX.SSF && typeof XLSX.SSF.parse_date_code === 'function') {
+              const p = XLSX.SSF.parse_date_code(val);
+              if (p) return String(p.d).padStart(2, '0') + '/' + String(p.m).padStart(2, '0') + '/' + p.y;
+            }
+            const d = new Date(Math.round((val - 25569) * 86400 * 1000));
+            return String(d.getUTCDate()).padStart(2, '0') + '/' + String(d.getUTCMonth() + 1).padStart(2, '0') + '/' + d.getUTCFullYear();
+          }
+          const str = String(val).trim();
+          const m = str.match(/(\d{1,2})[/-](\d{1,2})[/-]?(\d{2,4})?/);
+          if (m && m[1] && m[2]) {
+            let y = m[3] ? parseInt(m[3], 10) : 2026;
+            if (y < 100) y += 2000;
+            return String(m[1]).padStart(2, '0') + '/' + String(m[2]).padStart(2, '0') + '/' + y;
+          }
+          return str;
+        }
+
+        const processosSei = [];
+        rawSei.forEach((r, idx) => {
+          const prot = String(r['PROTOCOLO'] || '').trim();
+          const ass = String(r['ASSUNTO'] || '').trim();
+          if (!prot && !ass) return;
+          processosSei.push({
+            id: 'SEI-' + (idx + 1),
+            protocolo: prot || 'S/N',
+            data: parseDataXlsxLocal(r['DATA']),
+            assunto: ass || 'Processo Administrativo',
+            remetente: String(r['REMETENTE'] || '').trim(),
+            interessado: String(r['INTERESSADO (A)'] || '').trim(),
+            situacao: String(r['SITUAÇÃO ATUAL'] || 'EM ANDAMENTO').trim().toUpperCase(),
+            responsavel: String(r['RESPONSÁVEL '] || r['RESPONSÁVEL'] || 'SEGRE').trim()
+          });
+        });
+
+        const atendimentosVagas = [];
+        rawVagas.forEach((r, idx) => {
+          const aluno = String(r['ALUNO(A)'] || r['NOME DO ALUNO'] || '').trim();
+          if (!aluno) return;
+          atendimentosVagas.push({
+            id: 'VAGA-' + (idx + 1),
+            data: parseDataXlsxLocal(r['DATA']),
+            aluno: aluno,
+            ra: String(r['RA'] || '').trim(),
+            etapa: String(r['ETAPA/ANO'] || r['ETAPA'] || '').trim(),
+            escolaDesejada: String(r['ESCOLA DE INTERESSE'] || '').trim(),
+            situacao: String(r['SITUAÇÃO'] || 'EM ANÁLISE').trim().toUpperCase(),
+            atendente: String(r['ATENDENTE'] || 'SEGRE').trim()
+          });
+        });
+
+        DADOS_SEGRE.processosSei = processosSei;
+        if (atendimentosVagas.length > 0) DADOS_SEGRE.atendimentosVaga = atendimentosVagas;
+        DADOS_SEGRE.kpis = DADOS_SEGRE.kpis || {};
+        DADOS_SEGRE.kpis.totalSei = processosSei.length;
+        if (atendimentosVagas.length > 0) DADOS_SEGRE.kpis.totalVagas = atendimentosVagas.length;
+        if (DADOS_SEGRE.meta) {
+          DADOS_SEGRE.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
+        }
+
+        try { localStorage.setItem('dados_segre_cache', JSON.stringify(DADOS_SEGRE)); } catch (eCache) {}
+
+        renderizarDashboardSegre();
+
+        if (typeof mostrarAlertaSincronizacao === 'function') {
+          mostrarAlertaSincronizacao({
+            tipo: 'success',
+            tag: 'SEGRE AO VIVO • SHAREPOINT',
+            titulo: 'Planilha SEGRE Atualizada em Tempo Real!',
+            mensagem: '<strong>' + processosSei.length.toLocaleString('pt-BR') + ' processos SEI</strong> e <strong>' + DADOS_SEGRE.kpis.totalVagas + ' atendimentos de vagas</strong> atualizados diretamente do SharePoint.',
+            detalhes: 'Sincronizado às ' + new Date().toLocaleTimeString('pt-BR'),
+            duracao: 4500
+          });
+        }
+      } catch (errXlsx) {
+        console.error('Erro ao ler base64 SEGRE com SheetJS:', errXlsx);
+      }
+    }
+
     function sincronizarDashboardSegre(silencioso) {
       if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
           tag: 'SEGRE • SHAREPOINT',
-          titulo: 'Sincronizando Livro de Entrada SEGRE...',
-          mensagem: 'Consultando base de 65.55 MB no SharePoint corporativo...',
-          detalhes: 'Conexão Anônima Pública • 100% Resiliente',
+          titulo: 'Sincronizando Livro de Entrada SEGRE Ao Vivo...',
+          mensagem: 'Baixando planilha de 65.55 MB do SharePoint em tempo real...',
+          detalhes: 'Conexão Anônima Pública • Leitura com SheetJS',
           duracao: 0
         });
       }
 
-      // Função de fallback/espelho
-      const aplicarDadosRecebidos = function(dadosNovos) {
-        if (dadosNovos && (dadosNovos.kpis || dadosNovos.processosSei)) {
-          DADOS_SEGRE = dadosNovos;
-          try {
-            localStorage.setItem('dados_segre_cache', JSON.stringify(dadosNovos));
-          } catch (eCache) {}
-        }
-        if (DADOS_SEGRE.meta) {
-          DADOS_SEGRE.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
-        }
-        renderizarDashboardSegre();
-
-        if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
-          mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: 'SEGRE ATUALIZADO',
-            titulo: 'SEGRE Sincronizado com Sucesso!',
-            mensagem: 'Livro de Entrada 2026 atualizado com ' + (DADOS_SEGRE.kpis ? DADOS_SEGRE.kpis.totalSei : 116) + ' processos SEI e ' + (DADOS_SEGRE.kpis ? DADOS_SEGRE.kpis.totalVagas : 297) + ' vagas.',
-            detalhes: 'Sincronizado às ' + new Date().toLocaleTimeString('pt-BR'),
-            duracao: 4500
+      function buscarMirrorSegre() {
+        fetch(URLS_OFICIAIS_SEGRE.mirrorData + '?t=' + Date.now())
+          .then(r => r.json())
+          .then(json => {
+            if (json && (json.kpis || json.processosSei)) {
+              DADOS_SEGRE = json;
+              try { localStorage.setItem('dados_segre_cache', JSON.stringify(json)); } catch (eCache) {}
+              renderizarDashboardSegre();
+            }
+          })
+          .catch(err => {
+            console.warn('Fallback local para SEGRE:', err);
           });
-        }
-      };
+      }
 
-      // Tenta via GAS ou fetch direto no espelho com cache-busting
       if (typeof google !== 'undefined' && google.script && google.script.run && google.script.run.sincronizarPlanilhaSegre) {
         google.script.run
           .withSuccessHandler(function(res) {
-            if (res && res.sucesso !== false) {
-              aplicarDadosRecebidos(res);
+            if (res && res.sucesso && res.dadosBase64) {
+              processarPlanilhaSegreBase64(res.dadosBase64, res.timestamp);
+            } else if (res && (res.kpis || res.processosSei)) {
+              DADOS_SEGRE = res;
+              renderizarDashboardSegre();
             } else {
               buscarMirrorSegre();
             }
@@ -25670,19 +26105,18 @@ function imprimirAgendaCarro() {
           })
           .sincronizarPlanilhaSegre();
       } else {
-        buscarMirrorSegre();
-      }
-
-      function buscarMirrorSegre() {
-        fetch(URLS_OFICIAIS_SEGRE.mirrorData + '?t=' + Date.now())
+        /* No GitHub Pages / Navegador Externo */
+        const gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSegre';
+        fetch(gasUrl)
           .then(r => r.json())
-          .then(json => {
-            aplicarDadosRecebidos(json);
+          .then(res => {
+            if (res && res.sucesso && res.dadosBase64) {
+              processarPlanilhaSegreBase64(res.dadosBase64, res.timestamp);
+            } else {
+              buscarMirrorSegre();
+            }
           })
-          .catch(err => {
-            console.warn('Fallback local para SEGRE:', err);
-            aplicarDadosRecebidos(DADOS_SEGRE);
-          });
+          .catch(() => buscarMirrorSegre());
       }
     }
 
