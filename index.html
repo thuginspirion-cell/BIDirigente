@@ -10234,7 +10234,7 @@ function imprimirAgendaCarro() {
                     <div style="font-size: 0.7rem; color: #059669;" id="matrix-seintec-sub">12.105 em uso normal nas 60 escolas</div>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;">1.356 Chamados Registrados</div>
+                    <div style="font-weight: 700; color: #334155;">1.363 Chamados Registrados</div>
                     <div style="font-size: 0.7rem; color: #64748b;">0 incidentes críticos pendentes</div>
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
@@ -29994,7 +29994,7 @@ function imprimirAgendaCarro() {
       var callsRegs = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros))
         ? SEINTEC_BASES_CONFIG['Atendimentos'].registros
         : [];
-      var callsTot = callsRegs.length || 1356;
+      var callsTot = callsRegs.length || 1363;
 
       var bCalls = document.getElementById("seintec-card-badge-Atendimentos");
       var dCalls = document.getElementById("seintec-card-desc-Atendimentos");
@@ -31905,7 +31905,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           btn.disabled = false;
           if (icon) icon.innerText = '🔄';
         }
-        var baseAtual = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && SEINTEC_BASES_CONFIG['Atendimentos'].registros) ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length : 1356;
+        var baseAtual = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && SEINTEC_BASES_CONFIG['Atendimentos'].registros) ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length : 1363;
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'info',
@@ -31952,7 +31952,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                     tipo: 'success',
                     tag: 'CHAMADOS ATUALIZADOS',
                     titulo: 'Sincronização Concluída!',
-                    mensagem: '<strong>' + (qtd || 1356).toLocaleString('pt-BR') + ' atendimentos</strong> consolidados em tempo real do SharePoint!',
+                    mensagem: '<strong>' + (qtd || 1363).toLocaleString('pt-BR') + ' atendimentos</strong> consolidados em tempo real do SharePoint!',
                     detalhes: 'Conexão Direta SharePoint às ' + agora + ' • Histórico Completo 2026',
                     duracao: 5000
                   });
@@ -31988,7 +31988,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                   tipo: 'success',
                   tag: 'CHAMADOS ATUALIZADOS',
                   titulo: 'Sincronização Concluída!',
-                  mensagem: '<strong>' + (qtd || 1356).toLocaleString('pt-BR') + ' atendimentos</strong> consolidados em tempo real do SharePoint!',
+                  mensagem: '<strong>' + (qtd || 1363).toLocaleString('pt-BR') + ' atendimentos</strong> consolidados em tempo real do SharePoint!',
                   detalhes: 'Conexão Direta SharePoint às ' + agora + ' • Histórico Completo 2026',
                   duracao: 5000
                 });
