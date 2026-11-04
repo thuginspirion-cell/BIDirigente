@@ -3232,8 +3232,25 @@ function extrairValorCelulaDom(td) {
 function parseValorParaOrdenacao(val) {
   if (!val) return { tipo: 'str', val: '' };
 
-  // 1. Data brasileira (DD/MM/AAAA ou DD/MM/AAAA HH:mm)
-  var dataMatch = val.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})(?:\s+(\d{1,2}):(\d{2}))?/);
+  // Remove ícones, emojis e espaços do início para não inviabilizar o parse de datas
+  var str = String(val).replace(/^[^0-9a-zA-Z\/\-]+/, '').trim();
+
+  // 1. Data formato ISO (AAAA-MM-DD ou AAAA/MM/DD)
+  var dataIsoMatch = str.match(/^(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})(?:[T\s](\d{1,2}):(\d{2}))?/);
+  if (dataIsoMatch) {
+    var anoIso = parseInt(dataIsoMatch[1], 10);
+    var mesIso = parseInt(dataIsoMatch[2], 10) - 1;
+    var diaIso = parseInt(dataIsoMatch[3], 10);
+    var hIso = dataIsoMatch[4] ? parseInt(dataIsoMatch[4], 10) : 0;
+    var mIso = dataIsoMatch[5] ? parseInt(dataIsoMatch[5], 10) : 0;
+    var dIso = new Date(anoIso, mesIso, diaIso, hIso, mIso);
+    if (!isNaN(dIso.getTime())) {
+      return { tipo: 'date', val: dIso.getTime() };
+    }
+  }
+
+  // 2. Data brasileira (DD/MM/AAAA ou DD/MM/AAAA HH:mm)
+  var dataMatch = str.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})(?:\s+(\d{1,2}):(\d{2}))?/);
   if (dataMatch) {
     var dia = parseInt(dataMatch[1], 10);
     var mes = parseInt(dataMatch[2], 10) - 1;
@@ -3247,23 +3264,14 @@ function parseValorParaOrdenacao(val) {
     }
   }
 
-  // 2. Data formato ISO (AAAA-MM-DD)
-  var dataIsoMatch = val.match(/^(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})/);
-  if (dataIsoMatch) {
-    var dIso = new Date(parseInt(dataIsoMatch[1], 10), parseInt(dataIsoMatch[2], 10) - 1, parseInt(dataIsoMatch[3], 10));
-    if (!isNaN(dIso.getTime())) {
-      return { tipo: 'date', val: dIso.getTime() };
-    }
-  }
-
-  // 3. Número puro (inclusive valores com R$, %, pontos de milhar e vírgula decimal)
-  var limpo = val.replace(/[R$\s%]/g, '').replace(/\./g, '').replace(',', '.');
+  // 3. Número puro (inclusive valores monetários, percentuais e decimais com vírgula)
+  var limpo = str.replace(/[R$\s%]/g, '').replace(/\./g, '').replace(',', '.');
   if (limpo !== '' && !isNaN(Number(limpo)) && !isNaN(parseFloat(limpo))) {
     return { tipo: 'num', val: Number(limpo) };
   }
 
   // 4. Texto padrão para ordenação alfabética
-  return { tipo: 'str', val: val.trim() };
+  return { tipo: 'str', val: str };
 }
 
 function ordenarTabelaDom(tableIdOrElement, colIndex, forceOrderOrType) {
@@ -9188,6 +9196,32 @@ function imprimirAgendaCarro() {
       color: #ffffff;
       box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
     }
+    .btn-secomse-cat {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .btn-secomse-cat:hover {
+      border-color: #2563eb;
+      color: #2563eb;
+      background: #eff6ff;
+    }
+    .btn-secomse-cat.active {
+      background: #2563eb !important;
+      border-color: #2563eb !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3) !important;
+      font-weight: 800 !important;
+    }
         /* CARDS & FILTROS DO INVENTÁRIO (HARDWARE / REDE / EDUCATRONS / RECARGA) */
     .inv-kpi-card {
       transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
@@ -11284,7 +11318,7 @@ function imprimirAgendaCarro() {
               <span style="font-size: 0.75rem; font-weight: 800; color: #0b2351; margin-right: 0.2rem; display: flex; align-items: center; gap: 0.3rem;">
                 <span>📅</span> <span>SELECIONAR MÊS:</span>
               </span>
-              <button type="button" class="btn-call-month active" data-mes="todos" onclick="filtrarCallsPorMes('todos', this)" style="background: #0b2351; color: #fff; border: 1px solid #0b2351; border-radius: 20px; padding: 3px 11px; font-size: 0.75rem; font-weight: 800; cursor: pointer; transition: all 0.15s;">Todos os Meses</button>
+              <button type="button" class="btn-call-month active" data-mes="todos" onclick="filtrarCallsPorMes('todos', this)" style="background: #2563eb; color: #ffffff; border: 1px solid #2563eb; border-radius: 20px; padding: 3px 11px; font-size: 0.75rem; font-weight: 800; cursor: pointer; transition: all 0.15s; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);">Todos os Meses</button>
               <button type="button" class="btn-call-month" data-mes="1" onclick="filtrarCallsPorMes('1', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Jan</button>
               <button type="button" class="btn-call-month" data-mes="2" onclick="filtrarCallsPorMes('2', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Fev</button>
               <button type="button" class="btn-call-month" data-mes="3" onclick="filtrarCallsPorMes('3', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Mar</button>
@@ -16943,14 +16977,14 @@ function imprimirAgendaCarro() {
         const isMatch = (btnEl && b === btnEl) || (b.getAttribute('data-cat') === cat);
         if (isMatch) {
           b.classList.add('active');
-          b.style.background = '#0b2351';
+          b.style.background = '#2563eb';
           b.style.color = '#ffffff';
-          b.style.borderColor = '#0b2351';
+          b.style.borderColor = '#2563eb';
           b.style.fontWeight = '800';
-          b.style.boxShadow = '0 2px 6px rgba(11,35,81,0.2)';
+          b.style.boxShadow = '0 2px 8px rgba(37, 99, 235, 0.3)';
         } else {
           b.classList.remove('active');
-          b.style.background = '#f8fafc';
+          b.style.background = '#ffffff';
           b.style.color = '#475569';
           b.style.borderColor = '#cbd5e1';
           b.style.fontWeight = '700';
@@ -17326,10 +17360,10 @@ function imprimirAgendaCarro() {
           <!-- SELETOR DE EXERCÍCIO -->
           <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.2rem;">
             <span style="font-size: 0.78rem; font-weight: 800; color: #475569; text-transform: uppercase;">Exercício:</span>
-            <button onclick="mudarExercicioSecomse('2026')" style="padding: 6px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: 0.2s; border: 1.5px solid ${ano === '2026' ? '#0b2351' : '#cbd5e1'}; background: ${ano === '2026' ? '#0b2351' : '#ffffff'}; color: ${ano === '2026' ? '#ffffff' : '#334155'};">
+            <button onclick="mudarExercicioSecomse('2026')" style="padding: 6px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: 0.2s; border: 1.5px solid ${ano === '2026' ? '#2563eb' : '#cbd5e1'}; background: ${ano === '2026' ? '#2563eb' : '#ffffff'}; color: ${ano === '2026' ? '#ffffff' : '#334155'}; box-shadow: ${ano === '2026' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'};">
               🚀 Exercício 2026 (57 Contratos)
             </button>
-            <button onclick="mudarExercicioSecomse('2025')" style="padding: 6px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: 0.2s; border: 1.5px solid ${ano === '2025' ? '#0b2351' : '#cbd5e1'}; background: ${ano === '2025' ? '#0b2351' : '#ffffff'}; color: ${ano === '2025' ? '#ffffff' : '#334155'};">
+            <button onclick="mudarExercicioSecomse('2025')" style="padding: 6px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: 0.2s; border: 1.5px solid ${ano === '2025' ? '#2563eb' : '#cbd5e1'}; background: ${ano === '2025' ? '#2563eb' : '#ffffff'}; color: ${ano === '2025' ? '#ffffff' : '#334155'}; box-shadow: ${ano === '2025' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'};">
               📜 Exercício 2025 (25 Contratos)
             </button>
           </div>
@@ -17391,11 +17425,11 @@ function imprimirAgendaCarro() {
               <!-- Categorias -->
               <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;">
                 <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-right: 0.25rem;">Categorias:</span>
-                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'TODOS' ? 'active' : ''}" data-cat="TODOS" onclick="mudarCategoriaSecomse('TODOS', this)" style="padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: ${estadoSecomse.categoria === 'TODOS' ? '800' : '700'}; cursor: pointer; border: 1.5px solid ${estadoSecomse.categoria === 'TODOS' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'TODOS' ? '#0b2351' : '#f8fafc'}; color: ${estadoSecomse.categoria === 'TODOS' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'TODOS' ? '0 2px 6px rgba(11,35,81,0.2)' : 'none'}; transition: all 0.15s;">Todas</button>
-                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Transporte Escolar' ? 'active' : ''}" data-cat="Transporte Escolar" onclick="mudarCategoriaSecomse('Transporte Escolar', this)" style="padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: ${estadoSecomse.categoria === 'Transporte Escolar' ? '800' : '700'}; cursor: pointer; border: 1.5px solid ${estadoSecomse.categoria === 'Transporte Escolar' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Transporte Escolar' ? '#0b2351' : '#f8fafc'}; color: ${estadoSecomse.categoria === 'Transporte Escolar' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Transporte Escolar' ? '0 2px 6px rgba(11,35,81,0.2)' : 'none'}; transition: all 0.15s;">🚌 Transporte</button>
-                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Manutenção e Conservação' ? 'active' : ''}" data-cat="Manutenção e Conservação" onclick="mudarCategoriaSecomse('Manutenção e Conservação', this)" style="padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '800' : '700'}; cursor: pointer; border: 1.5px solid ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#0b2351' : '#f8fafc'}; color: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '0 2px 6px rgba(11,35,81,0.2)' : 'none'}; transition: all 0.15s;">🔧 Manutenção</button>
-                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? 'active' : ''}" data-cat="Vigilância e Limpeza" onclick="mudarCategoriaSecomse('Vigilância e Limpeza', this)" style="padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '800' : '700'}; cursor: pointer; border: 1.5px solid ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#0b2351' : '#f8fafc'}; color: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '0 2px 6px rgba(11,35,81,0.2)' : 'none'}; transition: all 0.15s;">🛡️ Vigilância/Limpeza</button>
-                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Alimentação e Insumos' ? 'active' : ''}" data-cat="Alimentação e Insumos" onclick="mudarCategoriaSecomse('Alimentação e Insumos', this)" style="padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '800' : '700'}; cursor: pointer; border: 1.5px solid ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#0b2351' : '#f8fafc'}; color: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '0 2px 6px rgba(11,35,81,0.2)' : 'none'}; transition: all 0.15s;">🍎 Merenda/Insumos</button>
+                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'TODOS' ? 'active' : ''}" data-cat="TODOS" onclick="mudarCategoriaSecomse('TODOS', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'TODOS' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'TODOS' ? '#2563eb' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'TODOS' ? '#2563eb' : '#ffffff'}; color: ${estadoSecomse.categoria === 'TODOS' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'TODOS' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'}; transition: all 0.15s ease;">Todas</button>
+                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Transporte Escolar' ? 'active' : ''}" data-cat="Transporte Escolar" onclick="mudarCategoriaSecomse('Transporte Escolar', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Transporte Escolar' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Transporte Escolar' ? '#2563eb' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Transporte Escolar' ? '#2563eb' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Transporte Escolar' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Transporte Escolar' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'}; transition: all 0.15s ease;">🚌 Transporte</button>
+                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Manutenção e Conservação' ? 'active' : ''}" data-cat="Manutenção e Conservação" onclick="mudarCategoriaSecomse('Manutenção e Conservação', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#2563eb' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#2563eb' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'}; transition: all 0.15s ease;">🔧 Manutenção</button>
+                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? 'active' : ''}" data-cat="Vigilância e Limpeza" onclick="mudarCategoriaSecomse('Vigilância e Limpeza', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#2563eb' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#2563eb' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'}; transition: all 0.15s ease;">🛡️ Vigilância/Limpeza</button>
+                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Alimentação e Insumos' ? 'active' : ''}" data-cat="Alimentação e Insumos" onclick="mudarCategoriaSecomse('Alimentação e Insumos', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#2563eb' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#2563eb' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'}; transition: all 0.15s ease;">🍎 Merenda/Insumos</button>
               </div>
 
               <!-- Busca rápida -->
@@ -28424,32 +28458,29 @@ function imprimirAgendaCarro() {
 
 function extrairTimestampEDetalhesDataCall(str) {
   if (!str) return { timestamp: 0, mes: 0, ano: 2026, iso: '1970-01-01' };
-  const parts = String(str).trim().split(/[\/\-]/);
-  if (parts.length === 3) {
-    let p0 = parseInt(parts[0], 10);
-    let p1 = parseInt(parts[1], 10);
-    let y = parseInt(parts[2], 10);
-    if (y < 100) y += 2000;
-    let d, m;
-    if (p0 > 12) {
-      d = p0;
-      m = p1;
-    } else if (p1 > 12) {
-      m = p0;
-      d = p1;
-    } else {
-      d = p0;
-      m = p1;
-    }
-    if (m < 1 || m > 12) {
-      if (p0 >= 1 && p0 <= 12) { m = p0; d = p1; }
-      else { m = 1; }
-    }
-    const dt = new Date(y, m - 1, d);
-    const ts = dt.getTime();
-    const iso = y + '-' + String(m).padStart(2, '0') + '-' + String(d).padStart(2, '0');
-    return { timestamp: ts, mes: m, ano: y, iso: iso };
+  var clean = String(str).replace(/^[^0-9a-zA-Z\/\-]+/, '').trim();
+
+  // 1. Formato ISO: YYYY-MM-DD
+  var isoMatch = clean.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/);
+  if (isoMatch) {
+    var y = parseInt(isoMatch[1], 10);
+    var m = parseInt(isoMatch[2], 10);
+    var d = parseInt(isoMatch[3], 10);
+    var dt = new Date(y, m - 1, d);
+    return { timestamp: dt.getTime(), mes: m, ano: y, iso: y + '-' + String(m).padStart(2, '0') + '-' + String(d).padStart(2, '0') };
   }
+
+  // 2. Formato Brasileiro: DD/MM/YYYY
+  var brMatch = clean.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
+  if (brMatch) {
+    var d = parseInt(brMatch[1], 10);
+    var m = parseInt(brMatch[2], 10);
+    var y = parseInt(brMatch[3], 10);
+    if (y < 100) y += 2000;
+    var dt = new Date(y, m - 1, d);
+    return { timestamp: dt.getTime(), mes: m, ano: y, iso: y + '-' + String(m).padStart(2, '0') + '-' + String(d).padStart(2, '0') };
+  }
+
   return { timestamp: 0, mes: 0, ano: 2026, iso: '1970-01-01' };
 }
 
@@ -28461,13 +28492,15 @@ function filtrarCallsPorMes(mes, btnEl) {
     b.style.color = '#334155';
     b.style.borderColor = '#cbd5e1';
     b.style.fontWeight = '700';
+    b.style.boxShadow = 'none';
   });
   if (btnEl) {
     btnEl.classList.add('active');
-    btnEl.style.background = '#0b2351';
+    btnEl.style.background = '#2563eb';
     btnEl.style.color = '#ffffff';
-    btnEl.style.borderColor = '#0b2351';
+    btnEl.style.borderColor = '#2563eb';
     btnEl.style.fontWeight = '800';
+    btnEl.style.boxShadow = '0 2px 8px rgba(37, 99, 235, 0.3)';
   }
   if (typeof renderizarRegistrosCalls === 'function' && typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos']) {
     renderizarRegistrosCalls(SEINTEC_BASES_CONFIG['Atendimentos'], filtroAtivoCalls || 'todos');
@@ -30048,9 +30081,12 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var agora = timestampStr || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         if (statusText) statusText.innerText = 'Sincronizado às ' + agora + ' • Automático a cada 1h';
 
+        // Consolidação Inteligente: Unifica sempre com o histórico desde 05/01/2026
+        var consolidado = consolidarChamadosComHistorico(registrosNovos);
+
         if (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos']) {
-          SEINTEC_BASES_CONFIG['Atendimentos'].registros = registrosNovos;
-          SEINTEC_BASES_CONFIG['Atendimentos'].desc = 'Base Oficial de Chamados e Atendimentos SEINTEC - Ano 2026 (' + registrosNovos.length.toLocaleString('pt-BR') + ' atendimentos sincronizados)';
+          SEINTEC_BASES_CONFIG['Atendimentos'].registros = consolidado;
+          SEINTEC_BASES_CONFIG['Atendimentos'].desc = 'Base Oficial de Chamados e Atendimentos SEINTEC - Ano 2026 (' + consolidado.length.toLocaleString('pt-BR') + ' atendimentos sincronizados)';
           if (typeof renderizarRegistrosCalls === 'function') {
             renderizarRegistrosCalls(SEINTEC_BASES_CONFIG['Atendimentos'], filtroAtivoCalls || 'todos');
           }
@@ -30059,7 +30095,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         if (typeof atualizarMetricasInventario === 'function') atualizarMetricasInventario(baseAtivaSeintec || 'Hardware');
 
         try {
-          localStorage.setItem('SEINTEC_CALLS_2026', JSON.stringify(registrosNovos));
+          localStorage.setItem('SEINTEC_CALLS_2026', JSON.stringify(consolidado));
         } catch(e) {}
 
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
@@ -30067,8 +30103,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             tipo: 'success',
             tag: 'SEINTEC ATUALIZADO',
             titulo: 'Sincronização de Alta Performance Concluída!',
-            mensagem: '<strong>' + registrosNovos.length.toLocaleString('pt-BR') + ' atendimentos</strong> de 2026 sincronizados em tempo real!',
-            detalhes: (fonteNome || 'SharePoint Oficial') + ' às ' + agora + ' • Modo Otimizado (Bases Ativas)',
+            mensagem: '<strong>' + consolidado.length.toLocaleString('pt-BR') + ' atendimentos</strong> de 2026 consolidados em tempo real!',
+            detalhes: (fonteNome || 'SharePoint Oficial') + ' às ' + agora + ' • Histórico Completo 2026 Preservado',
             duracao: 5000
           });
         }
@@ -30127,14 +30163,16 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                     tipo: 'success',
                     tag: 'CHAMADOS ATUALIZADOS',
                     titulo: 'Sincronização Concluída!',
-                    mensagem: '<strong>' + (qtd || 1383).toLocaleString('pt-BR') + ' atendimentos</strong> baixados em tempo real diretamente do SharePoint!',
-                    detalhes: 'Conexão Direta SharePoint às ' + agora + ' • 100% Atualizada',
+                    mensagem: '<strong>' + (qtd || 1383).toLocaleString('pt-BR') + ' atendimentos</strong> consolidados em tempo real do SharePoint!',
+                    detalhes: 'Conexão Direta SharePoint às ' + agora + ' • Histórico Completo 2026',
                     duracao: 5000
                   });
                 }
               } catch(e) {
                 tentarFeedJsonGit();
               }
+            } else if (res && res.sucesso && Array.isArray(res.registros) && res.registros.length > 0) {
+              aplicarNovosRegistros(res.registros, res.timestamp, 'SharePoint Direto');
             } else {
               tentarFeedJsonGit();
             }
@@ -30161,11 +30199,13 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                   tipo: 'success',
                   tag: 'CHAMADOS ATUALIZADOS',
                   titulo: 'Sincronização Concluída!',
-                  mensagem: '<strong>' + (qtd || 1383).toLocaleString('pt-BR') + ' atendimentos</strong> baixados em tempo real diretamente do SharePoint!',
-                  detalhes: 'Conexão Direta SharePoint às ' + agora + ' • 100% Atualizada',
+                  mensagem: '<strong>' + (qtd || 1383).toLocaleString('pt-BR') + ' atendimentos</strong> consolidados em tempo real do SharePoint!',
+                  detalhes: 'Conexão Direta SharePoint às ' + agora + ' • Histórico Completo 2026',
                   duracao: 5000
                 });
               }
+            } else if (res && res.sucesso && Array.isArray(res.registros) && res.registros.length > 0) {
+              aplicarNovosRegistros(res.registros, res.timestamp, 'SharePoint Direto');
             } else {
               tentarFeedJsonGit();
             }
@@ -30311,21 +30351,17 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       });
 
       if (chamadosNovos2026.length > 0) {
-        chamadosNovos2026.sort(function(a, b) {
-          var idA = parseInt(String(a.id || '').replace('CALL-', ''), 10) || 0;
-          var idB = parseInt(String(b.id || '').replace('CALL-', ''), 10) || 0;
-          return idB - idA;
-        });
+        var consolidado = consolidarChamadosComHistorico(chamadosNovos2026);
 
         try {
-          localStorage.setItem('SEINTEC_CALLS_2026', JSON.stringify(chamadosNovos2026));
+          localStorage.setItem('SEINTEC_CALLS_2026', JSON.stringify(consolidado));
         } catch(e) {
           console.warn('Erro ao salvar chamados no localStorage:', e);
         }
 
         if (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos']) {
-          SEINTEC_BASES_CONFIG['Atendimentos'].registros = chamadosNovos2026;
-          SEINTEC_BASES_CONFIG['Atendimentos'].desc = 'Base Oficial de Chamados e Atendimentos SEINTEC - Ano 2026 (' + chamadosNovos2026.length.toLocaleString('pt-BR') + ' atendimentos sincronizados)';
+          SEINTEC_BASES_CONFIG['Atendimentos'].registros = consolidado;
+          SEINTEC_BASES_CONFIG['Atendimentos'].desc = 'Base Oficial de Chamados e Atendimentos SEINTEC - Ano 2026 (' + consolidado.length.toLocaleString('pt-BR') + ' atendimentos sincronizados)';
           if (typeof renderizarRegistrosCalls === 'function') {
             renderizarRegistrosCalls(SEINTEC_BASES_CONFIG['Atendimentos'], filtroAtivoCalls || 'todos');
           }
@@ -30345,16 +30381,22 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       return chamadosNovos2026.length;
     }
 
-    // Inicialização automática: carrega do localStorage e atualiza em segundo plano via live JSON
+    // Inicialização automática: carrega do localStorage e atualiza em segundo plano via live JSON com autocura de bases truncadas
     (function inicializarChamadosAutomatico() {
       try {
         var salvos = localStorage.getItem('SEINTEC_CALLS_2026');
         if (salvos) {
           var arr = JSON.parse(salvos);
           if (Array.isArray(arr) && arr.length > 0) {
+            // Autocura inteligente: se o localStorage contiver menos de 1.000 chamados ou apenas datas recentes,
+            // unifica imediatamente com a base histórica completa de 2026, restaurando os chamados de janeiro a setembro!
+            var arrConsolidado = consolidarChamadosComHistorico(arr);
             if (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos']) {
-              SEINTEC_BASES_CONFIG['Atendimentos'].registros = arr;
-              SEINTEC_BASES_CONFIG['Atendimentos'].desc = 'Base Oficial de Chamados e Atendimentos SEINTEC - Ano 2026 (' + arr.length.toLocaleString('pt-BR') + ' atendimentos sincronizados)';
+              SEINTEC_BASES_CONFIG['Atendimentos'].registros = arrConsolidado;
+              SEINTEC_BASES_CONFIG['Atendimentos'].desc = 'Base Oficial de Chamados e Atendimentos SEINTEC - Ano 2026 (' + arrConsolidado.length.toLocaleString('pt-BR') + ' atendimentos consolidados)';
+              try {
+                localStorage.setItem('SEINTEC_CALLS_2026', JSON.stringify(arrConsolidado));
+              } catch(eLoc) {}
             }
           }
         }
@@ -30367,10 +30409,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           .then(function(dataGit) {
             if (dataGit && Array.isArray(dataGit.registros) && dataGit.registros.length > 0) {
               if (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos']) {
-                SEINTEC_BASES_CONFIG['Atendimentos'].registros = dataGit.registros;
-                SEINTEC_BASES_CONFIG['Atendimentos'].desc = 'Base Oficial de Chamados e Atendimentos SEINTEC - Ano 2026 (' + dataGit.registros.length.toLocaleString('pt-BR') + ' atendimentos sincronizados)';
+                var unificadosGit = consolidarChamadosComHistorico(dataGit.registros);
+                SEINTEC_BASES_CONFIG['Atendimentos'].registros = unificadosGit;
+                SEINTEC_BASES_CONFIG['Atendimentos'].desc = 'Base Oficial de Chamados e Atendimentos SEINTEC - Ano 2026 (' + unificadosGit.length.toLocaleString('pt-BR') + ' atendimentos consolidados)';
                 try {
-                  localStorage.setItem('SEINTEC_CALLS_2026', JSON.stringify(dataGit.registros));
+                  localStorage.setItem('SEINTEC_CALLS_2026', JSON.stringify(unificadosGit));
                 } catch(e) {}
                 if (typeof renderizarRegistrosCalls === 'function' && baseAtivaSeintec === 'Atendimentos') {
                   renderizarRegistrosCalls(SEINTEC_BASES_CONFIG['Atendimentos'], filtroAtivoCalls || 'todos');
