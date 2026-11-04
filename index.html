@@ -4107,7 +4107,7 @@ function imprimirAgendaCarro() {
       box-shadow: 0 4px 12px rgba(240, 155, 12, 0.35);
     }
 
-    /* Variante de Alto Contraste para Cabeçalhos Claros (Centro: SEAFIN, SEFIN, CGE, CRH, NPE) */
+    /* Variante de Alto Contraste para Cabeçalhos Claros (Centro: SEAFIN, SEFIN, SEGRE, SEPES, EEC) */
     .centro-banner-header .btn-pane-sync,
     .carro-header-card .btn-pane-sync,
     .visitas-header-card .btn-pane-sync {
@@ -9733,11 +9733,11 @@ function imprimirAgendaCarro() {
         <div class="nav-group-title">NÚCLEOS / CENTROS</div>
         <ul class="nav-items-list">
           <li>
-            <button class="nav-item-btn" id="side-btn-GAB" onclick="abrirCentro('GAB')" title="ASURE - Gabinete">
-              <span class="centro-icon-badge" title="ASURE - Gabinete">🏛️</span>
+            <button class="nav-item-btn" id="side-btn-ASURE" onclick="abrirCentro('ASURE')" title="ASURE - Assessoria e Suporte Regional">
+              <span class="centro-icon-badge" title="ASURE - Assessoria e Suporte Regional">🏛️</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">ASURE</span>
-                <span class="sidebar-item-sub">Gabinete</span>
+                <span class="sidebar-item-sub">Assessoria e Gabinete</span>
               </div>
             </button>
           </li>
@@ -9769,7 +9769,7 @@ function imprimirAgendaCarro() {
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-CGE" onclick="abrirCentro('SEGRE')" title="SEGRE - Serviço de Gestão da Rede Escolar">
+            <button class="nav-item-btn" id="side-btn-SEGRE" onclick="abrirCentro('SEGRE')" title="SEGRE - Serviço de Gestão da Rede Escolar">
               <span class="centro-icon-badge" title="SEGRE - Vida Escolar, Matrícula">🏫</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">SEGRE</span>
@@ -9778,7 +9778,7 @@ function imprimirAgendaCarro() {
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-CRH" onclick="abrirCentro('CRH')" title="SEPES - Pagamento e Frequência">
+            <button class="nav-item-btn" id="side-btn-SEPES" onclick="abrirCentro('SEPES')" title="SEPES - Pagamento e Frequência">
               <span class="centro-icon-badge" title="SEPES - Pagamento e Frequência">👥</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">SEPES</span>
@@ -9787,7 +9787,7 @@ function imprimirAgendaCarro() {
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-NPE" onclick="abrirCentro('NPE')" title="EEC - Currículo e Formação">
+            <button class="nav-item-btn" id="side-btn-EEC" onclick="abrirCentro('EEC')" title="EEC - Currículo e Formação">
               <span class="centro-icon-badge" title="EEC - Currículo e Formação">📚</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">EEC</span>
@@ -10039,12 +10039,12 @@ function imprimirAgendaCarro() {
           <select id="home-filter-centro" class="filter-select" onchange="aoMudarFiltroCentroHome(this.value)">
             <option value="">🏛️ Centros / Núcleos: Todos</option>
             <option value="SEINTEC">SEINTEC (Tecnologia & Dados)</option>
-            <option value="GAB">ASURE (Gabinete da Dirigente)</option>
+            <option value="ASURE">ASURE (Assessoria da Dirigente)</option>
             <option value="SEAFIN">SEAFIN - Serviço de Administração e Finanças</option>
             <option value="SEOM">SEOM - Seção de Obras e Manutenção Escolar</option>
             <option value="SEGRE">SEGRE (Serviço de Gestão da Rede Escolar)</option>
-            <option value="CRH">SEPES (Pessoas / RH)</option>
-            <option value="NPE">EEC (Especialistas em Currículo)</option>
+            <option value="SEPES">SEPES (Pessoal e Frequência)</option>
+            <option value="EEC">EEC (Especialistas em Currículo)</option>
           </select>
           <button class="btn-apply-filters" onclick="aplicarFiltrosHome()" style="display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer;">
             <span>🔍</span> Filtrar
@@ -10210,7 +10210,7 @@ function imprimirAgendaCarro() {
                   </td>
                 </tr>
 
-                <!-- 2. ASURE (Gabinete) -->
+                <!-- 2. ASURE -->
                 <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                   <td style="padding: 1rem 1.2rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
@@ -10236,7 +10236,7 @@ function imprimirAgendaCarro() {
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
                     <button onclick="abrirAssessoriaTecnica()" style="background: #1e293b; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='#1e293b'">
-                      Acessar Gabinete →
+                      Acessar ASURE →
                     </button>
                   </td>
                 </tr>
@@ -10303,7 +10303,7 @@ function imprimirAgendaCarro() {
                   </td>
                 </tr>
 
-                <!-- 4. SEGRE (CGE) -->
+                <!-- 4. SEGRE -->
                 <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                   <td style="padding: 1rem 1.2rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
@@ -10334,13 +10334,13 @@ function imprimirAgendaCarro() {
                   </td>
                 </tr>
 
-                <!-- 5. SEPES (CRH) -->
+                <!-- 5. SEPES -->
                 <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                   <td style="padding: 1rem 1.2rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                       <div style="width: 36px; height: 36px; border-radius: 8px; background: #f5f3ff; color: #7c3aed; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">👥</div>
                       <div>
-                        <div style="font-weight: 800; color: #0f172a;">SEPES / CRH • Pessoal &amp; Recursos Humanos</div>
+                        <div style="font-weight: 800; color: #0f172a;">SEPES • Pessoal &amp; Vida Funcional</div>
                         <div style="font-size: 0.7rem; color: #64748b;">Folha, Evolução Funcional e Quadro Docente</div>
                       </div>
                     </div>
@@ -10359,19 +10359,19 @@ function imprimirAgendaCarro() {
                     <div style="font-size: 0.7rem; color: #64748b;">Evolução funcional em dia</div>
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('CRH')" style="background: #7c3aed; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#6d28d9'" onmouseout="this.style.background='#7c3aed'">
-                      Acessar CRH →
+                    <button onclick="abrirCentro('SEPES')" style="background: #7c3aed; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#6d28d9'" onmouseout="this.style.background='#7c3aed'">
+                      Acessar SEPES →
                     </button>
                   </td>
                 </tr>
 
-                <!-- 6. EEC (NPE) -->
+                <!-- 6. EEC -->
                 <tr style="transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                   <td style="padding: 1rem 1.2rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                       <div style="width: 36px; height: 36px; border-radius: 8px; background: #f0fdf4; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">📚</div>
                       <div>
-                        <div style="font-weight: 800; color: #0f172a;">EEC / NPE • Currículo &amp; Formação Pedagógica</div>
+                        <div style="font-weight: 800; color: #0f172a;">EEC • Currículo &amp; Formação Pedagógica</div>
                         <div style="font-size: 0.7rem; color: #64748b;">Prova Paulista, SARESP e Desenvolvimento Docente</div>
                       </div>
                     </div>
@@ -10390,8 +10390,8 @@ function imprimirAgendaCarro() {
                     <div style="font-size: 0.7rem; color: #64748b;">Oficinas e planos de nivelamento pedagógico</div>
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('NPE')" style="background: #16a34a; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#15803d'" onmouseout="this.style.background='#16a34a'">
-                      Acessar NPE →
+                    <button onclick="abrirCentro('EEC')" style="background: #16a34a; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#15803d'" onmouseout="this.style.background='#16a34a'">
+                      Acessar EEC →
                     </button>
                   </td>
                 </tr>
@@ -14392,7 +14392,7 @@ function imprimirAgendaCarro() {
         descricao: 'Supervisão do atendimento escolar, matrículas (SEMAT), vida escolar (SEVESC) e organização regional.',
         icone: '🏫',
         cor: '#0b2351',
-        driveFolder: 'Uploads BIDirigente / CGE',
+        driveFolder: 'Uploads BIDirigente / SEGRE',
         setores: [
           {
             sigla: 'SEMAT',
@@ -14420,7 +14420,7 @@ function imprimirAgendaCarro() {
         descricao: 'Quadro docente, atribuição de aulas, evolução funcional, licenças e vida funcional dos servidores.',
         icone: '👥',
         cor: '#0b2351',
-        driveFolder: 'Uploads BIDirigente / CRH',
+        driveFolder: 'Uploads BIDirigente / SEPES',
         setores: [
           { sigla: 'Atribuição', nome: 'Atribuição de Aulas e Docentes', desc: 'Alocação de professores e saldo de turmas' },
           { sigla: 'Contratos', nome: 'Admissão e Contratos Temporários', desc: 'Contratações e processos seletivos' },
@@ -14433,7 +14433,7 @@ function imprimirAgendaCarro() {
         descricao: 'Acompanhamento pedagógico, metas do SARESP, formação continuada de professores e projetos educacionais.',
         icone: '📚',
         cor: '#0b2351',
-        driveFolder: 'Uploads BIDirigente / NPE',
+        driveFolder: 'Uploads BIDirigente / EEC',
         setores: [
           { sigla: 'AnosIniciais', nome: 'Formação - Anos Iniciais', desc: 'Alfabetização e currículo paulista' },
           { sigla: 'AnosFinaisEM', nome: 'Formação - Anos Finais e Ensino Médio', desc: 'Itinerários formativos e avaliações' },
@@ -14445,11 +14445,7 @@ function imprimirAgendaCarro() {
     ESTRUTURA_ORGANIZACIONAL['CAF'] = ESTRUTURA_ORGANIZACIONAL['SEAFIN']; // Alias para compatibilidade
     ESTRUTURA_ORGANIZACIONAL['NOM'] = ESTRUTURA_ORGANIZACIONAL['SEOM']; // Redirecionamento legado NOM -> SEOM
     ESTRUTURA_ORGANIZACIONAL['SOEM'] = ESTRUTURA_ORGANIZACIONAL['SEOM']; // Redirecionamento amigável
-    ESTRUTURA_ORGANIZACIONAL['CGE'] = ESTRUTURA_ORGANIZACIONAL['SEGRE'];
-    ESTRUTURA_ORGANIZACIONAL['CRH'] = ESTRUTURA_ORGANIZACIONAL['SEPES'];
-    ESTRUTURA_ORGANIZACIONAL['NPE'] = ESTRUTURA_ORGANIZACIONAL['EEC'];
-    ESTRUTURA_ORGANIZACIONAL['GAB'] = { sigla: 'ASURE', nome: 'ASURE - Assessoria da URE / Gabinete' };
-    ESTRUTURA_ORGANIZACIONAL['ASURE'] = ESTRUTURA_ORGANIZACIONAL['GAB'];
+    ESTRUTURA_ORGANIZACIONAL['ASURE'] = { sigla: 'ASURE', nome: 'ASURE - Assessoria e Suporte Regional', descricao: 'Gabinete da Dirigente, assessoria técnica e ouvidoria regional.', icone: '🏛️', cor: '#0b2351' };
 
     function carregarDadosConsolidados() {
       if (typeof google !== 'undefined' && google.script && google.script.run) {
@@ -14985,13 +14981,13 @@ function imprimirAgendaCarro() {
     function destacarCentroNaHome(sigla) {
       const mapaIds = {
         'SEINTEC': 'card-setor-seintec',
-        'GAB': 'card-setor-asure',
+        'ASURE': 'card-setor-asure',
         'CAF': 'card-setor-seafin',
         'SEAFIN': 'card-setor-seafin',
         'SEOM': 'card-setor-seom',
-        'CGE': 'card-setor-segre',
-        'CRH': 'card-setor-sepes',
-        'NPE': 'card-setor-eec'
+        'SEGRE': 'card-setor-segre',
+        'SEPES': 'card-setor-sepes',
+        'EEC': 'card-setor-eec'
       };
 
       const todosIds = Object.values(mapaIds);
@@ -15046,7 +15042,7 @@ function imprimirAgendaCarro() {
       } else if (tipo === 'visitas') {
         const gauge = document.getElementById('home-gauge-pct');
         if (gauge) gauge.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        destacarCentroNaHome('GAB');
+        destacarCentroNaHome('ASURE');
       } else if (tipo === 'atencao') {
         const grid = document.getElementById('home-atencao-grid');
         if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -15074,16 +15070,13 @@ function imprimirAgendaCarro() {
     }
 
     function abrirCentro(siglaCentro) {
-      if (siglaCentro === 'GAB') {
+      if (siglaCentro === 'ASURE') {
         abrirAssessoriaTecnica();
         return;
       }
       if (siglaCentro === 'SEINTEC' || siglaCentro === 'CIE') {
         abrirSeintec();
         return;
-      }
-      if (siglaCentro === 'CGE') {
-        siglaCentro = 'SEGRE';
       }
       const centro = ESTRUTURA_ORGANIZACIONAL[siglaCentro];
       if (!centro) return;
@@ -15127,7 +15120,10 @@ function imprimirAgendaCarro() {
       const sideBtn = document.getElementById(`side-btn-${siglaCentro}`) || 
                       (siglaCentro === 'SEAFIN' ? document.getElementById('side-btn-CAF') : null) ||
                       (siglaCentro === 'SEOM' ? document.getElementById('side-btn-SEOM') : null) ||
-                      (siglaCentro === 'SEGRE' ? document.getElementById('side-btn-CGE') : null);
+                      (siglaCentro === 'SEGRE' ? document.getElementById('side-btn-SEGRE') : null) ||
+                      (siglaCentro === 'SEPES' ? document.getElementById('side-btn-SEPES') : null) ||
+                      (siglaCentro === 'EEC' ? document.getElementById('side-btn-EEC') : null) ||
+                      (siglaCentro === 'ASURE' ? document.getElementById('side-btn-ASURE') : null);
       if (sideBtn) sideBtn.classList.add('active');
 
       rolarAoTopoSuave();
@@ -15165,7 +15161,7 @@ function imprimirAgendaCarro() {
           renderizarDashboardSemat();
         } else if (siglaSetor === 'SEVESC') {
           renderizarDashboardSevesc();
-        } else if (siglaSetor === 'SEGRE' || siglaCentro === 'SEGRE' || siglaCentro === 'CGE') {
+        } else if (siglaSetor === 'SEGRE' || siglaCentro === 'SEGRE') {
           renderizarDashboardSegre();
         } else {
           containerDinamico.innerHTML = `
@@ -27630,7 +27626,6 @@ function imprimirAgendaCarro() {
 
           case 'centro':
             let centroSigla = (document.getElementById('atual-centro-sigla') ? document.getElementById('atual-centro-sigla').value : 'Centro');
-            if (centroSigla === 'CGE') centroSigla = 'SEGRE';
 
             if (centroSigla === 'SEGRE') {
               if (typeof mostrarAlertaSincronizacao === 'function') {
@@ -27767,8 +27762,8 @@ function imprimirAgendaCarro() {
         desc: 'Escala anual de férias e recesso dos gestores escolares e supervisores.',
         pasta: 'EscalaFerias',
         registros: [
-          { id: 'FER-2026/02', origem: 'Gabinete/CRH', assunto: 'Escala Consolidada Férias Janeiro/2027 Diretores', data: '10/10/2026', status: 'Publicado' },
-          { id: 'FER-2026/01', origem: 'Gabinete/CRH', assunto: 'Recesso de Julho - Escala de Plantão Gestores', data: '05/06/2026', status: 'Concluído' }
+          { id: 'FER-2026/02', origem: 'ASURE/SEPES', assunto: 'Escala Consolidada Férias Janeiro/2027 Diretores', data: '10/10/2026', status: 'Publicado' },
+          { id: 'FER-2026/01', origem: 'ASURE/SEPES', assunto: 'Recesso de Julho - Escala de Plantão Gestores', data: '05/06/2026', status: 'Concluído' }
         ]
       },
       'HorarioADM': {
@@ -27828,7 +27823,7 @@ function imprimirAgendaCarro() {
       atualizarBreadcrumbTopo('07 - ASURE • Gabinete & Assessoria');
 
       document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
-      const sideBtn = document.getElementById('side-btn-GAB');
+      const sideBtn = document.getElementById('side-btn-ASURE');
       if (sideBtn) sideBtn.classList.add('active');
 
       selecionarBaseGabinete('TermosVisita');
@@ -30488,7 +30483,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     /**
      * =========================================================================
      * MOTOR UNIVERSAL CLIENTE DE RESOLUÇÃO PÚBLICA DO SHAREPOINT (ANTI-LOGIN)
-     * REGRA FUNDAMENTAL: Todos os setores futuros (CRH, CGE, NPE, GAB, etc.)
+     * REGRA FUNDAMENTAL: Todos os setores (SEINTEC, SEAFIN, SEOM, SEGRE, SEPES, EEC, ASURE, etc.)
      * devem utilizar esta função para sincronizar suas planilhas e pastas públicas
      * do SharePoint com blindagem contra telas de login corporativo.
      * =========================================================================
@@ -30864,13 +30859,13 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             <div class="agenda-form-group">
               <label class="agenda-form-label">Setor / Centro Envolvido</label>
               <select id="form-agenda-setor" class="agenda-form-select">
-                <option value="Gabinete / URE">Gabinete / URE</option>
+                <option value="ASURE">ASURE (Assessoria da URE / Gabinete)</option>
                 <option value="SEINTEC">SEINTEC (Tecnologia)</option>
                 <option value="SEAFIN">SEAFIN (Serviço de Administração e Finanças)</option>
                 <option value="SEOM">SEOM (Obras, Manutenção e Frota)</option>
                 <option value="SEGRE">SEGRE (Serviço de Gestão da Rede Escolar)</option>
-                <option value="CRH">CRH (Recursos Humanos)</option>
-                <option value="NPE">NPE (Núcleo Pedagógico)</option>
+                <option value="SEPES">SEPES (Pessoal e Frequência)</option>
+                <option value="EEC">EEC (Especialistas em Currículo)</option>
                 <option value="Supervisão">Supervisão Regional</option>
               </select>
             </div>
@@ -30916,7 +30911,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     <div class="agenda-modal-card" style="max-width: 620px;">
       <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%);">
         <div>
-          <span style="font-size: 0.78rem; font-weight: 800; color: #fef08a; letter-spacing: 0.05em; text-transform: uppercase;">GABINETE & SEFISC</span>
+          <span style="font-size: 0.78rem; font-weight: 800; color: #fef08a; letter-spacing: 0.05em; text-transform: uppercase;">ASURE & SEFISC</span>
           <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Solicitar Reserva de Carro Oficial</h3>
         </div>
         <button type="button" class="agenda-modal-close" onclick="fecharModalCarro()">✕</button>
@@ -30962,14 +30957,14 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             <div class="agenda-form-group">
               <label class="agenda-form-label">Setor Solicitante</label>
               <select id="form-carro-setor" class="agenda-form-select">
-                <option value="Gabinete da Dirigente">Gabinete da Dirigente</option>
+                <option value="ASURE - Assessoria da Dirigente">ASURE</option>
                 <option value="Supervisão de Ensino">Supervisão de Ensino</option>
                 <option value="SEAFIN - Serviço de Administração e Finanças">SEAFIN</option>
                 <option value="SEOM - Obras, Manutenção e Frota">SEOM</option>
                 <option value="SEINTEC - Tecnologia">SEINTEC</option>
                 <option value="SEGRE - Gestão Escolar">SEGRE</option>
-                <option value="CRH - Recursos Humanos">CRH</option>
-                <option value="NPE - Núcleo Pedagógico">NPE</option>
+                <option value="SEPES - Recursos Humanos">SEPES</option>
+                <option value="EEC - Equipe Curricular">EEC</option>
               </select>
             </div>
 

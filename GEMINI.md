@@ -24,7 +24,7 @@ Toda e qualquer alteração no código DEVE ser publicada em paralelo em ambos o
    - Sincronização e push na branch `gh-pages`: `git checkout gh-pages` -> `git checkout main -- index.html ...` -> `git push origin gh-pages` -> `git checkout main`
 
 ## 3. Validação Obrigatória de Integridade dos Menus
-Antes de finalizar qualquer tarefa, SEMPRE validar programaticamente se todos os menus e abas laterais estão operacionais e sem erros de execução de JS/DOM (verificar `side-btn-home`, `side-btn-gestao`, `side-btn-agenda`, `side-btn-carro`, `side-btn-visitas`, `side-btn-escolas`, `side-btn-GAB`, `side-btn-SEINTEC`, `side-btn-CAF`, `side-btn-CGE`, `side-btn-CRH`, `side-btn-NPE`).
+Antes de finalizar qualquer tarefa, SEMPRE validar programaticamente se todos os menus e abas laterais estão operacionais e sem erros de execução de JS/DOM (verificar `side-btn-home`, `side-btn-gestao`, `side-btn-agenda`, `side-btn-carro`, `side-btn-visitas`, `side-btn-escolas`, `side-btn-ASURE`, `side-btn-SEINTEC`, `side-btn-CAF`, `side-btn-SEOM`, `side-btn-SEGRE`, `side-btn-SEPES`, `side-btn-EEC`).
 
 ## 4. Links Oficiais SharePoint Integrados
 - **SEFIN (Finanças & Orçamento)**:
@@ -51,7 +51,7 @@ Antes de finalizar qualquer tarefa, SEMPRE validar programaticamente se todos os
   - Arquivo: `Controle de contratos.xlsx`
 
 ## 5. Regra Fundamental de Resiliência dos Links Públicos do SharePoint (Anti-Login Universal)
-- **Natureza Pública**: Todos os links de arquivos, pastas e planilhas compartilhados pelos setores da Diretoria de Ensino (SEINTEC, SEFIN/CAF, CRH, CGE, NPE, GAB, etc.) são públicos ("Qualquer pessoa com o link pode visualizar").
+- **Natureza Pública**: Todos os links de arquivos, pastas e planilhas compartilhados pelos setores da Diretoria de Ensino (SEINTEC, SEAFIN, SEOM, SEGRE, SEPES, EEC, ASURE, etc.) são públicos ("Qualquer pessoa com o link pode visualizar").
 - **Herança Obrigatória para Novas Implementações**: Qualquer nova pasta, arquivo ou setor que venha a ser implementado DEVE OBRIGATORIAMENTE herdar o motor universal de resolução pública (`obterArquivoPublicoSharepoint` no `Código.gs` e `sincronizarBasePublicaSharepoint` no cliente `index.html`).
 - **Blindagem Anti-Redirecionamento e Sem Bloqueio de Login**:
   1. Handshake prévio em duas etapas com captura e repasse de todos os cookies de sessão anônima (`FedAuth`, `rtFa`, etc.) via `extrairCookiesSharepoint`.
