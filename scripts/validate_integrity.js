@@ -96,8 +96,8 @@ const backendChecks = [
   "action === 'sincronizarSemat'",
   "action === 'sincronizarSevesc'",
   "function sincronizarPlanilhaSegre",
-  "function sincronizarPlanilhaSemat()",
-  "function sincronizarPlanilhaSevesc()",
+  "function sincronizarPlanilhaSemat",
+  "function sincronizarPlanilhaSevesc",
   "itp_semat_educacao_sp_gov_br",
   "itp_sevesc_educacao_sp_gov_br"
 ];
