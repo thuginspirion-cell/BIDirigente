@@ -5091,23 +5091,16 @@ function imprimirAgendaCarro() {
 
     /* CARTÃO DO SETOR ATIVO & ÁREA DE UPLOAD */
     .setor-active-box {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
+      background: transparent;
+      border: none;
       border-radius: var(--radius-md);
-      padding: 2rem;
-      box-shadow: var(--shadow-sm);
+      padding: 0;
+      box-shadow: none;
       margin-bottom: 1.5rem;
     }
 
     .setor-box-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 1.25rem;
-      border-bottom: 1px solid var(--border-color);
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-      gap: 1rem;
+      display: none !important;
     }
 
     .setor-box-titles h3 {
@@ -10399,7 +10392,7 @@ function imprimirAgendaCarro() {
 
         <!-- Painel Informativo da Nuvem do Setor Ativo (Leitura Direta sem Upload) -->
         <div class="setor-active-box">
-          <div class="setor-box-header">
+          <div class="setor-box-header" style="display: none !important;">
             <div class="setor-box-titles">
               <h3 id="setor-ativo-titulo">📂 Setor SEINTEC</h3>
               <p id="setor-ativo-desc">Leitura e integração automatizada dos dados das pastas de cada setor.</p>
@@ -15052,9 +15045,12 @@ function imprimirAgendaCarro() {
       if (botaoClicado) botaoClicado.classList.add('active');
 
       // Atualiza Painel do Setor
-      document.getElementById('atual-setor-sigla').value = siglaSetor;
-      document.getElementById('setor-ativo-titulo').innerText = `📂 ${setor.nome}`;
-      document.getElementById('setor-ativo-desc').innerText = setor.desc;
+      const elSigla = document.getElementById('atual-setor-sigla');
+      if (elSigla) elSigla.value = siglaSetor;
+      const elTitulo = document.getElementById('setor-ativo-titulo');
+      if (elTitulo) elTitulo.innerText = `📂 ${setor.nome}`;
+      const elDesc = document.getElementById('setor-ativo-desc');
+      if (elDesc) elDesc.innerText = setor.desc;
       let descNuvem = 'Uploads BIDirigente / ' + siglaCentro + ' / ' + siglaSetor;
       if (setor.sharepointUrl) {
         if (siglaSetor === 'SEFIN') descNuvem = 'SharePoint SEFIN Oficial';
@@ -15062,7 +15058,8 @@ function imprimirAgendaCarro() {
         else if (siglaSetor === 'SEVESC') descNuvem = 'SharePoint SEVESC Oficial (Vida Escolar)';
         else descNuvem = 'SharePoint SEGRE Oficial';
       }
-      document.getElementById('setor-drive-caminho').innerHTML = `📁 Nuvem: <b>${descNuvem}</b>`;
+      const elCaminho = document.getElementById('setor-drive-caminho');
+      if (elCaminho) elCaminho.innerHTML = `📁 Nuvem: <b>${descNuvem}</b>`;
 
       // Renderiza conteúdo dinâmico do setor (ex: SEFIN SharePoint, SEGRE Livro Entrada)
       const containerDinamico = document.getElementById('setor-conteudo-dinamico');
