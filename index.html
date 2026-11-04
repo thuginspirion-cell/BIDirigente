@@ -11238,6 +11238,26 @@ function imprimirAgendaCarro() {
               <button type="button" class="btn-call-filter" id="btn-call-filter-concluido" onclick="filtrarCallsPorStatus('Concluído')">🟢 Concluídos (<span id="count-filter-concluido">0</span>)</button>
             </div>
 
+            <!-- FILTRO POR MÊS DE ATENDIMENTOS SEINTEC -->
+            <div id="seintec-calls-month-filter" style="display: none; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.95rem; align-items: center; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 0.6rem 0.85rem; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+              <span style="font-size: 0.75rem; font-weight: 800; color: #0b2351; margin-right: 0.2rem; display: flex; align-items: center; gap: 0.3rem;">
+                <span>📅</span> <span>SELECIONAR MÊS:</span>
+              </span>
+              <button type="button" class="btn-call-month active" data-mes="todos" onclick="filtrarCallsPorMes('todos', this)" style="background: #0b2351; color: #fff; border: 1px solid #0b2351; border-radius: 20px; padding: 3px 11px; font-size: 0.75rem; font-weight: 800; cursor: pointer; transition: all 0.15s;">Todos os Meses</button>
+              <button type="button" class="btn-call-month" data-mes="1" onclick="filtrarCallsPorMes('1', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Jan</button>
+              <button type="button" class="btn-call-month" data-mes="2" onclick="filtrarCallsPorMes('2', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Fev</button>
+              <button type="button" class="btn-call-month" data-mes="3" onclick="filtrarCallsPorMes('3', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Mar</button>
+              <button type="button" class="btn-call-month" data-mes="4" onclick="filtrarCallsPorMes('4', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Abr</button>
+              <button type="button" class="btn-call-month" data-mes="5" onclick="filtrarCallsPorMes('5', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Mai</button>
+              <button type="button" class="btn-call-month" data-mes="6" onclick="filtrarCallsPorMes('6', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Jun</button>
+              <button type="button" class="btn-call-month" data-mes="7" onclick="filtrarCallsPorMes('7', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Jul</button>
+              <button type="button" class="btn-call-month" data-mes="8" onclick="filtrarCallsPorMes('8', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Ago</button>
+              <button type="button" class="btn-call-month" data-mes="9" onclick="filtrarCallsPorMes('9', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Set</button>
+              <button type="button" class="btn-call-month" data-mes="10" onclick="filtrarCallsPorMes('10', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Out</button>
+              <button type="button" class="btn-call-month" data-mes="11" onclick="filtrarCallsPorMes('11', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Nov</button>
+              <button type="button" class="btn-call-month" data-mes="12" onclick="filtrarCallsPorMes('12', this)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Dez</button>
+            </div>
+
             <!-- Barra de Ferramentas da Tabela: Abas da Planilha, Contador e Busca em Tempo Real -->
             <div class="table-dynamic-toolbar">
               <div class="table-toolbar-left">
@@ -16865,6 +16885,29 @@ function imprimirAgendaCarro() {
       renderizarCorpoTabelaSemat();
     }
 
+    function selecionarMesSemat(mes) {
+      filtroMesSemat = String(mes);
+      const sel = document.getElementById('semat-filtro-mes');
+      if (sel) sel.value = String(mes);
+      document.querySelectorAll('.btn-semat-mes-chip').forEach(b => {
+        if (b.getAttribute('data-mes') === String(mes)) {
+          b.classList.add('active');
+          b.style.background = '#0284c7';
+          b.style.color = '#fff';
+          b.style.borderColor = '#0284c7';
+          b.style.fontWeight = '800';
+        } else {
+          b.classList.remove('active');
+          b.style.background = '#f1f5f9';
+          b.style.color = '#334155';
+          b.style.borderColor = '#cbd5e1';
+          b.style.fontWeight = '700';
+        }
+      });
+      paginaAtualSemat = 1;
+      renderizarCorpoTabelaSemat();
+    }
+
     function filtrarTabelaSemat() {
       const input = document.getElementById('semat-busca-input');
       const selectMes = document.getElementById('semat-filtro-mes');
@@ -16873,6 +16916,24 @@ function imprimirAgendaCarro() {
       filtroBuscaSemat = input ? input.value.trim().toLowerCase() : '';
       filtroMesSemat = selectMes ? selectMes.value : 'todos';
       ordemDataSemat = selectOrdem ? selectOrdem.value : 'recente';
+
+      // Sincroniza visualmente os chips de mês do SEMAT
+      document.querySelectorAll('.btn-semat-mes-chip').forEach(b => {
+        if (b.getAttribute('data-mes') === String(filtroMesSemat)) {
+          b.classList.add('active');
+          b.style.background = '#0284c7';
+          b.style.color = '#fff';
+          b.style.borderColor = '#0284c7';
+          b.style.fontWeight = '800';
+        } else {
+          b.classList.remove('active');
+          b.style.background = '#f1f5f9';
+          b.style.color = '#334155';
+          b.style.borderColor = '#cbd5e1';
+          b.style.fontWeight = '700';
+        }
+      });
+
       paginaAtualSemat = 1;
       renderizarCorpoTabelaSemat();
     }
@@ -17229,6 +17290,23 @@ function imprimirAgendaCarro() {
                 </select>
               </div>
 
+            </div>
+
+            <!-- CHIPS DE SELEÇÃO RÁPIDA DE MÊS NO SEMAT -->
+            <div id="semat-meses-chips" style="width: 100%; display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center; padding-top: 0.5rem; border-top: 1px dashed #e2e8f0;">
+              <span style="font-size: 0.74rem; font-weight: 800; color: #0b2351; margin-right: 0.2rem;">📅 SELEÇÃO RÁPIDA DE MÊS:</span>
+              <button type="button" class="btn-semat-mes-chip active" data-mes="todos" onclick="selecionarMesSemat('todos')" style="background: #0284c7; color: #fff; border: 1px solid #0284c7; border-radius: 20px; padding: 3px 10px; font-size: 0.74rem; font-weight: 800; cursor: pointer; transition: all 0.15s;">Todos os Meses</button>
+              <button type="button" class="btn-semat-mes-chip" data-mes="1" onclick="selecionarMesSemat('1')" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 9px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Jan</button>
+              <button type="button" class="btn-semat-mes-chip" data-mes="2" onclick="selecionarMesSemat('2')" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 9px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Fev</button>
+              <button type="button" class="btn-semat-mes-chip" data-mes="3" onclick="selecionarMesSemat('3')" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 9px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Mar</button>
+              <button type="button" class="btn-semat-mes-chip" data-mes="4" onclick="selecionarMesSemat('4')" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 9px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Abr</button>
+              <button type="button" class="btn-semat-mes-chip" data-mes="5" onclick="selecionarMesSemat('5')" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 9px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Mai</button>
+              <button type="button" class="btn-semat-mes-chip" data-mes="6" onclick="selecionarMesSemat('6')" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 9px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Jun</button>
+              <button type="button" class="btn-semat-mes-chip" data-mes="7" onclick="selecionarMesSemat('7')" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 9px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Jul</button>
+              <button type="button" class="btn-semat-mes-chip" data-mes="8" onclick="selecionarMesSemat('8')" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 9px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Ago</button>
+              <button type="button" class="btn-semat-mes-chip" data-mes="9" onclick="selecionarMesSemat('9')" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 9px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Set</button>
+              <button type="button" class="btn-semat-mes-chip" data-mes="10" onclick="selecionarMesSemat('10')" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 9px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Out</button>
+              <button type="button" class="btn-semat-mes-chip" data-mes="11" onclick="selecionarMesSemat('11')" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 20px; padding: 3px 9px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: all 0.15s;">Nov</button>
             </div>
 
           </div>
@@ -27330,15 +27408,19 @@ function imprimirAgendaCarro() {
       const invKpiBar = document.getElementById('seintec-inventario-kpi-bar');
       const invFilterBtns = document.getElementById('seintec-inventario-filter-buttons');
 
+      const monthFilter = document.getElementById('seintec-calls-month-filter');
+
       if (idBase === 'Atendimentos') {
         if (callsBanner) callsBanner.style.display = 'block';
         if (kpiBar) kpiBar.style.display = 'block';
         if (filterBtns) filterBtns.style.display = 'flex';
+        if (monthFilter) monthFilter.style.display = 'flex';
         if (invBanner) invBanner.style.display = 'none';
         if (invKpiBar) invKpiBar.style.display = 'none';
         if (invFilterBtns) invFilterBtns.style.display = 'none';
         renderizarRegistrosCalls(base, 'todos');
       } else if (base.isInventario) {
+        if (monthFilter) monthFilter.style.display = 'none';
         if (callsBanner) callsBanner.style.display = 'none';
         if (kpiBar) kpiBar.style.display = 'none';
         if (filterBtns) filterBtns.style.display = 'none';
@@ -27401,7 +27483,61 @@ function imprimirAgendaCarro() {
       return (str || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     }
 
-    function renderizarRegistrosCalls(base, filtro = 'todos') {
+    let filtroMesCalls = 'todos';
+
+function extrairTimestampEDetalhesDataCall(str) {
+  if (!str) return { timestamp: 0, mes: 0, ano: 2026, iso: '1970-01-01' };
+  const parts = String(str).trim().split(/[\/\-]/);
+  if (parts.length === 3) {
+    let p0 = parseInt(parts[0], 10);
+    let p1 = parseInt(parts[1], 10);
+    let y = parseInt(parts[2], 10);
+    if (y < 100) y += 2000;
+    let d, m;
+    if (p0 > 12) {
+      d = p0;
+      m = p1;
+    } else if (p1 > 12) {
+      m = p0;
+      d = p1;
+    } else {
+      d = p0;
+      m = p1;
+    }
+    if (m < 1 || m > 12) {
+      if (p0 >= 1 && p0 <= 12) { m = p0; d = p1; }
+      else { m = 1; }
+    }
+    const dt = new Date(y, m - 1, d);
+    const ts = dt.getTime();
+    const iso = y + '-' + String(m).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+    return { timestamp: ts, mes: m, ano: y, iso: iso };
+  }
+  return { timestamp: 0, mes: 0, ano: 2026, iso: '1970-01-01' };
+}
+
+function filtrarCallsPorMes(mes, btnEl) {
+  filtroMesCalls = String(mes);
+  document.querySelectorAll('.btn-call-month').forEach(b => {
+    b.classList.remove('active');
+    b.style.background = '#f1f5f9';
+    b.style.color = '#334155';
+    b.style.borderColor = '#cbd5e1';
+    b.style.fontWeight = '700';
+  });
+  if (btnEl) {
+    btnEl.classList.add('active');
+    btnEl.style.background = '#0b2351';
+    btnEl.style.color = '#ffffff';
+    btnEl.style.borderColor = '#0b2351';
+    btnEl.style.fontWeight = '800';
+  }
+  if (typeof renderizarRegistrosCalls === 'function' && typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos']) {
+    renderizarRegistrosCalls(SEINTEC_BASES_CONFIG['Atendimentos'], filtroAtivoCalls || 'todos');
+  }
+}
+
+function renderizarRegistrosCalls(base, filtro = 'todos') {
       filtroAtivoCalls = filtro;
       const registros = base.registros || [];
 
@@ -27451,6 +27587,14 @@ function imprimirAgendaCarro() {
         filtrados = registros.filter(r => r.status === 'Concluído');
       }
 
+      // 1.1 Filtragem por Mês de Abertura
+      if (typeof filtroMesCalls !== 'undefined' && filtroMesCalls !== 'todos') {
+        filtrados = filtrados.filter(r => {
+          const info = extrairTimestampEDetalhesDataCall(r.data);
+          return String(info.mes) === String(filtroMesCalls);
+        });
+      }
+
       // 2. FILTRAGEM POR ESCOLA (DROPDOWN seintec-select-escola / filtroEscolaCieAtivo)
       const selectEscola = document.getElementById('seintec-select-escola');
       const cieFiltro = filtroEscolaCieAtivo || (selectEscola ? selectEscola.value : '');
@@ -27477,7 +27621,21 @@ function imprimirAgendaCarro() {
         });
       }
 
+      // REGRA OBRIGATÓRIA: Ordenação padrão por Data de Abertura do mais recente ao mais antigo (decrescente)
+      filtrados.sort((a, b) => {
+        const infoA = extrairTimestampEDetalhesDataCall(a.data);
+        const infoB = extrairTimestampEDetalhesDataCall(b.data);
+        return infoB.timestamp - infoA.timestamp;
+      });
+
       chamadosCallsFiltrados = filtrados;
+
+      // Configura a tabela DOM para indicar ordenação decrescente na coluna 0 (Data de Abertura)
+      const tableCallsEl = document.getElementById('panel-seintec-table');
+      if (tableCallsEl) {
+        tableCallsEl.setAttribute('data-sort-col', '0');
+        tableCallsEl.setAttribute('data-sort-dir', 'desc');
+      }
 
       // Cabeçalho da Visão Sintética da Dirigente (Data na 1ª Coluna, Escola na 2ª Coluna)
       const thead = document.getElementById('panel-seintec-thead');
@@ -27562,8 +27720,9 @@ function imprimirAgendaCarro() {
           const escolaNomeFormatado = formatarNomeEscola(nomeOriginal);
           const cieTexto = reg.cie ? `CIE: ${reg.cie}` : '';
 
+          const infoDataAbertura = extrairTimestampEDetalhesDataCall(reg.data);
           tr.innerHTML = `
-            <td>
+            <td data-sort="${infoDataAbertura.iso}">
               <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: #1e3a8a; font-weight: 700; white-space: nowrap;">
                 📅 ${reg.data}
               </span>
