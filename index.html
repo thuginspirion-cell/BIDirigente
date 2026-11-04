@@ -27689,10 +27689,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           </tr>
         `;
       } else {
-        // Exibe até 200 registros mais recentes para fluidez máxima
-        const exibidos = filtrados.slice(0, 200);
+                // Renderiza todos os registros filtrados usando DocumentFragment para fluidez e ordenação completa
+        const fragment = document.createDocumentFragment();
 
-        exibidos.forEach(reg => {
+        filtrados.forEach(reg => {
           const tr = document.createElement('tr');
 
           // Badges de Status Executivo
@@ -27743,16 +27743,16 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               </button>
             </td>
           `;
-          tbody.appendChild(tr);
+          fragment.appendChild(tr);
         });
+        tbody.appendChild(fragment);
       }
 
       const contador = document.getElementById('seintec-table-records-counter');
       if (contador) {
         if (termo) {
           contador.innerText = `${filtrados.length} chamados encontrados para "${termo}"`;
-        } else if (filtrados.length > 100) {
-          contador.innerText = `Exibindo os primeiros 100 de ${filtrados.length} chamados (Filtro: ${filtro.toUpperCase()})`;
+        
         } else {
           contador.innerText = `${filtrados.length} chamados exibidos (Filtro: ${filtro.toUpperCase()})`;
         }
