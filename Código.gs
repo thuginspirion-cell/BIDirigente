@@ -446,6 +446,51 @@ function sincronizarPlanilhaSevesc(forcarBruto) {
  * Sincronização Dinâmica da Planilha SEFISC do SharePoint (CONTROLE - ZELADORIAS-ATUALIZADA-2026.xlsx)
  * REGRA MANDATÓRIA: Considerar única e exclusivamente a aba 'SEFISC'.
  */
+
+/**
+ * Sincronização Dinâmica da Planilha SEOM do SharePoint (Acompanhamento SEOM.xlsx)
+ * REGRA MANDATÓRIA: Leitura fidedigna da aba 'MAPA ' (60 Escolas e 11 Indicadores de Infraestrutura).
+ */
+function sincronizarPlanilhaSeom(forcarBruto) {
+  var modoOtimizado = !forcarBruto;
+  if (modoOtimizado) {
+    try {
+      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seom_mapa_2026.json?_t=" + new Date().getTime();
+      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+      if (res.getResponseCode() === 200) {
+        var dados = JSON.parse(res.getContentText());
+        dados.modoOtimizado = true;
+        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+        dados.mensagem = "Sincronização de alta performance: aba MAPA SEOM carregada com sucesso.";
+        return dados;
+      }
+    } catch (errOpt) {
+      Logger.log("Aviso SEOM modo otimizado: " + errOpt.toString());
+    }
+  }
+
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seom_educacao_sp_gov_br/cQpHptlGiLQ_S6fnHiKPD8jIEgUCoTHvKXxEEJYjc-0WstW10A?download=1";
+  try {
+    return obterArquivoPublicoSharepoint(url, {
+      nomeSetor: "SEOM",
+      descricaoBase: "Mapa de Infraestrutura Escolar (Aba MAPA)",
+      abaAlvo: "MAPA "
+    });
+  } catch (e) {
+    Logger.log("Aviso SEOM: fallback leve ativado - " + e.toString());
+    try {
+      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seom_mapa_2026.json";
+      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+      if (res.getResponseCode() === 200) {
+        return JSON.parse(res.getContentText());
+      }
+    } catch (errMirror) {
+      Logger.log("Erro ao buscar mirror SEOM: " + errMirror.toString());
+    }
+    return { sucesso: false, erro: e.toString() };
+  }
+}
+
 function sincronizarPlanilhaSefisc(forcarBruto) {
   var modoOtimizado = !forcarBruto;
   if (modoOtimizado) {
