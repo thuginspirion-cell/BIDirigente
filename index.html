@@ -10118,7 +10118,7 @@ function imprimirAgendaCarro() {
             </div>
             <!-- Box 2: Chamados / Calls -->
             <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
-              <div style="font-size: 0.7rem; font-weight: 800; color: #d97706; text-transform: uppercase; letter-spacing: 0.04em;">📞 Chamados / Calls NIT</div>
+              <div style="font-size: 0.7rem; font-weight: 800; color: #d97706; text-transform: uppercase; letter-spacing: 0.04em;">📞 Chamados / Atendimentos SEINTEC</div>
               <div id="spotlight-calls-total" style="font-size: 1.45rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0;">0 chamados</div>
               <div id="spotlight-calls-sub" style="font-size: 0.78rem; color: #64748b;">0 pendentes • 0 concluídos</div>
             </div>
@@ -11004,19 +11004,9 @@ function imprimirAgendaCarro() {
         </div>
 
         <!-- PAINEL INTERATIVO EXPANSÍVEL DA BASE SELECIONADA DO SEINTEC (CONSULTA + UPLOAD) -->
-        <div class="gab-base-detail-panel" id="seintec-base-detail-panel">
-          <div class="detail-panel-header">
-            <div class="detail-panel-title-wrap">
-              <h3 id="panel-seintec-title"><span>H</span> <span>Equipamentos de Hardware</span></h3>
-              <p id="panel-seintec-desc">Inventário de hardware. Fonte exclusiva dos 87 polos principais de Tecnologia.</p>
-            </div>
-            <button class="btn-close-panel" onclick="fecharPainelSeintec()">Fechar ✕</button>
-          </div>
-
-          <!-- Abas internas da Base: Consulta vs Envio -->
-          <!-- Abas internas removidas -->
-
-          <!-- BANNER EXECUTIVO OFICIAL DE GESTÃO DO PARQUE TECNOLÓGICO SEINTEC / NIT -->
+        <div class="gab-base-detail-panel" id="seintec-base-detail-panel" style="border-top: none; padding: 0; background: transparent; box-shadow: none; border: none;">
+          <!-- Cabeçalho branco removido: exibição exclusiva nos banners azuis oficiais -->
+          <!-- BANNER EXECUTIVO OFICIAL DE GESTÃO DO PARQUE TECNOLÓGICO SEINTEC -->
           <div id="seintec-inventario-banner" style="display: none; background: linear-gradient(135deg, #091e3a 0%, #0f3057 55%, #00587a 100%); border-radius: 14px; padding: 18px 24px; color: #fff; margin-bottom: 20px; box-shadow: 0 10px 25px -5px rgba(15, 48, 87, 0.35); border: 1px solid rgba(255, 255, 255, 0.12); position: relative; overflow: hidden;">
             <div style="position: absolute; right: -25px; bottom: -35px; opacity: 0.08; font-size: 160px; pointer-events: none; user-select: none;">💻</div>
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; position: relative; z-index: 2;">
@@ -11026,7 +11016,7 @@ function imprimirAgendaCarro() {
                 </div>
                 <div>
                   <div style="font-size: 10.5px; font-weight: 800; letter-spacing: 1px; color: #38bdf8; text-transform: uppercase; margin-bottom: 2px;">
-                    NIT / SEINTEC • DIRETORIA DE ENSINO • ITAPEVI
+                    SEINTEC • DIRETORIA DE ENSINO • ITAPEVI
                   </div>
                   <h3 id="seintec-inv-banner-title" style="margin: 0; font-size: 18px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px;">
                     Gestão Executiva do Parque de Hardware & Conectividade
@@ -15678,7 +15668,7 @@ function imprimirAgendaCarro() {
         cor: '#0b2351',
         driveFolder: 'Uploads BIDirigente / CIE / SEINTEC',
         setores: [
-          { sigla: 'NIT', nome: 'Núcleo de Informações e Tecnologia', desc: 'Hardware, conectividade de rede, suporte e laboratórios escolares' },
+          { sigla: 'Tecnologia', nome: 'Infraestrutura e Tecnologia', desc: 'Hardware, conectividade de rede, suporte e laboratórios escolares' },
           { sigla: 'CIE', nome: 'Centro de Informações Educacionais', desc: 'Estatísticas, coleta de dados e sistemas institucionais SEDUC' },
           { sigla: 'Suporte', nome: 'Atendimento e Suporte Técnico', desc: 'Chamados, manutenção de computadores e equipamentos' }
         ]
@@ -16183,7 +16173,7 @@ function imprimirAgendaCarro() {
       const aLbl2 = document.getElementById('home-asure-lbl2');
 
       if (aM1) aM1.textContent = dados.callsTotal;
-      if (aLbl1) aLbl1.textContent = 'Chamados NIT';
+      if (aLbl1) aLbl1.textContent = 'Chamados SEINTEC';
       if (aM2) aM2.textContent = dados.callsConc;
       if (aLbl2) aLbl2.textContent = 'Concluídos';
       if (aM3) aM3.textContent = dados.callsTotal > 0 ? ((dados.callsConc / dados.callsTotal) * 100).toFixed(0) + '%' : '100%';
@@ -30147,8 +30137,8 @@ function imprimirAgendaCarro() {
       const cardEl = document.getElementById(`card-seintec-${idBase}`);
       if (cardEl) cardEl.classList.add('selected');
 
-      document.getElementById('panel-seintec-title').innerHTML = `<span>${base.icone}</span> <span>${base.titulo}</span>`;
-      document.getElementById('panel-seintec-desc').innerText = base.desc;
+      const pTitle = document.getElementById('panel-seintec-title'); if (pTitle) pTitle.innerHTML = `<span>${base.icone}</span> <span>${base.titulo}</span>`;
+      const pDesc = document.getElementById('panel-seintec-desc'); if (pDesc) pDesc.innerText = base.desc;
       const destText = document.getElementById('seintec-upload-dest-text');
       if (destText) destText.innerHTML = `☁️ Nuvem SharePoint: <b>SEINTEC _ URE - Itapevi.xlsx / ${base.pasta}</b>`;
 
