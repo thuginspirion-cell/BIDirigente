@@ -62,6 +62,8 @@ const components = [
   'URLS_OFICIAIS_SEMAT',
   'URLS_OFICIAIS_SEVESC',
   'URLS_OFICIAIS_SECOMSE',
+  'URLS_OFICIAIS_SEOM',
+  'URLS_OFICIAIS_SEFISC',
   'DADOS_SEGRE',
   'DADOS_SEMAT',
   'DADOS_SEVESC',
@@ -73,7 +75,9 @@ const components = [
   'sincronizarDashboardSegre',
   'sincronizarDashboardSemat',
   'sincronizarDashboardSevesc',
-  'sincronizarDashboardSecomse'
+  'sincronizarDashboardSecomse',
+  'sincronizarDashboardSeom',
+  'sincronizarDashboardSefisc'
 ];
 
 components.forEach(comp => {
