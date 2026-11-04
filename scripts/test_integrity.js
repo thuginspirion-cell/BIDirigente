@@ -26,7 +26,7 @@ requiredButtons.forEach(id => {
 
 const requiredFunctions = [
   'renderizarDashboardSecomse',
-  'renderizarDashboardSepat',
+  'renderizarDashboardDpat',
   'renderizarDashboardSeom',
   'renderizarDashboardSefisc',
   'renderizarDashboardFinanceiroSefin',
