@@ -11005,7 +11005,18 @@ function imprimirAgendaCarro() {
         </div>
 
         <!-- PAINEL INTERATIVO EXPANSÍVEL DA BASE SELECIONADA DO SEINTEC (CONSULTA + UPLOAD) -->
-        <div class="gab-base-detail-panel" id="seintec-base-detail-panel" style="border-top: none; padding: 0; background: transparent; box-shadow: none; border: none;">
+        <!-- PLACEHOLDER INICIAL SEINTEC: NENHUMA BASE PRÉ-SELECIONADA -->
+        <div id="seintec-empty-selection-placeholder" style="background: #ffffff; border: 2px dashed #cbd5e1; border-radius: 14px; padding: 2.8rem 1.5rem; text-align: center; margin: 1.25rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+          <div style="width: 58px; height: 58px; border-radius: 14px; background: rgba(59, 130, 246, 0.08); color: #2563eb; display: inline-flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 0.85rem;">
+            📊
+          </div>
+          <h3 style="font-size: 1.18rem; font-weight: 800; color: #1e293b; margin: 0 0 0.35rem 0;">Nenhuma Base ou Categoria Selecionada</h3>
+          <p style="font-size: 0.88rem; color: #64748b; max-width: 520px; margin: 0 auto; line-height: 1.5;">
+            Selecione um dos cartões acima (<b>Atendimentos</b>, <b>Equipamentos de Hardware</b>, <b>Rede</b>, <b>TVs & Educatrons</b> ou <b>Plataforma de Recarga</b>) para visualizar os registros detalhados e aplicar os filtros.
+          </p>
+        </div>
+
+        <div class="gab-base-detail-panel" id="seintec-base-detail-panel" style="display: none; border-top: none; padding: 0; background: transparent; box-shadow: none; border: none;">
           <!-- Cabeçalho branco removido: exibição exclusiva nos banners azuis oficiais -->
           <!-- BANNER EXECUTIVO OFICIAL DE GESTÃO DO PARQUE TECNOLÓGICO SEINTEC -->
           <div id="seintec-inventario-banner" style="display: none; background: linear-gradient(135deg, #091e3a 0%, #0f3057 55%, #00587a 100%); border-radius: 14px; padding: 18px 24px; color: #fff; margin-bottom: 20px; box-shadow: 0 10px 25px -5px rgba(15, 48, 87, 0.35); border: 1px solid rgba(255, 255, 255, 0.12); position: relative; overflow: hidden;">
@@ -29946,7 +29957,7 @@ function imprimirAgendaCarro() {
       }
     };
 
-    let baseAtivaSeintec = 'Hardware';
+    let baseAtivaSeintec = null;
 
     function abrirSeintec() {
       try { atualizarMetricasSuperioresSeintec(); } catch(e){}
@@ -29961,7 +29972,7 @@ function imprimirAgendaCarro() {
       const sideBtn = document.getElementById('side-btn-SEINTEC');
       if (sideBtn) sideBtn.classList.add('active');
 
-      selecionarBaseSeintec('Hardware');
+      desmarcarBasesSeintec();
       rolarAoTopoSuave();
     }
 
@@ -30131,11 +30142,46 @@ function imprimirAgendaCarro() {
       document.querySelectorAll('#pane-seintec .gab-metric-card').forEach(c => c.classList.remove('selected'));
       if (el) el.classList.add('selected');
     }
+    function desmarcarBasesSeintec() {
+      baseAtivaSeintec = null;
+      document.querySelectorAll('#pane-seintec .base-card-item').forEach(card => card.classList.remove('selected'));
+      const placeholder = document.getElementById('seintec-empty-selection-placeholder');
+      if (placeholder) placeholder.style.display = 'block';
+      const detailPanel = document.getElementById('seintec-base-detail-panel');
+      if (detailPanel) detailPanel.style.display = 'none';
+
+      const callsBanner = document.getElementById('seintec-sharepoint-calls-banner');
+      if (callsBanner) callsBanner.style.display = 'none';
+      const kpiBar = document.getElementById('seintec-calls-kpi-bar');
+      if (kpiBar) kpiBar.style.display = 'none';
+      const filterBtns = document.getElementById('seintec-calls-filter-buttons');
+      if (filterBtns) filterBtns.style.display = 'none';
+      const monthFilter = document.getElementById('seintec-calls-month-filter');
+      if (monthFilter) monthFilter.style.display = 'none';
+
+      const invBanner = document.getElementById('seintec-inventario-banner');
+      if (invBanner) invBanner.style.display = 'none';
+      const invKpiBar = document.getElementById('seintec-inventario-kpi-bar');
+      if (invKpiBar) invKpiBar.style.display = 'none';
+      const invFilterBtns = document.getElementById('seintec-inventario-filter-buttons');
+      if (invFilterBtns) invFilterBtns.style.display = 'none';
+    }
+
     function selecionarBaseSeintec(idBase) {
+      if (baseAtivaSeintec === idBase) {
+        desmarcarBasesSeintec();
+        return;
+      }
+
       const base = SEINTEC_BASES_CONFIG[idBase];
       if (!base) return;
 
       baseAtivaSeintec = idBase;
+
+      const placeholder = document.getElementById('seintec-empty-selection-placeholder');
+      if (placeholder) placeholder.style.display = 'none';
+      const detailPanel = document.getElementById('seintec-base-detail-panel');
+      if (detailPanel) detailPanel.style.display = 'block';
 
       if (idBase !== 'Hardware') {
         filtroMetricaHardwareAtivo = 'todos';
@@ -32004,7 +32050,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           .sincronizarPlanilhaSharepoint();
       } else {
         // CAMADA 2: Ambiente externo / GitHub Pages: consulta endpoint público do GAS com CORS ativo
-        fetch('https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSharepoint')
+        fetch('https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSharepoint&bruto=true')
           .then(function(r) { return r.json(); })
           .then(function(res) {
             if (res && res.sucesso && res.dadosBase64) {
