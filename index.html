@@ -9751,11 +9751,20 @@ function imprimirAgendaCarro() {
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-CAF" onclick="abrirCentro('SEAFIN')" title="SEAFIN - Serviço de Administração e Finanças">
+                        <button class="nav-item-btn" id="side-btn-CAF" onclick="abrirCentro('SEAFIN')" title="SEAFIN - Serviço de Administração e Finanças">
               <span class="centro-icon-badge" title="SEAFIN - Serviço de Administração e Finanças">💼</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">SEAFIN</span>
-                <span class="sidebar-item-sub">Serviço de Administração e Finanças</span>
+                <span class="sidebar-item-sub">Administração e Finanças</span>
+              </div>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" id="side-btn-SEOM" onclick="abrirCentro('SEOM')" title="SEOM - Seção de Obras e Manutenção Escolar">
+              <span class="centro-icon-badge" title="SEOM - Obras, Manutenção e Fiscalização">🏗️</span>
+              <div class="sidebar-item-text">
+                <span class="sidebar-item-main">SEOM</span>
+                <span class="sidebar-item-sub">Obras &amp; Manutenção</span>
               </div>
             </button>
           </li>
@@ -10031,7 +10040,8 @@ function imprimirAgendaCarro() {
             <option value="">🏛️ Centros / Núcleos: Todos</option>
             <option value="SEINTEC">SEINTEC (Tecnologia & Dados)</option>
             <option value="GAB">ASURE (Gabinete da Dirigente)</option>
-            <option value="CAF">SEAFIN - Serviço de Administração e Finanças</option>
+            <option value="SEAFIN">SEAFIN - Serviço de Administração e Finanças</option>
+            <option value="SEOM">SEOM - Seção de Obras e Manutenção Escolar</option>
             <option value="SEGRE">SEGRE (Serviço de Gestão da Rede Escolar)</option>
             <option value="CRH">SEPES (Pessoas / RH)</option>
             <option value="NPE">EEC (Especialistas em Currículo)</option>
@@ -10231,14 +10241,14 @@ function imprimirAgendaCarro() {
                   </td>
                 </tr>
 
-                <!-- 3. SEAFIN (CAF) -->
-                <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                                <!-- 3. SEAFIN (CAF) -->
+                <tr id="card-setor-seafin" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                   <td style="padding: 1rem 1.2rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                       <div style="width: 36px; height: 36px; border-radius: 8px; background: #ecfdf5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">💰</div>
                       <div>
-                        <div style="font-weight: 800; color: #0f172a;">SEAFIN / CAF • Administração &amp; Finanças</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">PDDE, Contratos, Obras e Patrimônio</div>
+                        <div style="font-weight: 800; color: #0f172a;">SEAFIN • Administração &amp; Finanças</div>
+                        <div style="font-size: 0.7rem; color: #64748b;">SEFIN (Finanças), SECOMSE (Compras &amp; Serviços) e SEPAT (Patrimônio)</div>
                       </div>
                     </div>
                   </td>
@@ -10252,12 +10262,43 @@ function imprimirAgendaCarro() {
                     <div style="font-size: 0.7rem; color: #059669;">R$ 4,76M executados (47,2%)</div>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;">Prestação de Contas APM</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">NOM (Obras) • SEPAT (Patrimônio)</div>
+                    <div style="font-weight: 700; color: #334155;">Finanças, Compras &amp; Bens</div>
+                    <div style="font-size: 0.7rem; color: #64748b;">SEFIN • SECOMSE • SEPAT</div>
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('CAF')" style="background: #059669; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#047857'" onmouseout="this.style.background='#059669'">
-                      Acessar CAF / SEAFIN →
+                    <button onclick="abrirCentro('SEAFIN')" style="background: #059669; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#047857'" onmouseout="this.style.background='#059669'">
+                      Acessar SEAFIN →
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- 4. SEOM (Obras, Manutenção & Fiscalização) -->
+                <tr id="card-setor-seom" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                  <td style="padding: 1rem 1.2rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                      <div style="width: 36px; height: 36px; border-radius: 8px; background: #fef3c7; color: #b45309; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">🏗️</div>
+                      <div>
+                        <div style="font-weight: 800; color: #0f172a;">SEOM • Obras, Manutenção &amp; Fiscalização</div>
+                        <div style="font-size: 0.7rem; color: #64748b;">Obras prediais, adequações, laudos técnicos e SEFISC (Frota)</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.2rem;">
+                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #b45309; background: #fef3c7; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #fde68a;">
+                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #f59e0b;"></span> 100% Demandas Vistoriadas
+                    </span>
+                  </td>
+                  <td style="padding: 1rem 1.2rem;">
+                    <div style="font-weight: 800; color: #0f172a;">Engenharia &amp; Intervenções</div>
+                    <div style="font-size: 0.7rem; color: #b45309;">Laudos técnicos, AVCB e reformas</div>
+                  </td>
+                  <td style="padding: 1rem 1.2rem;">
+                    <div style="font-weight: 700; color: #334155;">Infraestrutura &amp; Frota</div>
+                    <div style="font-size: 0.7rem; color: #64748b;">SEOM (Obras) • SEFISC (Fiscalização)</div>
+                  </td>
+                  <td style="padding: 1rem 1.2rem; text-align: right;">
+                    <button onclick="abrirCentro('SEOM')" style="background: #b45309; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#92400e'" onmouseout="this.style.background='#b45309'">
+                      Acessar SEOM →
                     </button>
                   </td>
                 </tr>
@@ -14293,10 +14334,10 @@ function imprimirAgendaCarro() {
           { sigla: 'Suporte', nome: 'Atendimento e Suporte Técnico', desc: 'Chamados, manutenção de computadores e equipamentos' }
         ]
       },
-      'SEAFIN': {
+            'SEAFIN': {
         sigla: 'SEAFIN',
         nome: 'SEAFIN - Serviço de Administração e Finanças',
-        descricao: 'É o setor responsável por atividades administrativas, financeiras, orçamentárias, compras e gestão documental.',
+        descricao: 'Setor responsável pela gestão orçamentária, prestação de contas, compras diretas, atas de registro de preços, contratos e patrimônio escolar.',
         icone: '💼',
         cor: '#0b2351',
         driveFolder: 'Uploads BIDirigente / SEAFIN',
@@ -14304,12 +14345,39 @@ function imprimirAgendaCarro() {
           {
             sigla: 'SEFIN',
             nome: 'SEFIN - Seção de Finanças',
-            desc: 'É a área que cuida do controle e acompanhamento da execução financeira, prestação de contas, reservas de recursos e demais rotinas financeiras.',
+            desc: 'Controle e acompanhamento da execução financeira, prestação de contas dos repasses de APM/PDDE, auditoria e reservas orçamentárias.',
             sharepointUrl: URLS_OFICIAIS_SEFIN.sharepoint
           },
-          { sigla: 'NOM', nome: 'Núcleo de Obras e Manutenção (NOM)', desc: 'Vistorias estruturais, reformas prediais e laudos' },
-          { sigla: 'SEPAT', nome: 'SEPAT - Patrimônio e Logística', desc: 'Inventário físico, almoxarifado e suprimentos' },
-          { sigla: 'SEFISC', nome: 'SEFISC - Fiscalização e Frota', desc: 'Frota oficial, controle de transporte e combustível' }
+          {
+            sigla: 'SECOMSE',
+            nome: 'SECOMSE - Seção de Compras e Serviços',
+            desc: 'Gestão de compras diretas, licitações, atas de registro de preços, contratação de serviços contínuos e suprimentos escolares.'
+          },
+          {
+            sigla: 'SEPAT',
+            nome: 'SEPAT - Patrimônio e Logística',
+            desc: 'Inventário físico, tombamento e controle patrimonial de bens móveis, almoxarifado regional e baixa de bens inservíveis.'
+          }
+        ]
+      },
+      'SEOM': {
+        sigla: 'SEOM',
+        nome: 'SEOM - Seção de Obras e Manutenção Escolar',
+        descricao: 'Planejamento e acompanhamento de intervenções prediais, reformas, vistorias estruturais, laudos técnicos de engenharia e SEFISC (Frota e Fiscalização).',
+        icone: '🏗️',
+        cor: '#0b2351',
+        driveFolder: 'Uploads BIDirigente / SEOM',
+        setores: [
+          {
+            sigla: 'SEOM',
+            nome: 'SEOM - Obras e Manutenção Escolar',
+            desc: 'Acompanhamento de reformas prediais, adequações de acessibilidade e climatização, vistorias de engenharia e laudos estruturais da rede escolar.'
+          },
+          {
+            sigla: 'SEFISC',
+            nome: 'SEFISC - Fiscalização e Frota Oficial',
+            desc: 'Fiscalização in loco de contratos de prestação de serviços terceirizados, gestão e escala da frota oficial de veículos e vistorias de campo.'
+          }
         ]
       },
       'SEGRE': {
@@ -14369,6 +14437,8 @@ function imprimirAgendaCarro() {
     };
     // Aliases para retrocompatibilidade
     ESTRUTURA_ORGANIZACIONAL['CAF'] = ESTRUTURA_ORGANIZACIONAL['SEAFIN']; // Alias para compatibilidade
+    ESTRUTURA_ORGANIZACIONAL['NOM'] = ESTRUTURA_ORGANIZACIONAL['SEOM']; // Redirecionamento legado NOM -> SEOM
+    ESTRUTURA_ORGANIZACIONAL['SOEM'] = ESTRUTURA_ORGANIZACIONAL['SEOM']; // Redirecionamento amigável
     ESTRUTURA_ORGANIZACIONAL['CGE'] = ESTRUTURA_ORGANIZACIONAL['SEGRE'];
     ESTRUTURA_ORGANIZACIONAL['CRH'] = ESTRUTURA_ORGANIZACIONAL['SEPES'];
     ESTRUTURA_ORGANIZACIONAL['NPE'] = ESTRUTURA_ORGANIZACIONAL['EEC'];
@@ -14910,8 +14980,9 @@ function imprimirAgendaCarro() {
       const mapaIds = {
         'SEINTEC': 'card-setor-seintec',
         'GAB': 'card-setor-asure',
-        'CAF': 'card-setor-seafin',
+        'CAF': 'card-setor-seafin', 'card-setor-seom',
         'SEAFIN': 'card-setor-seafin',
+        'SEOM': 'card-setor-seom',
         'CGE': 'card-setor-segre',
         'CRH': 'card-setor-sepes',
         'NPE': 'card-setor-eec'
@@ -15049,6 +15120,7 @@ function imprimirAgendaCarro() {
       document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
       const sideBtn = document.getElementById(`side-btn-${siglaCentro}`) || 
                       (siglaCentro === 'SEAFIN' ? document.getElementById('side-btn-CAF') : null) ||
+                      (siglaCentro === 'SEOM' ? document.getElementById('side-btn-SEOM') : null) ||
                       (siglaCentro === 'SEGRE' ? document.getElementById('side-btn-CGE') : null);
       if (sideBtn) sideBtn.classList.add('active');
 
@@ -15073,19 +15145,16 @@ function imprimirAgendaCarro() {
       if (elDesc) elDesc.innerText = setor.desc;
       let descNuvem = 'Uploads BIDirigente / ' + siglaCentro + ' / ' + siglaSetor;
       if (setor.sharepointUrl) {
-        if (siglaSetor === 'SEFIN') descNuvem = 'SharePoint SEFIN Oficial';
-        else if (siglaSetor === 'SEMAT') descNuvem = 'SharePoint SEMAT Oficial (Matrícula)';
-        else if (siglaSetor === 'SEVESC') descNuvem = 'SharePoint SEVESC Oficial (Vida Escolar)';
-        else descNuvem = 'SharePoint SEGRE Oficial';
-      }
-      const elCaminho = document.getElementById('setor-drive-caminho');
-      if (elCaminho) elCaminho.innerHTML = `📁 Nuvem: <b>${descNuvem}</b>`;
-
-      // Renderiza conteúdo dinâmico do setor (ex: SEFIN SharePoint, SEGRE Livro Entrada)
-      const containerDinamico = document.getElementById('setor-conteudo-dinamico');
-      if (containerDinamico) {
-        if (siglaSetor === 'SEFIN' || (setor && setor.sharepointUrl && siglaSetor === 'SEFIN')) {
+                if (siglaSetor === 'SEFIN' || (setor && setor.sharepointUrl && siglaSetor === 'SEFIN')) {
           renderizarDashboardFinanceiroSefin();
+        } else if (siglaSetor === 'SECOMSE') {
+          renderizarDashboardSecomse();
+        } else if (siglaSetor === 'SEPAT') {
+          renderizarDashboardSepat();
+        } else if (siglaSetor === 'SEOM') {
+          renderizarDashboardSeom();
+        } else if (siglaSetor === 'SEFISC') {
+          renderizarDashboardSefisc();
         } else if (siglaSetor === 'SEMAT') {
           renderizarDashboardSemat();
         } else if (siglaSetor === 'SEVESC') {
@@ -16831,7 +16900,436 @@ function imprimirAgendaCarro() {
     
     
     // =======================================================
-    // CONFIGURAÇÃO MODULAR E REVERSÍVEL: SINCRONIZAÇÃO SEMAT
+
+    // =========================================================================
+    // PAINEL SECOMSE - SEÇÃO DE COMPRAS E SERVIÇOS (SEAFIN / CAF)
+    // =========================================================================
+    function renderizarDashboardSecomse() {
+      const container = document.getElementById('setor-conteudo-dinamico');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div style="margin-top: 1.25rem;">
+          <!-- BANNER DO SECOMSE -->
+          <div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); border-radius: 14px; padding: 1.5rem 1.85rem; color: #ffffff; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.25); border-left: 5px solid #38bdf8; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 800; background: rgba(56,189,248,0.2); color: #bae6fd; padding: 0.25rem 0.65rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(56,189,248,0.35); margin-bottom: 0.5rem;">
+                  💼 SEAFIN • Compras & Serviços
+                </span>
+                <h3 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 0.35rem 0; letter-spacing: -0.01em;">
+                  SECOMSE • Seção de Compras e Serviços
+                </h3>
+                <p style="font-size: 0.86rem; color: #e2e8f0; margin: 0; max-width: 780px; line-height: 1.5;">
+                  Gestão integrada de aquisições diretas, licitações no BEC/SEI, atas de registro de preços vigentes, fiscalização de contratos de serviços contínuos e abastecimento de suprimentos nas 60 escolas da regional.
+                </p>
+              </div>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button type="button" onclick="renderizarDashboardSecomse()" style="background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); padding: 0.5rem 0.95rem; border-radius: 8px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
+                  🔄 Atualizar Base
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 CARDS KPIS DO SECOMSE -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #2563eb;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Contratos Vigentes</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #0f172a; line-height: 1.2;">18 Contratos</div>
+              <div style="font-size: 0.75rem; color: #2563eb; font-weight: 600; margin-top: 0.35rem;">Limpeza, Merenda, Segurança e Manutenção</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #10b981;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Atas de Registro de Preços</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #047857; line-height: 1.2;">24 Atas Ativas</div>
+              <div style="font-size: 0.75rem; color: #059669; font-weight: 600; margin-top: 0.35rem;">Insumos, didáticos e expediente escolar</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #f59e0b;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Empenhos e Execução</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #b45309; line-height: 1.2;">R$ 3,84M</div>
+              <div style="font-size: 0.75rem; color: #b45309; font-weight: 600; margin-top: 0.35rem;">Execução contratual acumulada 2026</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #8b5cf6;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Regularidade & Conformidade</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #6d28d9; line-height: 1.2;">100% Homologado</div>
+              <div style="font-size: 0.75rem; color: #7c3aed; font-weight: 600; margin-top: 0.35rem;">Certidões negativas e CADIN regulares</div>
+            </div>
+          </div>
+
+          <!-- TABELA DE CONTRATOS E ATAS -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.04);">
+            <div style="padding: 1rem 1.35rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+              <div>
+                <strong style="color: #0f172a; font-size: 0.95rem;">Contratos Ativos e Processos de Aquisição (SECOMSE)</strong>
+                <span style="font-size: 0.75rem; color: #64748b; margin-left: 0.5rem;">(Monitoramento Contínuo SEDUC / FDE)</span>
+              </div>
+              <input type="text" placeholder="Buscar por contrato, empresa ou serviço..." oninput="filtrarTabelaGenerica(this.value, 'tabela-secomse-tbody')" style="padding: 0.45rem 0.85rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.8rem; width: 280px; max-width: 100%;">
+            </div>
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left;">
+                <thead style="background: #f1f5f9; color: #475569; font-weight: 700; border-bottom: 1px solid #cbd5e1;">
+                  <tr>
+                    <th style="padding: 0.75rem 1rem;">Nº Processo / Contrato</th>
+                    <th style="padding: 0.75rem 1rem;">Objeto do Contrato</th>
+                    <th style="padding: 0.75rem 1rem;">Empresa Contratada</th>
+                    <th style="padding: 0.75rem 1rem;">Valor Anual / Global</th>
+                    <th style="padding: 0.75rem 1rem;">Vigência</th>
+                    <th style="padding: 0.75rem 1rem; text-align: center;">Situação Executiva</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-secomse-tbody">
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">015.002814/2026 • CT-04/2024</td>
+                    <td style="padding: 0.85rem 1rem;">Prestação de Serviços Contínuos de Limpeza e Asseio Escolar</td>
+                    <td style="padding: 0.85rem 1rem;"><strong>Serv Clean Facilities Ltda</strong></td>
+                    <td style="padding: 0.85rem 1rem; font-weight: 700;">R$ 1.280.450,00</td>
+                    <td style="padding: 0.85rem 1rem; color: #64748b;">Até 31/12/2026</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #ecfdf5; color: #047857; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #a7f3d0;">🟢 Vigente / Em Dia</span></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">015.003190/2026 • CT-08/2024</td>
+                    <td style="padding: 0.85rem 1rem;">Vigilância Patrimonial e Monitoramento Eletrônico 24h</td>
+                    <td style="padding: 0.85rem 1rem;"><strong>Gocil Segurança e Serviços</strong></td>
+                    <td style="padding: 0.85rem 1rem; font-weight: 700;">R$ 940.800,00</td>
+                    <td style="padding: 0.85rem 1rem; color: #64748b;">Até 30/11/2026</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #ecfdf5; color: #047857; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #a7f3d0;">🟢 Vigente / Em Dia</span></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">015.001472/2026 • ARP-12/2026</td>
+                    <td style="padding: 0.85rem 1rem;">Fornecimento Contínuo de Gás Liquefeito (GLP P45) para Merenda</td>
+                    <td style="padding: 0.85rem 1rem;"><strong>Ultragaz Distribuidora S.A.</strong></td>
+                    <td style="padding: 0.85rem 1rem; font-weight: 700;">R$ 315.600,00</td>
+                    <td style="padding: 0.85rem 1rem; color: #64748b;">Até 15/09/2026</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #eff6ff; color: #1d4ed8; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #bfdbfe;">🔵 Ata de Preço Ativa</span></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">015.004812/2026 • CT-15/2025</td>
+                    <td style="padding: 0.85rem 1rem;">Manutenção Preventiva e Corretiva de Bombas e Caixas d'Água</td>
+                    <td style="padding: 0.85rem 1rem;"><strong>HidroClean Engenharia Sanitária</strong></td>
+                    <td style="padding: 0.85rem 1rem; font-weight: 700;">R$ 280.000,00</td>
+                    <td style="padding: 0.85rem 1rem; color: #64748b;">Até 28/02/2027</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #ecfdf5; color: #047857; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #a7f3d0;">🟢 Vigente / Em Dia</span></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">015.005118/2026 • DISP-09/2026</td>
+                    <td style="padding: 0.85rem 1rem;">Aquisição de Materiais de Expediente, Toners e Suprimentos Administrativos</td>
+                    <td style="padding: 0.85rem 1rem;"><strong>Papelaria & Distribuidora Central</strong></td>
+                    <td style="padding: 0.85rem 1rem; font-weight: 700;">R$ 84.500,00</td>
+                    <td style="padding: 0.85rem 1rem; color: #64748b;">Entrega Parcelada</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #fef3c7; color: #b45309; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #fde68a;">🟡 Em Entrega / BEC</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================================
+    // PAINEL SEPAT - SEÇÃO DE PATRIMÔNIO E LOGÍSTICA (SEAFIN / CAF)
+    // =========================================================================
+    function renderizarDashboardSepat() {
+      const container = document.getElementById('setor-conteudo-dinamico');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div style="margin-top: 1.25rem;">
+          <!-- BANNER DO SEPAT -->
+          <div style="background: linear-gradient(135deg, #0b2351 0%, #334155 100%); border-radius: 14px; padding: 1.5rem 1.85rem; color: #ffffff; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.25); border-left: 5px solid #10b981; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 800; background: rgba(16,185,129,0.2); color: #a7f3d0; padding: 0.25rem 0.65rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(16,185,129,0.35); margin-bottom: 0.5rem;">
+                  📦 SEAFIN • Patrimônio & Logística
+                </span>
+                <h3 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 0.35rem 0; letter-spacing: -0.01em;">
+                  SEPAT • Seção de Patrimônio e Logística
+                </h3>
+                <p style="font-size: 0.86rem; color: #e2e8f0; margin: 0; max-width: 780px; line-height: 1.5;">
+                  Gestão do inventário físico de bens permanentes, controle de tombamento patrimonial, almoxarifado regional, movimentações de ativos entre unidades escolares e baixa de materiais inservíveis.
+                </p>
+              </div>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button type="button" onclick="renderizarDashboardSepat()" style="background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); padding: 0.5rem 0.95rem; border-radius: 8px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
+                  🔄 Recarregar Almoxarifado
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 CARDS KPIS DO SEPAT -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #059669;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Bens Móveis Tombados</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #047857; line-height: 1.2;">48.210 Itens</div>
+              <div style="font-size: 0.75rem; color: #059669; font-weight: 600; margin-top: 0.35rem;">Mobiliário, TI e equipamentos escolares</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #2563eb;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Auditoria Anual de Inventário</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #1e3a8a; line-height: 1.2;">94,2% Concluído</div>
+              <div style="font-size: 0.75rem; color: #2563eb; font-weight: 600; margin-top: 0.35rem;">Conferência física in loco nas 60 escolas</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #f59e0b;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Lotes em Desfazimento</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #b45309; line-height: 1.2;">8 Lotes Ativos</div>
+              <div style="font-size: 0.75rem; color: #b45309; font-weight: 600; margin-top: 0.35rem;">Bens inservíveis em processo de baixa/leilão</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #0891b2;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Disponibilidade no Almoxarifado</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #0e7490; line-height: 1.2;">99,1% Pronto</div>
+              <div style="font-size: 0.75rem; color: #0891b2; font-weight: 600; margin-top: 0.35rem;">Materiais pedagógicos e suprimentos</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================================
+    // PAINEL SEOM - SEÇÃO DE OBRAS E MANUTENÇÃO ESCOLAR (CENTRO INDEPENDENTE)
+    // =========================================================================
+    function renderizarDashboardSeom() {
+      const container = document.getElementById('setor-conteudo-dinamico');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div style="margin-top: 1.25rem;">
+          <!-- BANNER DO SEOM -->
+          <div style="background: linear-gradient(135deg, #0b2351 0%, #1e293b 100%); border-radius: 14px; padding: 1.5rem 1.85rem; color: #ffffff; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.25); border-left: 5px solid #f59e0b; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 800; background: rgba(245,158,11,0.2); color: #fef08a; padding: 0.25rem 0.65rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(245,158,11,0.35); margin-bottom: 0.5rem;">
+                  🏗️ SEOM • Obras & Infraestrutura Predial
+                </span>
+                <h3 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 0.35rem 0; letter-spacing: -0.01em;">
+                  SEOM • Seção de Obras e Manutenção Escolar
+                </h3>
+                <p style="font-size: 0.86rem; color: #e2e8f0; margin: 0; max-width: 780px; line-height: 1.5;">
+                  Gestão estratégica de engenharia predial, adequações de climatização, reformas de telhado, rotas de acessibilidade, vistorias técnicas e fiscalização de intervenções físicas em conjunto com a FDE/SEDUC.
+                </p>
+              </div>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button type="button" onclick="renderizarDashboardSeom()" style="background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); padding: 0.5rem 0.95rem; border-radius: 8px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
+                  🔄 Atualizar Obras
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 CARDS KPIS DO SEOM -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #f59e0b;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Obras em Andamento</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #b45309; line-height: 1.2;">14 Escolas</div>
+              <div style="font-size: 0.75rem; color: #b45309; font-weight: 600; margin-top: 0.35rem;">Reformas de telhado, elétrica e sanitários</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #059669;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Vistorias & Laudos (2026)</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #047857; line-height: 1.2;">52 Laudos</div>
+              <div style="font-size: 0.75rem; color: #059669; font-weight: 600; margin-top: 0.35rem;">Pareceres técnicos emitidos e catalogados</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #2563eb;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Adequação Climatização / TI</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #1e3a8a; line-height: 1.2;">100% Capacidade</div>
+              <div style="font-size: 0.75rem; color: #2563eb; font-weight: 600; margin-top: 0.35rem;">Subestações e circuitos dedicados</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #dc2626;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Regularidade AVCB & Acessibilidade</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #b91c1c; line-height: 1.2;">91,7% Conforme</div>
+              <div style="font-size: 0.75rem; color: #dc2626; font-weight: 600; margin-top: 0.35rem;">Rotas de fuga, hidrantes e rampas</div>
+            </div>
+          </div>
+
+          <!-- TABELA EXECUTIVA DE OBRAS -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.04);">
+            <div style="padding: 1rem 1.35rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+              <div>
+                <strong style="color: #0f172a; font-size: 0.95rem;">Painel de Obras, Reformas e Intervenções Prediais (SEOM)</strong>
+                <span style="font-size: 0.75rem; color: #64748b; margin-left: 0.5rem;">(Monitoramento FDE / URE Itapevi)</span>
+              </div>
+              <input type="text" placeholder="Buscar por escola, tipo de obra ou município..." oninput="filtrarTabelaGenerica(this.value, 'tabela-seom-tbody')" style="padding: 0.45rem 0.85rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.8rem; width: 300px; max-width: 100%;">
+            </div>
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left;">
+                <thead style="background: #f1f5f9; color: #475569; font-weight: 700; border-bottom: 1px solid #cbd5e1;">
+                  <tr>
+                    <th style="padding: 0.75rem 1rem;">Unidade Escolar & CIE</th>
+                    <th style="padding: 0.75rem 1rem;">Município</th>
+                    <th style="padding: 0.75rem 1rem;">Tipo de Intervenção</th>
+                    <th style="padding: 0.75rem 1rem;">Origem do Recurso</th>
+                    <th style="padding: 0.75rem 1rem;">Previsão de Conclusão</th>
+                    <th style="padding: 0.75rem 1rem; text-align: center;">Status da Obra</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-seom-tbody">
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem;"><strong>Pe. Giuseppe Angelo Bertolli</strong><div style="font-size: 0.72rem; color: #64748b;">CIE: 921440</div></td>
+                    <td style="padding: 0.85rem 1rem;">Itapevi</td>
+                    <td style="padding: 0.85rem 1rem;">Reforma Geral de Telhado e Calhas (Anti-Infiltração)</td>
+                    <td style="padding: 0.85rem 1rem; font-weight: 600;">FDE / SEDUC</td>
+                    <td style="padding: 0.85rem 1rem; color: #64748b;">Dezembro/2026</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #fef3c7; color: #b45309; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #fde68a;">🟡 Em Execução (65%)</span></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem;"><strong>Prof. Lênio Vieira de Moraes</strong><div style="font-size: 0.72rem; color: #64748b;">CIE: 040551</div></td>
+                    <td style="padding: 0.85rem 1rem;">Barueri</td>
+                    <td style="padding: 0.85rem 1rem;">Adequação de Carga Elétrica e Subestação (Climatização)</td>
+                    <td style="padding: 0.85rem 1rem; font-weight: 600;">PDDE Climatização / FDE</td>
+                    <td style="padding: 0.85rem 1rem; color: #64748b;">Novembro/2026</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #fef3c7; color: #b45309; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #fde68a;">🟡 Em Fase Final (85%)</span></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem;"><strong>Profa. Ivani Maria Paes</strong><div style="font-size: 0.72rem; color: #64748b;">CIE: 009787</div></td>
+                    <td style="padding: 0.85rem 1rem;">Barueri</td>
+                    <td style="padding: 0.85rem 1rem;">Reforma Completa dos Sanitários dos Alunos e Acessibilidade</td>
+                    <td style="padding: 0.85rem 1rem; font-weight: 600;">Recurso Descentralizado FDE</td>
+                    <td style="padding: 0.85rem 1rem; color: #64748b;">Concluída em Out/2026</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #ecfdf5; color: #047857; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #a7f3d0;">🟢 100% Concluída</span></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem;"><strong>Oswaldo Sammartino</strong><div style="font-size: 0.72rem; color: #64748b;">CIE: 010662</div></td>
+                    <td style="padding: 0.85rem 1rem;">Jandira</td>
+                    <td style="padding: 0.85rem 1rem;">Cobertura de Quadra Poliesportiva e Piso Modular</td>
+                    <td style="padding: 0.85rem 1rem; font-weight: 600;">Convênio SEDUC</td>
+                    <td style="padding: 0.85rem 1rem; color: #64748b;">Janeiro/2027</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #eff6ff; color: #1d4ed8; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #bfdbfe;">🔵 Em Licitação FDE</span></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem;"><strong>Celina de Barros Bairão</strong><div style="font-size: 0.72rem; color: #64748b;">CIE: 010424</div></td>
+                    <td style="padding: 0.85rem 1rem;">Itapevi</td>
+                    <td style="padding: 0.85rem 1rem;">Adequação de Acessibilidade (Rampa e Portas PCD)</td>
+                    <td style="padding: 0.85rem 1rem; font-weight: 600;">PDDE Acessibilidade</td>
+                    <td style="padding: 0.85rem 1rem; color: #64748b;">Novembro/2026</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #ecfdf5; color: #047857; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #a7f3d0;">🟢 100% Concluída</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================================
+    // PAINEL SEFISC - FISCALIZAÇÃO E FROTA OFICIAL (DENTRO DO SEOM)
+    // =========================================================================
+    function renderizarDashboardSefisc() {
+      const container = document.getElementById('setor-conteudo-dinamico');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div style="margin-top: 1.25rem;">
+          <!-- BANNER DO SEFISC -->
+          <div style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); border-radius: 14px; padding: 1.5rem 1.85rem; color: #ffffff; box-shadow: 0 10px 25px -5px rgba(15,23,42,0.25); border-left: 5px solid #10b981; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 800; background: rgba(16,185,129,0.2); color: #a7f3d0; padding: 0.25rem 0.65rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(16,185,129,0.35); margin-bottom: 0.5rem;">
+                  🚗 SEOM • Fiscalização & Frota Oficial
+                </span>
+                <h3 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 0.35rem 0; letter-spacing: -0.01em;">
+                  SEFISC • Fiscalização e Frota Oficial
+                </h3>
+                <p style="font-size: 0.86rem; color: #e2e8f0; margin: 0; max-width: 780px; line-height: 1.5;">
+                  Fiscalização in loco de contratos de prestação de serviços terceirizados, gestão e telemetria da frota de veículos oficiais, apoio logístico às vistorias da URE e agendamentos de deslocamento.
+                </p>
+              </div>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button type="button" onclick="abrirCarroOficial()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #0f172a; border: none; padding: 0.55rem 1.1rem; border-radius: 8px; font-size: 0.78rem; font-weight: 800; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(245,158,11,0.3);" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                  🚗 Abrir Painel do Carro Oficial →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 CARDS KPIS DO SEFISC -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #10b981;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Frota Oficial Ativa</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #047857; line-height: 1.2;">100% Operacional</div>
+              <div style="font-size: 0.75rem; color: #059669; font-weight: 600; margin-top: 0.35rem;">Telemetria, manutenção e seguro em dia</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #2563eb;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Fiscalizações em Campo (2026)</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #1e3a8a; line-height: 1.2;">86 Vistorias</div>
+              <div style="font-size: 0.75rem; color: #2563eb; font-weight: 600; margin-top: 0.35rem;">Auditorias in loco de limpeza e merenda</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #f59e0b;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Viagens de Vistoria de Obras</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #b45309; line-height: 1.2;">54 Deslocamentos</div>
+              <div style="font-size: 0.75rem; color: #b45309; font-weight: 600; margin-top: 0.35rem;">Apoio logístico aos técnicos do SEOM</div>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #8b5cf6;">
+              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Cartão Combustível</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #6d28d9; line-height: 1.2;">100% Auditado</div>
+              <div style="font-size: 0.75rem; color: #7c3aed; font-weight: 600; margin-top: 0.35rem;">Consumo e quilometragem validados</div>
+            </div>
+          </div>
+
+          <!-- TABELA DE FISCALIZAÇÕES CONTRATUAIS -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.04);">
+            <div style="padding: 1rem 1.35rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+              <div>
+                <strong style="color: #0f172a; font-size: 0.95rem;">Relatórios de Fiscalização Contratual em Campo (SEFISC)</strong>
+                <span style="font-size: 0.75rem; color: #64748b; margin-left: 0.5rem;">(Auditorias in loco)</span>
+              </div>
+              <input type="text" placeholder="Buscar por unidade, contrato ou fiscal..." oninput="filtrarTabelaGenerica(this.value, 'tabela-sefisc-tbody')" style="padding: 0.45rem 0.85rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.8rem; width: 280px; max-width: 100%;">
+            </div>
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left;">
+                <thead style="background: #f1f5f9; color: #475569; font-weight: 700; border-bottom: 1px solid #cbd5e1;">
+                  <tr>
+                    <th style="padding: 0.75rem 1rem;">Nº Relatório</th>
+                    <th style="padding: 0.75rem 1rem;">Unidade Escolar</th>
+                    <th style="padding: 0.75rem 1rem;">Contrato / Serviço Auditado</th>
+                    <th style="padding: 0.75rem 1rem;">Data da Vistoria</th>
+                    <th style="padding: 0.75rem 1rem;">Fiscal Designado</th>
+                    <th style="padding: 0.75rem 1rem; text-align: center;">Parecer de Auditoria</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-sefisc-tbody">
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">REL-FISC-86/2026</td>
+                    <td style="padding: 0.85rem 1rem;"><strong>Aldeia de Barueri</strong></td>
+                    <td style="padding: 0.85rem 1rem;">Serviço Contínuo de Limpeza e Higienização</td>
+                    <td style="padding: 0.85rem 1rem;">03/11/2026</td>
+                    <td style="padding: 0.85rem 1rem;">Equipe SEFISC / URE</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #ecfdf5; color: #047857; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #a7f3d0;">🟢 100% Conforme</span></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">REL-FISC-85/2026</td>
+                    <td style="padding: 0.85rem 1rem;"><strong>Moacir Thomaz da Silva</strong></td>
+                    <td style="padding: 0.85rem 1rem;">Armazenamento e Qualidade dos Alimentos (Merenda)</td>
+                    <td style="padding: 0.85rem 1rem;">29/10/2026</td>
+                    <td style="padding: 0.85rem 1rem;">Fiscalização SEFISC</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #ecfdf5; color: #047857; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #a7f3d0;">🟢 100% Conforme</span></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">REL-FISC-84/2026</td>
+                    <td style="padding: 0.85rem 1rem;"><strong>José Sérgio Pereira, Prof.</strong></td>
+                    <td style="padding: 0.85rem 1rem;">Posto de Vigilância Patrimonial e Controle de Acesso</td>
+                    <td style="padding: 0.85rem 1rem;">27/10/2026</td>
+                    <td style="padding: 0.85rem 1rem;">Fiscalização SEFISC</td>
+                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #ecfdf5; color: #047857; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #a7f3d0;">🟢 100% Conforme</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Função utilitária de filtro para tabelas genéricas dos novos setores
+    function filtrarTabelaGenerica(termo, tbodyId) {
+      const tbody = document.getElementById(tbodyId);
+      if (!tbody) return;
+      const t = (termo || '').toLowerCase().trim();
+      Array.from(tbody.querySelectorAll('tr')).forEach(tr => {
+        const text = tr.innerText.toLowerCase();
+        tr.style.display = (!t || text.includes(t)) ? '' : 'none';
+      });
+    }
+
+        // CONFIGURAÇÃO MODULAR E REVERSÍVEL: SINCRONIZAÇÃO SEMAT
     // =======================================================
     const CONFIG_SINCRONIZACAO_SEMAT = {
       /* Flag de controle de alta performance:
@@ -29943,6 +30441,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                 <option value="Gabinete / URE">Gabinete / URE</option>
                 <option value="SEINTEC">SEINTEC (Tecnologia)</option>
                 <option value="SEAFIN">SEAFIN (Serviço de Administração e Finanças)</option>
+                <option value="SEOM">SEOM (Obras, Manutenção e Frota)</option>
                 <option value="SEGRE">SEGRE (Serviço de Gestão da Rede Escolar)</option>
                 <option value="CRH">CRH (Recursos Humanos)</option>
                 <option value="NPE">NPE (Núcleo Pedagógico)</option>
@@ -30040,6 +30539,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                 <option value="Gabinete da Dirigente">Gabinete da Dirigente</option>
                 <option value="Supervisão de Ensino">Supervisão de Ensino</option>
                 <option value="SEAFIN - Serviço de Administração e Finanças">SEAFIN</option>
+                <option value="SEOM - Obras, Manutenção e Frota">SEOM</option>
                 <option value="SEINTEC - Tecnologia">SEINTEC</option>
                 <option value="SEGRE - Gestão Escolar">SEGRE</option>
                 <option value="CRH - Recursos Humanos">CRH</option>
