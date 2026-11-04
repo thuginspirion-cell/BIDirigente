@@ -9211,15 +9211,15 @@ function imprimirAgendaCarro() {
       gap: 0.35rem;
     }
     .btn-secomse-cat:hover {
-      border-color: #2563eb;
-      color: #2563eb;
-      background: #eff6ff;
+      border-color: #0b2351;
+      color: #0b2351;
+      background: #f1f5f9;
     }
     .btn-secomse-cat.active {
-      background: #2563eb !important;
-      border-color: #2563eb !important;
+      background: #0b2351 !important;
+      border-color: #0b2351 !important;
       color: #ffffff !important;
-      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3) !important;
+      box-shadow: 0 2px 6px rgba(11, 35, 81, 0.25) !important;
       font-weight: 800 !important;
     }
         /* CARDS & FILTROS DO INVENTÁRIO (HARDWARE / REDE / EDUCATRONS / RECARGA) */
@@ -16977,11 +16977,11 @@ function imprimirAgendaCarro() {
         const isMatch = (btnEl && b === btnEl) || (b.getAttribute('data-cat') === cat);
         if (isMatch) {
           b.classList.add('active');
-          b.style.background = '#2563eb';
+          b.style.background = '#0b2351';
           b.style.color = '#ffffff';
-          b.style.borderColor = '#2563eb';
+          b.style.borderColor = '#0b2351';
           b.style.fontWeight = '800';
-          b.style.boxShadow = '0 2px 8px rgba(37, 99, 235, 0.3)';
+          b.style.boxShadow = '0 2px 6px rgba(11, 35, 81, 0.25)';
         } else {
           b.classList.remove('active');
           b.style.background = '#ffffff';
@@ -17360,10 +17360,10 @@ function imprimirAgendaCarro() {
           <!-- SELETOR DE EXERCÍCIO -->
           <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.2rem;">
             <span style="font-size: 0.78rem; font-weight: 800; color: #475569; text-transform: uppercase;">Exercício:</span>
-            <button onclick="mudarExercicioSecomse('2026')" style="padding: 6px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: 0.2s; border: 1.5px solid ${ano === '2026' ? '#2563eb' : '#cbd5e1'}; background: ${ano === '2026' ? '#2563eb' : '#ffffff'}; color: ${ano === '2026' ? '#ffffff' : '#334155'}; box-shadow: ${ano === '2026' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'};">
+            <button onclick="mudarExercicioSecomse('2026')" style="padding: 6px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: 0.2s; border: 1.5px solid ${ano === '2026' ? '#0b2351' : '#cbd5e1'}; background: ${ano === '2026' ? '#0b2351' : '#ffffff'}; color: ${ano === '2026' ? '#ffffff' : '#334155'}; box-shadow: ${ano === '2026' ? '0 2px 6px rgba(11, 35, 81, 0.25)' : 'none'};">
               🚀 Exercício 2026 (57 Contratos)
             </button>
-            <button onclick="mudarExercicioSecomse('2025')" style="padding: 6px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: 0.2s; border: 1.5px solid ${ano === '2025' ? '#2563eb' : '#cbd5e1'}; background: ${ano === '2025' ? '#2563eb' : '#ffffff'}; color: ${ano === '2025' ? '#ffffff' : '#334155'}; box-shadow: ${ano === '2025' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'};">
+            <button onclick="mudarExercicioSecomse('2025')" style="padding: 6px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: 0.2s; border: 1.5px solid ${ano === '2025' ? '#0b2351' : '#cbd5e1'}; background: ${ano === '2025' ? '#0b2351' : '#ffffff'}; color: ${ano === '2025' ? '#ffffff' : '#334155'}; box-shadow: ${ano === '2025' ? '0 2px 6px rgba(11, 35, 81, 0.25)' : 'none'};">
               📜 Exercício 2025 (25 Contratos)
             </button>
           </div>
@@ -17425,11 +17425,11 @@ function imprimirAgendaCarro() {
               <!-- Categorias -->
               <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;">
                 <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-right: 0.25rem;">Categorias:</span>
-                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'TODOS' ? 'active' : ''}" data-cat="TODOS" onclick="mudarCategoriaSecomse('TODOS', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'TODOS' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'TODOS' ? '#2563eb' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'TODOS' ? '#2563eb' : '#ffffff'}; color: ${estadoSecomse.categoria === 'TODOS' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'TODOS' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'}; transition: all 0.15s ease;">Todas</button>
-                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Transporte Escolar' ? 'active' : ''}" data-cat="Transporte Escolar" onclick="mudarCategoriaSecomse('Transporte Escolar', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Transporte Escolar' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Transporte Escolar' ? '#2563eb' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Transporte Escolar' ? '#2563eb' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Transporte Escolar' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Transporte Escolar' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'}; transition: all 0.15s ease;">🚌 Transporte</button>
-                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Manutenção e Conservação' ? 'active' : ''}" data-cat="Manutenção e Conservação" onclick="mudarCategoriaSecomse('Manutenção e Conservação', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#2563eb' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#2563eb' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'}; transition: all 0.15s ease;">🔧 Manutenção</button>
-                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? 'active' : ''}" data-cat="Vigilância e Limpeza" onclick="mudarCategoriaSecomse('Vigilância e Limpeza', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#2563eb' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#2563eb' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'}; transition: all 0.15s ease;">🛡️ Vigilância/Limpeza</button>
-                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Alimentação e Insumos' ? 'active' : ''}" data-cat="Alimentação e Insumos" onclick="mudarCategoriaSecomse('Alimentação e Insumos', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#2563eb' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#2563eb' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '0 2px 8px rgba(37, 99, 235, 0.3)' : 'none'}; transition: all 0.15s ease;">🍎 Merenda/Insumos</button>
+                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'TODOS' ? 'active' : ''}" data-cat="TODOS" onclick="mudarCategoriaSecomse('TODOS', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'TODOS' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'TODOS' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'TODOS' ? '#0b2351' : '#ffffff'}; color: ${estadoSecomse.categoria === 'TODOS' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'TODOS' ? '0 2px 6px rgba(11, 35, 81, 0.25)' : 'none'}; transition: all 0.15s ease;">Todas</button>
+                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Transporte Escolar' ? 'active' : ''}" data-cat="Transporte Escolar" onclick="mudarCategoriaSecomse('Transporte Escolar', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Transporte Escolar' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Transporte Escolar' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Transporte Escolar' ? '#0b2351' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Transporte Escolar' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Transporte Escolar' ? '0 2px 6px rgba(11, 35, 81, 0.25)' : 'none'}; transition: all 0.15s ease;">🚌 Transporte</button>
+                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Manutenção e Conservação' ? 'active' : ''}" data-cat="Manutenção e Conservação" onclick="mudarCategoriaSecomse('Manutenção e Conservação', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#0b2351' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '0 2px 6px rgba(11, 35, 81, 0.25)' : 'none'}; transition: all 0.15s ease;">🔧 Manutenção</button>
+                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? 'active' : ''}" data-cat="Vigilância e Limpeza" onclick="mudarCategoriaSecomse('Vigilância e Limpeza', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#0b2351' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '0 2px 6px rgba(11, 35, 81, 0.25)' : 'none'}; transition: all 0.15s ease;">🛡️ Vigilância/Limpeza</button>
+                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Alimentação e Insumos' ? 'active' : ''}" data-cat="Alimentação e Insumos" onclick="mudarCategoriaSecomse('Alimentação e Insumos', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#0b2351' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '0 2px 6px rgba(11, 35, 81, 0.25)' : 'none'}; transition: all 0.15s ease;">🍎 Merenda/Insumos</button>
               </div>
 
               <!-- Busca rápida -->
