@@ -43,10 +43,10 @@ async function syncSharepointData() {
 
   function parsearDataXlsx(valCandidate) {
     if (!valCandidate) return null;
-    if (typeof valCandidate === 'number' && valCandidate >= 40000 && valCandidate <= 50000) {
+    if (typeof valCandidate === 'number' && valCandidate >= 30000 && valCandidate <= 65000) {
       if (XLSX.SSF && typeof XLSX.SSF.parse_date_code === 'function') {
         const p = XLSX.SSF.parse_date_code(valCandidate);
-        if (p && p.y >= 2026) {
+        if (p && p.y >= 2020 && p.y <= 2030 && p.m >= 1 && p.m <= 12 && p.d >= 1 && p.d <= 31) {
           return {
             ano: p.y,
             mes: p.m,
@@ -56,11 +56,10 @@ async function syncSharepointData() {
         }
       }
       var d = new Date(Math.round((valCandidate - 25569) * 86400 * 1000));
-      // Corrige offset de timezone UTC vs Brasil
       var utcYear = d.getUTCFullYear();
       var utcMonth = d.getUTCMonth() + 1;
       var utcDay = d.getUTCDate();
-      if (utcYear >= 2026) {
+      if (utcYear >= 2020 && utcYear <= 2030) {
         return {
           ano: utcYear,
           mes: utcMonth,
@@ -72,17 +71,29 @@ async function syncSharepointData() {
       var strCandidate = String(valCandidate).trim();
       var m = strCandidate.match(/(\d{1,2})[/-](\d{1,2})[/-]?(\d{2,4})?/);
       if (m && m[1] && m[2]) {
+        var n1 = parseInt(m[1], 10);
+        var n2 = parseInt(m[2], 10);
         var y = m[3] ? parseInt(m[3], 10) : 2026;
         if (y < 100) y += 2000;
-        if (y < 2026) y = 2026;
-        var dia = parseInt(m[1], 10);
-        var mes = parseInt(m[2], 10);
-        return {
-          ano: y,
-          mes: mes,
-          dia: dia,
-          dtStr: String(dia).padStart(2, '0') + '/' + String(mes).padStart(2, '0') + '/' + y
-        };
+        var dia, mes;
+        if (n1 > 12) {
+          dia = n1;
+          mes = n2;
+        } else if (n2 > 12) {
+          dia = n2;
+          mes = n1;
+        } else {
+          dia = n1;
+          mes = n2;
+        }
+        if (mes >= 1 && mes <= 12 && dia >= 1 && dia <= 31 && y >= 2020 && y <= 2030) {
+          return {
+            ano: y,
+            mes: mes,
+            dia: dia,
+            dtStr: String(dia).padStart(2, '0') + '/' + String(mes).padStart(2, '0') + '/' + y
+          };
+        }
       }
     }
     return null;
@@ -99,45 +110,25 @@ async function syncSharepointData() {
   const chamados2026 = [];
 
   rawRows.forEach((r, idx) => {
-    var candidatesAbertura = [
-      r['Data de Abertura'],
-      r['Data Abertura'],
-      r['Data do Chamado'],
-      r['Data de Solicitação'],
-      r['Carimbo de data/hora'],
-      r['Hora de início'],
-      r['10.Data de Inicio do Problema ']
-    ];
-    var candidatesVisita = [
-      r['Data de Atendimento'],
-      r['Data Atendimento'],
-      r['Data Visita'],
-      r['Hora de conclusão']
-    ];
+    // 1. Data Oficial de Abertura: Timestamp do sistema (Hora de conclusão = envio no Forms, ou Carimbo de data/hora, ou Hora de início)
+    var timestampOficial = r['Hora de conclusão'] || r['Carimbo de data/hora'] || r['Hora de início'] || r['Data de Abertura'] || r['Data Abertura'] || r['Data do Chamado'];
+    var bestDateAbertura = parsearDataXlsx(timestampOficial);
 
-    var bestDateAbertura = null;
-    for (var c = 0; c < candidatesAbertura.length; c++) {
-      bestDateAbertura = parsearDataXlsx(candidatesAbertura[c]);
-      if (bestDateAbertura) break;
+    // 2. Data Oficial de Atendimento / Visita Técnica
+    var visitaOficial = r['Data Visita'] || r['Data de Atendimento'] || r['Data Atendimento'];
+    var bestDateVisita = parsearDataXlsx(visitaOficial);
+
+    // Se não encontrou no timestamp oficial nem na visita, tenta a coluna de relato de início do problema (sem forçar ano)
+    if (!bestDateAbertura && !bestDateVisita) {
+      bestDateAbertura = parsearDataXlsx(r['10.Data de Inicio do Problema ']);
     }
 
-    var bestDateVisita = null;
-    for (var v = 0; v < candidatesVisita.length; v++) {
-      bestDateVisita = parsearDataXlsx(candidatesVisita[v]);
-      if (bestDateVisita) break;
-    }
-
+    // Considerar apenas registros com data de referência estritamente no ano vigente de 2026
     var dataFinalObj = bestDateAbertura || bestDateVisita;
-    if (!dataFinalObj || dataFinalObj.ano < 2026) return;
+    if (!dataFinalObj || dataFinalObj.ano !== 2026) return;
 
-    var dtStr = dataFinalObj.dtStr;
-
-    var dtVisitaStr = '';
-    if (bestDateVisita) {
-      dtVisitaStr = bestDateVisita.dtStr;
-    } else if (r['Data Visita'] || r['Data Atendimento']) {
-      dtVisitaStr = String(r['Data Visita'] || r['Data Atendimento']).trim();
-    }
+    var dtStr = bestDateAbertura ? bestDateAbertura.dtStr : (bestDateVisita ? bestDateVisita.dtStr : '');
+    var dtVisitaStr = bestDateVisita ? bestDateVisita.dtStr : '';
 
     const relato = String(r['11.Relato do problema ou solicitação:'] || r['Relato'] || r['Demanda'] || '').trim();
     const rawCie = String(r['3.CODIGO CIE'] || '').trim().replace(/[^0-9]/g, '');
@@ -175,7 +166,8 @@ async function syncSharepointData() {
     chamados2026.push({
       id: 'CALL-' + (idx + 1),
       data: dtStr,
-      dataAtendimento: dtVisitaStr || dtStr,
+      dataAtendimento: dtVisitaStr || '',
+      dataVisita: dtVisitaStr || '',
       escola: nomeFinal,
       cie: ciePad,
       tipo: tipo,
