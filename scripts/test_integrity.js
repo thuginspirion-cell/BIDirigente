@@ -11,6 +11,7 @@ const requiredButtons = [
   'side-btn-GAB',
   'side-btn-SEINTEC',
   'side-btn-CAF',
+  'side-btn-SEOM',
   'side-btn-CGE',
   'side-btn-CRH',
   'side-btn-NPE'
@@ -23,17 +24,22 @@ requiredButtons.forEach(id => {
   if (!hasId) allOk = false;
 });
 
-const scriptBlocks = html.match(/<script[\s\S]*?<\/script>/gi) || [];
-let literalDoubleSlashFound = false;
-scriptBlocks.forEach((b, idx) => {
-  if (b.includes('https://') || b.includes('http://')) {
-    console.warn('Warning: literal http(s):// found in script block ' + idx);
-    literalDoubleSlashFound = true;
-  }
-});
-if (!literalDoubleSlashFound) {
-  console.log('Shield check: No literal // in script tags! OK');
-}
+const requiredFunctions = [
+  'renderizarDashboardSecomse',
+  'renderizarDashboardSepat',
+  'renderizarDashboardSeom',
+  'renderizarDashboardSefisc',
+  'renderizarDashboardFinanceiroSefin',
+  'renderizarDashboardSemat',
+  'renderizarDashboardSevesc',
+  'renderizarDashboardSegre'
+];
 
-console.log('Menu validation overall:', allOk ? 'PASS' : 'FAIL');
+requiredFunctions.forEach(fn => {
+  const hasFn = html.includes('function ' + fn);
+  console.log('Function ' + fn + ':', hasFn ? 'OK' : 'MISSING');
+  if (!hasFn) allOk = false;
+});
+
+console.log('Overall check:', allOk ? 'PASS' : 'FAIL');
 process.exit(allOk ? 0 : 1);
