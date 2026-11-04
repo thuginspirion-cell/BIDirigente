@@ -94,7 +94,7 @@ function include(filename) {
  * MOTOR UNIVERSAL DE RESOLUÇÃO PÚBLICA DO SHAREPOINT (ANTI-LOGIN RESILIENTE)
  * REGRA FUNDAMENTAL DO PROJETO:
  * Todos os arquivos, pastas e planilhas públicas compartilhadas por qualquer
- * setor da Diretoria de Ensino (SEINTEC, SEFIN/CAF, CRH, CGE, NPE, GAB, etc.)
+ * setor da Diretoria de Ensino (SEINTEC, SEAFIN, SEOM, SEGRE, SEPES, EEC, ASURE, etc.)
  * devem ser sincronizados sem interrupções e sem exigir login, preservando os
  * cookies anônimos de visitante e ativando a base de contingência transparente.
  * =========================================================================
@@ -514,7 +514,7 @@ function sincronizarPlanilhaSegre(forcarBruto) {
   // Modo Bruto / Reversão
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_segre_educacao_sp_gov_br/cQouoXOHq3vgRIXANB5q2uJjEgUCzXuNPLJKVLwuVFU2EtFcnw?download=1";
   return obterArquivoPublicoSharepoint(url, {
-    nomeSetor: "SEGRE / CGE",
+    nomeSetor: "SEGRE",
     descricaoBase: "Livro Entrada 2026 SEGRE"
   });
 }
@@ -591,7 +591,7 @@ function sincronizarInventarioSharepoint() {
 
 /**
  * Sincronização Universal para Novos Setores e Arquivos Futuros do SharePoint
- * Permite que qualquer setor (CRH, CGE, NPE, GAB, etc.) integre novas planilhas públicas instantaneamente
+ * Permite que qualquer setor (SEINTEC, SEAFIN, SEOM, SEGRE, SEPES, EEC, ASURE, etc.) integre novas planilhas públicas instantaneamente
  */
 function sincronizarArquivoGenericoSharepoint(url, nomeSetor, descricao) {
   return obterArquivoPublicoSharepoint(url, {

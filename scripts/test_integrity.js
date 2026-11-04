@@ -8,13 +8,13 @@ const requiredButtons = [
   'side-btn-carro',
   'side-btn-visitas',
   'side-btn-escolas',
-  'side-btn-GAB',
+  'side-btn-ASURE',
   'side-btn-SEINTEC',
   'side-btn-CAF',
   'side-btn-SEOM',
-  'side-btn-CGE',
-  'side-btn-CRH',
-  'side-btn-NPE'
+  'side-btn-SEGRE',
+  'side-btn-SEPES',
+  'side-btn-EEC'
 ];
 
 let allOk = true;
