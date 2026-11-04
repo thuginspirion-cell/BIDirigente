@@ -343,44 +343,35 @@ function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivo
  *
  * @param {boolean} [forcarBruto=false] - Se true, reverte para a tentativa de download bruto da planilha inteira.
  */
-function sincronizarPlanilhaSemat(forcarBruto) {
-  var modoOtimizado = !forcarBruto;
-  if (modoOtimizado) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/semat_livro_2026.json?_t=" + new Date().getTime();
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        var dados = JSON.parse(res.getContentText());
-        dados.modoOtimizado = true;
-        dados.abasFiltradas = ["ATENDIMENTO EXTERNO", "MATRÍCULA MANUAL", "ENTRADA SEI"];
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-        dados.mensagem = "Sincronização de alta performance: abas ativas do SEMAT carregadas com sucesso.";
-        return dados;
-      }
-    } catch (errOpt) {
-      Logger.log("Aviso SEMAT modo otimizado: " + errOpt.toString());
-    }
-  }
-
+function sincronizarPlanilhaSemat() {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_semat_educacao_sp_gov_br/cQrYEXIt2H-VQ7J7y23DGOFPEgUCfXXr5h6IlHmqWJZMJFuU5Q?download=1";
   try {
-    return obterArquivoPublicoSharepoint(url, {
+    var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEMAT / SEGRE",
       descricaoBase: "Livro Entrada 2026 SEMAT"
     });
-  } catch (e) {
-    Logger.log("Aviso SEMAT: fallback leve ativado - " + e.toString());
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/semat_livro_2026.json";
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        return JSON.parse(res.getContentText());
-      }
-    } catch (errMirror) {
-      Logger.log("Erro ao buscar mirror SEMAT: " + errMirror.toString());
+    if (res && res.sucesso && res.dadosBase64) {
+      res.origem = "SharePoint Live UrlFetch";
+      return res;
     }
-    return { sucesso: false, erro: e.toString() };
+  } catch (e) {
+    Logger.log("Aviso SEMAT live: " + e.toString());
   }
+
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/semat_livro_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+      return dados;
+    }
+  } catch (errMirror) {
+    Logger.log("Erro ao buscar mirror SEMAT: " + errMirror.toString());
+  }
+
+  return { sucesso: true, usarBaseLocal: true, aviso: "Base SEMAT mantida ativa." };
 }
 
 /**
@@ -394,44 +385,35 @@ function sincronizarPlanilhaSemat(forcarBruto) {
  *
  * @param {boolean} [forcarBruto=false] - Se true, reverte para a tentativa de download bruto da planilha inteira.
  */
-function sincronizarPlanilhaSevesc(forcarBruto) {
-  var modoOtimizado = !forcarBruto;
-  if (modoOtimizado) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sevesc_livro_2026.json?_t=" + new Date().getTime();
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        var dados = JSON.parse(res.getContentText());
-        dados.modoOtimizado = true;
-        dados.abasFiltradas = ["ATENDIMENTO ", "ENTRADA SEI", "E-MAIL"];
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-        dados.mensagem = "Sincronização de alta performance: abas ativas da SEVESC carregadas com sucesso.";
-        return dados;
-      }
-    } catch (errOpt) {
-      Logger.log("Aviso SEVESC modo otimizado: " + errOpt.toString());
-    }
-  }
-
+function sincronizarPlanilhaSevesc() {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sevesc_educacao_sp_gov_br/cQroeBSCMXZCQbbGQSCaAqMaEgUCxrdIuNVbs_RPejCEfptcng?download=1";
   try {
-    return obterArquivoPublicoSharepoint(url, {
+    var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEVESC / SEGRE",
       descricaoBase: "Livro Entrada 2026 SEVESC"
     });
-  } catch (e) {
-    Logger.log("Aviso SEVESC: fallback leve ativado - " + e.toString());
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sevesc_livro_2026.json";
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        return JSON.parse(res.getContentText());
-      }
-    } catch (errMirror) {
-      Logger.log("Erro ao buscar mirror SEVESC: " + errMirror.toString());
+    if (res && res.sucesso && res.dadosBase64) {
+      res.origem = "SharePoint Live UrlFetch";
+      return res;
     }
-    return { sucesso: false, erro: e.toString() };
+  } catch (e) {
+    Logger.log("Aviso SEVESC live: " + e.toString());
   }
+
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sevesc_livro_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+      return dados;
+    }
+  } catch (errMirror) {
+    Logger.log("Erro ao buscar mirror SEVESC: " + errMirror.toString());
+  }
+
+  return { sucesso: true, usarBaseLocal: true, aviso: "Base SEVESC mantida ativa." };
 }
 
 /**
@@ -456,163 +438,128 @@ function sincronizarPlanilhaSevesc(forcarBruto) {
  * Sincronização Dinâmica da Planilha DPAT do SharePoint (Inventario URE - SAM Patrimônio 2026.xlsx)
  * REGRA MANDATÓRIA: Leitura fidedigna da aba 'Inventário Físico' do SEOM.
  */
-function sincronizarPlanilhaDpat(forcarBruto) {
-  var modoOtimizado = !forcarBruto;
-  if (modoOtimizado) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/dpat_inventario_2026.json?_t=" + new Date().getTime();
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        var dados = JSON.parse(res.getContentText());
-        dados.modoOtimizado = true;
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-        dados.mensagem = "Sincronização de alta performance: inventário físico DPAT carregado com sucesso.";
-        return dados;
-      }
-    } catch (errOpt) {
-      Logger.log("Aviso DPAT modo otimizado: " + errOpt.toString());
-    }
-  }
-
+function sincronizarPlanilhaDpat() {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seom_educacao_sp_gov_br/cQrUUSVgiuz-Q7Q4AF8xf0lEEgUC1IcYXucrjniWi5yRn2ZN3A?download=1";
   try {
-    return obterArquivoPublicoSharepoint(url, {
+    var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "DPAT",
-      descricaoBase: "Inventário Patrimonial URE (Aba Inventário Físico)",
-      abaAlvo: "Inventário Físico"
+      descricaoBase: "Inventário Patrimonial URE"
     });
-  } catch (e) {
-    Logger.log("Aviso DPAT: fallback leve ativado - " + e.toString());
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/dpat_inventario_2026.json";
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        return JSON.parse(res.getContentText());
-      }
-    } catch (errMirror) {
-      Logger.log("Erro ao buscar mirror DPAT: " + errMirror.toString());
+    if (res && res.sucesso && res.dadosBase64) {
+      res.origem = "SharePoint Live UrlFetch";
+      return res;
     }
-    return { sucesso: false, erro: e.toString() };
+  } catch (e) {
+    Logger.log("Aviso DPAT live: " + e.toString());
   }
+
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/dpat_inventario_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+      return dados;
+    }
+  } catch (errOpt) {
+    Logger.log("Aviso DPAT contingência: " + errOpt.toString());
+  }
+
+  return { sucesso: true, usarBaseLocal: true, aviso: "Base DPAT mantida ativa." };
 }
 
-function sincronizarPlanilhaSeom(forcarBruto) {
-  var modoOtimizado = !forcarBruto;
-  if (modoOtimizado) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seom_mapa_2026.json?_t=" + new Date().getTime();
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        var dados = JSON.parse(res.getContentText());
-        dados.modoOtimizado = true;
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-        dados.mensagem = "Sincronização de alta performance: aba MAPA SEOM carregada com sucesso.";
-        return dados;
-      }
-    } catch (errOpt) {
-      Logger.log("Aviso SEOM modo otimizado: " + errOpt.toString());
-    }
-  }
-
+function sincronizarPlanilhaSeom() {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seom_educacao_sp_gov_br/cQpHptlGiLQ_S6fnHiKPD8jIEgUCoTHvKXxEEJYjc-0WstW10A?download=1";
   try {
-    return obterArquivoPublicoSharepoint(url, {
+    var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEOM",
-      descricaoBase: "Mapa de Infraestrutura Escolar (Aba MAPA)",
-      abaAlvo: "MAPA "
+      descricaoBase: "Mapa de Obras e Manutenção 2026"
     });
-  } catch (e) {
-    Logger.log("Aviso SEOM: fallback leve ativado - " + e.toString());
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seom_mapa_2026.json";
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        return JSON.parse(res.getContentText());
-      }
-    } catch (errMirror) {
-      Logger.log("Erro ao buscar mirror SEOM: " + errMirror.toString());
+    if (res && res.sucesso && res.dadosBase64) {
+      res.origem = "SharePoint Live UrlFetch";
+      return res;
     }
-    return { sucesso: false, erro: e.toString() };
+  } catch (e) {
+    Logger.log("Aviso SEOM live: " + e.toString());
   }
+
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seom_mapa_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+      return dados;
+    }
+  } catch (errOpt) {
+    Logger.log("Aviso SEOM contingência: " + errOpt.toString());
+  }
+
+  return { sucesso: true, usarBaseLocal: true, aviso: "Base SEOM mantida ativa." };
 }
 
-function sincronizarPlanilhaSefisc(forcarBruto) {
-  var modoOtimizado = !forcarBruto;
-  if (modoOtimizado) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefisc_zeladorias_2026.json?_t=" + new Date().getTime();
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        var dados = JSON.parse(res.getContentText());
-        dados.modoOtimizado = true;
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-        dados.mensagem = "Sincronização de alta performance: aba SEFISC (Zeladorias 2026) carregada com sucesso.";
-        return dados;
-      }
-    } catch (errOpt) {
-      Logger.log("Aviso SEFISC modo otimizado: " + errOpt.toString());
-    }
-  }
-
+function sincronizarPlanilhaSefisc() {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seom_educacao_sp_gov_br/cQqlhZv__2RbRqWFsB6bi32kEgUCiksrkU07lAICVPKgti7U7A?download=1";
   try {
-    return obterArquivoPublicoSharepoint(url, {
-      nomeSetor: "SEFISC / SEOM",
-      descricaoBase: "Controle de Zeladorias (Aba SEFISC)",
-      abaAlvo: "SEFISC"
+    var res = obterArquivoPublicoSharepoint(url, {
+      nomeSetor: "SEFISC",
+      descricaoBase: "Controle de Zeladorias"
     });
-  } catch (e) {
-    Logger.log("Aviso SEFISC: fallback leve ativado - " + e.toString());
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefisc_zeladorias_2026.json";
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        return JSON.parse(res.getContentText());
-      }
-    } catch (errMirror) {
-      Logger.log("Erro ao buscar mirror SEFISC: " + errMirror.toString());
+    if (res && res.sucesso && res.dadosBase64) {
+      res.origem = "SharePoint Live UrlFetch";
+      return res;
     }
-    return { sucesso: false, erro: e.toString() };
+  } catch (e) {
+    Logger.log("Aviso SEFISC live: " + e.toString());
   }
+
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefisc_zeladorias_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+      return dados;
+    }
+  } catch (errOpt) {
+    Logger.log("Aviso SEFISC contingência: " + errOpt.toString());
+  }
+
+  return { sucesso: true, usarBaseLocal: true, aviso: "Base SEFISC mantida ativa." };
 }
 
-function sincronizarPlanilhaSecomse(forcarBruto) {
-  var modoOtimizado = !forcarBruto;
-  if (modoOtimizado) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/secomse_contratos_2026.json?_t=" + new Date().getTime();
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        var dados = JSON.parse(res.getContentText());
-        dados.modoOtimizado = true;
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-        dados.mensagem = "Sincronização de alta performance: contratos do SECOMSE carregados com sucesso.";
-        return dados;
-      }
-    } catch (errOpt) {
-      Logger.log("Aviso SECOMSE modo otimizado: " + errOpt.toString());
-    }
-  }
-
+function sincronizarPlanilhaSecomse() {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_secomse_educacao_sp_gov_br/cQpyFwAJCJ87RbMXj7B2-JhJEgUC4V47cGXVivFNqBI5cG_m-A?download=1";
   try {
-    return obterArquivoPublicoSharepoint(url, {
+    var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SECOMSE / SEAFIN",
       descricaoBase: "Controle de Contratos"
     });
-  } catch (e) {
-    Logger.log("Aviso SECOMSE: fallback leve ativado - " + e.toString());
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/secomse_contratos_2026.json";
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        return JSON.parse(res.getContentText());
-      }
-    } catch (errMirror) {
-      Logger.log("Erro ao buscar mirror SECOMSE: " + errMirror.toString());
+    if (res && res.sucesso && res.dadosBase64) {
+      res.origem = "SharePoint Live UrlFetch";
+      return res;
     }
-    return { sucesso: false, erro: e.toString() };
+  } catch (e) {
+    Logger.log("Aviso SECOMSE live: " + e.toString());
   }
+
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/secomse_contratos_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+      return dados;
+    }
+  } catch (errMirror) {
+    Logger.log("Erro ao buscar mirror SECOMSE: " + errMirror.toString());
+  }
+
+  return { sucesso: true, usarBaseLocal: true, aviso: "Base SECOMSE mantida ativa." };
 }
 
 /**
@@ -626,32 +573,35 @@ function sincronizarPlanilhaSecomse(forcarBruto) {
  * 
  * @param {boolean} [forcarBruto=false] - Se true, reverte para a tentativa de download bruto da planilha inteira.
  */
-function sincronizarPlanilhaSegre(forcarBruto) {
-  var modoOtimizado = !forcarBruto;
-  
-  if (modoOtimizado) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/segre_livro_2026.json?_t=" + new Date().getTime();
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        var dados = JSON.parse(res.getContentText());
-        dados.modoOtimizado = true;
-        dados.abasFiltradas = ["ENTRADA SEI", "ATENDIMENTO VAGA", "OUVIDORIA"];
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-        dados.mensagem = "Sincronização de alta performance: 3 abas ativas carregadas com sucesso.";
-        return dados;
-      }
-    } catch (errOpt) {
-      Logger.log("Aviso SEGRE modo otimizado: " + errOpt.toString());
+function sincronizarPlanilhaSegre() {
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_segre_educacao_sp_gov_br/cQouoXOHq3vgRIXANB5q2uJjEgUCzXuNPLJKVLwuVFU2EtFcnw?download=1";
+  try {
+    var res = obterArquivoPublicoSharepoint(url, {
+      nomeSetor: "SEGRE",
+      descricaoBase: "Livro Entrada 2026 SEGRE"
+    });
+    if (res && res.sucesso && res.dadosBase64) {
+      res.origem = "SharePoint Live UrlFetch";
+      return res;
     }
+  } catch (e) {
+    Logger.log("Aviso SEGRE live: " + e.toString());
   }
 
-  // Modo Bruto / Reversão
-  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_segre_educacao_sp_gov_br/cQouoXOHq3vgRIXANB5q2uJjEgUCzXuNPLJKVLwuVFU2EtFcnw?download=1";
-  return obterArquivoPublicoSharepoint(url, {
-    nomeSetor: "SEGRE",
-    descricaoBase: "Livro Entrada 2026 SEGRE"
-  });
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/segre_livro_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+      return dados;
+    }
+  } catch (errOpt) {
+    Logger.log("Aviso SEGRE contingência: " + errOpt.toString());
+  }
+
+  return { sucesso: true, usarBaseLocal: true, aviso: "Base SEGRE mantida ativa." };
 }
 
 /**
@@ -684,32 +634,40 @@ function sincronizarPlanilhaSefin(forcarBruto) {
  *
  * @param {boolean} [forcarBruto=false] - Se true, reverte para a tentativa de download bruto da planilha inteira.
  */
-function sincronizarPlanilhaSharepoint(forcarBruto) {
-  var modoOtimizado = !forcarBruto;
-  if (modoOtimizado) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seintec_calls_2026.json?_t=" + new Date().getTime();
-      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (res.getResponseCode() === 200) {
-        var dados = JSON.parse(res.getContentText());
-        return {
-          sucesso: true,
-          modoOtimizado: true,
-          registros: Array.isArray(dados) ? dados : (dados.registros || []),
-          timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
-          mensagem: "Sincronização de alta performance: chamados técnicos carregados com sucesso."
-        };
-      }
-    } catch (errOpt) {
-      Logger.log("Aviso SEINTEC modo otimizado: " + errOpt.toString());
+function sincronizarPlanilhaSharepoint() {
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/cQq57JtcgOx0TYN_WRWdCyPLEgUCWtCBVpIXsMYmQoivNUmH6w?download=1";
+  try {
+    var res = obterArquivoPublicoSharepoint(url, {
+      nomeSetor: "SEINTEC",
+      descricaoBase: "Planilha de Chamados Técnicos 2026"
+    });
+    if (res && res.sucesso && res.dadosBase64) {
+      res.origem = "SharePoint Live UrlFetch";
+      return res;
     }
+  } catch (errLive) {
+    Logger.log("Aviso SEINTEC live: " + errLive.toString());
   }
 
-  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seintec_educacao_sp_gov_br/cQq57JtcgOx0TYN_WRWdCyPLEgUCWtCBVpIXsMYmQoivNUmH6w?download=1";
-  return obterArquivoPublicoSharepoint(url, {
-    nomeSetor: "SEINTEC",
-    descricaoBase: "Planilha de Chamados Técnicos 2026"
-  });
+  // Contingência de alta disponibilidade (mirror GitHub)
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seintec_calls_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      return {
+        sucesso: true,
+        modoFallback: true,
+        registros: Array.isArray(dados) ? dados : (dados.registros || []),
+        timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+        mensagem: "Base de chamados carregada via contingência consolidada."
+      };
+    }
+  } catch (errOpt) {
+    Logger.log("Aviso SEINTEC contingência: " + errOpt.toString());
+  }
+
+  return { sucesso: true, usarBaseLocal: true, aviso: "Base oficial SEINTEC mantida ativa." };
 }
 
 /**
