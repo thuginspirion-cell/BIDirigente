@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -14319,6 +14319,11 @@ function imprimirAgendaCarro() {
       lrf: 'https:' + String.fromCharCode(47, 47) + 'www.planalto.gov.br/ccivil_03/leis/lcp/lcp101.htm'
     };
 
+    const URLS_OFICIAIS_SECOMSE = {
+      sharepoint: ('https:' + String.fromCharCode(47, 47) + 'seesp-my.sharepoint.com/:x:/g/personal/itp_secomse_educacao_sp_gov_br/cQpyFwAJCJ87RbMXj7B2-JhJEgUC4V47cGXVivFNqBI5cG_m-A?rtime=1RW0RI0630g'),
+      mirrorData: ('https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/secomse_contratos_2026.json')
+    };
+
     // Estrutura Hierárquica: CENTROS -> SETORES
     const ESTRUTURA_ORGANIZACIONAL = {
       'SEINTEC': {
@@ -14351,7 +14356,8 @@ function imprimirAgendaCarro() {
           {
             sigla: 'SECOMSE',
             nome: 'SECOMSE - Seção de Compras e Serviços',
-            desc: 'Gestão de compras diretas, licitações, atas de registro de preços, contratação de serviços contínuos e suprimentos escolares.'
+            desc: 'Gestão de compras diretas, licitações, atas de registro de preços, contratação de serviços contínuos e suprimentos escolares.',
+            sharepointUrl: URLS_OFICIAIS_SECOMSE.sharepoint
           },
           {
             sigla: 'SEPAT',
@@ -16901,130 +16907,550 @@ function imprimirAgendaCarro() {
     
     // =======================================================
 
+
+    /* ========================================================================= */
+    /* DADOS CONSOLIDADOS SECOMSE - CONTROLE OFICIAL DE CONTRATOS SHAREPOINT     */
+    /* Conta: itp_secomse_educacao_sp_gov_br | Controle de contratos.xlsx        */
+    /* ========================================================================= */
+    let DADOS_SECOMSE = {"sucesso":true,"setor":"SECOMSE","centro":"SEAFIN","nomeSetor":"Seção de Compras e Serviços","descricao":"Controle Oficial de Contratos - SECOMSE","origem":"SharePoint Oficial - itp_secomse_educacao_sp_gov_br","urlOficial":('https:' + String.fromCharCode(47, 47) + 'seesp-my.sharepoint.com/:x:/g/personal/itp_secomse_educacao_sp_gov_br/cQpyFwAJCJ87RbMXj7B2-JhJEgUC4V47cGXVivFNqBI5cG_m-A?rtime=1RW0RI0630g'),"arquivo":"Controle de contratos.xlsx","ultimaAtualizacao":"04/11/2026 13:12:57","kpis":{"totalContratos2026":57,"valorTotal2026":470945.7400000001,"valorTotal2026Formatado":"R$ 470.945,74","totalContratos2025":25,"valorTotal2025":67082611.83,"valorTotal2025Formatado":"R$ 67.082.611,83"},"exerciciosDisponiveis":["2026","2025"],"contratos":{"2025":[{"id":"SECOMSE-2025-1","exercicio":"2025","contrato":"001/2025","processoSei":"015.00473628/2024-38","licitacaoComprasGov":"90001/2025","empresa":"Via Road Transportes LTDA","dataAssinatura":"22/04/2025","mesAssinatura":"Abril","timestampAssinatura":1745290800000,"vigencia":"25/04/2025 a 24/10/2027","valor":19453456.6,"valorFormatado":"R$ 19.453.456,60","publicacaoDoe":"20/05/2025","publicacaoPncp":"22/05/2025","publicacaoJornal":"06/01/2025 e 25/03/2025","publicacaoAudesp":"09/06/2025","licitacaoAudesp":"2025000000008","objeto":"Transporte escolar regular","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-2","exercicio":"2025","contrato":"002/2025","processoSei":"015.00473628/2024-38","licitacaoComprasGov":"90001/2025","empresa":"Torres e Dinis Transporte e Locação LTDA EPP","dataAssinatura":"04/06/2025","mesAssinatura":"Junho","timestampAssinatura":1749006000000,"vigencia":"04/06/2025 a 03/12/2027","valor":34492852.8,"valorFormatado":"R$ 34.492.852,80","publicacaoDoe":"11/06/2025","publicacaoPncp":"12/06/2025","publicacaoJornal":"06/01/2025 e 25/03/2025","publicacaoAudesp":"09/06/2025","licitacaoAudesp":"2025000000008","objeto":"Transporte escolar especial","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-3","exercicio":"2025","contrato":"2025NE00591","processoSei":"015.00398450/2025-10","licitacaoComprasGov":"90002/2025","empresa":"VIBRAT COMERCIO E REPRESENTACOES LTDA","dataAssinatura":"15/05/2025","mesAssinatura":"Maio","timestampAssinatura":1747278000000,"vigencia":"15/05/2025 a 14/06/2025","valor":15806,"valorFormatado":"R$ 15.806,00","publicacaoDoe":"23/05/2025","publicacaoPncp":"23/05/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"09/06/2025","licitacaoAudesp":"2025000000009","objeto":"Óleo","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-4","exercicio":"2025","contrato":"005/2025","processoSei":"015.00768363/2024-53","licitacaoComprasGov":"90023/CISE/2024","empresa":"DALEFRUT COMERCIO DE PRODUTOS ALIMENTICIOS LTDA","dataAssinatura":"13/06/2025","mesAssinatura":"Junho","timestampAssinatura":1749783600000,"vigencia":"13/06/2025 a 12/06/2025","valor":7062.6,"valorFormatado":"R$ 7.062,60","publicacaoDoe":"24/06/2025","publicacaoPncp":"Não se Aplica","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual OMASP","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-5","exercicio":"2025","contrato":"006/2025","processoSei":"015.00503325/2025-38","licitacaoComprasGov":"90016/CISE/2025","empresa":"Direta Serviços Ltda","dataAssinatura":"23/06/2025","mesAssinatura":"Junho","timestampAssinatura":1750647600000,"vigencia":"23/06/2025 a 22/06/2026","valor":24818.87,"valorFormatado":"R$ 24.818,87","publicacaoDoe":"23/06/2025","publicacaoPncp":"Não se Aplica","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche OMASP","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-6","exercicio":"2025","contrato":"2025NE00620","processoSei":"015.00262988/2025-97","licitacaoComprasGov":"0008/2025","empresa":"PORTO SEGURO COMPANHIA DE SEGUROS GERAIS","dataAssinatura":"30/05/2025","mesAssinatura":"Maio","timestampAssinatura":1748574000000,"vigencia":"30/05/2025 a 29/05/2025","valor":3791.11,"valorFormatado":"R$ 3.791,11","publicacaoDoe":"25/06/2025","publicacaoPncp":"26/06/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Seguro predial D.E.","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-7","exercicio":"2025","contrato":"Ata nº 001/2025","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"26/09/2025","mesAssinatura":"Setembro","timestampAssinatura":1758855600000,"vigencia":"29/09/2025 a 28/09/2025","valor":467494.5,"valorFormatado":"R$ 467.494,50","publicacaoDoe":"29/09/2025","publicacaoPncp":"29/09/2025","publicacaoJornal":"20/05/2025 e 28/08/2025","publicacaoAudesp":"30/09/2025","licitacaoAudesp":"2025000000013","objeto":"Ata kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-8","exercicio":"2025","contrato":"2025NE00739","processoSei":"015.00463908/2025-19","licitacaoComprasGov":"90004/2025","empresa":"FORTALEZA COMERCIO E SERVIÇOS LTDA","dataAssinatura":"18/06/2025","mesAssinatura":"Junho","timestampAssinatura":1750215600000,"vigencia":"18/06/2025 a 17/07/2025","valor":777,"valorFormatado":"R$ 777,00","publicacaoDoe":"10/07/2025","publicacaoPncp":"10/07/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Informática","categoria":"Tecnologia","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-9","exercicio":"2025","contrato":"2025NE00740","processoSei":"015.00463908/2025-19","licitacaoComprasGov":"90004/2025","empresa":"52.448.980 EWERTON GOMES SIMOES","dataAssinatura":"18/06/2025","mesAssinatura":"Junho","timestampAssinatura":1750215600000,"vigencia":"18/06/2025 a 17/07/2025","valor":218,"valorFormatado":"R$ 218,00","publicacaoDoe":"10/07/2025","publicacaoPncp":"10/07/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Informática","categoria":"Tecnologia","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-10","exercicio":"2025","contrato":"2025NE00741","processoSei":"015.00463908/2025-19","licitacaoComprasGov":"90004/2025","empresa":"MARCOS PEREIRA SILVA","dataAssinatura":"18/06/2025","mesAssinatura":"Junho","timestampAssinatura":1750215600000,"vigencia":"18/06/2025 a 17/07/2025","valor":476,"valorFormatado":"R$ 476,00","publicacaoDoe":"10/07/2025","publicacaoPncp":"10/07/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Informática","categoria":"Tecnologia","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-11","exercicio":"2025","contrato":"2025NE00742","processoSei":"015.00463908/2025-19","licitacaoComprasGov":"90004/2025","empresa":"42788536 DAVID NEVES DE MELO","dataAssinatura":"18/06/2025","mesAssinatura":"Junho","timestampAssinatura":1750215600000,"vigencia":"18/06/2025 a 17/07/2025","valor":140,"valorFormatado":"R$ 140,00","publicacaoDoe":"10/07/2025","publicacaoPncp":"10/07/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Informática","categoria":"Tecnologia","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-12","exercicio":"2025","contrato":"2025NE00743","processoSei":"015.00463908/2025-19","licitacaoComprasGov":"90004/2025","empresa":"52.448.980 EWERTON GOMES SIMOES","dataAssinatura":"18/06/2025","mesAssinatura":"Junho","timestampAssinatura":1750215600000,"vigencia":"18/06/2025 a 17/07/2025","valor":89.6,"valorFormatado":"R$ 89,60","publicacaoDoe":"10/07/2025","publicacaoPncp":"10/07/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Informática","categoria":"Tecnologia","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-13","exercicio":"2025","contrato":"2025NE00744","processoSei":"015.00463908/2025-19","licitacaoComprasGov":"90004/2025","empresa":"MARIA EDUARDA CALDAS BARACHO","dataAssinatura":"24/06/2025","mesAssinatura":"Junho","timestampAssinatura":1750734000000,"vigencia":"24/06/2025 a 23/07/2025","valor":536,"valorFormatado":"R$ 536,00","publicacaoDoe":"10/07/2025","publicacaoPncp":"10/07/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Informática","categoria":"Tecnologia","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-14","exercicio":"2025","contrato":"2025NE00774","processoSei":"015.00510489/2025-11","licitacaoComprasGov":"90005/2025","empresa":"B2M VENDAS E SERVICOS LTDA","dataAssinatura":"01/07/2025","mesAssinatura":"Julho","timestampAssinatura":1751338800000,"vigencia":"01/07/2025 a 30/07/2025","valor":1656,"valorFormatado":"R$ 1.656,00","publicacaoDoe":"10/07/2025","publicacaoPncp":"10/07/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Café","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-15","exercicio":"2025","contrato":"2025NE00775","processoSei":"015.00528507/2025-11","licitacaoComprasGov":"90006/2025","empresa":"A2G COMERCIAL LTDA","dataAssinatura":"01/07/2025","mesAssinatura":"Julho","timestampAssinatura":1751338800000,"vigencia":"01/07/2025 a 30/07/2025","valor":2287.63,"valorFormatado":"R$ 2.287,63","publicacaoDoe":"10/07/2025","publicacaoPncp":"10/07/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Fogão","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-16","exercicio":"2025","contrato":"007/2025","processoSei":"015.00499719/2025-84","licitacaoComprasGov":"0009/2025","empresa":"SUNNY ALIMENTAÇÃO E SERVIÇOS LTDA","dataAssinatura":"06/08/2025","mesAssinatura":"Agosto","timestampAssinatura":1754449200000,"vigencia":"06/08/2025 a 05/02/2025","valor":4828421.94,"valorFormatado":"R$ 4.828.421,94","publicacaoDoe":"11/08/2025","publicacaoPncp":"11/08/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"15/08/2025","licitacaoAudesp":"2025000000010","objeto":"Emergencial merenda","categoria":"Alimentação e Insumos","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-17","exercicio":"2025","contrato":"008/2025","processoSei":"015.00525168/2025-11","licitacaoComprasGov":"0010/2025","empresa":"ARTE, AMBIENTE & SOLUÇÕES LTDA","dataAssinatura":"13/08/2025","mesAssinatura":"Agosto","timestampAssinatura":1755054000000,"vigencia":"13/08/2025 a 12/08/2025","valor":33480,"valorFormatado":"R$ 33.480,00","publicacaoDoe":"21/08/2025","publicacaoPncp":"21/08/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"21/08/2025","licitacaoAudesp":"2025000000011","objeto":"Capinagem","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-18","exercicio":"2025","contrato":"2025NE01046","processoSei":"015.00592598/2025-49","licitacaoComprasGov":"0011/2025","empresa":"PARTNER CONSTRUÇÃO E SERVIÇOS LTDA","dataAssinatura":"05/08/2025","mesAssinatura":"Agosto","timestampAssinatura":1754362800000,"vigencia":"05/08/2025 a 04/09/2025","valor":41196,"valorFormatado":"R$ 41.196,00","publicacaoDoe":"21/08/2025","publicacaoPncp":"21/08/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"21/08/2025","licitacaoAudesp":"2025000000012","objeto":"Manutenção predial","categoria":"Manutenção e Conservação","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-19","exercicio":"2025","contrato":"2025NE01047","processoSei":"015.00592598/2025-49","licitacaoComprasGov":"0011/2025","empresa":"PARTNER CONSTRUÇÃO E SERVIÇOS LTDA","dataAssinatura":"05/08/2025","mesAssinatura":"Agosto","timestampAssinatura":1754362800000,"vigencia":"05/08/2025 a 04/09/2025","valor":7294,"valorFormatado":"R$ 7.294,00","publicacaoDoe":"21/08/2025","publicacaoPncp":"21/08/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"21/08/2025","licitacaoAudesp":"2025000000012","objeto":"Manutenção predial","categoria":"Manutenção e Conservação","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-20","exercicio":"2025","contrato":"2025NE01048","processoSei":"015.00592598/2025-49","licitacaoComprasGov":"0011/2025","empresa":"PARTNER CONSTRUÇÃO E SERVIÇOS LTDA","dataAssinatura":"05/08/2025","mesAssinatura":"Agosto","timestampAssinatura":1754362800000,"vigencia":"05/08/2025 a 04/09/2025","valor":18375,"valorFormatado":"R$ 18.375,00","publicacaoDoe":"21/08/2025","publicacaoPncp":"21/08/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"21/08/2025","licitacaoAudesp":"2025000000012","objeto":"Manutenção predial","categoria":"Manutenção e Conservação","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-21","exercicio":"2025","contrato":"2025NE01049","processoSei":"015.00592598/2025-49","licitacaoComprasGov":"0011/2025","empresa":"PARTNER CONSTRUÇÃO E SERVIÇOS LTDA","dataAssinatura":"05/08/2025","mesAssinatura":"Agosto","timestampAssinatura":1754362800000,"vigencia":"05/08/2025 a 04/09/2025","valor":13095,"valorFormatado":"R$ 13.095,00","publicacaoDoe":"21/08/2025","publicacaoPncp":"21/08/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"21/08/2025","licitacaoAudesp":"2025000000012","objeto":"Manutenção predial","categoria":"Manutenção e Conservação","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-22","exercicio":"2025","contrato":"009/2025","processoSei":"015.00660305/2025-63","licitacaoComprasGov":"90007/2025","empresa":"PHABRICA DE PRODUCOES SERVICOS DE PROPAGANDA E PUBLICIDADE LTDA","dataAssinatura":"25/08/2025","mesAssinatura":"Agosto","timestampAssinatura":1756090800000,"vigencia":"25/08/2025 a 24/08/2026","valor":720,"valorFormatado":"R$ 720,00","publicacaoDoe":"29/08/2025","publicacaoPncp":"29/08/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Publicação de editais","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-23","exercicio":"2025","contrato":"2025NE01165","processoSei":"015.00674160/2025-88","licitacaoComprasGov":"90008/2025","empresa":"TAMARA MARTINS FERNANDES","dataAssinatura":"09/09/2025","mesAssinatura":"Setembro","timestampAssinatura":1757386800000,"vigencia":"09/09/2025 a 08/10/2025","valor":499.98,"valorFormatado":"R$ 499,98","publicacaoDoe":"17/09/2025","publicacaoPncp":"10/09/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Dedetização","categoria":"Tecnologia","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-24","exercicio":"2025","contrato":"011/2025","processoSei":"015.00006728/2025-33","licitacaoComprasGov":"90009/2025","empresa":"SUNNY ALIMENTAÇÃO E SERVIÇOS LTDA","dataAssinatura":"10/12/2025","mesAssinatura":"Dezembro","timestampAssinatura":1765335600000,"vigencia":"22/12/2025 a 21/12/2026","valor":7659600,"valorFormatado":"R$ 7.659.600,00","publicacaoDoe":"12/12/2025","publicacaoPncp":"10/12/2025","publicacaoJornal":"29/08/2025 e 15/09/2025","publicacaoAudesp":"11/12/2025","licitacaoAudesp":"2025000000014","objeto":"Merenda","categoria":"Alimentação e Insumos","statusVigencia":"Vigente"},{"id":"SECOMSE-2025-25","exercicio":"2025","contrato":"010/2025","processoSei":"015.00730018/2025-28","licitacaoComprasGov":"0014/2025","empresa":"Casa Paraná Comércio e Serviços LTDA","dataAssinatura":"01/10/2025","mesAssinatura":"Outubro","timestampAssinatura":1759287600000,"vigencia":"01/10/2025 e 30/09/2026","valor":8467.2,"valorFormatado":"R$ 8.467,20","publicacaoDoe":"03/10/2025","publicacaoPncp":"07/10/2025","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Água mineral","categoria":"Alimentação e Insumos","statusVigencia":"Vigente"}],"2026":[{"id":"SECOMSE-2026-1","exercicio":"2026","contrato":"009/2023","processoSei":"015.00015394/2023-27","licitacaoComprasGov":"Não se aplica","empresa":"GIOVANA ANTUNES MODENA MACHADO ME","dataAssinatura":"09/01/2026","mesAssinatura":"Janeiro","timestampAssinatura":1767927600000,"vigencia":"11/01/2026 a 10/04/2027","valor":4446.03,"valorFormatado":"R$ 4.446,03","publicacaoDoe":"06/02/2026","publicacaoPncp":"Não se Aplica","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Manutenção do elevador (Prorrogação)","categoria":"Manutenção e Conservação","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-2","exercicio":"2026","contrato":"2026NE00516","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"16/04/2026","mesAssinatura":"Abril","timestampAssinatura":1776308400000,"vigencia":"16/04/2026 a 15/05/2026","valor":1837.5,"valorFormatado":"R$ 1.837,50","publicacaoDoe":"15/05/2026","publicacaoPncp":"02/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-3","exercicio":"2026","contrato":"2026NE00553","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"24/04/2026","mesAssinatura":"Abril","timestampAssinatura":1776999600000,"vigencia":"24/04/2026 a 23/05/2026","valor":1504.8,"valorFormatado":"R$ 1.504,80","publicacaoDoe":"15/05/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-4","exercicio":"2026","contrato":"2026NE00560","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"28/04/2026","mesAssinatura":"Abril","timestampAssinatura":1777345200000,"vigencia":"28/04/2026 a 27/05/2026","valor":612.5,"valorFormatado":"R$ 612,50","publicacaoDoe":"15/05/2026","publicacaoPncp":"02/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-5","exercicio":"2026","contrato":"2026NE00734","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"08/05/2026","mesAssinatura":"Maio","timestampAssinatura":1778209200000,"vigencia":"08/05/2026 a 06/06/2026","valor":1715,"valorFormatado":"R$ 1.715,00","publicacaoDoe":"15/05/2026","publicacaoPncp":"02/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-6","exercicio":"2026","contrato":"1253/26","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"08/05/2026","mesAssinatura":"Maio","timestampAssinatura":1778209200000,"vigencia":"08/05/2026 a 06/06/2026","valor":13741.3,"valorFormatado":"R$ 13.741,30","publicacaoDoe":"15/05/2026","publicacaoPncp":"02/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-7","exercicio":"2026","contrato":"2026NE00740","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"13/05/2026","mesAssinatura":"Maio","timestampAssinatura":1778641200000,"vigencia":"13/05/2026 a 11/06/2026","valor":649.25,"valorFormatado":"R$ 649,25","publicacaoDoe":"15/05/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-8","exercicio":"2026","contrato":"1255/2026","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"13/05/2026","mesAssinatura":"Maio","timestampAssinatura":1778641200000,"vigencia":"13/05/2026 a 11/06/2026","valor":36239.22,"valorFormatado":"R$ 36.239,22","publicacaoDoe":"15/05/2026","publicacaoPncp":"30/06/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-9","exercicio":"2026","contrato":"2026NE00741","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"14/05/2026","mesAssinatura":"Maio","timestampAssinatura":1778727600000,"vigencia":"14/05/2026 a 12/06/2026","valor":3234,"valorFormatado":"R$ 3.234,00","publicacaoDoe":"15/05/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-10","exercicio":"2026","contrato":"2026NE00742","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"14/05/2026","mesAssinatura":"Maio","timestampAssinatura":1778727600000,"vigencia":"14/05/2026 a 12/06/2026","valor":744.9,"valorFormatado":"R$ 744,90","publicacaoDoe":"15/05/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-11","exercicio":"2026","contrato":"2026NE00778","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"19/05/2026","mesAssinatura":"Maio","timestampAssinatura":1779159600000,"vigencia":"19/05/2026 a 17/06/2026","valor":637,"valorFormatado":"R$ 637,00","publicacaoDoe":"23/06/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-12","exercicio":"2026","contrato":"1316/2026","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"19/05/2026","mesAssinatura":"Maio","timestampAssinatura":1779159600000,"vigencia":"19/05/2026 a 17/06/2026","valor":12254.02,"valorFormatado":"R$ 12.254,02","publicacaoDoe":"23/06/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-13","exercicio":"2026","contrato":"2026NE00886","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"22/05/2026","mesAssinatura":"Maio","timestampAssinatura":1779418800000,"vigencia":"22/05/2026 a 20/06/2026","valor":490,"valorFormatado":"R$ 490,00","publicacaoDoe":"23/06/2026","publicacaoPncp":"02/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-14","exercicio":"2026","contrato":"2026NE00810","processoSei":"015.00307324/2026-45","licitacaoComprasGov":"0001/2026","empresa":"Essor Seguro S.A.","dataAssinatura":"22/05/2026","mesAssinatura":"Maio","timestampAssinatura":1779418800000,"vigencia":"30/05/2026 a 30/05/2027","valor":3880,"valorFormatado":"R$ 3.880,00","publicacaoDoe":"23/06/2026","publicacaoPncp":"26/06/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Seguro Predial","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-15","exercicio":"2026","contrato":"2026NE00887","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"26/05/2026","mesAssinatura":"Maio","timestampAssinatura":1779764400000,"vigencia":"26/05/2026 a 24/06/2026","valor":551.25,"valorFormatado":"R$ 551,25","publicacaoDoe":"23/06/2026","publicacaoPncp":"02/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-16","exercicio":"2026","contrato":"2026NE00888","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"29/05/2026","mesAssinatura":"Maio","timestampAssinatura":1780023600000,"vigencia":"29/05/2026 a 27/05/2026","valor":514.5,"valorFormatado":"R$ 514,50","publicacaoDoe":"23/06/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-17","exercicio":"2026","contrato":"2026NE00972","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"01/06/2026","mesAssinatura":"Junho","timestampAssinatura":1780282800000,"vigencia":"01/06/2026 a 30/06/2026","valor":1359,"valorFormatado":"R$ 1.359,00","publicacaoDoe":"23/06/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-18","exercicio":"2026","contrato":"1449/26","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"01/06/2026","mesAssinatura":"Junho","timestampAssinatura":1780282800000,"vigencia":"01/06/2026 a 30/06/2026","valor":13022.67,"valorFormatado":"R$ 13.022,67","publicacaoDoe":"23/06/2026","publicacaoPncp":"30/06/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-19","exercicio":"2026","contrato":"2026NE00973","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"08/06/2026","mesAssinatura":"Junho","timestampAssinatura":1780887600000,"vigencia":"08/06/2026 a 07/07/2026","valor":2756.25,"valorFormatado":"R$ 2.756,25","publicacaoDoe":"23/06/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-20","exercicio":"2026","contrato":"1577/26","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"08/06/2026","mesAssinatura":"Junho","timestampAssinatura":1780887600000,"vigencia":"08/06/2026 a 07/07/2026","valor":25700.5,"valorFormatado":"R$ 25.700,50","publicacaoDoe":"23/06/2026","publicacaoPncp":"30/06/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-21","exercicio":"2026","contrato":"2026NE00975","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"10/06/2026","mesAssinatura":"Junho","timestampAssinatura":1781060400000,"vigencia":"10/06/2026 a 09/07/2026","valor":588,"valorFormatado":"R$ 588,00","publicacaoDoe":"23/06/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-22","exercicio":"2026","contrato":"2026NE00991","processoSei":"015.00328636/2026-92","licitacaoComprasGov":"0002/2026","empresa":"LT Quinto Manutenção de Extintores","dataAssinatura":"11/06/2026","mesAssinatura":"Junho","timestampAssinatura":1781146800000,"vigencia":"11/06/2026 a 10/07/2026","valor":620,"valorFormatado":"R$ 620,00","publicacaoDoe":"23/06/2026","publicacaoPncp":"26/06/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Extintores","categoria":"Tecnologia","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-23","exercicio":"2026","contrato":"1629/26","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"11/06/2026","mesAssinatura":"Junho","timestampAssinatura":1781146800000,"vigencia":"11/06/2026 a 10/07/2026","valor":13585.94,"valorFormatado":"R$ 13.585,94","publicacaoDoe":"23/06/2026","publicacaoPncp":"30/06/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-24","exercicio":"2026","contrato":"2026NE00995","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"09/06/2026","mesAssinatura":"Junho","timestampAssinatura":1780974000000,"vigencia":"09/06/2026 a 08/07/2026","valor":2718,"valorFormatado":"R$ 2.718,00","publicacaoDoe":"23/06/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-25","exercicio":"2026","contrato":"1699/26","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"16/06/2026","mesAssinatura":"Junho","timestampAssinatura":1781578800000,"vigencia":"16/06/2026 a 15/07/2026","valor":18221.47,"valorFormatado":"R$ 18.221,47","publicacaoDoe":"23/06/2026","publicacaoPncp":"30/06/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-26","exercicio":"2026","contrato":"2026NE01030","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"18/06/2026","mesAssinatura":"Junho","timestampAssinatura":1781751600000,"vigencia":"18/06/2026 a 17/07/2026","valor":2431.3,"valorFormatado":"R$ 2.431,30","publicacaoDoe":"23/06/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-27","exercicio":"2026","contrato":"1749/26","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"18/06/2026","mesAssinatura":"Junho","timestampAssinatura":1781751600000,"vigencia":"18/06/2026 a 17/07/2026","valor":5635.85,"valorFormatado":"R$ 5.635,85","publicacaoDoe":"23/06/2026","publicacaoPncp":"30/06/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-28","exercicio":"2026","contrato":"2026NE01042","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"23/06/2026","mesAssinatura":"Junho","timestampAssinatura":1782183600000,"vigencia":"23/06/2026 a 22/07/2026","valor":401.1,"valorFormatado":"R$ 401,10","publicacaoDoe":"23/06/2026","publicacaoPncp":"07/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-29","exercicio":"2026","contrato":"2026NE01043","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"23/06/2026","mesAssinatura":"Junho","timestampAssinatura":1782183600000,"vigencia":"23/06/2026 a 22/07/2026","valor":1185.45,"valorFormatado":"R$ 1.185,45","publicacaoDoe":"23/06/2026","publicacaoPncp":"07/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-30","exercicio":"2026","contrato":"1845/26","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"23/06/2026","mesAssinatura":"Junho","timestampAssinatura":1782183600000,"vigencia":"23/06/2026 a 22/07/2026","valor":8551.54,"valorFormatado":"R$ 8.551,54","publicacaoDoe":"07/07/2026","publicacaoPncp":"30/06/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-31","exercicio":"2026","contrato":"1913/2026","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"25/06/2026","mesAssinatura":"Junho","timestampAssinatura":1782356400000,"vigencia":"25/06/2026 a 24/07/2026","valor":37226.52,"valorFormatado":"R$ 37.226,52","publicacaoDoe":"07/07/2026","publicacaoPncp":"30/06/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-32","exercicio":"2026","contrato":"1920/2026","processoSei":"015.00498144/2026-63","licitacaoComprasGov":"90015/DIISE/2026","empresa":"F.G.R SILVA BUFFET E EVENTOS LTDA","dataAssinatura":"25/06/2026","mesAssinatura":"Junho","timestampAssinatura":1782356400000,"vigencia":"25/06/2026 a 25/06/2027","valor":6333.66,"valorFormatado":"R$ 6.333,66","publicacaoDoe":"01/07/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche centralizado OMASP","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-33","exercicio":"2026","contrato":"2026NE01059","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"29/06/2026","mesAssinatura":"Junho","timestampAssinatura":1782702000000,"vigencia":"29/06/2026 a 28/07/2026","valor":661.5,"valorFormatado":"R$ 661,50","publicacaoDoe":"07/07/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-34","exercicio":"2026","contrato":"2026NE01060","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"30/06/2026","mesAssinatura":"Junho","timestampAssinatura":1782788400000,"vigencia":"30/06/2026 a 29/07/2026","valor":735,"valorFormatado":"R$ 735,00","publicacaoDoe":"07/07/2026","publicacaoPncp":"01/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-35","exercicio":"2026","contrato":"2026NE01075","processoSei":"015.00394277/2026-61","licitacaoComprasGov":"0003/2026","empresa":"Biosfera Controle e Imunização LTDA","dataAssinatura":"02/07/2026","mesAssinatura":"Julho","timestampAssinatura":1782961200000,"vigencia":"02/07/2026 a 31/07/2026","valor":899.97,"valorFormatado":"R$ 899,97","publicacaoDoe":"07/07/2026","publicacaoPncp":"06/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Dedetização","categoria":"Tecnologia","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-36","exercicio":"2026","contrato":"2026NE01085","processoSei":"015.00394277/2026-61","licitacaoComprasGov":"0003/2026","empresa":"R.R. Prestação de Serviços","dataAssinatura":"03/07/2026","mesAssinatura":"Julho","timestampAssinatura":1783047600000,"vigencia":"03/07/2026 a 01/08/2026","valor":939.6,"valorFormatado":"R$ 939,60","publicacaoDoe":"07/07/2026","publicacaoPncp":"06/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Limpeza da Caixa d´Água","categoria":"Alimentação e Insumos","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-37","exercicio":"2026","contrato":"2026NE01079","processoSei":"015.00337624/2026-59","licitacaoComprasGov":"0004/2026","empresa":"ALPICK COMERCIO DE ALIMENTOS E SERVICOS","dataAssinatura":"02/07/2026","mesAssinatura":"Julho","timestampAssinatura":1782961200000,"vigencia":"02/07/2026 a 31/07/2026","valor":2820,"valorFormatado":"R$ 2.820,00","publicacaoDoe":"07/07/2026","publicacaoPncp":"06/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Biscoito amanteigado e bolo","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-38","exercicio":"2026","contrato":"2026NE01080","processoSei":"015.00337624/2026-59","licitacaoComprasGov":"0004/2026","empresa":"AM COMERCIO DE ALIMENTOS LTDA","dataAssinatura":"02/07/2026","mesAssinatura":"Julho","timestampAssinatura":1782961200000,"vigencia":"02/07/2026 a 31/07/2026","valor":1992,"valorFormatado":"R$ 1.992,00","publicacaoDoe":"07/07/2026","publicacaoPncp":"06/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Cookie","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-39","exercicio":"2026","contrato":"2026NE01081","processoSei":"015.00337624/2026-59","licitacaoComprasGov":"0004/2026","empresa":"IMPÉRIO SERVIÇOS E CONSULTORIA LTDA","dataAssinatura":"02/07/2026","mesAssinatura":"Julho","timestampAssinatura":1782961200000,"vigencia":"02/07/2026 a 31/07/2026","valor":876,"valorFormatado":"R$ 876,00","publicacaoDoe":"07/07/2026","publicacaoPncp":"07/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Torrada","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-40","exercicio":"2026","contrato":"2052/2026","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"02/07/2026","mesAssinatura":"Julho","timestampAssinatura":1782961200000,"vigencia":"02/07/2026 a 31/07/2026","valor":11944.71,"valorFormatado":"R$ 11.944,71","publicacaoDoe":"07/07/2026","publicacaoPncp":"08/07/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-41","exercicio":"2026","contrato":"2026NE01222","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"05/08/2026","mesAssinatura":"Agosto","timestampAssinatura":1785898800000,"vigencia":"05/08/2026 a 03/09/2026","valor":1555.3,"valorFormatado":"R$ 1.555,30","publicacaoDoe":"20/08/2026","publicacaoPncp":"07/08/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-42","exercicio":"2026","contrato":"2026NE01234","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"06/08/2026","mesAssinatura":"Agosto","timestampAssinatura":1785985200000,"vigencia":"06/08/2026 a 04/09/2026","valor":2837.3,"valorFormatado":"R$ 2.837,30","publicacaoDoe":"20/08/2026","publicacaoPncp":"07/08/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-43","exercicio":"2026","contrato":"2496/2026","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"06/08/2026","mesAssinatura":"Agosto","timestampAssinatura":1785985200000,"vigencia":"06/08/2026 a 04/09/2026","valor":18322.06,"valorFormatado":"R$ 18.322,06","publicacaoDoe":"20/08/2026","publicacaoPncp":"16/09/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-44","exercicio":"2026","contrato":"2510/2026","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"06/08/2026","mesAssinatura":"Agosto","timestampAssinatura":1785985200000,"vigencia":"06/08/2026 a 04/09/2026","valor":13349.97,"valorFormatado":"R$ 13.349,97","publicacaoDoe":"20/08/2026","publicacaoPncp":"16/09/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-45","exercicio":"2026","contrato":"2537/2026","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"10/08/2026","mesAssinatura":"Agosto","timestampAssinatura":1786330800000,"vigencia":"10/08/2026 a 08/09/2026","valor":23084.4,"valorFormatado":"R$ 23.084,40","publicacaoDoe":"20/08/2026","publicacaoPncp":"16/09/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-46","exercicio":"2026","contrato":"2614/2026","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"14/08/2026","mesAssinatura":"Agosto","timestampAssinatura":1786676400000,"vigencia":"14/08/2026 a 12/09/2026","valor":64569.3,"valorFormatado":"R$ 64.569,30","publicacaoDoe":"20/08/2026","publicacaoPncp":"16/09/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-47","exercicio":"2026","contrato":"2026NE01344","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"14/08/2026","mesAssinatura":"Agosto","timestampAssinatura":1786676400000,"vigencia":"14/08/2026 a 12/09/2026","valor":11892.05,"valorFormatado":"R$ 11.892,05","publicacaoDoe":"20/08/2026","publicacaoPncp":"17/08/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-48","exercicio":"2026","contrato":"2026NE01391","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"24/08/2026","mesAssinatura":"Agosto","timestampAssinatura":1787540400000,"vigencia":"24/08/2026 a 22/09/2026","valor":3040.9,"valorFormatado":"R$ 3.040,90","publicacaoDoe":"16/10/2026","publicacaoPncp":"26/08/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-49","exercicio":"2026","contrato":"2773/2026","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"25/08/2026","mesAssinatura":"Agosto","timestampAssinatura":1787626800000,"vigencia":"25/08/2026 a 23/09/2026","valor":34102.51,"valorFormatado":"R$ 34.102,51","publicacaoDoe":"16/10/2026","publicacaoPncp":"16/09/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-50","exercicio":"2026","contrato":"2965/2026","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"04/09/2026","mesAssinatura":"Setembro","timestampAssinatura":1788490800000,"vigencia":"04/09/2026 a 03/10/2026","valor":27982.77,"valorFormatado":"R$ 27.982,77","publicacaoDoe":"16/10/2026","publicacaoPncp":"16/09/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-51","exercicio":"2026","contrato":"2026NE01452","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"08/09/2026","mesAssinatura":"Setembro","timestampAssinatura":1788836400000,"vigencia":"08/09/2026 a 07/10/2026","valor":5415.25,"valorFormatado":"R$ 5.415,25","publicacaoDoe":"16/10/2026","publicacaoPncp":"14/09/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-52","exercicio":"2026","contrato":"2026NE01513","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"10/09/2026","mesAssinatura":"Setembro","timestampAssinatura":1789009200000,"vigencia":"10/09/2026 a 11/10/2026","valor":955,"valorFormatado":"R$ 955,00","publicacaoDoe":"16/10/2026","publicacaoPncp":"14/09/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-53","exercicio":"2026","contrato":"2026NE01565","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"23/09/2026","mesAssinatura":"Setembro","timestampAssinatura":1790132400000,"vigencia":"23/09/2026 a 22/10/2026","valor":4688.65,"valorFormatado":"R$ 4.688,65","publicacaoDoe":"16/10/2026","publicacaoPncp":"14/09/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-54","exercicio":"2026","contrato":"3236/2026","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"24/09/2026","mesAssinatura":"Setembro","timestampAssinatura":1790218800000,"vigencia":"24/09/2026 a 23/09/2026","valor":9654.21,"valorFormatado":"R$ 9.654,21","publicacaoDoe":"16/10/2026","publicacaoPncp":"08/10/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-55","exercicio":"2026","contrato":"3352/2026","processoSei":"015.00377177/2026-71","licitacaoComprasGov":"90018/ DIISE/2026","empresa":"Beija Flor Locadora de Veículos LTDA","dataAssinatura":"06/10/2026","mesAssinatura":"Outubro","timestampAssinatura":1791255600000,"vigencia":"06/10/2026 a 04/11/2026","valor":3033.77,"valorFormatado":"R$ 3.033,77","publicacaoDoe":"16/10/2026","publicacaoPncp":"08/10/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Transporte eventual - Ata Centralizada","categoria":"Transporte Escolar","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-56","exercicio":"2026","contrato":"2026NE01611","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"06/10/2026","mesAssinatura":"Outubro","timestampAssinatura":1791255600000,"vigencia":"06/10/2026 a 04/11/2026","valor":490,"valorFormatado":"R$ 490,00","publicacaoDoe":"16/10/2026","publicacaoPncp":"09/10/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"},{"id":"SECOMSE-2026-57","exercicio":"2026","contrato":"2026NE01612","processoSei":"015.00079881/2025-80","licitacaoComprasGov":"90003/2025","empresa":"MISTER PAES E ALIMENTOS LTDA","dataAssinatura":"07/10/2026","mesAssinatura":"Outubro","timestampAssinatura":1791342000000,"vigencia":"07/10/2026 a 05/11/2026","valor":1715,"valorFormatado":"R$ 1.715,00","publicacaoDoe":"16/10/2026","publicacaoPncp":"09/10/2026","publicacaoJornal":"Não se Aplica","publicacaoAudesp":"Não se Aplica","licitacaoAudesp":"não se aplica","objeto":"Kit lanche","categoria":"Outros Serviços","statusVigencia":"Vigente"}]}};
+
+    // Recupera cache do LocalStorage se disponível
+    try {
+      const secomseCache = localStorage.getItem('dados_secomse_cache');
+      if (secomseCache) {
+        const parsed = JSON.parse(secomseCache);
+        if (parsed && parsed.kpis && parsed.contratos) {
+          DADOS_SECOMSE = parsed;
+        }
+      }
+    } catch (eCacheSecomse) {
+      console.warn('Cache local SECOMSE não disponível:', eCacheSecomse);
+    }
+
+    let estadoSecomse = {
+      exercicio: '2026',
+      categoria: 'TODOS',
+      filtroPub: 'TODOS',
+      termoBusca: '',
+      colunaOrdenacao: 'contrato',
+      ordemAsc: true
+    };
+
+    function mudarExercicioSecomse(ano) {
+      estadoSecomse.exercicio = ano;
+      renderizarDashboardSecomse();
+    }
+
+    function mudarCategoriaSecomse(cat) {
+      estadoSecomse.categoria = cat;
+      atualizarTabelaSecomse();
+    }
+
+    function mudarFiltroPubSecomse(filtro) {
+      estadoSecomse.filtroPub = filtro;
+      atualizarTabelaSecomse();
+    }
+
+    function buscarContratosSecomse(termo) {
+      estadoSecomse.termoBusca = (termo || '').toLowerCase().trim();
+      atualizarTabelaSecomse();
+    }
+
+    function ordenarTabelaSecomse(coluna) {
+      if (estadoSecomse.colunaOrdenacao === coluna) {
+        estadoSecomse.ordemAsc = !estadoSecomse.ordemAsc;
+      } else {
+        estadoSecomse.colunaOrdenacao = coluna;
+        estadoSecomse.ordemAsc = true;
+      }
+      atualizarTabelaSecomse();
+    }
+
+    function sincronizarDashboardSecomse(silencioso) {
+      const btnSync = document.getElementById('btn-secomse-sync-base');
+      if (btnSync) {
+        btnSync.disabled = true;
+        btnSync.innerHTML = '⏳ Sincronizando...';
+      }
+
+      function aplicarDados(novos) {
+        if (novos && novos.kpis && novos.contratos) {
+          DADOS_SECOMSE = novos;
+          try { localStorage.setItem('dados_secomse_cache', JSON.stringify(novos)); } catch (e) {}
+        }
+        DADOS_SECOMSE.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR');
+        renderizarDashboardSecomse();
+
+        if (btnSync) {
+          btnSync.disabled = false;
+          btnSync.innerHTML = '🔄 Sincronizar SECOMSE';
+        }
+
+        if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
+          const tot = DADOS_SECOMSE.kpis ? (DADOS_SECOMSE.kpis.totalContratos2026 + ' Contratos 2026') : 'Base Oficial';
+          const val = DADOS_SECOMSE.kpis ? DADOS_SECOMSE.kpis.valorTotal2026Formatado : '';
+          mostrarAlertaSincronizacao({
+            tipo: 'success',
+            tag: 'SECOMSE ATUALIZADO',
+            titulo: 'SECOMSE Sincronizado com Sucesso!',
+            mensagem: '<strong>' + tot + '</strong> • Valor Global: <strong>' + val + '</strong> atualizados diretamente do SharePoint oficial.',
+            detalhes: 'Controle de Contratos às ' + new Date().toLocaleTimeString('pt-BR') + ' • 100% Atualizado',
+            duracao: 4500
+          });
+        }
+      }
+
+      function buscarMirror() {
+        fetch(URLS_OFICIAIS_SECOMSE.mirrorData + '?t=' + Date.now())
+          .then(r => r.json())
+          .then(json => {
+            if (json && json.kpis) {
+              aplicarDados(json);
+            } else {
+              renderizarDashboardSecomse();
+            }
+          })
+          .catch(e => {
+            console.warn('Aviso mirror SECOMSE:', e);
+            renderizarDashboardSecomse();
+            if (btnSync) {
+              btnSync.disabled = false;
+              btnSync.innerHTML = '🔄 Sincronizar SECOMSE';
+            }
+          });
+      }
+
+      if (typeof google !== 'undefined' && google.script && google.script.run && google.script.run.sincronizarPlanilhaSecomse) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            if (res && res.kpis) {
+              aplicarDados(res);
+            } else {
+              buscarMirror();
+            }
+          })
+          .withFailureHandler(function() {
+            buscarMirror();
+          })
+          .sincronizarPlanilhaSecomse(false);
+      } else {
+        buscarMirror();
+      }
+    }
+
+    function abrirModalDetalheContratoSecomse(idContrato) {
+      const lista = (DADOS_SECOMSE.contratos && DADOS_SECOMSE.contratos[estadoSecomse.exercicio]) || [];
+      const item = lista.find(c => c.id === idContrato);
+      if (!item) return;
+
+      let modalEl = document.getElementById('modal-detalhe-secomse');
+      if (!modalEl) {
+        modalEl = document.createElement('div');
+        modalEl.id = 'modal-detalhe-secomse';
+        modalEl.style.cssText = 'position: fixed; inset: 0; background: rgba(15,23,42,0.65); backdrop-filter: blur(4px); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 1rem;';
+        document.body.appendChild(modalEl);
+      }
+
+      modalEl.innerHTML = `
+        <div style="background: #ffffff; width: 100%; max-width: 680px; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3); overflow: hidden; border: 1px solid #e2e8f0; animation: fadeInScale 0.2s ease-out;">
+          <div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); padding: 1.25rem 1.5rem; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <span style="font-size: 1.4rem;">📄</span>
+              <div>
+                <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em;">Contrato ${item.contrato} (${item.exercicio})</h3>
+                <span style="font-size: 0.76rem; color: #93c5fd;">Processo SEI: ${item.processoSei}</span>
+              </div>
+            </div>
+            <button onclick="fecharModalDetalheContratoSecomse()" style="background: rgba(255,255,255,0.15); border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">✕</button>
+          </div>
+
+          <div style="padding: 1.5rem; max-height: 75vh; overflow-y: auto; font-size: 0.85rem; line-height: 1.6; color: #334155;">
+            <!-- CARD EMPRESA & VALOR -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+              <div>
+                <div style="font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Empresa Contratada</div>
+                <div style="font-size: 1.05rem; font-weight: 800; color: #0f172a;">${item.empresa}</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Valor Global</div>
+                <div style="font-size: 1.2rem; font-weight: 900; color: #047857;">${item.valorFormatado}</div>
+              </div>
+            </div>
+
+            <!-- OBJETO -->
+            <div style="margin-bottom: 1.25rem;">
+              <strong style="color: #0f172a; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.35rem;">Objeto do Contrato:</strong>
+              <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.85rem; color: #1e293b; font-size: 0.88rem; line-height: 1.5;">
+                ${item.objeto}
+              </div>
+            </div>
+
+            <!-- DETALHAMENTO DE CAMPOS -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+              <div style="background: #f8fafc; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <div style="font-size: 0.72rem; font-weight: 700; color: #64748b;">DATA DA ASSINATURA</div>
+                <div style="font-size: 0.92rem; font-weight: 800; color: #1e3a8a;">📅 ${item.dataAssinatura}</div>
+              </div>
+              <div style="background: #f8fafc; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <div style="font-size: 0.72rem; font-weight: 700; color: #64748b;">PRAZO DE VIGÊNCIA</div>
+                <div style="font-size: 0.92rem; font-weight: 800; color: #0f172a;">⏳ ${item.vigencia}</div>
+              </div>
+              <div style="background: #f8fafc; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <div style="font-size: 0.72rem; font-weight: 700; color: #64748b;">LICITAÇÃO COMPRAS.GOV</div>
+                <div style="font-size: 0.88rem; font-weight: 800; color: #334155;">🏛️ ${item.licitacaoComprasGov}</div>
+              </div>
+              <div style="background: #f8fafc; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <div style="font-size: 0.72rem; font-weight: 700; color: #64748b;">LICITAÇÃO AUDESP</div>
+                <div style="font-size: 0.88rem; font-weight: 800; color: #334155;">⚖️ ${item.licitacaoAudesp}</div>
+              </div>
+            </div>
+
+            <!-- PUBLICAÇÕES OFICIAIS -->
+            <div style="border-top: 1px solid #e2e8f0; padding-top: 1rem; margin-top: 0.5rem;">
+              <strong style="color: #0f172a; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.6rem;">Publicações Oficiais & Transparência:</strong>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.6rem;">
+                <span style="background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 700;">
+                  📰 D.O.E.: ${item.publicacaoDoe}
+                </span>
+                <span style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 700;">
+                  🌐 PNCP: ${item.publicacaoPncp}
+                </span>
+                <span style="background: #fefce8; border: 1px solid #fef08a; color: #854d0e; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 700;">
+                  🗞️ Jornal: ${item.publicacaoJornal}
+                </span>
+                <span style="background: #f5f3ff; border: 1px solid #ddd6fe; color: #5b21b6; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 700;">
+                  📊 AUDESP: ${item.publicacaoAudesp}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #f1f5f9; padding: 0.85rem 1.5rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.75rem; color: #64748b;">ID: ${item.id}</span>
+            <button onclick="fecharModalDetalheContratoSecomse()" style="background: #0b2351; color: #ffffff; border: none; padding: 0.5rem 1.25rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">Fechar</button>
+          </div>
+        </div>
+      `;
+      modalEl.style.display = 'flex';
+    }
+
+    function fecharModalDetalheContratoSecomse() {
+      const modalEl = document.getElementById('modal-detalhe-secomse');
+      if (modalEl) modalEl.style.display = 'none';
+    }
+
+    function atualizarTabelaSecomse() {
+      const tbody = document.getElementById('tabela-secomse-tbody');
+      const counterEl = document.getElementById('secomse-filtro-contador');
+      const somaEl = document.getElementById('secomse-filtro-soma');
+      if (!tbody) return;
+
+      const ano = estadoSecomse.exercicio;
+      const contratos = (DADOS_SECOMSE.contratos && DADOS_SECOMSE.contratos[ano]) || [];
+
+      // Filtragem
+      let filtrados = contratos.filter(item => {
+        // Categoria
+        if (estadoSecomse.categoria !== 'TODOS' && item.categoria !== estadoSecomse.categoria) {
+          return false;
+        }
+        // Filtro publicação
+        if (estadoSecomse.filtroPub === 'PNCP' && (item.publicacaoPncp === 'Não se Aplica' || item.publicacaoPncp === '-')) {
+          return false;
+        }
+        if (estadoSecomse.filtroPub === 'AUDESP' && (item.publicacaoAudesp === 'Não se Aplica' || item.publicacaoAudesp === '-')) {
+          return false;
+        }
+        if (estadoSecomse.filtroPub === 'COMPRASGOV' && (item.licitacaoComprasGov === 'Não se Aplica' || item.licitacaoComprasGov === '-')) {
+          return false;
+        }
+        // Busca textual
+        if (estadoSecomse.termoBusca) {
+          const t = estadoSecomse.termoBusca;
+          const matchContrato = item.contrato.toLowerCase().includes(t);
+          const matchSei = item.processoSei.toLowerCase().includes(t);
+          const matchEmpresa = item.empresa.toLowerCase().includes(t);
+          const matchObjeto = item.objeto.toLowerCase().includes(t);
+          const matchLicit = item.licitacaoComprasGov.toLowerCase().includes(t);
+          if (!matchContrato && !matchSei && !matchEmpresa && !matchObjeto && !matchLicit) {
+            return false;
+          }
+        }
+        return true;
+      });
+
+      // Ordenação
+      filtrados.sort((a, b) => {
+        let valA = a[estadoSecomse.colunaOrdenacao];
+        let valB = b[estadoSecomse.colunaOrdenacao];
+        if (estadoSecomse.colunaOrdenacao === 'valor') {
+          return estadoSecomse.ordemAsc ? (valA - valB) : (valB - valA);
+        }
+        if (estadoSecomse.colunaOrdenacao === 'dataAssinatura') {
+          return estadoSecomse.ordemAsc ? (a.timestampAssinatura - b.timestampAssinatura) : (b.timestampAssinatura - a.timestampAssinatura);
+        }
+        valA = String(valA || '').toLowerCase();
+        valB = String(valB || '').toLowerCase();
+        if (valA < valB) return estadoSecomse.ordemAsc ? -1 : 1;
+        if (valA > valB) return estadoSecomse.ordemAsc ? 1 : -1;
+        return 0;
+      });
+
+      // Atualiza contadores
+      const totalSoma = filtrados.reduce((acc, c) => acc + c.valor, 0);
+      if (counterEl) counterEl.textContent = filtrados.length + ' de ' + contratos.length + ' contratos';
+      if (somaEl) somaEl.textContent = totalSoma > 0 ? totalSoma.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'R$ 0,00';
+
+      if (filtrados.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="padding: 2.5rem 1rem; text-align: center; color: #64748b;">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔍</div>
+              <strong style="color: #0f172a; font-size: 0.95rem;">Nenhum contrato encontrado com os filtros aplicados</strong>
+              <div style="font-size: 0.8rem; margin-top: 0.25rem;">Tente ajustar o termo de busca ou selecione "Todos os Contratos".</div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      // Renderiza as linhas
+      tbody.innerHTML = filtrados.map(c => {
+        let badgeCatCor = '#64748b';
+        let badgeCatBg = '#f1f5f9';
+        if (c.categoria === 'Transporte Escolar') { badgeCatCor = '#0284c7'; badgeCatBg = '#e0f2fe'; }
+        else if (c.categoria === 'Manutenção e Conservação') { badgeCatCor = '#b45309'; badgeCatBg = '#fef3c7'; }
+        else if (c.categoria === 'Vigilância e Limpeza') { badgeCatCor = '#7c3aed'; badgeCatBg = '#f5f3ff'; }
+        else if (c.categoria === 'Alimentação e Insumos') { badgeCatCor = '#059669'; badgeCatBg = '#ecfdf5'; }
+
+        return `
+          <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+            <td style="padding: 0.75rem 0.9rem; font-weight: 800; color: #0b2351; white-space: nowrap;">
+              ${c.contrato}
+              <div style="font-size: 0.7rem; color: #64748b; font-weight: 500;">SEI: ${c.processoSei}</div>
+            </td>
+            <td style="padding: 0.75rem 0.9rem;">
+              <strong style="color: #1e293b; display: block; font-size: 0.83rem;">${c.empresa}</strong>
+              <span style="display: inline-block; background: ${badgeCatBg}; color: ${badgeCatCor}; padding: 1px 7px; border-radius: 999px; font-size: 0.68rem; font-weight: 700; margin-top: 2px;">
+                ${c.categoria}
+              </span>
+            </td>
+            <td style="padding: 0.75rem 0.9rem; color: #334155; font-size: 0.8rem; max-width: 260px;">
+              <div style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" title="${c.objeto}">
+                ${c.objeto}
+              </div>
+            </td>
+            <td style="padding: 0.75rem 0.9rem; font-size: 0.76rem; color: #475569; white-space: nowrap;">
+              ${c.licitacaoComprasGov}
+            </td>
+            <td style="padding: 0.75rem 0.9rem; font-weight: 900; color: #047857; text-align: right; white-space: nowrap;">
+              ${c.valorFormatado}
+            </td>
+            <td style="padding: 0.75rem 0.9rem; text-align: center; white-space: nowrap; font-size: 0.78rem; color: #1e3a8a; font-weight: 700;">
+              ${c.dataAssinatura}
+            </td>
+            <td style="padding: 0.75rem 0.9rem; font-size: 0.75rem; color: #475569; white-space: nowrap;">
+              ${c.vigencia}
+            </td>
+            <td style="padding: 0.75rem 0.9rem; text-align: center; white-space: nowrap;">
+              <button onclick="abrirModalDetalheContratoSecomse('${c.id}')" style="background: #0b2351; color: #ffffff; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: 0.15s;" onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#0b2351'">
+                Ver Detalhes ↗
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
     // =========================================================================
-    // PAINEL SECOMSE - SEÇÃO DE COMPRAS E SERVIÇOS (SEAFIN / CAF)
+    // RENDERIZAÇÃO DO DASHBOARD EXECUTIVO SECOMSE (COMPRAS & SERVIÇOS)
     // =========================================================================
     function renderizarDashboardSecomse() {
       const container = document.getElementById('setor-conteudo-dinamico');
       if (!container) return;
 
-      container.innerHTML = `
-        <div style="margin-top: 1.25rem;">
-          <!-- BANNER DO SECOMSE -->
-          <div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); border-radius: 14px; padding: 1.5rem 1.85rem; color: #ffffff; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.25); border-left: 5px solid #38bdf8; margin-bottom: 1.5rem;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
-              <div>
-                <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 800; background: rgba(56,189,248,0.2); color: #bae6fd; padding: 0.25rem 0.65rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(56,189,248,0.35); margin-bottom: 0.5rem;">
-                  💼 SEAFIN • Compras & Serviços
-                </span>
-                <h3 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 0.35rem 0; letter-spacing: -0.01em;">
-                  SECOMSE • Seção de Compras e Serviços
-                </h3>
-                <p style="font-size: 0.86rem; color: #e2e8f0; margin: 0; max-width: 780px; line-height: 1.5;">
-                  Gestão integrada de aquisições diretas, licitações no BEC/SEI, atas de registro de preços vigentes, fiscalização de contratos de serviços contínuos e abastecimento de suprimentos nas 60 escolas da regional.
-                </p>
+      const ano = estadoSecomse.exercicio;
+      const kpis = DADOS_SECOMSE.kpis || {};
+      const contratos = (DADOS_SECOMSE.contratos && DADOS_SECOMSE.contratos[ano]) || [];
+      const valorTotal = ano === '2026' ? (kpis.valorTotal2026Formatado || 'R$ 470.945,74') : (kpis.valorTotal2025Formatado || 'R$ 67.082.611,83');
+      const totalContratos = ano === '2026' ? (kpis.totalContratos2026 || 57) : (kpis.totalContratos2025 || 25);
+
+      const html = `
+        <div class="secomse-dash-executive" style="padding: 0.5rem 0.2rem; font-family: inherit;">
+          
+          <!-- BANNER TOPO EXECUTIVO SECOMSE -->
+          <div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); border: 2px solid #38bdf8; border-radius: 16px; padding: 1.3rem 1.5rem; margin-bottom: 1.2rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+                <span style="font-size: 1.6rem;">💼</span>
+                <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">SECOMSE • Seção de Compras e Serviços</h2>
+                <span style="background: #dbeafe; color: #1e40af; border: 1.5px solid #3b82f6; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT</span>
               </div>
-              <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <button type="button" onclick="renderizarDashboardSecomse()" style="background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); padding: 0.5rem 0.95rem; border-radius: 8px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
-                  🔄 Atualizar Base
+              <p style="font-size: 0.86rem; color: #f1f5f9; margin: 0; max-width: 820px; line-height: 1.45; font-weight: 500;">
+                Gestão centralizada do controle de contratos administrativos, atas de registro de preços, processos licitatórios (Compras.Gov / BEC) e publicações de transparência (D.O.E., PNCP e AUDESP).
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
+                <span>📅 <strong>Atualizado:</strong> <span style="color: #ffffff;">${DADOS_SECOMSE.ultimaAtualizacao || 'Hoje'}</span></span>
+                <span>🔒 <strong>Conta Corporativa:</strong> <span style="color: #38bdf8; font-weight: 700;">itp_secomse_educacao_sp_gov_br</span></span>
+                <span>📁 <strong>Arquivo:</strong> <span style="color: #ffffff;">Controle de contratos.xlsx</span></span>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
+              <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                <button onclick="sincronizarDashboardSecomse()" id="btn-secomse-sync-base" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                  🔄 Sincronizar SECOMSE
                 </button>
+                <a href="${URLS_OFICIAIS_SECOMSE.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #38bdf8; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(56,189,248,0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                  📊 Abrir Excel no 365 ↗
+                </a>
+              </div>
+              <div style="font-size: 0.74rem; color: #93c5fd; font-weight: 700;">Base oficial com ${totalContratos} contratos no exercício ${ano}</div>
+            </div>
+          </div>
+
+          <!-- SELETOR DE EXERCÍCIO -->
+          <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.2rem;">
+            <span style="font-size: 0.78rem; font-weight: 800; color: #475569; text-transform: uppercase;">Exercício:</span>
+            <button onclick="mudarExercicioSecomse('2026')" style="padding: 6px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: 0.2s; border: 1.5px solid ${ano === '2026' ? '#0b2351' : '#cbd5e1'}; background: ${ano === '2026' ? '#0b2351' : '#ffffff'}; color: ${ano === '2026' ? '#ffffff' : '#334155'};">
+              🚀 Exercício 2026 (57 Contratos)
+            </button>
+            <button onclick="mudarExercicioSecomse('2025')" style="padding: 6px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: 0.2s; border: 1.5px solid ${ano === '2025' ? '#0b2351' : '#cbd5e1'}; background: ${ano === '2025' ? '#0b2351' : '#ffffff'}; color: ${ano === '2025' ? '#ffffff' : '#334155'};">
+              📜 Exercício 2025 (25 Contratos)
+            </button>
+          </div>
+
+          <!-- 4 CARDS KPIS SECOMSE -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
+            <div style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span style="font-size: 0.78rem; font-weight: 800; color: #0369a1; text-transform: uppercase;">Contratos Registrados</span>
+                <span style="background: #e0f2fe; color: #0369a1; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📑</span>
+              </div>
+              <div style="font-size: 2rem; font-weight: 900; color: #0284c7; margin: 0.2rem 0;">${totalContratos}</div>
+              <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem;">
+                Contratos monitorados em ${ano}
+              </div>
+            </div>
+
+            <div style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span style="font-size: 0.78rem; font-weight: 800; color: #065f46; text-transform: uppercase;">Valor Global Contratado</span>
+                <span style="background: #d1fae5; color: #065f46; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">💰</span>
+              </div>
+              <div style="font-size: 1.6rem; font-weight: 900; color: #059669; margin: 0.2rem 0;">${valorTotal}</div>
+              <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem;">
+                Soma dos valores contratuais (${ano})
+              </div>
+            </div>
+
+            <div style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span style="font-size: 0.78rem; font-weight: 800; color: #92400e; text-transform: uppercase;">Compras.Gov / BEC</span>
+                <span style="background: #fef3c7; color: #92400e; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">🏛️</span>
+              </div>
+              <div style="font-size: 2rem; font-weight: 900; color: #d97706; margin: 0.2rem 0;">
+                ${contratos.filter(c => c.licitacaoComprasGov !== 'Não se Aplica' && c.licitacaoComprasGov !== '-').length}
+              </div>
+              <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem;">
+                Pregões e processos licitatórios
+              </div>
+            </div>
+
+            <div style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.08);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span style="font-size: 0.78rem; font-weight: 800; color: #5b21b6; text-transform: uppercase;">AUDESP / Transparência</span>
+                <span style="background: #ede9fe; color: #5b21b6; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">⚖️</span>
+              </div>
+              <div style="font-size: 2rem; font-weight: 900; color: #7c3aed; margin: 0.2rem 0;">
+                ${contratos.filter(c => c.publicacaoAudesp !== 'Não se Aplica' && c.publicacaoAudesp !== '-').length}
+              </div>
+              <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem;">
+                Superior a R$ 9.255,00 (TCE-SP)
               </div>
             </div>
           </div>
 
-          <!-- 4 CARDS KPIS DO SECOMSE -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #2563eb;">
-              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Contratos Vigentes</div>
-              <div style="font-size: 1.6rem; font-weight: 800; color: #0f172a; line-height: 1.2;">18 Contratos</div>
-              <div style="font-size: 0.75rem; color: #2563eb; font-weight: 600; margin-top: 0.35rem;">Limpeza, Merenda, Segurança e Manutenção</div>
-            </div>
-            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #10b981;">
-              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Atas de Registro de Preços</div>
-              <div style="font-size: 1.6rem; font-weight: 800; color: #047857; line-height: 1.2;">24 Atas Ativas</div>
-              <div style="font-size: 0.75rem; color: #059669; font-weight: 600; margin-top: 0.35rem;">Insumos, didáticos e expediente escolar</div>
-            </div>
-            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #f59e0b;">
-              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Empenhos e Execução</div>
-              <div style="font-size: 1.6rem; font-weight: 800; color: #b45309; line-height: 1.2;">R$ 3,84M</div>
-              <div style="font-size: 0.75rem; color: #b45309; font-weight: 600; margin-top: 0.35rem;">Execução contratual acumulada 2026</div>
-            </div>
-            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-top: 3px solid #8b5cf6;">
-              <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Regularidade & Conformidade</div>
-              <div style="font-size: 1.6rem; font-weight: 800; color: #6d28d9; line-height: 1.2;">100% Homologado</div>
-              <div style="font-size: 0.75rem; color: #7c3aed; font-weight: 600; margin-top: 0.35rem;">Certidões negativas e CADIN regulares</div>
-            </div>
-          </div>
+          <!-- BARRA DE FILTROS & PESQUISA -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+              <!-- Categorias -->
+              <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;">
+                <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-right: 0.25rem;">Categorias:</span>
+                <button onclick="mudarCategoriaSecomse('TODOS')" style="padding: 4px 10px; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; border: 1px solid #cbd5e1; background: ${estadoSecomse.categoria === 'TODOS' ? '#0b2351' : '#f8fafc'}; color: ${estadoSecomse.categoria === 'TODOS' ? '#ffffff' : '#475569'};">Todas</button>
+                <button onclick="mudarCategoriaSecomse('Transporte Escolar')" style="padding: 4px 10px; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; border: 1px solid #cbd5e1; background: ${estadoSecomse.categoria === 'Transporte Escolar' ? '#0284c7' : '#f8fafc'}; color: ${estadoSecomse.categoria === 'Transporte Escolar' ? '#ffffff' : '#475569'};">🚌 Transporte</button>
+                <button onclick="mudarCategoriaSecomse('Manutenção e Conservação')" style="padding: 4px 10px; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; border: 1px solid #cbd5e1; background: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#d97706' : '#f8fafc'}; color: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#ffffff' : '#475569'};">🔧 Manutenção</button>
+                <button onclick="mudarCategoriaSecomse('Vigilância e Limpeza')" style="padding: 4px 10px; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; border: 1px solid #cbd5e1; background: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#7c3aed' : '#f8fafc'}; color: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#ffffff' : '#475569'};">🛡️ Vigilância/Limpeza</button>
+                <button onclick="mudarCategoriaSecomse('Alimentação e Insumos')" style="padding: 4px 10px; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; border: 1px solid #cbd5e1; background: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#059669' : '#f8fafc'}; color: ${estadoSecomse.categoria === 'Alimentação e Insumos' ? '#ffffff' : '#475569'};">🍎 Merenda/Insumos</button>
+              </div>
 
-          <!-- TABELA DE CONTRATOS E ATAS -->
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.04);">
-            <div style="padding: 1rem 1.35rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+              <!-- Busca rápida -->
+              <div style="display: flex; gap: 0.5rem; align-items: center; flex-grow: 1; max-width: 380px;">
+                <input type="text" placeholder="Buscar por contrato, empresa, processo SEI..." oninput="buscarContratosSecomse(this.value)" style="width: 100%; padding: 0.45rem 0.85rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.8rem; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#38bdf8'" onblur="this.style.borderColor='#cbd5e1'">
+              </div>
+            </div>
+
+            <!-- Resumo do filtro -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 0.65rem; margin-top: 0.75rem; font-size: 0.75rem; color: #64748b;">
               <div>
-                <strong style="color: #0f172a; font-size: 0.95rem;">Contratos Ativos e Processos de Aquisição (SECOMSE)</strong>
-                <span style="font-size: 0.75rem; color: #64748b; margin-left: 0.5rem;">(Monitoramento Contínuo SEDUC / FDE)</span>
+                Filtrando: <strong id="secomse-filtro-contador" style="color: #0b2351;">${contratos.length} contratos</strong>
               </div>
-              <input type="text" placeholder="Buscar por contrato, empresa ou serviço..." oninput="filtrarTabelaGenerica(this.value, 'tabela-secomse-tbody')" style="padding: 0.45rem 0.85rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.8rem; width: 280px; max-width: 100%;">
+              <div>
+                Total filtrado: <strong id="secomse-filtro-soma" style="color: #047857; font-weight: 800;">${valorTotal}</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- TABELA DE CONTRATOS DO EXERCÍCIO -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.04);">
+            <div style="padding: 0.85rem 1.25rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+              <strong style="color: #0f172a; font-size: 0.92rem;">Lista Oficial de Contratos - Exercício ${ano}</strong>
+              <span style="font-size: 0.74rem; color: #64748b;">Clique nas colunas para ordenar</span>
             </div>
             <div style="overflow-x: auto;">
               <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left;">
-                <thead style="background: #f1f5f9; color: #475569; font-weight: 700; border-bottom: 1px solid #cbd5e1;">
+                <thead style="background: #f1f5f9; color: #475569; font-weight: 700; border-bottom: 1px solid #cbd5e1; user-select: none;">
                   <tr>
-                    <th style="padding: 0.75rem 1rem;">Nº Processo / Contrato</th>
-                    <th style="padding: 0.75rem 1rem;">Objeto do Contrato</th>
-                    <th style="padding: 0.75rem 1rem;">Empresa Contratada</th>
-                    <th style="padding: 0.75rem 1rem;">Valor Anual / Global</th>
-                    <th style="padding: 0.75rem 1rem;">Vigência</th>
-                    <th style="padding: 0.75rem 1rem; text-align: center;">Situação Executiva</th>
+                    <th onclick="ordenarTabelaSecomse('contrato')" style="padding: 0.75rem 0.9rem; cursor: pointer;">
+                      Contrato / SEI ↕
+                    </th>
+                    <th onclick="ordenarTabelaSecomse('empresa')" style="padding: 0.75rem 0.9rem; cursor: pointer;">
+                      Empresa Contratada ↕
+                    </th>
+                    <th style="padding: 0.75rem 0.9rem;">
+                      Objeto Contratual
+                    </th>
+                    <th style="padding: 0.75rem 0.9rem;">
+                      Compras.Gov
+                    </th>
+                    <th onclick="ordenarTabelaSecomse('valor')" style="padding: 0.75rem 0.9rem; text-align: right; cursor: pointer;">
+                      Valor Global ↕
+                    </th>
+                    <th onclick="ordenarTabelaSecomse('dataAssinatura')" style="padding: 0.75rem 0.9rem; text-align: center; cursor: pointer;">
+                      Assinatura ↕
+                    </th>
+                    <th style="padding: 0.75rem 0.9rem;">
+                      Vigência
+                    </th>
+                    <th style="padding: 0.75rem 0.9rem; text-align: center;">
+                      Ação
+                    </th>
                   </tr>
                 </thead>
                 <tbody id="tabela-secomse-tbody">
-                  <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">015.002814/2026 • CT-04/2024</td>
-                    <td style="padding: 0.85rem 1rem;">Prestação de Serviços Contínuos de Limpeza e Asseio Escolar</td>
-                    <td style="padding: 0.85rem 1rem;"><strong>Serv Clean Facilities Ltda</strong></td>
-                    <td style="padding: 0.85rem 1rem; font-weight: 700;">R$ 1.280.450,00</td>
-                    <td style="padding: 0.85rem 1rem; color: #64748b;">Até 31/12/2026</td>
-                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #ecfdf5; color: #047857; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #a7f3d0;">🟢 Vigente / Em Dia</span></td>
-                  </tr>
-                  <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">015.003190/2026 • CT-08/2024</td>
-                    <td style="padding: 0.85rem 1rem;">Vigilância Patrimonial e Monitoramento Eletrônico 24h</td>
-                    <td style="padding: 0.85rem 1rem;"><strong>Gocil Segurança e Serviços</strong></td>
-                    <td style="padding: 0.85rem 1rem; font-weight: 700;">R$ 940.800,00</td>
-                    <td style="padding: 0.85rem 1rem; color: #64748b;">Até 30/11/2026</td>
-                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #ecfdf5; color: #047857; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #a7f3d0;">🟢 Vigente / Em Dia</span></td>
-                  </tr>
-                  <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">015.001472/2026 • ARP-12/2026</td>
-                    <td style="padding: 0.85rem 1rem;">Fornecimento Contínuo de Gás Liquefeito (GLP P45) para Merenda</td>
-                    <td style="padding: 0.85rem 1rem;"><strong>Ultragaz Distribuidora S.A.</strong></td>
-                    <td style="padding: 0.85rem 1rem; font-weight: 700;">R$ 315.600,00</td>
-                    <td style="padding: 0.85rem 1rem; color: #64748b;">Até 15/09/2026</td>
-                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #eff6ff; color: #1d4ed8; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #bfdbfe;">🔵 Ata de Preço Ativa</span></td>
-                  </tr>
-                  <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">015.004812/2026 • CT-15/2025</td>
-                    <td style="padding: 0.85rem 1rem;">Manutenção Preventiva e Corretiva de Bombas e Caixas d'Água</td>
-                    <td style="padding: 0.85rem 1rem;"><strong>HidroClean Engenharia Sanitária</strong></td>
-                    <td style="padding: 0.85rem 1rem; font-weight: 700;">R$ 280.000,00</td>
-                    <td style="padding: 0.85rem 1rem; color: #64748b;">Até 28/02/2027</td>
-                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #ecfdf5; color: #047857; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #a7f3d0;">🟢 Vigente / Em Dia</span></td>
-                  </tr>
-                  <tr style="border-bottom: 1px solid #f1f5f9;">
-                    <td style="padding: 0.85rem 1rem; font-weight: 700; color: #1e3a8a;">015.005118/2026 • DISP-09/2026</td>
-                    <td style="padding: 0.85rem 1rem;">Aquisição de Materiais de Expediente, Toners e Suprimentos Administrativos</td>
-                    <td style="padding: 0.85rem 1rem;"><strong>Papelaria & Distribuidora Central</strong></td>
-                    <td style="padding: 0.85rem 1rem; font-weight: 700;">R$ 84.500,00</td>
-                    <td style="padding: 0.85rem 1rem; color: #64748b;">Entrega Parcelada</td>
-                    <td style="padding: 0.85rem 1rem; text-align: center;"><span style="background: #fef3c7; color: #b45309; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; border: 1px solid #fde68a;">🟡 Em Entrega / BEC</span></td>
-                  </tr>
+                  <!-- Inserido dinamicamente por atualizarTabelaSecomse() -->
                 </tbody>
               </table>
             </div>
           </div>
+
         </div>
       `;
+
+      container.innerHTML = html;
+      atualizarTabelaSecomse();
     }
+
 
     // =========================================================================
     // PAINEL SEPAT - SEÇÃO DE PATRIMÔNIO E LOGÍSTICA (SEAFIN / CAF)

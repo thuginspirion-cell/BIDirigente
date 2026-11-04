@@ -45,6 +45,10 @@ Antes de finalizar qualquer tarefa, SEMPRE validar programaticamente se todos os
   - Link: `https://seesp-my.sharepoint.com/:x:/g/personal/itp_sevesc_educacao_sp_gov_br/cQroeBSCMXZCQbbGQSCaAqMaEgUCxrdIuNVbs_RPejCEfptcng`
   - Conta corporativa: `itp_sevesc_educacao_sp_gov_br`
   - Arquivo: `Livro Entrada 2026 SEVESC.xlsx`
+- **SECOMSE (Compras e Serviços - SEAFIN)**:
+  - Link: `https://seesp-my.sharepoint.com/:x:/g/personal/itp_secomse_educacao_sp_gov_br/cQpyFwAJCJ87RbMXj7B2-JhJEgUC4V47cGXVivFNqBI5cG_m-A?rtime=1RW0RI0630g`
+  - Conta corporativa: `itp_secomse_educacao_sp_gov_br`
+  - Arquivo: `Controle de contratos.xlsx`
 
 ## 5. Regra Fundamental de Resiliência dos Links Públicos do SharePoint (Anti-Login Universal)
 - **Natureza Pública**: Todos os links de arquivos, pastas e planilhas compartilhados pelos setores da Diretoria de Ensino (SEINTEC, SEFIN/CAF, CRH, CGE, NPE, GAB, etc.) são públicos ("Qualquer pessoa com o link pode visualizar").

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * BI Dirigente — Web App Entry Point
  * Deploy: executeAs=USER_DEPLOYING, access=ANYONE_ANONYMOUS
  * Scopes: script.external_request, calendar, drive, spreadsheets
@@ -36,6 +36,8 @@ function doGet(e) {
         output = sincronizarPlanilhaSemat(forcarBruto);
       } else if (action === 'sincronizarSevesc') {
         output = sincronizarPlanilhaSevesc(forcarBruto);
+      } else if (action === 'sincronizarSecomse') {
+        output = sincronizarPlanilhaSecomse(forcarBruto);
       } else if (action === 'sincronizarGenerico' || action === 'obterArquivoPublico') {
         output = obterArquivoPublicoSharepoint(e.parameter.url, {
           nomeSetor: e.parameter.setor,
@@ -427,6 +429,52 @@ function sincronizarPlanilhaSevesc(forcarBruto) {
       }
     } catch (errMirror) {
       Logger.log("Erro ao buscar mirror SEVESC: " + errMirror.toString());
+    }
+    return { sucesso: false, erro: e.toString() };
+  }
+}
+
+/**
+ * Sincronização Dinâmica da Planilha SECOMSE do SharePoint (Controle de Contratos 2026/2025)
+ * OTIMIZAÇÃO DE ALTA PERFORMANCE (100% REVERSÍVEL):
+ * Serve a base oficial de contratos do SECOMSE de forma instantânea e resiliente.
+ *
+ * @param {boolean} [forcarBruto=false]
+ */
+function sincronizarPlanilhaSecomse(forcarBruto) {
+  var modoOtimizado = !forcarBruto;
+  if (modoOtimizado) {
+    try {
+      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/secomse_contratos_2026.json?_t=" + new Date().getTime();
+      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+      if (res.getResponseCode() === 200) {
+        var dados = JSON.parse(res.getContentText());
+        dados.modoOtimizado = true;
+        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+        dados.mensagem = "Sincronização de alta performance: contratos do SECOMSE carregados com sucesso.";
+        return dados;
+      }
+    } catch (errOpt) {
+      Logger.log("Aviso SECOMSE modo otimizado: " + errOpt.toString());
+    }
+  }
+
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_secomse_educacao_sp_gov_br/cQpyFwAJCJ87RbMXj7B2-JhJEgUC4V47cGXVivFNqBI5cG_m-A?download=1";
+  try {
+    return obterArquivoPublicoSharepoint(url, {
+      nomeSetor: "SECOMSE / SEAFIN",
+      descricaoBase: "Controle de Contratos"
+    });
+  } catch (e) {
+    Logger.log("Aviso SECOMSE: fallback leve ativado - " + e.toString());
+    try {
+      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/secomse_contratos_2026.json";
+      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+      if (res.getResponseCode() === 200) {
+        return JSON.parse(res.getContentText());
+      }
+    } catch (errMirror) {
+      Logger.log("Erro ao buscar mirror SECOMSE: " + errMirror.toString());
     }
     return { sucesso: false, erro: e.toString() };
   }
@@ -1047,6 +1095,14 @@ function executarDiagnosticoConexoes() {
     diag.inventarioPasta = { sucesso: invRes.sucesso, erro: invRes.erro || null, totalArquivos: invRes.totalArquivos || 0 };
   } catch (e3) {
     diag.inventarioPasta = { sucesso: false, erro: e3.toString() };
+  }
+
+  // 4. SECOMSE
+  try {
+    var secomseRes = sincronizarPlanilhaSecomse();
+    diag.secomse = { sucesso: secomseRes.sucesso, erro: secomseRes.erro || null };
+  } catch (e4) {
+    diag.secomse = { sucesso: false, erro: e4.toString() };
   }
 
   return diag;

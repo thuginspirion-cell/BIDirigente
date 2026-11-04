@@ -21,6 +21,7 @@ const botoesSidebar = [
   'side-btn-GAB',
   'side-btn-SEINTEC',
   'side-btn-CAF',
+  'side-btn-SEOM',
   'side-btn-CGE',
   'side-btn-CRH',
   'side-btn-NPE'
@@ -60,15 +61,19 @@ const components = [
   'URLS_OFICIAIS_SEGRE',
   'URLS_OFICIAIS_SEMAT',
   'URLS_OFICIAIS_SEVESC',
+  'URLS_OFICIAIS_SECOMSE',
   'DADOS_SEGRE',
   'DADOS_SEMAT',
   'DADOS_SEVESC',
+  'DADOS_SECOMSE',
   'renderizarDashboardSegre',
   'renderizarDashboardSemat',
   'renderizarDashboardSevesc',
+  'renderizarDashboardSecomse',
   'sincronizarDashboardSegre',
   'sincronizarDashboardSemat',
-  'sincronizarDashboardSevesc'
+  'sincronizarDashboardSevesc',
+  'sincronizarDashboardSecomse'
 ];
 
 components.forEach(comp => {
