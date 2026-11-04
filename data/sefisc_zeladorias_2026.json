@@ -1,0 +1,365 @@
+{
+  "sucesso": true,
+  "setor": "SEFISC",
+  "centro": "SEOM",
+  "nomeSetor": "Seção de Fiscalização e Serviços Contratados",
+  "abaConsiderada": "SEFISC",
+  "arquivoOrigem": "CONTROLE - ZELADORIAS-ATUALIZADA-2026.xlsx",
+  "linkOficial": "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seom_educacao_sp_gov_br/cQqlhZv__2RbRqWFsB6bi32kEgUCiksrkU07lAICVPKgti7U7A",
+  "totalRegistros": 34,
+  "registros": [
+    {
+      "Unidade Escolar": "Alayde Domingues Couto Macedo",
+      "Nome do Zelador": "Fabiano Vagne Moreira Brito",
+      "RG": "22.686.337-2",
+      "Cargo": "Professor Educação Básica II",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "9/8/25",
+      "Venc.": "9/8/27",
+      "Processo": "SEI - 015.00416518/2023-98",
+      "OBS.": "giuseppe"
+    },
+    {
+      "Unidade Escolar": "Alferes Henrique Sammartino",
+      "Nome do Zelador": "Erivaldo Luiz da Silva",
+      "RG": "33490804-8",
+      "Cargo": "Ajudante Geral Masculino",
+      "Unidade de Classificação": "Pref. Municipal de Jandira",
+      "Publicação": "8/11/25",
+      "Venc.": "6/9/27",
+      "Processo": "SEI - 015.00522412/2025-94",
+      "OBS.": "OK -DARE"
+    },
+    {
+      "Unidade Escolar": "Américo Valentini Cristianini",
+      "Publicação": "8/11/25",
+      "Processo": "SEI - 015-00105369/2023-34",
+      "OBS.": "NOVO"
+    },
+    {
+      "Unidade Escolar": "Candido Rondon",
+      "Nome do Zelador": "Silvia Maria Ventura Braz",
+      "RG": "26261051-6",
+      "Cargo": "Agente de Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "8/11/25",
+      "Venc.": "6/12/27",
+      "Processo": "SEI - 015.00535073/2025-14",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Celina de Barros Bairão",
+      "Nome do Zelador": "Bartira Aparecida de Souza Vasconcelos",
+      "RG": "32.196.412-3",
+      "Cargo": "Professor Educação Básica II",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "8/11/25",
+      "Venc.": "6/18/27",
+      "Processo": "SEI - 015.00633952/2025-01",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Desembargador Manuel S. V.Neto",
+      "Nome do Zelador": "Rodrigo dos Santos Marcelino",
+      "RG": "40.128.102-4",
+      "Cargo": "Professor Educação Básica II",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "9/29/24",
+      "Venc.": "8/22/26",
+      "Processo": "SEI - 015.00372109/2024-53",
+      "OBS.": "RENOVAÇÃO"
+    },
+    {
+      "Unidade Escolar": "Dimarães Antonio Sandei",
+      "Nome do Zelador": "Alan Vitor Correa",
+      "RG": "41.482.663-2",
+      "Cargo": "Professor Educação Básica II",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "12/29/23",
+      "Venc.": "12/29/25",
+      "Processo": "SEI - 015.00469607/2023-37",
+      "OBS.": "RENOVAÇÃO"
+    },
+    {
+      "Unidade Escolar": "Dolores Garcia Paschoalim",
+      "Nome do Zelador": "Ana Maria Silva",
+      "RG": "19.696.936-0",
+      "Cargo": "Agente de Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "8/11/25",
+      "Venc.": "6/2/27",
+      "Processo": "SEI - 015.00539144/2025-40",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Dorvalino Abílio Teixeira",
+      "Nome do Zelador": "Luciana Faustino De Jesus",
+      "RG": "33.904.500-0",
+      "Cargo": "Gerente De Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "8/11/25",
+      "Venc.": "6/2/27",
+      "Processo": "SEI - 015.00546193/2025-39",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Eliana Andrés de Almeida Souza",
+      "Nome do Zelador": "Mirian Aparecida de Oliveira Barducco",
+      "RG": "48.798.288-5,",
+      "Cargo": "Gerente Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "3/18/25",
+      "Venc.": "2/14/27",
+      "Processo": "SEI - 015.00223867/2025-20",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Giuseppe Angelo Bertolli",
+      "Nome do Zelador": "Simone dos Santos Freitas",
+      "RG": "32.203.577-6",
+      "Cargo": "Monitora Prefeitura -Jandira",
+      "Unidade de Classificação": "Pref. Municipal de Jandira",
+      "Publicação": "8/11/25",
+      "Venc.": "7/2/27",
+      "Processo": "SEI - 015.00577251/2025-76",
+      "OBS.": "OK -DARE"
+    },
+    {
+      "Unidade Escolar": "Iracema Rauen Maciel",
+      "Unidade de Classificação": "seduc",
+      "Publicação": "8/29/24",
+      "Venc.": "6/27/26",
+      "Processo": "SEI - 015.00493115/2024-43",
+      "OBS.": "NOVO"
+    },
+    {
+      "Unidade Escolar": "Itajahy Feitosa Martins",
+      "Nome do Zelador": "Debora Ferreira Paiva",
+      "RG": "41.338.455-x",
+      "Cargo": "Agente de Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "9/30/24",
+      "Venc.": "2/27/26",
+      "Processo": "SEI - 015.00623820/2024-81",
+      "OBS.": "RENOVAÇÃO"
+    },
+    {
+      "Unidade Escolar": "Ignês Amélia Machado",
+      "Nome do Zelador": "Adeline Correia Marques",
+      "RG": "25.543.933-7",
+      "Cargo": "Agente de Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "8/11/25",
+      "Venc.": "6/10/27",
+      "Processo": "SEI - 015.00520752/2025-81",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Jardim Maria Helena I",
+      "Nome do Zelador": "Walmir Diffonso",
+      "RG": "8.832.375-4",
+      "Cargo": "Gerente De Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "12/18/25",
+      "Venc.": "8/5/27",
+      "Processo": "SEI –015.00968522/2025-07.",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Joao Batista Solde",
+      "Nome do Zelador": "Marina Aparecida dos Santos",
+      "RG": "34.908.360-5",
+      "Cargo": "Agente de Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "7/10/24",
+      "Processo": "SEI -015.00464623/2024-14"
+    },
+    {
+      "Unidade Escolar": "José Neyde Cesar Lessa",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "3/18/25",
+      "Venc.": "11/20/26",
+      "Processo": "SEI - 015.00817958/2024-40",
+      "OBS.": "NOVO"
+    },
+    {
+      "Unidade Escolar": "José Wilson Padinha",
+      "Nome do Zelador": "Wellington  Soares de Oliveira",
+      "RG": "42.738.226-9",
+      "Cargo": "Auxiliar de Serviços Gerais ",
+      "Unidade de Classificação": "Pref. Municipal de Barueri",
+      "Publicação": "6/19/24",
+      "Venc.": "12/14/25",
+      "Processo": "SEI - 015.00041520/2024-80",
+      "OBS.": "RENOVAÇÃO"
+    },
+    {
+      "Unidade Escolar": "Josepha Pinto Chiavelli",
+      "Nome do Zelador": "Silvana Aparecida dos S. Moreira",
+      "RG": "35.090.688-9",
+      "Cargo": "Agente de Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "8/11/25",
+      "Venc.": "2/17/27",
+      "Processo": "SEI - 015.00166435/2025-12",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Luis da Camara Cascudo",
+      "Nome do Zelador": "Ana Paula da Silva",
+      "RG": "17.378.036-2",
+      "Cargo": "Agente de Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "8/11/25",
+      "Venc.": "6/11/27",
+      "Processo": "SEI - 0015.00526918/2025-72",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Mary Mallet Cyrino",
+      "Nome do Zelador": "Graziele Cristina Messias",
+      "RG": "42.799.774-4",
+      "Cargo": "Agente de Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "8/11/25",
+      "Venc.": "6/10/27",
+      "Processo": "SEI - 015-00066471/2023-15",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Moacir Thomaz da Silva",
+      "Nome do Zelador": "Maurício da Silva Martins",
+      "RG": "28.063.601-5",
+      "Cargo": "Agente de Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "8/11/25",
+      "Venc.": "6/10/27",
+      "Processo": "SEI - 015.00597836/2025-11",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Nacif Amin Chalupe",
+      "Nome do Zelador": "Viviane Santos do Carmo",
+      "RG": "23.977.753-1",
+      "Cargo": "Professor Educação Básica II",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "9/30/24",
+      "Venc.": "8/23/26",
+      "Processo": "SEI - 015.00636271/2024-13",
+      "OBS.": "NOVO"
+    },
+    {
+      "Unidade Escolar": "Nercy Amélia Martilini Daher",
+      "Nome do Zelador": "Angela Maria da Silva",
+      "RG": "21.588.322-6",
+      "Cargo": "Agente de Serviço Escolares",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "8/11/25",
+      "Venc.": "6/4/27",
+      "Processo": "SEI - 015-00066479/2023-73",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "OswalDo Sammartino",
+      "Nome do Zelador": "Maria Celia da Silva",
+      "RG": "59.951.935-6,",
+      "Cargo": "Merendeira",
+      "Unidade de Classificação": "Pref.de Jandira",
+      "Publicação": "12/29/23",
+      "Venc.": "9/25/25",
+      "Processo": "SEI - 015.00452904/2023-43",
+      "OBS.": "NOVO"
+    },
+    {
+      "Unidade Escolar": "Paulo da Costa Pan Chacon",
+      "Nome do Zelador": "Alcione Nazaré Pereira Ferreira",
+      "RG": "37.362.971-0",
+      "Cargo": "Agente de Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "8/11/25",
+      "Venc.": "6/10/27",
+      "Processo": "SEI - 015-00064855/2023-95",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Paulo de Abreu",
+      "Nome do Zelador": "Edinilson de Abreu ",
+      "RG": "23.456.651-6",
+      "Cargo": "Agente de mobolidade Urbana ",
+      "Unidade de Classificação": "Pref. Municipal de Itapevi",
+      "Publicação": "8/11/25",
+      "Venc.": "6/13/27",
+      "Processo": "SEI - 015.00555239/2025-19",
+      "OBS.": "OK -DARE"
+    },
+    {
+      "Unidade Escolar": "Raul Briquet",
+      "Nome do Zelador": "Juan Silva Borges",
+      "RG": "34.267.198-4",
+      "Cargo": "Agente de Organização Escolares",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "6/10/25",
+      "Venc.": "10/14/26",
+      "Processo": "SEI - 015.00462806/2025-86",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Republica do Equador",
+      "Nome do Zelador": "Ailton Xavier Santos",
+      "RG": "38.385.776-4",
+      "Cargo": "Agente de Organização Escolar",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "12/9/25",
+      "Venc.": "12/26/27",
+      "Processo": "SEI - 15.00368681/2023-37",
+      "OBS.": "OK"
+    },
+    {
+      "Unidade Escolar": "Romeo Mecca",
+      "Nome do Zelador": "Jimmy Rocherard Mesquita",
+      "RG": "44.056.362-8",
+      "Cargo": "Prefeitura de Taboão da Serra",
+      "Unidade de Classificação": "Pref. Municipal de Taboão ",
+      "Publicação": "8/11/25",
+      "Venc.": "5/7/27",
+      "Processo": "SEI - 015.00555492/2025-64",
+      "OBS.": "OK -DARE"
+    },
+    {
+      "Unidade Escolar": "Vicente Themudo Lessa",
+      "Nome do Zelador": "Janildo Rodrigues de Medeiros ",
+      "RG": "32.028.332-X",
+      "Cargo": "vigia",
+      "Unidade de Classificação": "Pref. Municipal de Jandira",
+      "Publicação": "6/19/24",
+      "Venc.": "4/1/26",
+      "Processo": "SEI - 015.00527298/2024-16",
+      "OBS.": "RENOVAÇÃO"
+    },
+    {
+      "Unidade Escolar": "Wilmar Soares da Silva",
+      "Nome do Zelador": "Daniel Gama Figueiredo",
+      "RG": "35.241.950-7",
+      "Cargo": "Vigia",
+      "Unidade de Classificação": "Pref. Municipal de Jandira",
+      "Publicação": "8/11/25",
+      "Venc.": "6/9/27",
+      "Processo": "SEI - 015.00067129/2023-24",
+      "OBS.": "DEVE DARE"
+    },
+    {
+      "Unidade Escolar": "Mario Joaquim Escobar",
+      "Nome do Zelador": "Amaurisio Umbrelino da Silva",
+      "RG": "35.601.191-4",
+      "Cargo": "Professor Educação Básica II",
+      "Unidade de Classificação": "Seduc",
+      "Publicação": "8/11/25",
+      "Venc.": "8/11/27",
+      "Processo": "SEI - 015.00536876/2025-88",
+      "OBS.": "OK"
+    },
+    {
+      "Processo": "015.00662182/2025-03-Desc."
+    }
+  ]
+}

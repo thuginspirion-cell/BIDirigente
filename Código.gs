@@ -441,6 +441,51 @@ function sincronizarPlanilhaSevesc(forcarBruto) {
  *
  * @param {boolean} [forcarBruto=false]
  */
+
+/**
+ * Sincronização Dinâmica da Planilha SEFISC do SharePoint (CONTROLE - ZELADORIAS-ATUALIZADA-2026.xlsx)
+ * REGRA MANDATÓRIA: Considerar única e exclusivamente a aba 'SEFISC'.
+ */
+function sincronizarPlanilhaSefisc(forcarBruto) {
+  var modoOtimizado = !forcarBruto;
+  if (modoOtimizado) {
+    try {
+      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefisc_zeladorias_2026.json?_t=" + new Date().getTime();
+      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+      if (res.getResponseCode() === 200) {
+        var dados = JSON.parse(res.getContentText());
+        dados.modoOtimizado = true;
+        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+        dados.mensagem = "Sincronização de alta performance: aba SEFISC (Zeladorias 2026) carregada com sucesso.";
+        return dados;
+      }
+    } catch (errOpt) {
+      Logger.log("Aviso SEFISC modo otimizado: " + errOpt.toString());
+    }
+  }
+
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_seom_educacao_sp_gov_br/cQqlhZv__2RbRqWFsB6bi32kEgUCiksrkU07lAICVPKgti7U7A?download=1";
+  try {
+    return obterArquivoPublicoSharepoint(url, {
+      nomeSetor: "SEFISC / SEOM",
+      descricaoBase: "Controle de Zeladorias (Aba SEFISC)",
+      abaAlvo: "SEFISC"
+    });
+  } catch (e) {
+    Logger.log("Aviso SEFISC: fallback leve ativado - " + e.toString());
+    try {
+      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefisc_zeladorias_2026.json";
+      var res = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+      if (res.getResponseCode() === 200) {
+        return JSON.parse(res.getContentText());
+      }
+    } catch (errMirror) {
+      Logger.log("Erro ao buscar mirror SEFISC: " + errMirror.toString());
+    }
+    return { sucesso: false, erro: e.toString() };
+  }
+}
+
 function sincronizarPlanilhaSecomse(forcarBruto) {
   var modoOtimizado = !forcarBruto;
   if (modoOtimizado) {
