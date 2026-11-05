@@ -9679,6 +9679,32 @@ function imprimirAgendaCarro() {
 }
 
 
+
+    /* CENTRALIZAÇÃO UNIVERSAL DE TODAS AS MEDIDAS EM CARDS (TODOS OS SETORES) */
+    .kpi-big-number,
+    .gab-card-big-val,
+    .gestao-kpi-number,
+    .carro-kpi-number,
+    .escola-kpi-number,
+    .centro-metric-val,
+    #inv-kpi-val-total,
+    #inv-kpi-val-disponivel,
+    #inv-kpi-val-danificado,
+    #inv-kpi-val-manutencao,
+    #inv-kpi-val-inservivel,
+    #kpi-calls-total,
+    #kpi-calls-equipamentos,
+    #kpi-calls-inventario,
+    #kpi-calls-internet,
+    #kpi-calls-telefone,
+    #kpi-calls-infraestrutura,
+    #kpi-calls-outros {
+      text-align: center !important;
+      justify-content: center !important;
+      display: flex !important;
+      align-items: center !important;
+      width: 100% !important;
+    }
 </style>
 </head>
 
@@ -10122,25 +10148,25 @@ function imprimirAgendaCarro() {
             <!-- Box 1: Hardware SEINTEC -->
             <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
               <div style="font-size: 0.7rem; font-weight: 800; color: #2563eb; text-transform: uppercase; letter-spacing: 0.04em;">💻 Hardware SEINTEC</div>
-              <div id="spotlight-hw-total" style="font-size: 1.45rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0;">0 itens</div>
+              <div id="spotlight-hw-total" style="font-size: 1.45rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0; text-align: center;">0 itens</div>
               <div id="spotlight-hw-sub" style="font-size: 0.78rem; color: #059669; font-weight: 600;">0 disponíveis (0%)</div>
             </div>
             <!-- Box 2: Chamados / Calls -->
             <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
               <div style="font-size: 0.7rem; font-weight: 800; color: #d97706; text-transform: uppercase; letter-spacing: 0.04em;">📞 Chamados / Atendimentos SEINTEC</div>
-              <div id="spotlight-calls-total" style="font-size: 1.45rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0;">0 chamados</div>
+              <div id="spotlight-calls-total" style="font-size: 1.45rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0; text-align: center;">0 chamados</div>
               <div id="spotlight-calls-sub" style="font-size: 0.78rem; color: #64748b;">0 pendentes • 0 concluídos</div>
             </div>
             <!-- Box 3: Estrutura & Ambientes -->
             <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
               <div style="font-size: 0.7rem; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 0.04em;">🏫 Rede & Segmento</div>
-              <div id="spotlight-tipo" style="font-size: 1.25rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0;">Regular</div>
+              <div id="spotlight-tipo" style="font-size: 1.25rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0; text-align: center;">Regular</div>
               <div id="spotlight-segmento" style="font-size: 0.78rem; color: #64748b;">Ensino Fundamental e Médio</div>
             </div>
             <!-- Box 4: Gestão & Contato -->
             <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
               <div style="font-size: 0.7rem; font-weight: 800; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.04em;">👥 Gestão da Unidade</div>
-              <div id="spotlight-diretor" style="font-size: 1.15rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">-</div>
+              <div id="spotlight-diretor" style="font-size: 1.15rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; text-align: center;">-</div>
               <div id="spotlight-telefone" style="font-size: 0.78rem; color: #64748b;">Tel: -</div>
             </div>
           </div>
@@ -18192,19 +18218,19 @@ function imprimirAgendaCarro() {
               <h4 style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin: 0 0 1.25rem 0;">Status Oficial da Prestação de Contas no Sistema SED (Ano ${anoAtivo})</h4>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.1rem; margin-bottom: 1.5rem;">
                 <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 1.2rem; text-align: center;">
-                  <div style="font-size: 2rem; font-weight: 900; color: #166534;">${kpis.aprovadas}</div>
+                  <div style="font-size: 2rem; font-weight: 900; color: #166534; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.aprovadas}</div>
                   <div style="font-size: 0.8rem; font-weight: 800; color: #15803d; text-transform: uppercase;">Aprovadas sem Ressalva</div>
                 </div>
                 <div style="background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 12px; padding: 1.2rem; text-align: center;">
-                  <div style="font-size: 2rem; font-weight: 900; color: #92400e;">${kpis.ressalvas}</div>
+                  <div style="font-size: 2rem; font-weight: 900; color: #92400e; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.ressalvas}</div>
                   <div style="font-size: 0.8rem; font-weight: 800; color: #b45309; text-transform: uppercase;">Aprovadas com Ressalva</div>
                 </div>
                 <div style="background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 1.2rem; text-align: center;">
-                  <div style="font-size: 2rem; font-weight: 900; color: #075985;">${kpis.emAndamento}</div>
+                  <div style="font-size: 2rem; font-weight: 900; color: #075985; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.emAndamento}</div>
                   <div style="font-size: 0.8rem; font-weight: 800; color: #0284c7; text-transform: uppercase;">Em Andamento</div>
                 </div>
                 <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 1.2rem; text-align: center;">
-                  <div style="font-size: 2rem; font-weight: 900; color: #1e293b;">${kpis.outros}</div>
+                  <div style="font-size: 2rem; font-weight: 900; color: #1e293b; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.outros}</div>
                   <div style="font-size: 0.8rem; font-weight: 800; color: #475569; text-transform: uppercase;">Em Análise / Outros</div>
                 </div>
               </div>
@@ -18774,7 +18800,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #0369a1; text-transform: uppercase;">Contratos Registrados</span>
                 <span style="background: #e0f2fe; color: #0369a1; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📑</span>
               </div>
-              <div style="font-size: 2rem; font-weight: 900; color: #0284c7; margin: 0.2rem 0;">${totalContratos}</div>
+              <div style="font-size: 2rem; font-weight: 900; color: #0284c7; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${totalContratos}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem;">
                 Contratos monitorados em ${ano}
               </div>
@@ -18785,7 +18811,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #065f46; text-transform: uppercase;">Valor Global Contratado</span>
                 <span style="background: #d1fae5; color: #065f46; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">💰</span>
               </div>
-              <div style="font-size: 1.6rem; font-weight: 900; color: #059669; margin: 0.2rem 0;">${valorTotal}</div>
+              <div style="font-size: 1.6rem; font-weight: 900; color: #059669; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${valorTotal}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem;">
                 Soma dos valores contratuais (${ano})
               </div>
@@ -18796,7 +18822,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #92400e; text-transform: uppercase;">Compras.Gov / BEC</span>
                 <span style="background: #fef3c7; color: #92400e; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">🏛️</span>
               </div>
-              <div style="font-size: 2rem; font-weight: 900; color: #d97706; margin: 0.2rem 0;">
+              <div style="font-size: 2rem; font-weight: 900; color: #d97706; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">
                 ${contratos.filter(c => c.licitacaoComprasGov !== 'Não se Aplica' && c.licitacaoComprasGov !== '-').length}
               </div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem;">
@@ -18809,7 +18835,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #5b21b6; text-transform: uppercase;">AUDESP / Transparência</span>
                 <span style="background: #ede9fe; color: #5b21b6; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">⚖️</span>
               </div>
-              <div style="font-size: 2rem; font-weight: 900; color: #7c3aed; margin: 0.2rem 0;">
+              <div style="font-size: 2rem; font-weight: 900; color: #7c3aed; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">
                 ${contratos.filter(c => c.publicacaoAudesp !== 'Não se Aplica' && c.publicacaoAudesp !== '-').length}
               </div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem;">
@@ -19141,22 +19167,22 @@ function imprimirAgendaCarro() {
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
             <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-top: 4px solid #0b2351;">
               <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Total de Bens Tombados</div>
-              <div style="font-size: 1.85rem; font-weight: 800; color: #0b2351; line-height: 1.2;">${kpis.totalBens.toLocaleString('pt-BR')}</div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: #0b2351; line-height: 1.2; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center; margin: 0.25rem 0;">${kpis.totalBens.toLocaleString('pt-BR')}</div>
               <div style="font-size: 0.74rem; color: #64748b; margin-top: 0.35rem;">Bens permanentes catalogados</div>
             </div>
             <div style="background: #ffffff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(37,99,235,0.08); border-top: 4px solid #2563eb;">
               <div style="font-size: 0.72rem; font-weight: 700; color: #1d4ed8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Ambientes / Setores</div>
-              <div style="font-size: 1.85rem; font-weight: 800; color: #1d4ed8; line-height: 1.2;">${kpis.totalAmbientes}</div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: #1d4ed8; line-height: 1.2; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center; margin: 0.25rem 0;">${kpis.totalAmbientes}</div>
               <div style="font-size: 0.74rem; color: #64748b; margin-top: 0.35rem;">Salas e dependências mapeadas</div>
             </div>
             <div style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(16,185,129,0.08); border-top: 4px solid #10b981;">
               <div style="font-size: 0.72rem; font-weight: 700; color: #047857; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Bens Alocados em Salas</div>
-              <div style="font-size: 1.85rem; font-weight: 800; color: #047857; line-height: 1.2;">${kpis.bensLocalizados.toLocaleString('pt-BR')}</div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: #047857; line-height: 1.2; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center; margin: 0.25rem 0;">${kpis.bensLocalizados.toLocaleString('pt-BR')}</div>
               <div style="font-size: 0.74rem; color: #64748b; margin-top: 0.35rem;">Localização física confirmada</div>
             </div>
             <div style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(245,158,11,0.08); border-top: 4px solid #f59e0b;">
               <div style="font-size: 0.72rem; font-weight: 700; color: #b45309; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Estado Bom / Ótimo</div>
-              <div style="font-size: 1.85rem; font-weight: 800; color: #b45309; line-height: 1.2;">${kpis.bensAvaliadosBomOtimo.toLocaleString('pt-BR')}</div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: #b45309; line-height: 1.2; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center; margin: 0.25rem 0;">${kpis.bensAvaliadosBomOtimo.toLocaleString('pt-BR')}</div>
               <div style="font-size: 0.74rem; color: #64748b; margin-top: 0.35rem;">Itens em pleno funcionamento</div>
             </div>
           </div>
@@ -19273,22 +19299,22 @@ function imprimirAgendaCarro() {
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
             <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border-top: 4px solid #0b2351;">
               <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Total de Escolas Mapeadas</div>
-              <div style="font-size: 1.85rem; font-weight: 800; color: #0b2351; line-height: 1.2;">${totalEscolas}</div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: #0b2351; line-height: 1.2; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center; margin: 0.25rem 0;">${totalEscolas}</div>
               <div style="font-size: 0.74rem; color: #64748b; margin-top: 0.35rem;">100% da rede URE Itapevi</div>
             </div>
             <div style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(245,158,11,0.08); border-top: 4px solid #f59e0b;">
               <div style="font-size: 0.72rem; font-weight: 700; color: #b45309; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Obras FDE Ativas</div>
-              <div style="font-size: 1.85rem; font-weight: 800; color: #b45309; line-height: 1.2;">${obrasAtivas}</div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: #b45309; line-height: 1.2; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center; margin: 0.25rem 0;">${obrasAtivas}</div>
               <div style="font-size: 0.74rem; color: #64748b; margin-top: 0.35rem;">Concluídas ou em acompanhamento</div>
             </div>
             <div style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(16,185,129,0.08); border-top: 4px solid #10b981;">
               <div style="font-size: 0.72rem; font-weight: 700; color: #047857; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">AVCB Regularizados</div>
-              <div style="font-size: 1.85rem; font-weight: 800; color: #047857; line-height: 1.2;">${avcbRegular}</div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: #047857; line-height: 1.2; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center; margin: 0.25rem 0;">${avcbRegular}</div>
               <div style="font-size: 0.74rem; color: #b91c1c; margin-top: 0.35rem;">${avcbPendente} pendentes de regularização</div>
             </div>
             <div style="background: #ffffff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(37,99,235,0.08); border-top: 4px solid #2563eb;">
               <div style="font-size: 0.72rem; font-weight: 700; color: #1d4ed8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">Matrícula Atualizada</div>
-              <div style="font-size: 1.85rem; font-weight: 800; color: #1d4ed8; line-height: 1.2;">${matriculaOk}</div>
+              <div style="font-size: 1.85rem; font-weight: 800; color: #1d4ed8; line-height: 1.2; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center; margin: 0.25rem 0;">${matriculaOk}</div>
               <div style="font-size: 0.74rem; color: #64748b; margin-top: 0.35rem;">Telhados Concluídos: ${telhadoConcluido}</div>
             </div>
           </div>
@@ -19729,7 +19755,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.75rem; font-weight: 800; color: #065f46; text-transform: uppercase;">Zeladorias Ocupadas</span>
                 <span style="background: #d1fae5; color: #065f46; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">🟢</span>
               </div>
-              <div style="font-size: 1.8rem; font-weight: 900; color: #059669;">${kpis.ocupadas}</div>
+              <div style="font-size: 1.8rem; font-weight: 900; color: #059669; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center; margin: 0.25rem 0;">${kpis.ocupadas}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; margin-top: 0.35rem;">
                 ${pctOcupadas}% de ocupação regular
               </div>
@@ -19740,7 +19766,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.75rem; font-weight: 800; color: #991b1b; text-transform: uppercase;">Zeladorias Vagas</span>
                 <span style="background: #fee2e2; color: #991b1b; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">🟡</span>
               </div>
-              <div style="font-size: 1.8rem; font-weight: 900; color: #dc2626;">${kpis.vagas}</div>
+              <div style="font-size: 1.8rem; font-weight: 900; color: #dc2626; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center; margin: 0.25rem 0;">${kpis.vagas}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; margin-top: 0.35rem;">
                 Disponíveis para nova cessão
               </div>
@@ -19751,7 +19777,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.75rem; font-weight: 800; color: #0369a1; text-transform: uppercase;">Processos SEI</span>
                 <span style="background: #e0f2fe; color: #0369a1; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📋</span>
               </div>
-              <div style="font-size: 1.8rem; font-weight: 900; color: #0284c7;">${kpis.processosSei}</div>
+              <div style="font-size: 1.8rem; font-weight: 900; color: #0284c7; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center; margin: 0.25rem 0;">${kpis.processosSei}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; margin-top: 0.35rem;">
                 Processos de cessão autuados
               </div>
@@ -19762,7 +19788,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.75rem; font-weight: 800; color: #334155; text-transform: uppercase;">Total Mapeado</span>
                 <span style="background: #f1f5f9; color: #334155; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">🏫</span>
               </div>
-              <div style="font-size: 1.8rem; font-weight: 900; color: #0b2351;">${kpis.totalZeladorias}</div>
+              <div style="font-size: 1.8rem; font-weight: 900; color: #0b2351; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center; margin: 0.25rem 0;">${kpis.totalZeladorias}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; margin-top: 0.35rem;">
                 Unidades escolares catalogadas
               </div>
@@ -20202,7 +20228,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #0369a1; text-transform: uppercase;">Atendimento Externo</span>
                 <span style="background: #e0f2fe; color: #0369a1; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">🗣️</span>
               </div>
-              <div style="font-size: 2rem; font-weight: 900; color: #0284c7; margin: 0.2rem 0;">${kpis.totalAtendimentos.toLocaleString('pt-BR')}</div>
+              <div style="font-size: 2rem; font-weight: 900; color: #0284c7; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.totalAtendimentos.toLocaleString('pt-BR')}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; display: flex; justify-content: space-between;">
                 <span>Janeiro a Novembro (100%)</span>
                 <span style="font-weight: 700; color: #0284c7;">Ver Atendimentos ➔</span>
@@ -20214,7 +20240,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #047857; text-transform: uppercase;">Matrículas Manuais</span>
                 <span style="background: #d1fae5; color: #047857; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📝</span>
               </div>
-              <div style="font-size: 2rem; font-weight: 900; color: #059669; margin: 0.2rem 0;">${kpis.totalMatriculasManuais.toLocaleString('pt-BR')}</div>
+              <div style="font-size: 2rem; font-weight: 900; color: #059669; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.totalMatriculasManuais.toLocaleString('pt-BR')}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; display: flex; justify-content: space-between;">
                 <span>Ajustes efetuados nas escolas</span>
                 <span style="font-weight: 700; color: #059669;">Ver Matrículas ➔</span>
@@ -20226,7 +20252,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #c2410c; text-transform: uppercase;">Processos SEI</span>
                 <span style="background: #ffedd5; color: #c2410c; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📋</span>
               </div>
-              <div style="font-size: 2rem; font-weight: 900; color: #ea580c; margin: 0.2rem 0;">${kpis.totalSei}</div>
+              <div style="font-size: 2rem; font-weight: 900; color: #ea580c; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.totalSei}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; display: flex; justify-content: space-between;">
                 <span>Regimentos, Módulos, Turmas</span>
                 <span style="font-weight: 700; color: #ea580c;">Ver SEI ➔</span>
@@ -20238,7 +20264,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #6d28d9; text-transform: uppercase;">Trocas & E-mails</span>
                 <span style="background: #ede9fe; color: #6d28d9; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📬</span>
               </div>
-              <div style="font-size: 2rem; font-weight: 900; color: #7c3aed; margin: 0.2rem 0;">${kpis.totalTrocasEscola.toLocaleString('pt-BR')}</div>
+              <div style="font-size: 2rem; font-weight: 900; color: #7c3aed; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.totalTrocasEscola.toLocaleString('pt-BR')}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem;">
                 <span>+ ${kpis.totalEmails.toLocaleString('pt-BR')} expedientes catalogados</span>
               </div>
@@ -20888,7 +20914,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #0369a1; text-transform: uppercase;">Atendimentos Vida Escolar</span>
                 <span style="background: #e0f2fe; color: #0369a1; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📜</span>
               </div>
-              <div style="font-size: 2rem; font-weight: 900; color: #0284c7; margin: 0.2rem 0;">${kpis.totalAtendimentos.toLocaleString('pt-BR')}</div>
+              <div style="font-size: 2rem; font-weight: 900; color: #0284c7; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.totalAtendimentos.toLocaleString('pt-BR')}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; display: flex; justify-content: space-between;">
                 <span>Janeiro a Novembro (100%)</span>
                 <span style="font-weight: 700; color: #0284c7;">Ver Atendimentos ➔</span>
@@ -29100,7 +29126,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #0369a1; text-transform: uppercase;">Processos SEI</span>
                 <span style="background: #e0f2fe; color: #0369a1; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📋</span>
               </div>
-              <div style="font-size: 2rem; font-weight: 900; color: #0284c7; margin: 0.2rem 0;">${kpis.totalSei}</div>
+              <div style="font-size: 2rem; font-weight: 900; color: #0284c7; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.totalSei}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; display: flex; justify-content: space-between;">
                 <span>Encaminhados e Análise</span>
                 <span style="font-weight: 700; color: #0284c7;">Aba SEI ➔</span>
@@ -29113,7 +29139,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #047857; text-transform: uppercase;">Vagas & Matrícula</span>
                 <span style="background: #d1fae5; color: #047857; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">🎓</span>
               </div>
-              <div style="font-size: 2rem; font-weight: 900; color: #059669; margin: 0.2rem 0;">${kpis.totalVagas}</div>
+              <div style="font-size: 2rem; font-weight: 900; color: #059669; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.totalVagas}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; display: flex; justify-content: space-between;">
                 <span>Atendimentos / Transferências</span>
                 <span style="font-weight: 700; color: #059669;">Aba Vagas ➔</span>
@@ -29126,7 +29152,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #c2410c; text-transform: uppercase;">Ouvidorias Fala.SP</span>
                 <span style="background: #ffedd5; color: #c2410c; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📢</span>
               </div>
-              <div style="font-size: 2rem; font-weight: 900; color: #ea580c; margin: 0.2rem 0;">${kpis.totalOuvidoria}</div>
+              <div style="font-size: 2rem; font-weight: 900; color: #ea580c; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.totalOuvidoria}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; display: flex; justify-content: space-between;">
                 <span>100% Respondidas / No Prazo</span>
                 <span style="font-weight: 700; color: #ea580c;">Aba Ouvidoria ➔</span>
@@ -29139,7 +29165,7 @@ function imprimirAgendaCarro() {
                 <span style="font-size: 0.78rem; font-weight: 800; color: #6d28d9; text-transform: uppercase;">Concluintes</span>
                 <span style="background: #ede9fe; color: #6d28d9; font-size: 1.1rem; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📜</span>
               </div>
-              <div style="font-size: 2rem; font-weight: 900; color: #7c3aed; margin: 0.2rem 0;">${kpis.totalConcluintes.toLocaleString('pt-BR')}</div>
+              <div style="font-size: 2rem; font-weight: 900; color: #7c3aed; margin: 0.2rem 0; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;">${kpis.totalConcluintes.toLocaleString('pt-BR')}</div>
               <div style="font-size: 0.74rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.35rem; display: flex; justify-content: space-between;">
                 <span>+ ${(kpis.totalEmails || 8727).toLocaleString('pt-BR')} e-mails registrados</span>
                 <span style="font-weight: 700; color: #7c3aed;">Aba Concluintes ➔</span>
