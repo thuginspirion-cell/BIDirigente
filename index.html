@@ -11255,47 +11255,88 @@ function imprimirAgendaCarro() {
                 </span>
               </div>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 0.75rem;">
-                <!-- 1. Total Monitorado (Mantido) -->
-                <div class="calls-kpi-card selected" id="kpi-card-calls-todos" onclick="filtrarCallsPorStatus('todos')" title="Ver todos os chamados" style="cursor: pointer; background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border: 1px solid #1e3a8a; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.05em;">TOTAL MONITORADO</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #38bdf8; margin-top: 0.15rem;" id="kpi-calls-total">1.363</div>
-                  <div style="font-size: 0.7rem; color: #94a3b8;">Base SEINTEC 2026</div>
+                <!-- 1. Total Monitorado -->
+                <div class="calls-kpi-card selected" id="kpi-card-calls-todos" onclick="filtrarCallsPorStatus('todos')" title="Ver todos os chamados" style="cursor: pointer; background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border: 1px solid #1e3a8a; border-radius: 12px; padding: 0.85rem 0.95rem; color: #fff; min-height: 112px; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.4rem;">
+                    <span style="font-size: 0.68rem; font-weight: 800; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">TOTAL</span>
+                    <div style="width: 30px; height: 30px; min-width: 30px; border-radius: 8px; margin-left: auto; flex-shrink: 0; background: rgba(56, 189, 248, 0.15); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.3);">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    </div>
+                  </div>
+                  <div style="font-size: 1.65rem; font-weight: 800; color: #38bdf8; letter-spacing: -0.02em; line-height: 1.15; margin: 0.25rem 0 0.15rem 0; white-space: nowrap; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;" id="kpi-calls-total">1.363</div>
+                  <div style="font-size: 0.68rem; color: #94a3b8; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">Base SEINTEC 2026</div>
                 </div>
-                <!-- 2. Equipamentos e Tablets -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Equipamentos" onclick="filtrarCallsPorStatus('Equipamentos e Tablets')" title="Filtrar por Equipamentos e Tablets" style="cursor: pointer; background: linear-gradient(135deg, #2e1065 0%, #581c87 100%); border: 1px solid #8b5cf6; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #ddd6fe; text-transform: uppercase; letter-spacing: 0.05em;">💻 EQUIPAMENTOS</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-equipamentos">754</div>
-                  <div style="font-size: 0.7rem; color: #c4b5fd;">Tablets, Educatrons e PCs</div>
+
+                <!-- 2. Equipamentos -->
+                <div class="calls-kpi-card" id="kpi-card-calls-Equipamentos" onclick="filtrarCallsPorStatus('Equipamentos e Tablets')" title="Filtrar por Equipamentos e Tablets" style="cursor: pointer; background: linear-gradient(135deg, #2e1065 0%, #581c87 100%); border: 1px solid #8b5cf6; border-radius: 12px; padding: 0.85rem 0.95rem; color: #fff; min-height: 112px; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.4rem;">
+                    <span style="font-size: 0.68rem; font-weight: 800; color: #ddd6fe; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">EQUIPAMENTOS</span>
+                    <div style="width: 30px; height: 30px; min-width: 30px; border-radius: 8px; margin-left: auto; flex-shrink: 0; background: rgba(196, 181, 253, 0.15); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1px rgba(196, 181, 253, 0.3);">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ddd6fe" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                    </div>
+                  </div>
+                  <div style="font-size: 1.65rem; font-weight: 800; color: #ffffff; letter-spacing: -0.02em; line-height: 1.15; margin: 0.25rem 0 0.15rem 0; white-space: nowrap; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;" id="kpi-calls-equipamentos">754</div>
+                  <div style="font-size: 0.68rem; color: #c4b5fd; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">Tablets, Educatrons e PCs</div>
                 </div>
+
                 <!-- 3. Inventário -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Inventario" onclick="filtrarCallsPorStatus('Inventario')" title="Filtrar por Inventário" style="cursor: pointer; background: linear-gradient(135deg, #064e3b 0%, #047857 100%); border: 1px solid #10b981; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.05em;">📋 INVENTÁRIO</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-inventario">268</div>
-                  <div style="font-size: 0.7rem; color: #d1fae5;">Mapeamento do Parque</div>
+                <div class="calls-kpi-card" id="kpi-card-calls-Inventario" onclick="filtrarCallsPorStatus('Inventario')" title="Filtrar por Inventário" style="cursor: pointer; background: linear-gradient(135deg, #064e3b 0%, #047857 100%); border: 1px solid #10b981; border-radius: 12px; padding: 0.85rem 0.95rem; color: #fff; min-height: 112px; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.4rem;">
+                    <span style="font-size: 0.68rem; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">INVENTÁRIO</span>
+                    <div style="width: 30px; height: 30px; min-width: 30px; border-radius: 8px; margin-left: auto; flex-shrink: 0; background: rgba(167, 243, 208, 0.15); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1px rgba(167, 243, 208, 0.3);">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a7f3d0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><line x1="9" y1="12" x2="15" y2="12"></line><line x1="9" y1="16" x2="13" y2="16"></line></svg>
+                    </div>
+                  </div>
+                  <div style="font-size: 1.65rem; font-weight: 800; color: #ffffff; letter-spacing: -0.02em; line-height: 1.15; margin: 0.25rem 0 0.15rem 0; white-space: nowrap; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;" id="kpi-calls-inventario">268</div>
+                  <div style="font-size: 0.68rem; color: #d1fae5; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">Mapeamento do Parque</div>
                 </div>
-                <!-- 4. Internet / Conectividade -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Internet" onclick="filtrarCallsPorStatus('Internet / Conectividade')" title="Filtrar por Internet / Conectividade" style="cursor: pointer; background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%); border: 1px solid #38bdf8; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #bae6fd; text-transform: uppercase; letter-spacing: 0.05em;">🌐 INTERNET / CONECTIVIDADE</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-internet">243</div>
-                  <div style="font-size: 0.7rem; color: #e0f2fe;">Conectividade e link fibra</div>
+
+                <!-- 4. Internet -->
+                <div class="calls-kpi-card" id="kpi-card-calls-Internet" onclick="filtrarCallsPorStatus('Internet')" title="Filtrar por Internet" style="cursor: pointer; background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%); border: 1px solid #38bdf8; border-radius: 12px; padding: 0.85rem 0.95rem; color: #fff; min-height: 112px; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.4rem;">
+                    <span style="font-size: 0.68rem; font-weight: 800; color: #bae6fd; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">INTERNET</span>
+                    <div style="width: 30px; height: 30px; min-width: 30px; border-radius: 8px; margin-left: auto; flex-shrink: 0; background: rgba(186, 230, 253, 0.15); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1px rgba(186, 230, 253, 0.3);">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    </div>
+                  </div>
+                  <div style="font-size: 1.65rem; font-weight: 800; color: #ffffff; letter-spacing: -0.02em; line-height: 1.15; margin: 0.25rem 0 0.15rem 0; white-space: nowrap; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;" id="kpi-calls-internet">243</div>
+                  <div style="font-size: 0.68rem; color: #e0f2fe; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">Conectividade e link fibra</div>
                 </div>
+
                 <!-- 5. Telefone -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Telefone" onclick="filtrarCallsPorStatus('Telefone')" title="Filtrar por Telefone" style="cursor: pointer; background: linear-gradient(135deg, #78350f 0%, #b45309 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #fde68a; text-transform: uppercase; letter-spacing: 0.05em;">📞 TELEFONE</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-telefone">64</div>
-                  <div style="font-size: 0.7rem; color: #fef3c7;">Linhas e Telefonia</div>
+                <div class="calls-kpi-card" id="kpi-card-calls-Telefone" onclick="filtrarCallsPorStatus('Telefone')" title="Filtrar por Telefone" style="cursor: pointer; background: linear-gradient(135deg, #78350f 0%, #b45309 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 0.85rem 0.95rem; color: #fff; min-height: 112px; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.4rem;">
+                    <span style="font-size: 0.68rem; font-weight: 800; color: #fde68a; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">TELEFONE</span>
+                    <div style="width: 30px; height: 30px; min-width: 30px; border-radius: 8px; margin-left: auto; flex-shrink: 0; background: rgba(253, 230, 138, 0.15); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1px rgba(253, 230, 138, 0.3);">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fde68a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    </div>
+                  </div>
+                  <div style="font-size: 1.65rem; font-weight: 800; color: #ffffff; letter-spacing: -0.02em; line-height: 1.15; margin: 0.25rem 0 0.15rem 0; white-space: nowrap; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;" id="kpi-calls-telefone">64</div>
+                  <div style="font-size: 0.68rem; color: #fef3c7; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">Linhas e Telefonia</div>
                 </div>
+
                 <!-- 6. Infraestrutura -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Infraestrutura" onclick="filtrarCallsPorStatus('Infraestrutura')" title="Filtrar por Infraestrutura" style="cursor: pointer; background: linear-gradient(135deg, #7c2d12 0%, #c2410c 100%); border: 1px solid #fb923c; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #fed7aa; text-transform: uppercase; letter-spacing: 0.05em;">🔌 INFRAESTRUTURA</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-infraestrutura">23</div>
-                  <div style="font-size: 0.7rem; color: #ffedd5;">Cabeamento e Racks</div>
+                <div class="calls-kpi-card" id="kpi-card-calls-Infraestrutura" onclick="filtrarCallsPorStatus('Infraestrutura')" title="Filtrar por Infraestrutura" style="cursor: pointer; background: linear-gradient(135deg, #7c2d12 0%, #c2410c 100%); border: 1px solid #fb923c; border-radius: 12px; padding: 0.85rem 0.95rem; color: #fff; min-height: 112px; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.4rem;">
+                    <span style="font-size: 0.68rem; font-weight: 800; color: #fed7aa; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">INFRAESTRUTURA</span>
+                    <div style="width: 30px; height: 30px; min-width: 30px; border-radius: 8px; margin-left: auto; flex-shrink: 0; background: rgba(254, 215, 170, 0.15); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1px rgba(254, 215, 170, 0.3);">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fed7aa" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                    </div>
+                  </div>
+                  <div style="font-size: 1.65rem; font-weight: 800; color: #ffffff; letter-spacing: -0.02em; line-height: 1.15; margin: 0.25rem 0 0.15rem 0; white-space: nowrap; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;" id="kpi-calls-infraestrutura">23</div>
+                  <div style="font-size: 0.68rem; color: #ffedd5; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">Cabeamento e Racks</div>
                 </div>
+
                 <!-- 7. Outros -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Outros" onclick="filtrarCallsPorStatus('Outros')" title="Filtrar por Outros" style="cursor: pointer; background: linear-gradient(135deg, #334155 0%, #475569 100%); border: 1px solid #94a3b8; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #e2e8f0; text-transform: uppercase; letter-spacing: 0.05em;">⚙️ OUTROS</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-outros">11</div>
-                  <div style="font-size: 0.7rem; color: #cbd5e1;">Demais Atendimentos</div>
+                <div class="calls-kpi-card" id="kpi-card-calls-Outros" onclick="filtrarCallsPorStatus('Outros')" title="Filtrar por Outros" style="cursor: pointer; background: linear-gradient(135deg, #334155 0%, #475569 100%); border: 1px solid #94a3b8; border-radius: 12px; padding: 0.85rem 0.95rem; color: #fff; min-height: 112px; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.4rem;">
+                    <span style="font-size: 0.68rem; font-weight: 800; color: #e2e8f0; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">OUTROS</span>
+                    <div style="width: 30px; height: 30px; min-width: 30px; border-radius: 8px; margin-left: auto; flex-shrink: 0; background: rgba(226, 232, 240, 0.15); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1px rgba(226, 232, 240, 0.3);">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#e2e8f0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    </div>
+                  </div>
+                  <div style="font-size: 1.65rem; font-weight: 800; color: #ffffff; letter-spacing: -0.02em; line-height: 1.15; margin: 0.25rem 0 0.15rem 0; white-space: nowrap; text-align: center; width: 100%; display: flex; justify-content: center; align-items: center;" id="kpi-calls-outros">11</div>
+                  <div style="font-size: 0.68rem; color: #cbd5e1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">Demandas Diversas</div>
                 </div>
               </div>
             </div>
@@ -11306,7 +11347,7 @@ function imprimirAgendaCarro() {
               <button type="button" class="btn-call-filter active" id="btn-call-filter-todos" onclick="filtrarCallsPorStatus('todos')">Todos (<span id="count-filter-todos">1.363</span>)</button>
               <button type="button" class="btn-call-filter" id="btn-call-filter-equip" onclick="filtrarCallsPorStatus('Equipamentos e Tablets')">💻 Equipamentos (<span id="count-filter-equip">754</span>)</button>
               <button type="button" class="btn-call-filter" id="btn-call-filter-inv" onclick="filtrarCallsPorStatus('Inventario')">📋 Inventário (<span id="count-filter-inv">268</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-internet" onclick="filtrarCallsPorStatus('Internet / Conectividade')">🌐 Internet / Conectividade (<span id="count-filter-internet">243</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-internet" onclick="filtrarCallsPorStatus('Internet')">🌐 Internet (<span id="count-filter-internet">243</span>)</button>
               <button type="button" class="btn-call-filter" id="btn-call-filter-telefone" onclick="filtrarCallsPorStatus('Telefone')">📞 Telefone (<span id="count-filter-telefone">64</span>)</button>
               <button type="button" class="btn-call-filter" id="btn-call-filter-infra" onclick="filtrarCallsPorStatus('Infraestrutura')">🔌 Infraestrutura (<span id="count-filter-infra">23</span>)</button>
               <button type="button" class="btn-call-filter" id="btn-call-filter-outros" onclick="filtrarCallsPorStatus('Outros')">⚙️ Outros (<span id="count-filter-outros">11</span>)</button>
