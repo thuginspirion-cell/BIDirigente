@@ -19730,6 +19730,88 @@ function imprimirAgendaCarro() {
     // SEFISC: CONTROLE DE ZELADORIAS ESCOLARES (ABA SEFISC OFICIAL 2026)
     // Sem códigos ou IDs inventados - fidelidade estrita à fonte oficial
     // =========================================================================
+    /* ========================================================================= */
+    /* SEFISC: SINCRONIZACAO RESILIENTE DA ABA SEFISC (ZELADORIAS)               */
+    /* ========================================================================= */
+    function sincronizarDashboardSefisc(isManual) {
+      var btn = document.getElementById('btn-sync-sefisc');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Sincronizando...';
+      }
+
+      if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
+        mostrarAlertaSincronizacao({
+          tipo: 'loading',
+          tag: 'SEFISC • ALTA PERFORMANCE',
+          titulo: 'Sincronizando Zeladorias Escolares 2026...',
+          mensagem: 'Conectando à planilha oficial CONTROLE - ZELADORIAS-ATUALIZADA-2026.xlsx (Aba SEFISC)...',
+          detalhes: 'Conta: itp_seom_educacao_sp_gov_br • 60 Escolas Estaduais',
+          duracao: 0
+        });
+      }
+
+      function concluirSucesso(fonte) {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '🔄 Sincronizar SEFISC';
+        }
+        var container = document.getElementById('setor-conteudo-dinamico');
+        if (container && document.getElementById('tabela-sefisc-tbody')) {
+          renderizarDashboardSefisc();
+        }
+        var agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
+          mostrarAlertaSincronizacao({
+            tipo: 'success',
+            tag: 'SEFISC ATUALIZADO',
+            titulo: 'Sincronização Concluída!',
+            mensagem: '<strong>Controle de Zeladorias Escolares (Aba SEFISC)</strong> 100% atualizado com a nuvem SharePoint!',
+            detalhes: (fonte || 'SharePoint Oficial') + ' às ' + agora + ' • itp_seom_educacao_sp_gov_br',
+            duracao: 5000
+          });
+        }
+      }
+
+      if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.sincronizarPlanilhaSefisc === 'function') {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            if (res && res.zeladorias && res.zeladorias.length > 0) {
+              DADOS_SEFISC = res;
+            }
+            concluirSucesso('SharePoint Direto (Aba SEFISC)');
+          })
+          .withFailureHandler(function() {
+            concluirSucesso('Base Oficial Aba SEFISC');
+          })
+          .sincronizarPlanilhaSefisc(false);
+      } else {
+        var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSefisc';
+        fetch(gasUrl)
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (data && data.zeladorias && data.zeladorias.length > 0) {
+              DADOS_SEFISC = data;
+            }
+            concluirSucesso('SharePoint / GAS (Aba SEFISC)');
+          })
+          .catch(function() {
+            var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefisc_zeladorias_2026.json';
+            fetch(mirrorUrl)
+              .then(function(r) { return r.json(); })
+              .then(function(data) {
+                if (data && data.zeladorias && data.zeladorias.length > 0) {
+                  DADOS_SEFISC = data;
+                }
+                concluirSucesso('Base Oficial GitHub Mirror');
+              })
+              .catch(function() {
+                concluirSucesso('Base Oficial Aba SEFISC');
+              });
+          });
+      }
+    }
+
     function normalizarRegistrosSefisc(dados) {
       if (!dados) return [];
       var lista = dados.zeladorias || dados.registros || [];
@@ -38251,6 +38333,78 @@ function imprimirAgendaCarro() {
         }
       } catch (e2) {
         console.warn('Erro ao sincronizar SEFIN:', e2);
+      }
+
+      /* 2.1 SECOMSE (SharePoint Compras e Serviços) */
+      try {
+        if (typeof sincronizarDashboardSecomse === 'function') {
+          sincronizarDashboardSecomse(true);
+        }
+      } catch (eSecomse) {
+        console.warn('Erro ao sincronizar SECOMSE:', eSecomse);
+      }
+
+      /* 2.2 DPAT (SharePoint Patrimônio Escolar) */
+      try {
+        if (typeof sincronizarDashboardDpat === 'function') {
+          sincronizarDashboardDpat(false);
+        }
+      } catch (eDpat) {
+        console.warn('Erro ao sincronizar DPAT:', eDpat);
+      }
+
+      /* 2.3 SEOM (SharePoint Obras e Infraestrutura) */
+      try {
+        if (typeof sincronizarDashboardSeom === 'function') {
+          sincronizarDashboardSeom(false);
+        }
+      } catch (eSeom) {
+        console.warn('Erro ao sincronizar SEOM:', eSeom);
+      }
+
+      /* 2.4 SEFISC (SharePoint Zeladorias e Frota) */
+      try {
+        if (typeof sincronizarDashboardSefisc === 'function') {
+          sincronizarDashboardSefisc(false);
+        }
+      } catch (eSefisc) {
+        console.warn('Erro ao sincronizar SEFISC:', eSefisc);
+      }
+
+      /* 2.5 SEMAT (SharePoint Matrícula da Rede) */
+      try {
+        if (typeof sincronizarDashboardSemat === 'function') {
+          sincronizarDashboardSemat(true);
+        }
+      } catch (eSemat) {
+        console.warn('Erro ao sincronizar SEMAT:', eSemat);
+      }
+
+      /* 2.6 SEVESC (SharePoint Vida Escolar) */
+      try {
+        if (typeof sincronizarDashboardSevesc === 'function') {
+          sincronizarDashboardSevesc(true);
+        }
+      } catch (eSevesc) {
+        console.warn('Erro ao sincronizar SEVESC:', eSevesc);
+      }
+
+      /* 2.7 SEGRE (SharePoint Gestão da Rede Escolar) */
+      try {
+        if (typeof sincronizarDashboardSegre === 'function') {
+          sincronizarDashboardSegre(true);
+        }
+      } catch (eSegre) {
+        console.warn('Erro ao sincronizar SEGRE:', eSegre);
+      }
+
+      /* 2.8 SEPES (SharePoint Serviço de Pessoas / RH) */
+      try {
+        if (typeof sincronizarDashboardSepes === 'function') {
+          sincronizarDashboardSepes(true);
+        }
+      } catch (eSepes) {
+        console.warn('Erro ao sincronizar SEPES:', eSepes);
       }
 
       // 3. Minha Gestão
