@@ -196,6 +196,25 @@ for (const [centro, setor] of setores) {
   }
 }
 
+console.log('\nTesting SEPES functions:');
+try {
+  const rSepes = sandbox.renderizarDashboardSepes || sandbox.window.renderizarDashboardSepes;
+  if (typeof rSepes === 'function') {
+    rSepes();
+    console.log('  ✔ renderizarDashboardSepes() executed OK');
+  }
+  const mAba = sandbox.mudarAbaSepes || sandbox.window.mudarAbaSepes;
+  if (typeof mAba === 'function') {
+    mAba('aposentadoria');
+    mAba('designacoes');
+    mAba('abono');
+    console.log('  ✔ mudarAbaSepes() executed OK for all 3 red tabs');
+  }
+} catch (e) {
+  totalErrors++;
+  console.error('  💥 Exception in SEPES tests:', e.message);
+}
+
 console.log('\nTesting SEINTEC base selection:');
 const bases = ['Atendimentos', 'Hardware', 'Rede', 'Educatrons', 'Recarga'];
 for (const b of bases) {

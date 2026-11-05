@@ -77,7 +77,11 @@ const components = [
   'sincronizarDashboardSevesc',
   'sincronizarDashboardSecomse',
   'sincronizarDashboardSeom',
-  'sincronizarDashboardSefisc'
+  'sincronizarDashboardSefisc',
+  'URLS_OFICIAIS_SEPES',
+  'DADOS_SEPES',
+  'renderizarDashboardSepes',
+  'sincronizarDashboardSepes'
 ];
 
 components.forEach(comp => {
@@ -108,7 +112,10 @@ const backendChecks = [
   "function sincronizarPlanilhaSemat",
   "function sincronizarPlanilhaSevesc",
   "itp_semat_educacao_sp_gov_br",
-  "itp_sevesc_educacao_sp_gov_br"
+  "itp_sevesc_educacao_sp_gov_br",
+  "action === 'sincronizarSepes'",
+  "function sincronizarPlanilhaSepes",
+  "rosineide_gazolla_educacao_sp_gov_br"
 ];
 
 backendChecks.forEach(chk => {

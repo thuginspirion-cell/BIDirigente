@@ -36,6 +36,8 @@ function doGet(e) {
         output = sincronizarPlanilhaSemat(forcarBruto);
       } else if (action === 'sincronizarSevesc') {
         output = sincronizarPlanilhaSevesc(forcarBruto);
+      } else if (action === 'sincronizarSepes') {
+        output = sincronizarPlanilhaSepes(forcarBruto);
       } else if (action === 'sincronizarSecomse') {
         output = sincronizarPlanilhaSecomse(forcarBruto);
       } else if (action === 'sincronizarGenerico' || action === 'obterArquivoPublico') {
@@ -385,6 +387,43 @@ function sincronizarPlanilhaSemat() {
  *
  * @param {boolean} [forcarBruto=false] - Se true, reverte para a tentativa de download bruto da planilha inteira.
  */
+/**
+ * Sincronização Dinâmica da Planilha SEPES do SharePoint (DEMANDAS SEAPE.xlsx)
+ * REGRA MANDATÓRIA: Abas oficiais 'APOSENTADORIA', 'DESIGNAÇÕES' e 'ABONO DE PERMANÊNCIA'.
+ *
+ * @param {boolean} [forcarBruto=false]
+ */
+function sincronizarPlanilhaSepes(forcarBruto) {
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/rosineide_gazolla_educacao_sp_gov_br/cQoeOJnO6_6aTpffoLZQ-VZaEgUCZ4107PIc0qdIlEuWeWTsug?download=1";
+  try {
+    var res = obterArquivoPublicoSharepoint(url, {
+      nomeSetor: "SEPES",
+      descricaoBase: "Demandas SEAPE (Aposentadoria, Designações e Abono)"
+    });
+    if (res && res.sucesso && res.dadosBase64) {
+      res.origem = "SharePoint Live UrlFetch";
+      return res;
+    }
+  } catch (e) {
+    Logger.log("Aviso SEPES live: " + e.toString());
+  }
+
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sepes_demandas_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+      return dados;
+    }
+  } catch (errMirror) {
+    Logger.log("Erro ao buscar mirror SEPES: " + errMirror.toString());
+  }
+
+  return { sucesso: true, usarBaseLocal: true, aviso: "Base SEPES mantida ativa." };
+}
+
 function sincronizarPlanilhaSevesc() {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sevesc_educacao_sp_gov_br/cQroeBSCMXZCQbbGQSCaAqMaEgUCxrdIuNVbs_RPejCEfptcng?download=1";
   try {
