@@ -63,3 +63,10 @@ Antes de finalizar qualquer tarefa, SEMPRE validar programaticamente se todos os
   2. Verificação de assinatura binária (magic bytes `PK\x03\x04` / `UEsDB`) para impedir que páginas HTML de login corporativo disfarçadas de 200 quebrem o parser do SheetJS.
   3. Em caso de instabilidade, latência ou barreira de autenticação na nuvem Microsoft, NUNCA exibir erro, modal de falha ou interromper a sincronização; ativar imediata e transparentemente a base consolidada oficial com feedback de sucesso.
   4. Jamais utilizar barras duplas `//` literais dentro de tags `<script>` em `index.html` (usar `'https:' + String.fromCharCode(47, 47) + ...` para evitar o truncamento de linhas do sanitizador do Apps Script).
+
+## 6. Procedimento Mandatório para Solicitação de Versão / Link Mais Recente
+Sempre que o usuário solicitar a "versão mais recente" ou o "link mais recente":
+1. **Verificação Técnica Prévia Obrigatória**: NUNCA responder de imediato sem antes auditar o ambiente de produção.
+2. **Conferência Ativa no GAS**: Executar `clasp deployments` e `clasp versions` para verificar qual versão do projeto é a mais recente e qual está efetivamente apontada no deployment ativo de produção (`AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV`).
+3. **Conferência no Repositório**: Validar via `git log -n 5` e `git status` o commit ativo na `main` e a correspondência com a branch `gh-pages`.
+4. **Entrega Validada**: Somente após conferir todo o código e os deploys, entregar a resposta informando com precisão o número da versão conferida e os links oficiais correspondentes.
