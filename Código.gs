@@ -40,6 +40,12 @@ function doGet(e) {
         output = sincronizarPlanilhaSepes(forcarBruto);
       } else if (action === 'sincronizarSecomse') {
         output = sincronizarPlanilhaSecomse(forcarBruto);
+      } else if (action === 'sincronizarDpat') {
+        output = sincronizarPlanilhaDpat(forcarBruto);
+      } else if (action === 'sincronizarSeom') {
+        output = sincronizarPlanilhaSeom(forcarBruto);
+      } else if (action === 'sincronizarSefisc') {
+        output = sincronizarPlanilhaSefisc(forcarBruto);
       } else if (action === 'sincronizarGenerico' || action === 'obterArquivoPublico') {
         output = obterArquivoPublicoSharepoint(e.parameter.url, {
           nomeSetor: e.parameter.setor,
@@ -168,6 +174,21 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
         "Accept": "*/*"
       }
     });
+
+
+    if (resp1.getResponseCode() === 200) {
+      var bytesDirect = resp1.getBlob().getBytes();
+      if (verificarSeBytesSaoXlsx(bytesDirect)) {
+        return {
+          sucesso: true,
+          dadosBase64: Utilities.base64Encode(bytesDirect),
+          tamanhoBytes: bytesDirect.length,
+          origem: "SharePoint Live Direto",
+          timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+          data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
+        };
+      }
+    }
 
     var headers1 = resp1.getAllHeaders();
     var cookieHeader = extrairCookiesSharepoint(headers1);
@@ -1181,17 +1202,6 @@ function getSeintecLogoDataUri() {
 }
 
 
-function extrairCookiesSharepoint(headers) {
-  var setCookie = headers["Set-Cookie"] || headers["set-cookie"];
-  if (!setCookie) return "";
-  if (Array.isArray(setCookie)) {
-    return setCookie.map(function(c) { return String(c).split(";")[0].trim(); }).join("; ");
-  }
-  var str = String(setCookie);
-  // Divide por quebras de linha ou vírgulas de múltiplos cookies
-  var parts = str.split(/,(?=s*[A-Za-z0-9_-]+=)/);
-  return parts.map(function(p) { return p.split(";")[0].trim(); }).join("; ");
-}
 
 
 /**

@@ -49,7 +49,8 @@ const mockElement = (id = '', tagName = 'div') => {
     focus: () => {},
     blur: () => {},
     click: () => {},
-    scrollIntoView: () => {}
+    scrollIntoView: () => {},
+    closest: () => mockElement()
   };
   return el;
 };
@@ -232,6 +233,37 @@ for (const b of bases) {
   } catch (e) {
     totalErrors++;
     console.error(`  💥 Exception in selecionarBaseSeintec('${b}'):`, e.message);
+  }
+}
+
+
+console.log('\nTesting synchronization functions:');
+const syncFns = [
+  'sincronizarDashboardSefin',
+  'sincronizarDashboardSecomse',
+  'sincronizarDashboardDpat',
+  'sincronizarDashboardSeom',
+  'sincronizarDashboardSefisc',
+  'sincronizarDashboardSemat',
+  'sincronizarDashboardSevesc',
+  'sincronizarDashboardSegre',
+  'sincronizarDashboardSepes',
+  'sincronizarTudoGlobalmente'
+];
+
+for (const fn of syncFns) {
+  try {
+    const targetFn = sandbox[fn] || (sandbox.window && sandbox.window[fn]);
+    if (typeof targetFn === 'function') {
+      targetFn(false);
+      console.log(`  ✔ ${fn}() executed OK`);
+    } else {
+      totalErrors++;
+      console.error(`  ❌ ${fn} is not defined or not a function!`);
+    }
+  } catch (e) {
+    totalErrors++;
+    console.error(`  💥 Exception in ${fn}():`, e.message);
   }
 }
 
