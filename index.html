@@ -29978,7 +29978,7 @@ function imprimirAgendaCarro() {
       const sideBtn = document.getElementById('side-btn-SEINTEC');
       if (sideBtn) sideBtn.classList.add('active');
 
-      selecionarBaseSeintec('Atendimentos');
+      selecionarBaseSeintec('Atendimentos', true);
       rolarAoTopoSuave();
     }
 
@@ -30173,8 +30173,9 @@ function imprimirAgendaCarro() {
       if (invFilterBtns) invFilterBtns.style.display = 'none';
     }
 
-    function selecionarBaseSeintec(idBase) {
-      if (baseAtivaSeintec === idBase) {
+    function selecionarBaseSeintec(idBase, forcar = false) {
+      if (baseAtivaSeintec === idBase && !forcar) {
+        if (idBase === 'Atendimentos') return;
         desmarcarBasesSeintec();
         return;
       }
@@ -30348,56 +30349,72 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       filtroAtivoCalls = filtro;
       const registros = base.registros || [];
 
-      // Atualiza os KPIs Executivos com base no universo total da base
+      // Atualiza os KPIs Executivos com base no universo total da base (Categorias da coluna '1. Tipo de Ocorrência ')
       const total = registros.length;
+      const equipamentos = registros.filter(r => String(r.tipo || '').toLowerCase().includes('equip')).length;
+      const inventario = registros.filter(r => String(r.tipo || '').toLowerCase().includes('invent')).length;
+      const internet = registros.filter(r => String(r.tipo || '').toLowerCase().includes('net') || String(r.tipo || '').toLowerCase().includes('inter') || String(r.tipo || '').toLowerCase().includes('conect')).length;
+      const telefonia = registros.filter(r => String(r.tipo || '').toLowerCase().includes('telef') || String(r.tipo || '').toLowerCase().includes('fone')).length;
+      const infraestrutura = registros.filter(r => String(r.tipo || '').toLowerCase().includes('infra')).length;
       const pendentes = registros.filter(r => r.status === 'Pendente').length;
+      const concluidos = registros.filter(r => r.status === 'Concluído' || r.status === 'Fechado').length;
       const emAndamento = registros.filter(r => r.status && r.status.includes('Em Atendimento')).length;
-      const internet = registros.filter(r => (r.tipo && r.tipo.includes('Internet')) || (r.relato && /(wifi|wi-fi|internet|link|fibra)/i.test(r.relato))).length;
-      const equipamentos = registros.filter(r => (r.tipo && r.tipo.includes('Equip')) || (r.relato && /(tablet|computador|notebook|chromebook|educatron|impressora)/i.test(r.relato))).length;
-      const concluidos = registros.filter(r => r.status === 'Concluído').length;
 
       const elTotal = document.getElementById('kpi-calls-total');
       if (elTotal) elTotal.innerText = total.toLocaleString('pt-BR');
       const bCallsDyn = document.getElementById('seintec-card-badge-Atendimentos');
-      if (bCallsDyn) bCallsDyn.innerText = "Base Oficial (" + total.toLocaleString('pt-BR') + ")";
+      if (bCallsDyn) bCallsDyn.innerText = 'Base Oficial (' + total.toLocaleString('pt-BR') + ')';
       const callsSubDyn = document.getElementById('seintec-calls-banner-subtitle');
-      if (callsSubDyn) callsSubDyn.innerText = "Acompanhamento consolidado de demandas técnicas, conectividade e equipamentos (" + total.toLocaleString('pt-BR') + " chamados oficiais em 2026).";
+      if (callsSubDyn) callsSubDyn.innerText = 'Acompanhamento consolidado de demandas técnicas, conectividade e equipamentos (' + total.toLocaleString('pt-BR') + ' chamados oficiais em 2026).';
+      const elEq = document.getElementById('kpi-calls-equipamentos');
+      if (elEq) elEq.innerText = equipamentos.toLocaleString('pt-BR');
+      const elInv = document.getElementById('kpi-calls-inventario');
+      if (elInv) elInv.innerText = inventario.toLocaleString('pt-BR');
+      const elNet = document.getElementById('kpi-calls-internet');
+      if (elNet) elNet.innerText = internet.toLocaleString('pt-BR');
+      const elTel = document.getElementById('kpi-calls-telefonia');
+      if (elTel) elTel.innerText = telefonia.toLocaleString('pt-BR');
+      const elInfra = document.getElementById('kpi-calls-infra');
+      if (elInfra) elInfra.innerText = infraestrutura.toLocaleString('pt-BR');
       const elPend = document.getElementById('kpi-calls-pendentes');
       if (elPend) elPend.innerText = pendentes.toLocaleString('pt-BR');
       const elEmAnd = document.getElementById('kpi-calls-em-andamento');
       if (elEmAnd) elEmAnd.innerText = emAndamento.toLocaleString('pt-BR');
-      const elNet = document.getElementById('kpi-calls-internet');
-      if (elNet) elNet.innerText = internet.toLocaleString('pt-BR');
-      const elEq = document.getElementById('kpi-calls-equipamentos');
-      if (elEq) elEq.innerText = equipamentos.toLocaleString('pt-BR');
 
       const cTodos = document.getElementById('count-filter-todos');
       if (cTodos) cTodos.innerText = total.toLocaleString('pt-BR');
-      const cPend = document.getElementById('count-filter-pendente');
-      if (cPend) cPend.innerText = pendentes.toLocaleString('pt-BR');
-      const cAtend = document.getElementById('count-filter-atendimento');
-      if (cAtend) cAtend.innerText = emAndamento.toLocaleString('pt-BR');
-      const cNet = document.getElementById('count-filter-internet');
-      if (cNet) cNet.innerText = internet.toLocaleString('pt-BR');
       const cEq = document.getElementById('count-filter-equip');
       if (cEq) cEq.innerText = equipamentos.toLocaleString('pt-BR');
-      const cConc = document.getElementById('count-filter-concluido');
-      if (cConc) cConc.innerText = concluidos.toLocaleString('pt-BR');
+      const cInv = document.getElementById('count-filter-inv');
+      if (cInv) cInv.innerText = inventario.toLocaleString('pt-BR');
+      const cNet = document.getElementById('count-filter-internet');
+      if (cNet) cNet.innerText = internet.toLocaleString('pt-BR');
+      const cTel = document.getElementById('count-filter-tel');
+      if (cTel) cTel.innerText = telefonia.toLocaleString('pt-BR');
+      const cInfra = document.getElementById('count-filter-infra');
+      if (cInfra) cInfra.innerText = infraestrutura.toLocaleString('pt-BR');
+      const cPend = document.getElementById('count-filter-pendente');
+      if (cPend) cPend.innerText = pendentes.toLocaleString('pt-BR');
 
-      // 1. Filtragem por Botão de Status / Categoria
+      // 1. Filtragem por Botão de Categoria / Status
       let filtrados = registros;
       if (filtro === 'Pendente') {
         filtrados = registros.filter(r => r.status === 'Pendente');
       } else if (filtro === 'Em Atendimento') {
         filtrados = registros.filter(r => r.status && r.status.includes('Em Atendimento'));
-      } else if (filtro === 'Internet') {
-        filtrados = registros.filter(r => (r.tipo && r.tipo.includes('Internet')) || (r.relato && /(wifi|wi-fi|internet|link|fibra)/i.test(r.relato)));
       } else if (filtro === 'Equipamentos') {
-        filtrados = registros.filter(r => (r.tipo && r.tipo.includes('Equip')) || (r.relato && /(tablet|computador|notebook|chromebook|educatron|impressora)/i.test(r.relato)));
+        filtrados = registros.filter(r => String(r.tipo || '').toLowerCase().includes('equip'));
+      } else if (filtro === 'Inventario') {
+        filtrados = registros.filter(r => String(r.tipo || '').toLowerCase().includes('invent'));
+      } else if (filtro === 'Internet') {
+        filtrados = registros.filter(r => String(r.tipo || '').toLowerCase().includes('net') || String(r.tipo || '').toLowerCase().includes('inter') || String(r.tipo || '').toLowerCase().includes('conect'));
+      } else if (filtro === 'Telefone') {
+        filtrados = registros.filter(r => String(r.tipo || '').toLowerCase().includes('telef') || String(r.tipo || '').toLowerCase().includes('fone'));
+      } else if (filtro === 'Infraestrutura') {
+        filtrados = registros.filter(r => String(r.tipo || '').toLowerCase().includes('infra'));
       } else if (filtro === 'Concluído') {
-        filtrados = registros.filter(r => r.status === 'Concluído');
+        filtrados = registros.filter(r => r.status === 'Concluído' || r.status === 'Fechado');
       }
-
       // 1.1 Filtragem por Mês de Abertura
       if (typeof filtroMesCalls !== 'undefined' && filtroMesCalls !== 'todos') {
         filtrados = filtrados.filter(r => {
@@ -30464,9 +30481,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               <span class="sort-arrow">↕</span>
             </div>
           </th>
-          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 2)" style="width: 170px;" title="Classificar por Classificação">
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 2)" style="width: 170px;" title="Classificar por Tipo">
             <div class="th-sort-wrapper">
-              <span class="th-title-text">Classificação</span>
+              <span class="th-title-text">Tipo</span>
               <span class="sort-arrow">↕</span>
             </div>
           </th>
@@ -30516,17 +30533,35 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             statusBadgeHtml = '<span class="status-badge-inline" style="background: rgba(16, 185, 129, 0.15); color: #047857; border: 1px solid #10b981; font-weight: 700;">🟢 Concluído</span>';
           }
 
-          // Tag de Classificação
+          // Tag de Tipo Oficial (Origem: Coluna '1. Tipo de Ocorrência ' da Planilha Oficial)
           let tipoTagHtml = '';
-          if (reg.tipo && reg.tipo.includes('Internet')) {
-            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #e0f2fe; color: #0369a1; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #bae6fd;">🌐 Internet/Wi-Fi</span>';
-          } else if (reg.tipo && reg.tipo.includes('Telef')) {
-            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #fef3c7; color: #92400e; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #fde68a;">📞 Telefonia</span>';
+          const tipoNorm = String(reg.tipo || '').toLowerCase();
+          if (tipoNorm.includes('invent')) {
+            tipoTagHtml = '<span class="badge-tipo-call badge-tipo-inv" style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.73rem; font-weight: 700; background: #ecfdf5; color: #047857; padding: 0.22rem 0.55rem; border-radius: 6px; border: 1px solid #a7f3d0;" title="Inventário e Mapeamento de Parque">📋 Inventário</span>';
+          } else if (tipoNorm.includes('net') || tipoNorm.includes('inter') || tipoNorm.includes('conect')) {
+            tipoTagHtml = '<span class="badge-tipo-call badge-tipo-net" style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.73rem; font-weight: 700; background: #e0f2fe; color: #0369a1; padding: 0.22rem 0.55rem; border-radius: 6px; border: 1px solid #bae6fd;" title="Conectividade e Link Wi-Fi">🌐 Internet / Wi-Fi</span>';
+          } else if (tipoNorm.includes('telef') || tipoNorm.includes('fone')) {
+            tipoTagHtml = '<span class="badge-tipo-call badge-tipo-tel" style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.73rem; font-weight: 700; background: #fef3c7; color: #92400e; padding: 0.22rem 0.55rem; border-radius: 6px; border: 1px solid #fde68a;" title="Telefonia e Linhas Fixas">📞 Telefonia</span>';
+          } else if (tipoNorm.includes('infra')) {
+            tipoTagHtml = '<span class="badge-tipo-call badge-tipo-infra" style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.73rem; font-weight: 700; background: #f1f5f9; color: #334155; padding: 0.22rem 0.55rem; border-radius: 6px; border: 1px solid #cbd5e1;" title="Infraestrutura e Racks">🔌 Infraestrutura</span>';
+          } else if (tipoNorm.includes('outr')) {
+            tipoTagHtml = '<span class="badge-tipo-call badge-tipo-outros" style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.73rem; font-weight: 700; background: #f3f4f6; color: #4b5563; padding: 0.22rem 0.55rem; border-radius: 6px; border: 1px solid #d1d5db;" title="Outras Ocorrências">⚙️ Outros</span>';
           } else {
-            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #f3e8ff; color: #6b21a8; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #e9d5ff;">💻 Tablets & PCs</span>';
+            tipoTagHtml = '<span class="badge-tipo-call badge-tipo-equip" style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.73rem; font-weight: 700; background: #f3e8ff; color: #6b21a8; padding: 0.22rem 0.55rem; border-radius: 6px; border: 1px solid #e9d5ff;" title="Equipamentos e Tablets">💻 Equipamentos</span>';
           }
 
-          // Extrai o nome limpo e profissional da escola (SEM 'EE', com profissão abreviada) e CIE pequeno
+          // Métricas Avançadas de Engenharia de Dados: Aging / SLA Operacional
+          let agingBadgeHtml = '';
+          if (infoDataAbertura && infoDataAbertura.dataObj) {
+            const diffDias = Math.floor((Date.now() - infoDataAbertura.dataObj.getTime()) / (1000 * 60 * 60 * 24));
+            if (diffDias <= 1) {
+              agingBadgeHtml = '<div style="font-size: 0.68rem; font-weight: 700; color: #16a34a; margin-top: 0.15rem;">⏱️ Recente</div>';
+            } else if (diffDias <= 7) {
+              agingBadgeHtml = '<div style="font-size: 0.68rem; font-weight: 700; color: #2563eb; margin-top: 0.15rem;">⏱️ ' + diffDias + 'd decorridos</div>';
+            } else {
+              agingBadgeHtml = '<div style="font-size: 0.68rem; font-weight: 700; color: #b45309; margin-top: 0.15rem;">⚠️ ' + diffDias + 'd backlog</div>';
+            }
+          }
           const nomeOriginal = reg.escola || reg.polo || 'Escola Estadual';
           const escolaNomeFormatado = formatarNomeEscola(nomeOriginal);
           const cieTexto = reg.cie ? `CIE: ${reg.cie}` : '';
@@ -30536,6 +30571,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             <td data-sort="${infoDataAbertura.iso}">
               <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: #1e3a8a; font-weight: 700; white-space: nowrap;">
                 📅 ${reg.data}
+              ${agingBadgeHtml}
               </span>
               ${(reg.dataVisita && reg.dataVisita !== reg.data) ? ('<div style="font-size: 0.74rem; color: #64748b; font-weight: 500; margin-top: 0.15rem;">Visita: ' + reg.dataVisita + '</div>') : ''}
             </td>
@@ -30621,7 +30657,15 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       document.getElementById('modal-call-tipo').innerText = chamado.tipo || 'Demanda Técnica';
       document.getElementById('modal-call-relato').innerText = chamado.relato || chamado.equip;
       document.getElementById('modal-call-solicitante').innerText = chamado.solicitante || 'Gestão da Unidade Escolar';
-      document.getElementById('modal-call-telefone').innerText = chamado.telefone || '(11) 2658-8000';
+      const telBox = document.getElementById('modal-call-telefone');
+      if (telBox) {
+        const telLimpo = (chamado.telefone || '').replace(/\D/g, '');
+        if (telLimpo.length >= 8) {
+          telBox.innerHTML = '<a href="tel:' + telLimpo + '" style="color: #1d4ed8; text-decoration: underline; font-weight: 800;">📞 ' + (chamado.telefone || '') + '</a>';
+        } else {
+          telBox.innerText = chamado.telefone || '(11) 2658-8000';
+        }
+      }
       document.getElementById('modal-call-status').innerText = chamado.status || 'Pendente';
 
       modal.style.display = 'flex';
@@ -32200,13 +32244,24 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           status = 'Em Atendimento (FDE)';
         }
 
-        let tipo = 'Equipamentos e Tablets';
-        const tipoRaw = String(r['1. Tipo de Ocorrência '] || r['Tipo'] || '').toLowerCase();
+                let tipo = 'Equipamentos';
+        const tipoRaw = String(r['1. Tipo de Ocorrência '] || r['Tipo'] || '').trim();
+        const tipoNorm = tipoRaw.toLowerCase();
 
-        if (tipoRaw.includes('net') || tipoRaw.includes('inter') || /wifi|wi-fi|fibra|link/i.test(relato)) {
-          tipo = 'Internet / Conectividade';
-        } else if (tipoRaw.includes('telef') || tipoRaw.includes('fone') || /linha|ramal|ligação|telefone/i.test(relato)) {
-          tipo = 'Telefonia';
+        if (tipoNorm.includes('invent')) {
+          tipo = 'Inventario';
+        } else if (tipoNorm.includes('net') || tipoNorm.includes('inter') || /wifi|wi-fi|fibra|link/i.test(relato)) {
+          tipo = 'Internet';
+        } else if (tipoNorm.includes('telef') || tipoNorm.includes('fone') || /linha|ramal|ligação|telefone/i.test(relato)) {
+          tipo = 'Telefone';
+        } else if (tipoNorm.includes('infra')) {
+          tipo = 'Infraestrutura';
+        } else if (tipoNorm.includes('outr')) {
+          tipo = 'Outros';
+        } else if (tipoNorm.includes('equip')) {
+          tipo = 'Equipamentos';
+        } else if (tipoRaw) {
+          tipo = tipoRaw;
         }
 
         chamadosNovos2026.push({
@@ -33215,7 +33270,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
           <div style="background: #f1f5f9; padding: 0.85rem; border-radius: 8px;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #475569; text-transform: uppercase; display: block;">Classificação</span>
+            <span style="font-size: 0.7rem; font-weight: 700; color: #475569; text-transform: uppercase; display: block;">Tipo</span>
             <strong id="modal-call-tipo" style="font-size: 0.88rem; color: #0f172a;">Equipamentos e Tablets</strong>
           </div>
           <div style="background: #f1f5f9; padding: 0.85rem; border-radius: 8px;">
@@ -33282,88 +33337,6 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     });
 </script>
 
-  <!-- MODAL EXECUTIVO 360° DO CHAMADO SEINTEC -->
-  <div id="modal-detalhes-chamado-seintec" class="agenda-modal-overlay" style="display: none; z-index: 99999;" onclick="if(event.target === this) fecharModalDetalhesChamadoSeintec()">
-    <div class="agenda-modal-card" style="max-width: 650px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);">
-      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
-          <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
-            🛠️
-          </div>
-          <div>
-            <span style="font-size: 0.72rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">SEINTEC • DETALHAMENTO EXECUTIVO</span>
-            <h3 style="font-size: 1.2rem; font-weight: 800; color: #ffffff; margin: 0.1rem 0 0 0;" id="modal-chamado-protocolo">Protocolo CALL-0000</h3>
-          </div>
-        </div>
-        <button type="button" class="agenda-modal-close" onclick="fecharModalDetalhesChamadoSeintec()" style="color: #cbd5e1; font-size: 1.3rem; background: transparent; border: none; cursor: pointer;">✕</button>
-      </div>
-
-      <div class="agenda-modal-body" style="padding: 1.5rem; max-height: 80vh; overflow-y: auto; background: #f8fafc;">
-        <!-- Status & SLA Banner -->
-        <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.9rem 1.1rem; margin-bottom: 1.2rem;">
-          <div>
-            <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Situação Atual</span>
-            <div id="modal-chamado-status" style="margin-top: 0.2rem;"></div>
-          </div>
-          <div>
-            <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Tempo Decorrido / SLA</span>
-            <div id="modal-chamado-sla" style="margin-top: 0.2rem; font-weight: 800; color: #0b2351;"></div>
-          </div>
-          <div>
-            <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Tipo de Ocorrência</span>
-            <div id="modal-chamado-tipo" style="margin-top: 0.2rem;"></div>
-          </div>
-        </div>
-
-        <!-- Dados da Escola -->
-        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.1rem; margin-bottom: 1.2rem;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem;">
-            <div>
-              <span style="font-size: 0.7rem; font-weight: 700; color: #0284c7; text-transform: uppercase;">Unidade Escolar</span>
-              <h4 id="modal-chamado-escola" style="margin: 0.15rem 0 0 0; font-size: 1.05rem; font-weight: 800; color: #0f172a;">Nome da Escola</h4>
-              <div style="font-size: 0.76rem; color: #64748b; margin-top: 0.2rem;" id="modal-chamado-cie-mun">CIE: 000000 • Município</div>
-            </div>
-            <button type="button" class="btn-inv-tag" id="btn-modal-ver-mapa" style="background: #e0f2fe; color: #0369a1; border-color: #bae6fd; font-size: 0.75rem; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; font-weight: 700;">
-              📍 Ver no Mapa
-            </button>
-          </div>
-        </div>
-
-        <!-- Descrição / Relato da Demanda -->
-        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.1rem; margin-bottom: 1.2rem;">
-          <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Relato Completo da Demanda</span>
-          <p id="modal-chamado-relato" style="margin: 0.4rem 0 0 0; font-size: 0.9rem; color: #1e293b; line-height: 1.5; white-space: pre-wrap; font-weight: 500;">
-            Descrição completa do problema.
-          </p>
-        </div>
-
-        <!-- Contato & Datas -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 1rem;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Solicitante</span>
-            <div id="modal-chamado-solicitante" style="font-size: 0.88rem; font-weight: 700; color: #1e293b; margin-top: 0.2rem;">Nome</div>
-            <div id="modal-chamado-tel-box" style="margin-top: 0.35rem;"></div>
-          </div>
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 1rem;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Cronograma</span>
-            <div style="font-size: 0.82rem; color: #334155; margin-top: 0.2rem;">
-              <div>Abertura: <strong id="modal-chamado-data-abertura">--/--/----</strong></div>
-              <div style="margin-top: 0.15rem;">Visita Técnica: <strong id="modal-chamado-data-visita">--/--/----</strong></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="agenda-modal-footer" style="padding: 1rem 1.5rem; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
-        <button type="button" class="btn-inv-tag" onclick="copiarProtocoloModal()" style="background: #f1f5f9; color: #334155; border-color: #cbd5e1; font-size: 0.78rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; font-weight: 700;">
-          📋 Copiar Protocolo
-        </button>
-        <button type="button" class="btn-mudar-data" onclick="fecharModalDetalhesChamadoSeintec()" style="padding: 0.45rem 1.2rem; border: 1px solid #cbd5e1; border-radius: 8px; background: #0b2351; color: #ffffff; cursor: pointer; font-weight: 700;">
-          Fechar
-        </button>
-      </div>
-    </div>
-  </div>
-
+  
 </body>
 </html>
