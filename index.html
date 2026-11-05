@@ -11248,42 +11248,54 @@ function imprimirAgendaCarro() {
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
                 <div>
                   <span style="font-size: 0.78rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">PAINEL EXECUTIVO DA DIRIGENTE REGIONAL</span>
-                  <h4 style="margin: 0.15rem 0 0 0; font-size: 1.1rem; font-weight: 800; color: var(--text-main);">Visão Sintética de Chamados & Conectividade</h4>
+                  <h4 style="margin: 0.15rem 0 0 0; font-size: 1.1rem; font-weight: 800; color: var(--text-main);">Visão Sintética por Tipo de Ocorrência</h4>
                 </div>
                 <span style="font-size: 0.75rem; background: rgba(37,99,235,0.1); color: #2563eb; border: 1px solid rgba(37,99,235,0.25); padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700;">
                   Painel Executivo • URE Itapevi
                 </span>
               </div>
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.75rem;">
-                <!-- Total Chamados -->
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 0.75rem;">
+                <!-- 1. Total Monitorado (Mantido) -->
                 <div class="calls-kpi-card selected" id="kpi-card-calls-todos" onclick="filtrarCallsPorStatus('todos')" title="Ver todos os chamados" style="cursor: pointer; background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border: 1px solid #1e3a8a; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
                   <div style="font-size: 0.68rem; font-weight: 800; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.05em;">TOTAL MONITORADO</div>
                   <div style="font-size: 1.6rem; font-weight: 800; color: #38bdf8; margin-top: 0.15rem;" id="kpi-calls-total">1.363</div>
-                  <div style="font-size: 0.7rem; color: #94a3b8;">Base SEINTEC</div>
+                  <div style="font-size: 0.7rem; color: #94a3b8;">Base SEINTEC 2026</div>
                 </div>
-                <!-- Pendentes (Atenção) -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Pendente" onclick="filtrarCallsPorStatus('Pendente')" title="Filtrar chamados pendentes" style="cursor: pointer; background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%); border: 1px solid #ef4444; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #fca5a5; text-transform: uppercase; letter-spacing: 0.05em;">🔴 PENDENTES (ATENÇÃO)</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-pendentes">28</div>
-                  <div style="font-size: 0.7rem; color: #fecaca;">Aguardando atendimento</div>
+                <!-- 2. Equipamentos e Tablets -->
+                <div class="calls-kpi-card" id="kpi-card-calls-Equipamentos" onclick="filtrarCallsPorStatus('Equipamentos e Tablets')" title="Filtrar por Equipamentos e Tablets" style="cursor: pointer; background: linear-gradient(135deg, #2e1065 0%, #581c87 100%); border: 1px solid #8b5cf6; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #ddd6fe; text-transform: uppercase; letter-spacing: 0.05em;">💻 EQUIPAMENTOS</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-equipamentos">754</div>
+                  <div style="font-size: 0.7rem; color: #c4b5fd;">Tablets, Educatrons e PCs</div>
                 </div>
-                <!-- Em Atendimento (FDE) -->
-                <div class="calls-kpi-card" id="kpi-card-calls-atendimento" onclick="filtrarCallsPorStatus('Em Atendimento')" title="Filtrar chamados em atendimento" style="cursor: pointer; background: linear-gradient(135deg, #451a03 0%, #78350f 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #fde68a; text-transform: uppercase; letter-spacing: 0.05em;">🟡 EM ATENDIMENTO (FDE)</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-em-andamento">0</div>
-                  <div style="font-size: 0.7rem; color: #fef3c7;">Em análise técnica</div>
+                <!-- 3. Inventário -->
+                <div class="calls-kpi-card" id="kpi-card-calls-Inventario" onclick="filtrarCallsPorStatus('Inventario')" title="Filtrar por Inventário" style="cursor: pointer; background: linear-gradient(135deg, #064e3b 0%, #047857 100%); border: 1px solid #10b981; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.05em;">📋 INVENTÁRIO</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-inventario">268</div>
+                  <div style="font-size: 0.7rem; color: #d1fae5;">Mapeamento do Parque</div>
                 </div>
-                <!-- Internet & Conectividade -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Internet" onclick="filtrarCallsPorStatus('Internet')" title="Filtrar falhas de internet e Wi-Fi" style="cursor: pointer; background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%); border: 1px solid #38bdf8; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #bae6fd; text-transform: uppercase; letter-spacing: 0.05em;">🌐 INTERNET / WI-FI</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-internet">281</div>
+                <!-- 4. Internet / Conectividade -->
+                <div class="calls-kpi-card" id="kpi-card-calls-Internet" onclick="filtrarCallsPorStatus('Internet / Conectividade')" title="Filtrar por Internet / Conectividade" style="cursor: pointer; background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%); border: 1px solid #38bdf8; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #bae6fd; text-transform: uppercase; letter-spacing: 0.05em;">🌐 INTERNET / CONECTIVIDADE</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-internet">243</div>
                   <div style="font-size: 0.7rem; color: #e0f2fe;">Conectividade e link fibra</div>
                 </div>
-                <!-- Equipamentos & Tablets -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Equipamentos" onclick="filtrarCallsPorStatus('Equipamentos')" title="Filtrar tablets e equipamentos" style="cursor: pointer; background: linear-gradient(135deg, #064e3b 0%, #047857 100%); border: 1px solid #34d399; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.05em;">💻 TABLETS & EQUIPAMENTOS</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-equipamentos">779</div>
-                  <div style="font-size: 0.7rem; color: #d1fae5;">Tablets, Educatrons e PCs</div>
+                <!-- 5. Telefone -->
+                <div class="calls-kpi-card" id="kpi-card-calls-Telefone" onclick="filtrarCallsPorStatus('Telefone')" title="Filtrar por Telefone" style="cursor: pointer; background: linear-gradient(135deg, #78350f 0%, #b45309 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #fde68a; text-transform: uppercase; letter-spacing: 0.05em;">📞 TELEFONE</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-telefone">64</div>
+                  <div style="font-size: 0.7rem; color: #fef3c7;">Linhas e Telefonia</div>
+                </div>
+                <!-- 6. Infraestrutura -->
+                <div class="calls-kpi-card" id="kpi-card-calls-Infraestrutura" onclick="filtrarCallsPorStatus('Infraestrutura')" title="Filtrar por Infraestrutura" style="cursor: pointer; background: linear-gradient(135deg, #7c2d12 0%, #c2410c 100%); border: 1px solid #fb923c; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #fed7aa; text-transform: uppercase; letter-spacing: 0.05em;">🔌 INFRAESTRUTURA</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-infraestrutura">23</div>
+                  <div style="font-size: 0.7rem; color: #ffedd5;">Cabeamento e Racks</div>
+                </div>
+                <!-- 7. Outros -->
+                <div class="calls-kpi-card" id="kpi-card-calls-Outros" onclick="filtrarCallsPorStatus('Outros')" title="Filtrar por Outros" style="cursor: pointer; background: linear-gradient(135deg, #334155 0%, #475569 100%); border: 1px solid #94a3b8; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #e2e8f0; text-transform: uppercase; letter-spacing: 0.05em;">⚙️ OUTROS</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-outros">11</div>
+                  <div style="font-size: 0.7rem; color: #cbd5e1;">Demais Atendimentos</div>
                 </div>
               </div>
             </div>
@@ -11292,11 +11304,12 @@ function imprimirAgendaCarro() {
             <div id="seintec-calls-filter-buttons" style="display: none; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.85rem; align-items: center;">
               <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; margin-right: 0.2rem;">FILTRAR:</span>
               <button type="button" class="btn-call-filter active" id="btn-call-filter-todos" onclick="filtrarCallsPorStatus('todos')">Todos (<span id="count-filter-todos">1.363</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-pendente" onclick="filtrarCallsPorStatus('Pendente')">🔴 Pendentes (<span id="count-filter-pendente">0</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-atendimento" onclick="filtrarCallsPorStatus('Em Atendimento')">🟡 Em Atendimento (<span id="count-filter-atendimento">0</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-internet" onclick="filtrarCallsPorStatus('Internet')">🌐 Internet / Wi-Fi (<span id="count-filter-internet">0</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-equip" onclick="filtrarCallsPorStatus('Equipamentos')">💻 Tablets & PCs (<span id="count-filter-equip">0</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-concluido" onclick="filtrarCallsPorStatus('Concluído')">🟢 Concluídos (<span id="count-filter-concluido">0</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-equip" onclick="filtrarCallsPorStatus('Equipamentos e Tablets')">💻 Equipamentos (<span id="count-filter-equip">754</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-inv" onclick="filtrarCallsPorStatus('Inventario')">📋 Inventário (<span id="count-filter-inv">268</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-internet" onclick="filtrarCallsPorStatus('Internet / Conectividade')">🌐 Internet / Conectividade (<span id="count-filter-internet">243</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-telefone" onclick="filtrarCallsPorStatus('Telefone')">📞 Telefone (<span id="count-filter-telefone">64</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-infra" onclick="filtrarCallsPorStatus('Infraestrutura')">🔌 Infraestrutura (<span id="count-filter-infra">23</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-outros" onclick="filtrarCallsPorStatus('Outros')">⚙️ Outros (<span id="count-filter-outros">11</span>)</button>
             </div>
 
             <!-- FILTRO POR MÊS DE ATENDIMENTOS SEINTEC -->
@@ -30516,13 +30529,17 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       filtroAtivoCalls = filtro;
       const registros = base.registros || [];
 
-      // Atualiza os KPIs Executivos com base no universo total da base
+      // Atualiza os KPIs Executivos com base nos valores exatos da coluna 'Tipo de Ocorrência'
       const total = registros.length;
-      const pendentes = registros.filter(r => r.status === 'Pendente').length;
-      const emAndamento = registros.filter(r => r.status && r.status.includes('Em Atendimento')).length;
-      const internet = registros.filter(r => (r.tipo && r.tipo.includes('Internet')) || (r.relato && /(wifi|wi-fi|internet|link|fibra)/i.test(r.relato))).length;
-      const equipamentos = registros.filter(r => (r.tipo && r.tipo.includes('Equip')) || (r.relato && /(tablet|computador|notebook|chromebook|educatron|impressora)/i.test(r.relato))).length;
-      const concluidos = registros.filter(r => r.status === 'Concluído').length;
+      const equipamentos = registros.filter(r => (r.tipo || '').includes('Equip') || (r.tipo || '').includes('Tablet')).length;
+      const inventario = registros.filter(r => (r.tipo || '').toLowerCase().includes('invent')).length;
+      const internet = registros.filter(r => (r.tipo || '').includes('Internet') || (r.tipo || '').includes('Conect')).length;
+      const telefone = registros.filter(r => (r.tipo || '').includes('Telef') || (r.tipo || '').includes('Fone')).length;
+      const infraestrutura = registros.filter(r => (r.tipo || '').includes('Infra')).length;
+      const outros = registros.filter(r => {
+        const t = (r.tipo || '');
+        return !t.includes('Equip') && !t.includes('Tablet') && !t.toLowerCase().includes('invent') && !t.includes('Internet') && !t.includes('Conect') && !t.includes('Telef') && !t.includes('Fone') && !t.includes('Infra');
+      }).length;
 
       const elTotal = document.getElementById('kpi-calls-total');
       if (elTotal) elTotal.innerText = total.toLocaleString('pt-BR');
@@ -30530,40 +30547,52 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       if (bCallsDyn) bCallsDyn.innerText = "Base Oficial (" + total.toLocaleString('pt-BR') + ")";
       const callsSubDyn = document.getElementById('seintec-calls-banner-subtitle');
       if (callsSubDyn) callsSubDyn.innerText = "Acompanhamento consolidado de demandas técnicas, conectividade e equipamentos (" + total.toLocaleString('pt-BR') + " chamados oficiais em 2026).";
-      const elPend = document.getElementById('kpi-calls-pendentes');
-      if (elPend) elPend.innerText = pendentes.toLocaleString('pt-BR');
-      const elEmAnd = document.getElementById('kpi-calls-em-andamento');
-      if (elEmAnd) elEmAnd.innerText = emAndamento.toLocaleString('pt-BR');
-      const elNet = document.getElementById('kpi-calls-internet');
-      if (elNet) elNet.innerText = internet.toLocaleString('pt-BR');
+
       const elEq = document.getElementById('kpi-calls-equipamentos');
       if (elEq) elEq.innerText = equipamentos.toLocaleString('pt-BR');
+      const elInv = document.getElementById('kpi-calls-inventario');
+      if (elInv) elInv.innerText = inventario.toLocaleString('pt-BR');
+      const elNet = document.getElementById('kpi-calls-internet');
+      if (elNet) elNet.innerText = internet.toLocaleString('pt-BR');
+      const elTel = document.getElementById('kpi-calls-telefone');
+      if (elTel) elTel.innerText = telefone.toLocaleString('pt-BR');
+      const elInfra = document.getElementById('kpi-calls-infraestrutura');
+      if (elInfra) elInfra.innerText = infraestrutura.toLocaleString('pt-BR');
+      const elOutros = document.getElementById('kpi-calls-outros');
+      if (elOutros) elOutros.innerText = outros.toLocaleString('pt-BR');
 
       const cTodos = document.getElementById('count-filter-todos');
       if (cTodos) cTodos.innerText = total.toLocaleString('pt-BR');
-      const cPend = document.getElementById('count-filter-pendente');
-      if (cPend) cPend.innerText = pendentes.toLocaleString('pt-BR');
-      const cAtend = document.getElementById('count-filter-atendimento');
-      if (cAtend) cAtend.innerText = emAndamento.toLocaleString('pt-BR');
-      const cNet = document.getElementById('count-filter-internet');
-      if (cNet) cNet.innerText = internet.toLocaleString('pt-BR');
       const cEq = document.getElementById('count-filter-equip');
       if (cEq) cEq.innerText = equipamentos.toLocaleString('pt-BR');
-      const cConc = document.getElementById('count-filter-concluido');
-      if (cConc) cConc.innerText = concluidos.toLocaleString('pt-BR');
+      const cInv = document.getElementById('count-filter-inv');
+      if (cInv) cInv.innerText = inventario.toLocaleString('pt-BR');
+      const cNet = document.getElementById('count-filter-internet');
+      if (cNet) cNet.innerText = internet.toLocaleString('pt-BR');
+      const cTel = document.getElementById('count-filter-telefone');
+      if (cTel) cTel.innerText = telefone.toLocaleString('pt-BR');
+      const cInfra = document.getElementById('count-filter-infra');
+      if (cInfra) cInfra.innerText = infraestrutura.toLocaleString('pt-BR');
+      const cOutros = document.getElementById('count-filter-outros');
+      if (cOutros) cOutros.innerText = outros.toLocaleString('pt-BR');
 
-      // 1. Filtragem por Botão de Status / Categoria
+      // 1. Filtragem por Tipo de Ocorrência
       let filtrados = registros;
-      if (filtro === 'Pendente') {
-        filtrados = registros.filter(r => r.status === 'Pendente');
-      } else if (filtro === 'Em Atendimento') {
-        filtrados = registros.filter(r => r.status && r.status.includes('Em Atendimento'));
-      } else if (filtro === 'Internet') {
-        filtrados = registros.filter(r => (r.tipo && r.tipo.includes('Internet')) || (r.relato && /(wifi|wi-fi|internet|link|fibra)/i.test(r.relato)));
-      } else if (filtro === 'Equipamentos') {
-        filtrados = registros.filter(r => (r.tipo && r.tipo.includes('Equip')) || (r.relato && /(tablet|computador|notebook|chromebook|educatron|impressora)/i.test(r.relato)));
-      } else if (filtro === 'Concluído') {
-        filtrados = registros.filter(r => r.status === 'Concluído');
+      if (filtro === 'Equipamentos e Tablets' || filtro === 'Equipamentos') {
+        filtrados = registros.filter(r => (r.tipo || '').includes('Equip') || (r.tipo || '').includes('Tablet'));
+      } else if (filtro === 'Inventario' || filtro === 'Inventário') {
+        filtrados = registros.filter(r => (r.tipo || '').toLowerCase().includes('invent'));
+      } else if (filtro === 'Internet / Conectividade' || filtro === 'Internet') {
+        filtrados = registros.filter(r => (r.tipo || '').includes('Internet') || (r.tipo || '').includes('Conect'));
+      } else if (filtro === 'Telefone' || filtro === 'Telefonia') {
+        filtrados = registros.filter(r => (r.tipo || '').includes('Telef') || (r.tipo || '').includes('Fone'));
+      } else if (filtro === 'Infraestrutura') {
+        filtrados = registros.filter(r => (r.tipo || '').includes('Infra'));
+      } else if (filtro === 'Outros') {
+        filtrados = registros.filter(r => {
+          const t = (r.tipo || '');
+          return !t.includes('Equip') && !t.includes('Tablet') && !t.toLowerCase().includes('invent') && !t.includes('Internet') && !t.includes('Conect') && !t.includes('Telef') && !t.includes('Fone') && !t.includes('Infra');
+        });
       }
 
       // 1.1 Filtragem por Mês de Abertura
@@ -30632,9 +30661,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               <span class="sort-arrow">↕</span>
             </div>
           </th>
-          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 2)" style="width: 170px;" title="Classificar por Classificação">
+          <th class="th-sortable" onclick="ordenarTabelaDom('panel-seintec-table', 2)" style="width: 195px;" title="Classificar por Tipo de Ocorrência">
             <div class="th-sort-wrapper">
-              <span class="th-title-text">Classificação</span>
+              <span class="th-title-text">Tipo de Ocorrência</span>
               <span class="sort-arrow">↕</span>
             </div>
           </th>
@@ -30684,14 +30713,21 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             statusBadgeHtml = '<span class="status-badge-inline" style="background: rgba(16, 185, 129, 0.15); color: #047857; border: 1px solid #10b981; font-weight: 700;">🟢 Concluído</span>';
           }
 
-          // Tag de Classificação
+          // Tag de Tipo de Ocorrência (Coluna Oficial da Fonte de Dados)
           let tipoTagHtml = '';
-          if (reg.tipo && reg.tipo.includes('Internet')) {
-            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #e0f2fe; color: #0369a1; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #bae6fd;">🌐 Internet/Wi-Fi</span>';
-          } else if (reg.tipo && reg.tipo.includes('Telef')) {
-            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #fef3c7; color: #92400e; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #fde68a;">📞 Telefonia</span>';
+          const tLimpo = String(reg.tipo || '').trim();
+          if (tLimpo.includes('Equip') || tLimpo.includes('Tablet')) {
+            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #f3e8ff; color: #6b21a8; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #e9d5ff;">💻 Equipamentos e Tablets</span>';
+          } else if (tLimpo.toLowerCase().includes('invent')) {
+            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #ecfdf5; color: #047857; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #a7f3d0;">📋 Inventário</span>';
+          } else if (tLimpo.includes('Internet') || tLimpo.includes('Conect')) {
+            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #e0f2fe; color: #0369a1; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #bae6fd;">🌐 Internet / Conectividade</span>';
+          } else if (tLimpo.includes('Telef') || tLimpo.includes('Fone')) {
+            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #fef3c7; color: #92400e; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #fde68a;">📞 Telefone</span>';
+          } else if (tLimpo.includes('Infra')) {
+            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #ffedd5; color: #c2410c; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #fed7aa;">🔌 Infraestrutura</span>';
           } else {
-            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #f3e8ff; color: #6b21a8; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #e9d5ff;">💻 Tablets & PCs</span>';
+            tipoTagHtml = '<span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 700; background: #f1f5f9; color: #475569; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid #cbd5e1;">⚙️ ' + (tLimpo || 'Outros') + '</span>';
           }
 
           // Extrai o nome limpo e profissional da escola (SEM 'EE', com profissão abreviada) e CIE pequeno
@@ -30744,23 +30780,34 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       document.querySelectorAll('.btn-call-filter').forEach(btn => btn.classList.remove('active'));
       const mapping = {
         'todos': 'btn-call-filter-todos',
-        'Pendente': 'btn-call-filter-pendente',
-        'Em Atendimento': 'btn-call-filter-atendimento',
-        'Internet': 'btn-call-filter-internet',
+        'Equipamentos e Tablets': 'btn-call-filter-equip',
         'Equipamentos': 'btn-call-filter-equip',
-        'Concluído': 'btn-call-filter-concluido'
+        'Inventario': 'btn-call-filter-inv',
+        'Inventário': 'btn-call-filter-inv',
+        'Internet / Conectividade': 'btn-call-filter-internet',
+        'Internet': 'btn-call-filter-internet',
+        'Telefone': 'btn-call-filter-telefone',
+        'Telefonia': 'btn-call-filter-telefone',
+        'Infraestrutura': 'btn-call-filter-infra',
+        'Outros': 'btn-call-filter-outros'
       };
       const btn = document.getElementById(mapping[filtro] || 'btn-call-filter-todos');
       if (btn) btn.classList.add('active');
 
       // Destacar o card KPI correspondente
-      document.querySelectorAll('.calls-kpi-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('#seintec-calls-kpi-bar .calls-kpi-card').forEach(c => c.classList.remove('selected'));
       const kpiCardMap = {
         'todos': 'kpi-card-calls-todos',
-        'Pendente': 'kpi-card-calls-Pendente',
-        'Em Atendimento': 'kpi-card-calls-atendimento',
+        'Equipamentos e Tablets': 'kpi-card-calls-Equipamentos',
+        'Equipamentos': 'kpi-card-calls-Equipamentos',
+        'Inventario': 'kpi-card-calls-Inventario',
+        'Inventário': 'kpi-card-calls-Inventario',
+        'Internet / Conectividade': 'kpi-card-calls-Internet',
         'Internet': 'kpi-card-calls-Internet',
-        'Equipamentos': 'kpi-card-calls-Equipamentos'
+        'Telefone': 'kpi-card-calls-Telefone',
+        'Telefonia': 'kpi-card-calls-Telefone',
+        'Infraestrutura': 'kpi-card-calls-Infraestrutura',
+        'Outros': 'kpi-card-calls-Outros'
       };
       const cardAtivo = document.getElementById(kpiCardMap[filtro]);
       if (cardAtivo) cardAtivo.classList.add('selected');
@@ -33383,7 +33430,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
           <div style="background: #f1f5f9; padding: 0.85rem; border-radius: 8px;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #475569; text-transform: uppercase; display: block;">Classificação</span>
+            <span style="font-size: 0.7rem; font-weight: 700; color: #475569; text-transform: uppercase; display: block;">Tipo de Ocorrência</span>
             <strong id="modal-call-tipo" style="font-size: 0.88rem; color: #0f172a;">Equipamentos e Tablets</strong>
           </div>
           <div style="background: #f1f5f9; padding: 0.85rem; border-radius: 8px;">
