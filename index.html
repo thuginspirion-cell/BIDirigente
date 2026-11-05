@@ -10814,7 +10814,7 @@ function imprimirAgendaCarro() {
         <div class="seintec-metric-row">
 
           <!-- Card 1: TOTAL DE EQUIPAMENTOS -->
-          <div class="gab-metric-card seintec-card-blue selected" id="metric-card-seintec-total" onclick="clicarCardMetricaSeintec('todos', this)" style="cursor: pointer;" title="Exibir todos os 15.098 equipamentos de hardware">
+          <div class="gab-metric-card seintec-card-blue" id="metric-card-seintec-total" style="cursor: default;" title="Total de 15.873 equipamentos inventariados nas 60 escolas">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">TOTAL DE EQUIPAMENTOS</span>
             </div>
@@ -10831,7 +10831,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 2: ADMINISTRATIVOS -->
-          <div class="gab-metric-card seintec-card-red" id="metric-card-seintec-admin" onclick="clicarCardMetricaSeintec('admin', this)" style="cursor: pointer;" title="Filtrar equipamentos do ambiente administrativo (1.300)">
+          <div class="gab-metric-card seintec-card-red" id="metric-card-seintec-admin" style="cursor: default;" title="Equipamentos do ambiente administrativo (1.320)">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">ADMINISTRATIVOS</span>
             </div>
@@ -10848,7 +10848,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 3: PEDAGÓGICOS -->
-          <div class="gab-metric-card seintec-card-lightblue" id="metric-card-seintec-pedag" onclick="clicarCardMetricaSeintec('pedag', this)" style="cursor: pointer;" title="Filtrar equipamentos do ambiente pedagógico (13.798)">
+          <div class="gab-metric-card seintec-card-lightblue" id="metric-card-seintec-pedag" style="cursor: default;" title="Equipamentos do ambiente pedagógico (14.553)">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">PEDAGÓGICOS</span>
             </div>
@@ -10865,7 +10865,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 4: DISPONÍVEIS PARA USO -->
-          <div class="gab-metric-card seintec-card-crimson" id="metric-card-seintec-disp" onclick="clicarCardMetricaSeintec('disp', this)" style="cursor: pointer;" title="Filtrar equipamentos disponíveis para uso (11.307 - 74,9%)">
+          <div class="gab-metric-card seintec-card-crimson" id="metric-card-seintec-disp" style="cursor: default;" title="Equipamentos disponíveis para uso (12.105 - 76,3%)">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">DISPONÍVEIS PARA USO</span>
             </div>
@@ -10885,7 +10885,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 5: MANUTENÇÃO / CHAMADO -->
-          <div class="gab-metric-card seintec-card-amber" id="metric-card-seintec-manut" onclick="clicarCardMetricaSeintec('manut', this)" style="cursor: pointer;" title="Filtrar equipamentos em manutenção ou chamado aberto (1.164)">
+          <div class="gab-metric-card seintec-card-amber" id="metric-card-seintec-manut" style="cursor: default;" title="Equipamentos em manutenção ou chamado aberto (1.144)">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">MANUTENÇÃO / CHAMADO</span>
             </div>
@@ -10902,7 +10902,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 6: INSERVÍVEL / DANIFICADOS -->
-          <div class="gab-metric-card seintec-card-teal" id="metric-card-seintec-inserv" onclick="clicarCardMetricaSeintec('inserv', this)" style="cursor: pointer;" title="Filtrar equipamentos inservíveis ou danificados (2.627)">
+          <div class="gab-metric-card seintec-card-teal" id="metric-card-seintec-inserv" style="cursor: default;" title="Equipamentos inservíveis ou danificados (2.624)">
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">INSERVÍVEL / DANIFICADOS</span>
             </div>
@@ -10936,7 +10936,7 @@ function imprimirAgendaCarro() {
 
           <!-- Atendimentos -->
           <!-- Atendimentos -->
-          <div class="base-card-item" id="card-seintec-Atendimentos" onclick="selecionarBaseSeintec('Atendimentos')">
+          <div class="base-card-item selected" id="card-seintec-Atendimentos" onclick="selecionarBaseSeintec('Atendimentos')">
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-blue">🛠️</div>
               <span class="base-card-title">Atendimentos</span>
@@ -11005,18 +11005,7 @@ function imprimirAgendaCarro() {
         </div>
 
         <!-- PAINEL INTERATIVO EXPANSÍVEL DA BASE SELECIONADA DO SEINTEC (CONSULTA + UPLOAD) -->
-        <!-- PLACEHOLDER INICIAL SEINTEC: NENHUMA BASE PRÉ-SELECIONADA -->
-        <div id="seintec-empty-selection-placeholder" style="background: #ffffff; border: 2px dashed #cbd5e1; border-radius: 14px; padding: 2.8rem 1.5rem; text-align: center; margin: 1.25rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
-          <div style="width: 58px; height: 58px; border-radius: 14px; background: rgba(59, 130, 246, 0.08); color: #2563eb; display: inline-flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 0.85rem;">
-            📊
-          </div>
-          <h3 style="font-size: 1.18rem; font-weight: 800; color: #1e293b; margin: 0 0 0.35rem 0;">Nenhuma Base ou Categoria Selecionada</h3>
-          <p style="font-size: 0.88rem; color: #64748b; max-width: 520px; margin: 0 auto; line-height: 1.5;">
-            Selecione um dos cartões acima (<b>Atendimentos</b>, <b>Equipamentos de Hardware</b>, <b>Rede</b>, <b>TVs & Educatrons</b> ou <b>Plataforma de Recarga</b>) para visualizar os registros detalhados e aplicar os filtros.
-          </p>
-        </div>
-
-        <div class="gab-base-detail-panel" id="seintec-base-detail-panel" style="display: none; border-top: none; padding: 0; background: transparent; box-shadow: none; border: none;">
+        <div class="gab-base-detail-panel" id="seintec-base-detail-panel" style="display: block; border-top: none; padding: 0; background: transparent; box-shadow: none; border: none;">
           <!-- Cabeçalho branco removido: exibição exclusiva nos banners azuis oficiais -->
           <!-- BANNER EXECUTIVO OFICIAL DE GESTÃO DO PARQUE TECNOLÓGICO SEINTEC -->
           <div id="seintec-inventario-banner" style="display: none; background: linear-gradient(135deg, #091e3a 0%, #0f3057 55%, #00587a 100%); border-radius: 14px; padding: 18px 24px; color: #fff; margin-bottom: 20px; box-shadow: 0 10px 25px -5px rgba(15, 48, 87, 0.35); border: 1px solid rgba(255, 255, 255, 0.12); position: relative; overflow: hidden;">
@@ -11053,7 +11042,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- BANNER OFICIAL PARA ATENDIMENTOS -->
-          <div id="seintec-sharepoint-calls-banner" style="display: none; background: linear-gradient(135deg, #07152f 0%, #0b2351 60%, #1e3a8a 100%); border: 1.5px solid rgba(240, 155, 12, 0.45); border-radius: 14px; padding: 1.1rem 1.4rem; margin-bottom: 1.25rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+          <div id="seintec-sharepoint-calls-banner" style="display: block; background: linear-gradient(135deg, #07152f 0%, #0b2351 60%, #1e3a8a 100%); border: 1.5px solid rgba(240, 155, 12, 0.45); border-radius: 14px; padding: 1.1rem 1.4rem; margin-bottom: 1.25rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
               <div style="display: flex; align-items: center; gap: 1rem;">
                 <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(240, 155, 12, 0.15); border: 1px solid #f09b0c; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #f09b0c;">
@@ -11245,64 +11234,81 @@ function imprimirAgendaCarro() {
                 🏢 Administrativo <span class="filter-count-badge" id="badge-inv-cnt-admin">1.320</span>
               </button>
             </div>
-            <!-- PAINEL EXECUTIVO DA DIRIGENTE (ABA CALLS • RESUMO INTELIGENTE) -->
-            <div id="seintec-calls-kpi-bar" style="display: none; margin-bottom: 1.25rem;">
+            <!-- PAINEL EXECUTIVO DA DIRIGENTE (ABA CALLS • RESUMO INTELIGENTE POR TIPO DE OCORRÊNCIA) -->
+            <div id="seintec-calls-kpi-bar" style="display: block; margin-bottom: 1.25rem;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
                 <div>
                   <span style="font-size: 0.78rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">PAINEL EXECUTIVO DA DIRIGENTE REGIONAL</span>
-                  <h4 style="margin: 0.15rem 0 0 0; font-size: 1.1rem; font-weight: 800; color: var(--text-main);">Visão Sintética de Chamados & Conectividade</h4>
+                  <h4 style="margin: 0.15rem 0 0 0; font-size: 1.1rem; font-weight: 800; color: var(--text-main);">Visão Sintética por Tipo de Ocorrência (Base Oficial 2026)</h4>
                 </div>
-                <span style="font-size: 0.75rem; background: rgba(37,99,235,0.1); color: #2563eb; border: 1px solid rgba(37,99,235,0.25); padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700;">
-                  Painel Executivo • URE Itapevi
-                </span>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                  <button type="button" class="btn-inv-tag" onclick="exportarChamadosSeintecCSV()" style="background: #10b981; color: #ffffff; border: 1px solid #059669; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;" title="Exportar dados filtrados para Excel / CSV">
+                    <span>📥</span> Exportar CSV
+                  </button>
+                  <span style="font-size: 0.75rem; background: rgba(37,99,235,0.1); color: #2563eb; border: 1px solid rgba(37,99,235,0.25); padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700;">
+                    Painel Executivo • URE Itapevi
+                  </span>
+                </div>
               </div>
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.75rem;">
-                <!-- Total Chamados -->
-                <div class="calls-kpi-card selected" id="kpi-card-calls-todos" onclick="filtrarCallsPorStatus('todos')" title="Ver todos os chamados" style="cursor: pointer; background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border: 1px solid #1e3a8a; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem;">
+                <!-- 1. Total Monitorado -->
+                <div class="calls-kpi-card selected" id="kpi-card-calls-todos" onclick="filtrarCallsPorStatus('todos')" title="Ver todas as demandas monitoradas" style="cursor: pointer; background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border: 1px solid #1e3a8a; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
                   <div style="font-size: 0.68rem; font-weight: 800; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.05em;">TOTAL MONITORADO</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #38bdf8; margin-top: 0.15rem;" id="kpi-calls-total">35</div>
-                  <div style="font-size: 0.7rem; color: #94a3b8;">Base SEINTEC</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #38bdf8; margin-top: 0.15rem;" id="kpi-calls-total">1.363</div>
+                  <div style="font-size: 0.7rem; color: #94a3b8;">Base SEINTEC 2026</div>
                 </div>
-                <!-- Pendentes (Atenção) -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Pendente" onclick="filtrarCallsPorStatus('Pendente')" title="Filtrar chamados pendentes" style="cursor: pointer; background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%); border: 1px solid #ef4444; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #fca5a5; text-transform: uppercase; letter-spacing: 0.05em;">🔴 PENDENTES (ATENÇÃO)</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-pendentes">12</div>
-                  <div style="font-size: 0.7rem; color: #fecaca;">Aguardando atendimento</div>
+
+                <!-- 2. Equipamentos e Tablets -->
+                <div class="calls-kpi-card" id="kpi-card-calls-Equipamentos" onclick="filtrarCallsPorStatus('Equipamentos')" title="Filtrar chamados de Equipamentos e Tablets" style="cursor: pointer; background: linear-gradient(135deg, #2e1065 0%, #581c87 100%); border: 1px solid #8b5cf6; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #ddd6fe; text-transform: uppercase; letter-spacing: 0.05em;">💻 EQUIPAMENTOS</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-equipamentos">754</div>
+                  <div style="font-size: 0.7rem; color: #c4b5fd;">Tablets, PCs e Educatrons</div>
                 </div>
-                <!-- Em Atendimento (FDE) -->
-                <div class="calls-kpi-card" id="kpi-card-calls-atendimento" onclick="filtrarCallsPorStatus('Em Atendimento')" title="Filtrar chamados em atendimento" style="cursor: pointer; background: linear-gradient(135deg, #451a03 0%, #78350f 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #fde68a; text-transform: uppercase; letter-spacing: 0.05em;">🟡 EM ATENDIMENTO (FDE)</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-em-andamento">11</div>
-                  <div style="font-size: 0.7rem; color: #fef3c7;">Em análise técnica</div>
+
+                <!-- 3. Inventário -->
+                <div class="calls-kpi-card" id="kpi-card-calls-Inventario" onclick="filtrarCallsPorStatus('Inventario')" title="Filtrar chamados de Inventário" style="cursor: pointer; background: linear-gradient(135deg, #064e3b 0%, #047857 100%); border: 1px solid #10b981; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.05em;">📋 INVENTÁRIO</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-inventario">268</div>
+                  <div style="font-size: 0.7rem; color: #d1fae5;">Mapeamento & Parque</div>
                 </div>
-                <!-- Internet & Conectividade -->
+
+                <!-- 4. Internet / Wi-Fi -->
                 <div class="calls-kpi-card" id="kpi-card-calls-Internet" onclick="filtrarCallsPorStatus('Internet')" title="Filtrar falhas de internet e Wi-Fi" style="cursor: pointer; background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%); border: 1px solid #38bdf8; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
                   <div style="font-size: 0.68rem; font-weight: 800; color: #bae6fd; text-transform: uppercase; letter-spacing: 0.05em;">🌐 INTERNET / WI-FI</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-internet">10</div>
-                  <div style="font-size: 0.7rem; color: #e0f2fe;">Conectividade e link fibra</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-internet">243</div>
+                  <div style="font-size: 0.7rem; color: #e0f2fe;">Link Intragov e Roteadores</div>
                 </div>
-                <!-- Equipamentos & Tablets -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Equipamentos" onclick="filtrarCallsPorStatus('Equipamentos')" title="Filtrar tablets e equipamentos" style="cursor: pointer; background: linear-gradient(135deg, #064e3b 0%, #047857 100%); border: 1px solid #34d399; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
-                  <div style="font-size: 0.68rem; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 0.05em;">💻 TABLETS & EQUIPAMENTOS</div>
-                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-equipamentos">22</div>
-                  <div style="font-size: 0.7rem; color: #d1fae5;">Tablets, Educatrons e PCs</div>
+
+                <!-- 5. Telefonia -->
+                <div class="calls-kpi-card" id="kpi-card-calls-Telefone" onclick="filtrarCallsPorStatus('Telefone')" title="Filtrar chamados de telefonia" style="cursor: pointer; background: linear-gradient(135deg, #451a03 0%, #78350f 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #fde68a; text-transform: uppercase; letter-spacing: 0.05em;">📞 TELEFONIA</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-telefonia">64</div>
+                  <div style="font-size: 0.7rem; color: #fef3c7;">Linhas Fixas e Ramais</div>
+                </div>
+
+                <!-- 6. Infraestrutura -->
+                <div class="calls-kpi-card" id="kpi-card-calls-Infraestrutura" onclick="filtrarCallsPorStatus('Infraestrutura')" title="Filtrar chamados de infraestrutura física" style="cursor: pointer; background: linear-gradient(135deg, #1e293b 0%, #334155 100%); border: 1px solid #64748b; border-radius: 12px; padding: 0.9rem 1rem; color: #fff;">
+                  <div style="font-size: 0.68rem; font-weight: 800; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.05em;">🔌 INFRAESTRUTURA</div>
+                  <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-top: 0.15rem;" id="kpi-calls-infra">23</div>
+                  <div style="font-size: 0.7rem; color: #e2e8f0;">Cabeamento Lógico e Racks</div>
                 </div>
               </div>
             </div>
 
             <!-- FILTROS EXECUTIVOS RÁPIDOS EM 1 CLIQUE -->
-            <div id="seintec-calls-filter-buttons" style="display: none; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.85rem; align-items: center;">
+            <div id="seintec-calls-filter-buttons" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.85rem; align-items: center;">
               <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; margin-right: 0.2rem;">FILTRAR:</span>
-              <button type="button" class="btn-call-filter active" id="btn-call-filter-todos" onclick="filtrarCallsPorStatus('todos')">Todos (<span id="count-filter-todos">35</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-pendente" onclick="filtrarCallsPorStatus('Pendente')">🔴 Pendentes (<span id="count-filter-pendente">0</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-atendimento" onclick="filtrarCallsPorStatus('Em Atendimento')">🟡 Em Atendimento (<span id="count-filter-atendimento">0</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-internet" onclick="filtrarCallsPorStatus('Internet')">🌐 Internet / Wi-Fi (<span id="count-filter-internet">0</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-equip" onclick="filtrarCallsPorStatus('Equipamentos')">💻 Tablets & PCs (<span id="count-filter-equip">0</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-concluido" onclick="filtrarCallsPorStatus('Concluído')">🟢 Concluídos (<span id="count-filter-concluido">0</span>)</button>
+              <button type="button" class="btn-call-filter active" id="btn-call-filter-todos" onclick="filtrarCallsPorStatus('todos')">Todos (<span id="count-filter-todos">1.363</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-equip" onclick="filtrarCallsPorStatus('Equipamentos')">💻 Equipamentos (<span id="count-filter-equip">754</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-inv" onclick="filtrarCallsPorStatus('Inventario')">📋 Inventário (<span id="count-filter-inv">268</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-internet" onclick="filtrarCallsPorStatus('Internet')">🌐 Internet / Wi-Fi (<span id="count-filter-internet">243</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-tel" onclick="filtrarCallsPorStatus('Telefone')">📞 Telefonia (<span id="count-filter-tel">64</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-infra" onclick="filtrarCallsPorStatus('Infraestrutura')">🔌 Infraestrutura (<span id="count-filter-infra">23</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-pendente" onclick="filtrarCallsPorStatus('Pendente')" style="background: rgba(239, 68, 68, 0.1); color: #dc2626; border-color: #fca5a5;">🔴 Pendentes (<span id="count-filter-pendente">28</span>)</button>
             </div>
 
             <!-- FILTRO POR MÊS DE ATENDIMENTOS SEINTEC -->
-            <div id="seintec-calls-month-filter" style="display: none; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.95rem; align-items: center; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 0.6rem 0.85rem; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+            <div id="seintec-calls-month-filter" style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.95rem; align-items: center; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 0.6rem 0.85rem; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
               <span style="font-size: 0.75rem; font-weight: 800; color: #0b2351; margin-right: 0.2rem; display: flex; align-items: center; gap: 0.3rem;">
                 <span>📅</span> <span>SELECIONAR MÊS:</span>
               </span>
@@ -29957,7 +29963,7 @@ function imprimirAgendaCarro() {
       }
     };
 
-    let baseAtivaSeintec = null;
+    let baseAtivaSeintec = 'Atendimentos';
 
     function abrirSeintec() {
       try { atualizarMetricasSuperioresSeintec(); } catch(e){}
@@ -29972,7 +29978,7 @@ function imprimirAgendaCarro() {
       const sideBtn = document.getElementById('side-btn-SEINTEC');
       if (sideBtn) sideBtn.classList.add('active');
 
-      desmarcarBasesSeintec();
+      selecionarBaseSeintec('Atendimentos');
       rolarAoTopoSuave();
     }
 
@@ -30567,31 +30573,33 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     }
 
     function filtrarCallsPorStatus(filtro) {
-      document.querySelectorAll('.btn-call-filter').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('#seintec-calls-filter-buttons .btn-call-filter').forEach(btn => btn.classList.remove('active'));
       const mapping = {
         'todos': 'btn-call-filter-todos',
-        'Pendente': 'btn-call-filter-pendente',
-        'Em Atendimento': 'btn-call-filter-atendimento',
-        'Internet': 'btn-call-filter-internet',
         'Equipamentos': 'btn-call-filter-equip',
-        'Concluído': 'btn-call-filter-concluido'
+        'Inventario': 'btn-call-filter-inv',
+        'Internet': 'btn-call-filter-internet',
+        'Telefone': 'btn-call-filter-tel',
+        'Infraestrutura': 'btn-call-filter-infra',
+        'Pendente': 'btn-call-filter-pendente'
       };
       const btn = document.getElementById(mapping[filtro] || 'btn-call-filter-todos');
       if (btn) btn.classList.add('active');
 
-      // Destacar o card KPI correspondente
-      document.querySelectorAll('.calls-kpi-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('#seintec-calls-kpi-bar .calls-kpi-card').forEach(c => c.classList.remove('selected'));
       const kpiCardMap = {
         'todos': 'kpi-card-calls-todos',
-        'Pendente': 'kpi-card-calls-Pendente',
-        'Em Atendimento': 'kpi-card-calls-atendimento',
+        'Equipamentos': 'kpi-card-calls-Equipamentos',
+        'Inventario': 'kpi-card-calls-Inventario',
         'Internet': 'kpi-card-calls-Internet',
-        'Equipamentos': 'kpi-card-calls-Equipamentos'
+        'Telefone': 'kpi-card-calls-Telefone',
+        'Infraestrutura': 'kpi-card-calls-Infraestrutura',
+        'Pendente': 'kpi-card-calls-todos'
       };
       const cardAtivo = document.getElementById(kpiCardMap[filtro]);
       if (cardAtivo) cardAtivo.classList.add('selected');
 
-      const base = SEINTEC_BASES_CONFIG['Atendimentos'];
+      const base = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos']) ? SEINTEC_BASES_CONFIG['Atendimentos'] : { registros: [] };
       renderizarRegistrosCalls(base, filtro);
     }
 
@@ -33273,5 +33281,89 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       });
     });
 </script>
+
+  <!-- MODAL EXECUTIVO 360° DO CHAMADO SEINTEC -->
+  <div id="modal-detalhes-chamado-seintec" class="agenda-modal-overlay" style="display: none; z-index: 99999;" onclick="if(event.target === this) fecharModalDetalhesChamadoSeintec()">
+    <div class="agenda-modal-card" style="max-width: 650px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+            🛠️
+          </div>
+          <div>
+            <span style="font-size: 0.72rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">SEINTEC • DETALHAMENTO EXECUTIVO</span>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #ffffff; margin: 0.1rem 0 0 0;" id="modal-chamado-protocolo">Protocolo CALL-0000</h3>
+          </div>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalDetalhesChamadoSeintec()" style="color: #cbd5e1; font-size: 1.3rem; background: transparent; border: none; cursor: pointer;">✕</button>
+      </div>
+
+      <div class="agenda-modal-body" style="padding: 1.5rem; max-height: 80vh; overflow-y: auto; background: #f8fafc;">
+        <!-- Status & SLA Banner -->
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.9rem 1.1rem; margin-bottom: 1.2rem;">
+          <div>
+            <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Situação Atual</span>
+            <div id="modal-chamado-status" style="margin-top: 0.2rem;"></div>
+          </div>
+          <div>
+            <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Tempo Decorrido / SLA</span>
+            <div id="modal-chamado-sla" style="margin-top: 0.2rem; font-weight: 800; color: #0b2351;"></div>
+          </div>
+          <div>
+            <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Tipo de Ocorrência</span>
+            <div id="modal-chamado-tipo" style="margin-top: 0.2rem;"></div>
+          </div>
+        </div>
+
+        <!-- Dados da Escola -->
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.1rem; margin-bottom: 1.2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem;">
+            <div>
+              <span style="font-size: 0.7rem; font-weight: 700; color: #0284c7; text-transform: uppercase;">Unidade Escolar</span>
+              <h4 id="modal-chamado-escola" style="margin: 0.15rem 0 0 0; font-size: 1.05rem; font-weight: 800; color: #0f172a;">Nome da Escola</h4>
+              <div style="font-size: 0.76rem; color: #64748b; margin-top: 0.2rem;" id="modal-chamado-cie-mun">CIE: 000000 • Município</div>
+            </div>
+            <button type="button" class="btn-inv-tag" id="btn-modal-ver-mapa" style="background: #e0f2fe; color: #0369a1; border-color: #bae6fd; font-size: 0.75rem; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; font-weight: 700;">
+              📍 Ver no Mapa
+            </button>
+          </div>
+        </div>
+
+        <!-- Descrição / Relato da Demanda -->
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.1rem; margin-bottom: 1.2rem;">
+          <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Relato Completo da Demanda</span>
+          <p id="modal-chamado-relato" style="margin: 0.4rem 0 0 0; font-size: 0.9rem; color: #1e293b; line-height: 1.5; white-space: pre-wrap; font-weight: 500;">
+            Descrição completa do problema.
+          </p>
+        </div>
+
+        <!-- Contato & Datas -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 1rem;">
+            <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Solicitante</span>
+            <div id="modal-chamado-solicitante" style="font-size: 0.88rem; font-weight: 700; color: #1e293b; margin-top: 0.2rem;">Nome</div>
+            <div id="modal-chamado-tel-box" style="margin-top: 0.35rem;"></div>
+          </div>
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 1rem;">
+            <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Cronograma</span>
+            <div style="font-size: 0.82rem; color: #334155; margin-top: 0.2rem;">
+              <div>Abertura: <strong id="modal-chamado-data-abertura">--/--/----</strong></div>
+              <div style="margin-top: 0.15rem;">Visita Técnica: <strong id="modal-chamado-data-visita">--/--/----</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-modal-footer" style="padding: 1rem 1.5rem; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+        <button type="button" class="btn-inv-tag" onclick="copiarProtocoloModal()" style="background: #f1f5f9; color: #334155; border-color: #cbd5e1; font-size: 0.78rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; font-weight: 700;">
+          📋 Copiar Protocolo
+        </button>
+        <button type="button" class="btn-mudar-data" onclick="fecharModalDetalhesChamadoSeintec()" style="padding: 0.45rem 1.2rem; border: 1px solid #cbd5e1; border-radius: 8px; background: #0b2351; color: #ffffff; cursor: pointer; font-weight: 700;">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
