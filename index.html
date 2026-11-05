@@ -4815,8 +4815,8 @@ function imprimirAgendaCarro() {
 
     .kpi-cards-inner {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.85rem;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
     }
 
     @media (max-width: 1200px) {
@@ -9947,8 +9947,8 @@ function imprimirAgendaCarro() {
                 <span class="kpi-mini-label" id="kpi-lbl-escolas">Escolas na rede</span>
               </div>
 
-              <!-- 2. Equipamentos TI -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('hardware')" style="cursor: pointer;" title="Focar nas métricas de Hardware e Tecnologia">
+              <!-- 2. Equipamentos TI (SEINTEC) -->
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('hardware')" style="cursor: pointer;" title="SEINTEC: 15.873 notebooks, desktops e tablets (12.105 disponíveis)">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #3b82f6;"></span>
                   <span class="kpi-big-number" id="kpi-hardware-home">15.873</span>
@@ -9956,8 +9956,17 @@ function imprimirAgendaCarro() {
                 <span class="kpi-mini-label" id="kpi-lbl-hardware">Equipamentos TI</span>
               </div>
 
-              <!-- 3. Recursos SEFIN / PDDE -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('sefin')" style="cursor: pointer;" title="Gestão Orçamentária SEAFIN / SEFIN: Total de repasses geridos">
+              <!-- 3. Chamados Oficiais (SEINTEC) -->
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('chamados')" style="cursor: pointer;" title="SEINTEC: 1.363 chamados oficiais registrados e monitorados em tempo real">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: #0284c7;"></span>
+                  <span class="kpi-big-number" id="kpi-chamados-home">1.363</span>
+                </div>
+                <span class="kpi-mini-label" id="kpi-lbl-chamados-home">Atendimentos TI</span>
+              </div>
+
+              <!-- 4. Recursos APMs / PDDE (SEAFIN / SEFIN) -->
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('sefin')" style="cursor: pointer;" title="SEAFIN / SEFIN: R$ 10,1M em repasses gerenciados para as 60 APMs">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #10b981;"></span>
                   <span class="kpi-big-number" id="kpi-recursos-sefin" style="color: #059669; font-size: 1.35rem;">R$ 10,1M</span>
@@ -9965,31 +9974,40 @@ function imprimirAgendaCarro() {
                 <span class="kpi-mini-label" id="kpi-lbl-recursos-sefin">Recursos PDDE (2026)</span>
               </div>
 
-              <!-- 4. Execução Orçamentária SEFIN -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('sefin')" style="cursor: pointer;" title="Execução orçamentária das APMs no exercício vigente">
+              <!-- 5. Execução Orçamentária APM (SEAFIN / SEFIN) -->
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('sefin')" style="cursor: pointer;" title="SEAFIN / SEFIN: R$ 4,76M executados nas APMs (47,2% de execução)">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #0ea5e9;"></span>
                   <span class="kpi-big-number" id="kpi-execucao-sefin">47,2%</span>
                 </div>
-                <span class="kpi-mini-label" id="kpi-lbl-execucao-sefin">Taxa Execução (R$ 4,76M)</span>
+                <span class="kpi-mini-label" id="kpi-lbl-execucao-sefin">Taxa Execução APMs</span>
               </div>
 
-              <!-- 5. Repasses Auditados -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('sefin')" style="cursor: pointer;" title="Termos e repasses ativos sob monitoramento pelo SEAFIN">
+              <!-- 6. Obras FDE Ativas (SEOM) -->
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('seom')" style="cursor: pointer;" title="SEOM: 34 obras ativas nas 60 escolas mapeadas em 11 dimensões prediais">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: #b45309;"></span>
+                  <span class="kpi-big-number" id="kpi-obras-home" style="color: #b45309;">34</span>
+                </div>
+                <span class="kpi-mini-label" id="kpi-lbl-obras-home">Obras FDE Ativas</span>
+              </div>
+
+              <!-- 7. E-mails & Demandas (SEGRE) -->
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('segre')" style="cursor: pointer;" title="SEGRE: 8.788 e-mails oficiais e demandas de Matrícula (SEMAT) e Vida Escolar (SEVESC)">
+                <div class="kpi-mini-val-row">
+                  <span class="kpi-color-dot" style="background: #ea580c;"></span>
+                  <span class="kpi-big-number" id="kpi-emails-home" style="color: #ea580c;">8.788</span>
+                </div>
+                <span class="kpi-mini-label" id="kpi-lbl-emails-home">E-mails &amp; Demandas</span>
+              </div>
+
+              <!-- 8. Repasses Auditados (SEAFIN / SECOMSE) -->
+              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('sefin')" style="cursor: pointer;" title="SEAFIN: 176 termos de repasse e contratos monitorados no exercício">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #8b5cf6;"></span>
                   <span class="kpi-big-number" id="kpi-repasses-sefin">176</span>
                 </div>
                 <span class="kpi-mini-label" id="kpi-lbl-repasses-sefin">Repasses Auditados</span>
-              </div>
-
-              <!-- 6. Visitas / Acompanhamento Regional -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('visitas')" style="cursor: pointer;" title="Acompanhamento in loco da Dirigente nas 60 escolas">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: #f59e0b;"></span>
-                  <span class="kpi-big-number" id="kpi-visitas">54</span>
-                </div>
-                <span class="kpi-mini-label" id="kpi-lbl-visitas">Visitas Realizadas (90%)</span>
               </div>
             </div>
           </div>
@@ -10158,41 +10176,142 @@ function imprimirAgendaCarro() {
 
 
         <!-- 4. SEÇÃO: ESCOLAS EM ATENÇÃO (GESTÃO POR EXCEÇÃO) -->
-        <div class="section-title-row">
-          <div class="section-main-heading">
-            <span style="color: var(--accent-red); font-size: 1.1rem;">⚠️</span>
-            <span>Em foco: escolas que exigem atenção</span>
+        <div class="section-title-row" style="margin-top: 1.5rem; margin-bottom: 0.95rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.85rem;">
+          <div>
+            <div class="section-main-heading" style="display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap;">
+              <span style="color: #ef4444; font-size: 1.25rem;">⚠️</span>
+              <span style="font-size: 1.15rem; font-weight: 800; color: #0f172a; letter-spacing: -0.01em;">Em foco: escolas que exigem atenção</span>
+              <span id="atencao-counter-badge" style="background: rgba(239,68,68,0.12); color: #b91c1c; font-size: 0.72rem; font-weight: 800; padding: 2px 10px; border-radius: 999px; border: 1px solid rgba(239,68,68,0.25);">6 Unidades Prioritárias</span>
+            </div>
+            <div style="font-size: 0.76rem; color: #64748b; margin-top: 3px;">
+              Gestão por exceção com monitoramento cruzado dos setores: Obras (SEOM), Tecnologia (SEINTEC), Rede &amp; Matrícula (SEGRE) e Finanças (SEAFIN).
+            </div>
           </div>
-          <span class="section-see-all" style="cursor: pointer;" onclick="filtrarHomePorTipoKPI('atencao')" title="Visualizar prioridades na Home">Ver todas as prioridades ↓</span>
+          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center;">
+            <button type="button" class="btn-filtro-atencao" id="btn-atencao-todos" onclick="filtrarCardsAtencao('TODOS', this)" style="background: #0b2351; color: #ffffff; border: 1px solid #0b2351; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">Todos (6)</button>
+            <button type="button" class="btn-filtro-atencao" onclick="filtrarCardsAtencao('SEOM', this)" style="background: #ffffff; color: #b45309; border: 1px solid #fed7aa; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">🏗️ SEOM (2)</button>
+            <button type="button" class="btn-filtro-atencao" onclick="filtrarCardsAtencao('SEINTEC', this)" style="background: #ffffff; color: #0284c7; border: 1px solid #bae6fd; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">💻 SEINTEC (2)</button>
+            <button type="button" class="btn-filtro-atencao" onclick="filtrarCardsAtencao('SEGRE', this)" style="background: #ffffff; color: #ea580c; border: 1px solid #ffedd5; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">🏫 SEGRE (1)</button>
+            <button type="button" class="btn-filtro-atencao" onclick="filtrarCardsAtencao('SEAFIN', this)" style="background: #ffffff; color: #047857; border: 1px solid #a7f3d0; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">💼 SEAFIN (1)</button>
+          </div>
         </div>
 
-        <div class="atencao-grid" id="home-atencao-grid">
-          <div class="atencao-card" id="card-atencao-040551" onclick="selecionarEscolaNaHome('040551')" style="cursor: pointer;" title="Clique para selecionar e ver métricas de Lenio Vieira de Moraes na Home">
-            <div class="atencao-badge-row">
-              <span class="badge-alta-prioridade">▲ Alta prioridade</span>
-              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 040551</span>
+        <div class="atencao-grid" id="home-atencao-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+          
+          <!-- Card 1: SEOM - Itajahy Feitosa Martins -->
+          <div class="atencao-card" id="card-atencao-908836" data-setor="SEOM" onclick="selecionarEscolaNaHome('908836')" style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #b45309; border-radius: 12px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; transition: all 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.07)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.03)';" title="Clique para focar na EE Prof. Itajahy Feitosa Martins">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
+                <span style="background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">🏗️ SEOM • Obras Prediais</span>
+                <span style="background: rgba(245,158,11,0.15); color: #b45309; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">🟠 Em Intervenção FDE</span>
+                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 908836 • Itapevi</span>
+              </div>
+              <div style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Itajahy Feitosa Martins Professor</div>
+              <div style="font-size: 0.82rem; color: #475569; line-height: 1.45;">
+                Reforma predial da quadra e recuperação estrutural da cobertura (Obra FDE ativa); acompanhamento de laudo técnico de AVCB.
+              </div>
             </div>
-            <div class="atencao-school-name">Lenio Vieira de Moraes Professor</div>
-            <div class="atencao-school-reason">Demanda estrutural elétrica e logística de equipamentos (Itapevi)</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
+              <span style="color: #059669; font-weight: 700;">⚡ Vistoria agendada</span>
+              <span style="color: #2563eb; font-weight: 800;">Ver detalhes da unidade →</span>
+            </div>
           </div>
 
-          <div class="atencao-card" id="card-atencao-918805" onclick="selecionarEscolaNaHome('918805')" style="cursor: pointer;" title="Clique para selecionar e ver métricas de Leonor Mendes de Barros na Home">
-            <div class="atencao-badge-row">
-              <span class="badge-alta-prioridade">▲ Alta prioridade</span>
-              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 918805</span>
+          <!-- Card 2: SEINTEC - Lenio Vieira de Moraes -->
+          <div class="atencao-card" id="card-atencao-040551" data-setor="SEINTEC" onclick="selecionarEscolaNaHome('040551')" style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #ef4444; border-radius: 12px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; transition: all 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.07)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.03)';" title="Clique para focar na EE Prof. Lenio Vieira de Moraes">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
+                <span style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">💻 SEINTEC • TI &amp; Suporte</span>
+                <span style="background: rgba(239,68,68,0.15); color: #b91c1c; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">🔴 Alta Prioridade</span>
+                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 040551 • Itapevi</span>
+              </div>
+              <div style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Lenio Vieira de Moraes Professor</div>
+              <div style="font-size: 0.82rem; color: #475569; line-height: 1.45;">
+                Demanda de adequação de rede elétrica e cabeamento estruturado para instalação de Educatrons e estabilização de Wi-Fi pedagógico.
+              </div>
             </div>
-            <div class="atencao-school-name">Leonor Mendes de Barros</div>
-            <div class="atencao-school-reason">Acompanhamento pedagógico e modulação docente (Itapevi)</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
+              <span style="color: #0284c7; font-weight: 700;">⚡ Chamado TI em atendimento</span>
+              <span style="color: #2563eb; font-weight: 800;">Ver detalhes da unidade →</span>
+            </div>
           </div>
 
-          <div class="atencao-card" id="card-atencao-908836" onclick="selecionarEscolaNaHome('908836')" style="cursor: pointer;" title="Clique para selecionar e ver métricas de Itajahy Feitosa Martins na Home">
-            <div class="atencao-badge-row">
-              <span class="badge-alta-prioridade">▲ Alta prioridade</span>
-              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 908836</span>
+          <!-- Card 3: SEINTEC - Aldeia de Barueri -->
+          <div class="atencao-card" id="card-atencao-009912" data-setor="SEINTEC" onclick="selecionarEscolaNaHome('009912')" style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #ef4444; border-radius: 12px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; transition: all 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.07)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.03)';" title="Clique para focar na EE Aldeia de Barueri">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
+                <span style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">💻 SEINTEC • Conectividade</span>
+                <span style="background: rgba(239,68,68,0.15); color: #b91c1c; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">🔴 Alta Prioridade</span>
+                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 009912 • Barueri</span>
+              </div>
+              <div style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Aldeia de Barueri</div>
+              <div style="font-size: 0.82rem; color: #475569; line-height: 1.45;">
+                Oscilação em link de fibra e demanda de remanejamento de switches e nobreaks para segurança do parque tecnológico escolar.
+              </div>
             </div>
-            <div class="atencao-school-name">Itajahy Feitosa Martins Professor</div>
-            <div class="atencao-school-reason">Manutenção predial na quadra e cobertura das salas (Itapevi)</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
+              <span style="color: #0284c7; font-weight: 700;">⚡ Suporte técnico regional</span>
+              <span style="color: #2563eb; font-weight: 800;">Ver detalhes da unidade →</span>
+            </div>
           </div>
+
+          <!-- Card 4: SEGRE - Leonor Mendes de Barros -->
+          <div class="atencao-card" id="card-atencao-918805" data-setor="SEGRE" onclick="selecionarEscolaNaHome('918805')" style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #ea580c; border-radius: 12px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; transition: all 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.07)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.03)';" title="Clique para focar na EE Leonor Mendes de Barros">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
+                <span style="background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">🏫 SEGRE • Matrícula &amp; Vagas</span>
+                <span style="background: rgba(234,88,12,0.15); color: #c2410c; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">🟡 Atenção Técnica</span>
+                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 918805 • Itapevi</span>
+              </div>
+              <div style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Leonor Mendes de Barros</div>
+              <div style="font-size: 0.82rem; color: #475569; line-height: 1.45;">
+                Acompanhamento intensivo do fluxo de matrículas manuais (SEMAT) e compatibilização regional de vagas para turmas de transição.
+              </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
+              <span style="color: #ea580c; font-weight: 700;">⚡ Monitoramento SEMAT</span>
+              <span style="color: #2563eb; font-weight: 800;">Ver detalhes da unidade →</span>
+            </div>
+          </div>
+
+          <!-- Card 5: SEOM - Americo Valentin Christianini -->
+          <div class="atencao-card" id="card-atencao-010431" data-setor="SEOM" onclick="selecionarEscolaNaHome('010431')" style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #b45309; border-radius: 12px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; transition: all 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.07)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.03)';" title="Clique para focar na EE Prof. Americo Valentin Christianini">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
+                <span style="background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">🏗️ SEOM • Fiscalização Predial</span>
+                <span style="background: rgba(245,158,11,0.15); color: #b45309; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">🟠 Em Acompanhamento</span>
+                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 010431 • Itapevi</span>
+              </div>
+              <div style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Americo Valentin Christianini</div>
+              <div style="font-size: 0.82rem; color: #475569; line-height: 1.45;">
+                Vistoria técnica predial para regularização de laudo AVCB dos Bombeiros e adequações de segurança de infraestrutura.
+              </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
+              <span style="color: #059669; font-weight: 700;">⚡ Laudo em tramitação</span>
+              <span style="color: #2563eb; font-weight: 800;">Ver detalhes da unidade →</span>
+            </div>
+          </div>
+
+          <!-- Card 6: SEAFIN - Jose Neyde Cesar Lessa -->
+          <div class="atencao-card" id="card-atencao-010650" data-setor="SEAFIN" onclick="selecionarEscolaNaHome('010650')" style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #047857; border-radius: 12px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; transition: all 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.07)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.03)';" title="Clique para focar na EE Dr. Jose Neyde Cesar Lessa">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
+                <span style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">💼 SEAFIN • Execução APM</span>
+                <span style="background: rgba(16,185,129,0.15); color: #047857; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">🟢 Monitoramento Financeiro</span>
+                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 010650 • Itapevi</span>
+              </div>
+              <div style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Jose Neyde Cesar Lessa Doutor</div>
+              <div style="font-size: 0.82rem; color: #475569; line-height: 1.45;">
+                Acompanhamento da aplicação dos recursos do PDDE Paulista / APM e prestação de contas dos repasses com a Seção de Finanças.
+              </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
+              <span style="color: #047857; font-weight: 700;">⚡ Prestação de contas orientada</span>
+              <span style="color: #2563eb; font-weight: 800;">Ver detalhes da unidade →</span>
+            </div>
+          </div>
+
         </div>
 
         <!-- 5. SEÇÃO: PAINEL GERAL DOS SETORES DA DIRETORIA (MÉTRICAS & INDICADORES CONSOLIDADOS) -->
@@ -16510,15 +16629,49 @@ function imprimirAgendaCarro() {
       });
     }
 
+    function filtrarCardsAtencao(setor, btn) {
+      document.querySelectorAll('.btn-filtro-atencao').forEach(b => {
+        b.style.background = '#ffffff';
+        b.style.color = '#475569';
+        b.style.borderColor = '#cbd5e1';
+      });
+      if (btn) {
+        btn.style.background = '#0b2351';
+        btn.style.color = '#ffffff';
+        btn.style.borderColor = '#0b2351';
+      }
+      const cards = document.querySelectorAll('.atencao-card');
+      let visiveis = 0;
+      cards.forEach(card => {
+        const cardSetor = card.getAttribute('data-setor');
+        if (setor === 'TODOS' || cardSetor === setor) {
+          card.style.display = 'flex';
+          visiveis++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      const counter = document.getElementById('atencao-counter-badge');
+      if (counter) {
+        counter.textContent = visiveis + ' Unidades ' + (setor === 'TODOS' ? 'Prioritárias' : 'em ' + setor);
+      }
+    }
+
     function filtrarHomePorTipoKPI(tipo) {
       if (tipo === 'escolas') {
         limparFiltrosHome();
         const kpi = document.getElementById('kpi-escolas');
         if (kpi) kpi.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else if (tipo === 'hardware') {
+      } else if (tipo === 'hardware' || tipo === 'chamados') {
         destacarCentroNaHome('SEINTEC');
       } else if (tipo === 'sefin') {
         destacarCentroNaHome('SEAFIN');
+      } else if (tipo === 'seom') {
+        destacarCentroNaHome('SEOM');
+      } else if (tipo === 'segre') {
+        destacarCentroNaHome('SEGRE');
+      } else if (tipo === 'sepes') {
+        destacarCentroNaHome('SEPES');
       } else if (tipo === 'visitas') {
         const gauge = document.getElementById('home-gauge-pct');
         if (gauge) gauge.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -16527,6 +16680,7 @@ function imprimirAgendaCarro() {
         const grid = document.getElementById('home-atencao-grid');
         if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+    }
     }
 
     function limparFiltrosHome() {
