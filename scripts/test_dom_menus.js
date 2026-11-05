@@ -178,7 +178,9 @@ const setores = [
   ['SEGRE', 'SEMAT'],
   ['SEGRE', 'SEVESC'],
   ['SEAFIN', 'SEFIN'],
-  ['SEAFIN', 'SECOMSE']
+  ['SEAFIN', 'SECOMSE'],
+  ['SEPES', 'SEAPE'],
+  ['SEPES', 'SEFREP']
 ];
 for (const [centro, setor] of setores) {
   try {
