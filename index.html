@@ -10211,7 +10211,7 @@ function imprimirAgendaCarro() {
               <div style="font-size: 0.88rem; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem;">
                 <span>📊</span> Matriz Executiva de Performance e Saúde dos Centros
               </div>
-              <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">Monitoramento consolidado dos 6 núcleos regionais em tempo real</div>
+              <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">Monitoramento consolidado dos 7 setores e centros regionais em tempo real</div>
             </div>
             <div style="display: flex; align-items: center; gap: 0.75rem;">
               <span style="font-size: 0.7rem; font-weight: 700; background: rgba(16, 185, 129, 0.12); color: #047857; padding: 0.25rem 0.65rem; border-radius: 999px; border: 1px solid rgba(16, 185, 129, 0.25);">🟢 100% dos Centros Ativos</span>
@@ -10226,51 +10226,51 @@ function imprimirAgendaCarro() {
                   <th style="padding: 0.85rem 1.2rem; font-weight: 800;">Núcleo / Setor</th>
                   <th style="padding: 0.85rem 1.2rem; font-weight: 800;">Status Operacional</th>
                   <th style="padding: 0.85rem 1.2rem; font-weight: 800;">Indicador Principal (KPI)</th>
-                  <th style="padding: 0.85rem 1.2rem; font-weight: 800;">Entregas & Volume</th>
+                  <th style="padding: 0.85rem 1.2rem; font-weight: 800;">Entregas &amp; Volume</th>
                   <th style="padding: 0.85rem 1.2rem; font-weight: 800; text-align: right;">Ação Executiva</th>
                 </tr>
               </thead>
               <tbody style="divide-y: 1px solid #f1f5f9;">
 
                 <!-- 1. SEINTEC -->
-                <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                <tr id="row-setor-seintec" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                   <td style="padding: 1rem 1.2rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                       <div style="width: 36px; height: 36px; border-radius: 8px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">💻</div>
                       <div>
                         <div style="font-weight: 800; color: #0f172a;">SEINTEC • Informações &amp; Tecnologia</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">Hardware, Conectividade e Suporte Escolar</div>
+                        <div style="font-size: 0.7rem; color: #64748b;">Atendimentos, Hardware, Redes e TVs/Educatrons</div>
                       </div>
                     </div>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
                     <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #047857; background: #ecfdf5; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #a7f3d0;">
-                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span> 76,3% Uptime TI
+                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span> 1.363 Atendimentos
                     </span>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
                     <div style="font-weight: 800; color: #0f172a;" id="matrix-seintec-kpi">15.873 Equipamentos</div>
-                    <div style="font-size: 0.7rem; color: #059669;" id="matrix-seintec-sub">12.105 em uso normal nas 60 escolas</div>
+                    <div style="font-size: 0.7rem; color: #059669;" id="matrix-seintec-sub">12.105 em uso pedagógico e administrativo</div>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;">1.363 Chamados Registrados</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">0 incidentes críticos pendentes</div>
+                    <div style="font-weight: 700; color: #334155;">1.363 Chamados Oficiais</div>
+                    <div style="font-size: 0.7rem; color: #64748b;">542 Redes • 734 TVs • 198 Recargas</div>
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirSeintec()" style="background: #0284c7; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#0369a1'" onmouseout="this.style.background='#0284c7'">
-                      Acessar SEINTEC →
+                    <button onclick="abrirSeintec()" style="background: #0284c7; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#0369a1'" onmouseout="this.style.background='#0284c7'">
+                      SEINTEC
                     </button>
                   </td>
                 </tr>
 
                 <!-- 2. ASURE -->
-                <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                <tr id="row-setor-asure" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                   <td style="padding: 1rem 1.2rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                       <div style="width: 36px; height: 36px; border-radius: 8px; background: #fef3c7; color: #b45309; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">🏛️</div>
                       <div>
                         <div style="font-weight: 800; color: #0f172a;">ASURE • Gabinete &amp; Assessoria</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">Rotina da Dirigente, Visitas e Ouvidoria</div>
+                        <div style="font-size: 0.7rem; color: #64748b;">Rotina da Dirigente, Visitas, Agenda e Ouvidoria</div>
                       </div>
                     </div>
                   </td>
@@ -10285,23 +10285,23 @@ function imprimirAgendaCarro() {
                   </td>
                   <td style="padding: 1rem 1.2rem;">
                     <div style="font-weight: 700; color: #334155;">100% Despachos em Dia</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">Frota Oficial ativa e monitorada</div>
+                    <div style="font-size: 0.7rem; color: #64748b;">Agenda Executiva e Frota Oficial</div>
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirAssessoriaTecnica()" style="background: #1e293b; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='#1e293b'">
-                      Acessar ASURE →
+                    <button onclick="abrirAssessoriaTecnica()" style="background: #1e293b; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#0f172a'" onmouseout="this.style.background='#1e293b'">
+                      ASURE
                     </button>
                   </td>
                 </tr>
 
-                                <!-- 3. SEAFIN (CAF) -->
-                <tr id="card-setor-seafin" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                <!-- 3. SEAFIN (CAF) -->
+                <tr id="row-setor-seafin" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                   <td style="padding: 1rem 1.2rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
-                      <div style="width: 36px; height: 36px; border-radius: 8px; background: #ecfdf5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">💰</div>
+                      <div style="width: 36px; height: 36px; border-radius: 8px; background: #ecfdf5; color: #047857; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">💼</div>
                       <div>
                         <div style="font-weight: 800; color: #0f172a;">SEAFIN • Administração &amp; Finanças</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">SEFIN (Finanças) e SECOMSE (Compras &amp; Serviços)</div>
+                        <div style="font-size: 0.7rem; color: #64748b;">SEFIN (Finanças &amp; Orçamento) e SECOMSE (Contratos 2026)</div>
                       </div>
                     </div>
                   </td>
@@ -10315,86 +10315,86 @@ function imprimirAgendaCarro() {
                     <div style="font-size: 0.7rem; color: #059669;">R$ 4,76M executados (47,2%)</div>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;">Finanças, Compras &amp; Bens</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">SEFIN • SECOMSE</div>
+                    <div style="font-weight: 700; color: #334155;">Finanças &amp; Contratos 2026</div>
+                    <div style="font-size: 0.7rem; color: #64748b;">SEFIN (PDDE) • SECOMSE (Compras &amp; Serviços)</div>
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('SEAFIN')" style="background: #059669; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#047857'" onmouseout="this.style.background='#059669'">
-                      Acessar SEAFIN →
+                    <button onclick="abrirCentro('CAF')" style="background: #047857; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#065f46'" onmouseout="this.style.background='#047857'">
+                      SEAFIN
                     </button>
                   </td>
                 </tr>
 
                 <!-- 4. SEOM (Obras, Manutenção & Fiscalização) -->
-                <tr id="card-setor-seom" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                <tr id="row-setor-seom" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                   <td style="padding: 1rem 1.2rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
-                      <div style="width: 36px; height: 36px; border-radius: 8px; background: #fef3c7; color: #b45309; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">🏗️</div>
+                      <div style="width: 36px; height: 36px; border-radius: 8px; background: #fff7ed; color: #c2410c; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">🏗️</div>
                       <div>
                         <div style="font-weight: 800; color: #0f172a;">SEOM • Obras, Manutenção &amp; Fiscalização</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">Obras prediais, adequações, laudos técnicos e SEFISC (Frota)</div>
+                        <div style="font-size: 0.7rem; color: #64748b;">SEOM (Obras), SEFISC (Zeladorias) e DPAT (Patrimônio)</div>
                       </div>
                     </div>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
-                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #b45309; background: #fef3c7; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #fde68a;">
-                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #f59e0b;"></span> 100% Demandas Vistoriadas
+                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #c2410c; background: #fff7ed; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #ffedd5;">
+                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #f97316;"></span> 100% Demandas Vistoriadas
                     </span>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 800; color: #0f172a;">Engenharia &amp; Intervenções</div>
-                    <div style="font-size: 0.7rem; color: #b45309;">Laudos técnicos, AVCB e reformas</div>
+                    <div style="font-weight: 800; color: #0f172a;">Engenharia, Fiscalização &amp; Bens</div>
+                    <div style="font-size: 0.7rem; color: #c2410c;">Laudos técnicos, AVCB, obras e reformas</div>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;">Infraestrutura &amp; Frota</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">SEOM (Obras) • SEFISC (Fiscalização)</div>
+                    <div style="font-weight: 700; color: #334155;">SEOM • SEFISC • DPAT</div>
+                    <div style="font-size: 0.7rem; color: #64748b;">Fiscalização, Zeladorias 2026 e Inventário Patrimonial</div>
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('SEOM')" style="background: #b45309; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#92400e'" onmouseout="this.style.background='#b45309'">
-                      Acessar SEOM →
+                    <button onclick="abrirCentro('SEOM')" style="background: #b45309; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#92400e'" onmouseout="this.style.background='#b45309'">
+                      SEOM
                     </button>
                   </td>
                 </tr>
 
-                <!-- 4. SEGRE -->
-                <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                <!-- 5. SEGRE -->
+                <tr id="row-setor-segre" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                   <td style="padding: 1rem 1.2rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                       <div style="width: 36px; height: 36px; border-radius: 8px; background: #fff7ed; color: #ea580c; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">🏫</div>
                       <div>
                         <div style="font-weight: 800; color: #0f172a;">SEGRE • Serviço de Gestão da Rede Escolar</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">Supervisão de Ensino, Matrícula e Vida Escolar</div>
+                        <div style="font-size: 0.7rem; color: #64748b;">SEMAT (Matrículas), SEVESC (Vida Escolar) e Base E-MAIL</div>
                       </div>
                     </div>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
-                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #c2410c; background: #fff7ed; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #fed7aa;">
-                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #f97316;"></span> 60 Escolas Monitoradas
+                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #c2410c; background: #fff7ed; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #ffedd5;">
+                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #ea580c;"></span> 60 Escolas Monitoradas
                     </span>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
                     <div style="font-weight: 800; color: #0f172a;">100% de Cobertura Regional</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">Polos de supervisão pedagógica ativos</div>
+                    <div style="font-size: 0.7rem; color: #ea580c;">SEMAT (Vagas) &amp; SEVESC (Vida Escolar)</div>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;">Fluxo de Matrículas e Vagas</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">Articulação contínua com os municípios</div>
+                    <div style="font-weight: 700; color: #334155;">8.788 E-mails &amp; Demandas</div>
+                    <div style="font-size: 0.7rem; color: #64748b;">Livros de Entrada 2026 SEMAT &amp; SEVESC</div>
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('SEGRE')" style="background: #ea580c; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#c2410c'" onmouseout="this.style.background='#ea580c'">
-                      Acessar SEGRE / Rede →
+                    <button onclick="abrirCentro('SEGRE')" style="background: #ea580c; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#c2410c'" onmouseout="this.style.background='#ea580c'">
+                      SEGRE
                     </button>
                   </td>
                 </tr>
 
-                <!-- 5. SEPES -->
-                <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                <!-- 6. SEPES -->
+                <tr id="row-setor-sepes" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                   <td style="padding: 1rem 1.2rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                       <div style="width: 36px; height: 36px; border-radius: 8px; background: #f5f3ff; color: #7c3aed; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">👥</div>
                       <div>
                         <div style="font-weight: 800; color: #0f172a;">SEPES • Serviço de Pessoas</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">Folha, Evolução Funcional e Quadro Docente</div>
+                        <div style="font-size: 0.7rem; color: #64748b;">SEAPE (Vida Funcional) e SEFREP (Frequência &amp; Pagamento)</div>
                       </div>
                     </div>
                   </td>
@@ -10404,28 +10404,28 @@ function imprimirAgendaCarro() {
                     </span>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 800; color: #0f172a;">SED &amp; Folha de Pagamento</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">Controle de frequência e modulação</div>
+                    <div style="font-weight: 800; color: #0f172a;">SEAPE • Vida Funcional</div>
+                    <div style="font-size: 0.7rem; color: #64748b;">Aposentadorias, Designações &amp; Abono de Permanência</div>
                   </td>
                   <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;">Contratos &amp; Licenças</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">Evolução funcional em dia</div>
+                    <div style="font-weight: 700; color: #334155;">SEAPE &amp; SEFREP</div>
+                    <div style="font-size: 0.7rem; color: #64748b;">SED, Folha de Pagamento e Modulação Docente</div>
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('SEPES')" style="background: #7c3aed; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#6d28d9'" onmouseout="this.style.background='#7c3aed'">
-                      Acessar SEPES →
+                    <button onclick="abrirCentro('SEPES')" style="background: #7c3aed; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#6d28d9'" onmouseout="this.style.background='#7c3aed'">
+                      SEPES
                     </button>
                   </td>
                 </tr>
 
-                <!-- 6. EEC -->
-                <tr style="transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                <!-- 7. EEC -->
+                <tr id="row-setor-eec" style="transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                   <td style="padding: 1rem 1.2rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                       <div style="width: 36px; height: 36px; border-radius: 8px; background: #f0fdf4; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">📚</div>
                       <div>
                         <div style="font-weight: 800; color: #0f172a;">EEC • Currículo &amp; Formação Pedagógica</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">Prova Paulista, SARESP e Desenvolvimento Docente</div>
+                        <div style="font-size: 0.7rem; color: #64748b;">Anos Iniciais, Anos Finais, Ensino Médio e Projetos Especiais</div>
                       </div>
                     </div>
                   </td>
@@ -10440,11 +10440,11 @@ function imprimirAgendaCarro() {
                   </td>
                   <td style="padding: 1rem 1.2rem;">
                     <div style="font-weight: 700; color: #334155;">Formação Continuada de Professores</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">Oficinas e planos de nivelamento pedagógico</div>
+                    <div style="font-size: 0.7rem; color: #64748b;">Oficinas pedagógicas e planos de nivelamento</div>
                   </td>
                   <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('EEC')" style="background: #16a34a; color: #ffffff; border: none; padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#15803d'" onmouseout="this.style.background='#16a34a'">
-                      Acessar EEC →
+                    <button onclick="abrirCentro('EEC')" style="background: #16a34a; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#15803d'" onmouseout="this.style.background='#16a34a'">
+                      EEC
                     </button>
                   </td>
                 </tr>
@@ -16460,14 +16460,14 @@ function imprimirAgendaCarro() {
 
     function destacarCentroNaHome(sigla) {
       const mapaIds = {
-        'SEINTEC': 'card-setor-seintec',
-        'ASURE': 'card-setor-asure',
-        'CAF': 'card-setor-seafin',
-        'SEAFIN': 'card-setor-seafin',
-        'SEOM': 'card-setor-seom',
-        'SEGRE': 'card-setor-segre',
-        'SEPES': 'card-setor-sepes',
-        'EEC': 'card-setor-eec'
+        'SEINTEC': 'row-setor-seintec',
+        'ASURE': 'row-setor-asure',
+        'CAF': 'row-setor-seafin',
+        'SEAFIN': 'row-setor-seafin',
+        'SEOM': 'row-setor-seom',
+        'SEGRE': 'row-setor-segre',
+        'SEPES': 'row-setor-sepes',
+        'EEC': 'row-setor-eec'
       };
 
       const todosIds = Object.values(mapaIds);
@@ -16477,34 +16477,34 @@ function imprimirAgendaCarro() {
         const el = document.getElementById(id);
         if (!el) return;
         if (id === alvoId) {
-          el.style.boxShadow = '0 0 0 3px #f09b0c, 0 12px 28px rgba(240, 155, 12, 0.25)';
-          el.style.transform = 'translateY(-4px)';
+          el.style.background = '#fef3c7';
+          el.style.boxShadow = 'inset 4px 0 0 #f59e0b, 0 4px 12px rgba(245, 158, 11, 0.15)';
           el.style.opacity = '1';
         } else {
+          el.style.background = 'transparent';
           el.style.boxShadow = 'none';
-          el.style.transform = 'none';
           el.style.opacity = '0.55';
         }
       });
 
       if (alvoId) {
-        const card = document.getElementById(alvoId);
-        if (card) {
-          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const row = document.getElementById(alvoId);
+        if (row) {
+          row.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }
     }
 
     function limparDestaqueCentrosHome() {
       const todosIds = [
-        'card-setor-seintec', 'card-setor-asure', 'card-setor-seafin',
-        'card-setor-segre', 'card-setor-sepes', 'card-setor-eec'
+        'row-setor-seintec', 'row-setor-asure', 'row-setor-seafin',
+        'row-setor-seom', 'row-setor-segre', 'row-setor-sepes', 'row-setor-eec'
       ];
       todosIds.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
+          el.style.background = '';
           el.style.boxShadow = '';
-          el.style.transform = '';
           el.style.opacity = '1';
         }
       });
