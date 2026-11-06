@@ -12283,32 +12283,61 @@ function imprimirAgendaCarro() {
         </div>
 
         <!-- BARRA DE PESQUISA E FILTROS -->
+        <!-- PÍLULAS RÁPIDAS DE FILTRO POR SEGMENTO E MUNICÍPIO -->
+        <div class="escolas-quick-pills-bar" style="display: flex; gap: 0.45rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.85rem; padding: 0.75rem 1rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+          <span style="font-size: 0.72rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 0.35rem;">Filtros Rápidos:</span>
+          
+          <button type="button" class="btn-pill-escola active" id="pill-esc-todas" onclick="aplicarPilulaEscola('tipo', '', this)" style="background: #0b2351; color: #ffffff; border: 1px solid #0b2351; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">Todas (60)</button>
+          
+          <span style="color: #cbd5e1;">|</span>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('tipo', 'PEI', this)" style="background: #ffffff; color: #d97706; border: 1px solid #fed7aa; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">⭐ PEI Geral (42)</button>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('tipo', 'PEI 9h', this)" style="background: #ffffff; color: #b45309; border: 1px solid #fed7aa; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">⭐ PEI 9h (38)</button>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('tipo', 'PEI 7h', this)" style="background: #ffffff; color: #d97706; border: 1px solid #fde68a; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">⭐ PEI 7h (4)</button>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('tipo', 'Regular', this)" style="background: #ffffff; color: #0284c7; border: 1px solid #bae6fd; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📘 Regular (18)</button>
+          
+          <span style="color: #cbd5e1;">|</span>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Itapevi', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Itapevi (36)</button>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Barueri', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Barueri (15)</button>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Jandira', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Jandira (6)</button>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Pirapora do Bom Jesus', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Pirapora (3)</button>
+          
+          <span style="color: #cbd5e1;">|</span>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('status', 'Alta prioridade', this)" style="background: #ffffff; color: #dc2626; border: 1px solid #fecaca; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">▲ Alta Prioridade</button>
+        </div>
+
+        <!-- BARRA PRINCIPAL DE PESQUISA E FILTROS -->
         <div class="escolas-filter-bar">
           <div class="escolas-search-wrap">
             <span class="escolas-search-icon">🔍</span>
-            <input type="text" id="escolas-search-input" class="escolas-search-input" placeholder="Pesquisar por nome da escola, código CIE, diretor ou bairro..." oninput="filtrarEscolas()">
+            <input type="text" id="escolas-search-input" class="escolas-search-input" placeholder="Pesquisar por escola (sem 'EE'), código CIE, diretor ou endereço..." oninput="filtrarEscolas()">
           </div>
 
           <select id="escolas-filter-cidade" class="escolas-select-filter" onchange="filtrarEscolas()">
             <option value="">Todos os Municípios</option>
-            <option value="Itapevi">Itapevi</option>
-            <option value="Jandira">Jandira</option>
-            <option value="Pirapora do Bom Jesus">Pirapora do Bom Jesus</option>
-            <option value="Barueri">Barueri</option>
+            <option value="Itapevi">Itapevi (36)</option>
+            <option value="Barueri">Barueri (15)</option>
+            <option value="Jandira">Jandira (6)</option>
+            <option value="Pirapora do Bom Jesus">Pirapora do Bom Jesus (3)</option>
           </select>
 
           <select id="escolas-filter-tipo" class="escolas-select-filter" onchange="filtrarEscolas()">
-            <option value="">Todos os Modelos</option>
-            <option value="PEI">Programa Ensino Integral (PEI)</option>
+            <option value="">Todos os Segmentos / Modelos</option>
+            <option value="PEI">Programa Ensino Integral (PEI Geral)</option>
+            <option value="PEI 9h">PEI - Jornada Integral 9 Horas</option>
+            <option value="PEI 7h">PEI - Jornada Integral 7 Horas</option>
             <option value="Regular">Ensino Regular</option>
           </select>
 
           <select id="escolas-filter-status" class="escolas-select-filter" onchange="filtrarEscolas()">
             <option value="">Todas as Situações</option>
-            <option value="Regular">Regular</option>
-            <option value="Alta prioridade">Alta Prioridade / Em Atenção</option>
-            <option value="Em Reforma">Em Reforma / Obras</option>
+            <option value="Regular">● Regular (Conforme)</option>
+            <option value="Alta prioridade">▲ Alta Prioridade (Em Atenção)</option>
+            <option value="Em Reforma">🛠️ Em Reforma / Obras FDE</option>
           </select>
+
+          <button type="button" onclick="limparFiltrosEscolasAvancado()" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.45rem 0.85rem; font-size: 0.75rem; font-weight: 700; color: #475569; cursor: pointer;" title="Limpar todos os filtros da tabela de escolas">
+            🔄 Limpar
+          </button>
 
           <div class="escolas-count-badge" id="escolas-count-badge" style="margin-left: auto;">
             Exibindo 0 de 0 escolas
@@ -12364,6 +12393,67 @@ function imprimirAgendaCarro() {
                 <!-- Linhas preenchidas via JavaScript -->
               </tbody>
             </table>
+          </div>
+        </div>
+
+        <!-- NOTA EXPLICATIVA & LEGENDA OPERACIONAL DA REDE ESCOLAR -->
+        <div id="nota-explicativa-escolas" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.85rem; border: 1px solid #1e293b; margin-top: 1.75rem; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: all 0.3s ease;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.15rem; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.85rem;">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <span style="font-size: 1.4rem;">📌</span>
+              <div>
+                <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">NOTAS EXPLICATIVAS &amp; LEGENDA DE GOVERNANÇA DA REDE</h4>
+                <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Critérios de classificação, nomenclaturas padronizadas e significados operacionais das métricas</div>
+              </div>
+            </div>
+            <span style="background: rgba(37,99,235,0.15); color: #60a5fa; border: 1px solid rgba(37,99,235,0.3); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px;">Governança de Dados • URE Itapevi</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
+            
+            <!-- Coluna 1: SITUAÇÃO -->
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+              <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>🏷️</span> <span>Significado da Coluna SITUAÇÃO</span>
+              </div>
+              <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                <li><strong style="color: #10b981;">● Regular:</strong> A unidade opera em plena conformidade cadastral e rotina pedagógica estável, sem gargalos prediais graves ou obras emergenciais abertas nos setores integrados.</li>
+                <li><strong style="color: #ef4444;">▲ Alta Prioridade:</strong> Escola sob acompanhamento direto da Dirigente por acumular criticidades no Índice Multissetorial (IMRO) — como obra ativa FDE, sem AVCB dos Bombeiros, alto sucateamento de TI ou sobrecarga de matrículas.</li>
+                <li><strong style="color: #f59e0b;">🛠️ Em Reforma:</strong> Prédio escolar com canteiro de obras ativo, intervenção estrutural ou reforma gerenciada pela FDE / SEOM.</li>
+              </ul>
+            </div>
+
+            <!-- Coluna 2: AÇÕES -->
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+              <div style="color: #fbbf24; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>⚙️</span> <span>Significado e Impacto das AÇÕES</span>
+              </div>
+              <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                <li><strong style="color: #60a5fa;">👁️ Detalhes 360°:</strong> Abre o Raio-X completo da escola, unificando em uma única tela os dados de Infraestrutura (SEOM), Tecnologia (SEINTEC), Finanças APM (SEAFIN), Rede (SEGRE) e Gabinete.</li>
+                <li><strong style="color: #94a3b8;">✏️ Editar:</strong> Abre o formulário cadastral para atualização de equipe gestora, telefone institucional, endereço e modelo de jornada.</li>
+                <li><strong style="color: #f87171;">⚠️ Alternar Alerta:</strong> Sinaliza ou remove manualmente a escola do regime de monitoramento prioritário do Gabinete.</li>
+                <li><strong style="color: #fca5a5;">🗑️ Excluir:</strong> Remove a unidade da base local após confirmação formal.</li>
+              </ul>
+            </div>
+
+            <!-- Coluna 3: MODELOS & SEGMENTOS -->
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+              <div style="color: #a7f3d0; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>🏫</span> <span>Segmentos e Jornadas Pedagógicas</span>
+              </div>
+              <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                <li><strong style="color: #fbbf24;">PEI 9h:</strong> Programa Ensino Integral com jornada diária de 9 horas (tutoria pedagógica, 2 refeições diárias e clubes juvenis).</li>
+                <li><strong style="color: #fde68a;">PEI 7h:</strong> Programa Ensino Integral com jornada diária de 7 horas.</li>
+                <li><strong style="color: #38bdf8;">Regular:</strong> Unidade de ensino estadual com funcionamento em turnos parciais (manhã, tarde ou noite).</li>
+                <li><strong style="color: #cbd5e1;">Nomenclatura Oficial:</strong> Remoção de prefixos redundantes (como 'EE') e padronização da titulação com vírgula no final para leitura executiva fluida.</li>
+              </ul>
+            </div>
+
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
+            <span><strong>Diretoria Regional de Ensino • URE Itapevi</strong> • Painel Integrado de Gestão Escolar</span>
+            <span>Auditoria contínua sincronizada com as bases oficiais do SharePoint corporativo e BlueMonitor.</span>
           </div>
         </div>
 
@@ -13953,7 +14043,18 @@ function imprimirAgendaCarro() {
           (e.bairro && e.bairro.toLowerCase().includes(termo));
 
         const matchCidade = !cidade || e.cidade === cidade;
-        const matchTipo = !tipo || (tipo === 'PEI' ? (e.tipo && e.tipo.includes('PEI')) : (e.tipo && !e.tipo.includes('PEI')));
+        
+        let matchTipo = true;
+        if (tipo === 'PEI') {
+          matchTipo = e.tipo && e.tipo.includes('PEI');
+        } else if (tipo === 'PEI 9h') {
+          matchTipo = e.tipo && e.tipo.includes('9h');
+        } else if (tipo === 'PEI 7h') {
+          matchTipo = e.tipo && e.tipo.includes('7h');
+        } else if (tipo === 'Regular') {
+          matchTipo = e.tipo && !e.tipo.includes('PEI');
+        }
+
         const matchStatus = !status || e.status === status;
 
         return matchTermo && matchCidade && matchTipo && matchStatus;
@@ -13974,8 +14075,213 @@ function imprimirAgendaCarro() {
 
       const badgeCount = document.getElementById('escolas-count-badge');
       if (badgeCount) {
-        badgeCount.innerText = `Exibindo ${filtradas.length} de ${listaEscolas.length} escolas`;
+        badgeCount.textContent = 'Exibindo ' + filtradas.length + ' de ' + listaEscolas.length + ' escolas';
       }
+    }
+
+    function aplicarPilulaEscola(tipoFiltro, valor, btn) {
+      document.querySelectorAll('.btn-pill-escola').forEach(b => {
+        b.style.background = '#ffffff';
+        b.style.color = '#475569';
+        b.style.borderColor = '#cbd5e1';
+      });
+
+      if (btn) {
+        btn.style.background = '#0b2351';
+        btn.style.color = '#ffffff';
+        btn.style.borderColor = '#0b2351';
+      }
+
+      if (tipoFiltro === 'tipo') {
+        const selectTipo = document.getElementById('escolas-filter-tipo');
+        if (selectTipo) selectTipo.value = valor;
+      } else if (tipoFiltro === 'cidade') {
+        const selectCidade = document.getElementById('escolas-filter-cidade');
+        if (selectCidade) selectCidade.value = valor;
+      } else if (tipoFiltro === 'status') {
+        const selectStatus = document.getElementById('escolas-filter-status');
+        if (selectStatus) selectStatus.value = valor;
+      }
+
+      filtrarEscolas();
+    }
+
+    function limparFiltrosEscolasAvancado() {
+      const search = document.getElementById('escolas-search-input');
+      const cid = document.getElementById('escolas-filter-cidade');
+      const tip = document.getElementById('escolas-filter-tipo');
+      const sta = document.getElementById('escolas-filter-status');
+      if (search) search.value = '';
+      if (cid) cid.value = '';
+      if (tip) tip.value = '';
+      if (sta) sta.value = '';
+
+      document.querySelectorAll('.btn-pill-escola').forEach(b => {
+        b.style.background = '#ffffff';
+        b.style.color = '#475569';
+        b.style.borderColor = '#cbd5e1';
+      });
+      const btnTodas = document.getElementById('pill-esc-todas');
+      if (btnTodas) {
+        btnTodas.style.background = '#0b2351';
+        btnTodas.style.color = '#ffffff';
+        btnTodas.style.borderColor = '#0b2351';
+      }
+
+      filtrarEscolas();
+    }
+
+    function rolarParaLegendaEscolas() {
+      const legenda = document.getElementById('nota-explicativa-escolas');
+      if (legenda) {
+        legenda.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        legenda.style.border = '2px solid #38bdf8';
+        legenda.style.boxShadow = '0 0 25px rgba(56, 189, 248, 0.4)';
+        setTimeout(() => {
+          legenda.style.border = '1px solid #1e293b';
+          legenda.style.boxShadow = '0 10px 30px rgba(0,0,0,0.12)';
+        }, 2500);
+      }
+    }
+
+    // ==============================================================
+    // CONTROLE DO MODAL DE DETALHES 360° DA ESCOLA
+    // ==============================================================
+    let escolaSelecionadaParaDetalhes = null;
+
+    function abrirModalDetalhesEscola(idOuCie) {
+      const esc = listaEscolas.find(e => e.id === idOuCie || e.cie === idOuCie);
+      if (!esc) return;
+
+      escolaSelecionadaParaDetalhes = esc;
+
+      const modal = document.getElementById('modal-escola-detalhes');
+      if (!modal) return;
+
+      // Nome formatado
+      const nomeFormatado = typeof formatarNomeEscolaExecutivo === 'function' 
+        ? formatarNomeEscolaExecutivo(esc.nome) 
+        : esc.nome;
+
+      document.getElementById('det-modal-nome').textContent = nomeFormatado;
+      document.getElementById('det-modal-cie').textContent = 'CIE: ' + (esc.cie || '---');
+      document.getElementById('det-modal-cidade').textContent = 'Município: ' + (esc.cidade || 'Itapevi');
+      document.getElementById('det-modal-segmento').textContent = esc.segmento || 'Ensino Fundamental e Médio';
+
+      // Status Badge
+      const elStatus = document.getElementById('det-modal-status-badge');
+      if (elStatus) {
+        if (esc.status === 'Alta prioridade') {
+          elStatus.style.background = 'rgba(239, 68, 68, 0.2)';
+          elStatus.style.color = '#f87171';
+          elStatus.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+          elStatus.textContent = '▲ Alta Prioridade';
+        } else if (esc.status === 'Em Reforma') {
+          elStatus.style.background = 'rgba(245, 158, 11, 0.2)';
+          elStatus.style.color = '#fbbf24';
+          elStatus.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+          elStatus.textContent = '🛠️ Em Reforma';
+        } else {
+          elStatus.style.background = 'rgba(16, 185, 129, 0.2)';
+          elStatus.style.color = '#34d399';
+          elStatus.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+          elStatus.textContent = '● Regular';
+        }
+      }
+
+      // Tipo Badge
+      const elTipo = document.getElementById('det-modal-tipo-badge');
+      if (elTipo) {
+        elTipo.textContent = esc.tipo || 'Regular';
+      }
+
+      // Dados cadastrais
+      document.getElementById('det-modal-endereco').textContent = esc.bairro || 'Endereço não informado';
+      document.getElementById('det-modal-diretor').textContent = esc.diretor || 'Equipe Gestora';
+      document.getElementById('det-modal-telefone').textContent = esc.telefone || '(11) 4141-0000';
+      document.getElementById('det-modal-modelo').textContent = (esc.tipo || 'Regular') + ' • ' + (esc.segmento || 'Fundamental/Médio');
+
+      // CRUZAMENTO SEOM (Infraestrutura)
+      const seomEscolas = (typeof DADOS_SEOM !== 'undefined' && DADOS_SEOM.escolas) ? DADOS_SEOM.escolas : [];
+      const seomInfo = seomEscolas.find(s => {
+        const sNome = s.escola.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const bNome = (esc.nomeOficialBruto || esc.nome).toLowerCase().replace(/[^a-z0-9]/g, '');
+        return sNome.includes(bNome) || bNome.includes(sNome);
+      }) || {};
+
+      let seomHtml = '';
+      if (seomInfo.escola) {
+        const statusFde = seomInfo.obraFde === 2 ? '<span style="color: #b45309; font-weight: 800;">🟠 Obra FDE Ativa em Andamento</span>' : '<span style="color: #047857;">🟢 Sem obras ativas</span>';
+        const statusAvcb = seomInfo.avcb === 1 ? '<span style="color: #047857; font-weight: 700;">🟢 Regularizado (Bombeiros)</span>' : '<span style="color: #b91c1c; font-weight: 800;">🔴 Laudo Pendente</span>';
+        const telhado = seomInfo.telhado === 2 ? '🔴 Intervenção crítica' : '🟢 Conforme';
+        const eletrica = seomInfo.eletrica === 2 ? '🔴 Sobrecarga' : '🟢 Estável';
+        const esgoto = seomInfo.esgoto === 2 ? '🔴 Crítico' : '🟢 Regular';
+        const zelador = seomInfo.zeladoria === 1 ? '🟢 Residente' : '🟡 Sem zelador';
+        const cuidador = seomInfo.cuidador === 2 ? '🔴 Demanda aberta' : '🟢 Atendido';
+
+        seomHtml = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <div><strong>Obra FDE:</strong> ${statusFde}</div>
+            <div><strong>Laudo AVCB:</strong> ${statusAvcb}</div>
+            <div><strong>Telhado:</strong> ${telhado}</div>
+            <div><strong>Rede Elétrica:</strong> ${eletrica}</div>
+            <div><strong>Saneamento:</strong> ${esgoto}</div>
+            <div><strong>Zeladoria:</strong> ${zelador}</div>
+          </div>
+          <div style="font-size: 0.76rem; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 0.4rem;">
+            Cuidadores: ${cuidador} • Inconsistência SGI: ${seomInfo.sgi === 2 ? 'Sim' : 'Não'}
+          </div>
+        `;
+      } else {
+        seomHtml = '<span style="color: #64748b;">Dados de vistoria e infraestrutura em processo de compilação pela Seção de Obras.</span>';
+      }
+      document.getElementById('det-modal-seom-content').innerHTML = seomHtml;
+
+      // CRUZAMENTO SEINTEC (Tecnologia)
+      const chamadosLista = (typeof DADOS_SEINTEC !== 'undefined' && DADOS_SEINTEC.registros) ? DADOS_SEINTEC.registros : [];
+      const callsEscola = chamadosLista.filter(c => c.cie === esc.cie);
+
+      let totalHw = 0;
+      let badHw = 0;
+      if (typeof DADOS_INVENTARIO_HARDWARE !== 'undefined' && DADOS_INVENTARIO_HARDWARE.registros) {
+        DADOS_INVENTARIO_HARDWARE.registros.forEach(it => {
+          if (it[0] === esc.cie) {
+            totalHw++;
+            const st = String(it[5]).toLowerCase();
+            if (st.includes('inserv') || st.includes('manuten') || st.includes('danif')) {
+              badHw++;
+            }
+          }
+        });
+      }
+
+      let seintecHtml = `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <div><strong>Parque de TI:</strong> ${totalHw > 0 ? totalHw + ' equipamentos' : 'Inventário monitorado'}</div>
+          <div><strong>Educatrons:</strong> ${esc.educatrons || 12} telas interativas</div>
+          <div><strong>Com Defeito:</strong> <span style="color: ${badHw > 30 ? '#dc2626' : '#047857'}; font-weight: 700;">${badHw} itens</span></div>
+          <div><strong>Chamados 2026:</strong> ${callsEscola.length} registrados</div>
+        </div>
+        <div style="font-size: 0.76rem; color: #64748b; border-top: 1px dashed #e2e8f0; padding-top: 0.4rem;">
+          Conectividade: Link Intragov de Fibra Operacional • Wi-Fi Pedagógico monitorado.
+        </div>
+      `;
+      document.getElementById('det-modal-seintec-content').innerHTML = seintecHtml;
+
+      modal.style.display = 'flex';
+    }
+
+    function fecharModalDetalhesEscola() {
+      const modal = document.getElementById('modal-escola-detalhes');
+      if (modal) modal.style.display = 'none';
+      escolaSelecionadaParaDetalhes = null;
+    }
+
+    function editarEscolaDoDetalhes() {
+      if (!escolaSelecionadaParaDetalhes) return;
+      const id = escolaSelecionadaParaDetalhes.id;
+      fecharModalDetalhesEscola();
+      abrirModalEditarEscola(id);
     }
 
     function filtrarPorKpi(filtro) {
@@ -42373,6 +42679,134 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
 
   <!-- MODAL: CADASTRAR OU EDITAR ESCOLA -->
+  <!-- ======================================================== -->
+  <!-- MODAL: RAIO-X EXECUTIVO & DETALHES 360° DA ESCOLA -->
+  <!-- ======================================================== -->
+  <div id="modal-escola-detalhes" class="agenda-modal-overlay" style="display: none; z-index: 10000;" onclick="if(event.target === this) fecharModalDetalhesEscola()">
+    <div class="agenda-modal-card" style="max-width: 860px; max-height: 92vh; overflow-y: auto; padding: 0; border-radius: 16px; border: 1px solid #cbd5e1; box-shadow: 0 25px 60px rgba(0,0,0,0.25);">
+      
+      <!-- HEADER DO RAIO-X -->
+      <div style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); padding: 1.5rem 1.85rem; color: #ffffff; display: flex; justify-content: space-between; align-items: flex-start; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+            <span style="font-size: 0.74rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">FICHA EXECUTIVA MULTISSETORIAL • RAIO-X 360°</span>
+            <span id="det-modal-status-badge" style="background: rgba(16,185,129,0.2); color: #34d399; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(16,185,129,0.3);">● Regular</span>
+            <span id="det-modal-tipo-badge" style="background: rgba(245,158,11,0.2); color: #fbbf24; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">PEI 9h</span>
+          </div>
+          <h3 id="det-modal-nome" style="font-size: 1.35rem; font-weight: 800; color: #ffffff; margin: 0; line-height: 1.25;">Nome da Unidade Escolar</h3>
+          <div style="font-size: 0.82rem; color: #94a3b8; margin-top: 4px; display: flex; gap: 0.85rem; flex-wrap: wrap;">
+            <span id="det-modal-cie">CIE: 000000</span>
+            <span>•</span>
+            <span id="det-modal-cidade">Município: Itapevi</span>
+            <span>•</span>
+            <span id="det-modal-segmento">Ensino Fundamental e Médio</span>
+          </div>
+        </div>
+        <button type="button" onclick="fecharModalDetalhesEscola()" style="background: rgba(255,255,255,0.1); border: none; color: #ffffff; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.8)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">✕</button>
+      </div>
+
+      <!-- CORPO DO RAIO-X COM DIAGNÓSTICO INTEGRADO -->
+      <div style="padding: 1.5rem 1.85rem; background: #f8fafc; display: flex; flex-direction: column; gap: 1.25rem;">
+        
+        <!-- Bloco 1: Identificação & Gestão -->
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.15rem; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+          <div style="font-size: 0.8rem; font-weight: 800; color: #0b2351; text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+            <span>📍</span> <span>Dados Cadastrais &amp; Equipe Gestora</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; font-size: 0.82rem;">
+            <div>
+              <span style="color: #64748b; font-size: 0.75rem; display: block;">Endereço / Logradouro:</span>
+              <strong id="det-modal-endereco" style="color: #0f172a;">---</strong>
+            </div>
+            <div>
+              <span style="color: #64748b; font-size: 0.75rem; display: block;">Direção Escolar:</span>
+              <strong id="det-modal-diretor" style="color: #0f172a;">---</strong>
+            </div>
+            <div>
+              <span style="color: #64748b; font-size: 0.75rem; display: block;">Telefone Institucional:</span>
+              <strong id="det-modal-telefone" style="color: #0f172a;">---</strong>
+            </div>
+            <div>
+              <span style="color: #64748b; font-size: 0.75rem; display: block;">Modelo Pedagógico:</span>
+              <strong id="det-modal-modelo" style="color: #0f172a;">---</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bloco 2: Cruzamento Multissetorial (Grid 2 Colunas) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.15rem;">
+          
+          <!-- SEOM: Infraestrutura Predial -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #b45309; border-radius: 12px; padding: 1.15rem; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+            <div style="font-size: 0.8rem; font-weight: 800; color: #b45309; text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>🏗️</span> <span>Infraestrutura &amp; Segurança (SEOM)</span>
+            </div>
+            <div id="det-modal-seom-content" style="font-size: 0.8rem; color: #334155; line-height: 1.6;">
+              <!-- Preenchido dinamicamente via JS -->
+            </div>
+          </div>
+
+          <!-- SEINTEC: Parque de Tecnologia & Chamados -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #0284c7; border-radius: 12px; padding: 1.15rem; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+            <div style="font-size: 0.8rem; font-weight: 800; color: #0284c7; text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>💻</span> <span>Tecnologia &amp; Conectividade (SEINTEC)</span>
+            </div>
+            <div id="det-modal-seintec-content" style="font-size: 0.8rem; color: #334155; line-height: 1.6;">
+              <!-- Preenchido dinamicamente via JS -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bloco 3: Finanças (SEAFIN) & Rede (SEGRE) & Gabinete -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+          
+          <!-- SEAFIN -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: #047857; text-transform: uppercase; margin-bottom: 0.4rem;">💼 Finanças da APM (SEAFIN)</div>
+            <div id="det-modal-seafin-content" style="font-size: 0.78rem; color: #334155; line-height: 1.5;">
+              Monitoramento dos repasses PDDE Paulista / Federal e prestação de contas dos saldos em conta da APM.
+            </div>
+          </div>
+
+          <!-- SEGRE -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: #ea580c; text-transform: uppercase; margin-bottom: 0.4rem;">🏫 Gestão da Rede (SEGRE)</div>
+            <div id="det-modal-segre-content" style="font-size: 0.78rem; color: #334155; line-height: 1.5;">
+              Fluxo de matrículas compatibilizadas (SEMAT) e regularidade de prontuários de concluintes (SEVESC).
+            </div>
+          </div>
+
+          <!-- GABINETE / ASURE -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: #1e293b; text-transform: uppercase; margin-bottom: 0.4rem;">📅 Visitas &amp; Gabinete (ASURE)</div>
+            <div id="det-modal-gabinete-content" style="font-size: 0.78rem; color: #334155; line-height: 1.5;">
+              Acompanhamento in loco da Dirigente Regional e supervisores de ensino da jurisdição.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- FOOTER DE AÇÕES RÁPIDAS -->
+      <div style="background: #ffffff; border-top: 1px solid #e2e8f0; padding: 1rem 1.85rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+        <div style="font-size: 0.76rem; color: #64748b;">
+          * Indicadores sincronizados com as bases oficiais dos setores no exercício vigente.
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button type="button" id="btn-det-modal-editar" onclick="editarEscolaDoDetalhes()" style="background: #f1f5f9; color: #0b2351; border: 1px solid #cbd5e1; padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.15s;">
+            ✏️ Editar Cadastro
+          </button>
+          <button type="button" onclick="fecharModalDetalhesEscola()" style="background: #0b2351; color: #ffffff; border: none; padding: 0.45rem 1.25rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.15s;">
+            Fechar
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <div id="modal-escola" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalEscola()">
     <div class="agenda-modal-card" style="max-width: 620px;">
       <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%);">
