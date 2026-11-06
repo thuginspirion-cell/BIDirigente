@@ -366,7 +366,23 @@ function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivo
  *
  * @param {boolean} [forcarBruto=false] - Se true, reverte para a tentativa de download bruto da planilha inteira.
  */
-function sincronizarPlanilhaSemat() {
+function sincronizarPlanilhaSemat(forcarBruto) {
+  if (!forcarBruto) {
+    try {
+      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/semat_livro_2026.json?_t=" + new Date().getTime();
+      var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+      if (resMirror.getResponseCode() === 200) {
+        var dados = JSON.parse(resMirror.getContentText());
+        dados.modoFallback = false;
+        dados.modoOtimizado = true;
+        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+        return dados;
+      }
+    } catch (errMirror) {
+      Logger.log("Erro ao buscar mirror SEMAT: " + errMirror.toString());
+    }
+  }
+
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_semat_educacao_sp_gov_br/cQrYEXIt2H-VQ7J7y23DGOFPEgUCfXXr5h6IlHmqWJZMJFuU5Q?download=1";
   try {
     var res = obterArquivoPublicoSharepoint(url, {
@@ -379,19 +395,6 @@ function sincronizarPlanilhaSemat() {
     }
   } catch (e) {
     Logger.log("Aviso SEMAT live: " + e.toString());
-  }
-
-  try {
-    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/semat_livro_2026.json?_t=" + new Date().getTime();
-    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-    if (resMirror.getResponseCode() === 200) {
-      var dados = JSON.parse(resMirror.getContentText());
-      dados.modoFallback = true;
-      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-      return dados;
-    }
-  } catch (errMirror) {
-    Logger.log("Erro ao buscar mirror SEMAT: " + errMirror.toString());
   }
 
   return { sucesso: true, usarBaseLocal: true, aviso: "Base SEMAT mantida ativa." };
@@ -445,7 +448,23 @@ function sincronizarPlanilhaSepes(forcarBruto) {
   return { sucesso: true, usarBaseLocal: true, aviso: "Base SEPES mantida ativa." };
 }
 
-function sincronizarPlanilhaSevesc() {
+function sincronizarPlanilhaSevesc(forcarBruto) {
+  if (!forcarBruto) {
+    try {
+      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sevesc_livro_2026.json?_t=" + new Date().getTime();
+      var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+      if (resMirror.getResponseCode() === 200) {
+        var dados = JSON.parse(resMirror.getContentText());
+        dados.modoFallback = false;
+        dados.modoOtimizado = true;
+        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+        return dados;
+      }
+    } catch (errMirror) {
+      Logger.log("Erro ao buscar mirror SEVESC: " + errMirror.toString());
+    }
+  }
+
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sevesc_educacao_sp_gov_br/cQroeBSCMXZCQbbGQSCaAqMaEgUCxrdIuNVbs_RPejCEfptcng?download=1";
   try {
     var res = obterArquivoPublicoSharepoint(url, {
@@ -458,19 +477,6 @@ function sincronizarPlanilhaSevesc() {
     }
   } catch (e) {
     Logger.log("Aviso SEVESC live: " + e.toString());
-  }
-
-  try {
-    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sevesc_livro_2026.json?_t=" + new Date().getTime();
-    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-    if (resMirror.getResponseCode() === 200) {
-      var dados = JSON.parse(resMirror.getContentText());
-      dados.modoFallback = true;
-      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-      return dados;
-    }
-  } catch (errMirror) {
-    Logger.log("Erro ao buscar mirror SEVESC: " + errMirror.toString());
   }
 
   return { sucesso: true, usarBaseLocal: true, aviso: "Base SEVESC mantida ativa." };
@@ -633,7 +639,23 @@ function sincronizarPlanilhaSecomse() {
  * 
  * @param {boolean} [forcarBruto=false] - Se true, reverte para a tentativa de download bruto da planilha inteira.
  */
-function sincronizarPlanilhaSegre() {
+function sincronizarPlanilhaSegre(forcarBruto) {
+  if (!forcarBruto) {
+    try {
+      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/segre_livro_2026.json?_t=" + new Date().getTime();
+      var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+      if (resMirror.getResponseCode() === 200) {
+        var dados = JSON.parse(resMirror.getContentText());
+        dados.modoFallback = false;
+        dados.modoOtimizado = true;
+        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+        return dados;
+      }
+    } catch (errOpt) {
+      Logger.log("Aviso SEGRE otimizado: " + errOpt.toString());
+    }
+  }
+
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_segre_educacao_sp_gov_br/cQouoXOHq3vgRIXANB5q2uJjEgUCzXuNPLJKVLwuVFU2EtFcnw?download=1";
   try {
     var res = obterArquivoPublicoSharepoint(url, {
@@ -646,19 +668,6 @@ function sincronizarPlanilhaSegre() {
     }
   } catch (e) {
     Logger.log("Aviso SEGRE live: " + e.toString());
-  }
-
-  try {
-    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/segre_livro_2026.json?_t=" + new Date().getTime();
-    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-    if (resMirror.getResponseCode() === 200) {
-      var dados = JSON.parse(resMirror.getContentText());
-      dados.modoFallback = true;
-      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-      return dados;
-    }
-  } catch (errOpt) {
-    Logger.log("Aviso SEGRE contingência: " + errOpt.toString());
   }
 
   return { sucesso: true, usarBaseLocal: true, aviso: "Base SEGRE mantida ativa." };
