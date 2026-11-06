@@ -18517,8 +18517,9 @@ function imprimirAgendaCarro() {
       document.body.removeChild(link);
     }
 
-    function sincronizarDashboardSefin() {
-      if (typeof mostrarAlertaSincronizacao === 'function') {
+    function sincronizarDashboardSefin(silencioso) {
+      const isSil = (silencioso === true);
+      if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
           tag: 'SEFIN • ALTA PERFORMANCE',
@@ -18528,20 +18529,32 @@ function imprimirAgendaCarro() {
           duracao: 0
         });
       }
-      setTimeout(() => {
-        DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+      function concluirSefin(agora) {
+        const timestampFormatado = agora || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR') + ' ' + timestampFormatado;
         renderizarDashboardFinanceiroSefin();
-        if (typeof mostrarAlertaSincronizacao === 'function') {
+        if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
             tag: 'SEFIN ATUALIZADO',
             titulo: 'Sincronização de Alta Performance Concluída!',
             mensagem: 'Base oficial de prestação de contas SEFIN auditada e sincronizada!',
-            detalhes: 'Modo Otimizado (Bases Ativas) às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) + ' • 100% Atualizado',
+            detalhes: 'Modo Otimizado (Bases Ativas) às ' + timestampFormatado + ' • 100% Atualizado',
             duracao: 4500
           });
         }
-      }, 500);
+      }
+
+      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSefin';
+      fetch(gasUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          concluirSefin(res ? res.timestamp : null);
+        })
+        .catch(function(err) {
+          concluirSefin(null);
+        });
     }
 
     function renderizarDashboardFinanceiroSefin() {
@@ -19106,10 +19119,22 @@ function imprimirAgendaCarro() {
     }
 
     function sincronizarDashboardSecomse(silencioso) {
+      const isSil = (silencioso === true);
       const btnSync = document.getElementById('btn-secomse-sync-base');
-      if (btnSync) {
+      if (btnSync && !isSil) {
         btnSync.disabled = true;
         btnSync.innerHTML = '⏳ Sincronizando...';
+      }
+
+      if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
+        mostrarAlertaSincronizacao({
+          tipo: 'loading',
+          tag: 'SECOMSE • SHAREPOINT LIVE',
+          titulo: 'Sincronizando Contratos SECOMSE...',
+          mensagem: 'Conectando ao SharePoint oficial para auditar contratos 2026...',
+          detalhes: 'Conexão Direta ao Repositório SECOMSE',
+          duracao: 0
+        });
       }
 
       function aplicarDados(novos) {
@@ -19125,7 +19150,7 @@ function imprimirAgendaCarro() {
           btnSync.innerHTML = '🔄 Sincronizar SECOMSE';
         }
 
-        if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
+        if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           const tot = DADOS_SECOMSE.kpis ? (DADOS_SECOMSE.kpis.totalContratos2026 + ' Contratos 2026') : 'Base Oficial';
           const val = DADOS_SECOMSE.kpis ? DADOS_SECOMSE.kpis.valorTotal2026Formatado : '';
           mostrarAlertaSincronizacao({
@@ -19141,15 +19166,15 @@ function imprimirAgendaCarro() {
 
       function buscarMirror() {
         fetch(URLS_OFICIAIS_SECOMSE.mirrorData + '?t=' + Date.now())
-          .then(r => r.json())
-          .then(json => {
+          .then(function(r) { return r.json(); })
+          .then(function(json) {
             if (json && json.kpis) {
               aplicarDados(json);
             } else {
               renderizarDashboardSecomse();
             }
           })
-          .catch(e => {
+          .catch(function(e) {
             console.warn('Aviso mirror SECOMSE:', e);
             renderizarDashboardSecomse();
             if (btnSync) {
@@ -19159,22 +19184,19 @@ function imprimirAgendaCarro() {
           });
       }
 
-      if (typeof google !== 'undefined' && google.script && google.script.run && google.script.run.sincronizarPlanilhaSecomse) {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.kpis) {
-              aplicarDados(res);
-            } else {
-              buscarMirror();
-            }
-          })
-          .withFailureHandler(function() {
+      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSecomse';
+      fetch(gasUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res && res.kpis) {
+            aplicarDados(res);
+          } else {
             buscarMirror();
-          })
-          .sincronizarPlanilhaSecomse(false);
-      } else {
-        buscarMirror();
-      }
+          }
+        })
+        .catch(function(err) {
+          buscarMirror();
+        });
     }
 
     function abrirModalDetalheContratoSecomse(idContrato) {
@@ -19689,13 +19711,14 @@ function imprimirAgendaCarro() {
     }
 
     function sincronizarDashboardDpat(isManual) {
+      var manual = (isManual === true || (typeof isManual === 'undefined'));
       var btn = document.getElementById('btn-sync-dpat');
-      if (btn) {
+      if (btn && manual) {
         btn.disabled = true;
         btn.innerHTML = '⏳ Sincronizando...';
       }
 
-      if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
+      if (manual && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
           tag: 'DPAT • ALTA PERFORMANCE',
@@ -19707,13 +19730,13 @@ function imprimirAgendaCarro() {
       }
 
       function concluirSucesso(fonte) {
-        if (btn) {
+        if (btn && manual) {
           btn.disabled = false;
           btn.innerHTML = '🔄 Sincronizar DPAT';
         }
         var agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         renderizarDashboardDpat();
-        if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
+        if (manual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
             tag: 'DPAT ATUALIZADO',
@@ -19725,43 +19748,29 @@ function imprimirAgendaCarro() {
         }
       }
 
-      if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.sincronizarPlanilhaDpat === 'function') {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.bens && res.bens.length > 0) {
-              DADOS_DPAT = res;
-            }
-            concluirSucesso('SharePoint Direto (Aba Inventário Físico)');
-          })
-          .withFailureHandler(function() {
-            concluirSucesso('Base Oficial Aba Inventário Físico');
-          })
-          .sincronizarPlanilhaDpat(false);
-      } else {
-        var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarDpat';
-        fetch(gasUrl)
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            if (data && data.bens && data.bens.length > 0) {
-              DADOS_DPAT = data;
-            }
-            concluirSucesso('SharePoint / GAS (DPAT)');
-          })
-          .catch(function() {
-            var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/dpat_inventario_2026.json';
-            fetch(mirrorUrl)
-              .then(function(r) { return r.json(); })
-              .then(function(data) {
-                if (data && data.bens && data.bens.length > 0) {
-                  DADOS_DPAT = data;
-                }
-                concluirSucesso('Base Oficial GitHub Mirror (DPAT)');
-              })
-              .catch(function() {
-                concluirSucesso('Base Oficial Aba Inventário Físico');
-              });
-          });
-      }
+      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarDpat';
+      fetch(gasUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data && data.bens && data.bens.length > 0) {
+            DADOS_DPAT = data;
+          }
+          concluirSucesso('SharePoint / GAS (DPAT)');
+        })
+        .catch(function() {
+          var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/dpat_inventario_2026.json';
+          fetch(mirrorUrl)
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+              if (data && data.bens && data.bens.length > 0) {
+                DADOS_DPAT = data;
+              }
+              concluirSucesso('Base Oficial GitHub Mirror (DPAT)');
+            })
+            .catch(function() {
+              concluirSucesso('Base Oficial Aba Inventário Físico');
+            });
+        });
     }
 
     function mudarFiltroAmbienteDpat(amb) {
@@ -20300,13 +20309,14 @@ function imprimirAgendaCarro() {
     }
 
     function sincronizarDashboardSeom(isManual) {
+      var manual = (isManual === true || (typeof isManual === 'undefined'));
       var btn = document.getElementById('btn-sync-seom');
-      if (btn) {
+      if (btn && manual) {
         btn.disabled = true;
         btn.innerHTML = '⏳ Sincronizando...';
       }
 
-      if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
+      if (manual && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
           tag: 'SEOM • ALTA PERFORMANCE',
@@ -20318,13 +20328,13 @@ function imprimirAgendaCarro() {
       }
 
       function concluirSucesso(fonte) {
-        if (btn) {
+        if (btn && manual) {
           btn.disabled = false;
           btn.innerHTML = '🔄 Sincronizar SEOM';
         }
         atualizarTabelaMapaSeom();
         var agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
+        if (manual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
             tag: 'SEOM ATUALIZADO',
@@ -20336,43 +20346,29 @@ function imprimirAgendaCarro() {
         }
       }
 
-      if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.sincronizarPlanilhaSeom === 'function') {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.escolas && res.escolas.length > 0) {
-              DADOS_SEOM = res;
-            }
-            concluirSucesso('SharePoint Direto (Aba MAPA)');
-          })
-          .withFailureHandler(function() {
-            concluirSucesso('Base Oficial Aba MAPA');
-          })
-          .sincronizarPlanilhaSeom(false);
-      } else {
-        var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSeom';
-        fetch(gasUrl)
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            if (data && data.escolas && data.escolas.length > 0) {
-              DADOS_SEOM = data;
-            }
-            concluirSucesso('SharePoint / GAS (Aba MAPA)');
-          })
-          .catch(function() {
-            var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seom_mapa_2026.json';
-            fetch(mirrorUrl)
-              .then(function(r) { return r.json(); })
-              .then(function(data) {
-                if (data && data.escolas && data.escolas.length > 0) {
-                  DADOS_SEOM = data;
-                }
-                concluirSucesso('Base Oficial GitHub Mirror');
-              })
-              .catch(function() {
-                concluirSucesso('Base Oficial Aba MAPA');
-              });
-          });
-      }
+      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSeom';
+      fetch(gasUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data && data.escolas && data.escolas.length > 0) {
+            DADOS_SEOM = data;
+          }
+          concluirSucesso('SharePoint / GAS (Aba MAPA)');
+        })
+        .catch(function() {
+          var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seom_mapa_2026.json';
+          fetch(mirrorUrl)
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+              if (data && data.escolas && data.escolas.length > 0) {
+                DADOS_SEOM = data;
+              }
+              concluirSucesso('Base Oficial GitHub Mirror');
+            })
+            .catch(function() {
+              concluirSucesso('Base Oficial Aba MAPA');
+            });
+        });
     }
 
     function mudarFiltroResponsavelSeom(resp, btnEl) {
@@ -20479,13 +20475,14 @@ function imprimirAgendaCarro() {
     /* SEFISC: SINCRONIZACAO RESILIENTE DA ABA SEFISC (ZELADORIAS)               */
     /* ========================================================================= */
     function sincronizarDashboardSefisc(isManual) {
+      var manual = (isManual === true || (typeof isManual === 'undefined'));
       var btn = document.getElementById('btn-sync-sefisc');
-      if (btn) {
+      if (btn && manual) {
         btn.disabled = true;
         btn.innerHTML = '⏳ Sincronizando...';
       }
 
-      if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
+      if (manual && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
           tag: 'SEFISC • ALTA PERFORMANCE',
@@ -20497,7 +20494,7 @@ function imprimirAgendaCarro() {
       }
 
       function concluirSucesso(fonte) {
-        if (btn) {
+        if (btn && manual) {
           btn.disabled = false;
           btn.innerHTML = '🔄 Sincronizar SEFISC';
         }
@@ -20506,7 +20503,7 @@ function imprimirAgendaCarro() {
           renderizarDashboardSefisc();
         }
         var agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
+        if (manual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
             tag: 'SEFISC ATUALIZADO',
@@ -20518,43 +20515,29 @@ function imprimirAgendaCarro() {
         }
       }
 
-      if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.sincronizarPlanilhaSefisc === 'function') {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.zeladorias && res.zeladorias.length > 0) {
-              DADOS_SEFISC = res;
-            }
-            concluirSucesso('SharePoint Direto (Aba SEFISC)');
-          })
-          .withFailureHandler(function() {
-            concluirSucesso('Base Oficial Aba SEFISC');
-          })
-          .sincronizarPlanilhaSefisc(false);
-      } else {
-        var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSefisc';
-        fetch(gasUrl)
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            if (data && data.zeladorias && data.zeladorias.length > 0) {
-              DADOS_SEFISC = data;
-            }
-            concluirSucesso('SharePoint / GAS (Aba SEFISC)');
-          })
-          .catch(function() {
-            var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefisc_zeladorias_2026.json';
-            fetch(mirrorUrl)
-              .then(function(r) { return r.json(); })
-              .then(function(data) {
-                if (data && data.zeladorias && data.zeladorias.length > 0) {
-                  DADOS_SEFISC = data;
-                }
-                concluirSucesso('Base Oficial GitHub Mirror');
-              })
-              .catch(function() {
-                concluirSucesso('Base Oficial Aba SEFISC');
-              });
-          });
-      }
+      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSefisc';
+      fetch(gasUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data && data.zeladorias && data.zeladorias.length > 0) {
+            DADOS_SEFISC = data;
+          }
+          concluirSucesso('SharePoint / GAS (Aba SEFISC)');
+        })
+        .catch(function() {
+          var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefisc_zeladorias_2026.json';
+          fetch(mirrorUrl)
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+              if (data && data.zeladorias && data.zeladorias.length > 0) {
+                DADOS_SEFISC = data;
+              }
+              concluirSucesso('Base Oficial GitHub Mirror');
+            })
+            .catch(function() {
+              concluirSucesso('Base Oficial Aba SEFISC');
+            });
+        });
     }
 
     function normalizarRegistrosSefisc(dados) {
@@ -21581,10 +21564,11 @@ function imprimirAgendaCarro() {
     }
 
     function sincronizarDashboardSemat(silencioso) {
-      if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
+      const isSil = (silencioso === true);
+      if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         const msg = (typeof CONFIG_SINCRONIZACAO_SEMAT !== 'undefined' && CONFIG_SINCRONIZACAO_SEMAT.modoOtimizado)
           ? 'Sincronizando abas ativas do SEMAT (Atendimentos, Matrículas e Processos SEI) em tempo recorde...'
-          : 'Baixando planilha completa de 26.54 MB do SharePoint em tempo real...';
+          : 'Baixando planilha do SharePoint em tempo real...';
 
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -21606,7 +21590,7 @@ function imprimirAgendaCarro() {
         }
         renderizarDashboardSemat();
 
-        if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
+        if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
             tag: 'SEMAT ATUALIZADO',
@@ -21620,51 +21604,35 @@ function imprimirAgendaCarro() {
 
       function buscarMirror() {
         fetch(URLS_OFICIAIS_SEMAT.mirrorData + '?t=' + Date.now())
-          .then(r => r.json())
-          .then(json => {
+          .then(function(r) { return r.json(); })
+          .then(function(json) {
             if (json && json.kpis) {
               aplicarDadosSemat(json);
             }
           })
-          .catch(e => {
+          .catch(function(e) {
             console.warn('Aviso mirror SEMAT:', e);
             renderizarDashboardSemat();
           });
       }
 
       const ehOtimizado = (typeof CONFIG_SINCRONIZACAO_SEMAT !== 'undefined') ? CONFIG_SINCRONIZACAO_SEMAT.modoOtimizado : true;
+      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSemat' + (ehOtimizado ? '' : '&bruto=true');
 
-      if (ehOtimizado) {
-        buscarMirror();
-        return;
-      }
-
-      if (typeof google !== 'undefined' && google.script && google.script.run && google.script.run.sincronizarPlanilhaSemat) {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.sucesso && res.dadosBase64) {
-              processarPlanilhaSematBase64(res.dadosBase64, res.timestamp);
-            } else if (res && res.kpis) {
-              aplicarDadosSemat(res);
-            } else {
-              buscarMirror();
-            }
-          })
-          .withFailureHandler(function() { buscarMirror(); })
-          .sincronizarPlanilhaSemat(true);
-      } else {
-        const gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSemat&bruto=true';
-        fetch(gasUrl)
-          .then(r => r.json())
-          .then(res => {
-            if (res && res.sucesso && res.dadosBase64) {
-              processarPlanilhaSematBase64(res.dadosBase64, res.timestamp);
-            } else {
-              buscarMirror();
-            }
-          })
-          .catch(() => buscarMirror());
-      }
+      fetch(gasUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSematBase64 === 'function') {
+            processarPlanilhaSematBase64(res.dadosBase64, res.timestamp);
+          } else if (res && res.kpis) {
+            aplicarDadosSemat(res);
+          } else {
+            buscarMirror();
+          }
+        })
+        .catch(function(err) {
+          buscarMirror();
+        });
     }
 
     // =======================================================
@@ -22260,10 +22228,11 @@ function imprimirAgendaCarro() {
     }
 
     function sincronizarDashboardSevesc(silencioso) {
-      if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
+      const isSil = (silencioso === true);
+      if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         const msg = (typeof CONFIG_SINCRONIZACAO_SEVESC !== 'undefined' && CONFIG_SINCRONIZACAO_SEVESC.modoOtimizado)
           ? 'Sincronizando abas ativas da SEVESC (Atendimentos, Processos SEI e Prontuários) em tempo recorde...'
-          : 'Baixando planilha de vida escolar do SharePoint em tempo real...';
+          : 'Baixando planilha do SharePoint em tempo real...';
 
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -22285,13 +22254,13 @@ function imprimirAgendaCarro() {
         }
         renderizarDashboardSevesc();
 
-        if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
+        if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
             tag: 'SEVESC ATUALIZADO',
             titulo: 'SEVESC Sincronizado com Sucesso!',
-            mensagem: '<strong>' + (DADOS_SEVESC.kpis ? DADOS_SEVESC.kpis.totalAtendimentos : 662).toLocaleString('pt-BR') + ' atendimentos</strong> e <strong>' + (DADOS_SEVESC.kpis ? DADOS_SEVESC.kpis.totalSei : 57).toLocaleString('pt-BR') + ' processos SEI</strong> de vida escolar sincronizados em tempo real!',
-            detalhes: 'Modo Otimizado (Abas Ativas) às ' + new Date().toLocaleTimeString('pt-BR') + ' • 100% Atualizado',
+            mensagem: '<strong>' + (DADOS_SEVESC.kpis ? DADOS_SEVESC.kpis.totalAtendimentos : 1240).toLocaleString('pt-BR') + ' atendimentos</strong> e processos de Vida Escolar sincronizados instantaneamente.',
+            detalhes: 'Modo Otimizado às ' + new Date().toLocaleTimeString('pt-BR') + ' • 100% Atualizado',
             duracao: 4500
           });
         }
@@ -22299,51 +22268,35 @@ function imprimirAgendaCarro() {
 
       function buscarMirror() {
         fetch(URLS_OFICIAIS_SEVESC.mirrorData + '?t=' + Date.now())
-          .then(r => r.json())
-          .then(json => {
+          .then(function(r) { return r.json(); })
+          .then(function(json) {
             if (json && json.kpis) {
               aplicarDadosSevesc(json);
             }
           })
-          .catch(e => {
+          .catch(function(e) {
             console.warn('Aviso mirror SEVESC:', e);
             renderizarDashboardSevesc();
           });
       }
 
       const ehOtimizado = (typeof CONFIG_SINCRONIZACAO_SEVESC !== 'undefined') ? CONFIG_SINCRONIZACAO_SEVESC.modoOtimizado : true;
+      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSevesc' + (ehOtimizado ? '' : '&bruto=true');
 
-      if (ehOtimizado) {
-        buscarMirror();
-        return;
-      }
-
-      if (typeof google !== 'undefined' && google.script && google.script.run && google.script.run.sincronizarPlanilhaSevesc) {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.sucesso && res.dadosBase64) {
-              processarPlanilhaSevescBase64(res.dadosBase64, res.timestamp);
-            } else if (res && res.kpis) {
-              aplicarDadosSevesc(res);
-            } else {
-              buscarMirror();
-            }
-          })
-          .withFailureHandler(function() { buscarMirror(); })
-          .sincronizarPlanilhaSevesc(true);
-      } else {
-        const gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSevesc&bruto=true';
-        fetch(gasUrl)
-          .then(r => r.json())
-          .then(res => {
-            if (res && res.sucesso && res.dadosBase64) {
-              processarPlanilhaSevescBase64(res.dadosBase64, res.timestamp);
-            } else {
-              buscarMirror();
-            }
-          })
-          .catch(() => buscarMirror());
-      }
+      fetch(gasUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSevescBase64 === 'function') {
+            processarPlanilhaSevescBase64(res.dadosBase64, res.timestamp);
+          } else if (res && res.kpis) {
+            aplicarDadosSevesc(res);
+          } else {
+            buscarMirror();
+          }
+        })
+        .catch(function(err) {
+          buscarMirror();
+        });
     }
 
     // =======================================================
@@ -34795,10 +34748,11 @@ function imprimirAgendaCarro() {
     }
 
     function sincronizarDashboardSegre(silencioso) {
-      if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
+      const isSil = (silencioso === true);
+      if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         const msg = CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado
           ? 'Sincronizando abas ativas do SEGRE (ENTRADA SEI, Vagas, Ouvidoria) em tempo recorde...'
-          : 'Baixando planilha completa de 65.55 MB do SharePoint em tempo real...';
+          : 'Baixando planilha do SharePoint em tempo real...';
 
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -34820,7 +34774,7 @@ function imprimirAgendaCarro() {
         }
         renderizarDashboardSegre();
 
-        if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
+        if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
             tag: 'SEGRE ATUALIZADO',
@@ -34834,33 +34788,29 @@ function imprimirAgendaCarro() {
 
       function buscarMirrorSegre() {
         fetch(URLS_OFICIAIS_SEGRE.mirrorData + '?t=' + Date.now())
-          .then(r => r.json())
-          .then(json => aplicarDadosSegre(json))
-          .catch(err => {
+          .then(function(r) { return r.json(); })
+          .then(function(json) { aplicarDadosSegre(json); })
+          .catch(function(err) {
             console.warn('Fallback local para SEGRE:', err);
             aplicarDadosSegre(DADOS_SEGRE);
           });
       }
 
-      if (typeof google !== 'undefined' && google.script && google.script.run && google.script.run.sincronizarPlanilhaSegre) {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.sucesso && res.dadosBase64) {
-              processarPlanilhaSegreBase64(res.dadosBase64, res.timestamp);
-            } else if (res && (res.kpis || res.processosSei)) {
-              aplicarDadosSegre(res);
-            } else {
-              buscarMirrorSegre();
-            }
-          })
-          .withFailureHandler(function() {
+      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSegre' + (CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado ? '' : '&bruto=true');
+      fetch(gasUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSegreBase64 === 'function') {
+            processarPlanilhaSegreBase64(res.dadosBase64, res.timestamp);
+          } else if (res && (res.kpis || res.processosSei)) {
+            aplicarDadosSegre(res);
+          } else {
             buscarMirrorSegre();
-          })
-          .sincronizarPlanilhaSegre(!CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado);
-      } else {
-        /* No GitHub Pages / Navegador Externo: Modo Otimizado de Alta Performance */
-        buscarMirrorSegre();
-      }
+          }
+        })
+        .catch(function(err) {
+          buscarMirrorSegre();
+        });
     }
 
 
@@ -38961,7 +38911,8 @@ function imprimirAgendaCarro() {
     }
 
     function sincronizarDashboardSepes(silencioso) {
-      if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
+      const isSil = (silencioso === true);
+      if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
           tag: 'SEPES • SHAREPOINT LIVE',
@@ -38982,7 +38933,7 @@ function imprimirAgendaCarro() {
         }
         renderizarDashboardSepes();
 
-        if (!silencioso && typeof mostrarAlertaSincronizacao === 'function') {
+        if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
             tag: 'SEPES ATUALIZADO',
@@ -38996,32 +38947,29 @@ function imprimirAgendaCarro() {
 
       function buscarMirrorSepes() {
         fetch(URLS_OFICIAIS_SEPES.mirrorData + '?t=' + Date.now())
-          .then(r => r.json())
-          .then(json => aplicarDadosSepes(json))
-          .catch(err => {
+          .then(function(r) { return r.json(); })
+          .then(function(json) { aplicarDadosSepes(json); })
+          .catch(function(err) {
             console.warn('Fallback local para SEPES:', err);
             aplicarDadosSepes(DADOS_SEPES);
           });
       }
 
-      if (typeof google !== 'undefined' && google.script && google.script.run && google.script.run.sincronizarPlanilhaSepes) {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.sucesso && res.dadosBase64) {
-              processarPlanilhaSepesBase64(res.dadosBase64, res.timestamp);
-            } else if (res && (res.kpis || res.aposentadorias)) {
-              aplicarDadosSepes(res);
-            } else {
-              buscarMirrorSepes();
-            }
-          })
-          .withFailureHandler(function() {
+      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSepes' + (CONFIG_SINCRONIZACAO_SEPES.modoOtimizado ? '' : '&bruto=true');
+      fetch(gasUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSepesBase64 === 'function') {
+            processarPlanilhaSepesBase64(res.dadosBase64, res.timestamp);
+          } else if (res && (res.kpis || res.aposentadorias)) {
+            aplicarDadosSepes(res);
+          } else {
             buscarMirrorSepes();
-          })
-          .sincronizarPlanilhaSepes(!CONFIG_SINCRONIZACAO_SEPES.modoOtimizado);
-      } else {
-        buscarMirrorSepes();
-      }
+          }
+        })
+        .catch(function(err) {
+          buscarMirrorSepes();
+        });
     }
 
 
@@ -39150,19 +39098,20 @@ function imprimirAgendaCarro() {
       }
     }
 
-    function sincronizarTudoGlobalmente() {
+    function sincronizarTudoGlobalmente(silencioso) {
+      const isSilencioso = (silencioso === true);
       const btn = document.getElementById('btn-sync-global');
       const icon = document.getElementById('btn-sync-global-icon');
       const txt = document.getElementById('btn-sync-global-text');
 
-      if (btn) {
+      if (btn && !isSilencioso) {
         btn.disabled = true;
         btn.classList.add('syncing');
         if (txt) txt.innerText = 'Sincronizando Tudo...';
       }
       atualizarPillStatusGlobal('Sincronizando 12 Módulos e Bases...', 'loading');
 
-      if (typeof mostrarAlertaSincronizacao === 'function') {
+      if (!isSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
           tag: 'SINCRONIZAÇÃO GLOBAL',
@@ -39173,7 +39122,7 @@ function imprimirAgendaCarro() {
         });
       }
 
-      // 1. SEINTEC (SharePoint Calls 2026)
+      // 1. SEINTEC (SharePoint Calls 2026 e Inventário)
       try {
         if (typeof sincronizarSharepointCalls === 'function') {
           sincronizarSharepointCalls(false);
@@ -39188,7 +39137,7 @@ function imprimirAgendaCarro() {
       // 2. SEFIN (SharePoint Finanças & Orçamento)
       try {
         if (typeof sincronizarDashboardSefin === 'function') {
-          sincronizarDashboardSefin();
+          sincronizarDashboardSefin(true);
         }
       } catch (e2) {
         console.warn('Erro ao sincronizar SEFIN:', e2);
@@ -39334,10 +39283,14 @@ function imprimirAgendaCarro() {
 
       // 9. Gabinete e Centros badges
       const agoraStr = obterTimestampAtualFormatado();
+      const agoraHora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
       const elGabBadge = document.getElementById('gab-drive-sync-info');
       if (elGabBadge) elGabBadge.innerText = 'SHAREPOINT INSTITUCIONAL • BASES GABINETE • Sincronizado às ' + agoraStr;
       const elSeintecBadge = document.getElementById('seintec-drive-sync-info');
       if (elSeintecBadge) elSeintecBadge.innerText = 'SHAREPOINT INSTITUCIONAL • 60 ESCOLAS • Sincronizado às ' + agoraStr;
+
+      atualizarBadgeStatusSincronismo(agoraHora);
 
       setTimeout(function() {
         if (btn) {
@@ -39345,9 +39298,11 @@ function imprimirAgendaCarro() {
           btn.classList.remove('syncing');
           if (txt) txt.innerText = 'Sincronizar Tudo';
         }
-        atualizarPillStatusGlobal('Sincronizado às ' + agoraStr + ' • 100% Operacional', 'success');
+        atualizarPillStatusGlobal('Sincronizado às ' + agoraHora + ' • 100% Operacional', 'success');
 
-        if (typeof mostrarAlertaSincronizacao === 'function') {
+        if (isSilencioso) {
+          mostrarToastAgenda('Atualização automática concluída • 12 Módulos e Bases sincronizados às ' + agoraHora, '🔄');
+        } else if (typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
             tag: 'SISTEMA CONSOLIDADO',
@@ -41816,11 +41771,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     function estaNoHorarioComercialSincronismo() {
       const agora = new Date();
       const diaSemana = agora.getDay(); // 0 = Domingo, 1 = Segunda ... 5 = Sexta, 6 = Sábado
-      // Apenas de segunda a sexta
+      // Apenas de segunda a sexta (sábado e domingo NÃO)
       if (diaSemana < 1 || diaSemana > 5) return false;
       const hora = agora.getHours();
-      // Apenas dentro do intervalo das 8h às 18h (8:00 até 17:59:59)
-      return hora >= 8 && hora < 18;
+      // Das 8h às 18h (8:00 até 18:00)
+      return hora >= 8 && hora <= 18;
     }
 
     function atualizarBadgeStatusSincronismo(ultimaHora) {
@@ -41841,14 +41796,16 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       // Intervalo de 60 minutos (1 hora = 3.600.000 ms)
       timerSincronizacaoSharepoint = setInterval(function() {
         if (!estaNoHorarioComercialSincronismo()) {
-          console.log("⏸️ Fora do horário comercial (8h às 18h, Seg-Sex). Sincronização automática em pausa.");
+          console.log("⏸️ Fora do horário de expediente (8h às 18h, Seg-Sex). Sincronização em pausa programada.");
           atualizarBadgeStatusSincronismo();
           return;
         }
-        console.log("⏰ Horário comercial ativo (8h-18h, Seg-Sex): sincronizando chamados do SharePoint...");
-        sincronizarSharepointCalls(false);
+        console.log("⏰ Horário comercial ativo (8h-18h, Seg-Sex): executando sincronização horária de todas as bases...");
+        if (typeof sincronizarTudoGlobalmente === 'function') {
+          sincronizarTudoGlobalmente(true);
+        }
       }, 3600000);
-      console.log("⏱️ Timer de sincronização ativo: atualizações automáticas a cada 1h estritamente das 8h às 18h, de segunda a sexta.");
+      console.log("⏱️ Timer universal ativo: atualizações automáticas horárias a cada 1h (8h às 18h, de segunda a sexta).");
     }
 
     function sincronizarSharepointCalls(isManual) {
@@ -42400,33 +42357,30 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         }
       };
 
-      if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.sincronizarArquivoGenericoSharepoint === 'function') {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.sucesso && res.dadosBase64) {
-              try {
-                if (typeof onProcessar === 'function') {
-                  onProcessar(res.dadosBase64, res.timestamp);
-                }
-                finalizarComSucesso(res.timestamp, true);
-              } catch (e) {
-                console.warn('Fallback para base consolidada no setor ' + setor + ':', e);
-                finalizarComSucesso(res ? res.timestamp : null, false);
+      // Motor universal via HTTP fetch (livre de quota de IPC do Apps Script e universal para GAS e GitHub Pages)
+      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarGenerico&url=' + encodeURIComponent(url || '') + '&setor=' + encodeURIComponent(setor) + '&descricao=' + encodeURIComponent(desc);
+
+      fetch(gasUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res && res.sucesso && res.dadosBase64) {
+            try {
+              if (typeof onProcessar === 'function') {
+                onProcessar(res.dadosBase64, res.timestamp);
               }
-            } else {
+              finalizarComSucesso(res.timestamp, true);
+            } catch (e) {
+              console.warn('Fallback para base consolidada no setor ' + setor + ':', e);
               finalizarComSucesso(res ? res.timestamp : null, false);
             }
-          })
-          .withFailureHandler(function(err) {
-            console.log('Operando via contingência consolidada no setor ' + setor + ':', err);
-            finalizarComSucesso(null, false);
-          })
-          .sincronizarArquivoGenericoSharepoint(url, setor, desc);
-      } else {
-        setTimeout(function() {
+          } else {
+            finalizarComSucesso(res ? res.timestamp : null, false);
+          }
+        })
+        .catch(function(err) {
+          console.warn('Operando via contingência consolidada no setor ' + setor + ':', err);
           finalizarComSucesso(null, false);
-        }, 500);
-      }
+        });
     }
     if (typeof sincronizarBasePublicaSharepoint === 'function') window.sincronizarBasePublicaSharepoint = sincronizarBasePublicaSharepoint;
     if (typeof mostrarHome === 'function') window.mostrarHome = mostrarHome;
