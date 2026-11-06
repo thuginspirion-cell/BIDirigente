@@ -10666,7 +10666,7 @@ function imprimirAgendaCarro() {
 
             <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
               <span><strong>URE Itapevi</strong> • Diretoria Regional de Ensino • BI Dirigente</span>
-              <span>Padronização Nomenclatural: Denominação oficial simplificada (sem prefixo 'EE' e com titulação posposta com vírgula).</span>
+              <span>Padronização Nomenclatural: Denominação oficial padronizada para gestão executiva.</span>
             </div>
           </div>
 
@@ -12366,7 +12366,7 @@ function imprimirAgendaCarro() {
         <div class="escolas-filter-bar">
           <div class="escolas-search-wrap">
             <span class="escolas-search-icon">🔍</span>
-            <input type="text" id="escolas-search-input" class="escolas-search-input" placeholder="Pesquisar por escola (sem 'EE'), código CIE, diretor ou endereço..." oninput="filtrarEscolas()">
+            <input type="text" id="escolas-search-input" class="escolas-search-input" placeholder="Pesquisar por escola, código CIE, diretor ou endereço..." oninput="filtrarEscolas()">
           </div>
 
           <select id="escolas-filter-cidade" class="escolas-select-filter" onchange="filtrarEscolas()">
@@ -17105,7 +17105,7 @@ function imprimirAgendaCarro() {
     }
 
     
-    // Formatação executiva de escolas (sem 'EE' e com vírgula em titulações)
+    // Formatação executiva de nomenclatura de escolas
     function formatarNomeEscolaExecutivo(nomeBruto) {
       if (!nomeBruto) return '';
       let n = nomeBruto.trim();
@@ -19297,67 +19297,9 @@ function imprimirAgendaCarro() {
             </div>
           </div>
 
-          <div style="background: #f1f5f9; padding: 0.85rem 1.5rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 0.75rem; color: #64748b;">ID: ${item.id}</span>
-            <button onclick="fecharModalDetalheContratoSecomse()" style="background: #0b2351; color: #ffffff; border: none; padding: 0.5rem 1.25rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">Fechar</button>
-          
-
-          <!-- NOTAS METODOLÓGICAS & CRITÉRIOS DE FINANÇAS & REPASSES (SEAFIN / SEFIN) -->
-          <div id="nota-metodologica-seafin" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.85rem; border: 1px solid #1e293b; margin-top: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: all 0.3s ease;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.15rem; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.85rem;">
-              <div style="display: flex; align-items: center; gap: 0.6rem;">
-                <span style="font-size: 1.4rem;">💼</span>
-                <div>
-                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">SEAFIN • NOTAS METODOLÓGICAS &amp; DIRETRIZES ORÇAMENTÁRIAS DAS APMs</h4>
-                  <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Legislação do PDDE Paulista, repasses federais, prestação de contas e execução financeira</div>
-                </div>
-              </div>
-              <span style="background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px;">Base Oficial SharePoint • 176 Repasses</span>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
-              
-              <!-- Bloco 1: PDDE Paulista vs Federal -->
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
-                <div style="color: #10b981; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
-                  <span>📜</span> <span>PDDE Paulista (Lei 17.149/19) vs Federal</span>
-                </div>
-                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
-                  • <strong>PDDE Paulista:</strong> Recursos do Tesouro Estadual descentralizados diretamente para as Associações de Pais e Mestres (APMs) para pequenos reparos, manutenção, material pedagógico e conectividade.<br>
-                  • <strong>PDDE Federal:</strong> Verbas geridas pelo FNDE/MEC em programas suplementares.
-                </div>
-              </div>
-
-              <!-- Bloco 2: Taxa de Execução Orçamentária -->
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
-                <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
-                  <span>📈</span> <span>Taxa de Execução &amp; Saldos em Conta</span>
-                </div>
-                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
-                  • <strong>Taxa de Execução (%):</strong> Proporção dos valores efetivamente liquidados pelas APMs em relação ao repasse total.<br>
-                  • <strong>Risco de Estagnação:</strong> Unidades com execução muito baixa (&lt;30%) são alertadas para evitar bloqueio de novas parcelas e exigência de devolução pelo Tribunal de Contas.
-                </div>
-              </div>
-
-              <!-- Bloco 3: Prestação de Contas TCE -->
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
-                <div style="color: #fbbf24; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
-                  <span>⚖️</span> <span>Conformidade &amp; Tribunal de Contas (TCE-SP)</span>
-                </div>
-                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
-                  Todas as 60 APMs passam por auditoria obrigatória de comprovação fiscal (notas fiscais, certidões negativas e conciliação bancária) antes do fechamento do exercício anual.
-                </div>
-              </div>
-
-            </div>
-
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
-              <span><strong>URE Itapevi</strong> • Serviço de Administração e Finanças (SEAFIN / SEFIN)</span>
-              <span>Conta Corporativa: itp_sefin_educacao_sp_gov_br</span>
-            </div>
+          <div style="background: #f8fafc; padding: 0.75rem 1.5rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; align-items: center;">
+            <button onclick="fecharModalDetalheContratoSecomse()" style="background: #0b2351; color: #ffffff; border: none; padding: 0.5rem 1.3rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#1e3a8a'" onmouseout="this.style.background='#0b2351'">Fechar</button>
           </div>
-
-</div>
         </div>
       `;
       modalEl.style.display = 'flex';
@@ -19697,7 +19639,64 @@ function imprimirAgendaCarro() {
             </div>
           </div>
 
-        </div>
+        
+          <!-- NOTAS METODOLÓGICAS & CRITÉRIOS DE CONTRATOS (SECOMSE) -->
+          <div id="nota-metodologica-secomse" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.85rem; border: 1px solid #1e293b; margin-top: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: all 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.15rem; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.85rem;">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-size: 1.4rem;">💼</span>
+                <div>
+                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">SECOMSE • NOTAS METODOLÓGICAS &amp; DIRETRIZES DE CONTRATAÇÕES</h4>
+                  <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Gestão de contratos administrativos, atas de registro de preços, processos licitatórios e transparência pública</div>
+                </div>
+              </div>
+              <span style="background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px;">Base Oficial SharePoint • Controle de Contratos</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
+              
+              <!-- Bloco 1: Processos SEI & Contratos -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>📋</span> <span>Processos SEI &amp; Contratos</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  • <strong>Processo SEI:</strong> Tramitação eletrônica do processo administrativo de instrução, pareceres jurídicos e termos aditivos.<br>
+                  • <strong>Vigência e Aditivos:</strong> Monitoramento contínuo dos prazos de execução para evitar descontinuidade de serviços essenciais (transporte, vigilância, manutenção).
+                </div>
+              </div>
+
+              <!-- Bloco 2: Portais de Compras & Licitações -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #10b981; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🏛️</span> <span>Licitações &amp; Compras.Gov</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  • <strong>Compras.Gov / BEC:</strong> Modalidades licitatórias eletrônicas conforme a Lei Federal 14.133/21 (Pregão Eletrônico, Dispensa e Inexigibilidade).<br>
+                  • <strong>Atas de Registro de Preços:</strong> Adesões a atas centralizadas para fornecimento corporativo de insumos e transportes.
+                </div>
+              </div>
+
+              <!-- Bloco 3: Publicidade & Tribunal de Contas -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #fbbf24; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>⚖️</span> <span>Transparência (D.O.E., PNCP &amp; AUDESP)</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  • <strong>PNCP &amp; D.O.E.:</strong> Publicações obrigatórias em diário oficial e no Portal Nacional de Contratações Públicas para eficácia contratual.<br>
+                  • <strong>AUDESP (TCE-SP):</strong> Transmissão dos dados da Fase IV de despesas e contratos para auditoria externa do Tribunal de Contas.
+                </div>
+              </div>
+
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
+              <span><strong>URE Itapevi</strong> • Seção de Compras e Serviços (SECOMSE / SEAFIN)</span>
+              <span>Conta Corporativa: itp_secomse_educacao_sp_gov_br</span>
+            </div>
+          </div>
+
+</div>
       `;
 
       container.innerHTML = html;
