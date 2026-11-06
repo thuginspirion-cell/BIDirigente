@@ -2177,7 +2177,7 @@ if (!window.mostrarHome) {
             <div class="agenda-event-desc">${c.descricao || 'Sem pauta informada.'}</div>
             <div class="agenda-event-meta-row">
               <span>📍 Local: <strong>${c.local || 'Gabinete'}</strong></span>
-              ${c.link ? ('<a href=\"' + c.link + '\" target=\"_blank\" style=\"color: #2563eb; text-decoration: underline; font-weight: 600;\">🔗 Acessar Link</a>') : ''}
+              ${(c.link && (c.link.startsWith('http://') || c.link.startsWith('https://') || c.link.startsWith('www.'))) ? ('<a href=\"' + (c.link.startsWith('www.') ? 'https://' + c.link : c.link) + '\" target=\"_blank\" style=\"color: #2563eb; text-decoration: underline; font-weight: 600;\">🔗 Acessar Reunião</a>') : (c.link && !['nao','não','n/a','nenhum','sem link','-'].includes(c.link.trim().toLowerCase()) ? ('<span>🌐 ' + c.link + '</span>') : '')}
               <span>${c.prioridade === 'Alta' ? '⚡ ' : (c.prioridade === 'Baixa' ? '🌱 ' : '🔹 ')}Prioridade: <strong>${c.prioridade || 'Normal'}</strong></span>
             </div>
           </div>
@@ -41986,7 +41986,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         <button class="btn-close-panel" onclick="fecharModalAgenda()">✕</button>
       </div>
 
-      <form id="form-agenda-compromisso" onsubmit="salvarCompromissoForm(event)">
+      <form id="form-agenda-compromisso" onsubmit="salvarCompromissoForm(event)" novalidate>
         <div class="agenda-modal-body">
           <input type="hidden" id="form-agenda-id" value="">
 
@@ -42052,8 +42052,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             </div>
 
             <div class="agenda-form-group">
-              <label class="agenda-form-label">Link Virtual (se houver)</label>
-              <input type="url" id="form-agenda-link" class="agenda-form-input" placeholder="https://teams.microsoft.com/...">
+              <label class="agenda-form-label">Link Virtual (opcional)</label>
+              <input type="text" id="form-agenda-link" class="agenda-form-input" placeholder="Opcional (link do Teams, Meet ou observação)">
             </div>
 
             <div class="agenda-form-group">
