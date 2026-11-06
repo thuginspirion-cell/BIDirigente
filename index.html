@@ -10181,134 +10181,158 @@ function imprimirAgendaCarro() {
             <div class="section-main-heading" style="display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap;">
               <span style="color: #ef4444; font-size: 1.25rem;">⚠️</span>
               <span style="font-size: 1.15rem; font-weight: 800; color: #0f172a; letter-spacing: -0.01em;">Em foco: escolas que exigem atenção</span>
-              <span id="atencao-counter-badge" style="background: rgba(239,68,68,0.12); color: #b91c1c; font-size: 0.72rem; font-weight: 800; padding: 2px 10px; border-radius: 999px; border: 1px solid rgba(239,68,68,0.25);">6 Unidades Prioritárias</span>
+              <span id="atencao-counter-badge" style="background: rgba(239,68,68,0.12); color: #b91c1c; font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(239,68,68,0.25);">Top 5 Vulnerabilidades (IMRO)</span>
             </div>
             <div style="font-size: 0.76rem; color: #64748b; margin-top: 3px;">
-              Gestão por exceção com monitoramento cruzado dos setores: Obras (SEOM), Tecnologia (SEINTEC), Rede &amp; Matrícula (SEGRE) e Finanças (SEAFIN).
+              Gestão por exceção multissetorial: unidades com os maiores índices de criticidade apurados pelo cruzamento das bases ativas da Diretoria (Obras, TI, Finanças e Rede).
             </div>
           </div>
-          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center;">
-            <button type="button" class="btn-filtro-atencao" id="btn-atencao-todos" onclick="filtrarCardsAtencao('TODOS', this)" style="background: #0b2351; color: #ffffff; border: 1px solid #0b2351; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">Todos (6)</button>
-            <button type="button" class="btn-filtro-atencao" onclick="filtrarCardsAtencao('SEOM', this)" style="background: #ffffff; color: #b45309; border: 1px solid #fed7aa; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">🏗️ SEOM (2)</button>
-            <button type="button" class="btn-filtro-atencao" onclick="filtrarCardsAtencao('SEINTEC', this)" style="background: #ffffff; color: #0284c7; border: 1px solid #bae6fd; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">💻 SEINTEC (2)</button>
-            <button type="button" class="btn-filtro-atencao" onclick="filtrarCardsAtencao('SEGRE', this)" style="background: #ffffff; color: #ea580c; border: 1px solid #ffedd5; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">🏫 SEGRE (1)</button>
-            <button type="button" class="btn-filtro-atencao" onclick="filtrarCardsAtencao('SEAFIN', this)" style="background: #ffffff; color: #047857; border: 1px solid #a7f3d0; padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">💼 SEAFIN (1)</button>
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+            <button type="button" onclick="rolarParaNotaMetodologica()" style="background: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.74rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.15s;" title="Ver critérios técnicos, fórmula de cálculo e pesos de cada setor">
+              <span>📌 Ver Legenda &amp; Critérios de Risco ↓</span>
+            </button>
           </div>
         </div>
 
-        <div class="atencao-grid" id="home-atencao-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div class="atencao-grid" id="home-atencao-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
           
-          <!-- Card 1: SEOM - Itajahy Feitosa Martins -->
-          <div class="atencao-card" id="card-atencao-908836" data-setor="SEOM" onclick="selecionarEscolaNaHome('908836')" style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #b45309; border-radius: 12px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; transition: all 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.07)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.03)';" title="Clique para focar na EE Prof. Itajahy Feitosa Martins">
+          <!-- Card 1: Maria Soares Santos, Professora -->
+          <div class="atencao-card" id="card-atencao-910454" onclick="selecionarEscolaNaHome('910454')" style="background: #ffffff; border: 1px solid #fecaca; border-left: 6px solid #b91c1c; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 14px rgba(185,28,28,0.06); display: flex; flex-direction: column; justify-content: space-between; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(185,28,28,0.12)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(185,28,28,0.06)';" title="Clique para abrir a visão 360° da escola">
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
-                <span style="background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">🏗️ SEOM • Obras Prediais</span>
-                <span style="background: rgba(245,158,11,0.15); color: #b45309; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">🟠 Em Intervenção FDE</span>
-                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 908836 • Itapevi</span>
+                <span style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">#1 • 170 pts (Crítico)</span>
+                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 910454 • Barueri</span>
               </div>
-              <div style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Itajahy Feitosa Martins Professor</div>
-              <div style="font-size: 0.82rem; color: #475569; line-height: 1.45;">
-                Reforma predial da quadra e recuperação estrutural da cobertura (Obra FDE ativa); acompanhamento de laudo técnico de AVCB.
+              <div style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Maria Soares Santos, Professora</div>
+              <div style="width: 100%; height: 5px; background: #fee2e2; border-radius: 3px; margin-bottom: 0.65rem; overflow: hidden;">
+                <div style="width: 95%; height: 100%; background: #b91c1c; border-radius: 3px;"></div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: #334155; line-height: 1.4;">
+                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
+                  <span style="color: #b45309; font-weight: 800;">🏗️ SEOM:</span>
+                  <span>Sem AVCB dos Bombeiros • Infiltração crítica no telhado • Rede elétrica sobrecarregada • Sem zelador residente.</span>
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
+                  <span style="color: #0284c7; font-weight: 800;">💻 SEINTEC:</span>
+                  <span>158 equipamentos quebrados/inservíveis • 31 chamados de suporte técnico abertos no exercício.</span>
+                </div>
               </div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
-              <span style="color: #059669; font-weight: 700;">⚡ Vistoria agendada</span>
-              <span style="color: #2563eb; font-weight: 800;">Ver detalhes da unidade →</span>
+              <span style="color: #b91c1c; font-weight: 800;">⚡ Maior risco da rede</span>
+              <span style="color: #2563eb; font-weight: 800;">Analisar unidade 360° →</span>
             </div>
           </div>
 
-          <!-- Card 2: SEINTEC - Lenio Vieira de Moraes -->
-          <div class="atencao-card" id="card-atencao-040551" data-setor="SEINTEC" onclick="selecionarEscolaNaHome('040551')" style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #ef4444; border-radius: 12px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; transition: all 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.07)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.03)';" title="Clique para focar na EE Prof. Lenio Vieira de Moraes">
+          <!-- Card 2: Celina de Barros Bairão, Professora -->
+          <div class="atencao-card" id="card-atencao-010424" onclick="selecionarEscolaNaHome('010424')" style="background: #ffffff; border: 1px solid #fecaca; border-left: 6px solid #dc2626; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 14px rgba(220,38,38,0.06); display: flex; flex-direction: column; justify-content: space-between; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(220,38,38,0.12)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(220,38,38,0.06)';" title="Clique para abrir a visão 360° da escola">
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
-                <span style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">💻 SEINTEC • TI &amp; Suporte</span>
-                <span style="background: rgba(239,68,68,0.15); color: #b91c1c; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">🔴 Alta Prioridade</span>
-                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 040551 • Itapevi</span>
+                <span style="background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">#2 • 150 pts (Crítico)</span>
+                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 010424 • Itapevi</span>
               </div>
-              <div style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Lenio Vieira de Moraes Professor</div>
-              <div style="font-size: 0.82rem; color: #475569; line-height: 1.45;">
-                Demanda de adequação de rede elétrica e cabeamento estruturado para instalação de Educatrons e estabilização de Wi-Fi pedagógico.
+              <div style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Celina de Barros Bairão, Professora</div>
+              <div style="width: 100%; height: 5px; background: #fee2e2; border-radius: 3px; margin-bottom: 0.65rem; overflow: hidden;">
+                <div style="width: 85%; height: 100%; background: #dc2626; border-radius: 3px;"></div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: #334155; line-height: 1.4;">
+                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
+                  <span style="color: #0284c7; font-weight: 800;">💻 SEINTEC:</span>
+                  <span><strong>264 equipamentos quebrados</strong> (recorde da rede aguardando baixa) • 33 chamados de suporte.</span>
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
+                  <span style="color: #b45309; font-weight: 800;">🏗️ SEOM:</span>
+                  <span>Sem AVCB dos Bombeiros • Laudo de telhado com infiltração • Rede elétrica instável.</span>
+                </div>
               </div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
-              <span style="color: #0284c7; font-weight: 700;">⚡ Chamado TI em atendimento</span>
-              <span style="color: #2563eb; font-weight: 800;">Ver detalhes da unidade →</span>
+              <span style="color: #dc2626; font-weight: 800;">⚡ Maior sucateamento TI</span>
+              <span style="color: #2563eb; font-weight: 800;">Analisar unidade 360° →</span>
             </div>
           </div>
 
-          <!-- Card 3: SEINTEC - Aldeia de Barueri -->
-          <div class="atencao-card" id="card-atencao-009912" data-setor="SEINTEC" onclick="selecionarEscolaNaHome('009912')" style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #ef4444; border-radius: 12px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; transition: all 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.07)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.03)';" title="Clique para focar na EE Aldeia de Barueri">
+          <!-- Card 3: Parque Payol -->
+          <div class="atencao-card" id="card-atencao-925834" onclick="selecionarEscolaNaHome('925834')" style="background: #ffffff; border: 1px solid #fed7aa; border-left: 6px solid #ea580c; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 14px rgba(234,88,12,0.06); display: flex; flex-direction: column; justify-content: space-between; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(234,88,12,0.12)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(234,88,12,0.06)';" title="Clique para abrir a visão 360° da escola">
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
-                <span style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">💻 SEINTEC • Conectividade</span>
-                <span style="background: rgba(239,68,68,0.15); color: #b91c1c; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">🔴 Alta Prioridade</span>
-                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 009912 • Barueri</span>
+                <span style="background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">#3 • 150 pts (Crítico)</span>
+                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 925834 • Pirapora</span>
               </div>
-              <div style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Aldeia de Barueri</div>
-              <div style="font-size: 0.82rem; color: #475569; line-height: 1.45;">
-                Oscilação em link de fibra e demanda de remanejamento de switches e nobreaks para segurança do parque tecnológico escolar.
+              <div style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Parque Payol</div>
+              <div style="width: 100%; height: 5px; background: #ffedd5; border-radius: 3px; margin-bottom: 0.65rem; overflow: hidden;">
+                <div style="width: 85%; height: 100%; background: #ea580c; border-radius: 3px;"></div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: #334155; line-height: 1.4;">
+                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
+                  <span style="color: #b45309; font-weight: 800;">🏗️ SEOM:</span>
+                  <span>Obra ativa FDE com interdições • Sem AVCB dos Bombeiros • Telhado e elétrica críticos • Sem zelador.</span>
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
+                  <span style="color: #0284c7; font-weight: 800;">💻 SEINTEC:</span>
+                  <span>25 chamados de suporte técnico registrados • 69 equipamentos aguardando baixa.</span>
+                </div>
               </div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
-              <span style="color: #0284c7; font-weight: 700;">⚡ Suporte técnico regional</span>
-              <span style="color: #2563eb; font-weight: 800;">Ver detalhes da unidade →</span>
+              <span style="color: #ea580c; font-weight: 800;">⚡ Obra FDE &amp; 8 gargalos</span>
+              <span style="color: #2563eb; font-weight: 800;">Analisar unidade 360° →</span>
             </div>
           </div>
 
-          <!-- Card 4: SEGRE - Leonor Mendes de Barros -->
-          <div class="atencao-card" id="card-atencao-918805" data-setor="SEGRE" onclick="selecionarEscolaNaHome('918805')" style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #ea580c; border-radius: 12px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; transition: all 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.07)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.03)';" title="Clique para focar na EE Leonor Mendes de Barros">
+          <!-- Card 4: Raul Briquet, Doutor -->
+          <div class="atencao-card" id="card-atencao-010467" onclick="selecionarEscolaNaHome('010467')" style="background: #ffffff; border: 1px solid #fed7aa; border-left: 6px solid #d97706; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 14px rgba(217,119,6,0.06); display: flex; flex-direction: column; justify-content: space-between; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(217,119,6,0.12)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(217,119,6,0.06)';" title="Clique para abrir a visão 360° da escola">
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
-                <span style="background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">🏫 SEGRE • Matrícula &amp; Vagas</span>
-                <span style="background: rgba(234,88,12,0.15); color: #c2410c; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">🟡 Atenção Técnica</span>
-                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 918805 • Itapevi</span>
+                <span style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">#4 • 140 pts (Alto Risco)</span>
+                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 010467 • Itapevi</span>
               </div>
-              <div style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Leonor Mendes de Barros</div>
-              <div style="font-size: 0.82rem; color: #475569; line-height: 1.45;">
-                Acompanhamento intensivo do fluxo de matrículas manuais (SEMAT) e compatibilização regional de vagas para turmas de transição.
+              <div style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Raul Briquet, Doutor</div>
+              <div style="width: 100%; height: 5px; background: #fef3c7; border-radius: 3px; margin-bottom: 0.65rem; overflow: hidden;">
+                <div style="width: 78%; height: 100%; background: #d97706; border-radius: 3px;"></div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: #334155; line-height: 1.4;">
+                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
+                  <span style="color: #0284c7; font-weight: 800;">💻 SEINTEC:</span>
+                  <span><strong>227 equipamentos danificados/inservíveis</strong> • 25 chamados de suporte técnico.</span>
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
+                  <span style="color: #b45309; font-weight: 800;">🏗️ SEOM:</span>
+                  <span>Sem AVCB dos Bombeiros • Infiltrações no telhado • Rede elétrica sobrecarregada.</span>
+                </div>
               </div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
-              <span style="color: #ea580c; font-weight: 700;">⚡ Monitoramento SEMAT</span>
-              <span style="color: #2563eb; font-weight: 800;">Ver detalhes da unidade →</span>
+              <span style="color: #d97706; font-weight: 800;">⚡ 227 PCs com defeito</span>
+              <span style="color: #2563eb; font-weight: 800;">Analisar unidade 360° →</span>
             </div>
           </div>
 
-          <!-- Card 5: SEOM - Americo Valentin Christianini -->
-          <div class="atencao-card" id="card-atencao-010431" data-setor="SEOM" onclick="selecionarEscolaNaHome('010431')" style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #b45309; border-radius: 12px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; transition: all 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.07)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.03)';" title="Clique para focar na EE Prof. Americo Valentin Christianini">
+          <!-- Card 5: Henrique Fernando Gomes, Estudante -->
+          <div class="atencao-card" id="card-atencao-290075" onclick="selecionarEscolaNaHome('290075')" style="background: #ffffff; border: 1px solid #fed7aa; border-left: 6px solid #d97706; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 14px rgba(217,119,6,0.06); display: flex; flex-direction: column; justify-content: space-between; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(217,119,6,0.12)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(217,119,6,0.06)';" title="Clique para abrir a visão 360° da escola">
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
-                <span style="background: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">🏗️ SEOM • Fiscalização Predial</span>
-                <span style="background: rgba(245,158,11,0.15); color: #b45309; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">🟠 Em Acompanhamento</span>
-                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 010431 • Itapevi</span>
+                <span style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">#5 • 140 pts (Alto Risco)</span>
+                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 290075 • Itapevi</span>
               </div>
-              <div style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Americo Valentin Christianini</div>
-              <div style="font-size: 0.82rem; color: #475569; line-height: 1.45;">
-                Vistoria técnica predial para regularização de laudo AVCB dos Bombeiros e adequações de segurança de infraestrutura.
+              <div style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Henrique Fernando Gomes, Estudante</div>
+              <div style="width: 100%; height: 5px; background: #fef3c7; border-radius: 3px; margin-bottom: 0.65rem; overflow: hidden;">
+                <div style="width: 78%; height: 100%; background: #d97706; border-radius: 3px;"></div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: #334155; line-height: 1.4;">
+                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
+                  <span style="color: #b45309; font-weight: 800;">🏗️ SEOM:</span>
+                  <span>Obra ativa FDE em andamento • Sem AVCB dos Bombeiros • Telhado e elétrica com avarias • Sem zelador.</span>
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
+                  <span style="color: #0284c7; font-weight: 800;">💻 SEINTEC:</span>
+                  <span>25 chamados de suporte técnico registrados no exercício.</span>
+                </div>
               </div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
-              <span style="color: #059669; font-weight: 700;">⚡ Laudo em tramitação</span>
-              <span style="color: #2563eb; font-weight: 800;">Ver detalhes da unidade →</span>
-            </div>
-          </div>
-
-          <!-- Card 6: SEAFIN - Jose Neyde Cesar Lessa -->
-          <div class="atencao-card" id="card-atencao-010650" data-setor="SEAFIN" onclick="selecionarEscolaNaHome('010650')" style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #047857; border-radius: 12px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; transition: all 0.2s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.07)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(0,0,0,0.03)';" title="Clique para focar na EE Dr. Jose Neyde Cesar Lessa">
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
-                <span style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">💼 SEAFIN • Execução APM</span>
-                <span style="background: rgba(16,185,129,0.15); color: #047857; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">🟢 Monitoramento Financeiro</span>
-                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 010650 • Itapevi</span>
-              </div>
-              <div style="font-size: 0.98rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Jose Neyde Cesar Lessa Doutor</div>
-              <div style="font-size: 0.82rem; color: #475569; line-height: 1.45;">
-                Acompanhamento da aplicação dos recursos do PDDE Paulista / APM e prestação de contas dos repasses com a Seção de Finanças.
-              </div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
-              <span style="color: #047857; font-weight: 700;">⚡ Prestação de contas orientada</span>
-              <span style="color: #2563eb; font-weight: 800;">Ver detalhes da unidade →</span>
+              <span style="color: #d97706; font-weight: 800;">⚡ Obra FDE em curso</span>
+              <span style="color: #2563eb; font-weight: 800;">Analisar unidade 360° →</span>
             </div>
           </div>
 
@@ -10572,7 +10596,81 @@ function imprimirAgendaCarro() {
             </table>
           </div>
 
-        </div></section>
+        
+
+          <!-- NOTA METODOLÓGICA & LEGENDA DE RISCO MULTISSETORIAL (IMRO) -->
+          <div id="nota-metodologica-imro" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.85rem; border: 1px solid #1e293b; margin-top: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: box-shadow 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.85rem;">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-size: 1.4rem;">📌</span>
+                <div>
+                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">NOTA METODOLÓGICA &amp; MATRIZ DE RISCO OPERACIONAL (IMRO)</h4>
+                  <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Metodologia oficial de Gestão por Exceção para priorização de investimentos e suporte da Dirigente Regional</div>
+                </div>
+              </div>
+              <span style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px;">Arquitetura Dinâmica &amp; Extensível</span>
+            </div>
+
+            <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 1.25rem;">
+              O <strong>Índice Multissetorial de Risco Operacional (IMRO)</strong> é apurado matematicamente através do cruzamento em tempo real dos indicadores de desempenho e dados oficiais reportados pelos centros e setores da Diretoria de Ensino. O objetivo é eliminar escolhas empíricas e apontar objetivamente à liderança regional onde se concentram os maiores gargalos prediais, tecnológicos, orçamentários e administrativos da rede.
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+              
+              <!-- Bloco 1: Infraestrutura (SEOM) -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #f59e0b; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🏗️</span> <span>Dimensão Infraestrutura &amp; Segurança (SEOM)</span>
+                </div>
+                <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #94a3b8; line-height: 1.6;">
+                  <li><strong style="color: #ef4444;">AVCB Pendente (+25 pts):</strong> Ausência de laudo do Corpo de Bombeiros (risco legal).</li>
+                  <li><strong style="color: #ef4444;">Saneamento / Esgoto (+25 pts):</strong> Demanda crítica de rede ou fossa séptica.</li>
+                  <li><strong style="color: #f97316;">Telhado Crítico (+20 pts):</strong> Goteiras e infiltrações que afetam salas de aula.</li>
+                  <li><strong style="color: #f97316;">Elétrica Sobrecarregada (+20 pts):</strong> Instalações sob tensão sem suporte a Educatrons.</li>
+                  <li><strong style="color: #eab308;">Obra FDE Ativa (+15 pts):</strong> Intervenção predial física gerando área isolada.</li>
+                  <li><strong style="color: #94a3b8;">Zeladoria / Cuidadores (+10 pts):</strong> Ausência de zelador ou carência de suporte.</li>
+                </ul>
+              </div>
+
+              <!-- Bloco 2: Tecnologia (SEINTEC) -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>💻</span> <span>Dimensão Tecnologia &amp; Suporte (SEINTEC)</span>
+                </div>
+                <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #94a3b8; line-height: 1.6;">
+                  <li><strong style="color: #ef4444;">Sucateamento Crítico (+35 pts):</strong> Acima de 150 máquinas danificadas sem baixa.</li>
+                  <li><strong style="color: #f97316;">Parque Danificado (+20 pts):</strong> Entre 60 e 150 equipamentos quebrados.</li>
+                  <li><strong style="color: #ef4444;">Polo Crítico de Suporte (+30 pts):</strong> Unidade com 30 ou mais chamados abertos.</li>
+                  <li><strong style="color: #f97316;">Alta Demanda de TI (+20 pts):</strong> Entre 20 e 29 chamados oficiais no exercício.</li>
+                  <li><strong style="color: #38bdf8;">Oscilação de Link:</strong> Instabilidade frequente no link Intragov de fibra.</li>
+                </ul>
+              </div>
+
+              <!-- Bloco 3: Extensibilidade Futura -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #10b981; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🏢</span> <span>Integração Contínua de Novos Setores</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #94a3b8; line-height: 1.6;">
+                  À medida que as bases públicas dos demais núcleos forem consolidadas, novos fatores de ponderação ingressam automaticamente no cálculo do IMRO:
+                  <div style="margin-top: 0.4rem;">
+                    • <strong>SEAFIN / SEFIN:</strong> Taxa de execução de repasses do PDDE e prazos de prestação de contas das APMs.<br>
+                    • <strong>SEGRE / SEMAT:</strong> Fila de matrículas manuais e compatibilização regional de vagas.<br>
+                    • <strong>SEPES:</strong> Modulação docente, licenças e absenteísmo funcional.<br>
+                    • <strong>EEC:</strong> Metas pedagógicas e proficiência no SARESP.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
+              <span><strong>URE Itapevi</strong> • Diretoria Regional de Ensino • BI Dirigente</span>
+              <span>Padronização Nomenclatural: Denominação oficial simplificada (sem prefixo 'EE' e com titulação posposta com vírgula).</span>
+            </div>
+          </div>
+
+</div></section>
 
       <!-- ======================================================= -->
       <!-- VIEW 2: VISÃO DO CENTRO & SEUS SETORES (COM UPLOAD) -->
@@ -16629,6 +16727,39 @@ function imprimirAgendaCarro() {
       });
     }
 
+    
+    // Formatação executiva de escolas (sem 'EE' e com vírgula em titulações)
+    function formatarNomeEscolaExecutivo(nomeBruto) {
+      if (!nomeBruto) return '';
+      let n = nomeBruto.trim();
+      n = n.replace(/^E\.?E\.?\s+/i, '');
+      if (/^Deputad[oa]\s+/i.test(n)) n = n.replace(/^Deputad([oa])\s+(.*)/i, '$2, Deputad$1');
+      else if (/^Padr?e\s+/i.test(n)) n = n.replace(/^Padr?e\s+(.*)/i, '$1, Padre');
+      else if (/^Doutora\s+/i.test(n) || /^Dra\.?\s+/i.test(n)) n = n.replace(/^(Doutora|Dra\.?)\s+(.*)/i, '$2, Doutora');
+      else if (/^Doutor\s+/i.test(n) || /^Dr\.?\s+/i.test(n)) n = n.replace(/^(Doutor|Dr\.?)\s+(.*)/i, '$2, Doutor');
+      else if (/^Professora\s+/i.test(n) || /^Profa\.?\s+/i.test(n)) n = n.replace(/^(Professora|Profa\.?)\s+(.*)/i, '$2, Professora');
+      else if (/^Professor\s+/i.test(n) || /^Prof\.?\s+/i.test(n)) n = n.replace(/^(Professor|Prof\.?)\s+(.*)/i, '$2, Professor');
+      else if (/^Estudante\s+/i.test(n)) n = n.replace(/^Estudante\s+(.*)/i, '$1, Estudante');
+      
+      if (/\s+Professora$/i.test(n) && !/,\s*Professora$/i.test(n)) n = n.replace(/\s+(Professora)$/i, ', Professora');
+      else if (/\s+Professor$/i.test(n) && !/,\s*Professor$/i.test(n)) n = n.replace(/\s+(Professor)$/i, ', Professor');
+      else if (/\s+Doutora$/i.test(n) && !/,\s*Doutora$/i.test(n)) n = n.replace(/\s+(Doutora)$/i, ', Doutora');
+      else if (/\s+Doutor$/i.test(n) && !/,\s*Doutor$/i.test(n)) n = n.replace(/\s+(Doutor)$/i, ', Doutor');
+      else if (/\s+Estudante$/i.test(n) && !/,\s*Estudante$/i.test(n)) n = n.replace(/\s+(Estudante)$/i, ', Estudante');
+      else if (/\s+Deputad([oa])$/i.test(n) && !/,\s*Deputad[oa]$/i.test(n)) n = n.replace(/\s+Deputad([oa])$/i, ', Deputad$1');
+      else if (/\s+Padre$/i.test(n) && !/,\s*Padre$/i.test(n)) n = n.replace(/\s+(Padre)$/i, ', Padre');
+      return n;
+    }
+
+    function rolarParaNotaMetodologica() {
+      const nota = document.getElementById('nota-metodologica-imro');
+      if (nota) {
+        nota.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        nota.style.border = '2px solid #38bdf8';
+        setTimeout(() => { nota.style.border = '1px solid #1e293b'; }, 2500);
+      }
+    }
+  
     function filtrarCardsAtencao(setor, btn) {
       document.querySelectorAll('.btn-filtro-atencao').forEach(b => {
         b.style.background = '#ffffff';
