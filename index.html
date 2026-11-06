@@ -11759,7 +11759,64 @@ function imprimirAgendaCarro() {
             </div>
           </div>
 
-      </section>
+      
+
+        <!-- NOTAS METODOLÓGICAS & CRITÉRIOS DE TECNOLOGIA (SEINTEC) -->
+        <div id="nota-metodologica-seintec" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.85rem; border: 1px solid #1e293b; margin-top: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: all 0.3s ease;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.15rem; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.85rem;">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <span style="font-size: 1.4rem;">💻</span>
+              <div>
+                <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">SEINTEC • NOTAS METODOLÓGICAS &amp; DIRETRIZES DE TECNOLOGIA EDUCACIONAL</h4>
+                <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Gestão de inventário BlueMonitor, classificação de status de equipamentos e SLA de suporte</div>
+              </div>
+            </div>
+            <span style="background: rgba(2,132,199,0.15); color: #38bdf8; border: 1px solid rgba(2,132,199,0.3); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px;">15.873 Equipamentos &amp; 1.363 Atendimentos</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
+            
+            <!-- Bloco 1: BlueMonitor & Inventário -->
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+              <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>🖥️</span> <span>Inventário &amp; BlueMonitor</span>
+              </div>
+              <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                • <strong>Disponível:</strong> Equipamento em perfeito estado de funcionamento alocado para uso administrativo ou pedagógico.<br>
+                • <strong>Inservível / Danificado:</strong> Equipamento cujo custo de conserto excede o valor econômico, aguardando processo formal de desfazimento patrimonial.
+              </div>
+            </div>
+
+            <!-- Bloco 2: Educatrons & Conectividade -->
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+              <div style="color: #f59e0b; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>📺</span> <span>Educatrons &amp; Wi-Fi Escolar</span>
+              </div>
+              <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                • <strong>Educatrons:</strong> Telas digitais interativas instaladas nas salas de aula das 60 escolas.<br>
+                • <strong>Link Intragov:</strong> Monitoramento de estabilidade dos links de fibra óptica de alta velocidade e distribuição de pontos de acesso Wi-Fi.
+              </div>
+            </div>
+
+            <!-- Bloco 3: Suporte Técnico & SLA -->
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+              <div style="color: #10b981; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>⚡</span> <span>Chamados Oficiais &amp; SLA</span>
+              </div>
+              <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                Atendimento técnico regional centralizado para resolução ágil de problemas em hardware, sistemas da SED, plataformas Google/Microsoft e rede lógica.
+              </div>
+            </div>
+
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
+            <span><strong>URE Itapevi</strong> • Núcleo de Informações Educacionais e Tecnologia (SEINTEC)</span>
+            <span>Conta Corporativa: itp_seintec_educacao_sp_gov_br</span>
+          </div>
+        </div>
+
+</section>
 
       <!-- ============================================== -->
       <!-- VIEW 5: MINHA GESTÃO (ROTEIRO & COMPROMISSOS)   -->
@@ -12296,10 +12353,10 @@ function imprimirAgendaCarro() {
           <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('tipo', 'Regular', this)" style="background: #ffffff; color: #0284c7; border: 1px solid #bae6fd; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📘 Regular (18)</button>
           
           <span style="color: #cbd5e1;">|</span>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Itapevi', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Itapevi (36)</button>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Barueri', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Barueri (15)</button>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Jandira', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Jandira (6)</button>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Pirapora do Bom Jesus', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Pirapora (3)</button>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Itapevi', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Itapevi (25)</button>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Barueri', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Barueri (19)</button>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Jandira', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Jandira (14)</button>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Pirapora do Bom Jesus', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Pirapora (2)</button>
           
           <span style="color: #cbd5e1;">|</span>
           <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('status', 'Alta prioridade', this)" style="background: #ffffff; color: #dc2626; border: 1px solid #fecaca; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">▲ Alta Prioridade</button>
@@ -12314,10 +12371,10 @@ function imprimirAgendaCarro() {
 
           <select id="escolas-filter-cidade" class="escolas-select-filter" onchange="filtrarEscolas()">
             <option value="">Todos os Municípios</option>
-            <option value="Itapevi">Itapevi (36)</option>
-            <option value="Barueri">Barueri (15)</option>
-            <option value="Jandira">Jandira (6)</option>
-            <option value="Pirapora do Bom Jesus">Pirapora do Bom Jesus (3)</option>
+            <option value="Itapevi">Itapevi (25)</option>
+            <option value="Barueri">Barueri (19)</option>
+            <option value="Jandira">Jandira (14)</option>
+            <option value="Pirapora do Bom Jesus">Pirapora do Bom Jesus (2)</option>
           </select>
 
           <select id="escolas-filter-tipo" class="escolas-select-filter" onchange="filtrarEscolas()">
@@ -14129,6 +14186,20 @@ function imprimirAgendaCarro() {
       }
 
       filtrarEscolas();
+    }
+
+    
+    function rolarParaLegendaSetor(idElemento) {
+      const el = document.getElementById(idElemento);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        el.style.border = '2px solid #38bdf8';
+        el.style.boxShadow = '0 0 25px rgba(56, 189, 248, 0.4)';
+        setTimeout(() => {
+          el.style.border = '1px solid #1e293b';
+          el.style.boxShadow = '0 10px 30px rgba(0,0,0,0.12)';
+        }, 2500);
+      }
     }
 
     function rolarParaLegendaEscolas() {
@@ -19229,7 +19300,64 @@ function imprimirAgendaCarro() {
           <div style="background: #f1f5f9; padding: 0.85rem 1.5rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
             <span style="font-size: 0.75rem; color: #64748b;">ID: ${item.id}</span>
             <button onclick="fecharModalDetalheContratoSecomse()" style="background: #0b2351; color: #ffffff; border: none; padding: 0.5rem 1.25rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">Fechar</button>
+          
+
+          <!-- NOTAS METODOLÓGICAS & CRITÉRIOS DE FINANÇAS & REPASSES (SEAFIN / SEFIN) -->
+          <div id="nota-metodologica-seafin" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.85rem; border: 1px solid #1e293b; margin-top: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: all 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.15rem; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.85rem;">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-size: 1.4rem;">💼</span>
+                <div>
+                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">SEAFIN • NOTAS METODOLÓGICAS &amp; DIRETRIZES ORÇAMENTÁRIAS DAS APMs</h4>
+                  <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Legislação do PDDE Paulista, repasses federais, prestação de contas e execução financeira</div>
+                </div>
+              </div>
+              <span style="background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px;">Base Oficial SharePoint • 176 Repasses</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
+              
+              <!-- Bloco 1: PDDE Paulista vs Federal -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #10b981; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>📜</span> <span>PDDE Paulista (Lei 17.149/19) vs Federal</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  • <strong>PDDE Paulista:</strong> Recursos do Tesouro Estadual descentralizados diretamente para as Associações de Pais e Mestres (APMs) para pequenos reparos, manutenção, material pedagógico e conectividade.<br>
+                  • <strong>PDDE Federal:</strong> Verbas geridas pelo FNDE/MEC em programas suplementares.
+                </div>
+              </div>
+
+              <!-- Bloco 2: Taxa de Execução Orçamentária -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>📈</span> <span>Taxa de Execução &amp; Saldos em Conta</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  • <strong>Taxa de Execução (%):</strong> Proporção dos valores efetivamente liquidados pelas APMs em relação ao repasse total.<br>
+                  • <strong>Risco de Estagnação:</strong> Unidades com execução muito baixa (&lt;30%) são alertadas para evitar bloqueio de novas parcelas e exigência de devolução pelo Tribunal de Contas.
+                </div>
+              </div>
+
+              <!-- Bloco 3: Prestação de Contas TCE -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #fbbf24; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>⚖️</span> <span>Conformidade &amp; Tribunal de Contas (TCE-SP)</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  Todas as 60 APMs passam por auditoria obrigatória de comprovação fiscal (notas fiscais, certidões negativas e conciliação bancária) antes do fechamento do exercício anual.
+                </div>
+              </div>
+
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
+              <span><strong>URE Itapevi</strong> • Serviço de Administração e Finanças (SEAFIN / SEFIN)</span>
+              <span>Conta Corporativa: itp_sefin_educacao_sp_gov_br</span>
+            </div>
           </div>
+
+</div>
         </div>
       `;
       modalEl.style.display = 'flex';
@@ -20128,7 +20256,64 @@ function imprimirAgendaCarro() {
                 </tbody>
               </table>
             </div>
+          
+
+          <!-- NOTAS METODOLÓGICAS & CRITÉRIOS DE INFRAESTRUTURA (SEOM) -->
+          <div id="nota-metodologica-seom" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.85rem; border: 1px solid #1e293b; margin-top: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: all 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.15rem; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.85rem;">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-size: 1.4rem;">🏗️</span>
+                <div>
+                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">SEOM • NOTAS METODOLÓGICAS &amp; MATRIZ PREDIAL DAS 60 ESCOLAS</h4>
+                  <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Critérios técnicos, fiscalização de obras FDE, regularização de AVCB e gestão predial</div>
+                </div>
+              </div>
+              <span style="background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px;">Acompanhamento SEOM.xlsx (Aba MAPA)</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
+              
+              <!-- Bloco 1: Obras FDE vs SEOM -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #f59e0b; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🏛️</span> <span>Obras FDE vs Fiscalização SEOM</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  • <strong>Obras FDE Ativas:</strong> Obras contratadas e geridas diretamente pela Fundação para o Desenvolvimento da Educação (FDE), com acompanhamento de engenharia regional (Oswaldo).<br>
+                  • <strong>Papel do SEOM:</strong> Vistoria técnica contínua, fiscalização local, mediação de áreas interditadas com as equipes gestoras e controle do cronograma de intervenção.
+                </div>
+              </div>
+
+              <!-- Bloco 2: AVCB Bombeiros -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #ef4444; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🚒</span> <span>Laudo AVCB dos Bombeiros</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  • <strong>Regularizado (1):</strong> Auto de Vistoria do Corpo de Bombeiros emitido, válido e em conformidade.<br>
+                  • <strong>Pendente (0):</strong> Unidade em adequação técnica predial (instalação/revisão de hidrantes, extintores, bombas de incêndio, sinalização e rotas de fuga).
+                </div>
+              </div>
+
+              <!-- Bloco 3: 11 Dimensões Prediais -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>📊</span> <span>Mapeamento dos 11 Indicadores</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  Monitoramento diário nas 60 escolas: <em>Telhado/Cobertura</em>, <em>Rede Elétrica</em>, <em>Saneamento/Esgoto</em>, <em>Limpeza &amp; Conservação</em>, <em>Zeladoria Residente</em>, <em>Cuidadores de Alunos</em>, <em>SGI</em> e <em>Consumo de Água</em>.
+                </div>
+              </div>
+
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
+              <span><strong>URE Itapevi</strong> • Seção de Obras e Manutenção Escolar (SEOM)</span>
+              <span>Responsável Técnico: Oswaldo • Integração SharePoint em Tempo Real</span>
+            </div>
           </div>
+
+</div>
         </div>
       `;
 
@@ -34415,6 +34600,62 @@ function imprimirAgendaCarro() {
             <!-- Renderizado dinamicamente via renderizarCorpoTabelaSegre() -->
           </div>
 
+          <!-- NOTAS METODOLÓGICAS & CRITÉRIOS DE GESTÃO DA REDE (SEGRE • SEMAT & SEVESC) -->
+          <div id="nota-metodologica-segre" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.85rem; border: 1px solid #1e293b; margin-top: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: all 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.15rem; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.85rem;">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-size: 1.4rem;">🏫</span>
+                <div>
+                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">SEGRE • NOTAS METODOLÓGICAS &amp; COMPETÊNCIAS DA REDE ESCOLAR</h4>
+                  <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Atribuições oficiais da SEMAT (Matrículas) e SEVESC (Vida Escolar e GDAE)</div>
+                </div>
+              </div>
+              <span style="background: rgba(234,88,12,0.15); color: #fb923c; border: 1px solid rgba(234,88,12,0.3); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px;">8.788 Registros &amp; Demandas Monitoradas</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
+              
+              <!-- Bloco 1: SEMAT -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #f97316; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🎓</span> <span>SEMAT • Seção de Matrícula</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  • <strong>Fluxo de Atendimento:</strong> Mediação de vagas, compatibilização regional de matrículas manuais, transferências e processos SEI.<br>
+                  • <strong>Equilíbrio Regional:</strong> Prevenção de turmas superlotadas e garantia do direito à vaga pública próxima à residência.
+                </div>
+              </div>
+
+              <!-- Bloco 2: SEVESC -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>📜</span> <span>SEVESC • Seção de Vida Escolar</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  • <strong>Históricos &amp; Prontuários:</strong> Regularização de vida escolar de alunos, certificação de concluintes e publicações no GDAE.<br>
+                  • <strong>Processos Especiais:</strong> Equivalência de estudos internacionais e regularização de documentação escolar de escolas ativas e extintas.
+                </div>
+              </div>
+
+              <!-- Bloco 3: Volume de E-mails -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #a7f3d0; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>📬</span> <span>Monitoramento Contínuo de Demandas</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  Acompanhamento de mais de 8.700 comunicações oficiais em tempo real para eliminação de filas e redução de prazos de resposta ao cidadão.
+                </div>
+              </div>
+
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
+              <span><strong>URE Itapevi</strong> • Serviço de Gestão da Rede Escolar (SEGRE)</span>
+              <span>Contas Corporativas: itp_semat_educacao_sp_gov_br e itp_sevesc_educacao_sp_gov_br</span>
+            </div>
+          </div>
+
+
         </div>
       `;
 
@@ -38532,6 +38773,62 @@ function imprimirAgendaCarro() {
           <div id="sepes-tabela-container">
             <!-- Renderizado dinamicamente via renderizarCorpoTabelaSepes() -->
           </div>
+
+          <!-- NOTAS METODOLÓGICAS & CRITÉRIOS DE RECURSOS HUMANOS (SEPES • SEAPE & SEFREP) -->
+          <div id="nota-metodologica-sepes" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.85rem; border: 1px solid #1e293b; margin-top: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: all 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.15rem; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.85rem;">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-size: 1.4rem;">👥</span>
+                <div>
+                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">SEPES • NOTAS METODOLÓGICAS &amp; DIRETRIZES DE VIDA FUNCIONAL</h4>
+                  <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Atribuições do SEAPE (Aposentadorias e Abonos) e SEFREP (Folha, Frequência e Modulação)</div>
+                </div>
+              </div>
+              <span style="background: rgba(139,92,246,0.15); color: #c084fc; border: 1px solid rgba(139,92,246,0.3); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px;">Quadro Funcional • URE Itapevi</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
+              
+              <!-- Bloco 1: SEAPE -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #c084fc; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🧓</span> <span>SEAPE • Aposentadorias &amp; Direitos</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  • <strong>Aposentadorias &amp; CTC:</strong> Contagem de tempo de serviço, liquidação de certidões e concessão de aposentadorias voluntárias e compulsórias.<br>
+                  • <strong>Abono de Permanência:</strong> Processamento do benefício para servidores que completaram requisitos e optaram por continuar na ativa.
+                </div>
+              </div>
+
+              <!-- Bloco 2: SEFREP -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>📄</span> <span>SEFREP • Folha de Pagamento &amp; Frequência</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  • <strong>BFE &amp; Ocorrências:</strong> Acompanhamento mensal de faltas, licenças-saúde, afastamentos e consistência da folha de pagamento.<br>
+                  • <strong>Modulação de Professores:</strong> Alocação docente, atribuição de aulas e substituições eventuais nas unidades escolares.
+                </div>
+              </div>
+
+              <!-- Bloco 3: Gestão de Pessoas -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+                <div style="color: #10b981; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🎯</span> <span>Valorização &amp; Conformidade</span>
+                </div>
+                <div style="font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
+                  Garantia da segurança jurídica dos atos funcionais dos servidores e agilidade na instrução de processos do SEDUC e SPPREV.
+                </div>
+              </div>
+
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
+              <span><strong>URE Itapevi</strong> • Serviço de Pessoas (SEPES)</span>
+              <span>Responsável: Rosineide Gazolla (rosineide_gazolla_educacao_sp_gov_br)</span>
+            </div>
+          </div>
+
 
         </div>
       `;
