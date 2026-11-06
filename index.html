@@ -12305,7 +12305,7 @@ function imprimirAgendaCarro() {
           <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Itapevi', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Itapevi (25)</button>
           <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Barueri', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Barueri (19)</button>
           <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Jandira', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Jandira (14)</button>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Pirapora do Bom Jesus', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Pirapora (2)</button>
+          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Pirapora', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Pirapora (2)</button>
           
           <span style="color: #cbd5e1;">|</span>
           <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('status', 'Alta prioridade', this)" style="background: #ffffff; color: #dc2626; border: 1px solid #fecaca; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">▲ Alta Prioridade</button>
@@ -12323,7 +12323,7 @@ function imprimirAgendaCarro() {
             <option value="Itapevi">Itapevi (25)</option>
             <option value="Barueri">Barueri (19)</option>
             <option value="Jandira">Jandira (14)</option>
-            <option value="Pirapora do Bom Jesus">Pirapora do Bom Jesus (2)</option>
+            <option value="Pirapora">Pirapora do Bom Jesus (2)</option>
           </select>
 
           <select id="escolas-filter-tipo" class="escolas-select-filter" onchange="filtrarEscolas()">
@@ -14047,7 +14047,7 @@ function imprimirAgendaCarro() {
           (e.diretor && e.diretor.toLowerCase().includes(termo)) ||
           (e.bairro && e.bairro.toLowerCase().includes(termo));
 
-        const matchCidade = !cidade || e.cidade === cidade;
+        const matchCidade = !cidade || e.cidade === cidade || (cidade.toLowerCase().includes('pirapora') && (e.cidade || '').toLowerCase().includes('pirapora'));
         
         let matchTipo = true;
         if (tipo === 'PEI') {
@@ -14102,7 +14102,12 @@ function imprimirAgendaCarro() {
         if (selectTipo) selectTipo.value = valor;
       } else if (tipoFiltro === 'cidade') {
         const selectCidade = document.getElementById('escolas-filter-cidade');
-        if (selectCidade) selectCidade.value = valor;
+        if (selectCidade) {
+          selectCidade.value = valor;
+          if (!selectCidade.value && valor.includes('Pirapora')) {
+            selectCidade.value = 'Pirapora';
+          }
+        }
       } else if (tipoFiltro === 'status') {
         const selectStatus = document.getElementById('escolas-filter-status');
         if (selectStatus) selectStatus.value = valor;
@@ -14367,7 +14372,7 @@ function imprimirAgendaCarro() {
             </td>
             <td>
               <div class="escola-name-cell">
-                <span>${e.nome}</span>
+                <span onclick="abrirModalDetalhesEscola('${e.id}')" style="cursor: pointer; font-weight: 700; color: #0b2351;" title="Clique para abrir o Raio-X 360° da Escola" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${e.nome}</span>
                 ${tagTipo}
               </div>
               ${descObs}
@@ -14387,10 +14392,13 @@ function imprimirAgendaCarro() {
               ${badgeStatus}
             </td>
             <td style="text-align: right;">
-              <div class="escola-actions-cell" style="justify-content: flex-end;">
-                <button class="btn-table-action" onclick="abrirModalEditarEscola('${e.id}')" title="Editar dados da unidade">✏️ Editar</button>
-                <button class="btn-table-action" onclick="toggleAtencaoEscola('${e.id}')" title="Alternar prioridade / atenção">⚠️</button>
-                <button class="btn-table-action danger" onclick="excluirEscola('${e.id}')" title="Excluir unidade">🗑️</button>
+              <div class="escola-actions-cell" style="justify-content: flex-end; display: flex; align-items: center; gap: 0.35rem; flex-wrap: nowrap;">
+                <button class="btn-table-action" onclick="abrirModalDetalhesEscola('${e.id}')" title="Abrir Raio-X 360° da Escola (Infra, TI, Finanças, Rede)" style="background: #0b2351; color: #ffffff; border: 1.5px solid #0b2351; font-weight: 700; font-size: 0.76rem; display: inline-flex; align-items: center; gap: 4px; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; transition: all 0.15s; box-shadow: 0 2px 4px rgba(11,35,81,0.18);" onmouseover="this.style.background='#1e3a8a'; this.style.borderColor='#1e3a8a';" onmouseout="this.style.background='#0b2351'; this.style.borderColor='#0b2351';">
+                  👁️ Detalhes 360°
+                </button>
+                <button class="btn-table-action" onclick="abrirModalEditarEscola('${e.id}')" title="Editar dados da unidade" style="padding: 0.35rem 0.55rem; font-size: 0.76rem;">✏️ Editar</button>
+                <button class="btn-table-action" onclick="toggleAtencaoEscola('${e.id}')" title="Alternar prioridade / atenção" style="padding: 0.35rem 0.45rem; font-size: 0.76rem;">⚠️</button>
+                <button class="btn-table-action danger" onclick="excluirEscola('${e.id}')" title="Excluir unidade" style="padding: 0.35rem 0.45rem; font-size: 0.76rem;">🗑️</button>
               </div>
             </td>
           </tr>
