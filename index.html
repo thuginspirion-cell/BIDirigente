@@ -14410,7 +14410,7 @@ function imprimirAgendaCarro() {
           badgeStatus = '<span class="badge-status-reforma">🛠️ Em Reforma</span>';
         }
 
-        const descObs = e.motivo ? `<div style="font-size: 0.74rem; color: #b91c1c; margin-top: 2px;">${e.motivo}</div>` : '';
+        const descObs = (e.status === 'Alta prioridade' && e.motivo && !e.motivo.toLowerCase().includes('monitoramento regular')) ? `<div style="font-size: 0.74rem; color: #b91c1c; font-weight: 600; margin-top: 2px;">⚠️ ${e.motivo}</div>` : '';
 
         return `
           <tr>
@@ -16660,7 +16660,7 @@ function imprimirAgendaCarro() {
       const callsPend = callsList.filter(c => c.status === 'Pendente' || c.status === 'Em Aberto' || c.status === 'Em Atendimento').length;
       const callsConc = callsList.filter(c => c.status === 'Concluído').length;
 
-      const emAtencao = esc.status === 'Atenção' || esc.status === 'Alerta' || esc.status === 'Prioritário' || (esc.motivo && esc.motivo.length > 25);
+      const emAtencao = esc.status === 'Alta prioridade' || esc.status === 'Atenção' || esc.status === 'Alerta' || esc.status === 'Prioritário';
 
       return {
         cie: pad,
@@ -16783,7 +16783,7 @@ function imprimirAgendaCarro() {
       }
 
       if (elDetails) {
-        elDetails.innerHTML = '<strong>Direção:</strong> ' + dados.diretor + ' &nbsp;|&nbsp; <strong>Telefone:</strong> ' + dados.telefone + ' &nbsp;|&nbsp; <strong>Segmento:</strong> ' + dados.segmento + (dados.emAtencao ? '<br><span style="color: #b91c1c; font-weight: 700;">Motivo de Atenção: ' + dados.motivo + '</span>' : '');
+        elDetails.innerHTML = '<strong>Direção:</strong> ' + (dados.diretor || 'Equipe Gestora') + ' &nbsp;|&nbsp; <strong>Telefone:</strong> ' + (dados.telefone || '-') + ' &nbsp;|&nbsp; <strong>Segmento:</strong> ' + (dados.segmento || 'Ensino Fundamental e Médio');
       }
 
       const elHwTotal = document.getElementById('spotlight-hw-total');
@@ -43183,8 +43183,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             </div>
 
             <div class="agenda-form-group agenda-form-full">
-              <label class="agenda-form-label">Motivo da Atenção / Observações (opcional)</label>
-              <textarea id="form-escola-obs" class="agenda-form-textarea" rows="2" placeholder="Ex: Demanda estrutural na rede elétrica, reforma de quadra, reposição de quadro docente..."></textarea>
+              <label class="agenda-form-label">Observações da Unidade Escolar (opcional)</label>
+              <textarea id="form-escola-obs" class="agenda-form-textarea" rows="2" placeholder="Anotações internas e observações cadastrais gerais da unidade..."></textarea>
             </div>
 
           </div>
