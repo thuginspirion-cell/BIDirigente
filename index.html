@@ -11004,7 +11004,7 @@ function imprimirAgendaCarro() {
               <span class="gab-card-tag-name">TOTAL DE EQUIPAMENTOS</span>
             </div>
             <div class="seintec-card-subtag">Equipamentos de Hardware</div>
-            <div class="gab-card-big-val" id="seintec-metric-total-equip">15.975</div>
+            <div class="gab-card-big-val" id="seintec-metric-total-equip">15.873</div>
             <div class="gab-sparkline-bars">
               <div class="sparkline-col" style="height: 35%; background: #93c5fd;"></div>
               <div class="sparkline-col" style="height: 55%; background: #60a5fa;"></div>
@@ -11056,8 +11056,8 @@ function imprimirAgendaCarro() {
             </div>
             <div class="seintec-card-subtag">Disponível + Pedagógico</div>
             <div class="gab-card-big-val" style="display: flex; align-items: baseline; gap: 0.4rem;">
-              <span id="seintec-metric-disp-val">12.005</span>
-              <span id="seintec-metric-disp-pct" style="font-size: 0.85rem; color: #d48208; font-weight: 700;">(76,1%)</span>
+              <span id="seintec-metric-disp-val">12.105</span>
+              <span id="seintec-metric-disp-pct" style="font-size: 0.85rem; color: #d48208; font-weight: 700;">(76,3%)</span>
             </div>
             <div class="gab-sparkline-bars">
               <div class="sparkline-col" style="height: 50%; background: #fef08a;"></div>
@@ -11075,7 +11075,7 @@ function imprimirAgendaCarro() {
               <span class="gab-card-tag-name">MANUTENÇÃO / CHAMADO</span>
             </div>
             <div class="seintec-card-subtag">Status de manutenção/chamado</div>
-            <div class="gab-card-big-val" id="seintec-metric-manut">1.167</div>
+            <div class="gab-card-big-val" id="seintec-metric-manut">1.155</div>
             <div class="gab-sparkline-bars">
               <div class="sparkline-col" style="height: 60%; background: #e2e8f0;"></div>
               <div class="sparkline-col" style="height: 50%; background: #fde68a;"></div>
@@ -16913,7 +16913,18 @@ function imprimirAgendaCarro() {
       if (kpiEscolas) kpiEscolas.textContent = '60';
       if (lblEscolas) lblEscolas.textContent = 'Escolas na rede';
 
-      if (kpiHw) kpiHw.textContent = '15.975';
+      const hwTotConsolidado = (window.INVENTARIO_COMPLETO_TUPLES && Array.isArray(window.INVENTARIO_COMPLETO_TUPLES.hardware))
+        ? window.INVENTARIO_COMPLETO_TUPLES.hardware.length
+        : 15873;
+      const hwDispConsolidado = (window.INVENTARIO_COMPLETO_TUPLES && Array.isArray(window.INVENTARIO_COMPLETO_TUPLES.hardware))
+        ? window.INVENTARIO_COMPLETO_TUPLES.hardware.filter(t => (t[5] || '').toLowerCase().includes('dispon')).length
+        : 12105;
+      const hwManutConsolidado = (window.INVENTARIO_COMPLETO_TUPLES && Array.isArray(window.INVENTARIO_COMPLETO_TUPLES.hardware))
+        ? window.INVENTARIO_COMPLETO_TUPLES.hardware.filter(t => (t[5] || '').toLowerCase().includes('manut') || (t[5] || '').toLowerCase().includes('reparo') || (t[5] || '').toLowerCase().includes('chamado')).length
+        : 1155;
+      const hwPctConsolidado = ((hwDispConsolidado / hwTotConsolidado) * 100).toFixed(1).replace('.', ',') + '%';
+
+      if (kpiHw) kpiHw.textContent = hwTotConsolidado.toLocaleString('pt-BR');
       if (lblHw) lblHw.textContent = 'Equipamentos TI';
 
       if (kpiVisitas) kpiVisitas.textContent = '54';
@@ -16947,10 +16958,10 @@ function imprimirAgendaCarro() {
       const sDisp = document.getElementById('home-seintec-m2');
       const sManut = document.getElementById('home-seintec-m3');
       const sStatus = document.getElementById('home-seintec-status');
-      if (sHw) sHw.textContent = '15.975';
-      if (sDisp) sDisp.textContent = '12.005';
-      if (sManut) sManut.textContent = '1.167';
-      if (sStatus) sStatus.textContent = '🟢 76,1% Disp.';
+      if (sHw) sHw.textContent = hwTotConsolidado.toLocaleString('pt-BR');
+      if (sDisp) sDisp.textContent = hwDispConsolidado.toLocaleString('pt-BR');
+      if (sManut) sManut.textContent = hwManutConsolidado.toLocaleString('pt-BR');
+      if (sStatus) sStatus.textContent = '🟢 ' + hwPctConsolidado + ' Disp.';
 
       // Restaurar ASURE
       const aM1 = document.getElementById('home-asure-m1');
@@ -42287,7 +42298,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           }
         }
 
-        const hwCount = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware) ? window.INVENTARIO_COMPLETO_TUPLES.hardware.length : 15973;
+        const hwCount = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware) ? window.INVENTARIO_COMPLETO_TUPLES.hardware.length : 15873;
         const totalEq = hwCount +
           ((window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.educatrons) ? window.INVENTARIO_COMPLETO_TUPLES.educatrons.length : 736) +
           ((window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.rede) ? window.INVENTARIO_COMPLETO_TUPLES.rede.length : 544) +
