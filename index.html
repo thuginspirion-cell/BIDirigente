@@ -11121,7 +11121,7 @@ function imprimirAgendaCarro() {
 
           <!-- Atendimentos -->
           <!-- Atendimentos -->
-          <div class="base-card-item" id="card-seintec-Atendimentos" onclick="selecionarBaseSeintec('Atendimentos')">
+          <div class="base-card-item selected" id="card-seintec-Atendimentos" onclick="selecionarBaseSeintec('Atendimentos')">
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-blue">🛠️</div>
               <span class="base-card-title">Atendimentos</span>
@@ -39879,7 +39879,7 @@ function imprimirAgendaCarro() {
       }
     };
 
-    let baseAtivaSeintec = 'Hardware';
+    let baseAtivaSeintec = 'Atendimentos';
 
     function abrirSeintec() {
       try { atualizarMetricasSuperioresSeintec(); } catch(e){}
@@ -39894,7 +39894,7 @@ function imprimirAgendaCarro() {
       const sideBtn = document.getElementById('side-btn-SEINTEC');
       if (sideBtn) sideBtn.classList.add('active');
 
-      selecionarBaseSeintec('Hardware');
+      selecionarBaseSeintec('Atendimentos');
       rolarAoTopoSuave();
     }
 
