@@ -53,6 +53,16 @@ function doGet(e) {
         });
       } else if (action === 'diagnostico') {
         output = executarDiagnosticoConexoes();
+      } else if (action === 'auditoriaGeral') {
+        output = executarAuditoriaCompletaBases();
+      } else if (action === 'configurarEmailAlerta') {
+        output = salvarEmailAlerta(e.parameter.email);
+      } else if (action === 'obterEmailAlerta') {
+        output = obterEmailAlertaConfigurado();
+      } else if (action === 'testarEnvioEmail') {
+        output = testarDisparoEmailAlerta(e.parameter.email);
+      } else if (action === 'instalarGatilhoCloud') {
+        output = instalarGatilhoMonitoramentoSegundoPlano();
       } else if (action === 'ping') {
         // Diagnóstico rápido: verifica se o GAS está online e com permissões corretas
         output = {
@@ -1253,4 +1263,235 @@ function executarDiagnosticoConexoes() {
   }
 
   return diag;
+}
+
+
+/**
+ * =========================================================================
+ * MÓDULO DE MONITORAMENTO EM SEGUNDO PLANO E ALERTAS VIA E-MAIL (24/7 CLOUD)
+ * Permite fiscalização autônoma de todas as planilhas públicas do SharePoint
+ * mesmo com o site e navegador totalmente fechados.
+ * =========================================================================
+ */
+
+function executarAuditoriaCompletaBases() {
+  var diag = {
+    timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy HH:mm:ss"),
+    sucessoGeral: true,
+    totalBases: 11,
+    basesAuditadas: 0,
+    basesSucesso: 0,
+    falhas: [],
+    setores: {}
+  };
+
+  var listaTestes = [
+    { nome: "SEINTEC Chamados", arquivo: "Calls 2026.xlsx", fn: function() { return sincronizarPlanilhaSharepoint(); } },
+    { nome: "SEINTEC Inventário", arquivo: "Inventário de Hardware", fn: function() { return sincronizarInventarioSharepoint(); } },
+    { nome: "SEFIN Orçamento", arquivo: "Controle prestação de contas U.E..xlsx", fn: function() { return sincronizarPlanilhaSefin(); } },
+    { nome: "SEGRE Gestão Escolar", arquivo: "Livro Entrada 2026 SEGRE.xlsx", fn: function() { return sincronizarPlanilhaSegre(); } },
+    { nome: "SEMAT Matrícula", arquivo: "Livro Entrada 2026 SEMAT.xlsx", fn: function() { return sincronizarPlanilhaSemat(); } },
+    { nome: "SEVESC Vida Escolar", arquivo: "Livro Entrada 2026 SEVESC.xlsx", fn: function() { return sincronizarPlanilhaSevesc(); } },
+    { nome: "SEPES Recursos Humanos", arquivo: "DEMANDAS SEAPE.xlsx", fn: function() { return sincronizarPlanilhaSepes(); } },
+    { nome: "SECOMSE Contratos", arquivo: "Controle de contratos.xlsx", fn: function() { return sincronizarPlanilhaSecomse(); } },
+    { nome: "DPAT Patrimônio", arquivo: "Patrimônio Escolar", fn: function() { return sincronizarPlanilhaDpat(); } },
+    { nome: "SEOM Obras", arquivo: "Aba MAPA - Obras 2026", fn: function() { return sincronizarPlanilhaSeom(); } },
+    { nome: "SEFISC Zeladorias", arquivo: "Zeladorias 2026", fn: function() { return sincronizarPlanilhaSefisc(); } }
+  ];
+
+  for (var i = 0; i < listaTestes.length; i++) {
+    var item = listaTestes[i];
+    diag.basesAuditadas++;
+    try {
+      var res = item.fn();
+      var ok = (res && res.sucesso !== false);
+      if (ok) {
+        diag.basesSucesso++;
+      } else {
+        diag.sucessoGeral = false;
+        var errTxt = (res && res.erro) ? String(res.erro) : "Retorno sem sucesso da base oficial";
+        diag.falhas.push({ setor: item.nome, arquivo: item.arquivo, erro: errTxt });
+      }
+      diag.setores[item.nome] = { sucesso: ok, erro: (res && res.erro) || null };
+    } catch (ex) {
+      diag.sucessoGeral = false;
+      diag.falhas.push({ setor: item.nome, arquivo: item.arquivo, erro: ex.toString() });
+      diag.setores[item.nome] = { sucesso: false, erro: ex.toString() };
+    }
+  }
+
+  return diag;
+}
+
+function salvarEmailAlerta(email) {
+  if (!email || typeof email !== "string" || email.indexOf("@") === -1) {
+    return { sucesso: false, erro: "Endereço de e-mail inválido." };
+  }
+  var limpo = email.trim();
+  PropertiesService.getScriptProperties().setProperty("EMAIL_ALERTA_MONITORAMENTO", limpo);
+  var gatilhoRes = instalarGatilhoMonitoramentoSegundoPlano();
+  return {
+    sucesso: true,
+    email: limpo,
+    gatilhoInstalado: gatilhoRes.sucesso,
+    mensagem: "E-mail de alerta configurado com sucesso e gatilho de nuvem 24/7 ativado!"
+  };
+}
+
+function obterEmailAlertaConfigurado() {
+  var email = PropertiesService.getScriptProperties().getProperty("EMAIL_ALERTA_MONITORAMENTO");
+  if (!email) {
+    try {
+      email = Session.getEffectiveUser().getEmail() || "";
+    } catch (e) {
+      email = "";
+    }
+  }
+  var temGatilho = false;
+  try {
+    var triggers = ScriptApp.getProjectTriggers();
+    for (var i = 0; i < triggers.length; i++) {
+      if (triggers[i].getHandlerFunction() === "rotinaAuditoriaSegundoPlanoComAlertaEmail") {
+        temGatilho = true;
+        break;
+      }
+    }
+  } catch (eTrig) {}
+
+  return {
+    sucesso: true,
+    email: email,
+    temGatilhoAtivo: temGatilho
+  };
+}
+
+function testarDisparoEmailAlerta(emailDestino) {
+  var destino = emailDestino || PropertiesService.getScriptProperties().getProperty("EMAIL_ALERTA_MONITORAMENTO");
+  if (!destino) {
+    try {
+      destino = Session.getEffectiveUser().getEmail();
+    } catch (e) {
+      destino = "";
+    }
+  }
+  if (!destino || destino.indexOf("@") === -1) {
+    return { sucesso: false, erro: "Nenhum e-mail válido fornecido para o teste." };
+  }
+
+  var agoraStr = Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy HH:mm:ss");
+  var assunto = "✅ [BI DIRIGENTE] Teste de Alerta de Monitoramento em 2º Plano";
+  var html = 
+    "<div style='font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;'>" +
+    "<div style='background: #0f172a; padding: 20px 24px; color: #ffffff;'>" +
+    "<div style='font-size: 13px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;'>Diretoria Regional de Ensino • URE Itapevi</div>" +
+    "<h2 style='margin: 6px 0 0 0; font-size: 20px; color: #ffffff;'>Canal de Alertas do BI Dirigente</h2>" +
+    "</div>" +
+    "<div style='padding: 24px; color: #334155; line-height: 1.6;'>" +
+    "<p style='margin-top: 0; font-size: 15px;'>Olá,</p>" +
+    "<p style='font-size: 14px;'>Este é um <strong>e-mail de confirmação</strong> do sistema de monitoramento em segundo plano do <strong>BI Dirigente</strong>.</p>" +
+    "<div style='background: #ecfdf5; border-left: 4px solid #10b981; padding: 14px 16px; border-radius: 6px; margin: 20px 0;'>" +
+    "<strong style='color: #065f46; font-size: 14px;'>✓ Monitoramento em 2º Plano Ativo com Sucesso!</strong>" +
+    "<p style='margin: 4px 0 0 0; font-size: 13px; color: #047857;'>Mesmo quando o site estiver fechado, o Google Apps Script fiscaliza periodicamente as 11 bases e planilhas oficiais do SharePoint. Se houver qualquer falha ou queda de conexão, você será avisado imediatamente.</p>" +
+    "</div>" +
+    "<table style='width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 15px;'>" +
+    "<tr><td style='padding: 6px 0; color: #64748b;'>Horário do Disparo:</td><td style='padding: 6px 0; font-weight: 600; text-align: right;'>" + agoraStr + "</td></tr>" +
+    "<tr><td style='padding: 6px 0; color: #64748b;'>Destinatário Configurado:</td><td style='padding: 6px 0; font-weight: 600; text-align: right;'>" + destino + "</td></tr>" +
+    "<tr><td style='padding: 6px 0; color: #64748b;'>Bases Monitoradas:</td><td style='padding: 6px 0; font-weight: 600; text-align: right;'>11 Módulos (SharePoint / SEDUC)</td></tr>" +
+    "</table>" +
+    "</div>" +
+    "<div style='background: #f8fafc; padding: 14px 24px; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; text-align: center;'>" +
+    "BI Dirigente • Diretoria de Ensino de Itapevi • Sistema de Alertas Automatizado" +
+    "</div>" +
+    "</div>";
+
+  try {
+    MailApp.sendEmail({
+      to: destino,
+      subject: assunto,
+      htmlBody: html
+    });
+    return { sucesso: true, email: destino, mensagem: "E-mail de teste enviado com sucesso para " + destino };
+  } catch (err) {
+    return { sucesso: false, erro: "Falha ao enviar e-mail: " + err.toString() };
+  }
+}
+
+function rotinaAuditoriaSegundoPlanoComAlertaEmail() {
+  var resultado = executarAuditoriaCompletaBases();
+  if (!resultado.sucessoGeral && resultado.falhas && resultado.falhas.length > 0) {
+    dispararEmailFalhaDetectada(resultado);
+  }
+  return resultado;
+}
+
+function dispararEmailFalhaDetectada(resultado) {
+  var destino = PropertiesService.getScriptProperties().getProperty("EMAIL_ALERTA_MONITORAMENTO");
+  if (!destino) {
+    try {
+      destino = Session.getEffectiveUser().getEmail();
+    } catch (e) {
+      destino = "";
+    }
+  }
+  if (!destino || destino.indexOf("@") === -1) return false;
+
+  var agoraStr = Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy HH:mm:ss");
+  var assunto = "🚨 [ALERTA BI DIRIGENTE] Falha de Sincronização no SharePoint (" + resultado.falhas.length + " base(s))";
+
+  var listaFalhasHtml = "";
+  for (var i = 0; i < resultado.falhas.length; i++) {
+    var f = resultado.falhas[i];
+    listaFalhasHtml += 
+      "<div style='background: #fff1f2; border: 1px solid #fecdd3; border-left: 4px solid #ef4444; border-radius: 6px; padding: 12px; margin-bottom: 10px;'>" +
+      "<strong style='color: #991b1b; font-size: 14px;'>" + f.setor + "</strong>" +
+      "<div style='font-size: 12px; color: #b91c1c; margin-top: 3px;'>Arquivo: " + f.arquivo + "</div>" +
+      "<div style='font-size: 12px; color: #4b5563; margin-top: 5px; font-family: monospace; background: #ffffff; padding: 6px; border-radius: 4px; border: 1px solid #e5e7eb;'>" + f.erro + "</div>" +
+      "</div>";
+  }
+
+  var html = 
+    "<div style='font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;'>" +
+    "<div style='background: #b91c1c; padding: 20px 24px; color: #ffffff;'>" +
+    "<div style='font-size: 12px; font-weight: 700; color: #fecdd3; text-transform: uppercase;'>Alerta Crítico de Sincronismo</div>" +
+    "<h2 style='margin: 6px 0 0 0; font-size: 20px; color: #ffffff;'>Queda de Leitura em Bases do SharePoint</h2>" +
+    "</div>" +
+    "<div style='padding: 24px; color: #334155; line-height: 1.6;'>" +
+    "<p style='margin-top: 0; font-size: 14px;'>O monitoramento em segundo plano detectou inconsistência ou indisponibilidade na leitura direta das seguintes planilhas:</p>" +
+    listaFalhasHtml +
+    "<p style='font-size: 13px; color: #64748b; margin-top: 15px;'>Horário da detecção: <strong>" + agoraStr + "</strong>. As contingências locais foram preservadas para manter a navegação dos usuários, mas a sincronização ao vivo requer verificação do link ou das credenciais.</p>" +
+    "</div>" +
+    "<div style='background: #f8fafc; padding: 14px 24px; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; text-align: center;'>" +
+    "BI Dirigente • Diretoria de Ensino de Itapevi • Monitoramento Automatizado 24/7" +
+    "</div>" +
+    "</div>";
+
+  try {
+    MailApp.sendEmail({
+      to: destino,
+      subject: assunto,
+      htmlBody: html
+    });
+    return true;
+  } catch (err) {
+    console.error("Erro ao enviar e-mail de alerta de falha:", err);
+    return false;
+  }
+}
+
+function instalarGatilhoMonitoramentoSegundoPlano() {
+  try {
+    var triggers = ScriptApp.getProjectTriggers();
+    for (var i = 0; i < triggers.length; i++) {
+      if (triggers[i].getHandlerFunction() === "rotinaAuditoriaSegundoPlanoComAlertaEmail") {
+        return { sucesso: true, mensagem: "Gatilho já instalado e ativo." };
+      }
+    }
+    ScriptApp.newTrigger("rotinaAuditoriaSegundoPlanoComAlertaEmail")
+      .timeBased()
+      .everyHours(1)
+      .create();
+    return { sucesso: true, mensagem: "Gatilho de monitoramento em segundo plano instalado com sucesso!" };
+  } catch (e) {
+    return { sucesso: false, erro: "Falha ao instalar gatilho: " + e.toString() };
+  }
 }
