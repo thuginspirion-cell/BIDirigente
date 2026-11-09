@@ -43862,7 +43862,149 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     function extrairValorCelulaDom(td) {
       if (!td) return '';
       if (td.hasAttribute('data-sort')) return td.getAttribute('data-sort').trim();
-      return td.innerText.trim();
+      return (td.textContent || td.innerText || '').trim();
+    }
+
+    /* Parser universal de valores para ordenação (Datas ISO/BR, Números/Moeda e Texto) */
+    function parseValorParaOrdenacao(val) {
+      if (!val) return { tipo: 'str', val: '' };
+      var str = String(val).trim();
+
+      /* 0. Timestamp numérico puro em milissegundos (> 1000000000) */
+      if (/^\d{10,13}$/.test(str)) {
+        return { tipo: 'date', val: parseInt(str, 10) };
+      }
+
+      /* 1. Data formato brasileiro (DD/MM/AAAA ou DD/MM/AAAA HH:mm) */
+      var brMatch = str.match(/(\d{1,2})[/-](\d{1,2})[/-](\d{4})/);
+      if (brMatch) {
+        var dia = parseInt(brMatch[1], 10);
+        var mes = parseInt(brMatch[2], 10) - 1;
+        var ano = parseInt(brMatch[3], 10);
+        var hora = 0, min = 0;
+        var horaMatch = str.match(/(\d{1,2}):(\d{2})/);
+        if (horaMatch) {
+          hora = parseInt(horaMatch[1], 10);
+          min = parseInt(horaMatch[2], 10);
+        }
+        var dBr = new Date(ano, mes, dia, hora, min);
+        if (!isNaN(dBr.getTime())) {
+          return { tipo: 'date', val: dBr.getTime() };
+        }
+      }
+
+      /* 2. Data formato ISO (AAAA-MM-DD ou AAAA/MM/DD) */
+      var isoMatch = str.match(/(\d{4})[/-](\d{1,2})[/-](\d{1,2})/);
+      if (isoMatch) {
+        var anoIso = parseInt(isoMatch[1], 10);
+        var mesIso = parseInt(isoMatch[2], 10) - 1;
+        var diaIso = parseInt(isoMatch[3], 10);
+        var horaIso = 0, minIso = 0;
+        var horaIsoMatch = str.match(/(\d{1,2}):(\d{2})/);
+        if (horaIsoMatch) {
+          horaIso = parseInt(horaIsoMatch[1], 10);
+          minIso = parseInt(horaIsoMatch[2], 10);
+        }
+        var dIso = new Date(anoIso, mesIso, diaIso, horaIso, minIso);
+        if (!isNaN(dIso.getTime())) {
+          return { tipo: 'date', val: dIso.getTime() };
+        }
+      }
+
+      /* 3. Número / Moeda / Percentual / Km */
+      var limpo = str.replace(/[R$\s%kmKM]/g, '').replace(/\./g, '').replace(',', '.');
+      if (limpo !== '' && !isNaN(Number(limpo)) && !isNaN(parseFloat(limpo))) {
+        return { tipo: 'num', val: Number(limpo) };
+      }
+
+      /* 4. String padrão para ordenação alfabética */
+      return { tipo: 'str', val: str.toLowerCase() };
+    }
+
+    /* Motor Universal de Ordenação de Tabelas DOM */
+    function ordenarTabelaDom(tableId, colIndex, forceOrder) {
+      var table = typeof tableId === 'string' ? document.getElementById(tableId) : tableId;
+      if (!table) return;
+
+      var thead = table.querySelector('thead');
+      var tbody = table.querySelector('tbody');
+      if (!tbody) return;
+
+      var rows = Array.from(tbody.querySelectorAll('tr'));
+      if (rows.length <= 1) return;
+
+      /* Determina direção: asc ou desc */
+      var currentOrder = 'asc';
+      var ths = thead ? thead.querySelectorAll('th') : [];
+      var targetTh = ths[colIndex];
+
+      if (forceOrder) {
+        currentOrder = forceOrder;
+      } else {
+        if (targetTh && targetTh.classList.contains('sort-active-asc')) {
+          currentOrder = 'desc';
+        } else if (targetTh && targetTh.classList.contains('sort-active-desc')) {
+          currentOrder = 'asc';
+        } else {
+          var thText = targetTh ? targetTh.innerText.toLowerCase() : '';
+          if (thText.includes('data') || thText.includes('abertura') || thText.includes('horário') || thText.includes('período') || thText.includes('visita')) {
+            currentOrder = 'desc';
+          } else {
+            currentOrder = 'asc';
+          }
+        }
+      }
+
+      /* Atualiza classes e setinhas nos cabeçalhos */
+      ths.forEach(function(th) {
+        th.classList.remove('sort-active-asc', 'sort-active-desc');
+        var arrow = th.querySelector('.sort-arrow') || th.querySelector('.sort-icon-indicator') || th.querySelector('.sort-icon');
+        if (arrow) {
+          arrow.textContent = '↕';
+        }
+      });
+
+      if (targetTh) {
+        targetTh.classList.add(currentOrder === 'asc' ? 'sort-active-asc' : 'sort-active-desc');
+        var arrowTarget = targetTh.querySelector('.sort-arrow') || targetTh.querySelector('.sort-icon-indicator') || targetTh.querySelector('.sort-icon');
+        if (arrowTarget) {
+          arrowTarget.textContent = currentOrder === 'asc' ? '▲' : '▼';
+        }
+      }
+
+      /* Ordenação de alta precisão */
+      rows.sort(function(rowA, rowB) {
+        var cellA = rowA.children[colIndex];
+        var cellB = rowB.children[colIndex];
+        var valA = parseValorParaOrdenacao(extrairValorCelulaDom(cellA));
+        var valB = parseValorParaOrdenacao(extrairValorCelulaDom(cellB));
+
+        var res = 0;
+        if (valA.tipo === 'date' && valB.tipo === 'date') {
+          res = valA.val - valB.val;
+        } else if (valA.tipo === 'num' && valB.tipo === 'num') {
+          res = valA.val - valB.val;
+        } else {
+          var strA = String(valA.val || '');
+          var strB = String(valB.val || '');
+          res = strA.localeCompare(strB, 'pt-BR', { sensitivity: 'base', numeric: true });
+        }
+
+        return currentOrder === 'asc' ? res : -res;
+      });
+
+      /* Reanexa as linhas ordenadas */
+      var fragment = document.createDocumentFragment();
+      rows.forEach(function(r) {
+        fragment.appendChild(r);
+      });
+      tbody.appendChild(fragment);
+    }
+
+    if (typeof window !== 'undefined') {
+      window.extrairValorCelulaDom = extrairValorCelulaDom;
+      window.parseValorParaOrdenacao = parseValorParaOrdenacao;
+      window.ordenarTabelaDom = ordenarTabelaDom;
     }
 
     // =========================================================================
