@@ -2528,18 +2528,43 @@ if (!window.mostrarHome) {
 /* CARRO OFICIAL & LOGÍSTICA DA DIRIGENTE - V2 PROFISSIONAL       */
 /* ============================================================== */
 
-const BRASAO_SP_SVG = '<svg viewBox="0 0 100 110" width="70" height="78" xmlns="http://www.w3.org/2000/svg" style="display:block; margin:0 auto;">' +
-  '<g fill="none" stroke="#111" stroke-width="1.8">' +
-    '<path d="M 12 15 C 12 65, 50 102, 50 102 C 50 102, 88 65, 88 15 Z" fill="#fff" />' +
-    '<path d="M 17 20 C 17 62, 50 96, 50 96 C 50 96, 83 62, 83 20 Z" fill="#f8fafc" stroke-width="1" />' +
-    '<text x="50" y="58" font-family="\'Arial Black\', Arial, sans-serif" font-size="28" font-weight="900" fill="#111" stroke="none" text-anchor="middle" letter-spacing="1">SP</text>' +
-    '<line x1="50" y1="6" x2="50" y2="28" stroke-width="2.5" stroke="#111" />' +
-    '<line x1="38" y1="12" x2="62" y2="12" stroke-width="2" stroke="#111" />' +
-    '<path d="M 6 35 C 3 55, 12 78, 25 90" stroke-width="1.5" stroke="#333" stroke-dasharray="2,2" />' +
-    '<path d="M 94 35 C 97 55, 88 78, 75 90" stroke-width="1.5" stroke="#333" stroke-dasharray="2,2" />' +
-    '<path d="M 20 100 Q 50 108 80 100" stroke-width="2" stroke="#111" />' +
+const BRASAO_SP_SVG = '<svg viewBox="0 0 140 160" width="76" height="88" xmlns="http://www.w3.org/2000/svg" style="display:block; margin:0 auto;">' +
+  '<g fill="none" stroke="#000" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">' +
+    '<circle cx="70" cy="10" r="3.5" fill="#000" />' +
+    '<rect x="68" y="13.5" width="4" height="9" fill="#000" />' +
+    '<path d="M 52 23 L 88 23" stroke-width="3" stroke="#000" />' +
+    '<circle cx="52" cy="23" r="2.5" fill="#000" />' +
+    '<circle cx="88" cy="23" r="2.5" fill="#000" />' +
+    '<polygon points="68,24 72,24 72,118 70,128 68,118" fill="#fff" stroke="#000" stroke-width="1.2" />' +
+    '<line x1="70" y1="24" x2="70" y2="124" stroke="#000" stroke-width="1" />' +
+    '<path d="M 62 135 C 38 130 18 108 18 75 C 18 45 32 30 46 22" stroke-width="1.6" />' +
+    '<path d="M 24 95 C 15 90 14 78 22 75 C 24 82 28 88 24 95 Z" fill="#000" />' +
+    '<path d="M 20 74 C 12 68 12 56 20 52 C 22 60 26 66 20 74 Z" fill="#000" />' +
+    '<path d="M 24 50 C 18 42 22 32 30 30 C 30 38 32 44 24 50 Z" fill="#000" />' +
+    '<path d="M 33 32 C 30 22 38 16 46 18 C 44 24 42 28 33 32 Z" fill="#000" />' +
+    '<path d="M 28 112 C 20 110 18 100 24 94" stroke-width="1.2" />' +
+    '<path d="M 78 135 C 102 130 122 108 122 75 C 122 45 108 30 94 22" stroke-width="1.6" />' +
+    '<path d="M 116 95 C 125 90 126 78 118 75 C 116 82 112 88 116 95 Z" fill="#000" />' +
+    '<path d="M 120 74 C 128 68 128 56 120 52 C 118 60 114 66 120 74 Z" fill="#000" />' +
+    '<path d="M 116 50 C 122 42 118 32 110 30 C 110 38 108 44 116 50 Z" fill="#000" />' +
+    '<path d="M 107 32 C 110 22 102 16 94 18 C 96 24 98 28 107 32 Z" fill="#000" />' +
+    '<path d="M 112 112 C 120 110 122 100 116 94" stroke-width="1.2" />' +
+    '<path d="M 32 26 L 108 26 L 108 78 C 108 108 70 128 70 128 C 70 128 32 108 32 78 Z" fill="#fff" stroke="#000" stroke-width="2.4" />' +
+    '<path d="M 36 30 L 104 30 L 104 77 C 104 103 70 122 70 122 C 70 122 36 103 36 77 Z" fill="#fff" stroke="#000" stroke-width="1" />' +
+    '<path d="M 40 34 L 100 34" stroke="#000" stroke-width="0.8" stroke-dasharray="2,2" />' +
+    '<text x="50" y="78" font-family="Arial Black, Arial, sans-serif" font-size="28" font-weight="900" fill="#000" stroke="none" text-anchor="middle">S</text>' +
+    '<text x="90" y="78" font-family="Arial Black, Arial, sans-serif" font-size="28" font-weight="900" fill="#000" stroke="none" text-anchor="middle">P</text>' +
+    '<path d="M 60 132 C 65 128 75 128 80 132 C 75 136 65 136 60 132 Z" fill="#000" />' +
+    '<path d="M 16 142 Q 70 134 124 142 L 126 154 Q 70 146 14 154 Z" fill="#fff" stroke="#000" stroke-width="1.5" />' +
+    '<polygon points="16,142 10,147 14,154 18,149" fill="#fff" stroke="#000" stroke-width="1.2" />' +
+    '<polygon points="124,142 130,147 126,154 122,149" fill="#fff" stroke="#000" stroke-width="1.2" />' +
+    '<text x="70" y="150" font-family="Arial, sans-serif" font-size="6.5" font-weight="900" fill="#000" stroke="none" text-anchor="middle" letter-spacing="0.5">PRO BRASILIA - FIANT - EXIMIA</text>' +
   '</g>' +
 '</svg>';
+
+if (typeof window !== 'undefined') {
+  window.BRASAO_SP_SVG = BRASAO_SP_SVG;
+}
 
 const STORAGE_KEY_CARRO = 'BI_DIRIGENTE_CARRO_DATA_V2';
 const STORAGE_KEY_CARRO_LEGACY = 'BI_DIRIGENTE_CARRO_DATA_V1';
@@ -2785,6 +2810,12 @@ let CARRO_DATA = (function() {
           }
           if (!r.abastecimento) {
             r.abastecimento = { natureza: "Gasolina", quant: "", reqNum: "", nfNum: "", expedidor: "SEOM" };
+          }
+          if (r.defeitos === undefined) {
+            r.defeitos = "Nenhum defeito ou avaria identificado durante o percurso.";
+          }
+          if (r.multas === undefined) {
+            r.multas = "Sem ocorrências de trânsito, multas ou sinistros.";
           }
           return r;
         });
@@ -3440,6 +3471,12 @@ function abrirModalEditarSolicitacaoCarro(idRegistro) {
   document.getElementById('edit-carro-tanque-cheio').value = reg.tanqueCheio || 'S';
   document.getElementById('edit-carro-status').value = reg.status || 'Agendado';
   document.getElementById('edit-carro-obs').value = reg.observacoes || '';
+  if (document.getElementById('edit-carro-defeitos')) {
+    document.getElementById('edit-carro-defeitos').value = reg.defeitos !== undefined ? reg.defeitos : 'Nenhum defeito ou avaria identificado durante o percurso.';
+  }
+  if (document.getElementById('edit-carro-multas')) {
+    document.getElementById('edit-carro-multas').value = reg.multas !== undefined ? reg.multas : 'Sem ocorrências de trânsito, multas ou sinistros.';
+  }
 
   /* Abastecimento */
   const ab = reg.abastecimento || {};
@@ -3501,6 +3538,8 @@ function salvarEdicaoSolicitacaoCarro(event) {
   reg.tanqueCheio = document.getElementById('edit-carro-tanque-cheio').value;
   reg.status = document.getElementById('edit-carro-status').value;
   reg.observacoes = document.getElementById('edit-carro-obs').value.trim();
+  reg.defeitos = document.getElementById('edit-carro-defeitos') ? document.getElementById('edit-carro-defeitos').value.trim() : '';
+  reg.multas = document.getElementById('edit-carro-multas') ? document.getElementById('edit-carro-multas').value.trim() : '';
 
   /* Abastecimento */
   reg.abastecimento = {
@@ -3677,8 +3716,8 @@ function abrirModalPdfControleTrafego(idRegistro) {
           </div>
           <div style="width: 53%; border-right: 1.5px solid #000; padding: 6px 10px; display: flex; flex-direction: column; justify-content: center;">
             <div style="font-size: 13pt; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px;">SECRETARIA DA EDUCAÇÃO</div>
-            <div style="font-size: 9.5pt; font-weight: 700; margin-bottom: 2px;">SUBFROTA: <span style="font-weight: normal; text-decoration: underline;">DIRETORIA DE ENSINO - REGIÃO DE ITAPEVI (URE ITAPEVI)</span></div>
-            <div style="font-size: 9.5pt; font-weight: 700;">CIDADE: <span style="font-weight: normal; text-decoration: underline;">ITAPEVI - SP</span></div>
+            <div style="font-size: 9.5pt; font-weight: 700; margin-bottom: 2px;">SUBFROTA: <span style="font-weight: normal; text-decoration: underline;">URE - Itapevi</span></div>
+            <div style="font-size: 9.5pt; font-weight: 700;">CIDADE: <span style="font-weight: normal; text-decoration: underline;">Itapevi</span></div>
           </div>
           <div style="width: 33%; padding: 4px 8px; font-size: 8pt; display: flex; flex-direction: column; justify-content: space-between;">
             <div style="text-align: center; font-weight: 800; border-bottom: 1px solid #000; padding-bottom: 2px; letter-spacing: 0.5px;">AUTENTICAÇÃO MECÂNICA</div>
@@ -3945,13 +3984,13 @@ function abrirModalPdfControleTrafego(idRegistro) {
         <!-- ANOTAÇÕES DO CONDUTOR -->
         <div class="m30-box-content m30-border-bottom" style="padding: 10px 14px;">
           <div style="font-size: 8pt; font-weight: 700; margin-bottom: 4px;">
-            O condutor anotará os defeitos verificados: <span style="font-weight: normal; font-size: 8.5pt;">Nenhum defeito ou avaria identificado durante o percurso.</span>
+            O condutor anotará os defeitos verificados: <span style="font-weight: normal; font-size: 8.5pt;">${reg.defeitos !== undefined && reg.defeitos !== null && reg.defeitos.toString().trim() !== '' ? reg.defeitos : 'Nenhum defeito ou avaria identificado durante o percurso.'}</span>
           </div>
           <div style="border-bottom: 1px dotted #000; height: 16px;"></div>
           <div style="border-bottom: 1px dotted #000; height: 16px; margin-top: 4px;"></div>
 
           <div style="font-size: 8pt; font-weight: 700; margin-top: 10px; margin-bottom: 4px;">
-            O condutor fará observações sobre multas, irregularidades e acidentes: <span style="font-weight: normal; font-size: 8.5pt;">Sem ocorrências de trânsito, multas ou sinistros.</span>
+            O condutor fará observações sobre multas, irregularidades e acidentes: <span style="font-weight: normal; font-size: 8.5pt;">${reg.multas !== undefined && reg.multas !== null && reg.multas.toString().trim() !== '' ? reg.multas : 'Sem ocorrências de trânsito, multas ou sinistros.'}</span>
           </div>
           <div style="border-bottom: 1px dotted #000; height: 16px;"></div>
           <div style="border-bottom: 1px dotted #000; height: 16px; margin-top: 4px;"></div>
@@ -44321,7 +44360,27 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             </div>
           </div>
 
-          <!-- SEÇÃO 5: OBSERVAÇÕES -->
+          <!-- SEÇÃO 5: RETORNO DO CONDUTOR (DEFEITOS E MULTAS / OCORRÊNCIAS - VERSO MODELO 30) -->
+          <div style="background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 8px; padding: 0.9rem; margin-bottom: 1rem;">
+            <div style="font-size: 0.78rem; font-weight: 800; color: #9d174d; text-transform: uppercase; margin-bottom: 0.6rem; letter-spacing: 0.05em;">
+              🛠️ Retorno do Condutor - Defeitos e Multas / Irregularidades (Verso Modelo 30)
+            </div>
+            <div class="agenda-form-grid">
+              <div class="agenda-form-group agenda-form-full">
+                <label class="agenda-form-label">Defeitos Verificados pelo Condutor</label>
+                <textarea id="edit-carro-defeitos" class="agenda-form-textarea" rows="2" placeholder="Ex: Nenhum defeito ou avaria identificado durante o percurso."></textarea>
+                <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">Será impresso no campo \"O condutor anotará os defeitos verificados\" na Página 2 (Verso).</div>
+              </div>
+
+              <div class="agenda-form-group agenda-form-full">
+                <label class="agenda-form-label">Observações sobre Multas, Irregularidades e Acidentes</label>
+                <textarea id="edit-carro-multas" class="agenda-form-textarea" rows="2" placeholder="Ex: Sem ocorrências de trânsito, multas ou sinistros."></textarea>
+                <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">Será impresso no campo \"O condutor fará observações sobre multas, irregularidades e acidentes\" na Página 2 (Verso).</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SEÇÃO 6: OBSERVAÇÕES -->
           <div class="agenda-form-group agenda-form-full">
             <label class="agenda-form-label">Observações Gerais</label>
             <textarea id="edit-carro-obs" class="agenda-form-textarea" rows="2" placeholder="Informações de suporte, ocorrências ou anotações..."></textarea>
