@@ -85,7 +85,12 @@ function doGet(e) {
       };
     }
 
-    return ContentService.createTextOutput(JSON.stringify(output))
+    var jsonOutput = JSON.stringify(output);
+    if (e && e.parameter && e.parameter.callback) {
+      return ContentService.createTextOutput(e.parameter.callback + '(' + jsonOutput + ')')
+        .setMimeType(ContentService.MimeType.JAVASCRIPT);
+    }
+    return ContentService.createTextOutput(jsonOutput)
       .setMimeType(ContentService.MimeType.JSON);
   }
 
