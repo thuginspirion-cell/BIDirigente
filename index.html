@@ -42888,13 +42888,15 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       if (timerSincronizacaoSharepoint) clearInterval(timerSincronizacaoSharepoint);
       atualizarBadgeStatusSincronismo();
 
-      /* Disparo automático inicial 2 segundos após carregar se estiver em horário comercial */
-      if (estaNoHorarioComercialSincronismo()) {
-        setTimeout(function() {
-          console.log("⏰ Horário comercial ativo (8h-18h, Seg-Sex): executando sincronização inicial automática...");
-          if (typeof sincronizarSharepointCalls === 'function') sincronizarSharepointCalls(false);
-        }, 2000);
-      }
+      /* 1. DISPARO AUTOMÁTICO INICIAL AO ABRIR O SITE: Sincroniza TODOS os 12 setores e bases 2s após a inicialização */
+      setTimeout(function() {
+        console.log("🚀 Site aberto: executando sincronização automática inicial de TODOS os setores e bases...");
+        if (typeof sincronizarTudoGlobalmente === 'function') {
+          sincronizarTudoGlobalmente(true);
+        } else if (typeof sincronizarSharepointCalls === 'function') {
+          sincronizarSharepointCalls(false);
+        }
+      }, 2000);
 
       /* Intervalo recorrente de 60 minutos (1 hora = 3.600.000 ms) */
       timerSincronizacaoSharepoint = setInterval(function() {
