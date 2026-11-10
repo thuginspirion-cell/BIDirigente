@@ -43321,22 +43321,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
     /* POLÍTICA NUVEM EXCLUSIVA SEINTEC: ZERO CACHE LOCAL NO NAVEGADOR */
 
-    /* Filtro rigoroso de integridade: purga definitivamente registros fantasmas ou linhas de teste deletadas */
+    /* Validador estrutural: reflete 100% os registros reais da nuvem sem filtros artificiais */
     function ehRegistroChamadoValido(item) {
-      if (!item) return false;
-      var esc = String(item.escola || '').trim().toUpperCase();
-      var cie = String(item.cie || '').trim();
-      var dt = String(item.data || '').trim();
-      var rel = String(item.relato || item.equip || '').trim().toLowerCase();
-      /* Purga o registro fantasma antigo da Ure em 06/11 que estava na versão preliminar */
-      if ((cie === '010703' || cie === '10703' || esc === 'URE') && (dt === '06/11/2026' || dt === '2026-11-06')) {
-        return false;
-      }
-      /* Purga registros de teste automatizado já deletados da base do SharePoint */
-      if (rel.indexOf('teste autoamtizado') !== -1 || rel.indexOf('teste automatizado') !== -1) {
-        return false;
-      }
-      return true;
+      return Boolean(item && (item.id || item.escola || item.cie));
     }
 
     /* FUNÇÃO GLOBAL DE CONSOLIDAÇÃO E DEDUPLICAÇÃO DE CHAMADOS SEINTEC (EXCLUSIVAMENTE EM MEMÓRIA / NUVEM) */
@@ -43709,8 +43696,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         });
       });
 
+      var qtdFinalConsolidada = 0;
       if (chamadosNovos2026.length > 0) {
         var consolidado = consolidarChamadosComHistorico(chamadosNovos2026, chamadosNovos2026.length >= 1000);
+        qtdFinalConsolidada = consolidado.length;
 
         if (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos']) {
           SEINTEC_BASES_CONFIG['Atendimentos'].registros = consolidado;
@@ -43734,7 +43723,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       if (typeof sincronizarCardsBasesSeintec === 'function') {
         sincronizarCardsBasesSeintec();
       }
-      return chamadosNovos2026.length;
+      return qtdFinalConsolidada;
     }
 
     /* Inicialização em memória limpa: nenhum dado é carregado de localStorage */
