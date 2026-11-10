@@ -13718,27 +13718,7 @@ function imprimirAgendaCarro() {
         </div>
 
         <!-- BARRA DE PESQUISA E FILTROS -->
-        <!-- PÍLULAS RÁPIDAS DE FILTRO POR SEGMENTO E MUNICÍPIO -->
-        <div class="escolas-quick-pills-bar" style="display: flex; gap: 0.45rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.85rem; padding: 0.75rem 1rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-          <span style="font-size: 0.72rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 0.35rem;">Filtros Rápidos:</span>
-          
-          <button type="button" class="btn-pill-escola active" id="pill-esc-todas" onclick="aplicarPilulaEscola('tipo', '', this)" style="background: #0b2351; color: #ffffff; border: 1px solid #0b2351; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">Todas (60)</button>
-          
-          <span style="color: #cbd5e1;">|</span>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('tipo', 'PEI', this)" style="background: #ffffff; color: #d97706; border: 1px solid #fed7aa; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">⭐ PEI Geral (42)</button>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('tipo', 'PEI 9h', this)" style="background: #ffffff; color: #b45309; border: 1px solid #fed7aa; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">⭐ PEI 9h (38)</button>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('tipo', 'PEI 7h', this)" style="background: #ffffff; color: #d97706; border: 1px solid #fde68a; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">⭐ PEI 7h (4)</button>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('tipo', 'Regular', this)" style="background: #ffffff; color: #0284c7; border: 1px solid #bae6fd; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📘 Regular (18)</button>
-          
-          <span style="color: #cbd5e1;">|</span>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Itapevi', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Itapevi (25)</button>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Barueri', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Barueri (19)</button>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Jandira', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Jandira (14)</button>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('cidade', 'Pirapora', this)" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">📍 Pirapora (2)</button>
-          
-          <span style="color: #cbd5e1;">|</span>
-          <button type="button" class="btn-pill-escola" onclick="aplicarPilulaEscola('status', 'Alta prioridade', this)" style="background: #ffffff; color: #dc2626; border: 1px solid #fecaca; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; cursor: pointer; transition: 0.15s;">▲ Alta Prioridade</button>
-        </div>
+        
 
         <!-- BARRA PRINCIPAL DE PESQUISA E FILTROS -->
         <div class="escolas-filter-bar">
@@ -15529,37 +15509,7 @@ function imprimirAgendaCarro() {
       }
     }
 
-    function aplicarPilulaEscola(tipoFiltro, valor, btn) {
-      document.querySelectorAll('.btn-pill-escola').forEach(b => {
-        b.style.background = '#ffffff';
-        b.style.color = '#475569';
-        b.style.borderColor = '#cbd5e1';
-      });
-
-      if (btn) {
-        btn.style.background = '#0b2351';
-        btn.style.color = '#ffffff';
-        btn.style.borderColor = '#0b2351';
-      }
-
-      if (tipoFiltro === 'tipo') {
-        const selectTipo = document.getElementById('escolas-filter-tipo');
-        if (selectTipo) selectTipo.value = valor;
-      } else if (tipoFiltro === 'cidade') {
-        const selectCidade = document.getElementById('escolas-filter-cidade');
-        if (selectCidade) {
-          selectCidade.value = valor;
-          if (!selectCidade.value && valor.includes('Pirapora')) {
-            selectCidade.value = 'Pirapora';
-          }
-        }
-      } else if (tipoFiltro === 'status') {
-        const selectStatus = document.getElementById('escolas-filter-status');
-        if (selectStatus) selectStatus.value = valor;
-      }
-
-      filtrarEscolas();
-    }
+    /* aplicarPilulaEscola removida */
 
     function limparFiltrosEscolasAvancado() {
       const search = document.getElementById('escolas-search-input');
@@ -15571,17 +15521,7 @@ function imprimirAgendaCarro() {
       if (tip) tip.value = '';
       if (sta) sta.value = '';
 
-      document.querySelectorAll('.btn-pill-escola').forEach(b => {
-        b.style.background = '#ffffff';
-        b.style.color = '#475569';
-        b.style.borderColor = '#cbd5e1';
-      });
-      const btnTodas = document.getElementById('pill-esc-todas');
-      if (btnTodas) {
-        btnTodas.style.background = '#0b2351';
-        btnTodas.style.color = '#ffffff';
-        btnTodas.style.borderColor = '#0b2351';
-      }
+      /* pílulas de escolas descontinuadas */
 
       filtrarEscolas();
     }
