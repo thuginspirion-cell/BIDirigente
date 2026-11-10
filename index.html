@@ -1057,7 +1057,7 @@ if (!window.mostrarHome) {
       const tipo = config.tipo || 'info';
       if (typeof registrarAlertaNoSininho === 'function' && tipo !== 'loading') {
         registrarAlertaNoSininho(tipo, config.titulo, config.mensagem, config.hora);
-      } // 'loading', 'success', 'error', 'info'
+      } /* 'loading', 'success', 'error', 'info' */
       const tag = config.tag || (tipo === 'loading' ? 'SINCRONIZAÇÃO EM ANDAMENTO' : (tipo === 'success' ? 'SUCESSO • ATUALIZADO' : (tipo === 'error' ? 'FALHA NO SINCRONISMO' : 'INFORMAÇÃO')));
       const titulo = config.titulo || (tipo === 'loading' ? 'Sincronizando...' : (tipo === 'success' ? 'Sincronização Concluída!' : (tipo === 'error' ? 'Erro na Sincronização' : 'Aviso')));
       const mensagem = config.mensagem || '';
@@ -1067,7 +1067,7 @@ if (!window.mostrarHome) {
       /* Erros e avisos de falha permanecem na tela INDEFINIDAMENTE até o usuário fechar manualmente (duracao = 0) */
       let duracao = (typeof config.duracao === 'number') ? config.duracao : (tipo === 'loading' ? 0 : (tipo === 'error' ? 0 : 5000));
       if (tipo === 'error') {
-        duracao = 0; // Fechamento exclusivamente manual
+        duracao = 0; /* Fechamento exclusivamente manual */
       }
 
       const container = document.getElementById('sync-alert-toast-container');
@@ -2262,7 +2262,7 @@ if (!window.mostrarHome) {
             <div class="agenda-event-desc">${c.descricao || 'Sem pauta informada.'}</div>
             <div class="agenda-event-meta-row">
               <span>📍 Local: <strong>${c.local || 'Gabinete'}</strong></span>
-              ${(c.link && (c.link.startsWith('http://') || c.link.startsWith('https://') || c.link.startsWith('www.'))) ? ('<a href=\"' + (c.link.startsWith('www.') ? 'https://' + c.link : c.link) + '\" target=\"_blank\" style=\"color: #2563eb; text-decoration: underline; font-weight: 600;\">🔗 Acessar Reunião</a>') : (c.link && !['nao','não','n/a','nenhum','sem link','-'].includes(c.link.trim().toLowerCase()) ? ('<span>🌐 ' + c.link + '</span>') : '')}
+              ${(c.link && (c.link.startsWith('http:' + String.fromCharCode(47, 47)) || c.link.startsWith('https:' + String.fromCharCode(47, 47)) || c.link.startsWith('www.'))) ? ('<a href=\"' + (c.link.startsWith('www.') ? ('https:' + String.fromCharCode(47, 47) + c.link) : c.link) + '\" target=\"_blank\" style=\"color: #2563eb; text-decoration: underline; font-weight: 600;\">🔗 Acessar Reunião</a>') : (c.link && !['nao','não','n/a','nenhum','sem link','-'].includes(c.link.trim().toLowerCase()) ? ('<span>🌐 ' + c.link + '</span>') : '')}
               <span>${c.prioridade === 'Alta' ? '⚡ ' : (c.prioridade === 'Baixa' ? '🌱 ' : '🔹 ')}Prioridade: <strong>${c.prioridade || 'Normal'}</strong></span>
             </div>
           </div>
@@ -3023,7 +3023,7 @@ function converterParaEmbedUrl(url) {
   if (!url) return '';
   url = url.trim();
 
-  // Se já for link de embed do Google Calendar
+  /* Se já for link de embed do Google Calendar */
   if (url.includes('calendar.google.com/calendar/embed')) {
     if (!url.includes('ctz=')) {
       url += (url.includes('?') ? '&' : '?') + 'ctz=America%2FSao_Paulo';
@@ -3031,20 +3031,20 @@ function converterParaEmbedUrl(url) {
     return url;
   }
 
-  // Se for link de compartilhamento do Google Calendar com cid
+  /* Se for link de compartilhamento do Google Calendar com cid */
   if (url.includes('calendar.google.com') && url.includes('cid=')) {
     try {
       const u = new URL(url);
       const cid = u.searchParams.get('cid');
       if (cid) {
-        return 'https://calendar.google.com/calendar/embed?src=' + encodeURIComponent(cid) + '&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0';
+        return 'https:' + String.fromCharCode(47, 47) + 'calendar.google.com/calendar/embed?src=' + encodeURIComponent(cid) + '&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0';
       }
     } catch(e) {}
   }
 
-  // Se for endereço de e-mail institucional
+  /* Se for endereço de e-mail institucional */
   if (url.includes('@') && !url.includes('http')) {
-    return 'https://calendar.google.com/calendar/embed?src=' + encodeURIComponent(url) + '&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0';
+    return 'https:' + String.fromCharCode(47, 47) + 'calendar.google.com/calendar/embed?src=' + encodeURIComponent(url) + '&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0';
   }
 
   return url;
@@ -6829,7 +6829,12 @@ function imprimirAgendaCarro() {
       flex-direction: column;
     }
 
-    #d48208;
+    .gab-pre-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #d48208;
       margin-bottom: 0.25rem;
     }
 
@@ -15401,7 +15406,7 @@ function imprimirAgendaCarro() {
     }
 
     /* === ESTADO E MECANISMO DE ORDENAÇÃO DE ESCOLAS === */
-    var ordenacaoEscolasAtual = { campo: 'nome', ordem: 'asc' }; // Padrão oficial: Ordem Alfabética (A-Z)
+    var ordenacaoEscolasAtual = { campo: 'nome', ordem: 'asc' }; /* Padrão oficial: Ordem Alfabética (A-Z) */
 
     function ordenarTabelaEscolas(campo, ordem) {
       if (ordem) {
@@ -17857,9 +17862,9 @@ function imprimirAgendaCarro() {
       }
     };
     /* Aliases para retrocompatibilidade */
-    ESTRUTURA_ORGANIZACIONAL['CAF'] = ESTRUTURA_ORGANIZACIONAL['SEAFIN']; // Alias para compatibilidade
-    ESTRUTURA_ORGANIZACIONAL['NOM'] = ESTRUTURA_ORGANIZACIONAL['SEOM']; // Redirecionamento legado NOM -> SEOM
-    ESTRUTURA_ORGANIZACIONAL['SOEM'] = ESTRUTURA_ORGANIZACIONAL['SEOM']; // Redirecionamento amigável
+    ESTRUTURA_ORGANIZACIONAL['CAF'] = ESTRUTURA_ORGANIZACIONAL['SEAFIN']; /* Alias para compatibilidade */
+    ESTRUTURA_ORGANIZACIONAL['NOM'] = ESTRUTURA_ORGANIZACIONAL['SEOM']; /* Redirecionamento legado NOM -> SEOM */
+    ESTRUTURA_ORGANIZACIONAL['SOEM'] = ESTRUTURA_ORGANIZACIONAL['SEOM']; /* Redirecionamento amigável */
     ESTRUTURA_ORGANIZACIONAL['ASURE'] = { sigla: 'ASURE', nome: 'ASURE - Assessoria e Suporte Regional', descricao: 'Gabinete da Dirigente, assessoria técnica e ouvidoria regional.', icone: '🏛️', cor: '#0b2351' };
 
     function carregarDadosConsolidados() {
@@ -42027,7 +42032,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       const base = SEINTEC_BASES_CONFIG[idBase || baseAtivaSeintec];
       if (!base || !base.isInventario) return;
 
-      const tipo = base.tipoInventario; // 'hardware', 'rede', 'educatrons', 'recarga'
+      const tipo = base.tipoInventario; /* 'hardware', 'rede', 'educatrons', 'recarga' */
       const rawTuples = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES[tipo]) || [];
 
       /* Filtro por escola selecionada no dropdown se houver */
@@ -42066,7 +42071,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         } else if (sNorm.includes('inserv') || sNorm.includes('descarte') || sNorm.includes('baixa')) {
           inserviveis++;
         } else {
-          disponiveis++; // fallback
+          disponiveis++; /* fallback */
         }
 
         /* Ambientes */
@@ -42301,7 +42306,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       const base = SEINTEC_BASES_CONFIG[idBase];
       if (!base) return;
 
-      const tipo = base.tipoInventario; // 'hardware', 'rede', 'educatrons', 'recarga'
+      const tipo = base.tipoInventario; /* 'hardware', 'rede', 'educatrons', 'recarga' */
       const todosItens = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES[tipo]) ? window.INVENTARIO_COMPLETO_TUPLES[tipo] : [];
       const dict = (typeof DICIONARIO_OFICIAL_INVENTARIO !== 'undefined') ? DICIONARIO_OFICIAL_INVENTARIO : (window.DICIONARIO_OFICIAL_INVENTARIO || {});
 
@@ -42902,13 +42907,13 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           linhasParaExibir.sort(function(rA, rB) {
             var valA = parseValorParaOrdenacao(String(rA[colData] || ''));
             var valB = parseValorParaOrdenacao(String(rB[colData] || ''));
-            return (valB.val || 0) - (valA.val || 0); // Data mais recente primeiro
+            return (valB.val || 0) - (valA.val || 0); /* Data mais recente primeiro */
           });
         } else if (colEscola !== -1) {
           linhasParaExibir.sort(function(rA, rB) {
             var valA = String(rA[colEscola] || '').toLowerCase();
             var valB = String(rB[colEscola] || '').toLowerCase();
-            return valA.localeCompare(valB, 'pt-BR'); // Alfabética por escola (A-Z)
+            return valA.localeCompare(valB, 'pt-BR'); /* Alfabética por escola (A-Z) */
           });
         }
       }
@@ -43160,7 +43165,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
     function estaNoHorarioComercialSincronismo() {
       const agora = new Date();
-      const diaSemana = agora.getDay(); // 0 = Domingo, 1 = Segunda ... 5 = Sexta, 6 = Sábado
+      const diaSemana = agora.getDay(); /* 0 = Domingo, 1 = Segunda ... 5 = Sexta, 6 = Sábado */
       /* Apenas de segunda a sexta (sábado e domingo NÃO) */
       if (diaSemana < 1 || diaSemana > 5) return false;
       const hora = agora.getHours();
