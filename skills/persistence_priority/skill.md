@@ -33,22 +33,22 @@ Esta regra e habilidade é de **observância obrigatória e prioridade máxima a
 
 ---
 
-## 3. Proibição Absoluta de Regressão e Espelhamento Fiel a Deleções (Padrão Universal de Setores)
-- **Não-Regressão em Recarregamentos (F5 / Offline)**:
-  - **JAMAIS** reverter dados para estados defasados, valores mockados iniciais ou contagens antigas após F5 (refresh), reinicialização do navegador ou troca de computador.
-  - Em carregamento local, o armazenamento persistente (`BI_DIRIGENTE_CACHE_*`) prevalece sobre bases estáticas antigas embutidas no HTML.
-- **Espelhamento Exato e Fidelidade a Deleções na Sincronização Completa (Todos os Setores Atuais e Futuros)**:
-  - Aplica-se obrigatoriamente a **todos os setores existentes e futuros** (`SEINTEC`, `SEFIN`, `SECOMSE`, `DPAT`, `SEOM`, `SEFISC`, `SEGRE`, `SEMAT`, `SEVESC`, `SEPES`, `EEC`, `ASURE` e novos módulos).
-  - Quando uma sincronização obtém a carga completa da planilha oficial do SharePoint/OneDrive, essa planilha é a **fonte única da verdade atual** e DEVE **SUBSTITUIR INTEGRALMENTE** o snapshot anterior em memória e no `localStorage` (`BI_DIRIGENTE_CACHE_*`).
-  - É **TERMINANTEMENTE PROIBIDO** realizar *merge aditivo* (`cache_antigo + novos`) em sincronizações completas de planilhas, pois linhas **deletadas** na planilha oficial ficam presas no `localStorage` e voltam a aparecer na interface.
-  - Toda sincronização bem-sucedida deve gravar exclusivamente o snapshot atual limpo (refletindo inclusões, edições e **exclusões**) e eliminar quaisquer chaves de cache legadas/duplicadas.
+## 3. Política Nuvem Exclusiva (Zero `localStorage`, Zero `sessionStorage`, Zero Cookies) & Fidelidade a Deleções
+- **Proibição Absoluta de Armazenamento Local no Navegador/Máquina**:
+  - É **TERMINANTEMENTE PROIBIDO** gravar ou ler dados operacionais em `localStorage`, `sessionStorage` ou cookies (`document.cookie`) no navegador do cliente em **todos os setores existentes e futuros** (`SEINTEC`, `SEFIN`, `SECOMSE`, `DPAT`, `SEOM`, `SEFISC`, `SEGRE`, `SEMAT`, `SEVESC`, `SEPES`, `EEC`, `ASURE`, `Agenda`, `Carro Oficial`, `Escolas`, `Visitas` e novos módulos).
+  - Todo carregamento inicial (`limparTodoArmazenamentoLocal()`) DEVE purgar imediatamente quaisquer chaves locais legadas remanescentes no navegador.
+- **100% Nuvem em Tempo Real (Fonte Única da Verdade)**:
+  - Toda informação exibida na tela deve vir **exclusivamente das fontes na nuvem** (SharePoint/OneDrive corporativo via `obterArquivoPublicoSharepoint` / `sincronizarBasePublicaSharepoint`, Google Calendar, Google Apps Script `PropertiesService` via `lerEstadoNuvem`/`gravarEstadoNuvem` e GitHub Live Mirror).
+  - Ao abrir ou recarregar o painel (`F5`), a rotina automática (`iniciarTimerSincronizacao` -> `sincronizarTudoGlobalmente(true)` + `hidratarTodosModulosNuvem()`) busca os dados vivos diretamente da nuvem, sem cache local intermediário.
+- **Espelhamento Exato e Fidelidade a Deleções (Zero Merge Aditivo)**:
+  - Toda sincronização completa **substitui integralmente** os dados em memória pela foto atual da planilha na nuvem — garantindo que linhas adicionadas, editadas ou **deletadas** na planilha oficial desapareçam imediatamente da tela em todos os setores atuais e futuros.
 
 ---
 
 ## 4. Checklist Obrigatório em Cada Atualização / Deploy
 Antes de concluir qualquer entrega:
-1. Validar que `restaurarTodosCachesPersistentes()` e a carga das fontes estão íntegras no `index.html`.
-2. Validar que não há barras duplas literais `//` em scripts e que todos os botões de menu estão operacionais.
+1. Validar que NÃO há `localStorage.getItem`, `localStorage.setItem`, `sessionStorage.getItem`, `sessionStorage.setItem` nem `document.cookie` gravando/lendo dados de negócio no `index.html`, e que `hidratarTodosModulosNuvem()` + `limparTodoArmazenamentoLocal()` estão ativos.
+2. Validar que não há barras duplas literais `//` em scripts e que todos os 13+ botões de menu estão operacionais.
 3. Commit e `git push origin main` para a nuvem do GitHub.
 4. Sincronizar e `git push origin gh-pages` para a nuvem do GitHub Pages.
 5. Executar `clasp push -f` e `clasp deploy -i AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV` para o Google Apps Script.
