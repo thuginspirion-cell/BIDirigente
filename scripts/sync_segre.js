@@ -27,6 +27,17 @@ async function syncSegreData() {
   const wb = XLSX.read(Buffer.from(buf), { type: 'buffer' });
   console.log('Abas encontradas:', wb.SheetNames);
 
+  function parseHoraXlsx(val) {
+    if (!val || val === '-') return '';
+    if (typeof val === 'number') {
+      const totalSec = Math.round(val * 86400);
+      const h = Math.floor(totalSec / 3600);
+      const min = Math.floor((totalSec % 3600) / 60);
+      return String(h).padStart(2, '0') + ':' + String(min).padStart(2, '0');
+    }
+    return String(val).trim();
+  }
+
   function parseDateXlsx(val) {
     if (!val) return '';
     if (typeof val === 'number' && val >= 40000 && val <= 50000) {
@@ -133,10 +144,29 @@ async function syncSegreData() {
     }
   }
 
-  // 5. Total de e-mails
+  // 5. Processar E-MAIL
   const wsEmail = wb.Sheets['E-MAIL'];
   const rawEmail = wsEmail ? XLSX.utils.sheet_to_json(wsEmail, { defval: '' }) : [];
-  const totalEmails = rawEmail.length;
+  const emails = [];
+  rawEmail.forEach((r, idx) => {
+    const assunto = String(r['ASSUNTO'] || '').trim();
+    const remetente = String(r['REMETENTE'] || '').trim();
+    const interessado = String(r['INTERESSADO (A)'] || '').trim();
+    if (!assunto && !remetente && !interessado) return;
+    emails.push({
+      id: 'EML-' + (idx + 1),
+      data: parseDateXlsx(r['DATA']),
+      hora: parseHoraXlsx(r['HORA']),
+      assunto: assunto || 'E-mail / Demanda',
+      remetente: remetente || 'Não informado',
+      interessado: interessado || 'SEGRE',
+      situacao: String(r['SITUAÇÃO ATUAL'] || 'REGISTRADO').trim().toUpperCase(),
+      dataConclusao: parseDateXlsx(r['DATA_1']),
+      horaConclusao: parseHoraXlsx(r['HORA_1']),
+      responsavel: String(r['RESPONSÁVEL '] || r['RESPONSÁVEL'] || 'SEGRE').trim()
+    });
+  });
+  const totalEmails = emails.length;
 
   console.log(`📊 SEGRE Processado:`);
   console.log(`  - Processos SEI: ${processosSei.length}`);
@@ -166,7 +196,8 @@ async function syncSegreData() {
     processosSei: processosSei,
     atendimentosVaga: atendimentosVaga,
     ouvidorias: ouvidorias,
-    concluintesRecentes: concluintesRecentes
+    concluintesRecentes: concluintesRecentes,
+    emails: emails
   };
 
   const dataDir = path.join(__dirname, '..', 'data');

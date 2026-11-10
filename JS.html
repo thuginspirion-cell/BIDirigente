@@ -1,0 +1,62 @@
+<script>
+  const dadosMock = {
+    indicadoresRede: "85% de Eficiência",
+    nucleosAtencao: "12 Núcleos Ativos",
+    visitasRealizadas: "145 neste mês",
+    agendaHoje: [
+      { hora: "08:00", titulo: "Reunião de Planejamento Semanal", status: "ocupado" },
+      { hora: "09:30", titulo: "Horário Livre para Despachos", status: "livre" },
+      { hora: "14:00", titulo: "Visita Técnica às Unidades", status: "ocupado" },
+      { hora: "16:30", titulo: "Alinhamento com SEAFIN e NOM", status: "livre" }
+    ]
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (typeof google !== 'undefined' && google.script && google.script.run) {
+      google.script.run
+        .withSuccessHandler(atualizarInterface)
+        .withFailureHandler(function(err) {
+          console.warn("Apps Script indisponível, usando dados simulados:", err);
+          atualizarInterface(dadosMock);
+        })
+        .getConsolidatedData();
+    } else {
+      // Se estiver no Render ou servidor Node.js
+      fetch('/api/dados')
+        .then(res => res.json())
+        .then(dados => atualizarInterface(dados))
+        .catch(() => {
+          // Fallback para visualização local estática
+          atualizarInterface(dadosMock);
+        });
+    }
+  });
+
+  function atualizarInterface(dados) {
+    if (!dados) return;
+    document.getElementById('val-atencao').innerText = dados.indicadoresRede;
+    document.getElementById('val-nucleos').innerText = dados.nucleosAtencao;
+    document.getElementById('val-visitas').innerText = dados.visitasRealizadas;
+
+    const listaAgenda = document.getElementById('lista-agenda');
+    listaAgenda.innerHTML = ""; 
+    dados.agendaHoje.forEach(function (item) {
+      let li = document.createElement('li');
+      let classeStatus = item.status === 'livre' ? 'status-livre' : 'status-ocupado';
+      li.innerHTML = `<span class="${classeStatus}">${item.hora}</span> - ${item.titulo}`;
+      listaAgenda.appendChild(li);
+    });
+  }
+
+  // === GESTÃO DE SETORES (SOMENTE LEITURA / NUVEM) ===
+  function mudarSetor(nomeSetor, botaoClicado) {
+    const botoes = document.querySelectorAll('.btn-aba');
+    botoes.forEach(btn => btn.classList.remove('ativo'));
+    if (botaoClicado) botaoClicado.classList.add('ativo');
+
+    const tituloSetor = document.getElementById('titulo-setor');
+    if (tituloSetor) tituloSetor.innerText = `📑 Setor: ${nomeSetor}`;
+    const setorSel = document.getElementById('setor-selecionado');
+    if (setorSel) setorSel.value = nomeSetor;
+  }
+</script>
