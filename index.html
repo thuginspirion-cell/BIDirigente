@@ -2797,138 +2797,206 @@ const FROTA_OFICIAL_DEFINICAO = [
 
 let carroCalendarUrl = '';
 
+function obterMesAnoAtualCarro() {
+  var d = new Date();
+  return { ano: d.getFullYear(), mes: d.getMonth(), hojeIso: obterDataHojeIso() };
+}
+
+function adicionarDiasIso(dataIso, deltaDias) {
+  var p = String(dataIso || obterDataHojeIso()).split('-');
+  var d = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10), 12, 0, 0);
+  d.setDate(d.getDate() + deltaDias);
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
 function inicializarCarroPadrao() {
+  var hoje = obterDataHojeIso();
+  var amanha = adicionarDiasIso(hoje, 1);
+  var depois2 = adicionarDiasIso(hoje, 2);
+  var ontem = adicionarDiasIso(hoje, -1);
+  var pHoje = hoje.split('-');
+  var prefixoMes = pHoje[0] + '-' + pHoje[1];
+  var diaInicioMes = prefixoMes + '-04';
+  if (diaInicioMes >= hoje) diaInicioMes = adicionarDiasIso(hoje, -3);
+
   return {
-    atualizadoEm: "09/11/2026, 10:00",
-    sincronizadoEm: "10:00",
+    atualizadoEm: formatarDataCompletaBr(hoje) + ', 08:00',
+    sincronizadoEm: '08:00',
     registros: [
       {
-        id: "car-001",
-        controleTrafegoNum: "CT-2026/042",
-        data: "2026-10-17",
-        periodo: "2026-10-17 a 2026-10-17",
-        titulo: "Visita Técnica Regional: Polo Itapevi e EE Prof. Lênio Vieira de Moraes",
-        veiculo: "Chevrolet Spin 1.8 7L",
-        placa: "TLH 1B63",
-        patrimonio: "SP-048972",
-        tipo: "Oficial Gabinete",
-        grupo: "Gabinete Dirigente",
-        motorista: "Carlos Alberto da Silva",
-        solicitante: "Dirigente Regional de Ensino",
-        funcao: "Dirigente Regional de Ensino",
-        unidade: "Gabinete da Dirigente / URE Itapevi",
-        apresentarEm: "Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75",
-        destino: "EE Prof. Lênio Vieira de Moraes e Região Central de Itapevi",
-        itinerario: "Sede URE Itapevi -> EE Prof. Lênio Vieira de Moraes -> Polo Regional -> Retorno Sede",
-        horarioSaida: "08:30",
-        horarioRetorno: "16:30",
+        id: 'car-101',
+        controleTrafegoNum: 'CT-2026/045',
+        data: hoje,
+        periodo: hoje + ' a ' + hoje,
+        titulo: 'Visita Técnica Regional: Polo Itapevi e EE Prof. Lênio Vieira de Moraes',
+        veiculo: 'Chevrolet Spin 1.8 7L',
+        placa: 'TLH 1B63',
+        patrimonio: 'SP-048972',
+        tipo: 'Oficial Gabinete',
+        grupo: 'Gabinete Dirigente',
+        motorista: 'Carlos Alberto da Silva',
+        solicitante: 'Dirigente Regional de Ensino',
+        funcao: 'Dirigente Regional de Ensino',
+        unidade: 'Gabinete da Dirigente / URE Itapevi',
+        passageiros: 3,
+        contato: 'Ramal 201 • Gabinete',
+        prioridade: 'Gabinete Dirigente',
+        apresentarEm: 'Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75',
+        destino: 'EE Prof. Lênio Vieira de Moraes e Polo Central de Itapevi',
+        itinerario: 'Sede URE Itapevi -> EE Prof. Lênio Vieira de Moraes -> Polo Regional -> Retorno Sede',
+        horarioSaida: '08:30',
+        horarioRetorno: '16:30',
         kmPartida: 42800,
         kmRetorno: 42850,
         kmDiferenca: 50,
-        tanqueCheio: "S",
-        combustivelNivel: "85%",
-        abastecimento: { natureza: "Gasolina", quant: "20L", reqNum: "REQ-1042", nfNum: "NF-8921", expedidor: "SEOM / Logística" },
-        origemFonte: "Calendário Compartilhado",
-        tipoRegistro: "Reserva de carro oficial",
-        badgeOrigem: "Calendário Oficial",
-        status: "Agendado",
-        observacoes: "Deslocamento institucional para acompanhamento pedagógico, vistoria das obras e entrega de novos equipamentos escolares."
+        tanqueCheio: 'S',
+        combustivelNivel: '85%',
+        abastecimento: { natureza: 'Gasolina', quant: '20L', reqNum: 'REQ-1045', nfNum: 'NF-8932', expedidor: 'SEOM / Logística' },
+        origemFonte: 'Sistema Oficial BI',
+        tipoRegistro: 'Reserva de carro oficial',
+        badgeOrigem: 'Agendamento Oficial',
+        status: 'Agendado',
+        observacoes: 'Deslocamento institucional para acompanhamento pedagógico, vistoria das obras e entrega de novos equipamentos escolares.'
       },
       {
-        id: "car-002",
-        controleTrafegoNum: "CT-2026/041",
-        data: "2026-10-16",
-        periodo: "2026-10-15 a 2026-10-16",
-        titulo: "Despacho Institucional SEDUC Central",
-        veiculo: "Chevrolet Spin 1.8 7L",
-        placa: "TLH 1B63",
-        patrimonio: "SP-048972",
-        tipo: "Oficial Gabinete",
-        grupo: "Gabinete Dirigente",
-        motorista: "Carlos Alberto da Silva",
-        solicitante: "Assessoria Técnica do Gabinete",
-        funcao: "Supervisor de Ensino / Assessor",
-        unidade: "Gabinete / URE Itapevi",
-        apresentarEm: "Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75",
-        destino: "SEDUC Central - Praça da República, 53 - São Paulo",
-        itinerario: "Itapevi -> Rodovia Castelo Branco -> SEDUC Central (Praça da República) -> Retorno",
-        horarioSaida: "07:30",
-        horarioRetorno: "17:00",
-        kmPartida: 42680,
-        kmRetorno: 42800,
-        kmDiferenca: 120,
-        tanqueCheio: "N",
-        combustivelNivel: "70%",
-        abastecimento: { natureza: "Gasolina", quant: "35L", reqNum: "REQ-1039", nfNum: "NF-8902", expedidor: "SEAFIN / Compras" },
-        origemFonte: "Calendário Compartilhado",
-        tipoRegistro: "Reserva de carro oficial",
-        badgeOrigem: "Calendário Oficial",
-        status: "Concluído",
-        observacoes: "Entrega de termos de convênios escolares e despacho na Coordenadoria de Gestão da Educação Básica (CGEB)."
-      },
-      {
-        id: "car-003",
-        controleTrafegoNum: "CT-2026/040",
-        data: "2026-10-16",
-        periodo: "2026-10-15 a 2026-10-16",
-        titulo: "Vistoria Técnica Laboratórios e Conectividade Escolar",
-        veiculo: "Hyundai HB20 1.0",
-        placa: "FZG 0H22",
-        patrimonio: "SP-051204",
-        tipo: "Oficial Apoio / Administrativo",
-        grupo: "Regional / Apoio",
-        motorista: "Marcos Paulo Ribeiro",
-        solicitante: "Supervisão de Ensino / SEINTEC",
-        funcao: "Diretor Técnico SEINTEC",
-        unidade: "SEINTEC / Tecnologia Educacional",
-        apresentarEm: "Sede URE Itapevi",
-        destino: "Escolas Polo Itapevi e Jandira",
-        itinerario: "Sede URE -> EE José Barreto -> EE Dorvalino Abílio Teixeira -> Polo Jandira -> Retorno",
-        horarioSaida: "08:00",
-        horarioRetorno: "17:00",
-        kmPartida: 28290,
+        id: 'car-102',
+        controleTrafegoNum: 'CT-2026/046',
+        data: amanha,
+        periodo: amanha + ' a ' + amanha,
+        titulo: 'Vistoria Técnica Laboratórios e Conectividade Escolar',
+        veiculo: 'Hyundai HB20 1.0',
+        placa: 'FZG 0H22',
+        patrimonio: 'SP-051204',
+        tipo: 'Oficial Apoio / Administrativo',
+        grupo: 'Regional / Apoio',
+        motorista: 'Marcos Paulo Ribeiro',
+        solicitante: 'Diretor Técnico SEINTEC',
+        funcao: 'Diretor Técnico I',
+        unidade: 'SEINTEC / Tecnologia Educacional',
+        passageiros: 2,
+        contato: 'Ramal 214 • SEINTEC',
+        prioridade: 'Normal',
+        apresentarEm: 'Sede URE Itapevi - Portaria Principal',
+        destino: 'Escolas Polo Barueri e Jandira',
+        itinerario: 'Sede URE -> EE República do Equador -> EE Dorvalino Abílio Teixeira -> Retorno',
+        horarioSaida: '08:00',
+        horarioRetorno: '17:00',
+        kmPartida: 28340,
         kmRetorno: 28340,
-        kmDiferenca: 50,
-        tanqueCheio: "N",
-        combustivelNivel: "75%",
-        abastecimento: { natureza: "Gasolina", quant: "", reqNum: "", nfNum: "", expedidor: "SEOM" },
-        origemFonte: "Controle de Uso",
-        tipoRegistro: "Situação do veículo: EXTERNO",
-        badgeOrigem: "Calendário Oficial",
-        status: "Concluído",
-        observacoes: "DIAS 15 E 16/10/2026 DAS 8 ÀS 17H. Vistoria técnica nos laboratórios de informática, verificação dos Educatrons e suporte de conectividade."
+        kmDiferenca: 0,
+        tanqueCheio: 'N',
+        combustivelNivel: '75%',
+        abastecimento: { natureza: 'Gasolina', quant: '', reqNum: '', nfNum: '', expedidor: 'SEOM' },
+        origemFonte: 'Sistema Oficial BI',
+        tipoRegistro: 'Reserva de carro oficial',
+        badgeOrigem: 'Agendamento Oficial',
+        status: 'Agendado',
+        observacoes: 'Vistoria técnica nos laboratórios de informática, verificação dos Educatrons e suporte de conectividade.'
       },
       {
-        id: "car-004",
-        controleTrafegoNum: "CT-2026/039",
-        data: "2026-10-14",
-        periodo: "2026-10-14 a 2026-10-14",
-        titulo: "Acompanhamento Técnico e Supervisão Pedagógica",
-        veiculo: "Hyundai HB20 1.0",
-        placa: "FZG 0H22",
-        patrimonio: "SP-051204",
-        tipo: "Oficial Apoio / Administrativo",
-        grupo: "Regional / Apoio",
-        motorista: "Marcos Paulo Ribeiro",
-        solicitante: "Serviço de Obras e Manutenção Escolar - SEOM",
-        funcao: "Diretor SEOM",
-        unidade: "SEAFIN / SEOM",
-        apresentarEm: "Sede URE Itapevi",
-        destino: "EE Leonor Mendes de Barros e EE Prof. Itajahy Feitosa Martins",
-        itinerario: "Sede URE -> EE Leonor Mendes de Barros -> EE Prof. Itajahy Feitosa Martins -> Retorno",
-        horarioSaida: "09:00",
-        horarioRetorno: "15:00",
-        kmPartida: 28210,
-        kmRetorno: 28290,
+        id: 'car-103',
+        controleTrafegoNum: 'CT-2026/047',
+        data: depois2,
+        periodo: depois2 + ' a ' + depois2,
+        titulo: 'Despacho Institucional SEDUC Central',
+        veiculo: 'Chevrolet Spin 1.8 7L',
+        placa: 'TLH 1B63',
+        patrimonio: 'SP-048972',
+        tipo: 'Oficial Gabinete',
+        grupo: 'Gabinete Dirigente',
+        motorista: 'Carlos Alberto da Silva',
+        solicitante: 'Assessoria Técnica do Gabinete',
+        funcao: 'Supervisor de Ensino / ASURE',
+        unidade: 'ASURE - Assessoria da Dirigente',
+        passageiros: 4,
+        contato: 'Ramal 203 • ASURE',
+        prioridade: 'Alta / Prioritária',
+        apresentarEm: 'Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75',
+        destino: 'SEDUC Central - Praça da República, 53 - São Paulo',
+        itinerario: 'Itapevi -> Rodovia Castelo Branco -> SEDUC Central (Praça da República) -> Retorno',
+        horarioSaida: '07:30',
+        horarioRetorno: '16:30',
+        kmPartida: 42850,
+        kmRetorno: 42850,
+        kmDiferenca: 0,
+        tanqueCheio: 'S',
+        combustivelNivel: '85%',
+        abastecimento: { natureza: 'Gasolina', quant: '', reqNum: '', nfNum: '', expedidor: 'SEOM / Logística' },
+        origemFonte: 'Sistema Oficial BI',
+        tipoRegistro: 'Reserva de carro oficial',
+        badgeOrigem: 'Agendamento Oficial',
+        status: 'Agendado',
+        observacoes: 'Entrega de termos de convênios escolares e despacho na Coordenadoria de Gestão da Educação Básica.'
+      },
+      {
+        id: 'car-104',
+        controleTrafegoNum: 'CT-2026/044',
+        data: ontem,
+        periodo: ontem + ' a ' + ontem,
+        titulo: 'Vistoria de Obras e Manutenção Predial',
+        veiculo: 'Hyundai HB20 1.0',
+        placa: 'FZG 0H22',
+        patrimonio: 'SP-051204',
+        tipo: 'Oficial Apoio / Administrativo',
+        grupo: 'Regional / Apoio',
+        motorista: 'Marcos Paulo Ribeiro',
+        solicitante: 'Diretor SEOM',
+        funcao: 'Diretor de Obras e Manutenção',
+        unidade: 'SEOM - Obras, Manutenção e Frota',
+        passageiros: 2,
+        contato: 'Ramal 220 • SEOM',
+        prioridade: 'Normal',
+        apresentarEm: 'Sede URE Itapevi',
+        destino: 'EE Leonor Mendes de Barros e EE Prof. Itajahy Feitosa Martins',
+        itinerario: 'Sede URE -> EE Leonor Mendes de Barros -> EE Prof. Itajahy Feitosa Martins -> Retorno',
+        horarioSaida: '09:00',
+        horarioRetorno: '15:00',
+        kmPartida: 28260,
+        kmRetorno: 28340,
         kmDiferenca: 80,
-        tanqueCheio: "S",
-        combustivelNivel: "80%",
-        abastecimento: { natureza: "Gasolina", quant: "15L", reqNum: "REQ-1035", nfNum: "NF-8874", expedidor: "SEOM / Manutenção" },
-        origemFonte: "Controle de Uso",
-        tipoRegistro: "Transporte de Suprimentos",
-        badgeOrigem: "Calendário Oficial",
-        status: "Concluído",
-        observacoes: "Acompanhamento de reparos e distribuição de materiais prioritários da infraestrutura escolar."
+        tanqueCheio: 'N',
+        combustivelNivel: '75%',
+        abastecimento: { natureza: 'Gasolina', quant: '15L', reqNum: 'REQ-1035', nfNum: 'NF-8874', expedidor: 'SEOM / Manutenção' },
+        origemFonte: 'Controle de Uso',
+        tipoRegistro: 'Transporte de Suprimentos',
+        badgeOrigem: 'Agendamento Oficial',
+        status: 'Concluído',
+        observacoes: 'Acompanhamento de reparos elétricos e entrega de laudo técnico da infraestrutura escolar.'
+      },
+      {
+        id: 'car-105',
+        controleTrafegoNum: 'CT-2026/043',
+        data: diaInicioMes,
+        periodo: diaInicioMes + ' a ' + diaInicioMes,
+        titulo: 'Supervisão Pedagógica Polo Pirapora do Bom Jesus',
+        veiculo: 'Chevrolet Spin 1.8 7L',
+        placa: 'TLH 1B63',
+        patrimonio: 'SP-048972',
+        tipo: 'Oficial Gabinete',
+        grupo: 'Gabinete Dirigente',
+        motorista: 'Carlos Alberto da Silva',
+        solicitante: 'Supervisão de Ensino',
+        funcao: 'Supervisor de Ensino',
+        unidade: 'Supervisão de Ensino',
+        passageiros: 3,
+        contato: 'Ramal 209 • Supervisão',
+        prioridade: 'Normal',
+        apresentarEm: 'Sede URE Itapevi',
+        destino: 'Escolas Estaduais de Pirapora do Bom Jesus',
+        itinerario: 'Sede URE Itapevi -> Pirapora do Bom Jesus -> Retorno Sede',
+        horarioSaida: '08:00',
+        horarioRetorno: '13:30',
+        kmPartida: 42730,
+        kmRetorno: 42800,
+        kmDiferenca: 70,
+        tanqueCheio: 'S',
+        combustivelNivel: '90%',
+        abastecimento: { natureza: 'Gasolina', quant: '', reqNum: '', nfNum: '', expedidor: 'SEOM' },
+        origemFonte: 'Sistema Oficial BI',
+        tipoRegistro: 'Reserva de carro oficial',
+        badgeOrigem: 'Agendamento Oficial',
+        status: 'Concluído',
+        observacoes: 'Acompanhamento de indicadores de aprendizagem e conselho escolar no município de Pirapora.'
       }
     ],
     frota: JSON.parse(JSON.stringify(FROTA_OFICIAL_DEFINICAO))
@@ -2939,36 +3007,42 @@ function sanitizarObjetoCarroData(parsed) {
   if (!parsed || !Array.isArray(parsed.registros) || parsed.registros.length === 0) {
     return inicializarCarroPadrao();
   }
-  parsed.frota = JSON.parse(JSON.stringify(FROTA_OFICIAL_DEFINICAO));
+  parsed.frota = (Array.isArray(parsed.frota) && parsed.frota.length === 2)
+    ? parsed.frota
+    : JSON.parse(JSON.stringify(FROTA_OFICIAL_DEFINICAO));
+
   parsed.registros = parsed.registros.map(function(r, idx) {
     var isSpin = (r.veiculo && r.veiculo.toLowerCase().indexOf('spin') !== -1) || (r.placa && r.placa.indexOf('EDE') !== -1) || (r.placa && r.placa.indexOf('TLH') !== -1);
     if (isSpin) {
-      r.veiculo = "Chevrolet Spin 1.8 7L";
-      r.placa = "TLH 1B63";
-      r.patrimonio = "SP-048972";
-      r.tipo = "Oficial Gabinete";
-      r.grupo = "Gabinete Dirigente";
-      if (!r.motorista || r.motorista === "A definir") r.motorista = "Carlos Alberto da Silva";
+      r.veiculo = 'Chevrolet Spin 1.8 7L';
+      r.placa = 'TLH 1B63';
+      r.patrimonio = 'SP-048972';
+      r.tipo = 'Oficial Gabinete';
+      r.grupo = 'Gabinete Dirigente';
+      if (!r.motorista || r.motorista === 'A definir') r.motorista = 'Carlos Alberto da Silva';
     } else {
-      r.veiculo = "Hyundai HB20 1.0";
-      r.placa = "FZG 0H22";
-      r.patrimonio = "SP-051204";
-      r.tipo = "Oficial Apoio / Administrativo";
-      r.grupo = "Regional / Apoio";
-      if (!r.motorista || r.motorista === "João Mendes" || r.motorista === "A definir") r.motorista = "Marcos Paulo Ribeiro";
+      r.veiculo = 'Hyundai HB20 1.0';
+      r.placa = 'FZG 0H22';
+      r.patrimonio = 'SP-051204';
+      r.tipo = 'Oficial Apoio / Administrativo';
+      r.grupo = 'Regional / Apoio';
+      if (!r.motorista || r.motorista === 'João Mendes' || r.motorista === 'A definir') r.motorista = 'Marcos Paulo Ribeiro';
     }
-    if (!r.controleTrafegoNum) r.controleTrafegoNum = "CT-2026/" + String(100 - idx).padStart(3, '0');
+    if (!r.controleTrafegoNum) r.controleTrafegoNum = 'CT-2026/' + String(100 - idx).padStart(3, '0');
     if (r.kmPartida === undefined) r.kmPartida = isSpin ? 42800 : 28300;
     if (r.kmRetorno === undefined) r.kmRetorno = isSpin ? 42850 : 28340;
     if (r.kmDiferenca === undefined) r.kmDiferenca = Math.max(0, (r.kmRetorno || 0) - (r.kmPartida || 0));
-    if (!r.tanqueCheio) r.tanqueCheio = isSpin ? "S" : "N";
-    if (!r.combustivelNivel) r.combustivelNivel = isSpin ? "85%" : "75%";
-    if (!r.apresentarEm) r.apresentarEm = "Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75";
-    if (!r.funcao) r.funcao = r.solicitante && r.solicitante.indexOf("Dirigente") !== -1 ? "Dirigente Regional de Ensino" : "Responsável Técnico";
-    if (!r.unidade) r.unidade = r.setor || "Gabinete / URE Itapevi";
-    if (!r.abastecimento) r.abastecimento = { natureza: "Gasolina", quant: "", reqNum: "", nfNum: "", expedidor: "SEOM" };
-    if (r.defeitos === undefined) r.defeitos = "Nenhum defeito ou avaria identificado durante o percurso.";
-    if (r.multas === undefined) r.multas = "Sem ocorrências de trânsito, multas ou sinistros.";
+    if (!r.tanqueCheio) r.tanqueCheio = isSpin ? 'S' : 'N';
+    if (!r.combustivelNivel) r.combustivelNivel = isSpin ? '85%' : '75%';
+    if (!r.apresentarEm) r.apresentarEm = 'Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75';
+    if (!r.funcao) r.funcao = r.solicitante && r.solicitante.indexOf('Dirigente') !== -1 ? 'Dirigente Regional de Ensino' : 'Responsável Técnico';
+    if (!r.unidade) r.unidade = r.setor || 'Gabinete / URE Itapevi';
+    if (!r.passageiros) r.passageiros = isSpin ? 3 : 2;
+    if (!r.prioridade) r.prioridade = isSpin ? 'Gabinete Dirigente' : 'Normal';
+    if (!r.contato) r.contato = 'URE Itapevi';
+    if (!r.abastecimento) r.abastecimento = { natureza: 'Gasolina', quant: '', reqNum: '', nfNum: '', expedidor: 'SEOM' };
+    if (r.defeitos === undefined) r.defeitos = 'Nenhum defeito ou avaria identificado durante o percurso.';
+    if (r.multas === undefined) r.multas = 'Sem ocorrências de trânsito, multas ou sinistros.';
     return r;
   });
   return parsed;
@@ -2976,10 +3050,18 @@ function sanitizarObjetoCarroData(parsed) {
 
 let CARRO_DATA = sanitizarObjetoCarroData(inicializarCarroPadrao());
 
+function isApenasSeedLegadoOutubro(dados) {
+  if (!dados || !Array.isArray(dados.registros) || dados.registros.length === 0) return false;
+  var legacyIds = ['car-001', 'car-002', 'car-003', 'car-004'];
+  return dados.registros.length <= 4 && dados.registros.every(function(r) {
+    return legacyIds.indexOf(r.id) !== -1 && String(r.data || '').indexOf('2026-10-') === 0;
+  });
+}
+
 function carregarCarroCloud(callback) {
   if (typeof window.lerEstadoNuvem === 'function') {
     window.lerEstadoNuvem('CARRO_DATA', function(dados) {
-      if (dados && Array.isArray(dados.registros) && dados.registros.length > 0) {
+      if (dados && Array.isArray(dados.registros) && dados.registros.length > 0 && !isApenasSeedLegadoOutubro(dados)) {
         CARRO_DATA = sanitizarObjetoCarroData(dados);
         if (typeof renderizarCarroOficial === 'function') renderizarCarroOficial();
       }
@@ -2996,8 +3078,19 @@ function salvarCarroStorage() {
   }
 }
 
-let dataAtivaCarro = "2026-10-17";
-let subTabAtivaCarro = "calendario";
+function inicializarConfiguracaoCalendarioCarro() {
+  /* Compatibilidade de inicialização com DOMContentLoaded */
+  if (typeof renderizarCalendarioCarroEmbed === 'function') {
+    try { renderizarCalendarioCarroEmbed(); } catch(e) {}
+  }
+}
+
+let dataAtivaCarro = obterDataHojeIso();
+let mesAtivoCarro = new Date().getMonth();
+let anoAtivoCarro = new Date().getFullYear();
+let filtroVeiculoCalCarro = 'TODOS';
+let modoVisaoCalCarro = 'grade';
+let subTabAtivaCarro = 'calendario';
 
 function abrirCarroOficial(dataOpcional, tabOpcional) {
   abrirCarroOficial.__isReal = true; window.abrirCarroOficial = abrirCarroOficial;
@@ -3013,12 +3106,17 @@ function abrirCarroOficial(dataOpcional, tabOpcional) {
 
   if (dataOpcional) {
     dataAtivaCarro = dataOpcional;
+    var p = String(dataOpcional).split('-');
+    if (p.length === 3) {
+      anoAtivoCarro = parseInt(p[0], 10);
+      mesAtivoCarro = parseInt(p[1], 10) - 1;
+    }
   }
   if (tabOpcional) {
     subTabAtivaCarro = tabOpcional;
   }
   renderizarCarroOficial();
-  try { if (typeof atualizarMetricasSuperioresSeintec === "function") atualizarMetricasSuperioresSeintec(); } catch(e) {}
+  try { if (typeof atualizarMetricasSuperioresSeintec === 'function') atualizarMetricasSuperioresSeintec(); } catch(e) {}
   rolarAoTopoSuave();
 }
 
@@ -3068,12 +3166,55 @@ function formatarDataExtensoPtBr(dataIso) {
   return dias[d.getDay()] + ', ' + dia + ' de ' + meses[mes] + ' de ' + ano;
 }
 
+function calcularDuracaoHorasMinutos(saida, retorno) {
+  if (!saida || !retorno) return '--';
+  var m1 = horarioParaMinutos(saida);
+  var m2 = horarioParaMinutos(retorno);
+  if (m2 <= m1) return '--';
+  var diff = m2 - m1;
+  var h = Math.floor(diff / 60);
+  var m = diff % 60;
+  return h + 'h' + (m > 0 ? (' ' + String(m).padStart(2, '0') + 'min') : '00');
+}
+
+function horarioParaMinutos(hhmm) {
+  var p = String(hhmm || '00:00').split(':');
+  return (parseInt(p[0] || '0', 10) * 60) + parseInt(p[1] || '0', 10);
+}
+
+function verificarConflitoAgendaCarro(data, saida, retorno, placaAlvo, ignorarId) {
+  var inicio = horarioParaMinutos(saida || '08:00');
+  var fim = horarioParaMinutos(retorno || '17:00');
+  var regsDia = (CARRO_DATA.registros || []).filter(function(r) {
+    if (ignorarId && r.id === ignorarId) return false;
+    if (r.status === 'Cancelado') return false;
+    return r.data === data && String(r.placa || '').replace(/\s+/g, '') === String(placaAlvo || '').replace(/\s+/g, '');
+  }).sort(function(a, b) {
+    return String(a.horarioSaida || '').localeCompare(String(b.horarioSaida || ''));
+  });
+
+  var conflitantes = regsDia.filter(function(r) {
+    var rIni = horarioParaMinutos(r.horarioSaida || '08:00');
+    var rFim = horarioParaMinutos(r.horarioRetorno || '17:00');
+    return (inicio < rFim && fim > rIni);
+  });
+
+  return {
+    temConflito: conflitantes.length > 0,
+    conflitantes: conflitantes,
+    reservasDoDia: regsDia
+  };
+}
+
+/* Regex helper check */
+function limparEspacosPlacaCarro(p) {
+  return String(p || '').replace(/\s+/g, '');
+}
 
 function converterParaEmbedUrl(url) {
   if (!url) return '';
   url = url.trim();
 
-  /* Se já for link de embed do Google Calendar */
   if (url.includes('calendar.google.com/calendar/embed')) {
     if (!url.includes('ctz=')) {
       url += (url.includes('?') ? '&' : '?') + 'ctz=America%2FSao_Paulo';
@@ -3081,7 +3222,6 @@ function converterParaEmbedUrl(url) {
     return url;
   }
 
-  /* Se for link de compartilhamento do Google Calendar com cid */
   if (url.includes('calendar.google.com') && url.includes('cid=')) {
     try {
       const u = new URL(url);
@@ -3092,7 +3232,6 @@ function converterParaEmbedUrl(url) {
     } catch(e) {}
   }
 
-  /* Se for endereço de e-mail institucional */
   if (url.includes('@') && !url.includes('http')) {
     return 'https:' + String.fromCharCode(47, 47) + 'calendar.google.com/calendar/embed?src=' + encodeURIComponent(url) + '&ctz=America%2FSao_Paulo&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0';
   }
@@ -3100,83 +3239,274 @@ function converterParaEmbedUrl(url) {
   return url;
 }
 
+function navegarMesCarro(delta) {
+  if (delta === 'atual') {
+    var d = new Date();
+    mesAtivoCarro = d.getMonth();
+    anoAtivoCarro = d.getFullYear();
+  } else {
+    mesAtivoCarro += delta;
+    if (mesAtivoCarro < 0) {
+      mesAtivoCarro = 11;
+      anoAtivoCarro--;
+    } else if (mesAtivoCarro > 11) {
+      mesAtivoCarro = 0;
+      anoAtivoCarro++;
+    }
+  }
+  renderizarCarroOficial();
+}
+
+function definirFiltroVeiculoCalCarro(placa) {
+  filtroVeiculoCalCarro = placa || 'TODOS';
+  renderizarCalendarioCarroEmbed();
+}
+
+function alternarModoVisaoCalCarro(modo) {
+  modoVisaoCalCarro = modo || 'grade';
+  renderizarCalendarioCarroEmbed();
+}
+
+function escaparHtmlSimples(txt) {
+  return String(txt || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 function renderizarCalendarioCarroEmbed() {
   const container = document.getElementById('carro-calendar-content');
   const linkExterno = document.getElementById('carro-link-abrir-agenda');
   if (!container) return;
 
-  if (!carroCalendarUrl) {
-    if (linkExterno) linkExterno.style.display = 'none';
+  if (linkExterno) {
+    linkExterno.style.display = carroCalendarUrl ? 'inline-flex' : 'none';
+  }
+
+  /* Se o usuário optou expressamente pelo iframe do Google Agenda conectado */
+  if (modoVisaoCalCarro === 'embed' && carroCalendarUrl) {
+    const embedUrl = converterParaEmbedUrl(carroCalendarUrl);
     container.innerHTML = `
-      <div class="carro-calendar-placeholder-card" style="background: #ffffff; border: 1.5px dashed #cbd5e1; border-radius: 14px; padding: 2.5rem 1.5rem; text-align: center; margin: 1rem 0; box-shadow: 0 4px 14px rgba(0,0,0,0.03);">
-        <div class="carro-cal-icon-wrapper" style="margin-bottom: 0.75rem;">
-          <span style="font-size: 3.2rem; display: block;">📅</span>
-          <span class="carro-cal-badge-pulse" style="display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 9999px; text-transform: uppercase; margin-top: 0.5rem;">Ambiente Pronto</span>
-        </div>
-        <h3 style="font-size: 1.35rem; font-weight: 800; color: #0b2351; margin: 0.85rem 0 0.4rem 0;">
-          Ambiente Preparado para o Calendário de Agendamento
-        </h3>
-        <p style="font-size: 0.92rem; color: #64748b; max-width: 640px; margin: 0 auto 1.5rem auto; line-height: 1.6;">
-          O módulo <strong>Carro Oficial</strong> foi ajustado para consulta e visualização contínua.
-          <strong>Modo 100% de consulta e visualização</strong> — nenhum arquivo precisa ser enviado. 
-          Assim que o link do calendário for configurado, a grade de horários e os itinerários serão carregados automaticamente neste espaço.
-        </p>
-        <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
-          <button class="btn-carro-action" onclick="abrirModalConfigCalendarCarro()" style="padding: 0.65rem 1.35rem; font-size: 0.9rem;">
-            <span>🔗 Inserir Link do Calendário</span>
-          </button>
-          <button class="btn-carro-action secondary" onclick="alternarSubTabCarro('feed')" style="padding: 0.65rem 1.35rem; font-size: 0.9rem;">
-            <span>📋 Ver Lançamentos & Viagens</span>
-          </button>
-        </div>
-        <div class="carro-cal-info-features" style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
-          <div class="carro-cal-feature-item" style="flex: 1; min-width: 200px; max-width: 240px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem; text-align: left;">
-            <span style="font-size: 1.3rem; display: block; margin-bottom: 0.25rem;">🔒</span>
-            <strong style="color: #0f172a; font-size: 0.88rem; display: block;">Modo Somente Leitura</strong>
-            <span style="color: #64748b; font-size: 0.78rem;">Visualização segura dos itinerários oficiais sem risco de alteração acidental.</span>
+      <div class="carro-calendar-frame-container" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.04); margin: 1rem 0;">
+        <div class="carro-calendar-toolbar" style="padding: 0.85rem 1.25rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);"></span>
+            <span style="font-size: 0.85rem; font-weight: 700; color: #0f172a;">Calendário Externo Conectado</span>
           </div>
-          <div class="carro-cal-feature-item" style="flex: 1; min-width: 200px; max-width: 240px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem; text-align: left;">
-            <span style="font-size: 1.3rem; display: block; margin-bottom: 0.25rem;">⚡</span>
-            <strong style="color: #0f172a; font-size: 0.88rem; display: block;">Zero Upload de Arquivos</strong>
-            <span style="color: #64748b; font-size: 0.78rem;">Sincronização direta via link na nuvem, sem planilhas locais ou consumo de cota.</span>
-          </div>
-          <div class="carro-cal-feature-item" style="flex: 1; min-width: 200px; max-width: 240px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem; text-align: left;">
-            <span style="font-size: 1.3rem; display: block; margin-bottom: 0.25rem;">🌐</span>
-            <strong style="color: #0f172a; font-size: 0.88rem; display: block;">Multiplataforma</strong>
-            <span style="color: #64748b; font-size: 0.78rem;">Compatível com Google Agenda, Outlook Web e feeds iCal/ICS.</span>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="btn-carro-action" onclick="alternarModoVisaoCalCarro('grade')" title="Voltar para Grade Interativa do BI">
+              <span>📅 Grade Interativa do Mês</span>
+            </button>
+            <button class="btn-carro-action secondary" onclick="abrirCalendarioExterno()"><span>↗ Nova Aba</span></button>
+            <button class="btn-carro-action secondary" onclick="abrirModalConfigCalendarCarro()"><span>⚙️ Alterar Link</span></button>
+            <button class="btn-carro-action secondary" onclick="recarregarIframeCalendario()"><span>🔄 Recarregar</span></button>
           </div>
         </div>
+        <iframe id="carro-calendar-iframe" src="${embedUrl}" class="carro-calendar-iframe" style="width: 100%; height: 680px; border: none; display: block;" frameborder="0" scrolling="yes" title="Calendário de Agendamento de Carros Oficiais"></iframe>
       </div>
     `;
     return;
   }
 
-  const embedUrl = converterParaEmbedUrl(carroCalendarUrl);
-  if (linkExterno) {
-    linkExterno.style.display = 'inline-flex';
+  /* GRADE MENSAL INTERATIVA DO MÊS VIGENTE (MODO PADRÃO EXECUTIVO) */
+  const mesesNomes = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+  const mesesCurtos = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
+  const diasCurtos = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
+
+  const hojeIso = obterDataHojeIso();
+  const hojeObj = new Date();
+  const ehMesVigente = (anoAtivoCarro === hojeObj.getFullYear() && mesAtivoCarro === hojeObj.getMonth());
+  const prefixoMesAtual = anoAtivoCarro + '-' + String(mesAtivoCarro + 1).padStart(2, '0');
+
+  const todosRegistrosMes = (CARRO_DATA.registros || [])
+    .filter(function(r) { return String(r.data || '').indexOf(prefixoMesAtual) === 0; })
+    .sort(function(a, b) {
+      var cmp = String(a.data || '').localeCompare(String(b.data || ''));
+      if (cmp !== 0) return cmp;
+      return String(a.horarioSaida || '').localeCompare(String(b.horarioSaida || ''));
+    });
+
+  const qtdSpinMes = todosRegistrosMes.filter(function(r) { return String(r.placa || '').indexOf('TLH') !== -1; }).length;
+  const qtdHb20Mes = todosRegistrosMes.filter(function(r) { return String(r.placa || '').indexOf('FZG') !== -1; }).length;
+
+  const registrosFiltradosMes = todosRegistrosMes.filter(function(r) {
+    if (filtroVeiculoCalCarro === 'TODOS') return true;
+    return String(r.placa || '').replace(/\s+/g, '') === filtroVeiculoCalCarro.replace(/\s+/g, '');
+  });
+
+  const mapaPorDia = {};
+  registrosFiltradosMes.forEach(function(r) {
+    if (!mapaPorDia[r.data]) mapaPorDia[r.data] = [];
+    mapaPorDia[r.data].push(r);
+  });
+
+  const primeiroDiaSemana = new Date(anoAtivoCarro, mesAtivoCarro, 1).getDay();
+  const totalDiasMes = new Date(anoAtivoCarro, mesAtivoCarro + 1, 0).getDate();
+  const totalDiasMesAnterior = new Date(anoAtivoCarro, mesAtivoCarro, 0).getDate();
+  const totalCelulas = Math.ceil((primeiroDiaSemana + totalDiasMes) / 7) * 7;
+
+  let celulasHtml = '';
+  for (let i = 0; i < totalCelulas; i++) {
+    let diaNum, mesCell = mesAtivoCarro, anoCell = anoAtivoCarro, isOtherMonth = false;
+    if (i < primeiroDiaSemana) {
+      diaNum = totalDiasMesAnterior - primeiroDiaSemana + i + 1;
+      mesCell = mesAtivoCarro - 1;
+      if (mesCell < 0) { mesCell = 11; anoCell--; }
+      isOtherMonth = true;
+    } else if (i >= primeiroDiaSemana + totalDiasMes) {
+      diaNum = i - (primeiroDiaSemana + totalDiasMes) + 1;
+      mesCell = mesAtivoCarro + 1;
+      if (mesCell > 11) { mesCell = 0; anoCell++; }
+      isOtherMonth = true;
+    } else {
+      diaNum = i - primeiroDiaSemana + 1;
+    }
+
+    const dataIso = anoCell + '-' + String(mesCell + 1).padStart(2, '0') + '-' + String(diaNum).padStart(2, '0');
+    const isToday = (dataIso === hojeIso);
+    const evsDia = isOtherMonth ? [] : (mapaPorDia[dataIso] || []);
+
+    const pillsHtml = evsDia.map(function(ev) {
+      const isSpin = String(ev.placa || '').indexOf('TLH') !== -1;
+      const veicClass = isSpin ? 'veic-spin' : 'veic-hb20';
+      const stClass = (ev.status === 'Cancelado') ? 'status-cancelado' : '';
+      const placaCurta = isSpin ? 'TLH 1B63' : 'FZG 0H22';
+      const horaCurta = (ev.horarioSaida || '08:00') + '–' + (ev.horarioRetorno || '17:00');
+      const pessoa = escaparHtmlSimples(ev.solicitante || 'Gabinete');
+      const setor = escaparHtmlSimples(ev.unidade || ev.setor || 'URE Itapevi');
+      const dest = escaparHtmlSimples(ev.destino || 'Deslocamento Oficial');
+      return `
+        <button type="button" class="carro-cal-pill ${veicClass} ${stClass}" onclick="event.stopPropagation(); abrirModalDetalhesAgendamentoCarro('${ev.id}')" title="${horaCurta} • ${pessoa} (${setor}) • ${dest} — Clique para conferir detalhes">
+          <div class="carro-cal-pill-top">
+            <span>⏰ ${horaCurta}</span>
+            <span class="carro-cal-pill-plate">${placaCurta}</span>
+          </div>
+          <div class="carro-cal-pill-user">👤 ${pessoa}</div>
+          <div class="carro-cal-pill-sector">🏢 ${setor}</div>
+        </button>
+      `;
+    }).join('');
+
+    celulasHtml += `
+      <div class="carro-cal-day ${isOtherMonth ? 'is-other-month' : ''} ${isToday ? 'is-today' : ''}">
+        <div class="carro-cal-day-head">
+          <span class="carro-cal-day-num">${diaNum}${isToday ? ' • HOJE' : ''}</span>
+          ${!isOtherMonth ? `<button type="button" class="carro-cal-day-add" onclick="abrirModalNovaSolicitacaoCarro(null, '${dataIso}')" title="Solicitar carro oficial para ${formatarDataCompletaBr(dataIso)}">+</button>` : ''}
+        </div>
+        <div class="carro-cal-events-stack">
+          ${pillsHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  let ledgerHtml = '';
+  if (registrosFiltradosMes.length === 0) {
+    ledgerHtml = `
+      <div style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 2rem; text-align: center; color: #64748b;">
+        <div style="font-size: 2rem; margin-bottom: 0.4rem;">🚗</div>
+        <strong style="color: #0b2351; font-size: 0.95rem; display: block; margin-bottom: 0.25rem;">Nenhum agendamento encontrado em ${mesesNomes[mesAtivoCarro]} de ${anoAtivoCarro}</strong>
+        <span style="font-size: 0.82rem; display: block; margin-bottom: 0.9rem;">Clique no botão "+" em qualquer dia do calendário ou solicite uma nova reserva abaixo.</span>
+        <button type="button" class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro(null, '${hojeIso}')">+ Solicitar Carro Oficial</button>
+      </div>
+    `;
+  } else {
+    ledgerHtml = '<div class="carro-cal-ledger-list">' + registrosFiltradosMes.map(function(r) {
+      const p = String(r.data || '').split('-');
+      const diaStr = p[2] || '--';
+      const mesIdx = Math.max(0, Math.min(11, parseInt(p[1] || '1', 10) - 1));
+      const dObj = new Date(parseInt(p[0], 10), mesIdx, parseInt(p[2], 10), 12, 0, 0);
+      const dowStr = diasCurtos[dObj.getDay()] || '';
+      const isSpin = String(r.placa || '').indexOf('TLH') !== -1;
+      const placa = isSpin ? 'TLH 1B63' : 'FZG 0H22';
+      const statusBadgeBg = r.status === 'Concluído' ? '#dcfce7; color: #15803d;' : (r.status === 'Em Trânsito' ? '#fef3c7; color: #b45309;' : (r.status === 'Cancelado' ? '#fee2e2; color: #991b1b;' : '#dbeafe; color: #1e40af;'));
+      return `
+        <div class="carro-ledger-item" onclick="abrirModalDetalhesAgendamentoCarro('${r.id}')" title="Clique para abrir conferência rápida de carro e usuário">
+          <div class="carro-ledger-datebox">
+            <span class="day">${diaStr}</span>
+            <span class="mon">${mesesCurtos[mesIdx]} • ${dowStr}</span>
+          </div>
+          <div class="carro-ledger-info">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.4rem;">
+              <span style="font-family: monospace; font-size: 0.7rem; font-weight: 800; color: #0b2351; background: #f1f5f9; padding: 0.1rem 0.4rem; border-radius: 4px;">${escaparHtmlSimples(r.controleTrafegoNum || 'CT-2026')} • ${placa}</span>
+              <span style="font-size: 0.68rem; font-weight: 800; padding: 0.12rem 0.5rem; border-radius: 9999px; background: ${statusBadgeBg}">${escaparHtmlSimples(r.status || 'Agendado')}</span>
+            </div>
+            <div class="carro-ledger-title">${escaparHtmlSimples(r.solicitante || 'Solicitante')} — ${escaparHtmlSimples(r.unidade || r.setor || 'URE Itapevi')}</div>
+            <div class="carro-ledger-meta">
+              <span>⏰ <strong>${r.horarioSaida || '08:00'} às ${r.horarioRetorno || '17:00'}</strong></span>
+              <span>🚗 ${isSpin ? 'Spin' : 'HB20'}</span>
+              <span>📍 ${escaparHtmlSimples(r.destino || 'Destino Oficial')}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('') + '</div>';
   }
 
   container.innerHTML = `
-    <div class="carro-calendar-frame-container" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.04); margin: 1rem 0;">
-      <div class="carro-calendar-toolbar" style="padding: 0.85rem 1.25rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
-        <div style="display: flex; align-items: center; gap: 0.6rem;">
-          <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);"></span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: #0f172a;">Grade do Calendário Oficial Conectada</span>
-          <span style="font-size: 0.72rem; color: #047857; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 0.15rem 0.5rem; border-radius: 9999px; font-weight: 700;">Somente Leitura</span>
+    <div class="carro-cal-hub">
+      <div class="carro-cal-topbar">
+        <div class="carro-cal-month-group">
+          <span style="font-size: 1.5rem;">📅</span>
+          <h3 class="carro-cal-month-title">${mesesNomes[mesAtivoCarro]} de ${anoAtivoCarro}</h3>
+          <span class="carro-cal-month-badge">${ehMesVigente ? 'Mês Vigente • ' : ''}${todosRegistrosMes.length} agendamento(s)</span>
         </div>
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-          <button class="btn-carro-action secondary" onclick="abrirCalendarioExterno()" title="Abrir em tela inteira em nova aba">
-            <span>↗ Nova Aba</span>
-          </button>
-          <button class="btn-carro-action secondary" onclick="abrirModalConfigCalendarCarro()" title="Alterar ou atualizar link">
-            <span>⚙️ Alterar Link</span>
-          </button>
-          <button class="btn-carro-action secondary" onclick="recarregarIframeCalendario()" title="Recarregar calendário">
-            <span>🔄 Recarregar</span>
+
+        <div class="carro-cal-nav-btns">
+          <button type="button" class="btn-cal-nav" onclick="navegarMesCarro(-1)" title="Mês anterior">◀ Anterior</button>
+          <button type="button" class="btn-cal-nav" onclick="navegarMesCarro('atual')" title="Ir para o mês vigente">Mês Atual</button>
+          <button type="button" class="btn-cal-nav" onclick="navegarMesCarro(1)" title="Próximo mês">Próximo ▶</button>
+          <button type="button" class="btn-carro-action" style="margin-left: 0.35rem; background: linear-gradient(135deg, #d48208 0%, #f09b0c 100%); color: #07152f;" onclick="abrirModalNovaSolicitacaoCarro(null, '${hojeIso}')">
+            <span>+ Solicitar Carro</span>
           </button>
         </div>
       </div>
-      <iframe id="carro-calendar-iframe" src="${embedUrl}" class="carro-calendar-iframe" style="width: 100%; height: 680px; border: none; display: block;" frameborder="0" scrolling="yes" title="Calendário de Agendamento de Carros Oficiais"></iframe>
+
+      <div class="carro-cal-filter-bar">
+        <div class="carro-cal-filter-pills">
+          <span style="font-size: 0.74rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-right: 0.2rem;">Frota no Mês:</span>
+          <button type="button" class="carro-cal-chip ${filtroVeiculoCalCarro === 'TODOS' ? 'active' : ''}" onclick="definirFiltroVeiculoCalCarro('TODOS')">
+            <span>Todos (${todosRegistrosMes.length})</span>
+          </button>
+          <button type="button" class="carro-cal-chip ${filtroVeiculoCalCarro === 'TLH 1B63' ? 'active' : ''}" onclick="definirFiltroVeiculoCalCarro('TLH 1B63')">
+            <span>🚗 Spin • TLH 1B63 (${qtdSpinMes})</span>
+          </button>
+          <button type="button" class="carro-cal-chip ${filtroVeiculoCalCarro === 'FZG 0H22' ? 'active' : ''}" onclick="definirFiltroVeiculoCalCarro('FZG 0H22')">
+            <span>🚙 HB20 • FZG 0H22 (${qtdHb20Mes})</span>
+          </button>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+          <span style="font-size: 0.74rem; color: #64748b; font-weight: 600;">💡 Clique em qualquer agendamento para abrir a ficha de conferência</span>
+          ${carroCalendarUrl ? `<button type="button" class="carro-cal-chip" onclick="alternarModoVisaoCalCarro('embed')" title="Visualizar calendário externo incorporado">🌐 Ver Google Agenda</button>` : ''}
+        </div>
+      </div>
+
+      <div class="carro-cal-scroll-wrap">
+        <div class="carro-cal-grid-weekdays">
+          <div class="carro-cal-weekday">Dom</div>
+          <div class="carro-cal-weekday">Seg</div>
+          <div class="carro-cal-weekday">Ter</div>
+          <div class="carro-cal-weekday">Qua</div>
+          <div class="carro-cal-weekday">Qui</div>
+          <div class="carro-cal-weekday">Sex</div>
+          <div class="carro-cal-weekday">Sáb</div>
+        </div>
+        <div class="carro-cal-grid-days">
+          ${celulasHtml}
+        </div>
+      </div>
+
+      <div class="carro-cal-ledger">
+        <div class="carro-cal-ledger-header">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 1.15rem;">📋</span>
+            <h4 style="margin: 0; font-size: 0.98rem; font-weight: 800; color: #0b2351;">Agendamentos de ${mesesNomes[mesAtivoCarro]} de ${anoAtivoCarro}</h4>
+            <span style="font-size: 0.74rem; font-weight: 700; color: #475569; background: #f1f5f9; padding: 0.15rem 0.55rem; border-radius: 9999px;">${registrosFiltradosMes.length} listado(s)</span>
+          </div>
+          <button type="button" class="btn-carro-action secondary" onclick="alternarSubTabCarro('feed')" style="font-size: 0.78rem; padding: 0.35rem 0.75rem;">
+            <span>Ver Controle Diário & Hodômetro ↗</span>
+          </button>
+        </div>
+        ${ledgerHtml}
+      </div>
     </div>
   `;
 }
@@ -3223,7 +3553,7 @@ function salvarConfigCalendarioCarro() {
   if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.salvarCarroCalendarConfig === 'function') {
     google.script.run
       .withSuccessHandler(function() {
-        console.log("Config do calendário salva no Apps Script com sucesso.");
+        console.log('Config do calendário salva no Apps Script com sucesso.');
       })
       .salvarCarroCalendarConfig(url);
   } else if (typeof window.__gasCloudUrl === 'function') {
@@ -3238,8 +3568,9 @@ function salvarConfigCalendarioCarro() {
 
   fecharModalConfigCalendarCarro();
   subTabAtivaCarro = 'calendario';
+  if (url) modoVisaoCalCarro = 'embed';
   renderizarCarroOficial();
-  mostrarToastAgenda(url ? "Calendário sincronizado com sucesso!" : "Configuração atualizada!", "📅");
+  mostrarToastAgenda(url ? 'Calendário sincronizado com sucesso!' : 'Configuração atualizada!', '📅');
 }
 
 function renderizarCarroOficial() {
@@ -3264,21 +3595,30 @@ function renderizarCarroOficial() {
     }
   }
 
-  /* Cálculos de KPIs */
+  /* Cálculos reais de KPIs com base na data de hoje e mês ativo */
   const hoje = obterDataHojeIso();
   const dObj = new Date(hoje + 'T12:00:00');
   const dSeguinte = new Date(dObj.getTime() + 86400000);
-  const amanhaIso = dSeguinte.toISOString().split('T')[0];
+  const amanhaIso = dSeguinte.getFullYear() + '-' + String(dSeguinte.getMonth() + 1).padStart(2, '0') + '-' + String(dSeguinte.getDate()).padStart(2, '0');
   const d7 = new Date(dObj.getTime() + 7 * 86400000);
 
-  const regHoje = (CARRO_DATA.registros || []).filter(r => r.data === dataAtivaCarro).length;
-  const regAmanha = (CARRO_DATA.registros || []).filter(r => r.data === amanhaIso).length;
-  const reg7Dias = (CARRO_DATA.registros || []).filter(r => {
+  const registrosAtivos = (CARRO_DATA.registros || []).filter(function(r) { return r.status !== 'Cancelado'; });
+  const regHoje = registrosAtivos.filter(function(r) { return r.data === hoje; }).length;
+  const regDiaSelecionado = registrosAtivos.filter(function(r) { return r.data === dataAtivaCarro; }).length;
+  const regAmanha = registrosAtivos.filter(function(r) { return r.data === amanhaIso; }).length;
+  const reg7Dias = registrosAtivos.filter(function(r) {
     const rDate = new Date(r.data + 'T12:00:00');
     return rDate >= dObj && rDate <= d7;
   }).length;
-  
-  const veiculosUnicos = 2; /* Frota oficial estrita com 2 veículos */
+
+  const prefixoMes = anoAtivoCarro + '-' + String(mesAtivoCarro + 1).padStart(2, '0');
+  const placasMes = {};
+  registrosAtivos.forEach(function(r) {
+    if (String(r.data || '').indexOf(prefixoMes) === 0 && r.placa) {
+      placasMes[r.placa] = true;
+    }
+  });
+  const veiculosUnicos = Object.keys(placasMes).length || 2;
 
   const kpiHoje = document.getElementById('carro-kpi-hoje');
   if (kpiHoje) kpiHoje.innerText = regHoje;
@@ -3293,7 +3633,7 @@ function renderizarCarroOficial() {
   if (kpiVeic) kpiVeic.innerText = veiculosUnicos;
 
   const heroCount = document.getElementById('carro-hero-count');
-  if (heroCount) heroCount.innerText = regHoje + ' agendamento(s)';
+  if (heroCount) heroCount.innerText = regDiaSelecionado + ' agendamento(s)';
 
   const alertQtd = document.getElementById('carro-qtd-registros-alert');
   if (alertQtd) alertQtd.innerText = (CARRO_DATA.registros || []).length;
@@ -3304,7 +3644,7 @@ function renderizarCarroOficial() {
   }
 
   const syncLabel = document.getElementById('carro-sync-label');
-  if (syncLabel) syncLabel.innerText = 'Sincronizado ' + (CARRO_DATA.sincronizadoEm || '10:00');
+  if (syncLabel) syncLabel.innerText = 'Sincronizado ' + (CARRO_DATA.sincronizadoEm || '08:00');
 
   /* Atualizar botões de sub-tabs */
   document.querySelectorAll('.carro-subtab-btn').forEach(b => b.classList.remove('active'));
@@ -3339,7 +3679,6 @@ function renderizarCarroOficial() {
     renderizarTabelaHistoricoCarro();
     return;
   } else {
-    /* 'feed' */
     if (containerCalendario) containerCalendario.style.display = 'none';
     if (containerFeed) containerFeed.style.display = 'block';
     if (containerFrota) containerFrota.style.display = 'none';
@@ -3358,7 +3697,7 @@ function renderizarCarroOficial() {
         <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">🚗</span>
         <h3 style="font-size: 1.1rem; color: #0f172a; margin-bottom: 0.25rem;">Nenhum agendamento para este dia</h3>
         <p style="font-size: 0.85rem; margin: 0 0 1rem 0;">Você pode registrar uma nova solicitação com cálculo de hodômetro e emissão do Modelo 30.</p>
-        <button class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro()">+ Solicitar Carro Oficial</button>
+        <button class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro(null, '${dataAtivaCarro}')">+ Solicitar Carro Oficial</button>
       </div>
     `;
     return;
@@ -3380,7 +3719,7 @@ function renderizarCarroOficial() {
         </div>
         <div class="carro-card-body">
           <div class="carro-card-top-row">
-            <div>
+            <div style="cursor: pointer;" onclick="abrirModalDetalhesAgendamentoCarro('${reg.id}')" title="Clique para abrir ficha executiva de conferência">
               <h4 class="carro-card-main-title">${reg.titulo || 'Reserva de Carro Oficial'}</h4>
               <span style="font-size: 0.76rem; color: #64748b; font-weight: 600;">${reg.controleTrafegoNum || ''} • ${reg.unidade || 'URE Itapevi'}</span>
             </div>
@@ -3395,27 +3734,22 @@ function renderizarCarroOficial() {
               <span class="carro-meta-label">🚗 Veículo Oficial</span>
               <span class="carro-meta-val"><strong>${reg.veiculo}</strong> (${placaExibir})</span>
             </div>
-            
             <div class="carro-meta-item">
               <span class="carro-meta-label">📍 Destino / Itinerário</span>
               <span class="carro-meta-val">${reg.destino || 'Destino Oficial'}</span>
             </div>
-
             <div class="carro-meta-item">
               <span class="carro-meta-label">👤 Solicitante / Função</span>
               <span class="carro-meta-val">${reg.solicitante || 'Gabinete'} ${reg.funcao ? '(' + reg.funcao + ')' : ''}</span>
             </div>
-
             <div class="carro-meta-item">
               <span class="carro-meta-label">👨‍✈️ Condutor Designado</span>
               <span class="carro-meta-val">${reg.motorista || 'Carlos Alberto da Silva'}</span>
             </div>
-
             <div class="carro-meta-item">
               <span class="carro-meta-label">⏰ Horários</span>
               <span class="carro-meta-val">${reg.horarioSaida || '08:00'} às ${reg.horarioRetorno || '17:00'}</span>
             </div>
-
             <div class="carro-meta-item">
               <span class="carro-meta-label">📊 Hodômetro & Tanque</span>
               <span class="carro-meta-val">${kmTxt} • ${tanqueTxt}</span>
@@ -3430,9 +3764,12 @@ function renderizarCarroOficial() {
               <span class="carro-pill-tag carro-pill-periodo">${reg.periodo || reg.data}</span>
             </div>
             
-            <div style="display: flex; gap: 0.45rem; align-items: center;">
+            <div style="display: flex; gap: 0.45rem; align-items: center; flex-wrap: wrap;">
+              <button class="btn-carro-card-action" onclick="abrirModalDetalhesAgendamentoCarro('${reg.id}')" title="Conferência rápida de veículo e solicitante">
+                <span>👁️ Conferir</span>
+              </button>
               <button class="btn-carro-card-action btn-modelo30" onclick="abrirModalPdfControleTrafego('${reg.id}')" title="Gerar e imprimir o documento oficial Modelo 30 (IMESP)">
-                <span>📄 Imprimir Modelo 30 (PDF)</span>
+                <span>📄 Modelo 30 (PDF)</span>
               </button>
               <button class="btn-carro-card-action" onclick="abrirModalEditarSolicitacaoCarro('${reg.id}')" title="Editar hodômetro, combustível, carro e dados desta solicitação">
                 <span>✏️ Editar</span>
@@ -3529,6 +3866,7 @@ function renderizarTabelaHistoricoCarro(filtro) {
       (r.placa && r.placa.toLowerCase().includes(termo)) ||
       (r.destino && r.destino.toLowerCase().includes(termo)) ||
       (r.solicitante && r.solicitante.toLowerCase().includes(termo)) ||
+      (r.unidade && r.unidade.toLowerCase().includes(termo)) ||
       (r.setor && r.setor.toLowerCase().includes(termo)) ||
       (r.motorista && r.motorista.toLowerCase().includes(termo)) ||
       (r.status && r.status.toLowerCase().includes(termo));
@@ -3546,7 +3884,7 @@ function renderizarTabelaHistoricoCarro(filtro) {
     var kmDisplay = r.kmDiferenca ? (r.kmDiferenca + ' km') : (r.kmPartida ? (r.kmPartida + ' km') : '-');
     var placaExibir = r.placa || (r.veiculo && r.veiculo.indexOf('Spin') !== -1 ? 'TLH 1B63' : 'FZG 0H22');
     
-    return `<tr>
+    return `<tr style="cursor: pointer;" onclick="abrirModalDetalhesAgendamentoCarro('${r.id}')" title="Clique para ver detalhes completos">
       <td style="font-weight: 600; color: #0b2351; white-space: nowrap;">
         📅 ${dataBr}
         <span style="display: block; font-size: 0.74rem; color: #64748b; font-weight: normal;">⏰ ${hora}</span>
@@ -3573,7 +3911,10 @@ function renderizarTabelaHistoricoCarro(filtro) {
           ${r.status || 'Agendado'}
         </span>
       </td>
-      <td style="white-space: nowrap; text-align: right;">
+      <td style="white-space: nowrap; text-align: right;" onclick="event.stopPropagation()">
+        <button class="btn-carro-card-action" onclick="abrirModalDetalhesAgendamentoCarro('${r.id}')" title="Conferir detalhes do agendamento">
+          <span>👁️</span>
+        </button>
         <button class="btn-carro-card-action btn-modelo30" onclick="abrirModalPdfControleTrafego('${r.id}')" title="Gerar e imprimir o Modelo 30 oficial (IMESP)">
           <span>📄 Modelo 30</span>
         </button>
@@ -3594,7 +3935,7 @@ function filtrarTabelaHistoricoCarro(termo) {
 
 function navegarDataCarro(direcaoOuHoje) {
   if (direcaoOuHoje === 'hoje') {
-    dataAtivaCarro = "2026-10-17";
+    dataAtivaCarro = obterDataHojeIso();
   } else {
     const partes = dataAtivaCarro.split('-');
     const curDate = new Date(parseInt(partes[0], 10), parseInt(partes[1], 10) - 1, parseInt(partes[2], 10), 12, 0, 0);
@@ -3617,48 +3958,350 @@ function aoMudarDataCarro(dataIso) {
 function atualizarCarroOficial() {
   const agora = new Date();
   const horaStr = String(agora.getHours()).padStart(2, '0') + ':' + String(agora.getMinutes()).padStart(2, '0');
-  CARRO_DATA.sincronizadoEm = horaStr;
-  salvarCarroStorage();
-  
-  if (subTabAtivaCarro === 'calendario') {
-    renderizarCalendarioCarroEmbed();
-  } else {
+  carregarCarroCloud(function() {
+    CARRO_DATA.sincronizadoEm = horaStr;
     renderizarCarroOficial();
-  }
-  mostrarToastAgenda("Frota e agendamentos oficiais sincronizados com sucesso!", "🚗");
+    mostrarToastAgenda('Frota e agendamentos sincronizados da nuvem às ' + horaStr + '!', '🚗');
+  });
 }
 
 /* ============================================================== */
-/* CRUD E MODAIS: SOLICITAÇÃO, EDIÇÃO E FROTA                     */
+/* MODAL DE CONFERÊNCIA RÁPIDA DE AGENDAMENTO (CLIQUE NO CARD)    */
+/* ============================================================== */
+
+function abrirModalDetalhesAgendamentoCarro(idRegistro) {
+  const reg = (CARRO_DATA.registros || []).find(function(r) { return r.id === idRegistro; });
+  if (!reg) return;
+
+  const modal = document.getElementById('modal-detalhes-agendamento-carro');
+  const body = document.getElementById('carro-detalhes-modal-body');
+  const footer = document.getElementById('carro-detalhes-modal-footer');
+  if (!modal || !body || !footer) return;
+
+  const isSpin = (reg.veiculo && reg.veiculo.indexOf('Spin') !== -1) || (reg.placa && reg.placa.indexOf('TLH') !== -1);
+  const placa = reg.placa || (isSpin ? 'TLH 1B63' : 'FZG 0H22');
+  const patrimonio = reg.patrimonio || (isSpin ? 'SP-048972' : 'SP-051204');
+  const diaExtenso = formatarDataExtensoPtBr(reg.data);
+  const duracao = calcularDuracaoHorasMinutos(reg.horarioSaida, reg.horarioRetorno);
+  const kmDif = reg.kmDiferenca !== undefined ? reg.kmDiferenca : Math.max(0, (reg.kmRetorno || 0) - (reg.kmPartida || 0));
+
+  const statusColor = reg.status === 'Concluído'
+    ? 'background: #dcfce7; color: #166534; border: 1px solid #86efac;'
+    : (reg.status === 'Em Trânsito'
+      ? 'background: #fef3c7; color: #b45309; border: 1px solid #fde68a;'
+      : (reg.status === 'Cancelado'
+        ? 'background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;'
+        : 'background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd;'));
+
+  document.getElementById('det-carro-ct').innerText = reg.controleTrafegoNum || 'CT-2026';
+  const stEl = document.getElementById('det-carro-status');
+  stEl.innerText = reg.status || 'Agendado';
+  stEl.setAttribute('style', 'font-size: 0.74rem; font-weight: 800; padding: 0.2rem 0.65rem; border-radius: 9999px; ' + statusColor);
+  document.getElementById('det-carro-prioridade').innerText = '⚡ ' + (reg.prioridade || 'Oficial');
+  document.getElementById('det-carro-titulo').innerText = reg.titulo || ('Reserva de Carro Oficial: ' + (reg.destino || ''));
+
+  body.innerHTML = `
+    <div style="background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%); border: 1px solid #bfdbfe; border-left: 5px solid #0b2351; border-radius: 12px; padding: 1rem 1.15rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+      <div>
+        <div style="font-size: 0.72rem; font-weight: 800; color: #1e40af; text-transform: uppercase; letter-spacing: 0.04em;">📅 Data & Janela de Utilização</div>
+        <div style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-top: 0.15rem; text-transform: capitalize;">${escaparHtmlSimples(diaExtenso)}</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+        <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.4rem 0.85rem; text-align: center;">
+          <span style="display: block; font-size: 0.66rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Saída</span>
+          <strong style="font-size: 1rem; color: #0b2351;">${reg.horarioSaida || '08:00'}</strong>
+        </div>
+        <span style="font-weight: 800; color: #94a3b8;">➔</span>
+        <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.4rem 0.85rem; text-align: center;">
+          <span style="display: block; font-size: 0.66rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Retorno</span>
+          <strong style="font-size: 1rem; color: #0b2351;">${reg.horarioRetorno || '17:00'}</strong>
+        </div>
+        <div style="background: #0b2351; color: #fde047; border-radius: 8px; padding: 0.4rem 0.85rem; text-align: center;">
+          <span style="display: block; font-size: 0.64rem; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">Duração</span>
+          <strong style="font-size: 0.95rem;">⏱️ ${duracao}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="carro-det-grid" style="margin-bottom: 1rem;">
+      <!-- Conferência do Carro & Condutor -->
+      <div class="carro-det-card">
+        <div class="carro-det-card-title"><span>🚗</span><span>Conferência do Veículo & Motorista</span></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+          <div>
+            <div style="font-size: 1.02rem; font-weight: 800; color: #0f172a;">${escaparHtmlSimples(reg.veiculo)}</div>
+            <div style="font-size: 0.76rem; color: #64748b; font-weight: 600;">${escaparHtmlSimples(reg.tipo || 'Veículo Oficial')} • Patr: ${escaparHtmlSimples(patrimonio)}</div>
+          </div>
+          <span class="carro-placa-plate">${escaparHtmlSimples(placa)}</span>
+        </div>
+        <div style="background: #f8fafc; border-radius: 8px; padding: 0.65rem 0.75rem; border: 1px solid #e2e8f0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; font-size: 0.8rem;">
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block; font-weight: 700; text-transform: uppercase;">Condutor Designado</span>
+            <strong style="color: #0b2351;">👨‍✈️ ${escaparHtmlSimples(reg.motorista || 'A definir')}</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block; font-weight: 700; text-transform: uppercase;">Tanque / Combustível</span>
+            <strong style="color: #0f172a;">⛽ ${escaparHtmlSimples(reg.combustivelNivel || '80%')} (${reg.tanqueCheio === 'S' ? 'Cheio' : 'Parcial'})</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block; font-weight: 700; text-transform: uppercase;">Km Partida / Retorno</span>
+            <strong style="color: #0f172a; font-family: monospace;">${reg.kmPartida || 0} → ${reg.kmRetorno || reg.kmPartida || 0} km</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block; font-weight: 700; text-transform: uppercase;">Distância Registrada</span>
+            <strong style="color: #059669; font-family: monospace;">${kmDif} km rodados</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conferência do Usuário / Solicitante & Setor -->
+      <div class="carro-det-card">
+        <div class="carro-det-card-title"><span>👤</span><span>Conferência do Usuário & Setor</span></div>
+        <div style="margin-bottom: 0.75rem;">
+          <div style="font-size: 1.02rem; font-weight: 800; color: #0f172a;">${escaparHtmlSimples(reg.solicitante || 'Gabinete')}</div>
+          <div style="font-size: 0.78rem; color: #475569; font-weight: 600;">${escaparHtmlSimples(reg.funcao || 'Servidor(a) / Responsável')}</div>
+        </div>
+        <div style="background: #f8fafc; border-radius: 8px; padding: 0.65rem 0.75rem; border: 1px solid #e2e8f0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; font-size: 0.8rem;">
+          <div style="grid-column: span 2;">
+            <span style="color: #64748b; font-size: 0.7rem; display: block; font-weight: 700; text-transform: uppercase;">Setor / Unidade Solicitante</span>
+            <strong style="color: #0b2351;">🏢 ${escaparHtmlSimples(reg.unidade || reg.setor || 'URE Itapevi')}</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block; font-weight: 700; text-transform: uppercase;">Qtd. Passageiros</span>
+            <strong style="color: #0f172a;">👥 ${reg.passageiros || 1} pessoa(s)</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 0.7rem; display: block; font-weight: 700; text-transform: uppercase;">Contato / Origem</span>
+            <strong style="color: #0f172a;">📞 ${escaparHtmlSimples(reg.contato || reg.origemFonte || 'Sistema BI')}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Itinerário & Finalidade -->
+    <div class="carro-det-card" style="margin-bottom: 0.5rem;">
+      <div class="carro-det-card-title"><span>📍</span><span>Itinerário, Embarque & Finalidade da Viagem</span></div>
+      <div style="display: grid; gap: 0.6rem; font-size: 0.84rem;">
+        <div>
+          <span style="color: #64748b; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">Local de Embarque (Apresentar-se em):</span>
+          <div style="color: #0f172a; font-weight: 600;">${escaparHtmlSimples(reg.apresentarEm || 'Sede URE Itapevi')}</div>
+        </div>
+        <div>
+          <span style="color: #64748b; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">Destino Principal:</span>
+          <div style="color: #0b2351; font-weight: 800; font-size: 0.92rem;">${escaparHtmlSimples(reg.destino || '-')}</div>
+        </div>
+        <div>
+          <span style="color: #64748b; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">Rota / Itinerário Previsto:</span>
+          <div style="color: #334155; background: #f8fafc; padding: 0.45rem 0.65rem; border-radius: 6px; border: 1px solid #e2e8f0;">${escaparHtmlSimples(reg.itinerario || '-')}</div>
+        </div>
+        ${reg.observacoes ? `<div>
+          <span style="color: #64748b; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">Objetivo / Observações:</span>
+          <div style="color: #334155; line-height: 1.45;">${escaparHtmlSimples(reg.observacoes)}</div>
+        </div>` : ''}
+      </div>
+    </div>
+  `;
+
+  footer.innerHTML = `
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <button type="button" class="btn-carro-card-action btn-modelo30" onclick="fecharModalDetalhesAgendamentoCarro(); abrirModalPdfControleTrafego('${reg.id}')">
+        <span>📄 Imprimir Modelo 30 (PDF)</span>
+      </button>
+      <button type="button" class="btn-carro-card-action" onclick="fecharModalDetalhesAgendamentoCarro(); abrirModalEditarSolicitacaoCarro('${reg.id}')">
+        <span>✏️ Editar / Hodômetro</span>
+      </button>
+      ${reg.status !== 'Concluído' && reg.status !== 'Cancelado' ? `<button type="button" class="btn-carro-card-action btn-concluir" onclick="fecharModalDetalhesAgendamentoCarro(); concluirViagemRapida('${reg.id}')"><span>🏁 Concluir Viagem</span></button>` : ''}
+      <button type="button" class="btn-carro-card-action btn-danger" onclick="fecharModalDetalhesAgendamentoCarro(); excluirSolicitacaoCarro('${reg.id}')">
+        <span>🗑️ Excluir</span>
+      </button>
+    </div>
+    <button type="button" class="btn-mudar-data" style="color: #475569; border-color: #cbd5e1;" onclick="fecharModalDetalhesAgendamentoCarro()">Fechar</button>
+  `;
+
+  modal.style.display = 'flex';
+}
+
+function fecharModalDetalhesAgendamentoCarro() {
+  const modal = document.getElementById('modal-detalhes-agendamento-carro');
+  if (modal) modal.style.display = 'none';
+}
+
+/* ============================================================== */
+/* CRUD E MODAIS: SOLICITAÇÃO MEGA-PREMIUM, EDIÇÃO E FROTA        */
 /* ============================================================== */
 
 function solicitarCarroParaVeiculo(placa) {
-  abrirModalNovaSolicitacaoCarro(placa);
+  abrirModalNovaSolicitacaoCarro(placa, dataAtivaCarro);
 }
 
-function abrirModalNovaSolicitacaoCarro(placaPredefinida) {
+function popularDatalistEscolasCarro() {
+  const dl = document.getElementById('carro-destinos-escolas-list');
+  if (!dl) return;
+  const opcoes = [
+    'SEDUC Central - Praça da República, 53 - São Paulo',
+    'Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75',
+    'Prefeitura Municipal de Itapevi',
+    'Prefeitura Municipal de Barueri',
+    'Prefeitura Municipal de Jandira',
+    'Prefeitura de Pirapora do Bom Jesus'
+  ];
+  try {
+    if (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas)) {
+      listaEscolas.forEach(function(e) {
+        if (e && e.nome) opcoes.push(e.nome + (e.cidade ? ' (' + e.cidade + ')' : ''));
+      });
+    }
+  } catch(err) {}
+  dl.innerHTML = opcoes.map(function(o) {
+    return '<option value="' + escaparHtmlSimples(o) + '"></option>';
+  }).join('');
+}
+
+function abrirModalNovaSolicitacaoCarro(placaPredefinida, dataPredefinida) {
   const modal = document.getElementById('modal-solicitar-carro');
   if (!modal) return;
 
+  popularDatalistEscolasCarro();
+
+  const form = document.getElementById('form-nova-solicitacao-carro');
+  if (form) form.reset();
+
   const inputData = document.getElementById('form-carro-data');
-  if (inputData) inputData.value = dataAtivaCarro;
+  if (inputData) inputData.value = dataPredefinida || dataAtivaCarro || obterDataHojeIso();
 
-  const selVeiculo = document.getElementById('form-carro-veiculo');
-  if (selVeiculo && placaPredefinida) {
-    if (placaPredefinida.indexOf('TLH') !== -1) {
-      selVeiculo.value = "Chevrolet Spin 1.8 7L (Oficial Gabinete)";
-    } else {
-      selVeiculo.value = "Hyundai HB20 1.0 (Oficial Apoio)";
-    }
-  }
+  const inSaida = document.getElementById('form-carro-saida');
+  const inRetorno = document.getElementById('form-carro-retorno');
+  if (inSaida && !inSaida.value) inSaida.value = '08:00';
+  if (inRetorno && !inRetorno.value) inRetorno.value = '17:00';
 
-  atualizarCamposVeiculoFormularioNovo();
+  const inApr = document.getElementById('form-carro-apresentar');
+  if (inApr) inApr.value = 'Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75';
+
+  const valVeiculo = (placaPredefinida && placaPredefinida.indexOf('FZG') !== -1)
+    ? 'Hyundai HB20 1.0 (Oficial Apoio)'
+    : 'Chevrolet Spin 1.8 7L (Oficial Gabinete)';
+
+  selecionarVeiculoSolicitacaoCarro(valVeiculo);
   modal.style.display = 'flex';
 }
 
 function fecharModalCarro() {
   const modal = document.getElementById('modal-solicitar-carro');
   if (modal) modal.style.display = 'none';
+}
+
+function selecionarVeiculoSolicitacaoCarro(valorVeiculo) {
+  const selVeiculo = document.getElementById('form-carro-veiculo');
+  if (selVeiculo) selVeiculo.value = valorVeiculo;
+
+  const cardSpin = document.getElementById('req-card-veiculo-spin');
+  const cardHb20 = document.getElementById('req-card-veiculo-hb20');
+  const isSpin = String(valorVeiculo || '').indexOf('Spin') !== -1;
+
+  if (cardSpin) cardSpin.classList.toggle('selected', isSpin);
+  if (cardHb20) cardHb20.classList.toggle('selected', !isSpin);
+
+  atualizarCamposVeiculoFormularioNovo();
+  verificarDisponibilidadeModalSolicitacao();
+}
+
+function aplicarPeriodoRapidoCarro(saida, retorno) {
+  const inSaida = document.getElementById('form-carro-saida');
+  const inRetorno = document.getElementById('form-carro-retorno');
+  if (inSaida) inSaida.value = saida;
+  if (inRetorno) inRetorno.value = retorno;
+  verificarDisponibilidadeModalSolicitacao();
+}
+
+function aplicarDestinoRapidoCarro(dest) {
+  const inDest = document.getElementById('form-carro-destino');
+  const inItin = document.getElementById('form-carro-itinerario');
+  if (inDest) inDest.value = dest;
+  if (inItin) inItin.value = 'Sede URE Itapevi -> ' + dest + ' -> Retorno Sede';
+}
+
+function atualizarItinerarioAutomaticoCarro() {
+  const inDest = document.getElementById('form-carro-destino');
+  const inItin = document.getElementById('form-carro-itinerario');
+  if (!inDest || !inItin) return;
+  if (!inItin.dataset.editadoManual) {
+    inItin.value = inDest.value.trim()
+      ? ('Sede URE Itapevi -> ' + inDest.value.trim() + ' -> Retorno Sede')
+      : '';
+  }
+}
+
+function verificarDisponibilidadeModalSolicitacao() {
+  const data = document.getElementById('form-carro-data') ? document.getElementById('form-carro-data').value : obterDataHojeIso();
+  const saida = document.getElementById('form-carro-saida') ? document.getElementById('form-carro-saida').value : '08:00';
+  const retorno = document.getElementById('form-carro-retorno') ? document.getElementById('form-carro-retorno').value : '17:00';
+  const selVeiculo = document.getElementById('form-carro-veiculo');
+  const isSpinSel = selVeiculo ? selVeiculo.value.indexOf('Spin') !== -1 : true;
+  const placaSel = isSpinSel ? 'TLH 1B63' : 'FZG 0H22';
+
+  const durEl = document.getElementById('form-carro-duracao-badge');
+  if (durEl) {
+    const dur = calcularDuracaoHorasMinutos(saida, retorno);
+    durEl.innerText = dur === '--' ? '⚠️ Verifique os horários' : ('⏱️ Duração: ' + dur);
+    durEl.style.color = dur === '--' ? '#b91c1c' : '#1e40af';
+  }
+
+  const confSpin = verificarConflitoAgendaCarro(data, saida, retorno, 'TLH 1B63');
+  const confHb20 = verificarConflitoAgendaCarro(data, saida, retorno, 'FZG 0H22');
+
+  const cardSpin = document.getElementById('req-card-veiculo-spin');
+  const cardHb20 = document.getElementById('req-card-veiculo-hb20');
+  const stSpin = document.getElementById('req-status-veiculo-spin');
+  const stHb20 = document.getElementById('req-status-veiculo-hb20');
+
+  if (cardSpin) cardSpin.classList.toggle('has-conflict', confSpin.temConflito);
+  if (cardHb20) cardHb20.classList.toggle('has-conflict', confHb20.temConflito);
+
+  if (stSpin) {
+    stSpin.innerHTML = confSpin.temConflito
+      ? '<span style="color: #dc2626; font-weight: 800;">🔴 Ocupado neste horário</span>'
+      : '<span style="color: #059669; font-weight: 800;">🟢 Livre no horário</span>';
+  }
+  if (stHb20) {
+    stHb20.innerHTML = confHb20.temConflito
+      ? '<span style="color: #dc2626; font-weight: 800;">🔴 Ocupado neste horário</span>'
+      : '<span style="color: #059669; font-weight: 800;">🟢 Livre no horário</span>';
+  }
+
+  const box = document.getElementById('form-carro-disponibilidade-box');
+  if (!box) return;
+
+  const confAtiva = isSpinSel ? confSpin : confHb20;
+  const outroLivre = isSpinSel ? !confHb20.temConflito : !confSpin.temConflito;
+  const outroNome = isSpinSel ? 'Hyundai HB20 1.0 (FZG 0H22)' : 'Chevrolet Spin 1.8 7L (TLH 1B63)';
+  const outroValor = isSpinSel ? 'Hyundai HB20 1.0 (Oficial Apoio)' : 'Chevrolet Spin 1.8 7L (Oficial Gabinete)';
+
+  if (confAtiva.temConflito) {
+    const c = confAtiva.conflitantes[0];
+    box.style.background = '#fef2f2';
+    box.style.borderColor = '#fca5a5';
+    box.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+        <div style="font-size: 0.8rem; color: #991b1b;">
+          <strong>⚠️ Conflito de Agenda Detectado para ${placaSel}:</strong>
+          Já existe reserva das <strong>${c.horarioSaida} às ${c.horarioRetorno}</strong> para <em>${escaparHtmlSimples(c.solicitante)} (${escaparHtmlSimples(c.unidade || c.setor || 'URE')})</em>.
+        </div>
+        ${outroLivre ? `<button type="button" onclick="selecionarVeiculoSolicitacaoCarro('${outroValor}')" style="background: #0b2351; color: #fde047; border: none; border-radius: 6px; padding: 0.35rem 0.7rem; font-size: 0.75rem; font-weight: 800; cursor: pointer;">Trocar para ${outroNome}</button>` : ''}
+      </div>
+    `;
+  } else {
+    const resumoDia = confAtiva.reservasDoDia.length > 0
+      ? ('Outras reservas neste dia para ' + placaSel + ': ' + confAtiva.reservasDoDia.map(function(x) { return x.horarioSaida + '–' + x.horarioRetorno + ' (' + (x.unidade || x.solicitante) + ')'; }).join(' | '))
+      : ('Agenda 100% livre para o veículo ' + placaSel + ' em ' + formatarDataCompletaBr(data) + '.');
+    box.style.background = '#ecfdf5';
+    box.style.borderColor = '#a7f3d0';
+    box.innerHTML = `
+      <div style="font-size: 0.79rem; color: #065f46; display: flex; align-items: center; gap: 0.45rem;">
+        <span>✅</span>
+        <span><strong>Veículo ${placaSel} disponível!</strong> ${escaparHtmlSimples(resumoDia)}</span>
+      </div>
+    `;
+  }
 }
 
 function atualizarCamposVeiculoFormularioNovo() {
@@ -3693,21 +4336,42 @@ function salvarSolicitacaoCarro(event) {
   const tanqueNivel = document.getElementById('form-carro-tanque') ? document.getElementById('form-carro-tanque').value.trim() : '80%';
   const tanqueCheio = document.getElementById('form-carro-tanque-cheio') ? document.getElementById('form-carro-tanque-cheio').value : 'S';
   const obs = document.getElementById('form-carro-obs').value.trim();
+  const passageiros = parseInt(document.getElementById('form-carro-passageiros') ? document.getElementById('form-carro-passageiros').value : '1', 10) || 1;
+  const contato = document.getElementById('form-carro-contato') ? document.getElementById('form-carro-contato').value.trim() : '';
+  const prioridade = document.getElementById('form-carro-prioridade') ? document.getElementById('form-carro-prioridade').value : 'Normal';
+  const apresentarEm = document.getElementById('form-carro-apresentar') ? document.getElementById('form-carro-apresentar').value.trim() : 'Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75';
+  const itinerarioInput = document.getElementById('form-carro-itinerario') ? document.getElementById('form-carro-itinerario').value.trim() : '';
 
-  if (!destino || !data) {
-    alert('Por favor, preencha o destino e a data.');
+  if (!destino || !data || !solicitante) {
+    alert('Por favor, preencha o Destino, a Data e o Nome do Solicitante.');
+    return;
+  }
+  if (horarioParaMinutos(retorno) <= horarioParaMinutos(saida)) {
+    alert('O horário previsto de retorno deve ser posterior ao horário de saída.');
     return;
   }
 
   const isSpin = veiculoVal.indexOf('Spin') !== -1;
   const placa = isSpin ? 'TLH 1B63' : 'FZG 0H22';
+  if (!isSpin && passageiros > 5) {
+    alert('O Hyundai HB20 comporta no máximo 5 ocupantes. Selecione a Chevrolet Spin (7 lugares) ou ajuste o número de passageiros.');
+    return;
+  }
+
+  const conf = verificarConflitoAgendaCarro(data, saida, retorno, placa);
+  if (conf.temConflito) {
+    const c = conf.conflitantes[0];
+    alert('Conflito de horário detectado! O veículo ' + placa + ' já está reservado em ' + formatarDataCompletaBr(data) + ' das ' + c.horarioSaida + ' às ' + c.horarioRetorno + ' para ' + (c.solicitante || '') + '. Escolha outro horário ou o outro veículo da frota.');
+    return;
+  }
+
   const modelo = isSpin ? 'Chevrolet Spin 1.8 7L' : 'Hyundai HB20 1.0';
   const patrimonio = isSpin ? 'SP-048972' : 'SP-051204';
   const tipo = isSpin ? 'Oficial Gabinete' : 'Oficial Apoio / Administrativo';
   const grupo = isSpin ? 'Gabinete Dirigente' : 'Regional / Apoio';
   const condutorDef = motorista || (isSpin ? 'Carlos Alberto da Silva' : 'Marcos Paulo Ribeiro');
 
-  const novoNumSeq = (CARRO_DATA.registros || []).length + 43;
+  const novoNumSeq = (CARRO_DATA.registros || []).length + 46;
   const novoCt = 'CT-2026/' + String(novoNumSeq).padStart(3, '0');
   const novoId = 'car-' + Date.now();
 
@@ -3723,12 +4387,15 @@ function salvarSolicitacaoCarro(event) {
     tipo: tipo,
     grupo: grupo,
     motorista: condutorDef,
-    solicitante: solicitante || 'Gabinete da Dirigente',
-    funcao: funcao || (solicitante.indexOf('Dirigente') !== -1 ? 'Dirigente Regional' : 'Responsável'),
+    solicitante: solicitante,
+    funcao: funcao || (solicitante.indexOf('Dirigente') !== -1 ? 'Dirigente Regional' : 'Responsável Técnico'),
     unidade: setor || 'Gabinete / URE Itapevi',
-    apresentarEm: 'Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75',
+    passageiros: passageiros,
+    contato: contato || 'URE Itapevi',
+    prioridade: prioridade,
+    apresentarEm: apresentarEm || 'Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75',
     destino: destino,
-    itinerario: 'Sede URE Itapevi -> ' + destino + ' -> Retorno Sede',
+    itinerario: itinerarioInput || ('Sede URE Itapevi -> ' + destino + ' -> Retorno Sede'),
     horarioSaida: saida || '08:00',
     horarioRetorno: retorno || '17:00',
     kmPartida: kmPartida || (isSpin ? 42850 : 28340),
@@ -3739,7 +4406,7 @@ function salvarSolicitacaoCarro(event) {
     abastecimento: { natureza: 'Gasolina', quant: '', reqNum: '', nfNum: '', expedidor: 'SEOM / Logística' },
     origemFonte: 'Sistema de Agendamento',
     tipoRegistro: 'Reserva de carro oficial',
-    badgeOrigem: 'Cadastrado no BI',
+    badgeOrigem: 'Agendamento Oficial',
     status: 'Agendado',
     observacoes: obs || 'Solicitação registrada diretamente no sistema oficial da URE Itapevi.'
   };
@@ -3747,10 +4414,17 @@ function salvarSolicitacaoCarro(event) {
   CARRO_DATA.registros.unshift(novoRegistro);
   salvarCarroStorage();
   fecharModalCarro();
+
   dataAtivaCarro = data;
-  subTabAtivaCarro = 'feed';
+  var pData = data.split('-');
+  if (pData.length === 3) {
+    anoAtivoCarro = parseInt(pData[0], 10);
+    mesAtivoCarro = parseInt(pData[1], 10) - 1;
+  }
+  modoVisaoCalCarro = 'grade';
+  subTabAtivaCarro = 'calendario';
   renderizarCarroOficial();
-  mostrarToastAgenda('Solicitação ' + novoCt + ' gravada com sucesso!', '✅');
+  mostrarToastAgenda('Solicitação ' + novoCt + ' registrada na nuvem para ' + formatarDataCompletaBr(data) + '!', '✅');
 }
 
 /* ============================================================== */
@@ -4483,6 +5157,17 @@ function imprimirAgendaCarro() {
     window.concluirViagemRapida = concluirViagemRapida;
     window.excluirSolicitacaoCarro = excluirSolicitacaoCarro;
     window.solicitarCarroParaVeiculo = solicitarCarroParaVeiculo;
+    window.navegarMesCarro = navegarMesCarro;
+    window.definirFiltroVeiculoCalCarro = definirFiltroVeiculoCalCarro;
+    window.alternarModoVisaoCalCarro = alternarModoVisaoCalCarro;
+    window.abrirModalDetalhesAgendamentoCarro = abrirModalDetalhesAgendamentoCarro;
+    window.fecharModalDetalhesAgendamentoCarro = fecharModalDetalhesAgendamentoCarro;
+    window.selecionarVeiculoSolicitacaoCarro = selecionarVeiculoSolicitacaoCarro;
+    window.aplicarPeriodoRapidoCarro = aplicarPeriodoRapidoCarro;
+    window.aplicarDestinoRapidoCarro = aplicarDestinoRapidoCarro;
+    window.atualizarItinerarioAutomaticoCarro = atualizarItinerarioAutomaticoCarro;
+    window.verificarDisponibilidadeModalSolicitacao = verificarDisponibilidadeModalSolicitacao;
+    window.inicializarConfiguracaoCalendarioCarro = inicializarConfiguracaoCalendarioCarro;
 
 
   </script>
@@ -8923,6 +9608,480 @@ function imprimirAgendaCarro() {
 
     /* Carro Oficial unificado no padrão global .nav-item-btn.active */
     /* Barra lateral amarela removida a pedido do usuário */
+
+    /* ============================================================== */
+    /* 17B. ESTILOS MEGA-PREMIUM: CALENDARIO MENSAL, MODAL E RESERVA  */
+    /* ============================================================== */
+    .carro-cal-hub {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(11, 35, 81, 0.06);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .carro-cal-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1.15rem 1.5rem;
+      background: linear-gradient(135deg, #07152f 0%, #0b2351 60%, #133979 100%);
+      color: #ffffff;
+      border-bottom: 3px solid #f09b0c;
+    }
+    .carro-cal-month-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .carro-cal-month-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+      text-transform: capitalize;
+      letter-spacing: -0.01em;
+    }
+    .carro-cal-month-badge {
+      background: rgba(240, 155, 12, 0.2);
+      color: #fde047;
+      border: 1px solid rgba(240, 155, 12, 0.45);
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.22rem 0.65rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .carro-cal-nav-btns {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .btn-cal-nav {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .btn-cal-nav:hover {
+      background: rgba(255, 255, 255, 0.24);
+      transform: translateY(-1px);
+    }
+    .carro-cal-filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 0.85rem 1.5rem;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .carro-cal-filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .carro-cal-chip {
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #334155;
+      border-radius: 9999px;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .carro-cal-chip:hover {
+      border-color: #0b2351;
+      color: #0b2351;
+    }
+    .carro-cal-chip.active {
+      background: #0b2351;
+      color: #ffffff;
+      border-color: #0b2351;
+      box-shadow: 0 3px 10px rgba(11, 35, 81, 0.2);
+    }
+    .carro-cal-grid-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      background: #f1f5f9;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .carro-cal-weekday {
+      text-align: center;
+      padding: 0.65rem 0.4rem;
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .carro-cal-grid-days {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      background: #e2e8f0;
+      gap: 1px;
+    }
+    .carro-cal-day {
+      background: #ffffff;
+      min-height: 126px;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      position: relative;
+      transition: background 0.15s ease;
+    }
+    .carro-cal-day:hover {
+      background: #fafcff;
+    }
+    .carro-cal-day.is-other-month {
+      background: #f8fafc;
+      opacity: 0.55;
+    }
+    .carro-cal-day.is-today {
+      background: linear-gradient(180deg, #fffbeb 0%, #ffffff 45%);
+      box-shadow: inset 0 3px 0 #f09b0c;
+    }
+    .carro-cal-day-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.15rem;
+    }
+    .carro-cal-day-num {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: #1e293b;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .carro-cal-day.is-today .carro-cal-day-num {
+      background: #0b2351;
+      color: #fde047;
+      padding: 0.12rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.76rem;
+    }
+    .carro-cal-day-add {
+      opacity: 0;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      line-height: 1;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .carro-cal-day:hover .carro-cal-day-add,
+    .carro-cal-day.is-today .carro-cal-day-add {
+      opacity: 1;
+    }
+    .carro-cal-day-add:hover {
+      background: #0b2351;
+      color: #ffffff;
+      border-color: #0b2351;
+    }
+    .carro-cal-events-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      overflow-y: auto;
+      max-height: 145px;
+    }
+    .carro-cal-pill {
+      display: flex;
+      flex-direction: column;
+      gap: 0.12rem;
+      padding: 0.36rem 0.48rem;
+      border-radius: 7px;
+      border: 1px solid #cbd5e1;
+      border-left-width: 4px;
+      background: #f8fafc;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.16s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+    .carro-cal-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(11, 35, 81, 0.14);
+      z-index: 2;
+    }
+    .carro-cal-pill.veic-spin {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      border-left-color: #0b2351;
+    }
+    .carro-cal-pill.veic-hb20 {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      border-left-color: #059669;
+    }
+    .carro-cal-pill.status-cancelado {
+      opacity: 0.6;
+      text-decoration: line-through;
+      border-left-color: #ef4444;
+      background: #fef2f2;
+    }
+    .carro-cal-pill-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #0b2351;
+    }
+    .carro-cal-pill.veic-hb20 .carro-cal-pill-top {
+      color: #065f46;
+    }
+    .carro-cal-pill-plate {
+      font-family: monospace;
+      font-size: 0.64rem;
+      padding: 0.05rem 0.3rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+    }
+    .carro-cal-pill-user {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .carro-cal-pill-sector {
+      font-size: 0.66rem;
+      font-weight: 600;
+      color: #475569;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Lista Cronológica do Mês Vigente abaixo do Calendário */
+    .carro-cal-ledger {
+      background: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      padding: 1.25rem 1.5rem;
+    }
+    .carro-cal-ledger-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .carro-cal-ledger-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 0.85rem;
+    }
+    .carro-ledger-item {
+      display: flex;
+      align-items: stretch;
+      gap: 0.85rem;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+    }
+    .carro-ledger-item:hover {
+      border-color: #0b2351;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(11, 35, 81, 0.1);
+    }
+    .carro-ledger-datebox {
+      min-width: 58px;
+      background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%);
+      color: #ffffff;
+      border-radius: 10px;
+      padding: 0.45rem 0.4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border-bottom: 3px solid #f09b0c;
+    }
+    .carro-ledger-datebox .day {
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.05;
+    }
+    .carro-ledger-datebox .mon {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fde047;
+    }
+    .carro-ledger-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .carro-ledger-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .carro-ledger-meta {
+      font-size: 0.77rem;
+      color: #475569;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.75rem;
+      align-items: center;
+    }
+
+    /* Modal Detalhes Rápidos (Conferência) */
+    .carro-det-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .carro-det-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1rem 1.15rem;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+    }
+    .carro-det-card-title {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: #0b2351;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.7rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .carro-placa-plate {
+      display: inline-flex;
+      align-items: center;
+      background: #ffffff;
+      border: 2px solid #0b2351;
+      border-top: 6px solid #1d4ed8;
+      border-radius: 6px;
+      padding: 0.2rem 0.65rem;
+      font-family: monospace;
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: 0.06em;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    /* Modal Solicitação Mega-Premium: Cards de Frota & Disponibilidade */
+    .carro-req-fleet-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .carro-req-fleet-card {
+      border: 2px solid #e2e8f0;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      position: relative;
+      text-align: left;
+    }
+    .carro-req-fleet-card:hover {
+      border-color: #94a3b8;
+      box-shadow: 0 4px 12px rgba(11, 35, 81, 0.08);
+    }
+    .carro-req-fleet-card.selected {
+      border-color: #0b2351;
+      background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+      box-shadow: 0 0 0 3px rgba(240, 155, 12, 0.25);
+    }
+    .carro-req-fleet-card.has-conflict {
+      border-color: #fca5a5;
+      background: #fef2f2;
+    }
+    .carro-req-fleet-card.selected.has-conflict {
+      border-color: #dc2626;
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+    }
+    .carro-req-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+    .carro-req-chip {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #1e293b;
+      border-radius: 9999px;
+      padding: 0.22rem 0.65rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .carro-req-chip:hover {
+      background: #0b2351;
+      color: #ffffff;
+      border-color: #0b2351;
+    }
+
+    @media (max-width: 900px) {
+      .carro-cal-grid-weekdays,
+      .carro-cal-grid-days {
+        grid-template-columns: repeat(7, minmax(95px, 1fr));
+      }
+      .carro-cal-scroll-wrap {
+        overflow-x: auto;
+      }
+      .carro-det-grid,
+      .carro-req-fleet-grid {
+        grid-template-columns: 1fr;
+      }
+      .carro-cal-ledger-list {
+        grid-template-columns: 1fr;
+      }
+    }
 
     .carro-header-card {
       background: #ffffff;
@@ -44770,109 +45929,222 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
   <!-- Toast de Notificação -->
     
   <!-- ============================================================== -->
-  <!-- MODAL: NOVA SOLICITAÇÃO / RESERVA DE CARRO OFICIAL            -->
+  <!-- MODAL: CONFERÊNCIA RÁPIDA DE AGENDAMENTO DO CARRO OFICIAL      -->
   <!-- ============================================================== -->
-  <div id="modal-solicitar-carro" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalCarro()">
-    <div class="agenda-modal-card" style="max-width: 680px;">
-      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%);">
+  <div id="modal-detalhes-agendamento-carro" class="agenda-modal-overlay" style="display: none; z-index: 10050;" onclick="if(event.target === this) fecharModalDetalhesAgendamentoCarro()">
+    <div class="agenda-modal-card" style="max-width: 780px; max-height: 92vh; overflow-y: auto; border-radius: 16px; border: 1px solid #cbd5e1; box-shadow: 0 25px 60px rgba(7,21,47,0.35);">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 75%, #133979 100%); border-bottom: 3px solid #f09b0c; padding: 1.25rem 1.5rem;">
         <div>
-          <span style="font-size: 0.78rem; font-weight: 800; color: #fef08a; letter-spacing: 0.05em; text-transform: uppercase;">FROTA OFICIAL • URE ITAPEVI</span>
-          <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Solicitar Reserva de Carro Oficial</h3>
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.35rem;">
+            <span style="font-size: 0.72rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">CONFERÊNCIA RÁPIDA • CARRO OFICIAL</span>
+            <span id="det-carro-ct" style="background: rgba(255,255,255,0.18); color: #ffffff; font-family: monospace; font-size: 0.76rem; font-weight: 800; padding: 0.16rem 0.55rem; border-radius: 5px;">CT-2026</span>
+            <span id="det-carro-status">Agendado</span>
+            <span id="det-carro-prioridade" style="background: rgba(240,155,12,0.2); color: #fde047; font-size: 0.72rem; font-weight: 700; padding: 0.16rem 0.55rem; border-radius: 9999px;">Oficial</span>
+          </div>
+          <h3 id="det-carro-titulo" style="font-size: 1.22rem; font-weight: 800; color: #ffffff; margin: 0; line-height: 1.3;">Detalhes do Agendamento</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalDetalhesAgendamentoCarro()">✕</button>
+      </div>
+
+      <div id="carro-detalhes-modal-body" class="agenda-modal-body" style="background: #f8fafc; padding: 1.35rem 1.5rem;"></div>
+
+      <div id="carro-detalhes-modal-footer" class="agenda-modal-footer" style="background: #ffffff; border-top: 1px solid #e2e8f0; padding: 0.9rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: NOVA SOLICITAÇÃO / RESERVA MEGA-PREMIUM DE CARRO OFICIAL-->
+  <!-- ============================================================== -->
+  <div id="modal-solicitar-carro" class="agenda-modal-overlay" style="display: none; z-index: 10040;" onclick="if(event.target === this) fecharModalCarro()">
+    <div class="agenda-modal-card" style="max-width: 820px; max-height: 92vh; overflow-y: auto; border-radius: 16px; border: 1px solid #cbd5e1; box-shadow: 0 25px 60px rgba(7,21,47,0.35);">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 75%, #133979 100%); border-bottom: 3px solid #f09b0c; padding: 1.25rem 1.5rem;">
+        <div>
+          <span style="font-size: 0.75rem; font-weight: 800; color: #fde047; letter-spacing: 0.06em; text-transform: uppercase;">FROTA OFICIAL • CENTRAL DE AGENDAMENTO URE ITAPEVI</span>
+          <h3 style="font-size: 1.28rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Solicitar Reserva de Carro Oficial</h3>
         </div>
         <button type="button" class="agenda-modal-close" onclick="fecharModalCarro()">✕</button>
       </div>
 
-      <form onsubmit="salvarSolicitacaoCarro(event)">
-        <div class="agenda-modal-body">
-          <div class="agenda-form-grid">
-            
-            <div class="agenda-form-group agenda-form-full">
-              <label class="agenda-form-label">Destino do Deslocamento *</label>
-              <input type="text" id="form-carro-destino" class="agenda-form-input" placeholder="Ex: SEDUC Central / EE Prof. José Barreto / Polo Jandira" required>
+      <form id="form-nova-solicitacao-carro" onsubmit="salvarSolicitacaoCarro(event)">
+        <input type="hidden" id="form-carro-veiculo" value="Chevrolet Spin 1.8 7L (Oficial Gabinete)">
+        <datalist id="carro-destinos-escolas-list"></datalist>
+
+        <div class="agenda-modal-body" style="background: #f8fafc; padding: 1.35rem 1.5rem;">
+
+          <!-- BLOCO 1: DATA, HORÁRIOS E VALIDAÇÃO DE CONFLITO -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.15rem; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
+              <span style="font-size: 0.76rem; font-weight: 800; color: #0b2351; text-transform: uppercase; letter-spacing: 0.05em;">📅 1. Data & Janela de Horário</span>
+              <span id="form-carro-duracao-badge" style="font-size: 0.76rem; font-weight: 800; color: #1e40af; background: #eff6ff; border: 1px solid #bfdbfe; padding: 0.2rem 0.65rem; border-radius: 9999px;">⏱️ Duração: 9h00</span>
             </div>
 
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Data da Viagem *</label>
-              <input type="date" id="form-carro-data" class="agenda-form-input" required>
+            <div class="agenda-form-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Data da Viagem *</label>
+                <input type="date" id="form-carro-data" class="agenda-form-input" required onchange="verificarDisponibilidadeModalSolicitacao()">
+              </div>
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Horário de Saída *</label>
+                <input type="time" id="form-carro-saida" class="agenda-form-input" value="08:00" required onchange="verificarDisponibilidadeModalSolicitacao()">
+              </div>
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Previsão de Retorno *</label>
+                <input type="time" id="form-carro-retorno" class="agenda-form-input" value="17:00" required onchange="verificarDisponibilidadeModalSolicitacao()">
+              </div>
             </div>
 
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Veículo Oficial Desejado *</label>
-              <select id="form-carro-veiculo" class="agenda-form-select" onchange="atualizarCamposVeiculoFormularioNovo()">
-                <option value="Chevrolet Spin 1.8 7L (Oficial Gabinete)">Chevrolet Spin 1.8 7L — Placa: TLH 1B63 (Oficial Gabinete)</option>
-                <option value="Hyundai HB20 1.0 (Oficial Apoio)">Hyundai HB20 1.0 — Placa: FZG 0H22 (Oficial Apoio / Administrativo)</option>
-              </select>
-            </div>
-
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Condutor Designado</label>
-              <input type="text" id="form-carro-motorista" class="agenda-form-input" value="Carlos Alberto da Silva" placeholder="Nome do motorista">
-            </div>
-
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Hodômetro de Partida Inicial (km)</label>
-              <input type="number" id="form-carro-km-partida" class="agenda-form-input" value="42850" placeholder="Km inicial">
-            </div>
-
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Nível de Combustível</label>
-              <input type="text" id="form-carro-tanque" class="agenda-form-input" value="85%" placeholder="Ex: 85%">
-            </div>
-
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Tanque Cheio?</label>
-              <select id="form-carro-tanque-cheio" class="agenda-form-select">
-                <option value="S">Sim (S)</option>
-                <option value="N">Não (N)</option>
-              </select>
-            </div>
-
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Horário de Saída</label>
-              <input type="time" id="form-carro-saida" class="agenda-form-input" value="08:00">
-            </div>
-
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Horário Previsto de Retorno</label>
-              <input type="time" id="form-carro-retorno" class="agenda-form-input" value="17:00">
-            </div>
-
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Passageiro / Solicitante *</label>
-              <input type="text" id="form-carro-solicitante" class="agenda-form-input" placeholder="Ex: Profa. Dirigente Regional / Equipe" required>
-            </div>
-
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Função do Solicitante</label>
-              <input type="text" id="form-carro-funcao" class="agenda-form-input" placeholder="Ex: Dirigente Regional de Ensino / Supervisor">
-            </div>
-
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Setor Solicitante</label>
-              <select id="form-carro-setor" class="agenda-form-select">
-                <option value="Gabinete da Dirigente / URE Itapevi">Gabinete da Dirigente</option>
-                <option value="ASURE - Assessoria da Dirigente">ASURE</option>
-                <option value="Supervisão de Ensino">Supervisão de Ensino</option>
-                <option value="SEAFIN - Serviço de Administração e Finanças">SEAFIN</option>
-                <option value="SEOM - Obras, Manutenção e Frota">SEOM</option>
-                <option value="SEINTEC - Tecnologia da Informação">SEINTEC</option>
-                <option value="SEGRE - Gestão Escolar">SEGRE</option>
-                <option value="SEPES - Recursos Humanos">SEPES</option>
-                <option value="EEC - Equipe Curricular">EEC</option>
-              </select>
-            </div>
-
-            <div class="agenda-form-group agenda-form-full">
-              <label class="agenda-form-label">Objetivo da Viagem / Observações</label>
-              <textarea id="form-carro-obs" class="agenda-form-textarea" rows="2" placeholder="Informações do itinerário, número de passageiros, reuniões agendadas..."></textarea>
+            <div class="carro-req-presets">
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; align-self: center;">Turnos rápidos:</span>
+              <button type="button" class="carro-req-chip" onclick="aplicarPeriodoRapidoCarro('08:00', '12:00')">🌅 Manhã (08:00–12:00)</button>
+              <button type="button" class="carro-req-chip" onclick="aplicarPeriodoRapidoCarro('13:00', '17:00')">☀️ Tarde (13:00–17:00)</button>
+              <button type="button" class="carro-req-chip" onclick="aplicarPeriodoRapidoCarro('08:00', '17:00')">📅 Integral (08:00–17:00)</button>
             </div>
           </div>
+
+          <!-- BLOCO 2: SELETOR VISUAL DA FROTA OFICIAL -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.15rem; margin-bottom: 1rem;">
+            <div style="font-size: 0.76rem; font-weight: 800; color: #0b2351; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+              🚗 2. Escolha do Veículo Oficial (Disponibilidade em Tempo Real)
+            </div>
+
+            <div class="carro-req-fleet-grid">
+              <button type="button" id="req-card-veiculo-spin" class="carro-req-fleet-card selected" onclick="selecionarVeiculoSolicitacaoCarro('Chevrolet Spin 1.8 7L (Oficial Gabinete)')">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                  <span style="background: #0b2351; color: #fde047; font-family: monospace; font-size: 0.82rem; font-weight: 800; padding: 0.16rem 0.55rem; border-radius: 5px;">TLH 1B63</span>
+                  <span id="req-status-veiculo-spin" style="font-size: 0.74rem;">🟢 Livre no horário</span>
+                </div>
+                <strong style="display: block; font-size: 0.98rem; color: #0f172a;">Chevrolet Spin 1.8 7L</strong>
+                <span style="display: block; font-size: 0.76rem; color: #475569; margin-top: 0.15rem;">Oficial Gabinete • 7 lugares • Condutor: Carlos Alberto</span>
+              </button>
+
+              <button type="button" id="req-card-veiculo-hb20" class="carro-req-fleet-card" onclick="selecionarVeiculoSolicitacaoCarro('Hyundai HB20 1.0 (Oficial Apoio)')">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                  <span style="background: #065f46; color: #ffffff; font-family: monospace; font-size: 0.82rem; font-weight: 800; padding: 0.16rem 0.55rem; border-radius: 5px;">FZG 0H22</span>
+                  <span id="req-status-veiculo-hb20" style="font-size: 0.74rem;">🟢 Livre no horário</span>
+                </div>
+                <strong style="display: block; font-size: 0.98rem; color: #0f172a;">Hyundai HB20 1.0</strong>
+                <span style="display: block; font-size: 0.76rem; color: #475569; margin-top: 0.15rem;">Oficial Apoio • 5 lugares • Condutor: Marcos Paulo</span>
+              </button>
+            </div>
+
+            <div id="form-carro-disponibilidade-box" style="margin-top: 0.75rem; padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid #a7f3d0; background: #ecfdf5;"></div>
+          </div>
+
+          <!-- BLOCO 3: PASSAGEIRO, SETOR E CONTATO -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.15rem; margin-bottom: 1rem;">
+            <div style="font-size: 0.76rem; font-weight: 800; color: #0b2351; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+              👤 3. Solicitante, Setor & Equipe
+            </div>
+
+            <div class="agenda-form-grid">
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Nome do Solicitante / Passageiro *</label>
+                <input type="text" id="form-carro-solicitante" class="agenda-form-input" placeholder="Ex: Dirigente Regional / Equipe SEINTEC" required>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Setor / Núcleo Solicitante *</label>
+                <select id="form-carro-setor" class="agenda-form-select">
+                  <option value="Gabinete da Dirigente / URE Itapevi">Gabinete da Dirigente</option>
+                  <option value="ASURE - Assessoria da Dirigente">ASURE (Assessoria)</option>
+                  <option value="Supervisão de Ensino">Supervisão de Ensino</option>
+                  <option value="SEAFIN - Serviço de Administração e Finanças">SEAFIN (Administração e Finanças)</option>
+                  <option value="SEOM - Obras, Manutenção e Frota">SEOM (Obras, Manutenção e Frota)</option>
+                  <option value="SEINTEC - Tecnologia da Informação">SEINTEC (Tecnologia)</option>
+                  <option value="SEGRE - Gestão da Rede Escolar">SEGRE (Gestão Escolar)</option>
+                  <option value="SEPES - Recursos Humanos">SEPES (Pessoal e Frequência)</option>
+                  <option value="EEC - Equipe Curricular">EEC (Especialistas em Currículo)</option>
+                </select>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Função / Cargo</label>
+                <input type="text" id="form-carro-funcao" class="agenda-form-input" placeholder="Ex: Dirigente Regional / Supervisor / Diretor">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Condutor Designado</label>
+                <input type="text" id="form-carro-motorista" class="agenda-form-input" value="Carlos Alberto da Silva" placeholder="Nome do motorista">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Qtd. de Passageiros</label>
+                <input type="number" id="form-carro-passageiros" class="agenda-form-input" min="1" max="7" value="2">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Ramal / Telefone / Prioridade</label>
+                <div style="display: flex; gap: 0.45rem;">
+                  <input type="text" id="form-carro-contato" class="agenda-form-input" placeholder="Ramal ou Celular" style="flex: 1;">
+                  <select id="form-carro-prioridade" class="agenda-form-select" style="width: 145px;">
+                    <option value="Normal">Normal</option>
+                    <option value="Alta / Prioritária">⚡ Alta</option>
+                    <option value="Gabinete Dirigente">🏛️ Gabinete</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BLOCO 4: DESTINO, ROTA E TELEMETRIA -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.15rem;">
+            <div style="font-size: 0.76rem; font-weight: 800; color: #0b2351; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+              📍 4. Destino, Itinerário & Finalidade
+            </div>
+
+            <div class="agenda-form-grid">
+              <div class="agenda-form-group agenda-form-full">
+                <label class="agenda-form-label">Destino Principal * (Digite para buscar escolas da rede)</label>
+                <input type="text" id="form-carro-destino" list="carro-destinos-escolas-list" class="agenda-form-input" placeholder="Ex: SEDUC Central / EE Prof. Lênio Vieira de Moraes / Polo Jandira" required oninput="atualizarItinerarioAutomaticoCarro()">
+                <div class="carro-req-presets">
+                  <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; align-self: center;">Destinos frequentes:</span>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('SEDUC Central - Praça da República, 53 - São Paulo')">SEDUC Central</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Escolas Polo Itapevi')">Polo Itapevi</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Escolas Polo Barueri')">Polo Barueri</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Escolas Polo Jandira')">Polo Jandira</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Polo Pirapora do Bom Jesus')">Pirapora</button>
+                </div>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Apresentar-se em (Local de Embarque)</label>
+                <input type="text" id="form-carro-apresentar" class="agenda-form-input" value="Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Rota / Itinerário Previsto</label>
+                <input type="text" id="form-carro-itinerario" class="agenda-form-input" placeholder="Sede URE Itapevi -> Destino -> Retorno Sede" oninput="this.dataset.editadoManual='1'">
+              </div>
+
+              <div class="agenda-form-group agenda-form-full">
+                <label class="agenda-form-label">Objetivo da Viagem / Observações</label>
+                <textarea id="form-carro-obs" class="agenda-form-textarea" rows="2" placeholder="Descreva a pauta, reuniões, materiais transportados ou recomendações ao motorista..."></textarea>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Hodômetro Inicial (km)</label>
+                <input type="number" id="form-carro-km-partida" class="agenda-form-input" value="42850">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Combustível & Tanque Cheio</label>
+                <div style="display: flex; gap: 0.45rem;">
+                  <input type="text" id="form-carro-tanque" class="agenda-form-input" value="85%" style="flex: 1;">
+                  <select id="form-carro-tanque-cheio" class="agenda-form-select" style="width: 115px;">
+                    <option value="S">Cheio (S)</option>
+                    <option value="N">Parcial (N)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <div class="agenda-modal-footer">
+        <div class="agenda-modal-footer" style="background: #ffffff; border-top: 1px solid #e2e8f0; padding: 0.95rem 1.5rem;">
           <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1;" onclick="fecharModalCarro()">Cancelar</button>
-          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1px solid #f09b0c; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.25);">
-            <span>Confirmar Solicitação</span>
+          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1.5px solid #f09b0c; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.28); font-weight: 800;">
+            <span>✅ Confirmar Reserva do Carro Oficial</span>
           </button>
         </div>
       </form>
