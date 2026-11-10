@@ -1920,7 +1920,17 @@ if (!window.mostrarHome) {
     window.mostrarToastGlobal = mostrarToastGlobal;
 
     /* --- FUNÇÕES DE NAVEGAÇÃO DE VIEWS ATUALIZADAS & RESILIENTES (100% BLINDADAS) --- */
-    function rolarAoTopoSuave() {
+        function rolarAoTopoSuave() {
+      try {
+        const mc = document.querySelector('.main-content');
+        if (mc) {
+          if (typeof mc.scrollTo === 'function') {
+            mc.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            mc.scrollTop = 0;
+          }
+        }
+      } catch (e) {}
       try {
         if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -4666,85 +4676,72 @@ function imprimirAgendaCarro() {
       justify-content: center;
     }
 
-    .sidebar.collapsed .nav-item-btn {
-      width: 46px;
-      height: 46px;
-      padding: 0;
-      justify-content: center;
-      border-radius: 10px;
-      gap: 0;
-    }
-
-    .sidebar.collapsed .nav-item-icon,
-    .sidebar.collapsed .centro-icon-badge {
-      margin: 0;
-      font-size: 1.25rem;
-      width: auto;
-      height: auto;
-    }
-
-    .sidebar.collapsed .sidebar-footer {
-      padding: 0.5rem 0.2rem !important;
-    }
-
-    .sidebar.collapsed #seintec-sidebar-logo {
-      max-height: 24px !important;
-      max-width: 46px !important;
-      object-fit: contain;
-    }
-
-    .sidebar-nav {
-      padding: 1rem 0.75rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      flex: 1;
-    }
-
-    .nav-group-title {
-      font-size: 0.68rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--sidebar-heading);
-      padding: 0 0.6rem 0.4rem;
-    }
-
-    .nav-items-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
+    .sidebar.collapsed     /* PADRONIZAÇÃO UNIVERSAL DOS BOTÕES DA SIDEBAR */
     .nav-item-btn {
       width: 100%;
       text-align: left;
       background: transparent;
-      border: none;
+      border: 1px solid transparent;
       color: var(--sidebar-text);
-      padding: 0.55rem 0.75rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.82rem;
+      padding: 0.6rem 0.85rem;
+      border-radius: 10px;
+      font-size: 0.84rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 0.65rem;
-      transition: var(--transition);
+      gap: 0.75rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
     }
 
     .nav-item-btn:hover {
-      background-color: var(--bg-sidebar-hover);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      transform: translateX(3px);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .nav-item-btn:hover .sidebar-item-main {
       color: #ffffff;
     }
 
-    /* Item Ativo com Ouro Nobre Oficial URE Itapevi */
+    .nav-item-btn:hover .sidebar-item-sub {
+      color: #cbd5e1;
+    }
+
+    /* ITEM ATIVO UNIVERSAL: Destaque Nobre Ouro Real URE Itapevi para TODOS os 14 menus */
     .nav-item-btn.active {
-      background: linear-gradient(135deg, #f09b0c 0%, #c77800 100%);
-      color: #ffffff;
-      font-weight: 700;
-      box-shadow: 0 4px 14px rgba(240, 155, 12, 0.35);
+      background: linear-gradient(135deg, #d48208 0%, #f09b0c 100%) !important;
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      box-shadow: 0 4px 16px rgba(212, 130, 8, 0.4) !important;
+      border-color: rgba(254, 240, 138, 0.4) !important;
+      transform: translateX(3px);
+    }
+
+    .nav-item-btn.active .sidebar-item-main {
+      color: #ffffff !important;
+      font-weight: 800 !important;
+    }
+
+    .nav-item-btn.active .sidebar-item-sub {
+      color: rgba(255, 255, 255, 0.95) !important;
+      font-weight: 600 !important;
+    }
+
+    .nav-item-btn.active::after {
+      content: '›';
+      position: absolute;
+      right: 12px;
+      font-size: 1.25rem;
+      line-height: 1;
+      color: rgba(255, 255, 255, 0.95);
+      font-weight: 800;
+    }
+
+    .sidebar.collapsed .nav-item-btn::after {
+      display: none !important;
     }
 
     .nav-item-icon {
@@ -7375,23 +7372,7 @@ function imprimirAgendaCarro() {
     }
 
     /* Item Ativo da Sidebar com Destaque Coral/Vinho do Print */
-    .nav-item-btn#side-btn-gestao.active,
-    .nav-item-btn#side-btn-agenda.active {
-      background: linear-gradient(135deg, #d48208 0%, #f09b0c 100%) !important;
-      color: #ffffff !important;
-      font-weight: 700;
-      box-shadow: 0 4px 14px rgba(212, 130, 8, 0.35) !important;
-      position: relative;
-    }
-    .nav-item-btn#side-btn-gestao.active::after,
-    .nav-item-btn#side-btn-agenda.active::after {
-      content: '›';
-      position: absolute;
-      right: 12px;
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.85);
-      font-weight: 800;
-    }
+    /* Overrides pontuais unificados no padrão global .nav-item-btn.active */
 
     /* --- HERO BANNER MINHA GESTÃO (ROTEIRO & COMPROMISSOS) --- */
     .gestao-header-card {
@@ -8773,13 +8754,7 @@ function imprimirAgendaCarro() {
       background: #ffffff;
     }
 
-    .nav-item-btn#side-btn-carro.active {
-      background: linear-gradient(135deg, #f09b0c 0%, #c77800 100%) !important;
-      color: #ffffff !important;
-      font-weight: 700;
-      box-shadow: 0 4px 14px rgba(240, 155, 12, 0.35);
-      position: relative;
-    }
+    /* Carro Oficial unificado no padrão global .nav-item-btn.active */
     /* Barra lateral amarela removida a pedido do usuário */
 
     .carro-header-card {
@@ -9729,24 +9704,7 @@ function imprimirAgendaCarro() {
     /* ======================================================== */
     /* VIEW VISITAS DA DIRIGENTE (ESTILO FIEL AO PRINT OFICIAL) */
     /* ======================================================== */
-    .nav-item-btn#side-btn-visitas.active {
-      background: linear-gradient(135deg, #d48208 0%, #f09b0c 100%) !important;
-      color: #ffffff !important;
-      font-weight: 700;
-      box-shadow: 0 4px 14px rgba(212, 130, 8, 0.35) !important;
-      position: relative;
-    }
-    .nav-item-btn.active .sidebar-item-sub {
-      color: rgba(255, 255, 255, 0.92) !important;
-    }
-    .nav-item-btn#side-btn-visitas.active::after {
-      content: '›';
-      position: absolute;
-      right: 12px;
-      font-size: 1.15rem;
-      color: rgba(255, 255, 255, 0.95);
-      font-weight: 800;
-    }
+    /* Visitas unificado no padrão global .nav-item-btn.active */
 
     .visitas-header-card {
       background: #ffffff;
@@ -14199,8 +14157,24 @@ function imprimirAgendaCarro() {
     };
     window.esconderTodasAsPanes = esconderTodasAsPanes;
 
-    var rolarAoTopoSuave = window.rolarAoTopoSuave || function() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    var rolarAoTopoSuave = window.rolarAoTopoSuave = function rolarAoTopoSuave() {
+      try {
+        const mc = document.querySelector('.main-content');
+        if (mc) {
+          if (typeof mc.scrollTo === 'function') {
+            mc.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            mc.scrollTop = 0;
+          }
+        }
+      } catch (e) {}
+      try {
+        if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      } catch (e) {
+        try { window.scrollTo(0, 0); } catch (err) {}
+      }
     };
     window.rolarAoTopoSuave = rolarAoTopoSuave;
 
@@ -43180,15 +43154,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       if (timerSincronizacaoSharepoint) clearInterval(timerSincronizacaoSharepoint);
       atualizarBadgeStatusSincronismo();
 
-      /* 1. DISPARO AUTOMÁTICO INICIAL AO ABRIR O SITE: Sincroniza TODOS os 12 setores e bases 2s após a inicialização */
-      setTimeout(function() {
-        console.log("🚀 Site aberto: executando sincronização automática inicial de TODOS os setores e bases...");
-        if (typeof sincronizarTudoGlobalmente === 'function') {
-          sincronizarTudoGlobalmente(true);
-        } else if (typeof sincronizarSharepointCalls === 'function') {
-          sincronizarSharepointCalls(false);
-        }
-      }, 2000);
+            /* Sincronização inicial automática ao abrir removida a pedido do usuário (carregamento instantâneo via cache local) */
+      /* O usuário pode sincronizar manualmente a qualquer momento via botão 'Sincronizar Tudo' */
 
       /* Intervalo recorrente de 60 minutos (1 hora = 3.600.000 ms) */
       timerSincronizacaoSharepoint = setInterval(function() {
