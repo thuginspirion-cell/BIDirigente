@@ -4651,11 +4651,12 @@ function imprimirAgendaCarro() {
       right: 10px;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 6px;
+      border-radius: 8px;
       color: var(--sidebar-text);
       cursor: pointer;
-      font-size: 0.8rem;
-      padding: 4px 8px;
+      width: 32px;
+      height: 28px;
+      padding: 0;
       line-height: 1;
       transition: all 0.2s ease;
       display: inline-flex;
@@ -4663,6 +4664,22 @@ function imprimirAgendaCarro() {
       justify-content: center;
       z-index: 10;
       user-select: none;
+    }
+
+    .sidebar-collapse-btn svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+
+    .sidebar-collapse-btn .sidebar-arrow-group {
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: transform 0.25s ease;
+    }
+
+    .sidebar.collapsed .sidebar-collapse-btn .sidebar-arrow-group {
+      transform: rotate(180deg);
     }
 
     .sidebar-collapse-btn:hover {
@@ -11095,7 +11112,16 @@ function imprimirAgendaCarro() {
   <div id="mobile-sidebar-backdrop" class="mobile-sidebar-backdrop" onclick="toggleMobileSidebar()"></div>
   <aside class="sidebar">
     <div class="sidebar-header">
-      <button class="sidebar-collapse-btn" id="sidebar-toggle-btn" onclick="toggleSidebar()" title="Recolher barra lateral" aria-label="Recolher barra lateral">◀</button>
+      <button class="sidebar-collapse-btn" id="sidebar-toggle-btn" onclick="toggleSidebar()" title="Recolher barra lateral" aria-label="Recolher barra lateral">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2.5" y="4.5" width="19" height="15" rx="3" ry="3"></rect>
+          <line x1="8.5" y1="4.5" x2="8.5" y2="19.5"></line>
+          <g class="sidebar-arrow-group">
+            <line x1="18" y1="12" x2="12" y2="12"></line>
+            <polyline points="14.5 9.2 11.7 12 14.5 14.8"></polyline>
+          </g>
+        </svg>
+      </button>
       <div class="sidebar-brand-crest" onclick="mostrarHome()" title="URE - Itapevi">
         <img src="logo_ure_itapevi_480.png" class="brand-logo-img sidebar-logo-img" alt="Brasão URE - Itapevi" onerror="if(this.src!=='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png')this.src='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png';">
       </div>
@@ -14380,7 +14406,6 @@ function imprimirAgendaCarro() {
 
       const isCollapsed = sidebar.classList.toggle('collapsed');
       if (btn) {
-        btn.innerHTML = isCollapsed ? '▶' : '◀';
         btn.setAttribute('title', isCollapsed ? 'Expandir barra lateral' : 'Recolher barra lateral');
         btn.setAttribute('aria-label', isCollapsed ? 'Expandir barra lateral' : 'Recolher barra lateral');
       }
