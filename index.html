@@ -4676,14 +4676,84 @@ function imprimirAgendaCarro() {
       justify-content: center;
     }
 
-    .sidebar.collapsed     /* PADRONIZAÇÃO UNIVERSAL DOS BOTÕES DA SIDEBAR */
+    .sidebar.collapsed .nav-item-btn {
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      justify-content: center;
+      border-radius: 10px;
+      gap: 0;
+      background: transparent !important;
+      border: 1px solid transparent !important;
+    }
+
+    .sidebar.collapsed .nav-item-icon,
+    .sidebar.collapsed .centro-icon-badge {
+      margin: 0;
+      font-size: 1.25rem;
+      width: auto;
+      height: auto;
+    }
+
+    .sidebar.collapsed .sidebar-footer {
+      padding: 0.5rem 0.2rem !important;
+    }
+
+    .sidebar.collapsed #seintec-sidebar-logo {
+      max-height: 24px !important;
+      max-width: 46px !important;
+      object-fit: contain;
+    }
+
+    .sidebar.collapsed .nav-item-btn::after {
+      display: none !important;
+    }
+
+    /* ============================================================== */
+    /* NAVEGAÇÃO DA BARRA LATERAL (ESTILO OFICIAL ESCURO & NOBRE)     */
+    /* ============================================================== */
+
+    .sidebar-nav {
+      padding: 1rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      flex: 1;
+    }
+
+    .nav-group-title {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      padding: 0 0.6rem 0.4rem;
+    }
+
+    .nav-items-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-items-list li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    /* PADRONIZAÇÃO UNIVERSAL DOS BOTÕES DA SIDEBAR (SEM FUNDO BRANCO) */
     .nav-item-btn {
       width: 100%;
       text-align: left;
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--sidebar-text);
-      padding: 0.6rem 0.85rem;
+      background: transparent !important;
+      border: 1px solid transparent !important;
+      color: #e2e8f0 !important;
+      padding: 0.55rem 0.75rem;
       border-radius: 10px;
       font-size: 0.84rem;
       font-weight: 600;
@@ -4693,21 +4763,45 @@ function imprimirAgendaCarro() {
       gap: 0.75rem;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
+      outline: none;
+      box-shadow: none;
     }
 
     .nav-item-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: #ffffff !important;
       transform: translateX(3px);
-      border-color: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.12) !important;
+    }
+
+    .sidebar-item-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .sidebar-item-main {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .sidebar-item-sub {
+      font-size: 0.68rem;
+      color: #94a3b8;
+      font-weight: 500;
+      line-height: 1.2;
     }
 
     .nav-item-btn:hover .sidebar-item-main {
-      color: #ffffff;
+      color: #ffffff !important;
     }
 
     .nav-item-btn:hover .sidebar-item-sub {
-      color: #cbd5e1;
+      color: #cbd5e1 !important;
     }
 
     /* ITEM ATIVO UNIVERSAL: Destaque Nobre Ouro Real URE Itapevi para TODOS os 14 menus */
@@ -4738,10 +4832,6 @@ function imprimirAgendaCarro() {
       line-height: 1;
       color: rgba(255, 255, 255, 0.95);
       font-weight: 800;
-    }
-
-    .sidebar.collapsed .nav-item-btn::after {
-      display: none !important;
     }
 
     .nav-item-icon {
