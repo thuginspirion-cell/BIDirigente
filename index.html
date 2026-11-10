@@ -3034,6 +3034,16 @@ function sanitizarObjetoCarroData(parsed) {
     if (r.kmDiferenca === undefined) r.kmDiferenca = Math.max(0, (r.kmRetorno || 0) - (r.kmPartida || 0));
     if (!r.tanqueCheio) r.tanqueCheio = isSpin ? 'S' : 'N';
     if (!r.combustivelNivel) r.combustivelNivel = isSpin ? '85%' : '75%';
+    if (!r.dataRetorno) {
+      if (r.periodo && String(r.periodo).indexOf(' a ') !== -1) {
+        var pp = String(r.periodo).split(' a ');
+        r.dataRetorno = (pp[1] && /^\d{4}-\d{2}-\d{2}$/.test(pp[1].trim())) ? pp[1].trim() : r.data;
+      } else {
+        r.dataRetorno = r.data;
+      }
+    }
+    if (r.data && r.dataRetorno && r.dataRetorno < r.data) r.dataRetorno = r.data;
+    r.periodo = (r.data || '') + ' a ' + (r.dataRetorno || r.data || '');
     if (!r.apresentarEm) r.apresentarEm = 'URE - ITP - Rua Dimarães Antônio Sandei, 75';
     r.apresentarEm = String(r.apresentarEm).replace(/Sede URE Itapevi/gi, 'URE - ITP').replace(/Sede URE/gi, 'URE - ITP');
     if (r.itinerario) {
@@ -3183,15 +3193,36 @@ function formatarDataExtensoPtBr(dataIso) {
   return dias[d.getDay()] + ', ' + dia + ' de ' + meses[mes] + ' de ' + ano;
 }
 
+function dataHoraParaEpochMin(dataIso, hhmm) {
+  var pd = String(dataIso || obterDataHojeIso()).split('-');
+  var ph = String(hhmm || '00:00').split(':');
+  var y = parseInt(pd[0] || '2026', 10);
+  var m = parseInt(pd[1] || '1', 10) - 1;
+  var d = parseInt(pd[2] || '1', 10);
+  var hh = parseInt(ph[0] || '0', 10);
+  var mm = parseInt(ph[1] || '0', 10);
+  return Math.floor(Date.UTC(y, m, d, hh, mm) / 60000);
+}
+
+function calcularDuracaoViagemCompleta(dataIda, saida, dataRetorno, retorno) {
+  var dIda = dataIda || obterDataHojeIso();
+  var dRet = dataRetorno || dIda;
+  var t1 = dataHoraParaEpochMin(dIda, saida || '08:00');
+  var t2 = dataHoraParaEpochMin(dRet, retorno || '17:00');
+  if (t2 <= t1) return '--';
+  var diff = t2 - t1;
+  var dias = Math.floor(diff / 1440);
+  var resto = diff % 1440;
+  var h = Math.floor(resto / 60);
+  var m = resto % 60;
+  var txt = '';
+  if (dias > 0) txt += dias + 'd ';
+  txt += h + 'h' + (m > 0 ? (' ' + String(m).padStart(2, '0') + 'min') : '00');
+  return txt.trim();
+}
+
 function calcularDuracaoHorasMinutos(saida, retorno) {
-  if (!saida || !retorno) return '--';
-  var m1 = horarioParaMinutos(saida);
-  var m2 = horarioParaMinutos(retorno);
-  if (m2 <= m1) return '--';
-  var diff = m2 - m1;
-  var h = Math.floor(diff / 60);
-  var m = diff % 60;
-  return h + 'h' + (m > 0 ? (' ' + String(m).padStart(2, '0') + 'min') : '00');
+  return calcularDuracaoViagemCompleta(obterDataHojeIso(), saida, obterDataHojeIso(), retorno);
 }
 
 function horarioParaMinutos(hhmm) {
@@ -3199,20 +3230,33 @@ function horarioParaMinutos(hhmm) {
   return (parseInt(p[0] || '0', 10) * 60) + parseInt(p[1] || '0', 10);
 }
 
-function verificarConflitoAgendaCarro(data, saida, retorno, placaAlvo, ignorarId) {
-  var inicio = horarioParaMinutos(saida || '08:00');
-  var fim = horarioParaMinutos(retorno || '17:00');
+function registroAtivoNoPeriodoCarro(reg, inicioIso, fimIso) {
+  var rIni = reg.data || '';
+  var rFim = reg.dataRetorno || rIni;
+  return rIni <= (fimIso || inicioIso) && rFim >= inicioIso;
+}
+
+function verificarConflitoAgendaCarro(data, saida, retorno, placaAlvo, ignorarId, dataRetornoOpcional) {
+  var dIda = data || obterDataHojeIso();
+  var dRet = dataRetornoOpcional || dIda;
+  var inicio = dataHoraParaEpochMin(dIda, saida || '08:00');
+  var fim = dataHoraParaEpochMin(dRet, retorno || '17:00');
+  var placaNorm = String(placaAlvo || '').replace(/\s+/g, '');
+
   var regsDia = (CARRO_DATA.registros || []).filter(function(r) {
     if (ignorarId && r.id === ignorarId) return false;
     if (r.status === 'Cancelado') return false;
-    return r.data === data && String(r.placa || '').replace(/\s+/g, '') === String(placaAlvo || '').replace(/\s+/g, '');
+    var rPlaca = String(r.placa || '').replace(/\s+/g, '');
+    return rPlaca === placaNorm && registroAtivoNoPeriodoCarro(r, dIda, dRet);
   }).sort(function(a, b) {
+    var cmp = String(a.data || '').localeCompare(String(b.data || ''));
+    if (cmp !== 0) return cmp;
     return String(a.horarioSaida || '').localeCompare(String(b.horarioSaida || ''));
   });
 
   var conflitantes = regsDia.filter(function(r) {
-    var rIni = horarioParaMinutos(r.horarioSaida || '08:00');
-    var rFim = horarioParaMinutos(r.horarioRetorno || '17:00');
+    var rIni = dataHoraParaEpochMin(r.data, r.horarioSaida || '08:00');
+    var rFim = dataHoraParaEpochMin(r.dataRetorno || r.data, r.horarioRetorno || '17:00');
     return (inicio < rFim && fim > rIni);
   });
 
@@ -3332,8 +3376,12 @@ function renderizarCalendarioCarroEmbed() {
   const ehMesVigente = (anoAtivoCarro === hojeObj.getFullYear() && mesAtivoCarro === hojeObj.getMonth());
   const prefixoMesAtual = anoAtivoCarro + '-' + String(mesAtivoCarro + 1).padStart(2, '0');
 
+  const totalDiasNoMesCur = new Date(anoAtivoCarro, mesAtivoCarro + 1, 0).getDate();
+  const mesInicioIso = prefixoMesAtual + '-01';
+  const mesFimIso = prefixoMesAtual + '-' + String(totalDiasNoMesCur).padStart(2, '0');
+
   const todosRegistrosMes = (CARRO_DATA.registros || [])
-    .filter(function(r) { return String(r.data || '').indexOf(prefixoMesAtual) === 0; })
+    .filter(function(r) { return registroAtivoNoPeriodoCarro(r, mesInicioIso, mesFimIso); })
     .sort(function(a, b) {
       var cmp = String(a.data || '').localeCompare(String(b.data || ''));
       if (cmp !== 0) return cmp;
@@ -3350,8 +3398,19 @@ function renderizarCalendarioCarroEmbed() {
 
   const mapaPorDia = {};
   registrosFiltradosMes.forEach(function(r) {
-    if (!mapaPorDia[r.data]) mapaPorDia[r.data] = [];
-    mapaPorDia[r.data].push(r);
+    var ini = r.data || '';
+    var fim = r.dataRetorno || ini;
+    if (!ini) return;
+    if (ini < mesInicioIso) ini = mesInicioIso;
+    if (fim > mesFimIso) fim = mesFimIso;
+    var cursor = ini;
+    var seg = 0;
+    while (cursor <= fim && seg < 35) {
+      if (!mapaPorDia[cursor]) mapaPorDia[cursor] = [];
+      mapaPorDia[cursor].push(r);
+      cursor = adicionarDiasIso(cursor, 1);
+      seg++;
+    }
   });
 
   const primeiroDiaSemana = new Date(anoAtivoCarro, mesAtivoCarro, 1).getDay();
@@ -3385,7 +3444,17 @@ function renderizarCalendarioCarroEmbed() {
       const veicClass = isSpin ? 'veic-spin' : 'veic-hb20';
       const stClass = (ev.status === 'Cancelado') ? 'status-cancelado' : '';
       const placaCurta = isSpin ? 'TLH 1B63' : 'FZG 0H22';
-      const horaCurta = (ev.horarioSaida || '08:00') + '–' + (ev.horarioRetorno || '17:00');
+      const dataRetEv = ev.dataRetorno || ev.data;
+      let horaCurta = (ev.horarioSaida || '08:00') + '–' + (ev.horarioRetorno || '17:00');
+      if (dataRetEv > ev.data) {
+        if (dataIso === ev.data) {
+          horaCurta = 'Ida ' + (ev.horarioSaida || '08:00') + ' → ' + formatarDataCurtaBr(dataRetEv);
+        } else if (dataIso === dataRetEv) {
+          horaCurta = 'Volta até ' + (ev.horarioRetorno || '17:00');
+        } else {
+          horaCurta = formatarDataCurtaBr(ev.data) + ' → ' + formatarDataCurtaBr(dataRetEv);
+        }
+      }
       const pessoa = escaparHtmlSimples(ev.solicitante || 'Gabinete');
       const setor = escaparHtmlSimples(ev.unidade || ev.setor || 'URE Itapevi');
       const dest = escaparHtmlSimples(ev.destino || 'Deslocamento Oficial');
@@ -3447,7 +3516,7 @@ function renderizarCalendarioCarroEmbed() {
             </div>
             <div class="carro-ledger-title">${escaparHtmlSimples(r.solicitante || 'Solicitante')} — ${escaparHtmlSimples(r.unidade || r.setor || 'URE Itapevi')}</div>
             <div class="carro-ledger-meta">
-              <span>⏰ <strong>${r.horarioSaida || '08:00'} às ${r.horarioRetorno || '17:00'}</strong></span>
+              <span>⏰ <strong>${(r.dataRetorno && r.dataRetorno > r.data) ? (formatarDataCurtaBr(r.data) + ' ' + (r.horarioSaida || '08:00') + ' → ' + formatarDataCurtaBr(r.dataRetorno) + ' ' + (r.horarioRetorno || '17:00')) : ((r.horarioSaida || '08:00') + ' às ' + (r.horarioRetorno || '17:00'))}</strong></span>
               <span>🚗 ${isSpin ? 'Spin' : 'HB20'}</span>
               <span>📍 ${escaparHtmlSimples(r.destino || 'Destino Oficial')}</span>
             </div>
@@ -3620,18 +3689,20 @@ function renderizarCarroOficial() {
   const d7 = new Date(dObj.getTime() + 7 * 86400000);
 
   const registrosAtivos = (CARRO_DATA.registros || []).filter(function(r) { return r.status !== 'Cancelado'; });
-  const regHoje = registrosAtivos.filter(function(r) { return r.data === hoje; }).length;
-  const regDiaSelecionado = registrosAtivos.filter(function(r) { return r.data === dataAtivaCarro; }).length;
-  const regAmanha = registrosAtivos.filter(function(r) { return r.data === amanhaIso; }).length;
+  const regHoje = registrosAtivos.filter(function(r) { return registroAtivoNoPeriodoCarro(r, hoje, hoje); }).length;
+  const regDiaSelecionado = registrosAtivos.filter(function(r) { return registroAtivoNoPeriodoCarro(r, dataAtivaCarro, dataAtivaCarro); }).length;
+  const regAmanha = registrosAtivos.filter(function(r) { return registroAtivoNoPeriodoCarro(r, amanhaIso, amanhaIso); }).length;
+  const d7Iso = d7.getFullYear() + '-' + String(d7.getMonth() + 1).padStart(2, '0') + '-' + String(d7.getDate()).padStart(2, '0');
   const reg7Dias = registrosAtivos.filter(function(r) {
-    const rDate = new Date(r.data + 'T12:00:00');
-    return rDate >= dObj && rDate <= d7;
+    return registroAtivoNoPeriodoCarro(r, hoje, d7Iso);
   }).length;
 
   const prefixoMes = anoAtivoCarro + '-' + String(mesAtivoCarro + 1).padStart(2, '0');
+  const mesInicKpi = prefixoMes + '-01';
+  const mesFimKpi = prefixoMes + '-' + String(new Date(anoAtivoCarro, mesAtivoCarro + 1, 0).getDate()).padStart(2, '0');
   const placasMes = {};
   registrosAtivos.forEach(function(r) {
-    if (String(r.data || '').indexOf(prefixoMes) === 0 && r.placa) {
+    if (registroAtivoNoPeriodoCarro(r, mesInicKpi, mesFimKpi) && r.placa) {
       placasMes[r.placa] = true;
     }
   });
@@ -3706,7 +3777,7 @@ function renderizarCarroOficial() {
   const containerList = document.getElementById('carro-feed-list');
   if (!containerList) return;
 
-  const registrosExibir = (CARRO_DATA.registros || []).filter(r => r.data === dataAtivaCarro);
+  const registrosExibir = (CARRO_DATA.registros || []).filter(r => registroAtivoNoPeriodoCarro(r, dataAtivaCarro, dataAtivaCarro));
 
   if (registrosExibir.length === 0) {
     containerList.innerHTML = `
@@ -3895,7 +3966,9 @@ function renderizarTabelaHistoricoCarro(filtro) {
   }
 
   tbody.innerHTML = filtrados.map(r => {
-    var dataBr = r.data ? r.data.split('-').reverse().join('/') : '-';
+    var dataIdaBr = r.data ? r.data.split('-').reverse().join('/') : '-';
+    var dataRetBr = (r.dataRetorno && r.dataRetorno > r.data) ? (' → ' + r.dataRetorno.split('-').reverse().join('/')) : '';
+    var dataBr = dataIdaBr + dataRetBr;
     var hora = (r.horarioSaida || '--:--') + ' às ' + (r.horarioRetorno || '--:--');
     var statusClass = r.status === 'Concluído' ? 'background: #dcfce7; color: #15803d;' : (r.status === 'Agendado' ? 'background: #dbeafe; color: #1e40af;' : (r.status === 'Cancelado' ? 'background: #fee2e2; color: #991b1b;' : 'background: #fef3c7; color: #b45309;'));
     var kmDisplay = r.kmDiferenca ? (r.kmDiferenca + ' km') : (r.kmPartida ? (r.kmPartida + ' km') : '-');
@@ -3998,8 +4071,12 @@ function abrirModalDetalhesAgendamentoCarro(idRegistro) {
   const isSpin = (reg.veiculo && reg.veiculo.indexOf('Spin') !== -1) || (reg.placa && reg.placa.indexOf('TLH') !== -1);
   const placa = reg.placa || (isSpin ? 'TLH 1B63' : 'FZG 0H22');
   const patrimonio = reg.patrimonio || (isSpin ? 'SP-048972' : 'SP-051204');
-  const diaExtenso = formatarDataExtensoPtBr(reg.data);
-  const duracao = calcularDuracaoHorasMinutos(reg.horarioSaida, reg.horarioRetorno);
+  const dataRetornoReg = reg.dataRetorno || reg.data;
+  const ehMultiDia = dataRetornoReg > reg.data;
+  const diaExtenso = ehMultiDia
+    ? ('Ida: ' + formatarDataCompletaBr(reg.data) + ' • Retorno: ' + formatarDataCompletaBr(dataRetornoReg))
+    : formatarDataExtensoPtBr(reg.data);
+  const duracao = calcularDuracaoViagemCompleta(reg.data, reg.horarioSaida, dataRetornoReg, reg.horarioRetorno);
   const kmDif = reg.kmDiferenca !== undefined ? reg.kmDiferenca : Math.max(0, (reg.kmRetorno || 0) - (reg.kmPartida || 0));
 
   const statusColor = reg.status === 'Concluído'
@@ -4025,12 +4102,12 @@ function abrirModalDetalhesAgendamentoCarro(idRegistro) {
       </div>
       <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
         <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.4rem 0.85rem; text-align: center;">
-          <span style="display: block; font-size: 0.66rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Saída</span>
+          <span style="display: block; font-size: 0.66rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Saída (${formatarDataCurtaBr(reg.data)})</span>
           <strong style="font-size: 1rem; color: #0b2351;">${reg.horarioSaida || '08:00'}</strong>
         </div>
         <span style="font-weight: 800; color: #94a3b8;">➔</span>
         <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.4rem 0.85rem; text-align: center;">
-          <span style="display: block; font-size: 0.66rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Retorno</span>
+          <span style="display: block; font-size: 0.66rem; font-weight: 800; color: #64748b; text-transform: uppercase;">Retorno (${formatarDataCurtaBr(dataRetornoReg)})</span>
           <strong style="font-size: 1rem; color: #0b2351;">${reg.horarioRetorno || '17:00'}</strong>
         </div>
         <div style="background: #0b2351; color: #fde047; border-radius: 8px; padding: 0.4rem 0.85rem; text-align: center;">
@@ -4120,19 +4197,19 @@ function abrirModalDetalhesAgendamentoCarro(idRegistro) {
   `;
 
   footer.innerHTML = `
-    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-      <button type="button" class="btn-carro-card-action btn-modelo30" onclick="fecharModalDetalhesAgendamentoCarro(); abrirModalPdfControleTrafego('${reg.id}')">
-        <span>📄 Imprimir Modelo 30 (PDF)</span>
+    <div style="display: flex; gap: 0.45rem; flex-wrap: nowrap; align-items: center;">
+      <button type="button" class="btn-carro-card-action btn-modelo30" style="white-space: nowrap; flex-shrink: 0;" onclick="fecharModalDetalhesAgendamentoCarro(); abrirModalPdfControleTrafego('${reg.id}')" title="Gerar e imprimir Modelo 30 (PDF)">
+        <span>📄 Imprimir</span>
       </button>
-      <button type="button" class="btn-carro-card-action" onclick="fecharModalDetalhesAgendamentoCarro(); abrirModalEditarSolicitacaoCarro('${reg.id}')">
-        <span>✏️ Editar / Hodômetro</span>
+      <button type="button" class="btn-carro-card-action" style="white-space: nowrap; flex-shrink: 0;" onclick="fecharModalDetalhesAgendamentoCarro(); abrirModalEditarSolicitacaoCarro('${reg.id}')" title="Editar hodômetro, veículo e dados">
+        <span>✏️ Editar</span>
       </button>
-      ${reg.status !== 'Concluído' && reg.status !== 'Cancelado' ? `<button type="button" class="btn-carro-card-action btn-concluir" onclick="fecharModalDetalhesAgendamentoCarro(); concluirViagemRapida('${reg.id}')"><span>🏁 Concluir Viagem</span></button>` : ''}
-      <button type="button" class="btn-carro-card-action btn-danger" onclick="fecharModalDetalhesAgendamentoCarro(); excluirSolicitacaoCarro('${reg.id}')">
+      ${reg.status !== 'Concluído' && reg.status !== 'Cancelado' ? `<button type="button" class="btn-carro-card-action btn-concluir" style="white-space: nowrap; flex-shrink: 0;" onclick="fecharModalDetalhesAgendamentoCarro(); concluirViagemRapida('${reg.id}')" title="Registrar retorno e concluir viagem"><span>🏁 Concluir</span></button>` : ''}
+      <button type="button" class="btn-carro-card-action btn-danger" style="white-space: nowrap; flex-shrink: 0;" onclick="fecharModalDetalhesAgendamentoCarro(); excluirSolicitacaoCarro('${reg.id}')" title="Excluir agendamento">
         <span>🗑️ Excluir</span>
       </button>
     </div>
-    <button type="button" class="btn-modal-fechar-destaque" onclick="fecharModalDetalhesAgendamentoCarro()"><span>✖</span><span>Fechar</span></button>
+    <button type="button" class="btn-modal-fechar-destaque" style="white-space: nowrap; flex-shrink: 0; padding: 0.52rem 1.15rem;" onclick="fecharModalDetalhesAgendamentoCarro()"><span>✖</span><span>Fechar</span></button>
   `;
 
   modal.style.display = 'flex';
@@ -4182,9 +4259,18 @@ function abrirModalNovaSolicitacaoCarro(placaPredefinida, dataPredefinida) {
 
   const form = document.getElementById('form-nova-solicitacao-carro');
   if (form) form.reset();
+  const inMotReset = document.getElementById('form-carro-motorista');
+  if (inMotReset) delete inMotReset.dataset.editadoManual;
 
+  const dataBaseSol = dataPredefinida || dataAtivaCarro || obterDataHojeIso();
   const inputData = document.getElementById('form-carro-data');
-  if (inputData) inputData.value = dataPredefinida || dataAtivaCarro || obterDataHojeIso();
+  if (inputData) inputData.value = dataBaseSol;
+  const inputDataRet = document.getElementById('form-carro-data-retorno');
+  if (inputDataRet) {
+    inputDataRet.value = dataBaseSol;
+    inputDataRet.min = dataBaseSol;
+    delete inputDataRet.dataset.editadoManual;
+  }
 
   const inSaida = document.getElementById('form-carro-saida');
   const inRetorno = document.getElementById('form-carro-retorno');
@@ -4248,8 +4334,22 @@ function atualizarItinerarioAutomaticoCarro() {
   }
 }
 
+function aoMudarDataIdaSolicitacaoCarro() {
+  const inDataIda = document.getElementById('form-carro-data');
+  const inDataRet = document.getElementById('form-carro-data-retorno');
+  if (inDataIda && inDataRet && inDataIda.value) {
+    inDataRet.min = inDataIda.value;
+    if (!inDataRet.dataset.editadoManual || !inDataRet.value || inDataRet.value < inDataIda.value) {
+      inDataRet.value = inDataIda.value;
+    }
+  }
+  verificarDisponibilidadeModalSolicitacao();
+}
+
 function verificarDisponibilidadeModalSolicitacao() {
   const data = document.getElementById('form-carro-data') ? document.getElementById('form-carro-data').value : obterDataHojeIso();
+  const inDataRet = document.getElementById('form-carro-data-retorno');
+  const dataRetorno = (inDataRet && inDataRet.value) ? inDataRet.value : data;
   const saida = document.getElementById('form-carro-saida') ? document.getElementById('form-carro-saida').value : '08:00';
   const retorno = document.getElementById('form-carro-retorno') ? document.getElementById('form-carro-retorno').value : '17:00';
   const selVeiculo = document.getElementById('form-carro-veiculo');
@@ -4258,13 +4358,13 @@ function verificarDisponibilidadeModalSolicitacao() {
 
   const durEl = document.getElementById('form-carro-duracao-badge');
   if (durEl) {
-    const dur = calcularDuracaoHorasMinutos(saida, retorno);
-    durEl.innerText = dur === '--' ? '⚠️ Verifique os horários' : ('⏱️ Duração: ' + dur);
+    const dur = calcularDuracaoViagemCompleta(data, saida, dataRetorno, retorno);
+    durEl.innerText = dur === '--' ? '⚠️ Verifique datas e horários' : ('⏱️ Duração: ' + dur);
     durEl.style.color = dur === '--' ? '#b91c1c' : '#1e40af';
   }
 
-  const confSpin = verificarConflitoAgendaCarro(data, saida, retorno, 'TLH 1B63');
-  const confHb20 = verificarConflitoAgendaCarro(data, saida, retorno, 'FZG 0H22');
+  const confSpin = verificarConflitoAgendaCarro(data, saida, retorno, 'TLH 1B63', null, dataRetorno);
+  const confHb20 = verificarConflitoAgendaCarro(data, saida, retorno, 'FZG 0H22', null, dataRetorno);
 
   const cardSpin = document.getElementById('req-card-veiculo-spin');
   const cardHb20 = document.getElementById('req-card-veiculo-hb20');
@@ -4301,7 +4401,7 @@ function verificarDisponibilidadeModalSolicitacao() {
       <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
         <div style="font-size: 0.8rem; color: #991b1b;">
           <strong>⚠️ Conflito de Agenda Detectado para ${placaSel}:</strong>
-          Já existe reserva das <strong>${c.horarioSaida} às ${c.horarioRetorno}</strong> para <em>${escaparHtmlSimples(c.solicitante)} (${escaparHtmlSimples(c.unidade || c.setor || 'URE')})</em>.
+          Já existe reserva das <strong>${formatarDataCurtaBr(c.data)} ${c.horarioSaida} às ${formatarDataCurtaBr(c.dataRetorno || c.data)} ${c.horarioRetorno}</strong> para <em>${escaparHtmlSimples(c.solicitante)} (${escaparHtmlSimples(c.unidade || c.setor || 'URE')})</em>.
         </div>
         ${outroLivre ? `<button type="button" onclick="selecionarVeiculoSolicitacaoCarro('${outroValor}')" style="background: #0b2351; color: #fde047; border: none; border-radius: 6px; padding: 0.35rem 0.7rem; font-size: 0.75rem; font-weight: 800; cursor: pointer;">Trocar para ${outroNome}</button>` : ''}
       </div>
@@ -4334,7 +4434,11 @@ function atualizarCamposVeiculoFormularioNovo() {
   if (vFrota) {
     if (inputKmPartida) inputKmPartida.value = vFrota.kmNum || parseInt(String(vFrota.km).replace(/\D/g, ''), 10) || (isSpin ? 42850 : 28340);
     if (inputTanque) inputTanque.value = vFrota.combustivel || '85%';
-    if (inputMotorista) inputMotorista.value = vFrota.motorista || (isSpin ? 'Steve Rogers' : 'Barry Allen');
+    if (inputMotorista) {
+      var condEx = vFrota.motorista || (isSpin ? 'Steve Rogers' : 'Barry Allen');
+      inputMotorista.placeholder = 'Ex: ' + condEx + ' / Clark Kent';
+      if (!inputMotorista.dataset.editadoManual) inputMotorista.value = '';
+    }
   }
 }
 
@@ -4342,6 +4446,8 @@ function salvarSolicitacaoCarro(event) {
   if (event) event.preventDefault();
   const destino = document.getElementById('form-carro-destino').value.trim();
   const data = document.getElementById('form-carro-data').value;
+  const inDataRet = document.getElementById('form-carro-data-retorno');
+  const dataRetorno = (inDataRet && inDataRet.value) ? inDataRet.value : data;
   const saida = document.getElementById('form-carro-saida').value;
   const retorno = document.getElementById('form-carro-retorno').value;
   const veiculoVal = document.getElementById('form-carro-veiculo').value;
@@ -4359,12 +4465,16 @@ function salvarSolicitacaoCarro(event) {
   const apresentarEm = document.getElementById('form-carro-apresentar') ? document.getElementById('form-carro-apresentar').value.trim() : 'URE - ITP - Rua Dimarães Antônio Sandei, 75';
   const itinerarioInput = document.getElementById('form-carro-itinerario') ? document.getElementById('form-carro-itinerario').value.trim() : '';
 
-  if (!destino || !data || !solicitante) {
-    alert('Por favor, preencha o Destino, a Data e o Nome do Solicitante.');
+  if (!destino || !data || !dataRetorno || !solicitante) {
+    alert('Por favor, preencha o Destino, as Datas de Ida/Retorno e o Nome do Solicitante.');
     return;
   }
-  if (horarioParaMinutos(retorno) <= horarioParaMinutos(saida)) {
-    alert('O horário previsto de retorno deve ser posterior ao horário de saída.');
+  if (dataRetorno < data) {
+    alert('A data de retorno não pode ser anterior à data de ida.');
+    return;
+  }
+  if (dataRetorno === data && horarioParaMinutos(retorno) <= horarioParaMinutos(saida)) {
+    alert('Para deslocamentos no mesmo dia, o horário de retorno deve ser posterior ao horário de saída.');
     return;
   }
 
@@ -4375,7 +4485,7 @@ function salvarSolicitacaoCarro(event) {
     return;
   }
 
-  const conf = verificarConflitoAgendaCarro(data, saida, retorno, placa);
+  const conf = verificarConflitoAgendaCarro(data, saida, retorno, placa, null, dataRetorno);
   if (conf.temConflito) {
     const c = conf.conflitantes[0];
     alert('Conflito de horário detectado! O veículo ' + placa + ' já está reservado em ' + formatarDataCompletaBr(data) + ' das ' + c.horarioSaida + ' às ' + c.horarioRetorno + ' para ' + (c.solicitante || '') + '. Escolha outro horário ou o outro veículo da frota.');
@@ -4396,7 +4506,8 @@ function salvarSolicitacaoCarro(event) {
     id: novoId,
     controleTrafegoNum: novoCt,
     data: data,
-    periodo: data + ' a ' + data,
+    dataRetorno: dataRetorno,
+    periodo: data + ' a ' + dataRetorno,
     titulo: 'Reserva de Carro Oficial: ' + destino,
     veiculo: modelo,
     placa: placa,
@@ -4461,6 +4572,9 @@ function abrirModalEditarSolicitacaoCarro(idRegistro) {
   document.getElementById('edit-carro-id').value = reg.id;
   document.getElementById('edit-carro-ct-badge').innerText = reg.controleTrafegoNum || 'CT-2026/042';
   document.getElementById('edit-carro-data').value = reg.data || '';
+  if (document.getElementById('edit-carro-data-retorno')) {
+    document.getElementById('edit-carro-data-retorno').value = reg.dataRetorno || reg.data || '';
+  }
   
   const selVeiculo = document.getElementById('edit-carro-veiculo');
   if (selVeiculo) {
@@ -4538,6 +4652,9 @@ function salvarEdicaoSolicitacaoCarro(event) {
   reg.grupo = isSpin ? 'Gabinete Dirigente' : 'Regional / Apoio';
 
   reg.data = document.getElementById('edit-carro-data').value;
+  var editRetVal = document.getElementById('edit-carro-data-retorno') ? document.getElementById('edit-carro-data-retorno').value : reg.data;
+  reg.dataRetorno = (editRetVal && editRetVal >= reg.data) ? editRetVal : reg.data;
+  reg.periodo = reg.data + ' a ' + reg.dataRetorno;
   reg.motorista = document.getElementById('edit-carro-motorista').value.trim();
   reg.solicitante = document.getElementById('edit-carro-solicitante').value.trim();
   reg.funcao = document.getElementById('edit-carro-funcao').value.trim();
@@ -4696,12 +4813,12 @@ function abrirModalPdfControleTrafego(idRegistro) {
   if (!containerDoc) return;
 
   const dataExtenso = formatarDataCompletaBr(reg.data);
+  const dataRetExtenso = formatarDataCompletaBr(reg.dataRetorno || reg.data);
   const dataPartidaAutenticada = dataExtenso + ' ' + (reg.horarioSaida || '08:00');
-  const dataRetornoAutenticada = dataExtenso + ' ' + (reg.horarioRetorno || '17:00');
-  const horaSaidaSplit = (reg.horarioSaida || '08:00').split(':');
-  const horaRetornoSplit = (reg.horarioRetorno || '17:00').split(':');
+  const dataRetornoAutenticada = dataRetExtenso + ' ' + (reg.horarioRetorno || '17:00');
   const difKm = reg.kmDiferenca !== undefined ? reg.kmDiferenca : Math.max(0, (reg.kmRetorno || 0) - (reg.kmPartida || 0));
-  const tempoUsoHoras = Math.max(1, parseInt(horaRetornoSplit[0] || '17', 10) - parseInt(horaSaidaSplit[0] || '8', 10));
+  const diffMinTotal = Math.max(60, dataHoraParaEpochMin(reg.dataRetorno || reg.data, reg.horarioRetorno || '17:00') - dataHoraParaEpochMin(reg.data, reg.horarioSaida || '08:00'));
+  const tempoUsoHoras = Math.floor(diffMinTotal / 60);
 
   const isSpin = (reg.veiculo && reg.veiculo.indexOf('Spin') !== -1) || (reg.placa && reg.placa.indexOf('TLH') !== -1);
   const placa = isSpin ? 'TLH 1B63' : 'FZG 0H22';
@@ -5184,6 +5301,8 @@ function imprimirAgendaCarro() {
     window.aplicarDestinoRapidoCarro = aplicarDestinoRapidoCarro;
     window.atualizarItinerarioAutomaticoCarro = atualizarItinerarioAutomaticoCarro;
     window.verificarDisponibilidadeModalSolicitacao = verificarDisponibilidadeModalSolicitacao;
+    window.aoMudarDataIdaSolicitacaoCarro = aoMudarDataIdaSolicitacaoCarro;
+    window.calcularDuracaoViagemCompleta = calcularDuracaoViagemCompleta;
     window.inicializarConfiguracaoCalendarioCarro = inicializarConfiguracaoCalendarioCarro;
 
 
@@ -9129,6 +9248,12 @@ function imprimirAgendaCarro() {
       color: #0f172a;
       outline: none;
       transition: var(--transition);
+    }
+    .agenda-form-input::placeholder,
+    .agenda-form-textarea::placeholder {
+      color: #94a3b8;
+      opacity: 1;
+      font-weight: 400;
     }
     .agenda-form-input:focus,
     .agenda-form-select:focus,
@@ -45990,7 +46115,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
       <div id="carro-detalhes-modal-body" class="agenda-modal-body" style="background: #f8fafc; padding: 1.35rem 1.5rem;"></div>
 
-      <div id="carro-detalhes-modal-footer" class="agenda-modal-footer" style="background: #ffffff; border-top: 1px solid #e2e8f0; padding: 0.9rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;"></div>
+      <div id="carro-detalhes-modal-footer" class="agenda-modal-footer" style="background: #ffffff; border-top: 1px solid #e2e8f0; padding: 0.9rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; gap: 0.5rem; overflow-x: auto;"></div>
     </div>
   </div>
 
@@ -46020,17 +46145,21 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               <span id="form-carro-duracao-badge" style="font-size: 0.76rem; font-weight: 800; color: #1e40af; background: #eff6ff; border: 1px solid #bfdbfe; padding: 0.2rem 0.65rem; border-radius: 9999px;">⏱️ Duração: 9h00</span>
             </div>
 
-            <div class="agenda-form-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+            <div class="agenda-form-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
               <div class="agenda-form-group">
-                <label class="agenda-form-label">Data da Viagem *</label>
-                <input type="date" id="form-carro-data" class="agenda-form-input" required onchange="verificarDisponibilidadeModalSolicitacao()">
+                <label class="agenda-form-label">Data de Ida (Saída) *</label>
+                <input type="date" id="form-carro-data" class="agenda-form-input" required onchange="aoMudarDataIdaSolicitacaoCarro()">
               </div>
               <div class="agenda-form-group">
                 <label class="agenda-form-label">Horário de Saída *</label>
                 <input type="time" id="form-carro-saida" class="agenda-form-input" value="08:00" required onchange="verificarDisponibilidadeModalSolicitacao()">
               </div>
               <div class="agenda-form-group">
-                <label class="agenda-form-label">Previsão de Retorno *</label>
+                <label class="agenda-form-label">Data de Retorno *</label>
+                <input type="date" id="form-carro-data-retorno" class="agenda-form-input" required onchange="this.dataset.editadoManual='1'; verificarDisponibilidadeModalSolicitacao()">
+              </div>
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Previsão de Horário de Retorno *</label>
                 <input type="time" id="form-carro-retorno" class="agenda-form-input" value="17:00" required onchange="verificarDisponibilidadeModalSolicitacao()">
               </div>
             </div>
@@ -46106,7 +46235,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
               <div class="agenda-form-group">
                 <label class="agenda-form-label">Condutor Designado</label>
-                <input type="text" id="form-carro-motorista" class="agenda-form-input" value="Steve Rogers" placeholder="Ex: Steve Rogers / Barry Allen / Clark Kent">
+                <input type="text" id="form-carro-motorista" class="agenda-form-input" placeholder="Ex: Steve Rogers / Barry Allen / Clark Kent" oninput="this.dataset.editadoManual='1'">
               </div>
 
               <div class="agenda-form-group">
@@ -46234,8 +46363,13 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               </div>
 
               <div class="agenda-form-group">
-                <label class="agenda-form-label">Data da Viagem *</label>
+                <label class="agenda-form-label">Data de Ida *</label>
                 <input type="date" id="edit-carro-data" class="agenda-form-input" required>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Data de Retorno *</label>
+                <input type="date" id="edit-carro-data-retorno" class="agenda-form-input" required>
               </div>
 
               <div class="agenda-form-group">
