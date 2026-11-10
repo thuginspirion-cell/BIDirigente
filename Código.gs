@@ -63,6 +63,12 @@ function doGet(e) {
         output = testarDisparoEmailAlerta(e.parameter.email);
       } else if (action === 'instalarGatilhoCloud') {
         output = instalarGatilhoMonitoramentoSegundoPlano();
+      } else if (action === 'obterEstadoNuvem') {
+        output = obterEstadoNuvem(e.parameter.chave);
+      } else if (action === 'getCarroCalendarConfig') {
+        output = { sucesso: true, url: getCarroCalendarConfig() };
+      } else if (action === 'salvarCarroCalendarConfig') {
+        output = salvarCarroCalendarConfig(e.parameter.url || '');
       } else if (action === 'ping') {
         // Diagnóstico rápido: verifica se o GAS está online e com permissões corretas
         output = {
@@ -1498,5 +1504,92 @@ function instalarGatilhoMonitoramentoSegundoPlano() {
     return { sucesso: true, mensagem: "Gatilho de monitoramento em segundo plano instalado com sucesso!" };
   } catch (e) {
     return { sucesso: false, erro: "Falha ao instalar gatilho: " + e.toString() };
+  }
+}
+
+/**
+ * Endpoint HTTP POST para gravação exclusiva em nuvem (Carro Oficial, Agenda, Escolas, Visitas)
+ * Aceita text/plain JSON sem preflight CORS (compatível com GHP e Google Sites).
+ */
+function doPost(e) {
+  var output = { sucesso: false, erro: 'Ação POST não reconhecida' };
+  try {
+    var bodyStr = (e && e.postData && e.postData.contents) ? e.postData.contents : '{}';
+    var payload = JSON.parse(bodyStr);
+    var action = payload.action || (e && e.parameter && e.parameter.action) || '';
+    if (action === 'salvarEstadoNuvem') {
+      output = salvarEstadoNuvem(payload.chave, payload.dados);
+    } else if (action === 'salvarCarroCalendarConfig') {
+      output = salvarCarroCalendarConfig(payload.url || '');
+    } else if (action === 'configurarEmailAlerta') {
+      output = salvarEmailAlerta(payload.email || '');
+    }
+  } catch (err) {
+    output = { sucesso: false, erro: err.toString() };
+  }
+  return ContentService.createTextOutput(JSON.stringify(output))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Salva estado de módulo exclusivamente na nuvem (PropertiesService com fragmentação automática).
+ * Garante persistência multi-dispositivos com ZERO localStorage e ZERO cookies.
+ */
+function salvarEstadoNuvem(chave, dadosOuJson) {
+  var chaveLimpa = String(chave || '').replace(/[^A-Za-z0-9_]/g, '').toUpperCase();
+  if (!chaveLimpa) return { sucesso: false, erro: 'Chave inválida' };
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var jsonStr = (typeof dadosOuJson === 'string') ? dadosOuJson : JSON.stringify(dadosOuJson);
+    var prefixo = 'BI_CLOUD_' + chaveLimpa + '_';
+    var oldCount = parseInt(props.getProperty(prefixo + 'CHUNKS') || '0', 10) || 0;
+    var chunkSize = 7500;
+    var chunks = [];
+    for (var i = 0; i < jsonStr.length; i += chunkSize) {
+      chunks.push(jsonStr.slice(i, i + chunkSize));
+    }
+    if (chunks.length === 0) chunks.push('');
+    var toSet = {};
+    toSet[prefixo + 'CHUNKS'] = String(chunks.length);
+    for (var j = 0; j < chunks.length; j++) {
+      toSet[prefixo + j] = chunks[j];
+    }
+    props.setProperties(toSet, false);
+    for (var k = chunks.length; k < oldCount; k++) {
+      props.deleteProperty(prefixo + k);
+    }
+    return {
+      sucesso: true,
+      chave: chaveLimpa,
+      chunks: chunks.length,
+      timestamp: Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'HH:mm')
+    };
+  } catch (err) {
+    return { sucesso: false, erro: err.toString() };
+  }
+}
+
+/**
+ * Lê estado de módulo salvo exclusivamente na nuvem (PropertiesService).
+ */
+function obterEstadoNuvem(chave) {
+  var chaveLimpa = String(chave || '').replace(/[^A-Za-z0-9_]/g, '').toUpperCase();
+  if (!chaveLimpa) return { sucesso: false, erro: 'Chave inválida' };
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var prefixo = 'BI_CLOUD_' + chaveLimpa + '_';
+    var count = parseInt(props.getProperty(prefixo + 'CHUNKS') || '0', 10) || 0;
+    if (count <= 0) {
+      return { sucesso: true, chave: chaveLimpa, dados: null };
+    }
+    var parts = [];
+    for (var i = 0; i < count; i++) {
+      parts.push(props.getProperty(prefixo + i) || '');
+    }
+    var fullJson = parts.join('');
+    if (!fullJson) return { sucesso: true, chave: chaveLimpa, dados: null };
+    return { sucesso: true, chave: chaveLimpa, dados: JSON.parse(fullJson) };
+  } catch (err) {
+    return { sucesso: false, erro: err.toString(), dados: null };
   }
 }
