@@ -33,10 +33,15 @@ Esta regra e habilidade é de **observância obrigatória e prioridade máxima a
 
 ---
 
-## 3. Proibição Absoluta de Regressão a Dados Antigos
-- **JAMAIS** reverter dados para estados defasados, valores mockados iniciais ou contagens antigas após F5 (refresh), reinicialização do navegador ou troca de computador.
-- Ao sincronizar, os números mais recentes das fontes públicas são calculados, renderizados imediatamente na tela e gravados no armazenamento persistente (`BI_DIRIGENTE_CACHE_*`).
-- Uma vez obtidos os dados mais recentes, eles permanecem ativos e fixados como a nova base oficial definitiva até que uma nova sincronização manual traga números ainda mais recentes.
+## 3. Proibição Absoluta de Regressão e Espelhamento Fiel a Deleções (Padrão Universal de Setores)
+- **Não-Regressão em Recarregamentos (F5 / Offline)**:
+  - **JAMAIS** reverter dados para estados defasados, valores mockados iniciais ou contagens antigas após F5 (refresh), reinicialização do navegador ou troca de computador.
+  - Em carregamento local, o armazenamento persistente (`BI_DIRIGENTE_CACHE_*`) prevalece sobre bases estáticas antigas embutidas no HTML.
+- **Espelhamento Exato e Fidelidade a Deleções na Sincronização Completa (Todos os Setores Atuais e Futuros)**:
+  - Aplica-se obrigatoriamente a **todos os setores existentes e futuros** (`SEINTEC`, `SEFIN`, `SECOMSE`, `DPAT`, `SEOM`, `SEFISC`, `SEGRE`, `SEMAT`, `SEVESC`, `SEPES`, `EEC`, `ASURE` e novos módulos).
+  - Quando uma sincronização obtém a carga completa da planilha oficial do SharePoint/OneDrive, essa planilha é a **fonte única da verdade atual** e DEVE **SUBSTITUIR INTEGRALMENTE** o snapshot anterior em memória e no `localStorage` (`BI_DIRIGENTE_CACHE_*`).
+  - É **TERMINANTEMENTE PROIBIDO** realizar *merge aditivo* (`cache_antigo + novos`) em sincronizações completas de planilhas, pois linhas **deletadas** na planilha oficial ficam presas no `localStorage` e voltam a aparecer na interface.
+  - Toda sincronização bem-sucedida deve gravar exclusivamente o snapshot atual limpo (refletindo inclusões, edições e **exclusões**) e eliminar quaisquer chaves de cache legadas/duplicadas.
 
 ---
 
