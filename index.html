@@ -21593,46 +21593,209 @@ function imprimirAgendaCarro() {
       document.body.removeChild(link);
     }
 
-    /* Dados SEFIN alimentados exclusivamente pela nuvem (zero localStorage) */
+    /* ========================================================================= */
+    /* MOTOR UNIVERSAL DE CONSULTA AO VIVO SHAREPOINT -> GAS (TIER 1 + JSONP)   */
+    /* Usado por TODOS os setores presentes e futuros ao acionar "Sincronizar"  */
+    /* ========================================================================= */
+    function consultarSharepointGasLive(opts) {
+      return new Promise(function(resolve, reject) {
+        var o = opts || {};
+        var timeoutMs = o.timeoutMs || 35000;
+        var fnGas = o.fnGas;
+        var argsGas = Array.isArray(o.argsGas) ? o.argsGas : [];
+        var extra = o.urlExtraParams || '';
+
+        function rodarTier2Jsonp() {
+          try {
+            var cbId = '__cb_live_' + String(o.action || 'gas').replace(/[^a-zA-Z0-9]/g, '') + '_' + Math.floor(Math.random() * 10000000);
+            var timerId = null;
+            window[cbId] = function(res) {
+              if (timerId) clearTimeout(timerId);
+              delete window[cbId];
+              var el = document.getElementById(cbId);
+              if (el && el.parentNode) el.parentNode.removeChild(el);
+              resolve(res);
+            };
+            var sc = document.createElement('script');
+            sc.id = cbId;
+            sc.src = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=' + encodeURIComponent(o.action || 'ping') + extra + '&callback=' + cbId + '&_t=' + Date.now();
+            sc.onerror = function() {
+              if (timerId) clearTimeout(timerId);
+              delete window[cbId];
+              if (sc.parentNode) sc.parentNode.removeChild(sc);
+              reject(new Error('Falha de rede/JSONP ao consultar ' + (o.action || 'GAS')));
+            };
+            timerId = setTimeout(function() {
+              if (window[cbId]) {
+                delete window[cbId];
+                if (sc.parentNode) sc.parentNode.removeChild(sc);
+                reject(new Error('Timeout ao consultar fonte ao vivo (' + (o.action || 'GAS') + ')'));
+              }
+            }, timeoutMs);
+            document.head.appendChild(sc);
+          } catch (eJsonp) {
+            reject(eJsonp);
+          }
+        }
+
+        if (typeof google !== 'undefined' && google.script && google.script.run && fnGas && typeof google.script.run[fnGas] === 'function') {
+          try {
+            var runner = google.script.run
+              .withSuccessHandler(function(res) { resolve(res); })
+              .withFailureHandler(function() { rodarTier2Jsonp(); });
+            runner[fnGas].apply(runner, argsGas);
+            return;
+          } catch (eTier1) {}
+        }
+        rodarTier2Jsonp();
+      });
+    }
+    window.consultarSharepointGasLive = consultarSharepointGasLive;
+
+    function processarPlanilhaSefinBase64(b64, timestampStr) {
+      if (!b64 || typeof XLSX === 'undefined') return false;
+      var wb = XLSX.read(b64, { type: 'base64' });
+      var sheetName = wb.SheetNames.find(function(n) { return n.toLowerCase().indexOf('presta') >= 0; }) || wb.SheetNames[0];
+      var ws = wb.Sheets[sheetName];
+      if (!ws) return false;
+      var rows = XLSX.utils.sheet_to_json(ws, { defval: 0 });
+      if (!Array.isArray(rows) || rows.length === 0) return false;
+
+      var num = function(v) {
+        if (typeof v === 'number') return isNaN(v) ? 0 : v;
+        var n = parseFloat(String(v || '0').replace(/[R$\s.]/g, '').replace(',', '.'));
+        return isNaN(n) ? 0 : n;
+      };
+
+      var compactos = [];
+      var kpisPorAno = {};
+      var escolasSetPorAno = {};
+
+      function getBucket(key, anoVal, legenda) {
+        if (!kpisPorAno[key]) {
+          escolasSetPorAno[key] = {};
+          kpisPorAno[key] = {
+            ano: anoVal,
+            totalReceita: 0, recCusteio: 0, recCapital: 0,
+            totalDespesa: 0, despCusteio: 0, despCapital: 0,
+            totalSaldo: 0, saldoCusteio: 0, saldoCapital: 0,
+            totalRepasses: 0, aprovadas: 0, ressalvas: 0, emAndamento: 0, outros: 0,
+            programas: {}, legenda: legenda, totalEscolas: 0, taxaExecucao: 0, taxaAprovacao: 0
+          };
+        }
+        return kpisPorAno[key];
+      }
+
+      rows.forEach(function(r) {
+        var ano = parseInt(r['Exercício'] || r['Exercicio'] || 0, 10);
+        var escola = String(r['Escola'] || '').trim();
+        if (!ano || !escola) return;
+        var prog = String(r['Objeto Repasse'] || '').trim() || 'OUTROS';
+        var cie = String(r['Cód CIE'] || r['Cod CIE'] || '').replace(/\D/g, '');
+        var recC = num(r['Total Receita(C)']);
+        var recK = num(r['Total Receita(K)']);
+        var recT = recC + recK;
+        var despC = num(r['Despesa(C)']);
+        var despK = num(r['Despesa(K)']);
+        var despT = despC + despK;
+        var salC = num(r['Saldo a Reprogramar(C)']);
+        var salK = num(r['Saldo a Reprogramar(K)']);
+        var salT = salC + salK;
+        var stSed = String(r['Status SED'] || '').trim() || 'OUTROS';
+        var orig = String(r['Paulista/Federal'] || '').trim() || 'Federal';
+
+        compactos.push([ano, prog, escola, cie, recT, despT, salT, stSed, orig, recC, recK, despC, despK, salC, salK]);
+
+        var stUp = stSed.toUpperCase();
+        var keys = [String(ano), 'TODOS'];
+        keys.forEach(function(k) {
+          var leg = k === 'TODOS' ? '🌐 Série Histórica Completa Consolidada' : ('📊 Exercício ' + k);
+          var b = getBucket(k, k === 'TODOS' ? 'TODOS' : ano, leg);
+          b.totalReceita += recT; b.recCusteio += recC; b.recCapital += recK;
+          b.totalDespesa += despT; b.despCusteio += despC; b.despCapital += despK;
+          b.totalSaldo += salT; b.saldoCusteio += salC; b.saldoCapital += salK;
+          b.totalRepasses++;
+          if (stUp.indexOf('RESSALVA') >= 0) b.ressalvas++;
+          else if (stUp.indexOf('APROVAD') >= 0) b.aprovadas++;
+          else if (stUp.indexOf('ANDAMENTO') >= 0 || stUp.indexOf('REVIS') >= 0 || stUp.indexOf('PEND') >= 0) b.emAndamento++;
+          else b.outros++;
+          escolasSetPorAno[k][escola] = true;
+          if (!b.programas[prog]) b.programas[prog] = { repasses: 0, receita: 0, despesa: 0 };
+          b.programas[prog].repasses++;
+          b.programas[prog].receita += recT;
+          b.programas[prog].despesa += despT;
+        });
+      });
+
+      if (compactos.length === 0) return false;
+      Object.keys(kpisPorAno).forEach(function(k) {
+        var b = kpisPorAno[k];
+        b.totalEscolas = Object.keys(escolasSetPorAno[k] || {}).length;
+        b.taxaExecucao = b.totalReceita > 0 ? Math.round((b.totalDespesa / b.totalReceita) * 1000) / 10 : 0;
+        b.taxaAprovacao = b.totalRepasses > 0 ? Math.round(((b.aprovadas + b.ressalvas) / b.totalRepasses) * 1000) / 10 : 0;
+      });
+
+      DADOS_FINANCEIROS_SEFIN.kpisPorAno = kpisPorAno;
+      DADOS_FINANCEIROS_SEFIN.repassesCompactos = compactos;
+      if (DADOS_FINANCEIROS_SEFIN.meta) {
+        DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR') + ' ' + (timestampStr || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
+      }
+      return true;
+    }
 
     function sincronizarDashboardSefin(silencioso) {
       const isSil = (silencioso === true);
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
-          tag: 'SEFIN • ALTA PERFORMANCE',
+          tag: 'SEFIN • SHAREPOINT AO VIVO',
           titulo: 'Sincronizando SEFIN Ao Vivo...',
-          mensagem: 'Sincronização de alta performance: auditando prestações de contas PDDE das 60 escolas...',
-          detalhes: 'Modo Otimizado (Bases Ativas) • 100% Resiliente',
+          mensagem: 'Conectando ao SharePoint em tempo real para atualizar prestações de contas PDDE...',
+          detalhes: 'Conexão Direta à Fonte Oficial • Sem Login',
           duracao: 0
         });
       }
 
-      function concluirSefin(agora) {
+      function concluirSefin(agora, veioLive) {
         const timestampFormatado = agora || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR') + ' ' + timestampFormatado;
+        if (veioLive && DADOS_FINANCEIROS_SEFIN.meta) {
+          DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR') + ' ' + timestampFormatado;
+        }
         renderizarDashboardFinanceiroSefin();
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: 'SEFIN ATUALIZADO',
-            titulo: 'Sincronização de Alta Performance Concluída!',
-            mensagem: 'Base oficial de prestação de contas SEFIN auditada e sincronizada!',
-            detalhes: 'Modo Otimizado (Bases Ativas) às ' + timestampFormatado + ' • 100% Atualizado',
+            tipo: veioLive ? 'success' : 'info',
+            tag: veioLive ? 'SEFIN ATUALIZADO AO VIVO' : 'SEFIN • BASE OFICIAL',
+            titulo: veioLive ? 'SEFIN Sincronizado Direto do SharePoint!' : 'Base SEFIN Verificada',
+            mensagem: veioLive
+              ? '<strong>' + (DADOS_FINANCEIROS_SEFIN.repassesCompactos ? DADOS_FINANCEIROS_SEFIN.repassesCompactos.length.toLocaleString('pt-BR') : '0') + ' repasses</strong> auditados em tempo real direto da planilha oficial do SharePoint!'
+              : 'Mantendo os dados consolidados carregados (SharePoint indisponível no momento).',
+            detalhes: (veioLive ? 'SharePoint Live às ' : 'Verificado às ') + timestampFormatado,
             duracao: 4500
           });
         }
       }
 
-      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSefin';
-      fetch(gasUrl)
-        .then(function(r) { return r.json(); })
-        .then(function(res) {
-          concluirSefin(res ? res.timestamp : null);
-        })
-        .catch(function(err) {
-          concluirSefin(null);
-        });
+      consultarSharepointGasLive({
+        action: 'sincronizarSefin',
+        fnGas: 'sincronizarPlanilhaSefin',
+        argsGas: [false]
+      }).then(function(res) {
+        if (res && res.sucesso && res.dadosBase64) {
+          var pur = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
+            ? window.purificarXlsxStreamingSeNecessario(res.dadosBase64)
+            : Promise.resolve(res.dadosBase64);
+          pur.then(function(cleanB64) {
+            var ok = false;
+            try { ok = processarPlanilhaSefinBase64(cleanB64, res.timestamp); } catch (ep) { console.warn('Aviso parse SEFIN:', ep); }
+            concluirSefin(res ? res.timestamp : null, ok);
+          });
+        } else {
+          concluirSefin(res ? res.timestamp : null, false);
+        }
+      }).catch(function() {
+        concluirSefin(null, false);
+      });
     }
 
     function renderizarDashboardFinanceiroSefin() {
@@ -22185,6 +22348,119 @@ function imprimirAgendaCarro() {
       atualizarTabelaSecomse();
     }
 
+    function processarPlanilhaSecomseBase64(b64, timestampStr) {
+      if (!b64 || typeof XLSX === 'undefined') return null;
+      var wb = XLSX.read(b64, { type: 'base64' });
+      var mesesNomes = ['', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+      function parseDt(val) {
+        if (typeof val === 'number' && val >= 30000 && val <= 65000 && XLSX.SSF && typeof XLSX.SSF.parse_date_code === 'function') {
+          var p = XLSX.SSF.parse_date_code(val);
+          if (p) {
+            return { str: String(p.d).padStart(2, '0') + '/' + String(p.m).padStart(2, '0') + '/' + p.y, mesNome: mesesNomes[p.m] || '', ts: new Date(p.y, p.m - 1, p.d).getTime() };
+          }
+        }
+        if (val) {
+          var s = String(val).trim();
+          var m = s.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-]?(\d{2,4})?/);
+          if (m && m[1] && m[2]) {
+            var y = m[3] ? parseInt(m[3], 10) : 2026;
+            if (y < 100) y += 2000;
+            var d = parseInt(m[1], 10), mo = parseInt(m[2], 10);
+            return { str: String(d).padStart(2, '0') + '/' + String(mo).padStart(2, '0') + '/' + y, mesNome: mesesNomes[mo] || '', ts: new Date(y, mo - 1, d).getTime() };
+          }
+        }
+        return { str: '-', mesNome: '-', ts: 0 };
+      }
+
+      function fmtPub(val) {
+        if (val === null || val === undefined || val === '') return 'Não se Aplica';
+        var num = Number(val);
+        if (!isNaN(num) && num >= 30000 && num <= 65000 && XLSX.SSF && typeof XLSX.SSF.parse_date_code === 'function') {
+          var p = XLSX.SSF.parse_date_code(num);
+          if (p) return String(p.d).padStart(2, '0') + '/' + String(p.m).padStart(2, '0') + '/' + p.y;
+        }
+        var s = String(val).trim();
+        return (s.toLowerCase() === 'não se aplica' || s.toLowerCase() === 'nao se aplica' || s === '-') ? 'Não se Aplica' : s;
+      }
+
+      function numVal(v) {
+        if (typeof v === 'number') return isNaN(v) ? 0 : v;
+        if (!v) return 0;
+        var n = parseFloat(String(v).replace(/[R$\s.]/g, '').replace(',', '.'));
+        return isNaN(n) ? 0 : n;
+      }
+
+      function procSheet(sheetName) {
+        var ws = wb.Sheets[sheetName];
+        if (!ws) return [];
+        return XLSX.utils.sheet_to_json(ws, { defval: '' }).map(function(r, idx) {
+          var contrato = String(r['Contrato'] || r['CONTRATO'] || '').trim();
+          var processoSei = String(r['Processo SEI'] || r['PROCESSO SEI'] || '').trim();
+          var licit = String(r['Nº da licitação Compras.Gov'] || r['LICITACAO'] || '').trim();
+          var empresa = String(r['Empresa'] || r['EMPRESA'] || '').trim();
+          var dtAss = parseDt(r['Data da assinatura'] !== undefined ? r['Data da assinatura'] : r['DATA ASSINATURA']);
+          var vig = String(r['Data de vigência'] || r['VIGENCIA'] || '').trim();
+          var val = numVal(r['Valor do contrato'] !== undefined ? r['Valor do contrato'] : r['VALOR']);
+          var objeto = String(r['Objeto'] || r['OBJETO'] || '').trim();
+          var ol = objeto.toLowerCase();
+          var cat = 'Outros Serviços';
+          if (ol.indexOf('transporte') >= 0 || ol.indexOf('veículo') >= 0 || ol.indexOf('ônibus') >= 0) cat = 'Transporte Escolar';
+          else if (ol.indexOf('elevador') >= 0 || ol.indexOf('manutenção') >= 0 || ol.indexOf('reforma') >= 0 || ol.indexOf('obra') >= 0) cat = 'Manutenção e Conservação';
+          else if (ol.indexOf('merenda') >= 0 || ol.indexOf('gênero') >= 0 || ol.indexOf('alimentação') >= 0 || ol.indexOf('água') >= 0 || ol.indexOf('gás') >= 0) cat = 'Alimentação e Insumos';
+          else if (ol.indexOf('limpeza') >= 0 || ol.indexOf('vigilância') >= 0 || ol.indexOf('portaria') >= 0) cat = 'Vigilância e Limpeza';
+          else if (ol.indexOf('locação') >= 0 || ol.indexOf('imóvel') >= 0 || ol.indexOf('aluguel') >= 0) cat = 'Locação de Imóveis';
+          else if (ol.indexOf('software') >= 0 || ol.indexOf('computador') >= 0 || ol.indexOf('ti') >= 0 || ol.indexOf('internet') >= 0) cat = 'Tecnologia';
+          var st = 'Vigente';
+          if (ol.indexOf('rescindido') >= 0 || vig.toLowerCase().indexOf('rescind') >= 0) st = 'Rescindido';
+          else if (ol.indexOf('encerrado') >= 0 || vig.toLowerCase().indexOf('encerr') >= 0) st = 'Encerrado';
+          return {
+            id: 'SECOMSE-' + sheetName + '-' + (idx + 1),
+            exercicio: sheetName,
+            contrato: contrato || ('Contrato ' + (idx + 1)),
+            processoSei: processoSei || '-',
+            licitacaoComprasGov: licit || 'Não se Aplica',
+            empresa: empresa || 'Não informada',
+            dataAssinatura: dtAss.str,
+            mesAssinatura: dtAss.mesNome,
+            timestampAssinatura: dtAss.ts,
+            vigencia: vig || '-',
+            valor: val,
+            valorFormatado: val > 0 ? val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'R$ 0,00',
+            publicacaoDoe: fmtPub(r['Publicação no D.O.E.'] !== undefined ? r['Publicação no D.O.E.'] : r['DOE']),
+            publicacaoPncp: fmtPub(r['Publicação PNCP'] !== undefined ? r['Publicação PNCP'] : r['PNCP']),
+            publicacaoJornal: fmtPub(r['Publicação Jornal de Grande Circulação'] !== undefined ? r['Publicação Jornal de Grande Circulação'] : r['JORNAL']),
+            publicacaoAudesp: fmtPub(r['Publicação AUDESP (superior a R$ 9.255,00)'] !== undefined ? r['Publicação AUDESP (superior a R$ 9.255,00)'] : r['AUDESP']),
+            licitacaoAudesp: String(r['Nº da licitação AUDESP'] || '').trim() || '-',
+            objeto: objeto || 'Objeto não especificado',
+            categoria: cat,
+            statusVigencia: st
+          };
+        }).filter(function(c) { return c.empresa !== 'Não informada' || c.processoSei !== '-' || c.valor > 0; });
+      }
+
+      var c26 = procSheet('2026');
+      var c25 = procSheet('2025');
+      var v26 = c26.reduce(function(a, c) { return a + c.valor; }, 0);
+      var v25 = c25.reduce(function(a, c) { return a + c.valor; }, 0);
+      if (c26.length === 0 && c25.length === 0) return null;
+
+      return Object.assign({}, DADOS_SECOMSE, {
+        sucesso: true,
+        ultimaAtualizacao: new Date().toLocaleDateString('pt-BR') + ' ' + (timestampStr || new Date().toLocaleTimeString('pt-BR')),
+        kpis: {
+          totalContratos2026: c26.length,
+          valorTotal2026: v26,
+          valorTotal2026Formatado: v26.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+          totalContratos2025: c25.length,
+          valorTotal2025: v25,
+          valorTotal2025Formatado: v25.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+        },
+        exerciciosDisponiveis: ['2026', '2025'],
+        contratos: { '2026': c26, '2025': c25 }
+      });
+    }
+
     function sincronizarDashboardSecomse(silencioso) {
       const isSil = (silencioso === true);
       const btnSync = document.getElementById('btn-secomse-sync-base');
@@ -22198,17 +22474,19 @@ function imprimirAgendaCarro() {
           tipo: 'loading',
           tag: 'SECOMSE • SHAREPOINT LIVE',
           titulo: 'Sincronizando Contratos SECOMSE...',
-          mensagem: 'Conectando ao SharePoint oficial para auditar contratos 2026...',
-          detalhes: 'Conexão Direta ao Repositório SECOMSE',
+          mensagem: 'Conectando ao SharePoint oficial em tempo real para auditar contratos...',
+          detalhes: 'Conexão Direta à Fonte Oficial • Sem Login',
           duracao: 0
         });
       }
 
-      function aplicarDados(novos) {
+      function aplicarDados(novos, fonteNome, veioLive) {
         if (novos && novos.kpis && novos.contratos) {
           DADOS_SECOMSE = novos;
         }
-        DADOS_SECOMSE.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR');
+        if (veioLive) {
+          DADOS_SECOMSE.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR');
+        }
         renderizarDashboardSecomse();
 
         if (btnSync) {
@@ -22220,11 +22498,11 @@ function imprimirAgendaCarro() {
           const tot = DADOS_SECOMSE.kpis ? (DADOS_SECOMSE.kpis.totalContratos2026 + ' Contratos 2026') : 'Base Oficial';
           const val = DADOS_SECOMSE.kpis ? DADOS_SECOMSE.kpis.valorTotal2026Formatado : '';
           mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: 'SECOMSE ATUALIZADO',
-            titulo: 'SECOMSE Sincronizado com Sucesso!',
-            mensagem: '<strong>' + tot + '</strong> • Valor Global: <strong>' + val + '</strong> atualizados diretamente do SharePoint oficial.',
-            detalhes: 'Controle de Contratos às ' + new Date().toLocaleTimeString('pt-BR') + ' • 100% Atualizado',
+            tipo: veioLive ? 'success' : 'info',
+            tag: veioLive ? 'SECOMSE ATUALIZADO AO VIVO' : 'SECOMSE • ESPELHO NUVEM',
+            titulo: veioLive ? 'SECOMSE Sincronizado Direto do SharePoint!' : 'Base SECOMSE Carregada (Espelho Nuvem)',
+            mensagem: '<strong>' + tot + '</strong> • Valor Global: <strong>' + val + '</strong>.',
+            detalhes: (fonteNome || 'SharePoint Oficial') + ' • ' + (DADOS_SECOMSE.ultimaAtualizacao || ''),
             duracao: 4500
           });
         }
@@ -22235,34 +22513,39 @@ function imprimirAgendaCarro() {
           .then(function(r) { return r.json(); })
           .then(function(json) {
             if (json && json.kpis) {
-              aplicarDados(json);
+              aplicarDados(json, 'Espelho GitHub (Fallback)', false);
             } else {
-              renderizarDashboardSecomse();
+              aplicarDados(null, 'Base carregada', false);
             }
           })
-          .catch(function(e) {
-            console.warn('Aviso mirror SECOMSE:', e);
-            renderizarDashboardSecomse();
-            if (btnSync) {
-              btnSync.disabled = false;
-              btnSync.innerHTML = '🔄 Sincronizar SECOMSE';
-            }
+          .catch(function() {
+            aplicarDados(null, 'Base carregada', false);
           });
       }
 
-      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSecomse';
-      fetch(gasUrl)
-        .then(function(r) { return r.json(); })
-        .then(function(res) {
-          if (res && res.kpis) {
-            aplicarDados(res);
-          } else {
-            buscarMirror();
-          }
-        })
-        .catch(function(err) {
+      consultarSharepointGasLive({
+        action: 'sincronizarSecomse',
+        fnGas: 'sincronizarPlanilhaSecomse',
+        argsGas: []
+      }).then(function(res) {
+        if (res && res.sucesso && res.dadosBase64) {
+          var pur = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
+            ? window.purificarXlsxStreamingSeNecessario(res.dadosBase64)
+            : Promise.resolve(res.dadosBase64);
+          pur.then(function(cleanB64) {
+            var parsed = null;
+            try { parsed = processarPlanilhaSecomseBase64(cleanB64, res.timestamp); } catch (ep) { console.warn('Aviso parse SECOMSE:', ep); }
+            if (parsed) aplicarDados(parsed, 'SharePoint Live', true);
+            else buscarMirror();
+          });
+        } else if (res && res.kpis) {
+          aplicarDados(res, 'Espelho Nuvem', false);
+        } else {
           buscarMirror();
-        });
+        }
+      }).catch(function() {
+        buscarMirror();
+      });
     }
 
     function abrirModalDetalheContratoSecomse(idContrato) {
@@ -22776,6 +23059,49 @@ function imprimirAgendaCarro() {
       }
     }
 
+    function processarPlanilhaDpatBase64(b64) {
+      if (!b64 || typeof XLSX === 'undefined') return null;
+      var wb = XLSX.read(b64, { type: 'base64' });
+      var sheetName = wb.SheetNames.find(function(n) { return n.toLowerCase().indexOf('invent') >= 0; }) || wb.SheetNames[0];
+      var ws = wb.Sheets[sheetName];
+      if (!ws) return null;
+      var rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
+      var bens = [];
+      var ambSet = {};
+      rows.forEach(function(r) {
+        var chapa = String(r['Chapa'] || r['CHAPA'] || '').trim();
+        var material = String(r['Material'] || r['MATERIAL'] || '').trim();
+        if (!chapa && !material) return;
+        var local = String(r['Local'] || r['LOCAL'] || 'Não Consta').trim() || 'Não Consta';
+        var estado = String(r['Estado'] || r['ESTADO'] || 'Não Informado').trim() || 'Não Informado';
+        if (local !== 'Não Consta' && local !== '-') ambSet[local] = true;
+        bens.push({
+          chapa: chapa || '-',
+          material: material || '-',
+          local: local,
+          andar: String(r['Andar'] || r['ANDAR'] || '-').trim() || '-',
+          chapaAntiga: String(r['Chapa Antiga'] || '-').trim() || '-',
+          responsavel: String(r['Responsável'] || '-').trim() || '-',
+          estado: estado,
+          obs: String(r['OBS'] || r['Obs'] || '').trim()
+        });
+      });
+      if (bens.length === 0) return null;
+      var ambientes = Object.keys(ambSet).sort();
+      return Object.assign({}, DADOS_DPAT, {
+        sucesso: true,
+        dataExtracao: new Date().toISOString(),
+        kpis: {
+          totalBens: bens.length,
+          totalAmbientes: ambientes.length,
+          bensLocalizados: bens.filter(function(b) { return b.local && b.local !== 'Não Consta' && b.local !== '-'; }).length,
+          bensAvaliadosBomOtimo: bens.filter(function(b) { return /bom|otim|ótim|excel/i.test(b.estado); }).length
+        },
+        ambientes: ambientes,
+        bens: bens
+      });
+    }
+
     function sincronizarDashboardDpat(isManual) {
       var manual = (isManual === true || (typeof isManual === 'undefined'));
       var btn = document.getElementById('btn-sync-dpat');
@@ -22787,15 +23113,15 @@ function imprimirAgendaCarro() {
       if (manual && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
-          tag: 'DPAT • ALTA PERFORMANCE',
+          tag: 'DPAT • SHAREPOINT AO VIVO',
           titulo: 'Sincronizando Inventário Físico 2026...',
-          mensagem: 'Lendo dados do arquivo oficial Inventario URE - SAM Patrimônio 2026.xlsx...',
+          mensagem: 'Lendo dados ao vivo do arquivo Inventario URE - SAM Patrimônio 2026.xlsx...',
           detalhes: 'Conta: itp_seom_educacao_sp_gov_br • Aba: Inventário Físico',
           duracao: 0
         });
       }
 
-      function concluirSucesso(fonte) {
+      function concluirSucesso(fonte, veioLive) {
         if (btn && manual) {
           btn.disabled = false;
           btn.innerHTML = '🔄 Sincronizar DPAT';
@@ -22804,39 +23130,53 @@ function imprimirAgendaCarro() {
         renderizarDashboardDpat();
         if (manual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: 'DPAT ATUALIZADO',
-            titulo: 'Sincronização Concluída!',
-            mensagem: '<strong>Inventário Físico DPAT</strong> 100% atualizado com a nuvem SharePoint!',
-            detalhes: (fonte || 'SharePoint Oficial') + ' às ' + agora + ' • itp_seom_educacao_sp_gov_br',
+            tipo: veioLive ? 'success' : 'info',
+            tag: veioLive ? 'DPAT ATUALIZADO AO VIVO' : 'DPAT • ESPELHO NUVEM',
+            titulo: veioLive ? 'DPAT Sincronizado Direto do SharePoint!' : 'Base DPAT Verificada (Espelho Nuvem)',
+            mensagem: '<strong>' + (DADOS_DPAT && DADOS_DPAT.bens ? DADOS_DPAT.bens.length.toLocaleString('pt-BR') : '0') + ' bens</strong> do Inventário Físico DPAT atualizados!',
+            detalhes: (fonte || 'SharePoint Oficial') + ' às ' + agora,
             duracao: 5000
           });
         }
       }
 
-      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarDpat';
-      fetch(gasUrl)
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          if (data && data.bens && data.bens.length > 0) {
-            DADOS_DPAT = data;
-          }
-          concluirSucesso('SharePoint / GAS (DPAT)');
-        })
-        .catch(function() {
-          var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/dpat_inventario_2026.json';
-          fetch(mirrorUrl)
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-              if (data && data.bens && data.bens.length > 0) {
-                DADOS_DPAT = data;
-              }
-              concluirSucesso('Base Oficial GitHub Mirror (DPAT)');
-            })
-            .catch(function() {
-              concluirSucesso('Base Oficial Aba Inventário Físico');
-            });
-        });
+      function buscarMirrorDpat() {
+        var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/dpat_inventario_2026.json?_t=' + Date.now();
+        fetch(mirrorUrl)
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (data && data.bens && data.bens.length > 0) DADOS_DPAT = data;
+            concluirSucesso('Espelho GitHub (Fallback DPAT)', false);
+          })
+          .catch(function() { concluirSucesso('Base DPAT carregada', false); });
+      }
+
+      consultarSharepointGasLive({
+        action: 'sincronizarDpat',
+        fnGas: 'sincronizarPlanilhaDpat',
+        argsGas: []
+      }).then(function(data) {
+        if (data && data.sucesso && data.dadosBase64) {
+          var pur = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
+            ? window.purificarXlsxStreamingSeNecessario(data.dadosBase64)
+            : Promise.resolve(data.dadosBase64);
+          pur.then(function(cleanB64) {
+            var parsed = null;
+            try { parsed = processarPlanilhaDpatBase64(cleanB64); } catch (ep) { console.warn('Aviso parse DPAT:', ep); }
+            if (parsed) {
+              DADOS_DPAT = parsed;
+              concluirSucesso('SharePoint Live (Aba Inventário Físico)', true);
+            } else {
+              buscarMirrorDpat();
+            }
+          });
+        } else if (data && data.bens && data.bens.length > 0) {
+          DADOS_DPAT = data;
+          concluirSucesso('Espelho Nuvem GAS (DPAT)', false);
+        } else {
+          buscarMirrorDpat();
+        }
+      }).catch(buscarMirrorDpat);
     }
 
     function mudarFiltroAmbienteDpat(amb) {
@@ -23374,6 +23714,49 @@ function imprimirAgendaCarro() {
       }
     }
 
+    function processarPlanilhaSeomBase64(b64) {
+      if (!b64 || typeof XLSX === 'undefined') return null;
+      var wb = XLSX.read(b64, { type: 'base64' });
+      var sheetName = wb.SheetNames.find(function(n) { return n.trim().toUpperCase() === 'MAPA'; }) || wb.SheetNames[0];
+      var ws = wb.Sheets[sheetName];
+      if (!ws) return null;
+      var rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+      var parseCel = function(v) {
+        if (v === 0 || v === 1 || v === 2) return v;
+        var s = String(v === null || v === undefined ? '' : v).trim();
+        if (s === '0' || s === '1' || s === '2') return parseInt(s, 10);
+        return s || 0;
+      };
+      var escolas = [];
+      for (var i = 0; i < rows.length; i++) {
+        var r = rows[i];
+        if (!Array.isArray(r) || r.length < 12) continue;
+        var nome = String(r[0] || '').trim();
+        if (!nome || nome.toUpperCase() === 'UNIDADE ESCOLAR' || nome.toUpperCase() === 'LEGENDA') continue;
+        escolas.push({
+          escola: nome,
+          obraFde: parseCel(r[1]),
+          avcb: parseCel(r[2]),
+          cuidador: parseCel(r[3]),
+          eletrica: parseCel(r[4]),
+          limpeza: parseCel(r[5]),
+          matriculaAtualizada: parseCel(r[6]),
+          sgi: parseCel(r[7]),
+          telhado: parseCel(r[8]),
+          zeladoria: parseCel(r[9]),
+          esgoto: parseCel(r[10]),
+          consumoAgua: parseCel(r[11])
+        });
+      }
+      if (escolas.length === 0) return null;
+      return Object.assign({}, DADOS_SEOM, {
+        sucesso: true,
+        dataExtracao: new Date().toISOString(),
+        totalEscolas: escolas.length,
+        escolas: escolas
+      });
+    }
+
     function sincronizarDashboardSeom(isManual) {
       var manual = (isManual === true || (typeof isManual === 'undefined'));
       var btn = document.getElementById('btn-sync-seom');
@@ -23385,56 +23768,73 @@ function imprimirAgendaCarro() {
       if (manual && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
-          tag: 'SEOM • ALTA PERFORMANCE',
+          tag: 'SEOM • SHAREPOINT AO VIVO',
           titulo: 'Sincronizando Obras e Infraestrutura 2026...',
           mensagem: 'Conectando à planilha oficial Acompanhamento SEOM.xlsx (Aba MAPA)...',
-          detalhes: 'Conta: itp_seom_educacao_sp_gov_br • 60 Escolas Estaduais',
+          detalhes: 'Conexão Direta à Fonte Oficial • 60 Escolas Estaduais',
           duracao: 0
         });
       }
 
-      function concluirSucesso(fonte) {
+      function concluirSucesso(fonte, veioLive) {
         if (btn && manual) {
           btn.disabled = false;
           btn.innerHTML = '🔄 Sincronizar SEOM';
         }
-        atualizarTabelaMapaSeom();
+        if (document.getElementById('tabela-seom-tbody')) {
+          atualizarTabelaMapaSeom();
+        }
         var agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         if (manual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: 'SEOM ATUALIZADO',
-            titulo: 'Sincronização Concluída!',
-            mensagem: '<strong>Mapa de Infraestrutura Escolar (Aba MAPA)</strong> 100% atualizado com a nuvem SharePoint!',
-            detalhes: (fonte || 'SharePoint Oficial') + ' às ' + agora + ' • itp_seom_educacao_sp_gov_br',
+            tipo: veioLive ? 'success' : 'info',
+            tag: veioLive ? 'SEOM ATUALIZADO AO VIVO' : 'SEOM • ESPELHO NUVEM',
+            titulo: veioLive ? 'SEOM Sincronizado Direto do SharePoint!' : 'Base SEOM Verificada (Espelho Nuvem)',
+            mensagem: '<strong>Mapa de Infraestrutura Escolar (' + ((DADOS_SEOM && DADOS_SEOM.escolas) ? DADOS_SEOM.escolas.length : 60) + ' escolas)</strong> atualizado!',
+            detalhes: (fonte || 'SharePoint Oficial') + ' às ' + agora,
             duracao: 5000
           });
         }
       }
 
-      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSeom';
-      fetch(gasUrl)
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          if (data && data.escolas && data.escolas.length > 0) {
-            DADOS_SEOM = data;
-          }
-          concluirSucesso('SharePoint / GAS (Aba MAPA)');
-        })
-        .catch(function() {
-          var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seom_mapa_2026.json';
-          fetch(mirrorUrl)
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-              if (data && data.escolas && data.escolas.length > 0) {
-                DADOS_SEOM = data;
-              }
-              concluirSucesso('Base Oficial GitHub Mirror');
-            })
-            .catch(function() {
-              concluirSucesso('Base Oficial Aba MAPA');
-            });
-        });
+      function buscarMirrorSeom() {
+        var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/seom_mapa_2026.json?_t=' + Date.now();
+        fetch(mirrorUrl)
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (data && data.escolas && data.escolas.length > 0) DADOS_SEOM = data;
+            concluirSucesso('Espelho GitHub (Fallback SEOM)', false);
+          })
+          .catch(function() { concluirSucesso('Base SEOM carregada', false); });
+      }
+
+      consultarSharepointGasLive({
+        action: 'sincronizarSeom',
+        fnGas: 'sincronizarPlanilhaSeom',
+        argsGas: []
+      }).then(function(data) {
+        if (data && data.sucesso && data.dadosBase64) {
+          var pur = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
+            ? window.purificarXlsxStreamingSeNecessario(data.dadosBase64)
+            : Promise.resolve(data.dadosBase64);
+          pur.then(function(cleanB64) {
+            var parsed = null;
+            try { parsed = processarPlanilhaSeomBase64(cleanB64); } catch (ep) { console.warn('Aviso parse SEOM:', ep); }
+            if (parsed) {
+              DADOS_SEOM = parsed;
+              if (document.getElementById('tabela-seom-tbody')) renderizarDashboardSeom();
+              concluirSucesso('SharePoint Live (Aba MAPA)', true);
+            } else {
+              buscarMirrorSeom();
+            }
+          });
+        } else if (data && data.escolas && data.escolas.length > 0) {
+          DADOS_SEOM = data;
+          concluirSucesso('Espelho Nuvem GAS (SEOM)', false);
+        } else {
+          buscarMirrorSeom();
+        }
+      }).catch(buscarMirrorSeom);
     }
 
     function mudarFiltroResponsavelSeom(resp, btnEl) {
@@ -23540,6 +23940,44 @@ function imprimirAgendaCarro() {
     /* ========================================================================= */
     /* SEFISC: SINCRONIZACAO RESILIENTE DA ABA SEFISC (ZELADORIAS)               */
     /* ========================================================================= */
+    function processarPlanilhaSefiscBase64(b64) {
+      if (!b64 || typeof XLSX === 'undefined') return null;
+      var wb = XLSX.read(b64, { type: 'base64' });
+      var sheetName = wb.SheetNames.find(function(n) { return n.trim().toUpperCase() === 'SEFISC'; }) || wb.SheetNames[0];
+      var ws = wb.Sheets[sheetName];
+      if (!ws) return null;
+      var fmtData = function(v) {
+        if (typeof v === 'number' && v >= 30000 && v <= 65000 && XLSX.SSF && typeof XLSX.SSF.parse_date_code === 'function') {
+          var p = XLSX.SSF.parse_date_code(v);
+          if (p) return p.d + '/' + p.m + '/' + String(p.y).slice(-2);
+        }
+        return String(v === null || v === undefined ? '' : v).trim();
+      };
+      var rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
+      var registros = [];
+      rows.forEach(function(r) {
+        var escola = String(r['Unidade Escolar'] || '').trim();
+        if (!escola) return;
+        registros.push({
+          'Unidade Escolar': escola,
+          'Nome do Zelador': String(r['Nome do Zelador'] || '').trim(),
+          'RG': String(r['RG'] || '-').trim(),
+          'Cargo': String(r['Cargo'] || '-').trim(),
+          'Unidade de Classificação': String(r['Unidade de Classificação'] || '-').trim(),
+          'Publicação': fmtData(r['Publicação']),
+          'Venc.': fmtData(r['Venc.']),
+          'Processo': String(r['Processo'] || '-').trim(),
+          'OBS.': String(r['OBS.'] || r['OBS'] || '').trim()
+        });
+      });
+      if (registros.length === 0) return null;
+      return Object.assign({}, DADOS_SEFISC, {
+        sucesso: true,
+        totalRegistros: registros.length,
+        registros: registros
+      });
+    }
+
     function sincronizarDashboardSefisc(isManual) {
       var manual = (isManual === true || (typeof isManual === 'undefined'));
       var btn = document.getElementById('btn-sync-sefisc');
@@ -23551,15 +23989,15 @@ function imprimirAgendaCarro() {
       if (manual && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
-          tag: 'SEFISC • ALTA PERFORMANCE',
+          tag: 'SEFISC • SHAREPOINT AO VIVO',
           titulo: 'Sincronizando Zeladorias Escolares 2026...',
           mensagem: 'Conectando à planilha oficial CONTROLE - ZELADORIAS-ATUALIZADA-2026.xlsx (Aba SEFISC)...',
-          detalhes: 'Conta: itp_seom_educacao_sp_gov_br • 60 Escolas Estaduais',
+          detalhes: 'Conexão Direta à Fonte Oficial • Sem Login',
           duracao: 0
         });
       }
 
-      function concluirSucesso(fonte) {
+      function concluirSucesso(fonte, veioLive) {
         if (btn && manual) {
           btn.disabled = false;
           btn.innerHTML = '🔄 Sincronizar SEFISC';
@@ -23571,39 +24009,53 @@ function imprimirAgendaCarro() {
         var agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         if (manual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: 'SEFISC ATUALIZADO',
-            titulo: 'Sincronização Concluída!',
-            mensagem: '<strong>Controle de Zeladorias Escolares (Aba SEFISC)</strong> 100% atualizado com a nuvem SharePoint!',
-            detalhes: (fonte || 'SharePoint Oficial') + ' às ' + agora + ' • itp_seom_educacao_sp_gov_br',
+            tipo: veioLive ? 'success' : 'info',
+            tag: veioLive ? 'SEFISC ATUALIZADO AO VIVO' : 'SEFISC • ESPELHO NUVEM',
+            titulo: veioLive ? 'SEFISC Sincronizado Direto do SharePoint!' : 'Base SEFISC Verificada (Espelho Nuvem)',
+            mensagem: '<strong>Controle de Zeladorias Escolares (' + normalizarRegistrosSefisc(DADOS_SEFISC).length + ' registros)</strong> atualizado!',
+            detalhes: (fonte || 'SharePoint Oficial') + ' às ' + agora,
             duracao: 5000
           });
         }
       }
 
-      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSefisc';
-      fetch(gasUrl)
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          if (data && data.zeladorias && data.zeladorias.length > 0) {
-            DADOS_SEFISC = data;
-          }
-          concluirSucesso('SharePoint / GAS (Aba SEFISC)');
-        })
-        .catch(function() {
-          var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefisc_zeladorias_2026.json';
-          fetch(mirrorUrl)
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-              if (data && data.zeladorias && data.zeladorias.length > 0) {
-                DADOS_SEFISC = data;
-              }
-              concluirSucesso('Base Oficial GitHub Mirror');
-            })
-            .catch(function() {
-              concluirSucesso('Base Oficial Aba SEFISC');
-            });
-        });
+      function buscarMirrorSefisc() {
+        var mirrorUrl = 'https:' + String.fromCharCode(47, 47) + 'raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefisc_zeladorias_2026.json?_t=' + Date.now();
+        fetch(mirrorUrl)
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (data && (data.zeladorias || data.registros)) DADOS_SEFISC = data;
+            concluirSucesso('Espelho GitHub (Fallback SEFISC)', false);
+          })
+          .catch(function() { concluirSucesso('Base SEFISC carregada', false); });
+      }
+
+      consultarSharepointGasLive({
+        action: 'sincronizarSefisc',
+        fnGas: 'sincronizarPlanilhaSefisc',
+        argsGas: []
+      }).then(function(data) {
+        if (data && data.sucesso && data.dadosBase64) {
+          var pur = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
+            ? window.purificarXlsxStreamingSeNecessario(data.dadosBase64)
+            : Promise.resolve(data.dadosBase64);
+          pur.then(function(cleanB64) {
+            var parsed = null;
+            try { parsed = processarPlanilhaSefiscBase64(cleanB64); } catch (ep) { console.warn('Aviso parse SEFISC:', ep); }
+            if (parsed) {
+              DADOS_SEFISC = parsed;
+              concluirSucesso('SharePoint Live (Aba SEFISC)', true);
+            } else {
+              buscarMirrorSefisc();
+            }
+          });
+        } else if (data && (data.zeladorias || data.registros)) {
+          DADOS_SEFISC = data;
+          concluirSucesso('Espelho Nuvem GAS (SEFISC)', false);
+        } else {
+          buscarMirrorSefisc();
+        }
+      }).catch(buscarMirrorSefisc);
     }
 
     function normalizarRegistrosSefisc(dados) {
@@ -24707,22 +25159,22 @@ function imprimirAgendaCarro() {
       }
 
       const ehOtimizado = (typeof CONFIG_SINCRONIZACAO_SEMAT !== 'undefined') ? CONFIG_SINCRONIZACAO_SEMAT.modoOtimizado : true;
-      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSemat' + (ehOtimizado ? '' : '&bruto=true');
-
-      fetch(gasUrl)
-        .then(function(r) { return r.json(); })
-        .then(function(res) {
-          if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSematBase64 === 'function') {
-            processarPlanilhaSematBase64(res.dadosBase64, res.timestamp);
-          } else if (res && res.kpis) {
-            aplicarDadosSemat(res, false);
-          } else {
-            buscarMirror();
-          }
-        })
-        .catch(function(err) {
+      consultarSharepointGasLive({
+        action: 'sincronizarSemat',
+        fnGas: 'sincronizarPlanilhaSemat',
+        argsGas: [!ehOtimizado],
+        urlExtraParams: (ehOtimizado ? '' : '&bruto=true')
+      }).then(function(res) {
+        if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSematBase64 === 'function') {
+          processarPlanilhaSematBase64(res.dadosBase64, res.timestamp);
+        } else if (res && res.kpis) {
+          aplicarDadosSemat(res, false);
+        } else {
           buscarMirror();
-        });
+        }
+      }).catch(function() {
+        buscarMirror();
+      });
     }
 
     /* ======================================================= */
@@ -25387,22 +25839,21 @@ function imprimirAgendaCarro() {
           });
       }
 
-      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSevesc&bruto=true';
-
-      fetch(gasUrl)
-        .then(function(r) { return r.json(); })
-        .then(function(res) {
-          if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSevescBase64 === 'function') {
-            processarPlanilhaSevescBase64(res.dadosBase64, res.timestamp);
-          } else if (res && res.kpis) {
-            aplicarDadosSevesc(res, false);
-          } else {
-            buscarMirror();
-          }
-        })
-        .catch(function(err) {
+      consultarSharepointGasLive({
+        action: 'sincronizarSevesc',
+        fnGas: 'sincronizarPlanilhaSevesc',
+        argsGas: [false]
+      }).then(function(res) {
+        if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSevescBase64 === 'function') {
+          processarPlanilhaSevescBase64(res.dadosBase64, res.timestamp);
+        } else if (res && res.kpis) {
+          aplicarDadosSevesc(res, false);
+        } else {
           buscarMirror();
-        });
+        }
+      }).catch(function() {
+        buscarMirror();
+      });
     }
 
     /* ======================================================= */
@@ -37955,21 +38406,23 @@ function imprimirAgendaCarro() {
           });
       }
 
-      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSegre' + (CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado ? '' : '&bruto=true');
-      fetch(gasUrl)
-        .then(function(r) { return r.json(); })
-        .then(function(res) {
-          if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSegreBase64 === 'function') {
-            processarPlanilhaSegreBase64(res.dadosBase64, res.timestamp);
-          } else if (res && (res.kpis || res.processosSei)) {
-            aplicarDadosSegre(res, false);
-          } else {
-            buscarMirrorSegre();
-          }
-        })
-        .catch(function(err) {
+      const ehOtimSegre = (typeof CONFIG_SINCRONIZACAO_SEGRE !== 'undefined') ? CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado : true;
+      consultarSharepointGasLive({
+        action: 'sincronizarSegre',
+        fnGas: 'sincronizarPlanilhaSegre',
+        argsGas: [!ehOtimSegre],
+        urlExtraParams: (ehOtimSegre ? '' : '&bruto=true')
+      }).then(function(res) {
+        if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSegreBase64 === 'function') {
+          processarPlanilhaSegreBase64(res.dadosBase64, res.timestamp);
+        } else if (res && (res.kpis || res.processosSei)) {
+          aplicarDadosSegre(res, false);
+        } else {
           buscarMirrorSegre();
-        });
+        }
+      }).catch(function() {
+        buscarMirrorSegre();
+      });
     }
 
 
@@ -42139,21 +42592,23 @@ function imprimirAgendaCarro() {
           });
       }
 
-      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSepes' + (CONFIG_SINCRONIZACAO_SEPES.modoOtimizado ? '' : '&bruto=true');
-      fetch(gasUrl)
-        .then(function(r) { return r.json(); })
-        .then(function(res) {
-          if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSepesBase64 === 'function') {
-            processarPlanilhaSepesBase64(res.dadosBase64, res.timestamp);
-          } else if (res && (res.kpis || res.aposentadorias)) {
-            aplicarDadosSepes(res, false);
-          } else {
-            buscarMirrorSepes();
-          }
-        })
-        .catch(function(err) {
+      const ehOtimSepes = (typeof CONFIG_SINCRONIZACAO_SEPES !== 'undefined') ? CONFIG_SINCRONIZACAO_SEPES.modoOtimizado : true;
+      consultarSharepointGasLive({
+        action: 'sincronizarSepes',
+        fnGas: 'sincronizarPlanilhaSepes',
+        argsGas: [!ehOtimSepes],
+        urlExtraParams: (ehOtimSepes ? '' : '&bruto=true')
+      }).then(function(res) {
+        if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSepesBase64 === 'function') {
+          processarPlanilhaSepesBase64(res.dadosBase64, res.timestamp);
+        } else if (res && (res.kpis || res.aposentadorias)) {
+          aplicarDadosSepes(res, false);
+        } else {
           buscarMirrorSepes();
-        });
+        }
+      }).catch(function() {
+        buscarMirrorSepes();
+      });
     }
 
 
@@ -42513,37 +42968,44 @@ function imprimirAgendaCarro() {
       try {
         switch (modulo) {
           case 'home':
+            if (typeof sincronizarTudoGlobalmente === 'function') sincronizarTudoGlobalmente(true);
+            else if (typeof hidratarTodosModulosNuvem === 'function') hidratarTodosModulosNuvem();
             if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
             if (typeof renderizarMiniCalendarioHome === 'function') renderizarMiniCalendarioHome();
-            mostrarToastAgenda('Módulo Início sincronizado às ' + agoraStr, '⭐');
+            mostrarToastAgenda('Consultando fontes em nuvem para atualização do Início...', '⭐');
             break;
 
           case 'gestao':
+            if (typeof hidratarTodosModulosNuvem === 'function') hidratarTodosModulosNuvem();
             if (typeof atualizarDiaGestaoHoje === 'function') atualizarDiaGestaoHoje();
-            mostrarToastAgenda('Linha do tempo e compromissos sincronizados às ' + agoraStr, '⏱️');
+            mostrarToastAgenda('Consultando nuvem para atualizar linha do tempo às ' + agoraStr, '⏱️');
             break;
 
           case 'agenda':
+            if (typeof carregarAgendaCloud === 'function') carregarAgendaCloud();
             if (typeof renderizarAgendaLista === 'function') renderizarAgendaLista();
             if (typeof atualizarEstatisticasAgenda === 'function') atualizarEstatisticasAgenda();
-            mostrarToastAgenda('Agenda da Dirigente sincronizada com Google Calendar às ' + agoraStr, '📅');
+            mostrarToastAgenda('Consultando Google Calendar ao vivo às ' + agoraStr, '📅');
             break;
 
           case 'carro':
+            if (typeof carregarCarroCloud === 'function') carregarCarroCloud();
             if (typeof atualizarCarroOficial === 'function') atualizarCarroOficial();
-            mostrarToastAgenda('Frota e agendamentos do Carro Oficial sincronizados às ' + agoraStr, '🚗');
+            mostrarToastAgenda('Consultando nuvem do Carro Oficial às ' + agoraStr, '🚗');
             break;
 
           case 'visitas':
+            if (typeof carregarVisitasLocalStorage === 'function') carregarVisitasLocalStorage();
             if (typeof atualizarPainelVisitas === 'function') atualizarPainelVisitas();
-            mostrarToastAgenda('Painel de visitas às 60 escolas sincronizado às ' + agoraStr, '🏫');
+            mostrarToastAgenda('Painel de visitas às 60 escolas atualizado às ' + agoraStr, '🏫');
             break;
 
           case 'escolas':
+            if (typeof sincronizarInventarioSharepoint === 'function') sincronizarInventarioSharepoint(false);
             if (typeof atualizarKpisEscolas === 'function') atualizarKpisEscolas();
             if (typeof atualizarIndicadoresOrdenacaoEscolas === 'function') atualizarIndicadoresOrdenacaoEscolas();
             if (typeof renderizarEscolas === 'function') renderizarEscolas();
-            mostrarToastAgenda('Base e inventário das 60 escolas sincronizados às ' + agoraStr, '🏫');
+            mostrarToastAgenda('Consultando SharePoint ao vivo para atualizar as 60 escolas...', '🏫');
             break;
 
           case 'gabinete':
@@ -42556,58 +43018,34 @@ function imprimirAgendaCarro() {
             if (typeof sincronizarSharepointCalls === 'function') sincronizarSharepointCalls(true);
             if (typeof sincronizarInventarioSharepoint === 'function') sincronizarInventarioSharepoint(false);
             const elSeintec = document.getElementById('seintec-drive-sync-info');
-            if (elSeintec) elSeintec.innerText = 'SHAREPOINT • 60 ESCOLAS • 6 ABAS • Sincronizado às ' + agoraStr;
-            mostrarToastAgenda('Chamados e inventário SEINTEC sincronizados com SharePoint às ' + agoraStr, '🛠️');
+            if (elSeintec) elSeintec.innerText = 'SHAREPOINT • 60 ESCOLAS • 6 ABAS • Consultando fonte...';
+            mostrarToastAgenda('Consultando SharePoint ao vivo (Chamados e Inventário das 60 escolas)...', '🛠️');
             break;
 
           case 'centro':
             let centroSigla = (document.getElementById('atual-centro-sigla') ? document.getElementById('atual-centro-sigla').value : 'Centro');
+            const setorAtivo = document.getElementById('atual-setor-sigla') ? document.getElementById('atual-setor-sigla').value : centroSigla;
 
             if (centroSigla === 'SEGRE') {
-              if (typeof mostrarAlertaSincronizacao === 'function') {
-                mostrarAlertaSincronizacao({
-                  tipo: 'loading',
-                  tag: 'SEGRE INTEGRAL',
-                  titulo: 'Sincronizando SEGRE Completo...',
-                  mensagem: 'Atualizando simultaneamente o SEGRE e todas as suas seções (SEMAT e SEVESC)...',
-                  detalhes: 'Download & Validação das bases oficiais no SharePoint',
-                  duracao: 0
-                });
-              }
-
-              /* Sincroniza todas as planilhas e seções do SEGRE em paralelo */
-              if (typeof sincronizarDashboardSegre === 'function') sincronizarDashboardSegre(true);
-              if (typeof sincronizarDashboardSemat === 'function') sincronizarDashboardSemat(true);
-              if (typeof sincronizarDashboardSevesc === 'function') sincronizarDashboardSevesc(true);
-
-              const setorAtivo = document.getElementById('atual-setor-sigla') ? document.getElementById('atual-setor-sigla').value : 'SEGRE';
-              setTimeout(function() {
-                if (setorAtivo === 'SEMAT' && typeof renderizarDashboardSemat === 'function') renderizarDashboardSemat();
-                else if (setorAtivo === 'SEVESC' && typeof renderizarDashboardSevesc === 'function') renderizarDashboardSevesc();
-                else if (typeof renderizarDashboardSegre === 'function') renderizarDashboardSegre();
-
-                if (typeof mostrarAlertaSincronizacao === 'function') {
-                  mostrarAlertaSincronizacao({
-                    tipo: 'success',
-                    tag: 'SEGRE ATUALIZADO',
-                    titulo: 'SEGRE e Todas as Seções Sincronizadas!',
-                    mensagem: 'Bases do SEGRE, SEMAT (Matrícula) e SEVESC (Vida Escolar) 100% atualizadas.',
-                    detalhes: 'Sincronizado às ' + new Date().toLocaleTimeString('pt-BR'),
-                    duracao: 4500
-                  });
-                }
-              }, 1200);
-
-              mostrarToastAgenda('SEGRE e todas as suas seções (SEMAT / SEVESC) sincronizados às ' + agoraStr, '🏫');
+              if (typeof sincronizarDashboardSegre === 'function') sincronizarDashboardSegre(setorAtivo !== 'SEGRE' && setorAtivo !== '');
+              if (typeof sincronizarDashboardSemat === 'function') sincronizarDashboardSemat(setorAtivo !== 'SEMAT');
+              if (typeof sincronizarDashboardSevesc === 'function') sincronizarDashboardSevesc(setorAtivo !== 'SEVESC');
+              mostrarToastAgenda('Consultando SharePoint ao vivo para SEGRE, SEMAT e SEVESC...', '🏫');
               break;
             } else if (centroSigla === 'SEPES') {
-              if (typeof sincronizarDashboardSepes === 'function') sincronizarDashboardSepes(true);
-              mostrarToastAgenda('SEPES e seção SEAPE sincronizados às ' + agoraStr, '👥');
-            } else if ((centroSigla === 'CAF' || centroSigla === 'SEAFIN') && typeof sincronizarDashboardSefin === 'function') {
-              sincronizarDashboardSefin();
-              mostrarToastAgenda('Módulo ' + centroSigla + ' e seus setores sincronizados às ' + agoraStr, '🏛️');
+              if (typeof sincronizarDashboardSepes === 'function') sincronizarDashboardSepes(false);
+              mostrarToastAgenda('Consultando SharePoint ao vivo para SEPES / SEAPE...', '👥');
+            } else if (centroSigla === 'CAF' || centroSigla === 'SEAFIN') {
+              if (typeof sincronizarDashboardSefin === 'function') sincronizarDashboardSefin(setorAtivo !== 'SEFIN' && setorAtivo !== 'CAF' && setorAtivo !== 'SEAFIN' && setorAtivo !== '');
+              if (typeof sincronizarDashboardSecomse === 'function') sincronizarDashboardSecomse(setorAtivo !== 'SECOMSE');
+              if (typeof sincronizarDashboardDpat === 'function') sincronizarDashboardDpat(setorAtivo === 'DPAT');
+              mostrarToastAgenda('Consultando SharePoint ao vivo para SEAFIN (SEFIN, SECOMSE e DPAT)...', '🏛️');
+            } else if (centroSigla === 'SEOM') {
+              if (typeof sincronizarDashboardSeom === 'function') sincronizarDashboardSeom(setorAtivo !== 'SEFISC');
+              if (typeof sincronizarDashboardSefisc === 'function') sincronizarDashboardSefisc(setorAtivo === 'SEFISC');
+              mostrarToastAgenda('Consultando SharePoint ao vivo para SEOM e SEFISC...', '🏗️');
             } else {
-              mostrarToastAgenda('Módulo ' + centroSigla + ' e seus setores sincronizados às ' + agoraStr, '🏛️');
+              mostrarToastAgenda('Módulo ' + centroSigla + ' consultando nuvem às ' + agoraStr, '🏛️');
             }
             break;
 
@@ -45703,8 +46141,14 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         console.warn("Aviso ao carregar espelho de inventário:", fetchErr);
       }
 
-      /* 2. Consulta alterações ao vivo no SharePoint via GAS (Tier 1) ou JSONP (Tier 2) */
-      const processarRespostaLive = function(res) {
+      /* 2. Consulta alterações ao vivo no SharePoint via GAS (Tier 1 + Tier 2 JSONP) */
+      consultarSharepointGasLive({
+        action: "sincronizarInventario",
+        fnGas: "sincronizarInventarioSharepoint",
+        argsGas: [baselineIso],
+        urlExtraParams: "&since=" + encodeURIComponent(baselineIso),
+        timeoutMs: 25000
+      }).then(function(res) {
         let deltaCount = 0;
         if (res && Array.isArray(res.arquivosModificados) && res.arquivosModificados.length > 0) {
           deltaCount = aplicarArquivosInventarioSharepoint(res.arquivosModificados);
@@ -45714,50 +46158,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           liveDeltaCount: deltaCount,
           timestamp: (res && res.timestamp) ? res.timestamp : new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
         });
-      };
-
-      if (typeof google !== "undefined" && google.script && google.script.run && typeof google.script.run.sincronizarInventarioSharepoint === "function") {
-        google.script.run
-          .withSuccessHandler(processarRespostaLive)
-          .withFailureHandler(function(err) {
-            console.log("Inventário operando via base consolidada:", err);
-            finalizarSucesso({ sucesso: true, timestamp: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) });
-          })
-          .sincronizarInventarioSharepoint(baselineIso);
-        return;
-      }
-
-      /* Tier 2 JSONP para GHP e Google Sites */
-      try {
-        const cbId = "__cb_inv_" + Math.floor(Math.random() * 10000000);
-        let timerId = null;
-        window[cbId] = function(res) {
-          if (timerId) clearTimeout(timerId);
-          delete window[cbId];
-          const el = document.getElementById(cbId);
-          if (el && el.parentNode) el.parentNode.removeChild(el);
-          processarRespostaLive(res);
-        };
-        const sc = document.createElement("script");
-        sc.id = cbId;
-        sc.src = "https:" + String.fromCharCode(47, 47) + "script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarInventario&since=" + encodeURIComponent(baselineIso) + "&callback=" + cbId + "&_t=" + Date.now();
-        sc.onerror = function() {
-          if (timerId) clearTimeout(timerId);
-          delete window[cbId];
-          if (sc.parentNode) sc.parentNode.removeChild(sc);
-          finalizarSucesso({ sucesso: true, timestamp: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) });
-        };
-        timerId = setTimeout(function() {
-          if (window[cbId]) {
-            delete window[cbId];
-            if (sc.parentNode) sc.parentNode.removeChild(sc);
-            finalizarSucesso({ sucesso: true, timestamp: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) });
-          }
-        }, 18000);
-        document.head.appendChild(sc);
-      } catch (eJsonp) {
+      }).catch(function(errLive) {
+        console.log("Aviso consulta live inventário (mantendo base consolidada):", errLive);
         finalizarSucesso({ sucesso: true, timestamp: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) });
-      }
+      });
     }
 
     window.sincronizarInventarioSharepoint = sincronizarInventarioSharepoint;
@@ -46073,97 +46477,44 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         }
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: isRemoto ? (setor.toUpperCase() + ' ATUALIZADO') : (setor.toUpperCase() + ' • BASE OFICIAL'),
-            titulo: 'Base do ' + setor + ' Verificada com Sucesso!',
-            mensagem: 'Dados públicos do <strong>' + setor + '</strong> (' + desc + ') verificados e 100% operacionais.',
-            detalhes: 'Sincronizado às ' + agora + ' • Sem Exigência de Login',
+            tipo: isRemoto ? 'success' : 'info',
+            tag: isRemoto ? (setor.toUpperCase() + ' ATUALIZADO AO VIVO') : (setor.toUpperCase() + ' • BASE MANTIDA'),
+            titulo: isRemoto ? ('Base do ' + setor + ' Atualizada da Fonte!') : ('Base do ' + setor + ' Mantida (Contingência)'),
+            mensagem: isRemoto
+              ? ('Dados públicos do <strong>' + setor + '</strong> (' + desc + ') baixados e aplicados diretamente do SharePoint.')
+              : ('SharePoint indisponível agora para <strong>' + setor + '</strong>; mantendo os dados já carregados.'),
+            detalhes: (isRemoto ? 'SharePoint Ao Vivo às ' : 'Verificado às ') + agora + ' • Sem Exigência de Login',
             duracao: 5000
           });
         }
       };
 
-      /* Motor universal anti-CORS: Tier 1 google.script.run + Tier 2 JSONP dinâmico */
-      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarGenerico&url=' + encodeURIComponent(url || '') + '&setor=' + encodeURIComponent(setor) + '&descricao=' + encodeURIComponent(desc);
-
-      function executarJsonpGenerico() {
-        var cbId = '__cb_gen_' + Math.floor(Math.random() * 10000000);
-        var timerId = null;
-
-        window[cbId] = function(res) {
-          if (timerId) clearTimeout(timerId);
-          delete window[cbId];
-          var el = document.getElementById(cbId);
-          if (el && el.parentNode) el.parentNode.removeChild(el);
-
-          if (res && res.sucesso && res.dadosBase64) {
-            var purGen = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
-              ? window.purificarXlsxStreamingSeNecessario(res.dadosBase64)
-              : Promise.resolve(res.dadosBase64);
-            purGen.then(function(cleanB64) {
-              try {
-                if (typeof onProcessar === 'function') {
-                  onProcessar(cleanB64, res.timestamp);
-                }
-                finalizarComSucesso(res.timestamp, true);
-              } catch (e) {
-                console.warn('Fallback para base consolidada no setor ' + setor + ':', e);
-                finalizarComSucesso(res ? res.timestamp : null, false);
-              }
-            });
-          } else {
-            finalizarComSucesso(res ? res.timestamp : null, false);
-          }
-        };
-
-        var sc = document.createElement('script');
-        sc.id = cbId;
-        sc.src = gasUrl + '&callback=' + cbId + '&_t=' + Date.now();
-        sc.onerror = function() {
-          if (timerId) clearTimeout(timerId);
-          delete window[cbId];
-          if (sc.parentNode) sc.parentNode.removeChild(sc);
-          finalizarComSucesso(null, false);
-        };
-        timerId = setTimeout(function() {
-          if (window[cbId]) {
-            delete window[cbId];
-            if (sc.parentNode) sc.parentNode.removeChild(sc);
-            finalizarComSucesso(null, false);
-          }
-        }, 25000);
-        document.head.appendChild(sc);
-      }
-
-      /* TIER 1: Se em ambiente Google Apps Script */
-      if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.sincronizarArquivoGenericoSharepoint === 'function') {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.sucesso && res.dadosBase64) {
-              var purGenT1 = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
-                ? window.purificarXlsxStreamingSeNecessario(res.dadosBase64)
-                : Promise.resolve(res.dadosBase64);
-              purGenT1.then(function(cleanB64) {
-                try {
-                  if (typeof onProcessar === 'function') onProcessar(cleanB64, res.timestamp);
-                  finalizarComSucesso(res.timestamp, true);
-                } catch(e) {
-                  executarJsonpGenerico();
-                }
-              });
-            } else {
-              executarJsonpGenerico();
+      consultarSharepointGasLive({
+        action: 'sincronizarGenerico',
+        fnGas: 'sincronizarArquivoGenericoSharepoint',
+        argsGas: [url, setor, desc],
+        urlExtraParams: '&url=' + encodeURIComponent(url || '') + '&setor=' + encodeURIComponent(setor) + '&descricao=' + encodeURIComponent(desc),
+        timeoutMs: 30000
+      }).then(function(res) {
+        if (res && res.sucesso && res.dadosBase64) {
+          var purGen = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
+            ? window.purificarXlsxStreamingSeNecessario(res.dadosBase64)
+            : Promise.resolve(res.dadosBase64);
+          purGen.then(function(cleanB64) {
+            try {
+              if (typeof onProcessar === 'function') onProcessar(cleanB64, res.timestamp);
+              finalizarComSucesso(res.timestamp, true);
+            } catch (e) {
+              console.warn('Fallback para base consolidada no setor ' + setor + ':', e);
+              finalizarComSucesso(res ? res.timestamp : null, false);
             }
-          })
-          .withFailureHandler(function(err) {
-            executarJsonpGenerico();
-          })
-          .sincronizarArquivoGenericoSharepoint(url, setor, desc);
-        return;
-      }
-
-      /* TIER 2: JSONP Dinâmico livre de restrições CORS */
-      executarJsonpGenerico();
+          });
+        } else {
+          finalizarComSucesso(res ? res.timestamp : null, false);
+        }
+      }).catch(function() {
+        finalizarComSucesso(null, false);
+      });
     }
     /* =========================================================================
        GERENCIADOR DO SININHO DE ALERTAS & NOTIFICAÇÕES (HEADER)
