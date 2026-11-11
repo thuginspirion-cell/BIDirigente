@@ -6064,26 +6064,6 @@ function imprimirAgendaCarro() {
       box-shadow: 0 0 14px rgba(240, 155, 12, 0.55);
     }
 
-    .centro-big-avatar {
-      width: 68px;
-      height: 68px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%) !important;
-      border: 2px solid #f09b0c;
-      box-shadow: 0 8px 24px rgba(11, 35, 81, 0.22), 0 0 16px rgba(240, 155, 12, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.2rem;
-      color: #ffffff;
-      flex-shrink: 0;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .centro-big-avatar:hover {
-      transform: scale(1.06) rotate(2deg);
-      border-color: #fef08a;
-    }
-
     .sidebar-footer {
       padding: 1rem 1.25rem;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -7362,21 +7342,6 @@ function imprimirAgendaCarro() {
       display: flex;
       align-items: center;
       gap: 1.1rem;
-    }
-
-    .centro-big-avatar {
-      width: 52px;
-      height: 52px;
-      flex-shrink: 0;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.10);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: #ffffff;
-      font-size: 1.5rem;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .centro-banner-titles h2 {
@@ -13785,7 +13750,6 @@ function imprimirAgendaCarro() {
         <!-- Banner do Centro Selecionado (Padrão Executivo Azul Marinho) -->
         <div class="centro-banner-header">
           <div class="centro-banner-left">
-            <div class="centro-big-avatar" id="banner-centro-badge">🏛️</div>
             <div class="centro-banner-titles">
               <span class="gab-pre-title" id="banner-centro-pretitle">SERVIÇO / CENTRO REGIONAL</span>
               <h2 id="banner-centro-nome">CIE - Centro de Informações Educacionais e Tecnologia</h2>
@@ -20292,11 +20256,6 @@ function imprimirAgendaCarro() {
       if (!centro) return;
 
       /* Atualiza Header do Centro */
-      const badgeCentroEl = document.getElementById('banner-centro-badge');
-      if (badgeCentroEl) {
-        badgeCentroEl.innerHTML = centro.icone || '🏛️';
-        badgeCentroEl.style.background = 'rgba(255, 255, 255, 0.10)';
-      }
       const preTitleCentro = document.getElementById('banner-centro-pretitle');
       if (preTitleCentro) preTitleCentro.innerText = 'SERVIÇO / CENTRO REGIONAL • ' + siglaCentro;
       document.getElementById('banner-centro-nome').innerText = centro.nome;
@@ -20399,7 +20358,6 @@ function imprimirAgendaCarro() {
               <div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); border: 2px solid #f09b0c; border-radius: 16px; padding: 1.3rem 1.5rem; margin-bottom: 1.2rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
                 <div>
                   <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
-                    <span style="font-size: 1.5rem;">${centro.icone || '📚'}</span>
                     <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">${setor.nome}</h2>
                     <span style="background: #dbeafe; color: #1e40af; border: 1.5px solid #3b82f6; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">${siglaCentro} • URE ITAPEVI</span>
                   </div>
