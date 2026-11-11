@@ -24288,8 +24288,8 @@ function imprimirAgendaCarro() {
                 Gestão das rotinas de atendimento, compatibilização de vagas, matrículas manuais, transferências e processos SEI da Diretoria Regional de Ensino de Itapevi.
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
-                <span>🕒 <strong>Atualizado:</strong> <span id="semat-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Hoje'}</span></span>
-                <span>⚡ <strong>Sincronização:</strong> <span style="color: #10b981; font-weight: 800;">Modo Otimizado (Abas Ativas)</span></span>
+                <span>🕒 <strong>Dados de:</strong> <span id="semat-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
+                <span>⚡ <strong>Origem:</strong> <span style="color: #93c5fd; font-weight: 800;">${meta.origemSync || 'Espelho Automático Nuvem (SharePoint)'}</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">Atendimentos, Matrículas, Processos SEI</span></span>
               </div>
             </div>
@@ -24635,6 +24635,7 @@ function imprimirAgendaCarro() {
         DADOS_SEMAT.kpis.mesesMatriculas = contagemPorMesMat;
         if (DADOS_SEMAT.meta) {
           DADOS_SEMAT.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
+          DADOS_SEMAT.meta.origemSync = 'SharePoint Ao Vivo';
         }
 
         renderizarDashboardSemat();
@@ -24645,7 +24646,7 @@ function imprimirAgendaCarro() {
             tag: 'SEMAT AO VIVO • SHAREPOINT',
             titulo: 'Planilha SEMAT Atualizada em Tempo Real!',
             mensagem: '<strong>' + atendimentos.length.toLocaleString('pt-BR') + ' atendimentos</strong> e <strong>' + matriculas.length.toLocaleString('pt-BR') + ' matrículas</strong> baixados do SharePoint agora.',
-            detalhes: 'Sincronizado diretamente às ' + new Date().toLocaleTimeString('pt-BR'),
+            detalhes: 'SharePoint Ao Vivo às ' + new Date().toLocaleTimeString('pt-BR'),
             duracao: 4500
           });
         }
@@ -24658,37 +24659,49 @@ function imprimirAgendaCarro() {
       const isSil = (silencioso === true);
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         const msg = (typeof CONFIG_SINCRONIZACAO_SEMAT !== 'undefined' && CONFIG_SINCRONIZACAO_SEMAT.modoOtimizado)
-          ? 'Sincronizando abas ativas do SEMAT (Atendimentos, Matrículas e Processos SEI) em tempo recorde...'
+          ? 'Consultando espelho automático na nuvem (abastecido do SharePoint via GitHub Actions)...'
           : 'Baixando planilha do SharePoint em tempo real...';
 
         mostrarAlertaSincronizacao({
           tipo: 'loading',
-          tag: (typeof CONFIG_SINCRONIZACAO_SEMAT !== 'undefined' && CONFIG_SINCRONIZACAO_SEMAT.modoOtimizado) ? 'SEMAT • ALTA PERFORMANCE' : 'SEMAT • SHAREPOINT BRUTO',
-          titulo: (typeof CONFIG_SINCRONIZACAO_SEMAT !== 'undefined' && CONFIG_SINCRONIZACAO_SEMAT.modoOtimizado) ? 'Sincronizando Abas Ativas do SEMAT...' : 'Sincronizando Livro de Entrada SEMAT...',
+          tag: (typeof CONFIG_SINCRONIZACAO_SEMAT !== 'undefined' && CONFIG_SINCRONIZACAO_SEMAT.modoOtimizado) ? 'SEMAT • ESPELHO NUVEM' : 'SEMAT • SHAREPOINT LIVE',
+          titulo: (typeof CONFIG_SINCRONIZACAO_SEMAT !== 'undefined' && CONFIG_SINCRONIZACAO_SEMAT.modoOtimizado) ? 'Buscando Base SEMAT na Nuvem...' : 'Sincronizando Livro de Entrada SEMAT...',
           mensagem: msg,
-          detalhes: 'Otimização Seletiva de Abas • 100% Reversível',
+          detalhes: 'Transparência Real de Coleta',
           duracao: 0
         });
       }
 
-      function aplicarDadosSemat(novos) {
-        if (novos && (novos.kpis || novos.processosSei)) {
+      function aplicarDadosSemat(novos, falhaRede) {
+        if (!falhaRede && novos && (novos.kpis || novos.processosSei)) {
           DADOS_SEMAT = novos;
+          if (DADOS_SEMAT.meta) {
+            DADOS_SEMAT.meta.origemSync = novos.origem || 'Espelho Automático Nuvem (GitHub)';
+          }
         }
-        if (DADOS_SEMAT.meta) {
-          DADOS_SEMAT.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
-        }
+        const tsReal = (DADOS_SEMAT.meta && DADOS_SEMAT.meta.atualizadoFormatado) ? DADOS_SEMAT.meta.atualizadoFormatado : 'Data não informada';
         renderizarDashboardSemat();
 
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
-          mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: 'SEMAT ATUALIZADO',
-            titulo: 'SEMAT Sincronizado com Sucesso!',
-            mensagem: '<strong>' + (DADOS_SEMAT.kpis ? DADOS_SEMAT.kpis.totalAtendimentos : 2885).toLocaleString('pt-BR') + ' atendimentos</strong> e <strong>' + (DADOS_SEMAT.kpis ? DADOS_SEMAT.kpis.totalMatriculasManuais : 2317).toLocaleString('pt-BR') + ' matrículas</strong> sincronizados em tempo real!',
-            detalhes: 'Modo Otimizado (Abas Ativas) às ' + new Date().toLocaleTimeString('pt-BR') + ' • 100% Atualizado',
-            duracao: 4500
-          });
+          if (falhaRede) {
+            mostrarAlertaSincronizacao({
+              tipo: 'warning',
+              tag: 'SEMAT • SEM CONEXÃO',
+              titulo: 'Não foi possível buscar nova coleta agora',
+              mensagem: 'Mantendo os últimos dados carregados (coleta de <strong>' + tsReal + '</strong>).',
+              detalhes: 'Tente novamente em instantes',
+              duracao: 5000
+            });
+          } else {
+            mostrarAlertaSincronizacao({
+              tipo: 'success',
+              tag: 'SEMAT • ESPELHO NUVEM',
+              titulo: 'Dados do SEMAT Carregados',
+              mensagem: '<strong>' + (DADOS_SEMAT.kpis ? DADOS_SEMAT.kpis.totalAtendimentos : 0).toLocaleString('pt-BR') + ' atendimentos</strong> e <strong>' + (DADOS_SEMAT.kpis ? DADOS_SEMAT.kpis.totalMatriculasManuais : 0).toLocaleString('pt-BR') + ' matrículas</strong>.',
+              detalhes: 'Coleta oficial SharePoint registrada em: ' + tsReal,
+              duracao: 5000
+            });
+          }
         }
       }
 
@@ -24697,12 +24710,14 @@ function imprimirAgendaCarro() {
           .then(function(r) { return r.json(); })
           .then(function(json) {
             if (json && json.kpis) {
-              aplicarDadosSemat(json);
+              aplicarDadosSemat(json, false);
+            } else {
+              aplicarDadosSemat(null, true);
             }
           })
           .catch(function(e) {
             console.warn('Aviso mirror SEMAT:', e);
-            renderizarDashboardSemat();
+            aplicarDadosSemat(null, true);
           });
       }
 
@@ -24715,7 +24730,7 @@ function imprimirAgendaCarro() {
           if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSematBase64 === 'function') {
             processarPlanilhaSematBase64(res.dadosBase64, res.timestamp);
           } else if (res && res.kpis) {
-            aplicarDadosSemat(res);
+            aplicarDadosSemat(res, false);
           } else {
             buscarMirror();
           }
@@ -24989,8 +25004,8 @@ function imprimirAgendaCarro() {
                 Acompanhamento de prontuários de alunos, regularização de vida escolar, certificação de concluintes, histórico escolar e processos SEI.
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
-                <span>🕒 <strong>Atualizado:</strong> <span id="sevesc-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Hoje'}</span></span>
-                <span>⚡ <strong>Sincronização:</strong> <span style="color: #10b981; font-weight: 800;">Modo Otimizado (Abas Ativas)</span></span>
+                <span>🕒 <strong>Dados de:</strong> <span id="sevesc-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
+                <span>⚡ <strong>Origem:</strong> <span style="color: #10b981; font-weight: 800;">${meta.origemSync || 'SharePoint Ao Vivo (1,2 MB)'}</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">Atendimentos, Processos SEI, E-mails/Concluintes</span></span>
               </div>
             </div>
@@ -25298,17 +25313,18 @@ function imprimirAgendaCarro() {
         DADOS_SEVESC.kpis.mesesAtendimentos = contagemPorMesAten;
         if (DADOS_SEVESC.meta) {
           DADOS_SEVESC.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
+          DADOS_SEVESC.meta.origemSync = 'SharePoint Ao Vivo';
         }
 
         renderizarDashboardSevesc();
 
-        if (typeof mostrarAlertaSincronizacao === 'function') {
+        if (!window.__sevescSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
             tag: 'SEVESC AO VIVO • SHAREPOINT',
             titulo: 'Planilha SEVESC Atualizada em Tempo Real!',
             mensagem: '<strong>' + atendimentos.length.toLocaleString('pt-BR') + ' atendimentos</strong> e <strong>' + processosSei.length.toLocaleString('pt-BR') + ' processos SEI</strong> baixados do SharePoint agora.',
-            detalhes: 'Sincronizado diretamente às ' + new Date().toLocaleTimeString('pt-BR'),
+            detalhes: 'SharePoint Ao Vivo às ' + new Date().toLocaleTimeString('pt-BR'),
             duracao: 4500
           });
         }
@@ -25319,39 +25335,48 @@ function imprimirAgendaCarro() {
 
     function sincronizarDashboardSevesc(silencioso) {
       const isSil = (silencioso === true);
+      window.__sevescSyncSilencioso = isSil;
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
-        const msg = (typeof CONFIG_SINCRONIZACAO_SEVESC !== 'undefined' && CONFIG_SINCRONIZACAO_SEVESC.modoOtimizado)
-          ? 'Sincronizando abas ativas da SEVESC (Atendimentos, Processos SEI e Prontuários) em tempo recorde...'
-          : 'Baixando planilha do SharePoint em tempo real...';
-
         mostrarAlertaSincronizacao({
           tipo: 'loading',
-          tag: (typeof CONFIG_SINCRONIZACAO_SEVESC !== 'undefined' && CONFIG_SINCRONIZACAO_SEVESC.modoOtimizado) ? 'SEVESC • ALTA PERFORMANCE' : 'SEVESC • SHAREPOINT BRUTO',
-          titulo: (typeof CONFIG_SINCRONIZACAO_SEVESC !== 'undefined' && CONFIG_SINCRONIZACAO_SEVESC.modoOtimizado) ? 'Sincronizando Abas Ativas da SEVESC...' : 'Sincronizando Livro de Entrada SEVESC...',
-          mensagem: msg,
-          detalhes: 'Otimização Seletiva de Abas • 100% Reversível',
+          tag: 'SEVESC • SHAREPOINT AO VIVO',
+          titulo: 'Baixando Planilha SEVESC do SharePoint...',
+          mensagem: 'Conectando ao SharePoint em tempo real (1,22 MB • Atendimentos, SEI e E-mails)...',
+          detalhes: 'Conexão Direta Ao Vivo • Sem Login',
           duracao: 0
         });
       }
 
-      function aplicarDadosSevesc(novos) {
-        if (novos && (novos.kpis || novos.processosSei)) {
+      function aplicarDadosSevesc(novos, falhaRede) {
+        if (!falhaRede && novos && (novos.kpis || novos.processosSei)) {
           DADOS_SEVESC = novos;
+          if (DADOS_SEVESC.meta) {
+            DADOS_SEVESC.meta.origemSync = novos.origem || 'Espelho Automático Nuvem (Fallback)';
+          }
         }
-        if (DADOS_SEVESC.meta) {
-          DADOS_SEVESC.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
-        }
+        const tsReal = (DADOS_SEVESC.meta && DADOS_SEVESC.meta.atualizadoFormatado) ? DADOS_SEVESC.meta.atualizadoFormatado : 'Data não informada';
         renderizarDashboardSevesc();
 
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
-          mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: 'SEVESC ATUALIZADO',
-            titulo: 'SEVESC Sincronizado com Sucesso!',
-            mensagem: '<strong>' + (DADOS_SEVESC.kpis ? DADOS_SEVESC.kpis.totalAtendimentos : 1240).toLocaleString('pt-BR') + ' atendimentos</strong> e processos de Vida Escolar sincronizados instantaneamente.',
-            detalhes: 'Modo Otimizado às ' + new Date().toLocaleTimeString('pt-BR') + ' • 100% Atualizado',
-            duracao: 4500
-          });
+          if (falhaRede) {
+            mostrarAlertaSincronizacao({
+              tipo: 'warning',
+              tag: 'SEVESC • SEM CONEXÃO',
+              titulo: 'SharePoint SEVESC indisponível no momento',
+              mensagem: 'Mantendo os dados carregados (coleta de <strong>' + tsReal + '</strong>).',
+              detalhes: 'Tente novamente em instantes',
+              duracao: 5000
+            });
+          } else {
+            mostrarAlertaSincronizacao({
+              tipo: 'info',
+              tag: 'SEVESC • ESPELHO NUVEM',
+              titulo: 'Base SEVESC via Espelho de Contingência',
+              mensagem: '<strong>' + (DADOS_SEVESC.kpis ? DADOS_SEVESC.kpis.totalAtendimentos : 0).toLocaleString('pt-BR') + ' atendimentos</strong> carregados do espelho nuvem.',
+              detalhes: 'Coleta SharePoint registrada em: ' + tsReal,
+              duracao: 5000
+            });
+          }
         }
       }
 
@@ -25360,17 +25385,18 @@ function imprimirAgendaCarro() {
           .then(function(r) { return r.json(); })
           .then(function(json) {
             if (json && json.kpis) {
-              aplicarDadosSevesc(json);
+              aplicarDadosSevesc(json, false);
+            } else {
+              aplicarDadosSevesc(null, true);
             }
           })
           .catch(function(e) {
             console.warn('Aviso mirror SEVESC:', e);
-            renderizarDashboardSevesc();
+            aplicarDadosSevesc(null, true);
           });
       }
 
-      const ehOtimizado = (typeof CONFIG_SINCRONIZACAO_SEVESC !== 'undefined') ? CONFIG_SINCRONIZACAO_SEVESC.modoOtimizado : true;
-      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSevesc' + (ehOtimizado ? '' : '&bruto=true');
+      var gasUrl = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSevesc&bruto=true';
 
       fetch(gasUrl)
         .then(function(r) { return r.json(); })
@@ -25378,7 +25404,7 @@ function imprimirAgendaCarro() {
           if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSevescBase64 === 'function') {
             processarPlanilhaSevescBase64(res.dadosBase64, res.timestamp);
           } else if (res && res.kpis) {
-            aplicarDadosSevesc(res);
+            aplicarDadosSevesc(res, false);
           } else {
             buscarMirror();
           }
@@ -37453,8 +37479,8 @@ function imprimirAgendaCarro() {
                 Acompanhamento em tempo real do <strong style="color: #ffffff;">Livro de Entrada 2026</strong>: Processos SEI, Atendimentos de Vagas e Transferências, Ouvidorias Fala.SP e Registros de Concluintes da Diretoria Regional de Ensino de Itapevi.
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
-                <span>🕒 <strong>Atualizado:</strong> <span id="segre-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Hoje'}</span></span>
-                <span>⚡ <strong>Sincronização:</strong> <span style="color: #10b981; font-weight: 800;">Modo Otimizado (Abas Ativas)</span></span>
+                <span>🕒 <strong>Dados de:</strong> <span id="segre-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
+                <span>⚡ <strong>Origem:</strong> <span style="color: #93c5fd; font-weight: 800;">${meta.origemSync || 'Espelho Automático Nuvem (SharePoint)'}</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">SEI, Vagas, Ouvidoria, E-mails</span></span>
               </div>
             </div>
@@ -37738,17 +37764,22 @@ function imprimirAgendaCarro() {
         /* 2. Atendimentos de Vagas */
         const atendimentosVagas = [];
         rawVagas.forEach((r, idx) => {
-          const aluno = String(r['ALUNO(A)'] || r['NOME DO ALUNO'] || '').trim();
-          if (!aluno) return;
+          const aluno = String(r['NOME COMPLETO DO ALUNO '] || r['NOME COMPLETO DO ALUNO'] || r['ALUNO(A)'] || r['NOME DO ALUNO'] || '').trim();
+          const escAtual = String(r['ESCOLA ATUAL'] || '').trim();
+          const escPret = String(r['ESCOLA PRETENDIDA'] || r['ESCOLA DE INTERESSE'] || '').trim();
+          if (!aluno && !escAtual && !escPret) return;
           atendimentosVagas.push({
             id: 'VAGA-' + (idx + 1),
-            data: parseDataXlsxLocal(r['DATA']),
-            aluno: aluno,
-            ra: String(r['RA'] || '').trim(),
-            etapa: String(r['ETAPA/ANO'] || r['ETAPA'] || '').trim(),
-            escolaDesejada: String(r['ESCOLA DE INTERESSE'] || '').trim(),
-            situacao: String(r['SITUAÇÃO'] || 'EM ANÁLISE').trim().toUpperCase(),
-            atendente: String(r['ATENDENTE'] || 'SEGRE').trim()
+            data: parseDataXlsxLocal(r['Data'] || r['DATA']),
+            aluno: aluno || 'Aluno',
+            ra: String(r['RA'] || '').trim() + (r['DG'] !== undefined && r['DG'] !== '' ? ('-' + r['DG']) : ''),
+            serie: String(r['SÉRIE '] || r['SÉRIE'] || r['ETAPA/ANO'] || r['ETAPA'] || '').trim(),
+            escolaAtual: escAtual || 'Rede / Fora',
+            escolaPretendida: escPret || 'Não especificada',
+            motivo: String(r['MOTIVO'] || '').trim(),
+            orientacao: String(r['ORIENTAÇÃO '] || r['ORIENTAÇÃO'] || '').trim(),
+            meio: String(r['MEIO DE ATENDIMENTO'] || 'Presencial').trim(),
+            responsavel: String(r['RESPONSÁVEL'] || r['RESPONSÁVEL '] || r['ATENDENTE'] || 'SEGRE').trim()
           });
         });
 
@@ -37817,6 +37848,7 @@ function imprimirAgendaCarro() {
 
         if (DADOS_SEGRE.meta) {
           DADOS_SEGRE.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
+          DADOS_SEGRE.meta.origemSync = 'SharePoint Ao Vivo';
         }
 
         renderizarDashboardSegre();
@@ -37824,10 +37856,10 @@ function imprimirAgendaCarro() {
         if (typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
-            tag: 'SEGRE OTIMIZADO • SHAREPOINT',
-            titulo: 'Abas Ativas do SEGRE Atualizadas!',
-            mensagem: '<strong>' + processosSei.length.toLocaleString('pt-BR') + ' processos SEI</strong>, <strong>' + DADOS_SEGRE.kpis.totalVagas + ' atendimentos de vagas</strong>, <strong>' + (DADOS_SEGRE.kpis.totalOuvidoria || 25) + ' ouvidorias</strong> e <strong>' + (DADOS_SEGRE.kpis.totalEmails || 8788).toLocaleString('pt-BR') + ' e-mails</strong> sincronizados instantaneamente.',
-            detalhes: 'Otimização Seletiva de 4 abas ativas aplicada às ' + new Date().toLocaleTimeString('pt-BR'),
+            tag: 'SEGRE AO VIVO • SHAREPOINT',
+            titulo: 'Planilha SEGRE Atualizada em Tempo Real!',
+            mensagem: '<strong>' + processosSei.length.toLocaleString('pt-BR') + ' processos SEI</strong>, <strong>' + DADOS_SEGRE.kpis.totalVagas + ' atendimentos de vagas</strong>, <strong>' + (DADOS_SEGRE.kpis.totalOuvidoria || 0) + ' ouvidorias</strong> e <strong>' + (DADOS_SEGRE.kpis.totalEmails || 0).toLocaleString('pt-BR') + ' e-mails</strong> baixados agora.',
+            detalhes: 'SharePoint Ao Vivo às ' + new Date().toLocaleTimeString('pt-BR'),
             duracao: 4500
           });
         }
@@ -37840,47 +37872,65 @@ function imprimirAgendaCarro() {
       const isSil = (silencioso === true);
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         const msg = CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado
-          ? 'Sincronizando abas ativas do SEGRE (ENTRADA SEI, Vagas, Ouvidoria) em tempo recorde...'
+          ? 'Consultando espelho automático na nuvem (abastecido do SharePoint via GitHub Actions)...'
           : 'Baixando planilha do SharePoint em tempo real...';
 
         mostrarAlertaSincronizacao({
           tipo: 'loading',
-          tag: CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado ? 'SEGRE • ALTA PERFORMANCE' : 'SEGRE • SHAREPOINT BRUTO',
-          titulo: CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado ? 'Sincronizando Abas Ativas do SEGRE...' : 'Sincronizando Livro de Entrada SEGRE...',
+          tag: CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado ? 'SEGRE • ESPELHO NUVEM' : 'SEGRE • SHAREPOINT BRUTO',
+          titulo: CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado ? 'Buscando Base SEGRE na Nuvem...' : 'Sincronizando Livro de Entrada SEGRE...',
           mensagem: msg,
-          detalhes: 'Otimização Seletiva de Abas • 100% Reversível',
+          detalhes: 'Transparência Real de Coleta',
           duracao: 0
         });
       }
 
-      function aplicarDadosSegre(novos) {
-        if (novos && (novos.kpis || novos.processosSei)) {
+      function aplicarDadosSegre(novos, falhaRede) {
+        if (!falhaRede && novos && (novos.kpis || novos.processosSei)) {
           DADOS_SEGRE = novos;
+          if (DADOS_SEGRE.meta) {
+            DADOS_SEGRE.meta.origemSync = novos.origem || 'Espelho Automático Nuvem (GitHub)';
+          }
         }
-        if (DADOS_SEGRE.meta) {
-          DADOS_SEGRE.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
-        }
+        const tsReal = (DADOS_SEGRE.meta && DADOS_SEGRE.meta.atualizadoFormatado) ? DADOS_SEGRE.meta.atualizadoFormatado : 'Data não informada';
         renderizarDashboardSegre();
 
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
-          mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: 'SEGRE ATUALIZADO',
-            titulo: 'SEGRE Sincronizado com Sucesso!',
-            mensagem: '<strong>' + (DADOS_SEGRE.kpis ? DADOS_SEGRE.kpis.totalSei : 116) + ' processos SEI</strong>, <strong>' + (DADOS_SEGRE.kpis ? DADOS_SEGRE.kpis.totalVagas : 297) + ' vagas</strong> e <strong>' + (DADOS_SEGRE.kpis ? DADOS_SEGRE.kpis.totalOuvidoria : 25) + ' ouvidorias</strong> sincronizados instantaneamente.',
-            detalhes: 'Sincronizado às ' + new Date().toLocaleTimeString('pt-BR'),
-            duracao: 4500
-          });
+          if (falhaRede) {
+            mostrarAlertaSincronizacao({
+              tipo: 'warning',
+              tag: 'SEGRE • SEM CONEXÃO',
+              titulo: 'Não foi possível buscar nova coleta agora',
+              mensagem: 'Mantendo os últimos dados carregados (coleta de <strong>' + tsReal + '</strong>).',
+              detalhes: 'Tente novamente em instantes',
+              duracao: 5000
+            });
+          } else {
+            mostrarAlertaSincronizacao({
+              tipo: 'success',
+              tag: 'SEGRE • ESPELHO NUVEM',
+              titulo: 'Dados do SEGRE Carregados',
+              mensagem: '<strong>' + (DADOS_SEGRE.kpis ? DADOS_SEGRE.kpis.totalSei : 0) + ' processos SEI</strong>, <strong>' + (DADOS_SEGRE.kpis ? DADOS_SEGRE.kpis.totalVagas : 0) + ' vagas</strong>, <strong>' + (DADOS_SEGRE.kpis ? DADOS_SEGRE.kpis.totalOuvidoria : 0) + ' ouvidorias</strong> e <strong>' + (DADOS_SEGRE.kpis ? DADOS_SEGRE.kpis.totalEmails : 0).toLocaleString('pt-BR') + ' e-mails</strong>.',
+              detalhes: 'Coleta oficial SharePoint registrada em: ' + tsReal,
+              duracao: 5000
+            });
+          }
         }
       }
 
       function buscarMirrorSegre() {
         fetch(URLS_OFICIAIS_SEGRE.mirrorData + '?t=' + Date.now())
           .then(function(r) { return r.json(); })
-          .then(function(json) { aplicarDadosSegre(json); })
+          .then(function(json) {
+            if (json && (json.kpis || json.processosSei)) {
+              aplicarDadosSegre(json, false);
+            } else {
+              aplicarDadosSegre(null, true);
+            }
+          })
           .catch(function(err) {
             console.warn('Fallback local para SEGRE:', err);
-            aplicarDadosSegre(DADOS_SEGRE);
+            aplicarDadosSegre(null, true);
           });
       }
 
@@ -37891,7 +37941,7 @@ function imprimirAgendaCarro() {
           if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSegreBase64 === 'function') {
             processarPlanilhaSegreBase64(res.dadosBase64, res.timestamp);
           } else if (res && (res.kpis || res.processosSei)) {
-            aplicarDadosSegre(res);
+            aplicarDadosSegre(res, false);
           } else {
             buscarMirrorSegre();
           }
@@ -41646,8 +41696,8 @@ function imprimirAgendaCarro() {
                 Acompanhamento em tempo real das demandas estratégicas da planilha oficial <strong style="color: #ffffff;">DEMANDAS SEAPE</strong>: Aposentadorias de servidores, Designações docentes e de gestão pedagógica, e Abonos de Permanência da Diretoria de Ensino de Itapevi.
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #c7d2fe; font-weight: 600;">
-                <span>🕒 <strong>Atualizado:</strong> <span id="sepes-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Hoje'}</span></span>
-                <span>⚡ <strong>Sincronização:</strong> <span style="color: #10b981; font-weight: 800;">Modo Otimizado (3 Abas Ativas)</span></span>
+                <span>🕒 <strong>Dados de:</strong> <span id="sepes-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
+                <span>⚡ <strong>Origem:</strong> <span style="color: #10b981; font-weight: 800;">${meta.origemSync || 'SharePoint Ao Vivo (3 Abas Ativas)'}</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">Aposentadoria, Designações, Abono de Permanência</span></span>
               </div>
             </div>
@@ -41979,17 +42029,18 @@ function imprimirAgendaCarro() {
 
         if (DADOS_SEPES.meta) {
           DADOS_SEPES.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
+          DADOS_SEPES.meta.origemSync = 'SharePoint Ao Vivo';
         }
 
         renderizarDashboardSepes();
 
-        if (typeof mostrarAlertaSincronizacao === 'function') {
+        if (!window.__sepesSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
-            tag: 'SEPES OTIMIZADO • SHAREPOINT',
-            titulo: 'Abas Oficiais do SEPES Atualizadas!',
-            mensagem: '<strong>' + DADOS_SEPES.kpis.totalAposentadorias + ' aposentadorias</strong>, <strong>' + DADOS_SEPES.kpis.totalDesignacoes + ' designações</strong> e <strong>' + DADOS_SEPES.kpis.totalAbonos + ' abonos</strong> sincronizados instantaneamente.',
-            detalhes: 'Otimização Seletiva de 3 abas vermelhas aplicada às ' + new Date().toLocaleTimeString('pt-BR'),
+            tag: 'SEPES AO VIVO • SHAREPOINT',
+            titulo: 'Planilha SEPES Atualizada em Tempo Real!',
+            mensagem: '<strong>' + DADOS_SEPES.kpis.totalAposentadorias + ' aposentadorias</strong>, <strong>' + DADOS_SEPES.kpis.totalDesignacoes + ' designações</strong> e <strong>' + DADOS_SEPES.kpis.totalAbonos + ' abonos</strong> baixados do SharePoint agora.',
+            detalhes: 'SharePoint Ao Vivo às ' + new Date().toLocaleTimeString('pt-BR'),
             duracao: 4500
           });
         }
@@ -42000,45 +42051,64 @@ function imprimirAgendaCarro() {
 
     function sincronizarDashboardSepes(silencioso) {
       const isSil = (silencioso === true);
+      window.__sepesSyncSilencioso = isSil;
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
-          tag: 'SEPES • SHAREPOINT LIVE',
-          titulo: 'Sincronizando Demandas do SEPES...',
-          mensagem: 'Sincronizando abas estratégicas do SEPES (Aposentadoria, Designações e Abono de Permanência)...',
-          detalhes: 'Conexão direta ao SharePoint corporativo • DEMANDAS SEAPE',
+          tag: 'SEPES • SHAREPOINT AO VIVO',
+          titulo: 'Baixando Demandas do SEPES...',
+          mensagem: 'Conectando ao SharePoint em tempo real (Aposentadoria, Designações e Abono de Permanência)...',
+          detalhes: 'Conexão direta ao SharePoint • DEMANDAS SEAPE',
           duracao: 0
         });
       }
 
-      function aplicarDadosSepes(novos) {
-        if (novos && (novos.kpis || novos.aposentadorias)) {
+      function aplicarDadosSepes(novos, falhaRede) {
+        if (!falhaRede && novos && (novos.kpis || novos.aposentadorias)) {
           DADOS_SEPES = novos;
+          if (DADOS_SEPES.meta) {
+            DADOS_SEPES.meta.origemSync = novos.origem || 'Espelho Nuvem (Fallback)';
+          }
         }
-        if (DADOS_SEPES.meta) {
-          DADOS_SEPES.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
-        }
+        const tsReal = (DADOS_SEPES.meta && DADOS_SEPES.meta.atualizadoFormatado) ? DADOS_SEPES.meta.atualizadoFormatado : 'Data não informada';
         renderizarDashboardSepes();
 
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
-          mostrarAlertaSincronizacao({
-            tipo: 'success',
-            tag: 'SEPES ATUALIZADO',
-            titulo: 'SEPES Sincronizado com Sucesso!',
-            mensagem: '<strong>' + DADOS_SEPES.kpis.totalAposentadorias + ' aposentadorias</strong>, <strong>' + DADOS_SEPES.kpis.totalDesignacoes + ' designações</strong> e <strong>' + DADOS_SEPES.kpis.totalAbonos + ' abonos de permanência</strong> consolidados.',
-            detalhes: 'Sincronizado às ' + new Date().toLocaleTimeString('pt-BR'),
-            duracao: 4500
-          });
+          if (falhaRede) {
+            mostrarAlertaSincronizacao({
+              tipo: 'warning',
+              tag: 'SEPES • SEM CONEXÃO',
+              titulo: 'SharePoint SEPES indisponível no momento',
+              mensagem: 'Mantendo os dados carregados (coleta de <strong>' + tsReal + '</strong>).',
+              detalhes: 'Tente novamente em instantes',
+              duracao: 5000
+            });
+          } else {
+            mostrarAlertaSincronizacao({
+              tipo: 'info',
+              tag: 'SEPES • ESPELHO NUVEM',
+              titulo: 'Base SEPES via Espelho de Contingência',
+              mensagem: '<strong>' + DADOS_SEPES.kpis.totalAposentadorias + ' aposentadorias</strong>, <strong>' + DADOS_SEPES.kpis.totalDesignacoes + ' designações</strong> e <strong>' + DADOS_SEPES.kpis.totalAbonos + ' abonos de permanência</strong>.',
+              detalhes: 'Coleta SharePoint registrada em: ' + tsReal,
+              duracao: 5000
+            });
+          }
         }
       }
 
       function buscarMirrorSepes() {
         fetch(URLS_OFICIAIS_SEPES.mirrorData + '?t=' + Date.now())
           .then(function(r) { return r.json(); })
-          .then(function(json) { aplicarDadosSepes(json); })
+          .then(function(json) {
+            if (json && (json.kpis || json.aposentadorias)) {
+              aplicarDadosSepes(json, false);
+            } else {
+              aplicarDadosSepes(null, true);
+            }
+          })
           .catch(function(err) {
             console.warn('Fallback local para SEPES:', err);
-            aplicarDadosSepes(DADOS_SEPES);
+            aplicarDadosSepes(null, true);
           });
       }
 
@@ -42049,7 +42119,7 @@ function imprimirAgendaCarro() {
           if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSepesBase64 === 'function') {
             processarPlanilhaSepesBase64(res.dadosBase64, res.timestamp);
           } else if (res && (res.kpis || res.aposentadorias)) {
-            aplicarDadosSepes(res);
+            aplicarDadosSepes(res, false);
           } else {
             buscarMirrorSepes();
           }
