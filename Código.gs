@@ -27,7 +27,7 @@ function doGet(e) {
       if (action === 'sincronizarSharepoint' || action === 'sincronizarCalls') {
         output = sincronizarPlanilhaSharepoint(forcarBruto);
       } else if (action === 'sincronizarInventario') {
-        output = sincronizarInventarioSharepoint();
+        output = sincronizarInventarioSharepoint(e.parameter.since || '');
       } else if (action === 'sincronizarSefin') {
         output = sincronizarPlanilhaSefin(forcarBruto);
       } else if (action === 'sincronizarSegre') {
@@ -652,8 +652,9 @@ function autorizarUrlFetch() {
  * MOTOR UNIVERSAL DE RESOLUÇÃO DE PASTAS PÚBLICAS DO SHAREPOINT
  * Consulta pastas de repositório público (como InventarioRC - V2 ou pastas de novos setores)
  */
-function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivosPadrao) {
+function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivosPadrao, opcoes) {
   var padraoCount = totalArquivosPadrao || 60;
+  var opts = opcoes || {};
   try {
     if (typeof UrlFetchApp === "undefined") {
       return {
@@ -679,7 +680,7 @@ function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivo
     var cookieHeader = extrairCookiesSharepoint(headers1);
 
     if (folderPathRelativo) {
-      var apiUrl = "https://seesp-my.sharepoint.com/personal/itp_seintec_educacao_sp_gov_br/_api/web/GetFolderByServerRelativeUrl('" + encodeURIComponent(folderPathRelativo) + "')/Files";
+      var apiUrl = "https://seesp-my.sharepoint.com/personal/itp_seintec_educacao_sp_gov_br/_api/web/GetFolderByServerRelativeUrl('" + encodeURIComponent(folderPathRelativo) + "')/Files?$top=200";
       var resp2 = UrlFetchApp.fetch(apiUrl, {
         muteHttpExceptions: true,
         headers: {
@@ -693,12 +694,68 @@ function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivo
         try {
           var json = JSON.parse(resp2.getContentText());
           var files = (json.d && json.d.results) ? json.d.results : [];
+          var arquivosModificados = [];
+
+          if (opts.baixarModificados && opts.sinceIso && files.length > 0) {
+            var sinceStr = String(opts.sinceIso);
+            var pendentes = [];
+            for (var fi = 0; fi < files.length; fi++) {
+              var fObj = files[fi];
+              var fNome = String(fObj.Name || "");
+              var fMod = String(fObj.TimeLastModified || "");
+              if (/\.xlsx$/i.test(fNome) && fMod && fMod > sinceStr && fObj.ServerRelativeUrl) {
+                pendentes.push(fObj);
+              }
+            }
+            // Mais recentes primeiro, limitado a 15 arquivos por ciclo para respeitar teto do GAS
+            pendentes.sort(function(a, b) {
+              return String(b.TimeLastModified || "").localeCompare(String(a.TimeLastModified || ""));
+            });
+            if (pendentes.length > 15) pendentes = pendentes.slice(0, 15);
+
+            if (pendentes.length > 0) {
+              var reqs = [];
+              for (var pi = 0; pi < pendentes.length; pi++) {
+                reqs.push({
+                  url: "https://seesp-my.sharepoint.com/personal/itp_seintec_educacao_sp_gov_br/_api/web/GetFileByServerRelativeUrl('" + encodeURIComponent(pendentes[pi].ServerRelativeUrl) + "')/$value",
+                  muteHttpExceptions: true,
+                  headers: {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                    "Cookie": cookieHeader,
+                    "Accept": "*/*"
+                  }
+                });
+              }
+              var resps = UrlFetchApp.fetchAll(reqs);
+              for (var ri = 0; ri < resps.length; ri++) {
+                if (resps[ri].getResponseCode() === 200) {
+                  var bytes = resps[ri].getBlob().getBytes();
+                  if (verificarSeBytesSaoXlsx(bytes)) {
+                    var mCie = String(pendentes[ri].Name || "").match(/^0*(\d+)/);
+                    var cieStr = mCie ? mCie[1] : "";
+                    while (cieStr.length > 0 && cieStr.length < 6) cieStr = "0" + cieStr;
+                    arquivosModificados.push({
+                      cie: cieStr,
+                      nome: pendentes[ri].Name,
+                      modified: pendentes[ri].TimeLastModified,
+                      dadosBase64: Utilities.base64Encode(bytes)
+                    });
+                  }
+                }
+              }
+            }
+          }
+
           return {
             sucesso: true,
             totalArquivos: files.length > 0 ? files.length : padraoCount,
+            sinceIso: opts.sinceIso || null,
+            arquivosModificados: arquivosModificados,
             timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
             data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy"),
-            mensagem: "Repositório público sincronizado com sucesso diretamente do SharePoint."
+            mensagem: arquivosModificados.length > 0
+              ? (arquivosModificados.length + " planilha(s) atualizada(s) baixada(s) ao vivo do SharePoint.")
+              : "Repositório público sincronizado com sucesso diretamente do SharePoint."
           };
         } catch (je) {}
       }
@@ -1118,11 +1175,14 @@ function sincronizarPlanilhaSharepoint() {
  * Sincronização Dinâmica da Pasta de Inventário do SharePoint (60 Escolas)
  * Herda o motor universal de resolução pública anti-login
  */
-function sincronizarInventarioSharepoint() {
+function sincronizarInventarioSharepoint(sinceIso) {
   var folderUrl = "https://seesp-my.sharepoint.com/:f:/g/personal/itp_seintec_educacao_sp_gov_br/IgB8vpIGfSrASqjEmj6GOt1qAQkde-of1KFn02Exzl6miyc?e=UWcBhS";
   var folderPath = "/personal/itp_seintec_educacao_sp_gov_br/Documents/INVENTARIO 2026/InventarioRC - V2";
-  var res = obterPastaPublicaSharepoint(folderUrl, folderPath, 60);
-  res.totalEquipamentos = 15873;
+  var res = obterPastaPublicaSharepoint(folderUrl, folderPath, 60, {
+    sinceIso: sinceIso || "",
+    baixarModificados: !!sinceIso
+  });
+  res.totalEquipamentos = 15973;
   return res;
 }
 
