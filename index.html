@@ -21686,7 +21686,13 @@ function imprimirAgendaCarro() {
         return kpisPorAno[key];
       }
 
-      rows.forEach(function(r) {
+      rows.forEach(function(rOrig) {
+        var r = {};
+        if (rOrig && typeof rOrig === 'object') {
+          Object.keys(rOrig).forEach(function(colKey) {
+            r[String(colKey).trim()] = rOrig[colKey];
+          });
+        }
         var ano = parseInt(r['Exercício'] || r['Exercicio'] || 0, 10);
         var escola = String(r['Escola'] || '').trim();
         if (!ano || !escola) return;
@@ -21707,10 +21713,12 @@ function imprimirAgendaCarro() {
         compactos.push([ano, prog, escola, cie, recT, despT, salT, stSed, orig, recC, recK, despC, despK, salC, salK]);
 
         var stUp = stSed.toUpperCase();
-        var keys = [String(ano), 'TODOS'];
+        var keys = [String(ano), 'todos'];
         keys.forEach(function(k) {
-          var leg = k === 'TODOS' ? '🌐 Série Histórica Completa Consolidada' : ('📊 Exercício ' + k);
-          var b = getBucket(k, k === 'TODOS' ? 'TODOS' : ano, leg);
+          var leg = k === 'todos'
+            ? '🌐 Série Histórica Completa Consolidada'
+            : (k === '2026' ? '🏛️ Exercício Vigente 2026 (Em Execução na SED)' : ('📊 Exercício ' + k));
+          var b = getBucket(k, k === 'todos' ? 'todos' : ano, leg);
           b.totalReceita += recT; b.recCusteio += recC; b.recCapital += recK;
           b.totalDespesa += despT; b.despCusteio += despC; b.despCapital += despK;
           b.totalSaldo += salT; b.saldoCusteio += salC; b.saldoCapital += salK;
@@ -21803,7 +21811,15 @@ function imprimirAgendaCarro() {
       if (!container) return;
 
       const anoAtivo = filtrosSefinAvancados.ano || '2026';
-      const kpis = DADOS_FINANCEIROS_SEFIN.kpisPorAno[anoAtivo] || DADOS_FINANCEIROS_SEFIN.kpisPorAno["2026"];
+      const mapaAnos = DADOS_FINANCEIROS_SEFIN.kpisPorAno || {};
+      const kpis = mapaAnos[anoAtivo] || mapaAnos[String(anoAtivo).toLowerCase()] || mapaAnos[String(anoAtivo).toUpperCase()] || mapaAnos["2026"];
+      const anosOrdenadosSefin = Object.keys(mapaAnos).filter(k => /^\d{4}$/.test(k)).sort((a, b) => Number(b) - Number(a));
+      const totalHistoricoSefin = (mapaAnos.todos || mapaAnos.TODOS || kpis || {}).totalRepasses || 0;
+      const opcoesAnoSefinHtml = anosOrdenadosSefin.map(y => {
+        const repAno = ((mapaAnos[y] && mapaAnos[y].totalRepasses) || 0).toLocaleString('pt-BR');
+        const rotulo = (y === '2026') ? `${y} (Exercício Vigente - ${repAno} repasses)` : `${y} (${repAno} repasses)`;
+        return `<option value="${y}" ${anoAtivo === y ? 'selected' : ''}>${rotulo}</option>`;
+      }).join('') + `<option value="todos" ${String(anoAtivo).toLowerCase() === 'todos' ? 'selected' : ''}>Todos os Exercícios (Série Histórica Completa - ${totalHistoricoSefin.toLocaleString('pt-BR')} repasses)</option>`;
       const listaRepasses = obterRepassesFiltradosSefin();
       const programasDoAno = Object.keys(kpis.programas || {});
       function formatarValorKpiCard(valor) {
@@ -21868,15 +21884,7 @@ function imprimirAgendaCarro() {
               <div>
                 <label for="sefin-seletor-ano-header" style="font-size: 0.78rem; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.25rem;">Exercício / Ano da Prestação de Contas:</label>
                 <select id="sefin-seletor-ano-header" onchange="alterarExercicioSefin(this.value)" style="background: #f8fafc; border: 2px solid #0284c7; color: #0f172a; padding: 7px 14px; border-radius: 8px; font-weight: 800; font-size: 0.92rem; cursor: pointer; outline: none;">
-                  <option value="2026" ${anoAtivo === '2026' ? 'selected' : ''}>2026 (Exercício Vigente - 176 repasses)</option>
-                  <option value="2025" ${anoAtivo === '2025' ? 'selected' : ''}>2025 (240 repasses)</option>
-                  <option value="2024" ${anoAtivo === '2024' ? 'selected' : ''}>2024 (240 repasses)</option>
-                  <option value="2023" ${anoAtivo === '2023' ? 'selected' : ''}>2023 (294 repasses)</option>
-                  <option value="2022" ${anoAtivo === '2022' ? 'selected' : ''}>2022 (682 repasses)</option>
-                  <option value="2021" ${anoAtivo === '2021' ? 'selected' : ''}>2021 (754 repasses)</option>
-                  <option value="2020" ${anoAtivo === '2020' ? 'selected' : ''}>2020 (401 repasses)</option>
-                  <option value="2019" ${anoAtivo === '2019' ? 'selected' : ''}>2019 (212 repasses)</option>
-                  <option value="todos" ${anoAtivo === 'todos' ? 'selected' : ''}>Todos os Exercícios (Série Histórica Completa - 2.999 repasses)</option>
+                  ${opcoesAnoSefinHtml}
                 </select>
               </div>
             </div>
@@ -21944,8 +21952,8 @@ function imprimirAgendaCarro() {
                 })()}
               </div>
               <div style="font-size: 0.74rem; color: #78350f; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 800;">
-                <span>A Reprogramar</span>
-                <span style="color: #475569; font-weight: 600;">Contas APMs</span>
+                <span>${anoAtivo === '2026' && !kpis.totalSaldo ? 'Em execução (SED)' : 'A Reprogramar'}</span>
+                <span style="color: #475569; font-weight: 600;">${anoAtivo === '2026' && !kpis.totalSaldo ? ('Disp.: ' + formatarMoedaAbreviada(Math.max(0, (kpis.totalReceita || 0) - (kpis.totalDespesa || 0)))) : 'Contas APMs'}</span>
               </div>
             </div>
 
