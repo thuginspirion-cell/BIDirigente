@@ -396,7 +396,7 @@ function sincronizarPlanilhaSemat(forcarBruto) {
         var dados = JSON.parse(resMirror.getContentText());
         dados.modoFallback = false;
         dados.modoOtimizado = true;
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+        dados.origem = "Espelho Automático Nuvem (GitHub)";
         return dados;
       }
     } catch (errMirror) {
@@ -470,22 +470,6 @@ function sincronizarPlanilhaSepes(forcarBruto) {
 }
 
 function sincronizarPlanilhaSevesc(forcarBruto) {
-  if (!forcarBruto) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sevesc_livro_2026.json?_t=" + new Date().getTime();
-      var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (resMirror.getResponseCode() === 200) {
-        var dados = JSON.parse(resMirror.getContentText());
-        dados.modoFallback = false;
-        dados.modoOtimizado = true;
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-        return dados;
-      }
-    } catch (errMirror) {
-      Logger.log("Erro ao buscar mirror SEVESC: " + errMirror.toString());
-    }
-  }
-
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sevesc_educacao_sp_gov_br/cQroeBSCMXZCQbbGQSCaAqMaEgUCxrdIuNVbs_RPejCEfptcng?download=1";
   try {
     var res = obterArquivoPublicoSharepoint(url, {
@@ -500,7 +484,20 @@ function sincronizarPlanilhaSevesc(forcarBruto) {
     Logger.log("Aviso SEVESC live: " + e.toString());
   }
 
-  return { sucesso: true, usarBaseLocal: true, aviso: "Base SEVESC mantida ativa." };
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sevesc_livro_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.origem = "Espelho Automático Nuvem (Fallback)";
+      return dados;
+    }
+  } catch (errMirror) {
+    Logger.log("Erro ao buscar mirror SEVESC: " + errMirror.toString());
+  }
+
+  return { sucesso: false, usarBaseLocal: true, aviso: "SharePoint e espelho SEVESC indisponíveis no momento." };
 }
 
 /**
@@ -669,7 +666,7 @@ function sincronizarPlanilhaSegre(forcarBruto) {
         var dados = JSON.parse(resMirror.getContentText());
         dados.modoFallback = false;
         dados.modoOtimizado = true;
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+        dados.origem = "Espelho Automático Nuvem (GitHub)";
         return dados;
       }
     } catch (errOpt) {

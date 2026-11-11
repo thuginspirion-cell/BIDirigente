@@ -5,16 +5,16 @@
     "setor": "SEGRE - Gestão da Rede Escolar e Matrícula",
     "contaResponsavel": "itp_segre_educacao_sp_gov_br",
     "sharepointUrl": "https://seesp-my.sharepoint.com/:x:/g/personal/itp_segre_educacao_sp_gov_br/cQouoXOHq3vgRIXANB5q2uJjEgUCzXuNPLJKVLwuVFU2EtFcnw",
-    "atualizadoEm": "2026-11-05T17:05:22.583Z",
-    "atualizadoFormatado": "05/11/2026, 14:05:22",
-    "tamanhoArquivoMb": "65.60"
+    "atualizadoEm": "2026-11-11T02:43:36.286Z",
+    "atualizadoFormatado": "10/11/2026, 23:43:36",
+    "tamanhoArquivoMb": "65.64"
   },
   "kpis": {
-    "totalSei": 117,
+    "totalSei": 123,
     "totalVagas": 297,
-    "totalOuvidoria": 25,
-    "totalConcluintes": 5065,
-    "totalEmails": 8788
+    "totalOuvidoria": 26,
+    "totalConcluintes": 5252,
+    "totalEmails": 8921
   },
   "processosSei": [
     {
@@ -1185,6 +1185,66 @@
       "remetente": "SEGRE",
       "interessado": "URE ITAPEVI",
       "situacao": "ENCAMINHADO SEPES",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "SEI-119",
+      "protocolo": "015.00818656/2026-51",
+      "data": "09/11/2026",
+      "assunto": "ATENDIMENTO ALUNO ESPECIAL",
+      "remetente": "DVESP",
+      "interessado": "URE ITAPEVI",
+      "situacao": "ENCAMINHADO DVESP",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "SEI-120",
+      "protocolo": "015.00334867/2026-35",
+      "data": "09/11/2026",
+      "assunto": "EQUIVALÊNCIA",
+      "remetente": "GABINETE",
+      "interessado": "ALUNO",
+      "situacao": "ENCAMINHADO SEVESC",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "SEI-121",
+      "protocolo": "015.00820300/2026-87",
+      "data": "09/11/2026",
+      "assunto": "EQUIVALÊNCIA",
+      "remetente": "GABINETE",
+      "interessado": "ALUNO",
+      "situacao": "ENCAMINHADO SEVESC",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "SEI-122",
+      "protocolo": "015.00820257/2026-50",
+      "data": "09/11/2026",
+      "assunto": "EQUIVALÊNCIA",
+      "remetente": "GABINETE",
+      "interessado": "ALUNO",
+      "situacao": "ENCAMINHADO SEVESC",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "SEI-123",
+      "protocolo": "015.00505748/2025-92",
+      "data": "09/11/2026",
+      "assunto": "PLANO 2023",
+      "remetente": "ALCANCE",
+      "interessado": "ALCANCE",
+      "situacao": "ENCAMINHADO SEVESC",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "SEI-124",
+      "protocolo": "015.00827053/2026-40",
+      "data": "10/11/2026",
+      "assunto": "MUDANÇA DIRETOR",
+      "remetente": "SABIDO",
+      "interessado": "SABIDO",
+      "situacao": "ENCAMINHADO VALÉRIA",
       "responsavel": "SEGRE"
     }
   ],
@@ -5276,11 +5336,1766 @@
       "interessado": "SEM NOME",
       "situacao": "EM ANDAMENTO",
       "responsavel": "TRANSFERÊNCIA"
+    },
+    {
+      "id": "OUV-27",
+      "protocolo": "2026110510442680",
+      "data": "06/11/2026",
+      "assunto": "SEGRE Protocolo 2026110510442689 - Camila",
+      "interessado": "LIVIA DOS SANTOS",
+      "situacao": "RESPONDIDO",
+      "responsavel": "VAGA / SEGRE"
     }
   ],
   "concluintesRecentes": [
     {
+      "id": "CONC-5252",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "WILLIAN GUSTAVO SANTOS DE ALMEIDA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5251",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "VITOR OLIVEIRA DO NASCIMENTO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5250",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "VINICIUS ARAUJO AUGUSTO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5249",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "SARA SOUSA DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5248",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "SABRINA NERIS MENDES",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5247",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "PAULO ANDRE ROCHA FERNANDES",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5246",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "MARIA EDUARDA PEREIRA DOS SANTOS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5245",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "LUIS OTAVIO SOUZA LIMA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5244",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "LAVINY LORRANY DA SILVA ARAUJO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5243",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "LARISSA DE SOUSA MOREIRA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5242",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "HERICK PINHEIRO LIMA DOS REIS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5241",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "DANILO PEREIRA DE LIMA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5240",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "ANA CAROLINA CONCEIÇÃO RODRIGUES DE SOUZA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5239",
+      "data": "08/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "WESLEY SANTOS TOMAZ",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5238",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "VITORIA LORRANY ALMEIDA DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5237",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "VANUSA SOUSA DO ROSARIO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5236",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "PEDRO HENRIQUE DE PAULA SILVEIRA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5235",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "NAYARA VITORIA BARRETO SANTOS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5234",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "LUANA DA SILVA XAVIER",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5233",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "LUANA ALEXANDRE",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5232",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "LEVY SANTOS PEREIRA DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5231",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "LEVY SANTOS DE LIMA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5230",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "KAIQUE ANTERO SANTOS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5229",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "GLEICY KELLY FRANCISCO LIMA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5228",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "DANIEL JOSÉ SANTOS DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5227",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "ANDERSON NONATO SOUZA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5226",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "SARAH LETICIA DO VALE SANTOS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5225",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "ROBERTO CARLOS ARTHUR DO ESPIRITO SANTO NASCIMENTO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5224",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "RAISSA OLIVEIRA MACHADO DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5223",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "GEANE LOPES SANTOS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5222",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "GABRIEL OLIVEIRA DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5221",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "BRENDA GABRIELY SANTOS DE MELO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5220",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "VICTORIA ELAINE DE CASTRO BRAGA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5219",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "SILVANA BERNARDES BATISTA LINS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5218",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "RODRIGO SAIDEL ALVES",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5217",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "RICHARD ALVES DO NASCIMENTO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5216",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "RENAN DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5215",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "MARIA EDUARDO MORENO SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5214",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "MARCELO NICOLAU BERNARDO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5213",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "GUSTAVO CORTEZ DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5212",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "CAMILLY VITORIA ROCHA RAMOS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5211",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "ANA GABRIELY GOMES DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5210",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "WESLEY DA SILVA MENDES",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5209",
+      "data": "09/11/2026",
+      "escola": "MARY  MALLET",
+      "aluno": "RAFAEL DA SILVA RIBEIRO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5208",
+      "data": "09/11/2026",
+      "escola": "PAN CHACON",
+      "aluno": "WILDSON SANTOS DO NASCIMENTO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5207",
+      "data": "09/11/2026",
+      "escola": "PAN CHACON",
+      "aluno": "MAIARA SANTOS DE ARRUDA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5206",
+      "data": "09/11/2026",
+      "escola": "DORVALINO",
+      "aluno": "INGRIDY SANTOS ROSA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5205",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "CAUA SANTOS DE SOUSA CAMPELO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5204",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "MARIA HELENA BATISTA NOLASCA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5203",
+      "data": "09/11/2026",
+      "escola": "CESAR LESSA",
+      "aluno": "YASMIN VITORIA BASTOS COSTA LEITE",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5202",
+      "data": "09/11/2026",
+      "escola": "CESAR LESSA",
+      "aluno": "VITOR BETTI FERREIRA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5201",
+      "data": "09/11/2026",
+      "escola": "CESAR LESSA",
+      "aluno": "GEOVANI BARBOSA MONTEIRO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5200",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "TAMARA CEZAR PEREIRA DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5199",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "ALESSANDRO DIAS DE SOUZA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5198",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "MARCOS PAULO LIMA PEREIRA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5197",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "LUIZ FELIPE LIPA MONO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5196",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "GUILHERME SOUSA DE VASCONCELOS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5195",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "CAROLINE SILVA R. DE OLIVEIRA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5194",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "VINICIUS SANTOS DE OLIVEIRA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5193",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "KAICKY XAVIER DA COSTA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5192",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "EVELYN VICTORIA ANDRADE DE SOUZA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5191",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "EDUARDO PEREIRA DE REZENDE",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5190",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "CAMILA PARECIDA GOMES MOREIRA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5189",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "RAISSA FERREIRA DE OLIVEIRA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5188",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "PEDRO HENRIQUE MATOS DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5187",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "ADRIELE LIMA DOS SANTOS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5186",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "STEFANY OLIVEIRA DE JSEUS DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5185",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "GIOVANNA LIMA LOPES FLORENCIO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5184",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "GABRIELLY DA SILVA FIGUEIREDO FELIZ",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5183",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "ARTHUR FERNANDES MORELLI CECILIO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5182",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "ANA LUIZA NEVES DO NASCIMENTO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5181",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "RIHANA FIRMINO CASTRO DA SILVA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5180",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "NICOLLY CARDOSO DE LIRA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5179",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "JULIA DA SILVA CORDEIRO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5178",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "ISAIAS LOPES SANTOS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5177",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "GRAZIELE ALMEIDA COSTA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5176",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "ANDREW SOUZA DE JESUS SANTOS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5175",
+      "data": "09/11/2026",
+      "escola": "RONDON",
+      "aluno": "LETICIA COELHO DE SANTANA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5174",
+      "data": "09/11/2026",
+      "escola": "AMADOR",
+      "aluno": "JOÃO BATISTA GONÇALVES DA ROCHA",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5173",
+      "data": "09/11/2026",
+      "escola": "AMADOR",
+      "aluno": "EMANUELLY PAULINO DE ASSUNÇÃO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5172",
+      "data": "09/11/2026",
+      "escola": "AMADOR",
+      "aluno": "ELIENE ARAUJO CAMPOS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5171",
+      "data": "09/11/2026",
+      "escola": "DORVALINO",
+      "aluno": "RAUL ALVES DOS SANTOS LIBANIO",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5170",
+      "data": "09/11/2026",
+      "escola": "BRIQUET",
+      "aluno": "LUAN RUAN DE LIMA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5169",
+      "data": "09/11/2026",
+      "escola": "BRIQUET",
+      "aluno": "JOÃO VICTOR SOUZA A. DE OLIVEIRA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5168",
+      "data": "09/11/2026",
+      "escola": "BRIQUET",
+      "aluno": "SAMUEL PAULO DO NASCIMENTO ARAUJO",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5167",
+      "data": "09/11/2026",
+      "escola": "BRIQUET",
+      "aluno": "MARIA FERNANDA GUERRA FERREIRA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5166",
+      "data": "09/11/2026",
+      "escola": "CESAR LESSA",
+      "aluno": "MARIA SOUSA SILVA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5165",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "MURILO BALIOTTI DA COSTA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5164",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "LEONARDO DOS SANTOS SILVA FILHO",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5163",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "LAYANE MORÃO DO NASCIMENTO",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5162",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "JOÃO VICTOR HENRIQUE TORRES",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5161",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "GUSTAVO HENRIQUE RODRIGUES FERREIRA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5160",
+      "data": "19/11/2026",
+      "escola": "IGNES",
+      "aluno": "GRAZIELA DE SOUZA E SOUZA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5159",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "WELBER DE SOUZA PEREIRA CARVALHO",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5158",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "VITORIA MEDEIROS DA SILVA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5157",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "ISAQUE MALAQUIAS LEMOS DA SILVA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5156",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "YASMIN LOPES SALES",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5155",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "WILLIAN GABRIEL  GOMES DOS SANTOS",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5154",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "VITOR RODRIGUES DA SILVA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5153",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "SONIA MARIA VERSTANDING",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5152",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "RICHARD SALLES DE OLIVEIRA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5151",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "NICOLAS HENRIQUE DA SILVA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5150",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "MARIA EDUARDA MARQUES DE CASTRO",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5149",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "LUCAS SILVA RABELO",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5148",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "LUCAS EDUARDO ALMEIDA NUNES",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5147",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "KAUAN JAMES FERREIRA E SILVA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5146",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "JOAO VITOR QUEIROZ DA COSTA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5145",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "JENNIFER HELEN ESTEVAO SILVA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5144",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "FABIOLA DA SILVA LIMA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5143",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "EMILLY SANTOS DE JESUS",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5142",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "DOUGLAS REINALDO GOULART MENDONÇA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5141",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "DEIVID ALVES BORGES MARTINS",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5140",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "BRUNO GONZAGA DA SILVA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5139",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "SIDNEY RODRIGUES DA SILVA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5138",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "RENAN MARINHO DA SILVA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5137",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "RAYANE NICOLLY S. MENESES MARTINS",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5136",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "PAMELA DOS SANTOS PEREIRA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5135",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "MARIA EDUARDA CAMARGO DA SILVA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5134",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "JOAO AUGUSTO FAUSTINO MONTEIRO",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5133",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "DIEGO FAUSTINO PEREIRA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5132",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "BRENDA FERNANDES DA COSTA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5131",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "ANNA KAROLINA DE OLIVEIRA BEZERRA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5130",
+      "data": "09/11/2026",
+      "escola": "IGNES",
+      "aluno": "GRAZIELI MARQUES FEITOSA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5129",
+      "data": "09/11/2026",
+      "escola": "ALDEIA",
+      "aluno": "GABRIEL  CAUA FERNANDES SANTOS",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5128",
+      "data": "09/11/2026",
+      "escola": "ALDEIA",
+      "aluno": "EVELLYN MAYARA LIMA SANTOS",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5127",
+      "data": "09/11/2026",
+      "escola": "GIUSEPPE",
+      "aluno": "GABRIELA SERAFIM RODRIGUES",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5126",
+      "data": "09/11/2026",
+      "escola": "GIUSEPPE",
+      "aluno": "MYSLENE MAGALHAES LANDIM",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5125",
+      "data": "09/11/2026",
+      "escola": "PAN CHACON",
+      "aluno": "RUAN FELIPE MIRANDA DA SILVA",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5124",
+      "data": "09/11/2026",
+      "escola": "NASCIF AMIM CHALUPPE",
+      "aluno": "DAVI GABRIEL PEREIRA DOS SANTOS",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5123",
+      "data": "09/11/2026",
+      "escola": "NASCIF AMIM CHALUPPE",
+      "aluno": "DANILO LUZ DE NOVAES",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5122",
+      "data": "09/11/2026",
+      "escola": "NASCIF AMIN CHALUPPE",
+      "aluno": "IAN VICTOR DE MELO",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5121",
+      "data": "09/11/2026",
+      "escola": "NASCIF AMIN CHALUPPE",
+      "aluno": "THYALLY GONÇALVES  PORTO",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5120",
+      "data": "09/11/2026",
+      "escola": "NASCIF AMIN CHALUPPE",
+      "aluno": "SARAH RAFAELA GONÇALVES PAIXÃO",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5119",
+      "data": "09/11/2026",
+      "escola": "NASCIF AMIN CHALUPPE",
+      "aluno": "GRAZIELA TERTULINO DE BARROS",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5118",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "ANA PAULA SANTOS MOURA",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5117",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "GIOVANNA ASSUNÇÃO RIBEIRO",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5116",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "BIANCA LIMA PAES",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5115",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "ALLICE GIOVANNA FERRERIA COUTINHO LIMA",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5114",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "EDUARDO LUIS SANTOS",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5113",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "ALLANA VITÓRIA NUNES COSTA",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5112",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "JÉSSICA CRISTINA RAMALHO NUNES",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5111",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "EDUARDO GABRIEL DE OLIVEIRA",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5110",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "CARLOS EDUARDO MIRANDO DOS SANTOS",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5109",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "BRENDA OLIVEIRA DA SILVA",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5108",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "ANDRÉ MATHEUS SOARES DA SILVA",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5107",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "ADRIELY NICOLE GONÇALVES DOS SANTOS",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5106",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "GABRIEL HENRIQUE HONORATO DO ESPIRITO SANTO",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5105",
+      "data": "09/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "ESTHER SILVA DE SOUZA",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5104",
+      "data": "09/11/2026",
+      "escola": "CESAR LESSA",
+      "aluno": "ANA CAROLINE SANTOS NASCIMENTO",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5103",
+      "data": "09/11/2026",
+      "escola": "IGNÊS",
+      "aluno": "IGOR HENRIQUE ANSELMO TIBURCIO",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5102",
+      "data": "09/11/2026",
+      "escola": "IGNÊS",
+      "aluno": "GISELE DA SILVA",
+      "anoConclusao": 2022,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5101",
+      "data": "09/11/2026",
+      "escola": "MARIA HELENA I",
+      "aluno": "RAYSSA DA SILVA DOS SANTOS",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5100",
+      "data": "09/11/2026",
+      "escola": "EQUADOR",
+      "aluno": "BRUNO PRADO DE CARVALHO",
+      "anoConclusao": 2021,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5099",
+      "data": "06/11/2026",
+      "escola": "MARIA SOARES",
+      "aluno": "VICTORIA RIGEL DE OLIVEIRA MACEDO",
+      "anoConclusao": 2020,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5098",
+      "data": "06/11/2026",
+      "escola": "GIUSEPPE",
+      "aluno": "GABRIELA RODRIGUES GONÇALVES",
+      "anoConclusao": 2019,
+      "tipoEnsino": "EF",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5097",
+      "data": "06/11/2026",
+      "escola": "IMPERIAL",
+      "aluno": "STEPHANIE LORRANE MIRANDA DA SILVA",
+      "anoConclusao": 2018,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5096",
+      "data": "06/11/2026",
+      "escola": "IMPERIAL",
+      "aluno": "JOYCE VIEIRA DE JESUS",
+      "anoConclusao": 2018,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5095",
+      "data": "06/11/2026",
+      "escola": "IMPERIAL",
+      "aluno": "MATHEUS VENEZIANO FARIAS SILVA",
+      "anoConclusao": 2018,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5094",
+      "data": "06/11/2026",
+      "escola": "IMPERIAL",
+      "aluno": "DANIEL DO NASCIMENTO DA SILVA",
+      "anoConclusao": 2018,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5093",
+      "data": "06/11/2026",
+      "escola": "IMPERIAL",
+      "aluno": "MARCOS SOARES DA CRUZ",
+      "anoConclusao": 2018,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5092",
+      "data": "06/11/2026",
+      "escola": "IMPERIAL",
+      "aluno": "CAMILA MOREIRA",
+      "anoConclusao": 2018,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5091",
+      "data": "06/11/2026",
+      "escola": "IMPERIAL",
+      "aluno": "ALANY CAROLINE DE SOUZA SANTANA",
+      "anoConclusao": 2018,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5090",
+      "data": "06/11/2026",
+      "escola": "IMPERIAL",
+      "aluno": "TAMIRES RAQUEL PEREIRA DA SILVA",
+      "anoConclusao": 2018,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5089",
+      "data": "06/11/2026",
+      "escola": "IMPERIAL",
+      "aluno": "GISELIA FERNANDES",
+      "anoConclusao": 2018,
+      "tipoEnsino": "EM",
+      "responsavel": "DANY"
+    },
+    {
+      "id": "CONC-5088",
+      "data": "06/11/2026",
+      "escola": "NESTOR",
+      "aluno": "SABRINA ALVES E SILVA",
+      "anoConclusao": 2023,
+      "tipoEnsino": "EM",
+      "responsavel": "DÉBORA"
+    },
+    {
+      "id": "CONC-5087",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "STÉFANNY EDUARDA BARROS FERREIRA",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5086",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "CARLA REBECA CAMILO DA SILVA",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5085",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "YASMIM JAMILLY SANTOS PASSOS FREIRES",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5084",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "PETHERSON DUTRA PEREIRA DOS SANTOS",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5083",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "MIGUEL ALMEIDA DE SOUZA",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5082",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "MARIA EDUARDA PAIVA CAMARGO",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5081",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "KAUANY VITOR PIMENTEL",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5080",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "KAUAN DOS SANTOS PIETRO",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5079",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "FABRICIO SILVA BARBOSA ARAUJO",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5078",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "EDUARDA VICENTINA PEREIRA VELOSO",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5077",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "DAVISON SILVA LOPES DO AMARAL",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5076",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "DAVI MOREIRA PIROPO",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5075",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "ARIEL MARQUES DE FREITAS",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5074",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "AMANDA TEIXEIRA DOS SANTOS",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5073",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "SAMIRA VIANA DA SILVA",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5072",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "MIGUEL CLEMENTE DA SILVA",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5071",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "MATHEUS AZEVEDO SILVA",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5070",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "MARCO ANTONIO CASTRO DA SILVA",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5069",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "LUIZ OTAVIO SOUZA DOS SANTOS",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5068",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "LUIZ CLAUDIO NOGUEIRA CUBEIROS DA SILVA",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5067",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "LUCAS SAMUEL OLIVEIRA DA SILVA",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5066",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "JUAN ALMEIDA DA SILVA",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
       "id": "CONC-5065",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "JOSLAINY FERNANDES DO NASCIMENTO",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5064",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "GABRIELLY VIEIRA BUENO",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5063",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "GABRIEL DE OLIVEIRA PEREIRA",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5062",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "BRYAN MAURICIO DA SILVA COSTA",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5061",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "WESLEY BOAVENTURA DOS SANTOS",
+      "anoConclusao": 2009,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5060",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "YURI NASCIMENTO LUIZ",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5059",
+      "data": "05/11/2026",
+      "escola": "IRACEMA",
+      "aluno": "VINICIUS DE PAULA SANTOS",
+      "anoConclusao": 2025,
+      "tipoEnsino": "EF",
+      "responsavel": "CLARA"
+    },
+    {
+      "id": "CONC-5058",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "RODRIGO CASTILHO ASSUMPÇÃO",
@@ -5289,7 +7104,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5064",
+      "id": "CONC-5057",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "REBECCA CORRÊA LOPES BARRETO DE SOUZA",
@@ -5298,7 +7113,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5063",
+      "id": "CONC-5056",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "RAFAEL BESTEL MACCHION",
@@ -5307,7 +7122,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5062",
+      "id": "CONC-5055",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "PÉROLA SCHAVACINI ROSENFELD",
@@ -5316,7 +7131,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5061",
+      "id": "CONC-5054",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "PEDRO HENRIQUE NEUMAM DIAS",
@@ -5325,7 +7140,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5060",
+      "id": "CONC-5053",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "PAULO TAKASHI TSUNODA",
@@ -5334,7 +7149,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5059",
+      "id": "CONC-5052",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "MARIANA ESTEVES GOMES MUNIZ DE OLIVEIRA",
@@ -5343,7 +7158,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5058",
+      "id": "CONC-5051",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "MARIA DE CARVALHO LIMA MENDES DE OLIVEIRA",
@@ -5352,7 +7167,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5057",
+      "id": "CONC-5050",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "MARCELO AGOSTINHO FILHO",
@@ -5361,7 +7176,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5056",
+      "id": "CONC-5049",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "MANUELA CEZARIO SALGE GHILARDI",
@@ -5370,7 +7185,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5055",
+      "id": "CONC-5048",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "MANUELA ARMELLINI QUEIROGA",
@@ -5379,7 +7194,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5054",
+      "id": "CONC-5047",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "LARA VARGAS NUNES PELLEGRINELLI MOREIRA",
@@ -5388,7 +7203,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5053",
+      "id": "CONC-5046",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "JÚLIA ZEFERINO QUEIROZ",
@@ -5397,7 +7212,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5052",
+      "id": "CONC-5045",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "JULIA POMPEO BORGES",
@@ -5406,7 +7221,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5051",
+      "id": "CONC-5044",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "IURI ANDREONI NICO",
@@ -5415,7 +7230,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5050",
+      "id": "CONC-5043",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "HENRIQUE CORRÊA SECCO",
@@ -5424,7 +7239,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5049",
+      "id": "CONC-5042",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "HELOISA TRISTÃO",
@@ -5433,7 +7248,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5048",
+      "id": "CONC-5041",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "GIORDANA VALENTE",
@@ -5442,7 +7257,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5047",
+      "id": "CONC-5040",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "GABRIELA VILHENA MEIRELLES",
@@ -5451,7 +7266,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5046",
+      "id": "CONC-5039",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "FELIPE FERNANDES CRUZ",
@@ -5460,7 +7275,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5045",
+      "id": "CONC-5038",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "DANTE FURLAN MARTELLI",
@@ -5469,7 +7284,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5044",
+      "id": "CONC-5037",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "ANTONY TOLENTINO STOREL",
@@ -5478,7 +7293,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5043",
+      "id": "CONC-5036",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "ÚRSULA GUERRA JOANICO",
@@ -5487,7 +7302,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5042",
+      "id": "CONC-5035",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "THÉO LUIS ALVARES DOS ANJOS",
@@ -5496,7 +7311,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5041",
+      "id": "CONC-5034",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "PIETRA SCHAVACINI ROSENFELD",
@@ -5505,7 +7320,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5040",
+      "id": "CONC-5033",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "MARIANA LOCOCO MACHADO",
@@ -5514,7 +7329,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5039",
+      "id": "CONC-5032",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "MANUELA PERES DE FREITAS",
@@ -5523,7 +7338,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5038",
+      "id": "CONC-5031",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "LUIS GUSTAVO ALVES DE SOUZA SILVA",
@@ -5532,7 +7347,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5037",
+      "id": "CONC-5030",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "LUCAS CORREIA AGOPIAN",
@@ -5541,7 +7356,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5036",
+      "id": "CONC-5029",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "LAURA CAMPARIM CICERO",
@@ -5550,7 +7365,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5035",
+      "id": "CONC-5028",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "JUANA JOLIS",
@@ -5559,7 +7374,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5034",
+      "id": "CONC-5027",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "GIOVANNA LESSA GENOVA",
@@ -5568,7 +7383,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5033",
+      "id": "CONC-5026",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "FREDERICO MARTINS D AGOSTINHO",
@@ -5577,7 +7392,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5032",
+      "id": "CONC-5025",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "FELIPE GUIMARÃES SANTALLA",
@@ -5586,7 +7401,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5031",
+      "id": "CONC-5024",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "FELIPE CICERO BASTOS",
@@ -5595,7 +7410,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5030",
+      "id": "CONC-5023",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "CAROLINA RODRIGUES REBUZZI CERQUEIRA",
@@ -5604,7 +7419,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5029",
+      "id": "CONC-5022",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "ALICIA CERQUEIRA MESQUITA",
@@ -5613,7 +7428,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5028",
+      "id": "CONC-5021",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "VICTORIA AUGUSTA AGUIAR NOGUEIRA",
@@ -5622,7 +7437,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5027",
+      "id": "CONC-5020",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "SAMANTHA ROSE MAGALHÃES ZIMMERMAN",
@@ -5631,7 +7446,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5026",
+      "id": "CONC-5019",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "PÂMELA LOPES DE CARVALHO",
@@ -5640,7 +7455,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5025",
+      "id": "CONC-5018",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "PIETRO DIAS DA FONTOURA",
@@ -5649,7 +7464,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5024",
+      "id": "CONC-5017",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "NICOLAS DE ALMEIDA JACOB",
@@ -5658,7 +7473,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5023",
+      "id": "CONC-5016",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "MATHEUS LEVY RIBEIRO",
@@ -5667,7 +7482,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5022",
+      "id": "CONC-5015",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "LUCCAS PASSETTO",
@@ -5676,7 +7491,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5021",
+      "id": "CONC-5014",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "LUANA MARCHI PORTIOLLI",
@@ -5685,7 +7500,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5020",
+      "id": "CONC-5013",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "JÚLIA DE OLIVEIRA CAMARGO",
@@ -5694,7 +7509,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5019",
+      "id": "CONC-5012",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "JOÃO ANDRÉ STOIAHOV CREPALDI",
@@ -5703,7 +7518,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5018",
+      "id": "CONC-5011",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "JOEL CHEN",
@@ -5712,7 +7527,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5017",
+      "id": "CONC-5010",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "GUILHERME CERQUEIRA MESQUITA",
@@ -5721,7 +7536,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5016",
+      "id": "CONC-5009",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "GIOVANNA PORTO FERREIRA",
@@ -5730,7 +7545,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5015",
+      "id": "CONC-5008",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "ERICK AUGUSTO GUIMARÃES SARAIVA",
@@ -5739,7 +7554,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5014",
+      "id": "CONC-5007",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "DAVI FRANCISCO GOMES FIGUEIREDO",
@@ -5748,7 +7563,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5013",
+      "id": "CONC-5006",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "CLARA LOCOCO FERNANDES",
@@ -5757,7 +7572,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5012",
+      "id": "CONC-5005",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "BEATRIZ HONORATO SANTARELLI",
@@ -5766,7 +7581,7 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5011",
+      "id": "CONC-5004",
       "data": "05/11/2026",
       "escola": "INTERNACIONAL",
       "aluno": "ANA PAULA VILHENA MEIRELLES",
@@ -5775,1759 +7590,13 @@
       "responsavel": "AMANDA"
     },
     {
-      "id": "CONC-5010",
+      "id": "CONC-5003",
       "data": "05/11/2026",
       "escola": "CELINA",
       "aluno": "TATIANA DA SILVA MONTEIRO",
       "anoConclusao": 2009,
       "tipoEnsino": "EM",
       "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-5009",
-      "data": "05/11/2026",
-      "escola": "INTERNACIONAL",
-      "aluno": "LAURA AZEVEDO DE OLIVEIRA CALDEIRA BAPTISTA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-5008",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "RAFAEL DE ALMEIDA SANTOS",
-      "anoConclusao": 2003,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-5007",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "JOSÉ DANIEL DA SILVA",
-      "anoConclusao": 2017,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-5006",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "BRENDA VITORIA DOS SANTOS",
-      "anoConclusao": 2017,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-5005",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "SARA VITORIA DO ROSARIO SANTOS",
-      "anoConclusao": 2019,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-5004",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "JOSÉ DANIEL DA SILVA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-5003",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "EVELIN NICACIO COSTA DA SILVA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-5002",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "CARLOS ALEXANDRE DAMACENO MARTINS",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-5001",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "KELLY CAROLINE ROVIRO DE MOURA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-5000",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "JULIA BOTELHA NEZEIRO",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4999",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "FRANCIELLY PINHEIRO CIMPLICIO",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4998",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "LUIZ FLAVIO SILVA GONÇALVES JUNIOR",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4997",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "STEPHANY SOUSA SILVA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4996",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "LUDMYLLA CAPINAN SANTANA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4995",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "SIMONE DE CAMPOS PEREIRA",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4994",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "LOURENÇO EMANOEL DA SILVA CARNEIRO",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4993",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "LARA NOBEMASA",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4992",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "JHADY KIMBERLY SAHIRE QUISPE",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4991",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "DAVI DA CUNHA VIEIRA",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4990",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "ALAN BATISTA DOS SANTOS",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4989",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "KAUAN DOS SANTOS DOMINGUES",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4988",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "CLARA LAÍS ALVES DE SOUZA",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4987",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "ANNA JULIA DANTAS DE FREITAS",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4986",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "MICHELE GRANGEIRO TAVARES",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4985",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "SARA VITORIA DO ROSARIO SANTOS",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4984",
-      "data": "05/11/2026",
-      "escola": "CHRISTIANINI",
-      "aluno": "LETICIA COELHO DE SANTANA",
-      "anoConclusao": 2017,
-      "tipoEnsino": "EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4983",
-      "data": "05/11/2026",
-      "escola": "FOYER",
-      "aluno": "VIVIANI MORAES DA SILVA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EPT EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4982",
-      "data": "05/11/2026",
-      "escola": "MECCA",
-      "aluno": "MARA APARECIDA DA SILVA AVELINO",
-      "anoConclusao": 2017,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4981",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "QUEILA DE SOUZA DOMINGUES",
-      "anoConclusao": 2006,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4980",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "HENRIQUE RODRIGUES BEZERRA",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4979",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "RAFAEL ALVES DOS SANTOS SOUSA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4978",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "NATHALIA DE SOUZA SILVA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4977",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "LUIS GABRIEL OLIVEIRA DA SILVA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4976",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "LETÍCIA SILVA FUSCALDI",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4975",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "KELVIN RAMOS DA SILVA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4974",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "JOÃO VITOR MARTINS DE ALMEIDA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4973",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "JONATANS ALBERICO CESAR LIMA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4972",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "GUSTAVO ALEXANDRE GREGÓRIO PESSÔA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4971",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "GABRIEL FERREIRA DO NASCIMENTO",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4970",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "ESTER TEODORO DA SILVA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4969",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "DEYVID KAWAN QUEIROZ ALVES TEIXEIRA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4968",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "CHRISTOPHER GALVÃO TAVARES",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4967",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "BRUNO HENRIQUE DE OLIVEIRA SANTOS",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4966",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "ANA BEATRIZ LISBOA DUARTE",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4965",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "RICHARD KOBAYASHI ANDRE",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4964",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "REBECA NUNES DE LIMA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4963",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "MARCOS PAULO FREITAS DE OLIVEIRA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4962",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "JOÃO KEVEN MARTINS DE SOUSA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4961",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "JOSÉ WANDERSON BEZERRA DE SENA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4960",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "HELOISA DA SILVA DUARTE",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4959",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "GABRIEL MORAES ALMEIDA DOS SANTOS",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4958",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "ERIKA PEREIRA DE SOUZA CALDAS",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4957",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "BRAYAN LUIZ DE SOUZA VIEIRA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4956",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "ANA JULIA APARECIDA COSTA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4955",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "MARIA VITORIA DANTAS NASCIMENTO",
-      "anoConclusao": 2019,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4954",
-      "data": "05/11/2026",
-      "escola": "MARIO JOAQUIM",
-      "aluno": "INGRYD SANTOS SILVA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4953",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "VINICIUS ROBERTO PRESTES GALVÃO",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4952",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "VICTOR ZUFFO PINCA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4951",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "THIAGO ZANIN TOZZI",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4950",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "THIAGO COSTA SOARES DE SÁ",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4949",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "PEDRO THIEME VIEIRA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4948",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "MARINA SPITALETTI TORRES",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4947",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "MARIA CLARA BORGES DE ALBUQUERQUE",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4946",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "MANUELA PIACENTI OLIVEIRA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4945",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "MANUELA MELLO DE MACEDO",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4944",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "LAURA NAMI UEGAMA FERREIRA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4943",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "LAURA CLEMENTE MARTINS MENDES",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4942",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "JULIA HASSUN MOSCON",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4941",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "ISABELA GOUVEA DE FREITAS",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4940",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "DIEGO FERNANDES MOTOYAMA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4939",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "DIEGO COUTO SANTOS",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4938",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "CAIO COSTA DE SOUSA RODRIGUES",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4937",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "BRUNO FERRARI GEREVINI",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4936",
-      "data": "05/11/2026",
-      "escola": "ANGLO LEONARDO DA VINCI",
-      "aluno": "AMANDA GUILHERMINA SINGARETTI SANTOS",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4935",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "TIAGO FELIPE PORFIRIO",
-      "anoConclusao": 2022,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4934",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "LUZIA GOMES ALVES",
-      "anoConclusao": 2022,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4933",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "JULIANA BARBOSA SOARES",
-      "anoConclusao": 2022,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4932",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "IOLANDA STEFANI SAMPAIO DE JESUS",
-      "anoConclusao": 2022,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4931",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "FRANCERLÂNDIA RAMOS DELMONDES",
-      "anoConclusao": 2022,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4930",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "HERODE VILUS",
-      "anoConclusao": 2019,
-      "tipoEnsino": "EJA EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4929",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "ISAURA PORFÍRIA DA SILVA NETA",
-      "anoConclusao": 2019,
-      "tipoEnsino": "EJA EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4928",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "JOSEANE BERNARDINO DA SILVA",
-      "anoConclusao": 2019,
-      "tipoEnsino": "EJA EF",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4927",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "MARIA JOSICLEIDE DA SILVA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4926",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "LUCINEIDE ALMEIDA FERREIRA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4925",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "KELLY ROSA DOS SANTOS",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4924",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "KAREN AZEVEDO SILVA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4923",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "ANA KAROLINNE PORDEUS RODRIGUES",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4922",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "MARIA APARECIDA BERNADETE DOS SANTOS",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4921",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "JOSEANE BERNARDINO DA SILVA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4920",
-      "data": "05/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "HERODE VILUS",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EJA EM",
-      "responsavel": "AMANDA"
-    },
-    {
-      "id": "CONC-4919",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "",
-      "anoConclusao": 2026,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4918",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "",
-      "anoConclusao": 2026,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4917",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "",
-      "anoConclusao": 2026,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4916",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "",
-      "anoConclusao": 2026,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4915",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "",
-      "anoConclusao": 2026,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4914",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "",
-      "anoConclusao": 2026,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4913",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "",
-      "anoConclusao": 2026,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4912",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "MARCOS VINICIOS DA SILVA ARAUJO CUNHA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4911",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "GUILHERME DOS SANTOS OLIVEIRA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4910",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "GEOVANA SILVA BATISTA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4909",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "GABRIEL SILVA PALMEIRA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4908",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "ESTÉPHANIE JEAN-LOUIS",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4907",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "RYAN OLIVEIRA DA ROCHA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4906",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "VICTOR HUGO OLIVEIRA CIRIACO",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4905",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "TAINÁ SILVA SANTOS",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4904",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "JOÃO VITOR VIANA DE ALMEIDA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4903",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "FELIPE GONÇALVES SILVA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4902",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "HIAGO MORAES PEREIRA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4901",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "VICTOR HUGO OLIVEIRA CIRIACO",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4900",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "KAUAN ANTUNES LIMA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4899",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "YAGO DA CRUZ DUVALE",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4898",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "MAXWELL FIGUEIRA HERMINIO DA SILVA",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4897",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "FRANCISCA EVELLYN DE SOUSA MACHADO",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4896",
-      "data": "04/11/2026",
-      "escola": "DORVALINO",
-      "aluno": "IZABELE DA COSTA GOMES",
-      "anoConclusao": 2020,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4895",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "VIVIAN MARIA ROCHA DA SILVA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4894",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "VITORIA MILENA DA SILVA TORRES",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4893",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "IVAN DE MELLO LOPES",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4892",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "GABRIELE GOMES DE ARAUJO",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4891",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "LUIZ FELIPE SOARES DOS SANTOS",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4890",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "JULIA ABREU SILVA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4889",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "JHENIFER VITORIA NUNES GUEDES DE ARAUJO",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4888",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "GEOVANA LOPES DA SILVA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4887",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "GABRIEL ARAUJO SANTOS",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4886",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "ESTER VIEIRA COSTA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4885",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "CASSANDRA RODRIGUES DE JESUS",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4884",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "ANGEL GABRIEL DE OLIVEIRA ALVES",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4883",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "ANA JULIA PEREIRA DA SILVA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4882",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "THAINÁ NASCIMENTO SOUZA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4881",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "NARUBHIA VITORIA DE BRITO MENDONÇA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4880",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "JOAO VICTOR NAKAHARA DA SILVA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4879",
-      "data": "04/11/2026",
-      "escola": "JOSEPHA",
-      "aluno": "ANNY CAROLINE DE ARAUJO BATISTA",
-      "anoConclusao": 2021,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4878",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "MARIANA SILVA DE OLIVEIRA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4877",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "MANUELA DUARTE FREIRE",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4876",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "JULIO ROSAS",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4875",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "JOÃO PEDRO LIMA MELO",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4874",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "JEFFERSON RODRIGUES DOS SANTOS",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4873",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "ISABELLY CHRISTINE DA SILVA MORENO",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4872",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "HIGOR XAVIER ALVES",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4871",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "CHRISTIAN SOUZA DE SANTOS DE ARAUJO",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4870",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "CÃUA LUCAS VITAL SILVA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4869",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "ANA RITA MOREIRA DE SOUSA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4868",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "MAURICIO AUGUSTO VILAS BOAS DA SILVA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4867",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "LUIZ HENRIQUE SOUSA ARAUJO",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4866",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "LUCIANA PAPI MARQUES DIAS",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4865",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "KALLIANY THAYNÁ BEZERRA DE LUNA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4864",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "ISABELLE VITÓRIA DOS SANTOS ANSELMO",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4863",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "ISABEL NASCIMENTO DA SILVA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4862",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "HELOANNE DE OLIVEIRA LIMA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4861",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "DERYK HENRIQUE AUGUSTO DO NASCIMENTO",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4860",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "DANIEL BARBOSA RIBEIRO",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4859",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "BRYAN HOLANDA DE ALMEIDA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4858",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "MARIA ALICE GONÇALVES DA SILVA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4857",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "MARCUS AURELIUS DA SILVA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4856",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "LIVIA ALVES MACIEL",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4855",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "KATLYN RAISSA DA SILVA CARLOS",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4854",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "JOSÉ RIQUELME NASCIMENTO DE SOUSA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4853",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "GABRIELLY MIRANDA OLIVEIRA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4852",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "FLÁVIA LUIZA SILVA BARBOSA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4851",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "FERNANDA SANTOS VALENTIM DA SILVA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4850",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "CARLOS EDUARDO RUFINO DA SILVA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4849",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "BRUNO LUCAS LIBORIO",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4848",
-      "data": "04/11/2026",
-      "escola": "RONDON",
-      "aluno": "LUIZA VITORIA SILVA LOPES PASSOS",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4847",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "KAUAN GABRIEL FOGARI NEIVA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4846",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "KAROLYNE PERLUIZ TOSTES",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4845",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "JEFERSON ALVES DOS SANTOS JUNIOR",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4844",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "ISABELLA VITORIA GONCALVES DA SILVA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4843",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "GUSTAVO SANTOS LIMA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4842",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "GABRIEL JUAN SANTANA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4841",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "FABRICIO AMORIM SOUZA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4840",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "ESTER VIDAL DE ALMEIDA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4839",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "EDUARDO DIAS PEREIRA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4838",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "RAYSSA MAYARA ANTUNES DOS SANTOS",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4837",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "LARISSA ALINE DA SILVA FERREIRA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4836",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "GIOVANNA DOS REIS SANTOS",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4835",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "MARÍLIA PEREIRA DOS SANTOS",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4834",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "KAIQUI GABRIEL ACÁCIO DA SILVA",
-      "anoConclusao": 2023,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4833",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "ISADORA DE OLIVEIRA CHAGAS",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4832",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "CAMILLY CRISTINA MARQUEZINO",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4831",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "ISADORA DE OLIVEIRA CHAGAS",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4830",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "MIKAEL FERREIRA DOS SANTOS",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4829",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "MIGUEL LEME BOY",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4828",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "MATHEUS RUFINO DA SILVA",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4827",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "MARIA NICOLE DA SILVA",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4826",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "GLEYSON FÁBIO LIMA DUTRA",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4825",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "GEOVANNA SANTOS ALMEIDA",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4824",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "ANA LUIZA SANTOS SILVA",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4823",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "CICERO MIGUEL DE SOUZA FRASÃO",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4822",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "ANA VITORIA DE SOUZA MOLINA",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4821",
-      "data": "04/11/2026",
-      "escola": "JARDIM MARIA HELENA",
-      "aluno": "CICERO MIGUEL DE SOUZA FRASÃO",
-      "anoConclusao": 2024,
-      "tipoEnsino": "EM",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4820",
-      "data": "04/11/2026",
-      "escola": "MUNDI PUERI",
-      "aluno": "VICTOR SANTOS DE SOUZA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4819",
-      "data": "04/11/2026",
-      "escola": "MUNDI PUERI",
-      "aluno": "VALENTINA KONISHI DE OLIVEIRA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4818",
-      "data": "04/11/2026",
-      "escola": "MUNDI PUERI",
-      "aluno": "MIGUEL DA MATA RIBEIRO",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4817",
-      "data": "04/11/2026",
-      "escola": "MUNDI PUERI",
-      "aluno": "MARIA EDUARDA COLOMBO ROCHA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
-    },
-    {
-      "id": "CONC-4816",
-      "data": "04/11/2026",
-      "escola": "MUNDI PUERI",
-      "aluno": "LUCAS VALVERDE BRUNO MOTTA",
-      "anoConclusao": 2025,
-      "tipoEnsino": "EF",
-      "responsavel": "CLARA"
     }
   ],
   "emails": [
@@ -111430,6 +111499,18 @@
     {
       "id": "EML-8662",
       "data": "",
+      "hora": "11:57",
+      "assunto": "Solicitação",
+      "remetente": "BÁRBARA",
+      "interessado": "SEGRE",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8663",
+      "data": "",
       "hora": "12:00",
       "assunto": "Homologação do Regimento Escolar 2027",
       "remetente": "SEVESC",
@@ -111440,7 +111521,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8663",
+      "id": "EML-8664",
       "data": "",
       "hora": "12:06",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111452,7 +111533,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8664",
+      "id": "EML-8665",
       "data": "",
       "hora": "12:11",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111464,7 +111545,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8665",
+      "id": "EML-8666",
       "data": "",
       "hora": "12:28",
       "assunto": "Transporte Especial - ENEM",
@@ -111476,7 +111557,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8666",
+      "id": "EML-8667",
       "data": "",
       "hora": "12:29",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111488,7 +111569,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8667",
+      "id": "EML-8668",
       "data": "",
       "hora": "12:43",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111500,7 +111581,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8668",
+      "id": "EML-8669",
       "data": "",
       "hora": "12:50",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111512,7 +111593,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8669",
+      "id": "EML-8670",
       "data": "",
       "hora": "12:51",
       "assunto": "Regimento Escolar- 2027",
@@ -111524,7 +111605,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8670",
+      "id": "EML-8671",
       "data": "",
       "hora": "12:57",
       "assunto": "REGIMENTO ESCOLAR 2027 - Revisado após parecer técnico",
@@ -111536,7 +111617,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8671",
+      "id": "EML-8672",
       "data": "",
       "hora": "12:57",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111548,7 +111629,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8672",
+      "id": "EML-8673",
       "data": "",
       "hora": "12:59",
       "assunto": "Regimento Escolar - Rede Decisão - Unidade Rui Barbosa",
@@ -111560,7 +111641,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8673",
+      "id": "EML-8674",
       "data": "",
       "hora": "12:59",
       "assunto": "Reenvio do Regimento Escolar - Aquarela Kids 2026.",
@@ -111572,7 +111653,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8674",
+      "id": "EML-8675",
       "data": "",
       "hora": "13:01",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111584,7 +111665,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8675",
+      "id": "EML-8676",
       "data": "",
       "hora": "13:05",
       "assunto": "ROTINAS DIÁRIAS",
@@ -111596,7 +111677,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8676",
+      "id": "EML-8677",
       "data": "",
       "hora": "13:08",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111608,7 +111689,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8677",
+      "id": "EML-8678",
       "data": "",
       "hora": "13:10",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111620,7 +111701,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8678",
+      "id": "EML-8679",
       "data": "",
       "hora": "13:14",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111632,7 +111713,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8679",
+      "id": "EML-8680",
       "data": "",
       "hora": "13:15",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111644,7 +111725,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8680",
+      "id": "EML-8681",
       "data": "",
       "hora": "13:22",
       "assunto": "Boletim Semanal - Subsecretarias - Ano 2026 - Nº 43 – 29 de outubro de 2026",
@@ -111656,7 +111737,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8681",
+      "id": "EML-8682",
       "data": "",
       "hora": "13:23",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111668,7 +111749,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8682",
+      "id": "EML-8683",
       "data": "",
       "hora": "13:31",
       "assunto": "Aluna Duplicada",
@@ -111680,7 +111761,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8683",
+      "id": "EML-8684",
       "data": "",
       "hora": "13:34",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111692,7 +111773,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8684",
+      "id": "EML-8685",
       "data": "",
       "hora": "13:38",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111704,7 +111785,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8685",
+      "id": "EML-8686",
       "data": "",
       "hora": "13:44",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111716,7 +111797,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8686",
+      "id": "EML-8687",
       "data": "",
       "hora": "13:53",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111728,7 +111809,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8687",
+      "id": "EML-8688",
       "data": "",
       "hora": "13:58",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111740,7 +111821,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8688",
+      "id": "EML-8689",
       "data": "",
       "hora": "14:38",
       "assunto": "Documentos com informações gerais",
@@ -111752,7 +111833,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8689",
+      "id": "EML-8690",
       "data": "",
       "hora": "14:51",
       "assunto": "Transferência cautelar",
@@ -111764,7 +111845,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8690",
+      "id": "EML-8691",
       "data": "",
       "hora": "15:05",
       "assunto": "Aluna Duplicada",
@@ -111776,7 +111857,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8691",
+      "id": "EML-8692",
       "data": "",
       "hora": "15:15",
       "assunto": "Publicar histórico",
@@ -111788,7 +111869,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8692",
+      "id": "EML-8693",
       "data": "",
       "hora": "15:13",
       "assunto": "Ajuste de turma 2027 - EE Marechal Cândido Rondon",
@@ -111800,7 +111881,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8693",
+      "id": "EML-8694",
       "data": "",
       "hora": "15:38",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111812,7 +111893,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8694",
+      "id": "EML-8695",
       "data": "",
       "hora": "15:44",
       "assunto": "Solicitação de Dados da Aluna",
@@ -111824,7 +111905,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8695",
+      "id": "EML-8696",
       "data": "",
       "hora": "16:11",
       "assunto": "CLASSE 2026 ACIMA DO MÓDULO",
@@ -111836,7 +111917,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8696",
+      "id": "EML-8697",
       "data": "",
       "hora": "16:28",
       "assunto": "Assunto: Solicitação de transferência escolar",
@@ -111848,7 +111929,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8697",
+      "id": "EML-8698",
       "data": "",
       "hora": "16:58",
       "assunto": "Envio do Relatório Mensal de Atividades – Outubro/2026",
@@ -111860,7 +111941,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8698",
+      "id": "EML-8699",
       "data": "",
       "hora": "16:58",
       "assunto": "Solicitação de apreciação e orientação quanto à efetivação de matrículas escolares para o ano letivo de 2027.",
@@ -111872,7 +111953,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8699",
+      "id": "EML-8700",
       "data": "",
       "hora": "17:29",
       "assunto": "Matricula",
@@ -111884,7 +111965,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8700",
+      "id": "EML-8701",
       "data": "",
       "hora": "17:54",
       "assunto": "Encaminhamento de Relatório e solicitação de transferência escolar",
@@ -111896,7 +111977,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8701",
+      "id": "EML-8702",
       "data": "30/10/2026",
       "hora": "09:42",
       "assunto": "Ajuste de turmas 2027 - EE Paulo de Abreu - 908548",
@@ -111908,7 +111989,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8702",
+      "id": "EML-8703",
       "data": "",
       "hora": "10:47",
       "assunto": "COMPATIBILIZAÇÃO DA ESCOLHA DO IF",
@@ -111920,7 +112001,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8703",
+      "id": "EML-8704",
       "data": "",
       "hora": "12:02",
       "assunto": "Homologação do Regimento Escolar 2027",
@@ -111932,7 +112013,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8704",
+      "id": "EML-8705",
       "data": "",
       "hora": "12:26",
       "assunto": "Ofício 929.2026 - vaga escolar - Maria Allice Victoria Lopes Silvestre",
@@ -111944,7 +112025,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8705",
+      "id": "EML-8706",
       "data": "",
       "hora": "13:10",
       "assunto": "Contato",
@@ -111956,7 +112037,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8706",
+      "id": "EML-8707",
       "data": "31/10/2026",
       "hora": "10:36",
       "assunto": "SEDUC-SP - Novo chamado registrado - SEE-1583601-F2M4",
@@ -111968,7 +112049,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8707",
+      "id": "EML-8708",
       "data": "",
       "hora": "10:46",
       "assunto": "SEDUC-SP - Novo chamado registrado - SEE-1583604-M8G8",
@@ -111980,7 +112061,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8708",
+      "id": "EML-8709",
       "data": "03/11/2026",
       "hora": "07:22",
       "assunto": "Boletim Semanal - Subsecretarias - Ano 2026 - Nº 43 – 29 de outubro de 2026",
@@ -111992,7 +112073,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8709",
+      "id": "EML-8710",
       "data": "",
       "hora": "07:44",
       "assunto": "Orientações histórico - Resolução SE 68/2019",
@@ -112004,7 +112085,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8710",
+      "id": "EML-8711",
       "data": "",
       "hora": "08:11",
       "assunto": "Opção indisponível - Editar - Matrícula 2027",
@@ -112016,7 +112097,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8711",
+      "id": "EML-8712",
       "data": "",
       "hora": "08:13",
       "assunto": "A/c DÉBORA MACHADO FERREIRA",
@@ -112028,7 +112109,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8712",
+      "id": "EML-8713",
       "data": "",
       "hora": "08:26",
       "assunto": "Vaga Escolar",
@@ -112040,7 +112121,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8713",
+      "id": "EML-8714",
       "data": "",
       "hora": "08:37",
       "assunto": "COMUNICADO COMAT - Atendimento dos Estudantes Pendentes de Continuidade – 03/11/2026",
@@ -112052,7 +112133,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8714",
+      "id": "EML-8715",
       "data": "",
       "hora": "08:42",
       "assunto": "Bianca Nascimento de Oliveira",
@@ -112064,7 +112145,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8715",
+      "id": "EML-8716",
       "data": "",
       "hora": "09:07",
       "assunto": "ESCOLA JARDINS -RATIFICAR CONCLUINTES",
@@ -112076,7 +112157,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8716",
+      "id": "EML-8717",
       "data": "",
       "hora": "09:17",
       "assunto": "Matrícula de aluno",
@@ -112088,7 +112169,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8717",
+      "id": "EML-8718",
       "data": "",
       "hora": "09:24",
       "assunto": "EXCLUSÃO DE MATRICULA",
@@ -112100,7 +112181,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8718",
+      "id": "EML-8719",
       "data": "",
       "hora": "09:32",
       "assunto": "Planilha com a relação dos Cursos Técnicos aprovados para 2027",
@@ -112112,7 +112193,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8719",
+      "id": "EML-8720",
       "data": "",
       "hora": "09:41",
       "assunto": "COMPATIBILIZAÇÃO DA ESCOLHA DO IF",
@@ -112124,7 +112205,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8720",
+      "id": "EML-8721",
       "data": "",
       "hora": "09:57",
       "assunto": "Auxílio para matrícula de alunos na SED",
@@ -112136,7 +112217,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8721",
+      "id": "EML-8722",
       "data": "",
       "hora": "10:01",
       "assunto": "Auxílio para matrícula de alunos na SED",
@@ -112148,7 +112229,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8722",
+      "id": "EML-8723",
       "data": "",
       "hora": "10:05",
       "assunto": "OFÍCIO Processo Digital Processo Digital n°: 0003585-15.2025.8.26.0348",
@@ -112160,7 +112241,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8723",
+      "id": "EML-8724",
       "data": "",
       "hora": "10:09",
       "assunto": "Pé-de-meia",
@@ -112172,7 +112253,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8724",
+      "id": "EML-8725",
       "data": "",
       "hora": "10:25",
       "assunto": "Regularização de Matrícula",
@@ -112184,7 +112265,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8725",
+      "id": "EML-8726",
       "data": "",
       "hora": "10:31",
       "assunto": "OFÍCIO 417/2026 - DELEGACIA DE POLÍCIA DE ITAPEVI",
@@ -112196,7 +112277,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8726",
+      "id": "EML-8727",
       "data": "",
       "hora": "10:41",
       "assunto": "Exclusão de salas de aula - Mais Gestão - José Antonio",
@@ -112208,7 +112289,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8727",
+      "id": "EML-8728",
       "data": "",
       "hora": "10:43",
       "assunto": "Gdae:",
@@ -112220,7 +112301,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8728",
+      "id": "EML-8729",
       "data": "",
       "hora": "10:44",
       "assunto": "Exclusão de salas de aula - Mais Gestão - Rosa Escarabello",
@@ -112232,7 +112313,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8729",
+      "id": "EML-8730",
       "data": "",
       "hora": "10:48",
       "assunto": "Consulta",
@@ -112244,7 +112325,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8730",
+      "id": "EML-8731",
       "data": "",
       "hora": "11:04",
       "assunto": "Esclarecimentos sobre confecção, envio e assinatura de Históricos Escolares — Concluintes 2024",
@@ -112256,7 +112337,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8731",
+      "id": "EML-8732",
       "data": "",
       "hora": "11:21",
       "assunto": "Assunto: Solicitação de transferência escolar",
@@ -112268,9 +112349,9 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8732",
+      "id": "EML-8733",
       "data": "",
-      "hora": "11:.35",
+      "hora": "11:35",
       "assunto": "COMPATIBILIZAÇÃO DA ESCOLHA DO IF",
       "remetente": "PADINHA",
       "interessado": "PADINHA",
@@ -112280,7 +112361,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8733",
+      "id": "EML-8734",
       "data": "",
       "hora": "11:43",
       "assunto": "ncaminhamento de Relatório e solicitação de transferência escolar",
@@ -112292,7 +112373,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8734",
+      "id": "EML-8735",
       "data": "",
       "hora": "12:50",
       "assunto": "Liberação de Matricula na SED",
@@ -112304,7 +112385,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8735",
+      "id": "EML-8736",
       "data": "",
       "hora": "13:35",
       "assunto": "Vaga 6° ano",
@@ -112316,7 +112397,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8736",
+      "id": "EML-8737",
       "data": "",
       "hora": "13:50",
       "assunto": "ACERTO NA DUPLICIDADE",
@@ -112328,7 +112409,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8737",
+      "id": "EML-8738",
       "data": "",
       "hora": "14:01",
       "assunto": "Troca de alunos entre turmas - Projeto Mais Gestão",
@@ -112340,7 +112421,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8738",
+      "id": "EML-8739",
       "data": "",
       "hora": "14:01",
       "assunto": "Apoio a atendimento Processo - registro frequência - alunos diversos",
@@ -112352,7 +112433,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8739",
+      "id": "EML-8740",
       "data": "",
       "hora": "14:14",
       "assunto": "Matrícula de aluno",
@@ -112364,7 +112445,31 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8740",
+      "id": "EML-8741",
+      "data": "",
+      "hora": "14:30",
+      "assunto": "SEGRE Protocolo 2026102718055668 - Monica",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "RESPONDIDO",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "16:09",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8742",
+      "data": "",
+      "hora": "14:32",
+      "assunto": "SEGRE Protocolo 2026102718110014 - Monica",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "RESPONDIDO",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "16:09",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8743",
       "data": "",
       "hora": "14:49",
       "assunto": "Circular n°43/2026",
@@ -112376,7 +112481,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8741",
+      "id": "EML-8744",
       "data": "",
       "hora": "15:08",
       "assunto": "Ofício 005/2026 - Calendário Escolar 2027",
@@ -112388,7 +112493,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8742",
+      "id": "EML-8745",
       "data": "",
       "hora": "15:11",
       "assunto": "Encaminhamento de Ofício 003/2026 e 004/2026 - Nomeação Direção e Secretária Escolar",
@@ -112400,7 +112505,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8743",
+      "id": "EML-8746",
       "data": "",
       "hora": "15:27",
       "assunto": "COMUNICADO COMAT: Suspensão Temporária da Compatibilização 2026",
@@ -112412,7 +112517,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8744",
+      "id": "EML-8747",
       "data": "",
       "hora": "15:38",
       "assunto": "Solicitação de Dados da Aluna",
@@ -112424,7 +112529,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8745",
+      "id": "EML-8748",
       "data": "",
       "hora": "15:44",
       "assunto": "Exclusão de salas de aula - Mais Gestão",
@@ -112436,7 +112541,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8746",
+      "id": "EML-8749",
       "data": "",
       "hora": "15:56",
       "assunto": "Aluno inscrito por transferência ainda não atendido",
@@ -112448,7 +112553,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8747",
+      "id": "EML-8750",
       "data": "",
       "hora": "16:00",
       "assunto": "Matricula",
@@ -112460,7 +112565,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8748",
+      "id": "EML-8751",
       "data": "",
       "hora": "16:07",
       "assunto": "Ofício de requisição - Processo  0003716-37.2026.8.26.0127",
@@ -112472,7 +112577,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8749",
+      "id": "EML-8752",
       "data": "",
       "hora": "16:41",
       "assunto": "Vaga 6° ano",
@@ -112484,7 +112589,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8750",
+      "id": "EML-8753",
       "data": "",
       "hora": "16:45",
       "assunto": "Ofício 929.2026 - vaga escolar - Maria Allice Victoria Lopes Silvestre",
@@ -112496,7 +112601,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8751",
+      "id": "EML-8754",
       "data": "",
       "hora": "16:47",
       "assunto": "Contato",
@@ -112508,7 +112613,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8752",
+      "id": "EML-8755",
       "data": "",
       "hora": "17:11",
       "assunto": "Contato",
@@ -112520,7 +112625,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8753",
+      "id": "EML-8756",
       "data": "",
       "hora": "18:06",
       "assunto": "ENEM - Controle de Atividades e contrações",
@@ -112532,7 +112637,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8754",
+      "id": "EML-8757",
       "data": "",
       "hora": "18:19",
       "assunto": "Conferência e regularização das matrículas de 2026 na rede particular",
@@ -112544,7 +112649,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8755",
+      "id": "EML-8758",
       "data": "04/11/2026",
       "hora": "06:59",
       "assunto": "Divulgação de oportunidade | COMOB/DIPES",
@@ -112556,7 +112661,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8756",
+      "id": "EML-8759",
       "data": "",
       "hora": "07:13",
       "assunto": "erro no cadastro provão paulista",
@@ -112568,7 +112673,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8757",
+      "id": "EML-8760",
       "data": "",
       "hora": "07:27",
       "assunto": "Vaga 6° ano",
@@ -112580,7 +112685,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8758",
+      "id": "EML-8761",
       "data": "",
       "hora": "08:45",
       "assunto": "Ofício 929.2026 - vaga escolar - Maria Allice Victoria Lopes Silvestre",
@@ -112592,7 +112697,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8759",
+      "id": "EML-8762",
       "data": "",
       "hora": "08:59",
       "assunto": "PÉ DE MEIA",
@@ -112604,7 +112709,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8760",
+      "id": "EML-8763",
       "data": "",
       "hora": "08:59",
       "assunto": "COMUNICADO COMAT - Atendimento dos Estudantes Pendentes de Continuidade – 04/11/2026",
@@ -112616,7 +112721,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8761",
+      "id": "EML-8764",
       "data": "",
       "hora": "09:02",
       "assunto": "Solicitação de verificação dos dados da certidão de nascimento – Aluno Pietro Henrique da Silva Brito",
@@ -112628,7 +112733,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8762",
+      "id": "EML-8765",
       "data": "",
       "hora": "09:15",
       "assunto": "URGENTE - Turmas Técnicas 2027",
@@ -112640,7 +112745,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8763",
+      "id": "EML-8766",
       "data": "",
       "hora": "09:28",
       "assunto": "COMUNICADO CODES, de 04 de novembro de 2026.",
@@ -112652,7 +112757,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8764",
+      "id": "EML-8767",
       "data": "",
       "hora": "09:35",
       "assunto": "Solicitação de vaga - Fernando Pereira Filho",
@@ -112664,7 +112769,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8765",
+      "id": "EML-8768",
       "data": "",
       "hora": "10:00",
       "assunto": "Matricular 2027",
@@ -112676,7 +112781,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8766",
+      "id": "EML-8769",
       "data": "",
       "hora": "10:01",
       "assunto": "Escola Chácara- Carta 23/2026- Não abertura do ensino médio",
@@ -112688,7 +112793,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8767",
+      "id": "EML-8770",
       "data": "",
       "hora": "10:21",
       "assunto": "Matricula de aluno",
@@ -112700,7 +112805,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8768",
+      "id": "EML-8771",
       "data": "",
       "hora": "10:30",
       "assunto": "Matricula de aluno",
@@ -112712,7 +112817,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8769",
+      "id": "EML-8772",
       "data": "",
       "hora": "10:38",
       "assunto": "Liberação de Matricula na SED",
@@ -112724,7 +112829,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8770",
+      "id": "EML-8773",
       "data": "",
       "hora": "10:41",
       "assunto": "URGENTE - Turmas Técnicas 2027",
@@ -112736,7 +112841,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8771",
+      "id": "EML-8774",
       "data": "",
       "hora": "10:52",
       "assunto": "URGENTE - Turmas Técnicas 2027",
@@ -112748,7 +112853,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8772",
+      "id": "EML-8775",
       "data": "",
       "hora": "11:02",
       "assunto": "Auxílio para matrícula de alunos na SED",
@@ -112760,7 +112865,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8773",
+      "id": "EML-8776",
       "data": "",
       "hora": "11:08",
       "assunto": "URGENTE - Ajuste Turmas Técnicas 2027 - Escolas com parceria.",
@@ -112772,7 +112877,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8774",
+      "id": "EML-8777",
       "data": "",
       "hora": "11:45",
       "assunto": "Pedido de orientação para atualização de nome Histórico",
@@ -112784,7 +112889,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8775",
+      "id": "EML-8778",
       "data": "",
       "hora": "11:59",
       "assunto": "COMUNICADO COMAT: Suspensão Temporária da Compatibilização 2026",
@@ -112796,7 +112901,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8776",
+      "id": "EML-8779",
       "data": "",
       "hora": "12:12",
       "assunto": "DIGITAL - SEI 015.00646008/2025-13- BIANCA SOARES - INSTRUÇÃO",
@@ -112808,7 +112913,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8777",
+      "id": "EML-8780",
       "data": "",
       "hora": "12:15",
       "assunto": "Assunto: Solicitação de Suporte / Erro em Matrícula – Aluno Vicente Costa Cabral (RA: 000121063071-0/SP)",
@@ -112820,7 +112925,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8778",
+      "id": "EML-8781",
       "data": "",
       "hora": "12:15",
       "assunto": "URGENTE - Conferência e regularização das matrículas de 2026 na rede particular",
@@ -112832,7 +112937,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8779",
+      "id": "EML-8782",
       "data": "",
       "hora": "12:17",
       "assunto": "URGENTE - Conferência e regularização das matrículas de 2026 na rede particular",
@@ -112844,7 +112949,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8780",
+      "id": "EML-8783",
       "data": "",
       "hora": "12:33",
       "assunto": "URGENTE - Conferência e regularização das matrículas de 2026 na rede particular",
@@ -112856,7 +112961,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8781",
+      "id": "EML-8784",
       "data": "",
       "hora": "12:38",
       "assunto": "URGENTE - Conferência e regularização das matrículas de 2026 na rede particular",
@@ -112868,7 +112973,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8782",
+      "id": "EML-8785",
       "data": "",
       "hora": "12:40",
       "assunto": "URGENTE - Ajuste Turmas Técnicas 2027 - Escolas com parceria.",
@@ -112880,7 +112985,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8783",
+      "id": "EML-8786",
       "data": "",
       "hora": "12:46",
       "assunto": "URGENTE - Ajuste Turmas Técnicas 2027 - Escolas com parceria.",
@@ -112892,7 +112997,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8784",
+      "id": "EML-8787",
       "data": "",
       "hora": "12:49",
       "assunto": "URGENTE - Conferência e regularização das matrículas de 2026 na rede particular",
@@ -112904,7 +113009,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8785",
+      "id": "EML-8788",
       "data": "",
       "hora": "12:52",
       "assunto": "Ajuste de coleta de classe 2027",
@@ -112916,7 +113021,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8786",
+      "id": "EML-8789",
       "data": "",
       "hora": "12:54",
       "assunto": "Escola Chácara- Carta 23/2026- Não abertura do ensino médio",
@@ -112928,7 +113033,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8787",
+      "id": "EML-8790",
       "data": "",
       "hora": "13:09",
       "assunto": "Solicitação de apreciação e orientação quanto à efetivação de matrículas escolares para o ano letivo de 2027.",
@@ -112940,7 +113045,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8788",
+      "id": "EML-8791",
       "data": "",
       "hora": "13:23",
       "assunto": "Auxílio para matrícula de alunos na SED",
@@ -112952,7 +113057,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8789",
+      "id": "EML-8792",
       "data": "",
       "hora": "13:50",
       "assunto": "erro no cadastro provão paulista",
@@ -112964,7 +113069,7 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8790",
+      "id": "EML-8793",
       "data": "",
       "hora": "14:01",
       "assunto": "Ofício nº 931/2026 - CREAS",
@@ -112976,13 +113081,1573 @@
       "responsavel": "SEGRE"
     },
     {
-      "id": "EML-8791",
+      "id": "EML-8794",
       "data": "",
       "hora": "14:27",
       "assunto": "URGENTE - Ajuste Turmas Técnicas 2027 - Escolas com parceria.",
       "remetente": "MARIO JOAQUIM",
       "interessado": "MARIO JOAQUIM",
       "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8795",
+      "data": "",
+      "hora": "15:10",
+      "assunto": "Alteração módulo SENAI",
+      "remetente": "IVANI",
+      "interessado": "IVANI",
+      "situacao": "ATENDIDO",
+      "dataConclusao": "04/11/2026",
+      "horaConclusao": "16:05",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8796",
+      "data": "",
+      "hora": "15:31",
+      "assunto": "MATRICULA NA 1ª ENSINO MÉDIO - GLINDEMIL VIANA DE JESUS",
+      "remetente": "SEMAT",
+      "interessado": "CT BARUERI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8797",
+      "data": "",
+      "hora": "15:39",
+      "assunto": "Solicitação de Dados da Aluna",
+      "remetente": "DELEGACIA",
+      "interessado": "DELEGACIA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8798",
+      "data": "",
+      "hora": "16:20",
+      "assunto": "Processo SEI -Requerimento de suspensão Temporária",
+      "remetente": "SEVESC",
+      "interessado": "BLOOM",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8799",
+      "data": "",
+      "hora": "16:28",
+      "assunto": "Atendimento do Processo: 015.00577154/2026-64 - 100 alunos",
+      "remetente": "COVESC",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8800",
+      "data": "",
+      "hora": "16:49",
+      "assunto": "situação de matricula - aluno Ezequiel",
+      "remetente": "FENIX",
+      "interessado": "FENIX",
+      "situacao": "ORIENTADO",
+      "dataConclusao": "07/11/2026",
+      "horaConclusao": "19:04",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8801",
+      "data": "",
+      "hora": "17:06",
+      "assunto": "Justificativa para abertura de turma – 2ª Série do Curso Técnico em Logística – 2027",
+      "remetente": "MARIO JOAQUIM",
+      "interessado": "MARIO JOAQUIM",
+      "situacao": "ENCAMINHADO ELVIRA",
+      "dataConclusao": "04/11/2026",
+      "horaConclusao": "18:28",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8802",
+      "data": "",
+      "hora": "17:16",
+      "assunto": "ATA RESULTADO FINAL 2024 e 2025",
+      "remetente": "PROTOCOLO",
+      "interessado": "SÃO JOSÉ",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8803",
+      "data": "",
+      "hora": "18:03",
+      "assunto": "URGENTE - RELATÓRIO DE ENCAMINHAMENTO E SOLICITAÇÃO DE ATENDIMENTO PRIORITÁRIO",
+      "remetente": "OUTRA ESCOLA",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8804",
+      "data": "",
+      "hora": "18:54",
+      "assunto": "Certificado de participação no Projeto “Prontos Pro Mundo” e publicação de concluintes",
+      "remetente": "COVESC",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "ENC. AMANDA PARA CIRCULAR",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "16:08",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8805",
+      "data": "",
+      "hora": "19:01",
+      "assunto": "Cumprimento de prazos e observância dos fluxos de tramitação dos processos SEI",
+      "remetente": "COVESC",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8806",
+      "data": "",
+      "hora": "19:14",
+      "assunto": "Justificativa para abertura de turma – 2ª Série do Curso Técnico em Logística – 2027",
+      "remetente": "ELVIRA",
+      "interessado": "MARIO JOAQUIM",
+      "situacao": "ENCAMINHADO MILENA",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "19:23",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8807",
+      "data": "05/11/2026",
+      "hora": "06:58",
+      "assunto": "Cumprimento de prazos e observância dos fluxos de tramitação dos processos SEI",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8808",
+      "data": "",
+      "hora": "08:26",
+      "assunto": "Justificativa para abertura de turma – 2ª Série do Curso Técnico em Logística – 2027",
+      "remetente": "MILENA",
+      "interessado": "SEGRE ITP",
+      "situacao": "ENCAMINHADO CHRISTIAN",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "10:29",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8809",
+      "data": "",
+      "hora": "08:33",
+      "assunto": "Duplicidade de RA",
+      "remetente": "SME BARUERI",
+      "interessado": "SME BARUERI",
+      "situacao": "ENCAMINHADO CLARA",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "16:09",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8810",
+      "data": "",
+      "hora": "08:35",
+      "assunto": "Aluno inscrito por transferência ainda não atendido",
+      "remetente": "SEMAT",
+      "interessado": "AIR FERREIRA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8811",
+      "data": "",
+      "hora": "08:47",
+      "assunto": "COMUNICADO COMAT - Atendimento dos Estudantes Pendentes de Continuidade – 05/11/2026",
+      "remetente": "COMAT",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8812",
+      "data": "",
+      "hora": "08:53",
+      "assunto": "URGENTE - Ajuste Turmas Técnicas 2027 - Escolas com parceria.",
+      "remetente": "SOLDÉ",
+      "interessado": "SOLDÉ",
+      "situacao": "ORIENTADO",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "16:19",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8813",
+      "data": "",
+      "hora": "09:22",
+      "assunto": "Processo de encaminhamento de aluno para o Conselho Tutelar",
+      "remetente": "YONÁ",
+      "interessado": "CASCUDO",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8814",
+      "data": "",
+      "hora": "09:51",
+      "assunto": "Coleta x Homologação de Turmas",
+      "remetente": "RONNI",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8815",
+      "data": "",
+      "hora": "09:54",
+      "assunto": "URGENTE - Conferência e regularização das matrículas de 2026 na rede particular",
+      "remetente": "APICE",
+      "interessado": "APICE",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8816",
+      "data": "",
+      "hora": "10:04",
+      "assunto": "CONFIRMAÇÃO DE MATRÍCULA 2026 - CENSO ESCOLAR DA EDUCAÇÃO BÁSICA - PRIVADAS",
+      "remetente": "VIRTUDES",
+      "interessado": "VIRTUDES",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8817",
+      "data": "",
+      "hora": "10:20",
+      "assunto": "Contato",
+      "remetente": "SEMAT",
+      "interessado": "MÃE DE ALUNO",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8818",
+      "data": "",
+      "hora": "10:27",
+      "assunto": "Contato",
+      "remetente": "MÃE DE ALUNO",
+      "interessado": "MÃE DE ALUNO",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8819",
+      "data": "",
+      "hora": "10:37",
+      "assunto": "EXCLUSÃO DE RA",
+      "remetente": "SEMAT",
+      "interessado": "CLARA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8820",
+      "data": "",
+      "hora": "10:45",
+      "assunto": "PÉ DE MEIA",
+      "remetente": "SEMAT",
+      "interessado": "JOÃO NASCIF",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8821",
+      "data": "",
+      "hora": "10:52",
+      "assunto": "Liberação de Matricula na SED",
+      "remetente": "SEMAT",
+      "interessado": "INTERNACIONAL",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8822",
+      "data": "",
+      "hora": "11:07",
+      "assunto": "Justificativa para abertura de turma – 2ª Série do Curso Técnico em Logística – 2027",
+      "remetente": "MARIO JOAQUIM",
+      "interessado": "MARIO JOAQUIM",
+      "situacao": "ORIENTADO",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "11:28",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8823",
+      "data": "",
+      "hora": "11:10",
+      "assunto": "Matricula de aluno",
+      "remetente": "SEMAT",
+      "interessado": "COMAT",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8824",
+      "data": "",
+      "hora": "11:12",
+      "assunto": "Assunto: Solicitação de Suporte / Erro em Matrícula – Aluno Vicente Costa Cabral (RA: 000121063071-0/SP)",
+      "remetente": "SEMAT",
+      "interessado": "PENTÁGONO",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8825",
+      "data": "",
+      "hora": "11:14",
+      "assunto": "Atendimento do Processo: 015.00577154/2026-64 - 100 alunos",
+      "remetente": "COVESC",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8826",
+      "data": "",
+      "hora": "11:17",
+      "assunto": "Matricula de aluno",
+      "remetente": "COMAT",
+      "interessado": "SEGRE ITP",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8827",
+      "data": "",
+      "hora": "11:24",
+      "assunto": "Ofício nº 931/2026 - CREAS - Relatório Escolar",
+      "remetente": "SEMAT",
+      "interessado": "THEOTONIO",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8828",
+      "data": "",
+      "hora": "11:34",
+      "assunto": "URGENTE - Ajuste Turmas Técnicas 2027 - Escolas com parceria.",
+      "remetente": "OSWALDO",
+      "interessado": "OSWALDO",
+      "situacao": "ORIENTADO",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "16:20",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8829",
+      "data": "",
+      "hora": "11:49",
+      "assunto": "ENEM - Controle de Atividades e contrações",
+      "remetente": "COTRANS",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8830",
+      "data": "",
+      "hora": "11:51",
+      "assunto": "URGENTE - solicitação de histórico escolar",
+      "remetente": "SEMAT",
+      "interessado": "JOSÉ NEYDE",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8831",
+      "data": "",
+      "hora": "11:53",
+      "assunto": "Assunto: Solicitação de Suporte / Erro em Matrícula – Aluno Vicente Costa Cabral (RA: 000121063071-0/SP)",
+      "remetente": "SEMAT",
+      "interessado": "PENTÁGONO",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8832",
+      "data": "",
+      "hora": "11:56",
+      "assunto": "Encaminhamento de Relatório Técnico – Melany Garcia Arruda",
+      "remetente": "ESCUTA ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "SEMAT EM CÓPIA",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8833",
+      "data": "",
+      "hora": "12:42",
+      "assunto": "SEDUC-SP - Ocorrência Resolvida -  SEE-1583601-F2M4",
+      "remetente": "ATENDIMENTO SED",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8834",
+      "data": "",
+      "hora": "13:07",
+      "assunto": "Lista e Oficio de homologação de aluno na SED.",
+      "remetente": "SEFISC",
+      "interessado": "JOÃO NASCIF",
+      "situacao": "ENCAMINHADO SEAFIN",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "17:06",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8835",
+      "data": "",
+      "hora": "13:46",
+      "assunto": "CONFIRMAÇÃO DE MATRÍCULA 2026 - CENSO ESCOLAR DA EDUCAÇÃO BÁSICA - ESTADUAL",
+      "remetente": "SEMAT",
+      "interessado": "ESCOLAS ESTADUAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8836",
+      "data": "",
+      "hora": "13:48",
+      "assunto": "CONFIRMAÇÃO DE MATRÍCULA 2026 - CENSO ESCOLAR DA EDUCAÇÃO BÁSICA - PRIVADAS",
+      "remetente": "COMAT",
+      "interessado": "ESCOLAS PRIVADAS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8837",
+      "data": "",
+      "hora": "13:52",
+      "assunto": "URGENTE - Conferência e regularização das matrículas de 2026 na rede particular",
+      "remetente": "APICE",
+      "interessado": "APICE",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8838",
+      "data": "",
+      "hora": "13:53",
+      "assunto": "CONFIRMAÇÃO DE MATRÍCULA 2026 - CENSO ESCOLAR DA EDUCAÇÃO BÁSICA - MUNICIPAIS",
+      "remetente": "SEMAT",
+      "interessado": "SME BARUERI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8839",
+      "data": "",
+      "hora": "13:55",
+      "assunto": "SED - Unificação de RA: LIZ TOMAZINI DARAB - DN 09/11/2020",
+      "remetente": "SME SANTANA",
+      "interessado": "SME SANTANA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8840",
+      "data": "",
+      "hora": "14:21",
+      "assunto": "Relatório de Alunos Vinculados em Termo de Colaboração",
+      "remetente": "FELIPE",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8841",
+      "data": "",
+      "hora": "15:04",
+      "assunto": "URGENTE - Turmas Técnicas 2027",
+      "remetente": "JOSEPHA",
+      "interessado": "JOSEPHA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8842",
+      "data": "",
+      "hora": "15:07",
+      "assunto": "Regimento escolar",
+      "remetente": "PROTOCOLO",
+      "interessado": "FENIX",
+      "situacao": "RESPONDIDO",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "16:58",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8843",
+      "data": "",
+      "hora": "15:07",
+      "assunto": "ATA RESULTADO FINAL 2024 e 2025",
+      "remetente": "PROTOCOLO",
+      "interessado": "SÃO JOSÉ",
+      "situacao": "ENCAMINHADO SEVESC",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "16:59",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8844",
+      "data": "",
+      "hora": "15:29",
+      "assunto": "Contato",
+      "remetente": "SEMAT",
+      "interessado": "MÃE DE ALUNO",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8845",
+      "data": "",
+      "hora": "15:48",
+      "assunto": "SED - Unificação de RA: LIZ TOMAZINI DARAB - DN 09/11/2020",
+      "remetente": "SEMAT",
+      "interessado": "CLARA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8846",
+      "data": "",
+      "hora": "15:55",
+      "assunto": "CHAMADO PARA A SEDUC",
+      "remetente": "SME PIRAPORA",
+      "interessado": "SME PIRAPORA",
+      "situacao": "ENCAMINHADO SEMAT",
+      "dataConclusao": "07/11/2026",
+      "horaConclusao": "19:26",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8847",
+      "data": "",
+      "hora": "15:57",
+      "assunto": "COMUNICADO CODES, de 04 de novembro de 2026.",
+      "remetente": "RONNI",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8848",
+      "data": "",
+      "hora": "15:58",
+      "assunto": "EXCLUSÃO DE RA",
+      "remetente": "CLARA",
+      "interessado": "SME PIRAPORA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8849",
+      "data": "",
+      "hora": "16:08",
+      "assunto": "SED - Unificação de RA: LIZ TOMAZINI DARAB - DN 09/11/2020",
+      "remetente": "CLARA",
+      "interessado": "SME SANTANA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8850",
+      "data": "",
+      "hora": "16:18",
+      "assunto": "Duplicidade de RA",
+      "remetente": "CLARA",
+      "interessado": "SME BARUERI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8851",
+      "data": "",
+      "hora": "16:25",
+      "assunto": "URGENTE - Ajuste Turmas Técnicas 2027 - Escolas com parceria.",
+      "remetente": "SOLDÉ",
+      "interessado": "SOLDÉ",
+      "situacao": "ORIENTADA",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "17:00",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8852",
+      "data": "",
+      "hora": "16:40",
+      "assunto": "Pedido de Homologação",
+      "remetente": "IGNÊS",
+      "interessado": "IGNÊS",
+      "situacao": "ENCAMINHADO SEAFIN",
+      "dataConclusao": "05/11/2026",
+      "horaConclusao": "17:03",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8853",
+      "data": "",
+      "hora": "17:03",
+      "assunto": "Disponibilização do Sistema de Coleta de Classes e Matrículas – Ano Letivo de 2027",
+      "remetente": "SEMAT",
+      "interessado": "ESCOLAS PRIVADAS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8854",
+      "data": "",
+      "hora": "17:32",
+      "assunto": "Ajuste de coleta de classe 2027",
+      "remetente": "PAYOL",
+      "interessado": "PAYOL",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8855",
+      "data": "",
+      "hora": "18:00",
+      "assunto": "Troca de salas",
+      "remetente": "DÉBORA",
+      "interessado": "SEGRE ITP",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8856",
+      "data": "06/11/2026",
+      "hora": "06:45",
+      "assunto": "Análise de Frequência / Sistema Pé-de-Meia - Aluna Natácha da Silva Xavier Costa",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "ENCAMINHADO SEMAT",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "07:26",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8857",
+      "data": "",
+      "hora": "06:46",
+      "assunto": "Historico Escolar",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "SEVESC EM CÓPIA",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8858",
+      "data": "",
+      "hora": "08:44",
+      "assunto": "Colocar na Circular",
+      "remetente": "SEMAT",
+      "interessado": "AMANDA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8859",
+      "data": "",
+      "hora": "08:53",
+      "assunto": "CERTIDÃO DE NASCIMENTO - MIRIÃ",
+      "remetente": "SEMAT",
+      "interessado": "SME BARUERI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8860",
+      "data": "",
+      "hora": "08:59",
+      "assunto": "COMUNICADO COMAT - Atendimento dos Estudantes Pendentes de Continuidade – 06/11/2026",
+      "remetente": "COMAT",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8861",
+      "data": "",
+      "hora": "09:36",
+      "assunto": "COMUNICADO COMAT - Relatório de Escolha com IAE (Índice de Alocação do Estudante).",
+      "remetente": "COMAT",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8862",
+      "data": "",
+      "hora": "10:14",
+      "assunto": "Informação.",
+      "remetente": "ELIZA",
+      "interessado": "ELIZA",
+      "situacao": "ENCAMINHADO SEVESC",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "13:42",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8863",
+      "data": "",
+      "hora": "10:16",
+      "assunto": "COMUNICADO CODESC, de 04 de novembro de 2026.",
+      "remetente": "CODESC",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8864",
+      "data": "",
+      "hora": "11:01",
+      "assunto": "Colocar na Circular - CONFIRMAÇÃO DE MATRÍCULA 2026 - CENSO ESCOLAR DA EDUCAÇÃO BÁSICA - ESTADUAL",
+      "remetente": "SEMAT",
+      "interessado": "AMANDA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8865",
+      "data": "",
+      "hora": "11:25",
+      "assunto": "Boletim Semanal - Subsecretarias - Ano 2026 - Nº 44 – 06 de novembro de 2026",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8866",
+      "data": "",
+      "hora": "12:36",
+      "assunto": "Homologação do Regimento Escolar 2027",
+      "remetente": "CHÁCARA",
+      "interessado": "CHÁCARA",
+      "situacao": "SEVESC JÁ EM CÓPIA",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8867",
+      "data": "",
+      "hora": "12:49",
+      "assunto": "Levantamento Regimento",
+      "remetente": "MILENA",
+      "interessado": "MILENA",
+      "situacao": "RESPONDIDO",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "15:44",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8868",
+      "data": "",
+      "hora": "13:27",
+      "assunto": "Assunto para a Circular da Semana",
+      "remetente": "AMANDA",
+      "interessado": "URE ITAPEVI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8869",
+      "data": "",
+      "hora": "13:51",
+      "assunto": "Ofício 520/2026 - PAA.PP 0312.0000295/2026",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "RESPONDIDO",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "13:52",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8870",
+      "data": "",
+      "hora": "13:56",
+      "assunto": "Pedido de Homologação",
+      "remetente": "IGNÊS",
+      "interessado": "IGNÊS",
+      "situacao": "ENCAMINHADO SEAFIN",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "13:57",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8871",
+      "data": "",
+      "hora": "13:57",
+      "assunto": "Ofício 520/2026 - PAA.PP 0312.0000295/2026",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "ENCAMINHADO SEMAT",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "13:58",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8872",
+      "data": "",
+      "hora": "14:02",
+      "assunto": "GDAE EM",
+      "remetente": "NESTOR",
+      "interessado": "NESTOR",
+      "situacao": "ATENDIDO",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "14:34",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8873",
+      "data": "",
+      "hora": "14:26",
+      "assunto": "SEGRE Protocolo 2026110510442689 - Camila",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "RESPONDIDO",
+      "dataConclusao": "07/11/2026",
+      "horaConclusao": "19:23",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8874",
+      "data": "",
+      "hora": "15:08",
+      "assunto": "Disponibilização do Sistema de Coleta de Classes e Matrículas – Ano Letivo de 2027",
+      "remetente": "SEMAT",
+      "interessado": "SAGRADA FAMILIA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8875",
+      "data": "",
+      "hora": "15:15",
+      "assunto": "URGENTE - Atendimento do Processo: 015.00577154/2026-64 - SME Barueri",
+      "remetente": "SME BARUERI",
+      "interessado": "SME BARUERI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8876",
+      "data": "",
+      "hora": "15:18",
+      "assunto": "Circular n°44/2026",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8877",
+      "data": "",
+      "hora": "16:09",
+      "assunto": "Solicitação de vaga",
+      "remetente": "MARIA CRISTINA",
+      "interessado": "MARIA CRISTINA",
+      "situacao": "ENCAMINHADO SEMAT",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "16:14",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8878",
+      "data": "",
+      "hora": "16:12",
+      "assunto": "Fw: Escola Chácara- Carta 23/2026- Não abertura do ensino médio",
+      "remetente": "PROTOCOLO",
+      "interessado": "CHÁCARA",
+      "situacao": "ENCAMINHADO",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "16:21",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8879",
+      "data": "",
+      "hora": "16:19",
+      "assunto": "CONFIRMAÇÃO DE MATRÍCULA 2026 - CENSO ESCOLAR DA EDUCAÇÃO BÁSICA - PRIVADAS",
+      "remetente": "SEMAT",
+      "interessado": "REDE DECISÃO",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8880",
+      "data": "",
+      "hora": "16:20",
+      "assunto": "Disponibilização do Sistema de Coleta de Classes e Matrículas – Ano Letivo de 2027",
+      "remetente": "SEMAT",
+      "interessado": "REDE DECISÃO",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8881",
+      "data": "",
+      "hora": "16:31",
+      "assunto": "COMUNICADO CODESC, de 06 de novembro de 2026.",
+      "remetente": "CODESC",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8882",
+      "data": "",
+      "hora": "16:31",
+      "assunto": "Lista para publicação",
+      "remetente": "DANIELA",
+      "interessado": "SEGRE ITP",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8883",
+      "data": "",
+      "hora": "16:37",
+      "assunto": "Alteração módulo SENAI",
+      "remetente": "IVANI",
+      "interessado": "IVANI",
+      "situacao": "ATENDIDO",
+      "dataConclusao": "06/11/2026",
+      "horaConclusao": "16:53",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8884",
+      "data": "",
+      "hora": "16:41",
+      "assunto": "Solicitação de vaga",
+      "remetente": "SEMAT",
+      "interessado": "MÃE DE ALUNO",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8885",
+      "data": "07/11/2026",
+      "hora": "08:34",
+      "assunto": "Alteração módulo SENAI",
+      "remetente": "IVANI",
+      "interessado": "IVANI",
+      "situacao": "ORIENTADA",
+      "dataConclusao": "09/11/2026",
+      "horaConclusao": "08:32",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8886",
+      "data": "08/11/2026",
+      "hora": "17:54",
+      "assunto": "Encaminhamento de demanda – Transferência escolar",
+      "remetente": "CT JANDIRA",
+      "interessado": "CT JANDIRA",
+      "situacao": "ENCAMINHADO SEMAT",
+      "dataConclusao": "09/11/2026",
+      "horaConclusao": "08:32",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8887",
+      "data": "09/11/2026",
+      "hora": "08:23",
+      "assunto": "Alteração do responsável pelo EDUCACENSO",
+      "remetente": "BRIQUET",
+      "interessado": "BRIQUET",
+      "situacao": "ATENDIDO",
+      "dataConclusao": "09/11/2026",
+      "horaConclusao": "09:25",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8888",
+      "data": "",
+      "hora": "08:50",
+      "assunto": "RECLAMAÇÃO FORMAL CONTRA A INSTITUIÇÃO DE ENSINO LAIONCE – AUSÊNCIA DE PUBLICAÇÃO DE CONCLUSÃO DE CURSO TÉCNICO NA SED/GDAE – SOLICITAÇÃO DE INTERVENÇÃO DA SUPERVISÃO DE ENSINO E PROVIDÊNCIAS URGENTES",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "RESPONDIDO",
+      "dataConclusao": "09/11/2026",
+      "horaConclusao": "08:58",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8889",
+      "data": "",
+      "hora": "09:14",
+      "assunto": "Alteração módulo SENAI",
+      "remetente": "IVANI",
+      "interessado": "IVANI",
+      "situacao": "ORIENTADA",
+      "dataConclusao": "09/11/2026",
+      "horaConclusao": "09:26",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8890",
+      "data": "",
+      "hora": "09:25",
+      "assunto": "Consulta ao sistema GDAE",
+      "remetente": "CASTANHEIRAS",
+      "interessado": "CASTANHEIRAS",
+      "situacao": "ORIENTADA",
+      "dataConclusao": "09/11/2026",
+      "horaConclusao": "09:27",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8891",
+      "data": "",
+      "hora": "09:42",
+      "assunto": "Consulta ao sistema GDAE",
+      "remetente": "CASTANHEIRAS",
+      "interessado": "CASTANHEIRAS",
+      "situacao": "ORIENTADA",
+      "dataConclusao": "09/11/2026",
+      "horaConclusao": "14:26",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8892",
+      "data": "",
+      "hora": "09:51",
+      "assunto": "Escola Chácara- Carta 23/2026- Não abertura do ensino médio",
+      "remetente": "MAGALI",
+      "interessado": "PROTOCOLO",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8893",
+      "data": "",
+      "hora": "09:57",
+      "assunto": "Cancelamento de Inscrição.",
+      "remetente": "ELIZA",
+      "interessado": "ELIZA",
+      "situacao": "ENCAMINHADO CLARA",
+      "dataConclusao": "09/11/2026",
+      "horaConclusao": "13:54",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8894",
+      "data": "",
+      "hora": "10:08",
+      "assunto": "Planilha Conselho Tutelar",
+      "remetente": "SEMAT",
+      "interessado": "SEGRE ITP",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8895",
+      "data": "",
+      "hora": "10:39",
+      "assunto": "Planilha Conselho Tutelar",
+      "remetente": "SEMAT",
+      "interessado": "SEGRE ITP",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8896",
+      "data": "",
+      "hora": "11:01",
+      "assunto": "Pedido de Homologação",
+      "remetente": "IGNÊS",
+      "interessado": "IGNÊS",
+      "situacao": "ORIENTADA",
+      "dataConclusao": "09/11/2026",
+      "horaConclusao": "14:27",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8897",
+      "data": "",
+      "hora": "11:39",
+      "assunto": "ESCOLAS PARTICULARES QUANTIDADE DE ALUNOS PRE I E PRE II",
+      "remetente": "BIANCA",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8898",
+      "data": "",
+      "hora": "11:54",
+      "assunto": "Planilha Conselho Tutelar",
+      "remetente": "SEMAT",
+      "interessado": "SEGRE ITP",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8899",
+      "data": "",
+      "hora": "12:02",
+      "assunto": "TERMINALIDADE ESPECÍFICA - BÁRBARA DA SILVA GABRIEL - RA: 000114280052-0",
+      "remetente": "PAYOL",
+      "interessado": "PAYOL",
+      "situacao": "ENCAMINHADO CARLOS",
+      "dataConclusao": "09/11/2026",
+      "horaConclusao": "14:29",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8900",
+      "data": "",
+      "hora": "13:16",
+      "assunto": "Abertura de processo referente à solicitação de suspensão temporária da oferta autorizada do Ensino Médio",
+      "remetente": "PROTOCOLO",
+      "interessado": "CHÁCARA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8901",
+      "data": "",
+      "hora": "13:24",
+      "assunto": "Atendimento do Processo: 015.00577154/2026-64 - 100 alunos",
+      "remetente": "DIOGO COVESC",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8902",
+      "data": "",
+      "hora": "14:00",
+      "assunto": "GESTOR COM VINCULO A MAIS NO CENSO INEP",
+      "remetente": "SME PIRAPORA",
+      "interessado": "SME PIRAPORA",
+      "situacao": "ENCAMINHADO SEMAT",
+      "dataConclusao": "09/11/2026",
+      "horaConclusao": "14:31",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8903",
+      "data": "",
+      "hora": "14:08",
+      "assunto": "Cancelamento de Inscrição.",
+      "remetente": "ELIZA",
+      "interessado": "ELIZA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8904",
+      "data": "",
+      "hora": "14:33",
+      "assunto": "Deliberação CSMP - NF 1599.0007558/2026",
+      "remetente": "MP ITAPEVI",
+      "interessado": "MP ITAPEVI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8905",
+      "data": "",
+      "hora": "14:35",
+      "assunto": "CENSO ESCOLAR 2026 - CONFIRMAÇÃO DE MATRICULA - RELAÇÃO DE ESCOLAS COM MATRICULAS PARA PENDENTES DE CONFIRMAÇÃO",
+      "remetente": "FELIPE",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8906",
+      "data": "",
+      "hora": "15:09",
+      "assunto": "Solicitação de dados cadastrais e escolares – IP nº 2425667/2025",
+      "remetente": "SME ITAPEVI",
+      "interessado": "SME ITAPEVI",
+      "situacao": "SEMAT EM CÓPIA",
+      "dataConclusao": "10/11/2026",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8907",
+      "data": "",
+      "hora": "15:15",
+      "assunto": "MUDANÇA DE DIREÇÃO - Ofício 09/2026",
+      "remetente": "VALÉRIA",
+      "interessado": "SABIDO",
+      "situacao": "RESPONDIDO",
+      "dataConclusao": "10/11/2026",
+      "horaConclusao": "10:02",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8908",
+      "data": "",
+      "hora": "15:22",
+      "assunto": "Análise de Frequência / Sistema Pé-de-Meia - Aluna Natácha da Silva Xavier Costa",
+      "remetente": "SEMAT",
+      "interessado": "MARIA SOARES",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8909",
+      "data": "",
+      "hora": "15:42",
+      "assunto": "Solicitação de Exclusão de Matrícula – Alice Damasceno Oliveira – RA 123618475",
+      "remetente": "SEMAT",
+      "interessado": "SME BARUERI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8910",
+      "data": "",
+      "hora": "15:56",
+      "assunto": "Orientação para atualização da conta GOV.BR",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8911",
+      "data": "",
+      "hora": "15:58",
+      "assunto": "Solicitação de localização e emissão de histórico escolar – Jandira/SP",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "ENCAMINHADO ESCOLA",
+      "dataConclusao": "10/11/2026",
+      "horaConclusao": "09:38",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8912",
+      "data": "",
+      "hora": "16:00",
+      "assunto": "INFORMAÇÕES SOBRE ALTERAÇÃO DE FISCALIZAÇÃO ADMINISTRATIVA CONTRATUAL - COGESPA",
+      "remetente": "URE ITAPEVI",
+      "interessado": "URE ITAPEVI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8913",
+      "data": "",
+      "hora": "16:17",
+      "assunto": "Consulta ao sistema GDAE",
+      "remetente": "CASTANHEIRAS",
+      "interessado": "CASTANHEIRAS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8914",
+      "data": "",
+      "hora": "16:34",
+      "assunto": "Levantamento de imóvel para possível locação - URE ITAPEVI",
+      "remetente": "SEOM",
+      "interessado": "URE ITAPEVI",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8915",
+      "data": "",
+      "hora": "16:37",
+      "assunto": "Despacho/Ofício 2474/2026-PJI. PANI 0296.0000810/2025 - Davi Miranda dos Santos.",
+      "remetente": "MP ITAPEVI",
+      "interessado": "MP ITAPEVI",
+      "situacao": "SEMAT EM CÓPIA",
+      "dataConclusao": "10/11/2026",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8916",
+      "data": "",
+      "hora": "18:12",
+      "assunto": "Pedido de Homologação",
+      "remetente": "IGNÊS",
+      "interessado": "IGNÊS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8917",
+      "data": "10/11/2026",
+      "hora": "07:22",
+      "assunto": "Solicitação de regularização e publicação no cadastro de concluintes – Ensino Médio",
+      "remetente": "URE ITAPEVI",
+      "interessado": "ALUNO",
+      "situacao": "ORIENTADA",
+      "dataConclusao": "10/11/2026",
+      "horaConclusao": "09:43",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8918",
+      "data": "",
+      "hora": "08:21",
+      "assunto": "COMUNICADO CODESC, de 10 de novembro de 2026.",
+      "remetente": "CODESC",
+      "interessado": "UNIDADES REGIONAIS",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8919",
+      "data": "",
+      "hora": "09:08",
+      "assunto": "Ofício dados das Escolas Estaduais e Privadas Jandira",
+      "remetente": "SEMAT",
+      "interessado": "BIANCA",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8920",
+      "data": "",
+      "hora": "09:18",
+      "assunto": "Consulta ao sistema GDAE",
+      "remetente": "CASTANHEIRAS",
+      "interessado": "CASTANHEIRAS",
+      "situacao": "ORIENTADA",
+      "dataConclusao": "10/11/2026",
+      "horaConclusao": "09:45",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8921",
+      "data": "",
+      "hora": "09:57",
+      "assunto": "Solicitação de localização e emissão de histórico escolar – Jandira/SP",
+      "remetente": "DOLORES",
+      "interessado": "DOLORES",
+      "situacao": "REGISTRADO",
+      "dataConclusao": "",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8922",
+      "data": "",
+      "hora": "10:02",
+      "assunto": "Consulta ao sistema GDAE",
+      "remetente": "CASTANHEIRAS",
+      "interessado": "CASTANHEIRAS",
+      "situacao": "ORIENTADA POR TELEFONE",
+      "dataConclusao": "10/11/2026",
+      "horaConclusao": "",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8923",
+      "data": "",
+      "hora": "10:04",
+      "assunto": "VAGA - AMANDA DE PAULA PINA",
+      "remetente": "MARIA SOARES",
+      "interessado": "MARIA SOARES",
+      "situacao": "ENCAMINHADO SEMAT",
+      "dataConclusao": "10/11/2026",
+      "horaConclusao": "10:07",
+      "responsavel": "SEGRE"
+    },
+    {
+      "id": "EML-8924",
+      "data": "",
+      "hora": "10:08",
+      "assunto": "Consulta ao sistema GDAE",
+      "remetente": "CASTANHEIRAS",
+      "interessado": "CASTANHEIRAS",
+      "situacao": "ORIENTADA POR TELEFONE",
       "dataConclusao": "",
       "horaConclusao": "",
       "responsavel": "SEGRE"
