@@ -14469,7 +14469,7 @@ function imprimirAgendaCarro() {
                     SEINTEC • DIRETORIA DE ENSINO • ITAPEVI
                   </div>
                   <h3 id="seintec-inv-banner-title" style="margin: 0; font-size: 18px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px;">
-                    Gestão Executiva do Parque de Hardware & Conectividade
+                    Equipamentos de Hardware & Conectividade
                   </h3>
                   <p id="seintec-inv-banner-subtitle" style="margin: 3px 0 0; font-size: 12px; color: #cbd5e1; font-weight: 500;">
                     Inventário Oficial Consolidado das 60 Escolas (15.973 equipamentos)
@@ -32672,7 +32672,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       const bannerEscolas = document.getElementById('seintec-inv-escolas-count');
 
       if (bannerIcon) bannerIcon.innerText = base.icone || '💻';
-      if (bannerTitle) bannerTitle.innerText = `Gestão Executiva: ${base.titulo}`;
+      if (bannerTitle) bannerTitle.innerText = base.titulo;
 
       const uptimePct = total > 0 ? ((disponiveis / total) * 100).toFixed(1).replace('.', ',') : '0,0';
       if (bannerUptime) bannerUptime.innerText = `${uptimePct}%`;
