@@ -5003,8 +5003,76 @@ function excluirSolicitacaoCarro(idRegistro) {
 /* GERAÇÃO E IMPRESSÃO DE PDF: MODELO OFICIAL 30 (IMESP)          */
 /* ============================================================== */
 
-function abrirModalPdfControleTrafego(idRegistro) {
-  const reg = (CARRO_DATA.registros || []).find(r => r.id === idRegistro) || (CARRO_DATA.registros && CARRO_DATA.registros[0]);
+function popularSeletorAgendamentosModelo30(idSelecionado, termoFiltro) {
+  const sel = document.getElementById('modelo30-select-agendamento');
+  if (!sel) return null;
+  const termo = String(termoFiltro || '').toLowerCase().trim();
+  const registros = [...(CARRO_DATA.registros || [])]
+    .filter(function(r) { return r.status !== 'Cancelado'; })
+    .sort(function(a, b) {
+      var cmp = String(b.data || '').localeCompare(String(a.data || ''));
+      if (cmp !== 0) return cmp;
+      return String(a.horarioSaida || '').localeCompare(String(b.horarioSaida || ''));
+    });
+
+  const filtrados = registros.filter(function(r) {
+    if (!termo) return true;
+    return (r.solicitante && r.solicitante.toLowerCase().includes(termo)) ||
+      (r.unidade && r.unidade.toLowerCase().includes(termo)) ||
+      (r.destino && r.destino.toLowerCase().includes(termo)) ||
+      (r.controleTrafegoNum && r.controleTrafegoNum.toLowerCase().includes(termo)) ||
+      (r.placa && r.placa.toLowerCase().includes(termo)) ||
+      (r.data && r.data.includes(termo));
+  });
+
+  if (filtrados.length === 0) {
+    sel.innerHTML = '<option value="">Nenhum agendamento correspondente ao filtro</option>';
+    return null;
+  }
+
+  sel.innerHTML = filtrados.map(function(r) {
+    var nome = r.solicitante || 'Solicitante';
+    var setor = r.unidade || r.setor || 'URE - ITP';
+    var dataIda = formatarDataCurtaBr(r.data);
+    var dataRet = (r.dataRetorno && r.dataRetorno > r.data) ? ('→' + formatarDataCurtaBr(r.dataRetorno)) : '';
+    var hora = (r.horarioSaida || '08:00') + '–' + (r.horarioRetorno || '17:00');
+    var placa = r.placa || 'Frota';
+    var dest = r.destino || '';
+    var label = '👤 ' + nome + ' (' + setor + ') • 📅 ' + dataIda + dataRet + ' (' + hora + ') • 🚗 ' + placa + ' • ' + dest;
+    return '<option value="' + escaparHtmlSimples(r.id) + '">' + escaparHtmlSimples(label) + '</option>';
+  }).join('');
+
+  var existeAlvo = idSelecionado && filtrados.some(function(r) { return r.id === idSelecionado; });
+  var idFinal = existeAlvo ? idSelecionado : filtrados[0].id;
+  sel.value = idFinal;
+  return idFinal;
+}
+
+function filtrarSeletorModelo30(termo) {
+  const sel = document.getElementById('modelo30-select-agendamento');
+  const atualId = sel ? sel.value : null;
+  const novoId = popularSeletorAgendamentosModelo30(atualId, termo);
+  if (novoId) {
+    abrirModalPdfControleTrafego(novoId, true);
+  }
+}
+
+function trocarAgendamentoModelo30(idRegistro) {
+  if (idRegistro) {
+    abrirModalPdfControleTrafego(idRegistro, true);
+  }
+}
+
+function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
+  if (!manterFiltro) {
+    const inFiltro = document.getElementById('modelo30-filtro-solicitante');
+    if (inFiltro) inFiltro.value = '';
+  }
+  const termoAtual = (manterFiltro && document.getElementById('modelo30-filtro-solicitante'))
+    ? document.getElementById('modelo30-filtro-solicitante').value
+    : '';
+  const idResolvido = popularSeletorAgendamentosModelo30(idRegistro, termoAtual) || idRegistro;
+  const reg = (CARRO_DATA.registros || []).find(r => r.id === idResolvido) || (CARRO_DATA.registros && CARRO_DATA.registros[0]);
   if (!reg) {
     abrirModalAvisoCarroUX({
       tipo: 'aviso',
@@ -5463,8 +5531,9 @@ function imprimirDocumentoControleTrafego() {
 }
 
 function imprimirAgendaCarro() {
-  const regsDoDia = (CARRO_DATA.registros || []).filter(function(r) { return registroAtivoNoPeriodoCarro(r, dataAtivaCarro, dataAtivaCarro); });
-  const reg = regsDoDia.length > 0 ? regsDoDia[0] : (CARRO_DATA.registros && CARRO_DATA.registros[0]);
+  const regsDoDia = (CARRO_DATA.registros || []).filter(function(r) { return r.status !== 'Cancelado' && registroAtivoNoPeriodoCarro(r, dataAtivaCarro, dataAtivaCarro); });
+  const regsGeral = (CARRO_DATA.registros || []).filter(function(r) { return r.status !== 'Cancelado'; });
+  const reg = regsDoDia.length > 0 ? regsDoDia[0] : (regsGeral.length > 0 ? regsGeral[0] : null);
   if (!reg) {
     abrirModalAvisoCarroUX({
       tipo: 'aviso',
@@ -5475,7 +5544,11 @@ function imprimirAgendaCarro() {
     });
     return;
   }
-  abrirModalPdfControleTrafego(reg.id);
+  abrirModalPdfControleTrafego(reg.id, false);
+  setTimeout(function() {
+    var sel = document.getElementById('modelo30-select-agendamento');
+    if (sel && typeof sel.focus === 'function') sel.focus();
+  }, 60);
 }
 
 
@@ -5528,6 +5601,9 @@ function imprimirAgendaCarro() {
     window.abrirModalAvisoCarroUX = abrirModalAvisoCarroUX;
     window.fecharModalAvisoCarroUX = fecharModalAvisoCarroUX;
     window.executarAcaoPrimariaAvisoCarroUX = executarAcaoPrimariaAvisoCarroUX;
+    window.popularSeletorAgendamentosModelo30 = popularSeletorAgendamentosModelo30;
+    window.filtrarSeletorModelo30 = filtrarSeletorModelo30;
+    window.trocarAgendamentoModelo30 = trocarAgendamentoModelo30;
     window.inicializarConfiguracaoCalendarioCarro = inicializarConfiguracaoCalendarioCarro;
 
 
@@ -12633,6 +12709,7 @@ function imprimirAgendaCarro() {
       margin: 0 !important;
     }
 
+    #modelo30-seletor-bar,
     #modal-pdf-controle-trafego > div > div:first-child,
     #modal-pdf-controle-trafego > div > div:last-child,
     #modal-pdf-controle-trafego button,
@@ -46894,6 +46971,16 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           </button>
           
         </div>
+      </div>
+
+      <!-- BARRA DE SELEÇÃO AO VIVO DO SOLICITANTE / VIAGEM -->
+      <div id="modelo30-seletor-bar" style="background: #0f172a; padding: 0.72rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.14); display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+        <span style="font-size: 0.78rem; font-weight: 800; color: #fde047; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.35rem;">
+          <span>👤</span>
+          <span>Solicitante / Viagem:</span>
+        </span>
+        <input type="text" id="modelo30-filtro-solicitante" placeholder="🔍 Filtrar por nome..." oninput="filtrarSeletorModelo30(this.value)" style="background: #1e293b; color: #ffffff; border: 1px solid #475569; border-radius: 8px; padding: 0.45rem 0.75rem; font-size: 0.82rem; width: 190px; outline: none;">
+        <select id="modelo30-select-agendamento" onchange="trocarAgendamentoModelo30(this.value)" style="flex: 1; min-width: 260px; background: #ffffff; color: #0f172a; border: 1.5px solid #f09b0c; border-radius: 8px; padding: 0.48rem 0.75rem; font-size: 0.84rem; font-weight: 700; cursor: pointer; outline: none;"></select>
       </div>
 
       <!-- CORPO COM AS FOLHAS A4 (FRENTE E VERSO) -->
