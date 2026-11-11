@@ -5023,9 +5023,12 @@ function abrirModalPdfControleTrafego(idRegistro) {
   const dataRetExtenso = formatarDataCompletaBr(reg.dataRetorno || reg.data);
   const dataPartidaAutenticada = dataExtenso + ' ' + (reg.horarioSaida || '08:00');
   const dataRetornoAutenticada = dataRetExtenso + ' ' + (reg.horarioRetorno || '17:00');
+  const horaSaidaSplit = (reg.horarioSaida || '08:00').split(':');
+  const horaRetornoSplit = (reg.horarioRetorno || '17:00').split(':');
   const difKm = reg.kmDiferenca !== undefined ? reg.kmDiferenca : Math.max(0, (reg.kmRetorno || 0) - (reg.kmPartida || 0));
   const diffMinTotal = Math.max(60, dataHoraParaEpochMin(reg.dataRetorno || reg.data, reg.horarioRetorno || '17:00') - dataHoraParaEpochMin(reg.data, reg.horarioSaida || '08:00'));
   const tempoUsoHoras = Math.floor(diffMinTotal / 60);
+  const tempoUsoMinutos = String(diffMinTotal % 60).padStart(2, '0');
 
   const isSpin = (reg.veiculo && reg.veiculo.indexOf('Spin') !== -1) || (reg.placa && reg.placa.indexOf('TLH') !== -1);
   const placa = isSpin ? 'TLH 1B63' : 'FZG 0H22';
@@ -5105,11 +5108,11 @@ function abrirModalPdfControleTrafego(idRegistro) {
         <div class="m30-box-content m30-border-bottom">
           <div class="m30-line">
             <span class="m30-label">CONDUTOR:</span>
-            <span class="m30-val-underline" style="flex: 1;">${reg.motorista || 'Carlos Alberto da Silva'}</span>
+            <span class="m30-val-underline" style="flex: 1;">${reg.motorista || 'Steve Rogers'}</span>
           </div>
           <div class="m30-line" style="margin-top: 6px;">
             <span class="m30-label">APRESENTAR-SE EM:</span>
-            <span class="m30-val-underline" style="flex: 2;">${reg.apresentarEm || 'Sede URE Itapevi - Rua Dimarães Antônio Sandei, 75'}</span>
+            <span class="m30-val-underline" style="flex: 2;">${reg.apresentarEm || 'URE - ITP - Rua Dimarães Antônio Sandei, 75'}</span>
             <span class="m30-label" style="margin-left: 10px;">ÀS:</span>
             <span class="m30-val-underline" style="width: 45px; text-align: center;">${horaSaidaSplit[0] || '08'}</span>
             <span class="m30-label">HORAS E</span>
@@ -5118,13 +5121,13 @@ function abrirModalPdfControleTrafego(idRegistro) {
           </div>
           <div class="m30-line" style="margin-top: 6px;">
             <span class="m30-label">AO SR.:</span>
-            <span class="m30-val-underline" style="flex: 1;">${reg.solicitante || 'Dirigente Regional de Ensino'}</span>
+            <span class="m30-val-underline" style="flex: 1;">${reg.solicitante || 'Natasha Romanoff'}</span>
           </div>
           <div class="m30-line" style="margin-top: 6px;">
             <span class="m30-label">FUNÇÃO:</span>
-            <span class="m30-val-underline" style="flex: 1;">${reg.funcao || 'Dirigente Regional de Ensino'}</span>
+            <span class="m30-val-underline" style="flex: 1;">${reg.funcao || 'Responsável Técnico'}</span>
             <span class="m30-label" style="margin-left: 10px;">UNIDADE:</span>
-            <span class="m30-val-underline" style="flex: 1;">${reg.unidade || 'Gabinete / URE Itapevi'}</span>
+            <span class="m30-val-underline" style="flex: 1;">${reg.unidade || 'URE - ITP'}</span>
           </div>
         </div>
 
@@ -5256,7 +5259,7 @@ function abrirModalPdfControleTrafego(idRegistro) {
 
           <div class="m30-line" style="margin-bottom: 8px;">
             <span class="m30-label">LOCAL:</span>
-            <span class="m30-val-underline" style="flex: 1;">${reg.destino || 'Sede URE Itapevi'}</span>
+            <span class="m30-val-underline" style="flex: 1;">${reg.destino || 'URE - ITP'}</span>
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
@@ -5376,7 +5379,7 @@ function abrirModalPdfControleTrafego(idRegistro) {
             <span class="m30-label" style="margin-left: 20px;">Tempo de utilização:</span>
             <span class="m30-val-underline" style="width: 45px; text-align: center; font-weight: 800;">${tempoUsoHoras}</span>
             <span class="m30-label">horas e</span>
-            <span class="m30-val-underline" style="width: 45px; text-align: center; font-weight: 800;">00</span>
+            <span class="m30-val-underline" style="width: 45px; text-align: center; font-weight: 800;">${tempoUsoMinutos}</span>
             <span class="m30-label">minutos.</span>
           </div>
 
@@ -5407,7 +5410,13 @@ function fecharModalPdfControleTrafego() {
 function imprimirDocumentoControleTrafego() {
   const container = document.getElementById('documento-impressao-modelo30');
   if (!container || !container.innerHTML.trim()) {
-    alert('Documento não preparado para impressão.');
+    abrirModalAvisoCarroUX({
+      tipo: 'aviso',
+      icone: '📄',
+      eyebrow: 'IMPRESSÃO INDISPONÍVEL',
+      titulo: 'Documento não preparado',
+      html: '<p style="margin: 0; color: #334155; font-size: 0.9rem;">Não há conteúdo pronto para impressão neste momento.</p>'
+    });
     return;
   }
 
@@ -5454,10 +5463,16 @@ function imprimirDocumentoControleTrafego() {
 }
 
 function imprimirAgendaCarro() {
-  const regsDoDia = (CARRO_DATA.registros || []).filter(function(r) { return r.data === dataAtivaCarro; });
+  const regsDoDia = (CARRO_DATA.registros || []).filter(function(r) { return registroAtivoNoPeriodoCarro(r, dataAtivaCarro, dataAtivaCarro); });
   const reg = regsDoDia.length > 0 ? regsDoDia[0] : (CARRO_DATA.registros && CARRO_DATA.registros[0]);
   if (!reg) {
-    alert("Nenhum agendamento de veículo cadastrado para a data ativa. Selecione uma data com agendamentos ou cadastre uma solicitação.");
+    abrirModalAvisoCarroUX({
+      tipo: 'aviso',
+      icone: '🚗',
+      eyebrow: 'ORDEM DE TRÁFEGO',
+      titulo: 'Nenhum agendamento cadastrado',
+      html: '<p style="margin: 0; color: #334155; font-size: 0.9rem;">Selecione uma data com agendamento ou cadastre uma nova solicitação de veículo oficial antes de imprimir.</p>'
+    });
     return;
   }
   abrirModalPdfControleTrafego(reg.id);
