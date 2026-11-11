@@ -10468,14 +10468,21 @@ function imprimirAgendaCarro() {
     }
 
     .carro-header-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
+      background: linear-gradient(135deg, #07152f 0%, #0b2351 60%, #15326c 100%);
+      border: 1px solid rgba(240, 155, 12, 0.35);
       border-radius: var(--radius-lg);
       padding: 1.5rem 1.75rem;
       margin-bottom: 1.25rem;
-      box-shadow: 0 4px 14px rgba(11, 35, 81, 0.04);
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
       position: relative;
       overflow: hidden;
+    }
+    .carro-header-card .gestao-main-title {
+      color: #ffffff !important;
+    }
+    .carro-header-card .gestao-main-desc {
+      color: #cbd5e1 !important;
     }
     .carro-header-card::before {
       content: '';
@@ -10484,7 +10491,7 @@ function imprimirAgendaCarro() {
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #0b2351 0%, #1e40af 50%, #f09b0c 100%);
+      background: linear-gradient(90deg, #f09b0c 0%, #fbbf24 50%, #d48208 100%);
     }
     .carro-header-inner {
       display: flex;
@@ -11417,12 +11424,14 @@ function imprimirAgendaCarro() {
     /* Visitas unificado no padrão global .nav-item-btn.active */
 
     .visitas-header-card {
-      background: #ffffff;
+      background: linear-gradient(135deg, #07152f 0%, #0b2351 60%, #15326c 100%);
       border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
+      border: 1px solid rgba(240, 155, 12, 0.35);
+      border-top: 3px solid #f09b0c;
       padding: 1.25rem 1.6rem;
       margin-bottom: 1.25rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
       position: relative;
     }
     .visitas-header-top {
@@ -11439,23 +11448,23 @@ function imprimirAgendaCarro() {
     .visitas-title-accent {
       width: 4px;
       height: 24px;
-      background: linear-gradient(180deg, #f09b0c 0%, #c77800 100%);
+      background: linear-gradient(180deg, #f09b0c 0%, #fbbf24 100%);
       border-radius: 3px;
       display: inline-block;
     }
     .visitas-main-title {
       font-size: 1.45rem;
       font-weight: 800;
-      color: #0f172a;
+      color: #ffffff;
       margin: 0;
       letter-spacing: -0.01em;
     }
     .visitas-badge-pill {
       font-size: 0.68rem;
       font-weight: 800;
-      color: #b45309;
-      background: #fef3c7;
-      border: 1px solid #fde68a;
+      color: #fde047;
+      background: rgba(240, 155, 12, 0.2);
+      border: 1px solid rgba(240, 155, 12, 0.45);
       padding: 3px 10px;
       border-radius: 12px;
       letter-spacing: 0.05em;
@@ -11463,7 +11472,7 @@ function imprimirAgendaCarro() {
     }
     .visitas-main-desc {
       font-size: 0.84rem;
-      color: #64748b;
+      color: #cbd5e1;
       margin: 0.25rem 0 0 0;
       line-height: 1.5;
     }
@@ -15050,7 +15059,7 @@ function imprimirAgendaCarro() {
             </div>
 
             <div class="carro-header-actions">
-              <button class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro()" title="Registrar nova solicitação de veículo oficial" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); color: #ffffff; border: 1.5px solid #f09b0c; padding: 0.68rem 1.35rem; font-size: 0.88rem; font-weight: 800; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.22);">
+              <button class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro()" title="Registrar nova solicitação de veículo oficial" style="background: linear-gradient(135deg, #d48208 0%, #f09b0c 100%); color: #07152f; border: 1.5px solid #fde047; padding: 0.7rem 1.4rem; font-size: 0.88rem; font-weight: 800; box-shadow: 0 4px 14px rgba(240, 155, 12, 0.32);">
                 <span>+ Solicitar Carro Oficial</span>
               </button>
             </div>
