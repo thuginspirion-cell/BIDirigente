@@ -345,7 +345,7 @@ function obterAbasSeletivasSharepointZip_(finalDownloadUrl, cookieHeader, abasNe
   if (!wbEntry || !relsEntry) return null;
 
   function criarReqRange(entry) {
-    var endByte = entry.lfhOffset + 30 + entry.nameBytes.length + 256 + entry.compSize - 1;
+    var endByte = Math.min(totalLen - 1, entry.lfhOffset + 30 + entry.nameBytes.length + 256 + entry.compSize - 1);
     return {
       url: finalDownloadUrl,
       muteHttpExceptions: true,
@@ -356,7 +356,7 @@ function obterAbasSeletivasSharepointZip_(finalDownloadUrl, cookieHeader, abasNe
 
   // 2. Baixar workbook.xml e rels em paralelo para mapear nomes de abas -> arquivos sheet*.xml
   var metaResps = UrlFetchApp.fetchAll([criarReqRange(wbEntry), criarReqRange(relsEntry)]);
-  if (metaResps[0].getResponseCode() !== 206 || metaResps[1].getResponseCode() !== 206) return null;
+  if (metaResps[0].getResponseCode() !== 206 || metaResps[1].getResponseCode() !== 206) return { erroDiag: "metaResps " + metaResps[0].getResponseCode() + "/" + metaResps[1].getResponseCode() };
 
   var wbPayload = extrairPayloadEntradaRange_(metaResps[0].getContent(), wbEntry);
   var relsPayload = extrairPayloadEntradaRange_(metaResps[1].getContent(), relsEntry);
@@ -391,28 +391,25 @@ function obterAbasSeletivasSharepointZip_(finalDownloadUrl, cookieHeader, abasNe
       abasExtraidas.push(sName);
     }
   }
-  if (abasExtraidas.length === 0) return null;
+  if (abasExtraidas.length === 0) return { erroDiag: "nenhuma aba correspondente" };
 
-  // 3. Selecionar somente metadados leves + as abas desejadas (descartando abas inchadas, imagens e comentarios)
+  // 3. Selecionar estritamente partes essenciais do SheetJS + abas desejadas (~10 entradas no total)
+  var coreSet = {
+    "[Content_Types].xml": true,
+    "_rels/.rels": true,
+    "xl/sharedStrings.xml": true,
+    "xl/styles.xml": true,
+    "xl/persons/person.xml": true
+  };
   var filtered = [];
   for (var j = 0; j < entries.length; j++) {
     var en = entries[j];
-    if (en.name === "xl/workbook.xml" || en.name === "xl/_rels/workbook.xml.rels") continue;
-    if (en.name.indexOf("xl/worksheets/") === 0) {
-      if (!wantedPathSet[en.name]) continue;
-    } else if (
-      en.name.indexOf("xl/comments") === 0 ||
-      en.name.indexOf("xl/threadedComments/") === 0 ||
-      en.name.indexOf("xl/drawings/") === 0 ||
-      en.name.indexOf("xl/media/") === 0 ||
-      en.compSize > 4 * 1024 * 1024
-    ) {
-      continue;
+    if (coreSet[en.name] || wantedPathSet[en.name]) {
+      filtered.push(en);
     }
-    filtered.push(en);
   }
 
-  // 4. Download paralelo das partes essenciais via fetchAll
+  // 4. Download paralelo das partes essenciais via fetchAll + retry unitário se houver 429/503
   var reqs = [];
   for (var f = 0; f < filtered.length; f++) {
     reqs.push(criarReqRange(filtered[f]));
@@ -424,8 +421,19 @@ function obterAbasSeletivasSharepointZip_(finalDownloadUrl, cookieHeader, abasNe
   ];
   var downloadedTotal = tailBytes.length + wbPayload.length + relsPayload.length;
   for (var idx = 0; idx < filtered.length; idx++) {
-    if (resps[idx].getResponseCode() !== 206) return null;
-    var rb = resps[idx].getContent();
+    var respItem = resps[idx];
+    if (respItem.getResponseCode() !== 206) {
+      Utilities.sleep(200);
+      respItem = UrlFetchApp.fetch(criarReqRange(filtered[idx]).url, {
+        muteHttpExceptions: true,
+        followRedirects: true,
+        headers: criarReqRange(filtered[idx]).headers
+      });
+      if (respItem.getResponseCode() !== 206) {
+        return { erroDiag: "item " + filtered[idx].name + " HTTP " + respItem.getResponseCode() };
+      }
+    }
+    var rb = respItem.getContent();
     downloadedTotal += rb.length;
     items.push({ entry: filtered[idx], payload: extrairPayloadEntradaRange_(rb, filtered[idx]) });
   }
@@ -522,6 +530,7 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
 
     // 1.5 Sondagem de tamanho + Extração Seletiva via HTTP 206 Range quando houver abasNecessarias
     var totalLenRemoto = 0;
+    var diagSeletivo = "";
     if (opcoes.abasNecessarias && opcoes.abasNecessarias.length > 0) {
       try {
         var respProbe = UrlFetchApp.fetch(finalDownloadUrl, {
@@ -554,10 +563,14 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
                 data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
               };
             }
+            if (seletivo && seletivo.erroDiag) diagSeletivo = seletivo.erroDiag;
           }
+        } else {
+          diagSeletivo = "probe HTTP " + respProbe.getResponseCode();
         }
       } catch (errRange) {
-        Logger.log("Aviso extração seletiva (" + setor + "): " + errRange.toString());
+        diagSeletivo = errRange.toString();
+        Logger.log("Aviso extração seletiva (" + setor + "): " + diagSeletivo);
       }
     }
 
@@ -592,6 +605,7 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
           sucesso: true,
           dadosBase64: base64,
           tamanhoBytes: bytes.length,
+          diagSeletivo: diagSeletivo || undefined,
           origem: "SharePoint Live UrlFetch",
           timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
           data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
