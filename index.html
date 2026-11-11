@@ -15040,26 +15040,18 @@ function imprimirAgendaCarro() {
 
         <!-- HEADER PRINCIPAL DO CARRO OFICIAL -->
         <div class="carro-header-card">
-          <div class="carro-header-inner">
+          <div class="carro-header-inner" style="align-items: center;">
             <div class="carro-header-left">
-              <span class="gestao-pretitle" style="color: #d48208;">LOGÍSTICA DA DIRIGENTE</span>
-              <h2 class="gestao-main-title" style="margin-bottom: 0.35rem;">Carro Oficial • Calendário de Agendamento</h2>
+              <span class="gestao-pretitle" style="color: #d48208;">FROTA OFICIAL &amp; LOGÍSTICA • URE - ITP</span>
+              <h2 class="gestao-main-title" style="margin-bottom: 0.35rem;">Carro Oficial • Central de Agendamentos</h2>
               <p class="gestao-main-desc" style="margin: 0;">
-                Visualização e consulta da agenda de veículos oficiais em tempo real. Acesso direto ao calendário compartilhado com itinerários, horários e condutores (modo somente leitura).
+                Gestão integrada dos veículos oficiais da regional para atendimento a todos os setores, núcleos e unidades escolares. Consulte disponibilidades, realize reservas sem conflito de horário e acompanhe condutores e itinerários em tempo real.
               </p>
             </div>
 
             <div class="carro-header-actions">
-              <span class="carro-badge-sefisc-top" id="carro-badge-status-top">📅 Calendário Compartilhado • Somente Leitura</span>
-              <button class="btn-carro-action secondary btn-pane-sync" onclick="sincronizarModulo('carro', this)" title="Sincronizar agendamentos e frota do Carro Oficial">
-                <span class="sync-spin-icon">🔄</span>
-                <span>Sincronizar Frota</span>
-              </button>
-              <button class="btn-carro-action" onclick="abrirModalConfigCalendarCarro()" title="Configurar ou verificar o link do calendário compartilhado">
-                <span>⚙️ Link do Calendário</span>
-              </button>
-              <button class="btn-carro-action secondary" onclick="abrirModalNovaSolicitacaoCarro()" title="Registrar solicitação de veículo">
-                <span>+ Solicitar Carro</span>
+              <button class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro()" title="Registrar nova solicitação de veículo oficial" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); color: #ffffff; border: 1.5px solid #f09b0c; padding: 0.68rem 1.35rem; font-size: 0.88rem; font-weight: 800; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.22);">
+                <span>+ Solicitar Carro Oficial</span>
               </button>
             </div>
           </div>
@@ -15070,7 +15062,7 @@ function imprimirAgendaCarro() {
           <div class="carro-sync-alert-text">
             <span>📅</span>
             <span>
-              <strong id="carro-alert-calendar-title">Calendário Oficial</strong> • <span id="carro-alert-calendar-status">Ambiente preparado para consulta</span> • <span id="carro-qtd-registros-alert">4</span> agendamento(s) mapeados • Somente leitura • Sincronização em nuvem sem upload de arquivos.
+              <strong id="carro-alert-calendar-title">Agenda da Frota</strong> • <span id="carro-alert-calendar-status">Frota Oficial Operacional (Spin TLH 1B63 e HB20 FZG 0H22)</span> • <span id="carro-qtd-registros-alert">5</span> agendamento(s) mapeados • Sincronização em nuvem ativa.
             </span>
             <a href="javascript:void(0)" id="carro-link-abrir-agenda" onclick="abrirCalendarioExterno()" class="carro-link-drive" style="display: none;">Abrir Calendário Completo ↗</a>
           </div>
