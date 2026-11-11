@@ -20419,18 +20419,25 @@ function imprimirAgendaCarro() {
       const containerDinamicoInicial = document.getElementById('setor-conteudo-dinamico');
       if (containerDinamicoInicial) containerDinamicoInicial.innerHTML = "";
 
-      centro.setores.forEach((setor, index) => {
-        const btn = document.createElement('button');
-        btn.className = 'setor-tab-btn' + (index === 0 ? ' active' : '');
-        btn.innerHTML = `<span>${setor.nome}</span>`;
-        btn.onclick = function () {
-          selecionarSetor(siglaCentro, setor.sigla, btn);
-        };
-        containerTabs.appendChild(btn);
-      });
+      if (siglaCentro === 'EEC') {
+        /* Para EEC, a navegacao ocorre diretamente pelo Hub Executivo dos 6 Sistemas */
+        containerTabs.style.display = 'none';
+        selecionarSetor('EEC', 'INICIO', null);
+      } else {
+        containerTabs.style.display = 'flex';
+        centro.setores.forEach((setor, index) => {
+          const btn = document.createElement('button');
+          btn.className = 'setor-tab-btn' + (index === 0 ? ' active' : '');
+          btn.innerHTML = `<span>${setor.nome}</span>`;
+          btn.onclick = function () {
+            selecionarSetor(siglaCentro, setor.sigla, btn);
+          };
+          containerTabs.appendChild(btn);
+        });
 
-      /* Seleciona o primeiro setor por padrão */
-      selecionarSetor(siglaCentro, centro.setores[0].sigla, containerTabs.children[0]);
+        /* Seleciona o primeiro setor por padrão */
+        selecionarSetor(siglaCentro, centro.setores[0].sigla, containerTabs.children[0]);
+      }
 
       /* Alterna Views */
       esconderTodasAsPanes();
@@ -42470,15 +42477,11 @@ function imprimirAgendaCarro() {
 
     var __eecModuloAtivo = 'INICIO';
 
-    function renderizarModuloEec(siglaModulo) {
+    function renderizarModuloEec() {
       var container = document.getElementById('setor-conteudo-dinamico');
       if (!container) return;
 
-      var chave = (siglaModulo && MODULOS_EEC[siglaModulo]) ? siglaModulo : (__eecModuloAtivo || 'INICIO');
-      var mod = MODULOS_EEC[chave] || MODULOS_EEC['INICIO'];
-      __eecModuloAtivo = chave;
-
-      /* Lista com todos os modulos para gerar os cards da central */
+      /* Lista com todos os 6 modulos para gerar os cards da central */
       var listaChaves = ['INICIO', 'SAEB', 'PLANO_ACAO', 'DEVOLUTIVA', 'DOCENTES', 'ACOMPANHAMENTO'];
       var cardsHtml = '';
 
@@ -42486,14 +42489,13 @@ function imprimirAgendaCarro() {
         var k = listaChaves[i];
         var item = MODULOS_EEC[k];
         if (!item) continue;
-        var isAtivo = (k === chave);
 
         cardsHtml += '' +
-          '<div class="eec-app-card' + (isAtivo ? ' eec-app-card-active' : '') + '" style="background: ' + (isAtivo ? '#f0f7ff' : '#ffffff') + '; border: ' + (isAtivo ? '2px solid #2563eb' : '1.5px solid #e2e8f0') + '; border-radius: 14px; padding: 1.25rem 1.15rem; display: flex; flex-direction: column; justify-content: space-between; gap: 0.9rem; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; box-shadow: ' + (isAtivo ? '0 10px 25px -5px rgba(37,99,235,0.2)' : '0 4px 12px rgba(0,0,0,0.04)') + ';" onmouseover="this.style.transform=\'translateY(-3px)\'; this.style.boxShadow=\'0 12px 28px -5px rgba(37,99,235,0.22)\'" onmouseout="this.style.transform=\'translateY(0)\'; this.style.boxShadow=\'' + (isAtivo ? '0 10px 25px -5px rgba(37,99,235,0.2)' : '0 4px 12px rgba(0,0,0,0.04)') + '\'">' +
+          '<div class="eec-app-card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.25rem 1.15rem; display: flex; flex-direction: column; justify-content: space-between; gap: 0.9rem; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.04);" onmouseover="this.style.transform=\'translateY(-3px)\'; this.style.boxShadow=\'0 12px 28px -5px rgba(37,99,235,0.22)\'; this.style.borderColor=\'#93c5fd\'" onmouseout="this.style.transform=\'translateY(0)\'; this.style.boxShadow=\'0 4px 12px rgba(0,0,0,0.04)\'; this.style.borderColor=\'#e2e8f0\'">' +
             '<div>' +
               '<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.6rem;">' +
                 '<div style="display: flex; align-items: center; gap: 0.6rem;">' +
-                  '<div style="background: ' + (isAtivo ? '#dbeafe' : '#f8fafc') + '; border: 1px solid ' + (isAtivo ? '#93c5fd' : '#e2e8f0') + '; width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">' +
+                  '<div style="background: #f8fafc; border: 1px solid #e2e8f0; width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">' +
                     item.icone +
                   '</div>' +
                   '<div>' +
@@ -42501,25 +42503,20 @@ function imprimirAgendaCarro() {
                     '<span style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase;">' + item.tag + '</span>' +
                   '</div>' +
                 '</div>' +
-                (isAtivo ? '<span style="background: #2563eb; color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 12px; letter-spacing: 0.03em;">ATIVO</span>' : '') +
+                '<span style="background: #dcfce7; color: #166534; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 12px;">PÚBLICO</span>' +
               '</div>' +
               '<p style="font-size: 0.82rem; color: #475569; line-height: 1.45; margin: 0; min-height: 48px;">' +
                 item.subtitulo +
               '</p>' +
             '</div>' +
 
-            '<div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.4rem; padding-top: 0.8rem; border-top: 1px solid ' + (isAtivo ? '#bfdbfe' : '#f1f5f9') + ';">' +
-              '<a href="' + item.googleSites + '" target="_blank" rel="noopener noreferrer" style="background: #2563eb; color: #ffffff; padding: 9px 12px; border-radius: 8px; font-size: 0.84rem; font-weight: 800; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.4rem; box-shadow: 0 4px 10px rgba(37,99,235,0.25); transition: background 0.15s;" onmouseover="this.style.background=\'#1d4ed8\'" onmouseout="this.style.background=\'#2563eb\'">' +
+            '<div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.4rem; padding-top: 0.8rem; border-top: 1px solid #f1f5f9;">' +
+              '<a href="' + item.googleSites + '" target="_blank" rel="noopener noreferrer" style="background: #2563eb; color: #ffffff; padding: 10px 14px; border-radius: 8px; font-size: 0.86rem; font-weight: 800; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.45rem; box-shadow: 0 4px 10px rgba(37,99,235,0.25); transition: background 0.15s;" onmouseover="this.style.background=\'#1d4ed8\'" onmouseout="this.style.background=\'#2563eb\'">' +
                 '🌐 Abrir no Google Sites ↗' +
               '</a>' +
-              '<div style="display: flex; gap: 0.4rem;">' +
-                '<a href="' + item.gasWebapp + '" target="_blank" rel="noopener noreferrer" style="flex: 1; background: #ffffff; color: #0b2351; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.3rem;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#ffffff\'">' +
-                  '⚡ Web App ↗' +
-                '</a>' +
-                '<button type="button" onclick="renderizarModuloEec(\'' + k + '\')" style="background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer;" title="Visualizar detalhes deste modulo no topo">' +
-                  '👁️ Detalhes' +
-                '</button>' +
-              '</div>' +
+              '<a href="' + item.gasWebapp + '" target="_blank" rel="noopener noreferrer" style="background: #ffffff; color: #0b2351; border: 1px solid #cbd5e1; padding: 8px 12px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.35rem; transition: background 0.15s;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#ffffff\'">' +
+                '⚡ Executar Web App Direto ↗' +
+              '</a>' +
             '</div>' +
           '</div>';
       }
@@ -42531,57 +42528,27 @@ function imprimirAgendaCarro() {
           '<div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 50%, #1e40af 100%); border: 2px solid #f59e0b; border-radius: 16px; padding: 1.3rem 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">' +
             '<div>' +
               '<div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem; flex-wrap: wrap;">' +
-                '<span style="font-size: 1.6rem;">' + mod.icone + '</span>' +
-                '<h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">' + mod.tituloHeader + '</h2>' +
-                '<span style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">' + mod.tag + '</span>' +
-                '<span style="background: #dcfce7; color: #166534; border: 1.5px solid #22c55e; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">🌐 LINK PÚBLICO OFICIAL</span>' +
+                '<span style="font-size: 1.6rem;">📚</span>' +
+                '<h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">EEC - Equipe de Especialistas em Currículo</h2>' +
+                '<span style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">PORTAL PEDAGÓGICO INTEGRADO</span>' +
+                '<span style="background: #dcfce7; color: #166534; border: 1.5px solid #22c55e; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">🌐 LINKS PÚBLICOS OFICIAIS</span>' +
               '</div>' +
               '<p style="font-size: 0.86rem; color: #e0e7ff; margin: 0; max-width: 860px; line-height: 1.45; font-weight: 500;">' +
-                mod.subtitulo +
+                'Acesso unificado aos sistemas, plataformas e ferramentas pedagógicas oficiais da Equipe de Especialistas em Currículo (EEC) da Diretoria de Ensino de Itapevi.' +
               '</p>' +
               '<div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">' +
-                '<span>🎯 <strong>Módulo Ativo:</strong> <span style="color: #ffffff;">' + mod.nome + '</span></span>' +
+                '<span>🎯 <strong>Sistemas:</strong> <span style="color: #ffffff;">6 Ferramentas Oficiais Integradas</span></span>' +
                 '<span>🏛️ <strong>Equipe:</strong> <span style="color: #ffffff;">EEC - Especialistas em Currículo</span></span>' +
-                '<span>⚡ <strong>Motor Oficial:</strong> <span style="color: #38bdf8; font-weight: 800;">Google Apps Script Corporativo</span></span>' +
+                '<span>⚡ <strong>Motor Oficial:</strong> <span style="color: #38bdf8; font-weight: 800;">Google Workspace & Apps Script</span></span>' +
               '</div>' +
             '</div>' +
 
             '<div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">' +
-              '<a href="' + mod.googleSites + '" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 10px 18px; border-radius: 8px; font-size: 0.88rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4); transition: transform 0.15s, opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'; this.style.transform=\'scale(1.02)\'" onmouseout="this.style.opacity=\'1\'; this.style.transform=\'scale(1)\'">' +
-                '🌐 Abrir no Google Sites ↗' +
+              '<a href="https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/in%C3%ADcio?authuser=0" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 10px 18px; border-radius: 8px; font-size: 0.88rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4); transition: transform 0.15s, opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'; this.style.transform=\'scale(1.02)\'" onmouseout="this.style.opacity=\'1\'; this.style.transform=\'scale(1)\'">' +
+                '🌐 Início Google Sites ↗' +
               '</a>' +
-              '<a href="' + mod.gasWebapp + '" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.2); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 10px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.3)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.2)\'">' +
-                '🚀 Executar Web App ↗' +
-              '</a>' +
-            '</div>' +
-          '</div>' +
-
-          '<!-- CARD HERO DE DESTAQUE DO MÓDULO -->' +
-          '<div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 2px solid #3b82f6; border-radius: 16px; padding: 1.6rem 1.8rem; margin-bottom: 1.5rem; box-shadow: 0 10px 30px -10px rgba(37,99,235,0.18); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.4rem;">' +
-            '<div style="display: flex; align-items: center; gap: 1.25rem; max-width: 780px;">' +
-              '<div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border: 2px solid #3b82f6; width: 68px; height: 68px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; flex-shrink: 0; box-shadow: 0 6px 16px rgba(37,99,235,0.25);">' +
-                mod.icone +
-              '</div>' +
-              '<div>' +
-                '<div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.25rem;">' +
-                  '<h3 style="font-size: 1.28rem; font-weight: 900; color: #0b2351; margin: 0; letter-spacing: -0.01em;">' + mod.nome + '</h3>' +
-                  '<span style="background: #dcfce7; color: #166534; border: 1px solid #86efac; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 12px;">ONLINE • LINK PÚBLICO</span>' +
-                '</div>' +
-                '<p style="font-size: 0.88rem; color: #334155; margin: 0; line-height: 1.5; font-weight: 500;">' +
-                  mod.subtitulo +
-                '</p>' +
-                '<div style="margin-top: 0.5rem; font-size: 0.78rem; color: #64748b; font-weight: 600;">' +
-                  '✨ Acesso 100% público, sem necessidade de login institucional. Abre em nova guia com tela cheia e desempenho máximo.' +
-                '</div>' +
-              '</div>' +
-            '</div>' +
-
-            '<div style="display: flex; flex-direction: column; gap: 0.6rem; min-width: 280px; flex-shrink: 0;">' +
-              '<a href="' + mod.googleSites + '" target="_blank" rel="noopener noreferrer" style="background: #2563eb; color: #ffffff; padding: 12px 20px; border-radius: 10px; font-size: 0.94rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 6px 18px rgba(37,99,235,0.35); transition: transform 0.15s, background 0.15s;" onmouseover="this.style.background=\'#1d4ed8\'; this.style.transform=\'scale(1.02)\'" onmouseout="this.style.background=\'#2563eb\'; this.style.transform=\'scale(1)\'">' +
-                '🚀 Abrir ' + mod.nome + ' (Link Público) ↗' +
-              '</a>' +
-              '<a href="' + mod.gasWebapp + '" target="_blank" rel="noopener noreferrer" style="background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1; padding: 10px 16px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: background 0.15s;" onmouseover="this.style.background=\'#f1f5f9\'" onmouseout="this.style.background=\'#ffffff\'">' +
-                '⚡ Executável Web App Direto ↗' +
+              '<a href="https://script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.2); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 10px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.3)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.2)\'">' +
+                '🚀 Web App Central ↗' +
               '</a>' +
             '</div>' +
           '</div>' +
@@ -42594,7 +42561,7 @@ function imprimirAgendaCarro() {
                   '<span>📚</span> Central de Aplicativos Pedagógicos • EEC' +
                 '</h3>' +
                 '<p style="font-size: 0.8rem; color: #64748b; margin: 0.2rem 0 0 0;">' +
-                  'Selecione qualquer ferramenta abaixo para consultar suas diretrizes ou abrir diretamente no ambiente oficial:' +
+                  'Acesse qualquer uma das ferramentas oficiais abaixo com 1 clique (links 100% públicos, sem necessidade de login):' +
                 '</p>' +
               '</div>' +
               '<span style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px;">' +
@@ -42632,7 +42599,7 @@ function imprimirAgendaCarro() {
     }
 
     function renderizarModuloEecSaeb() {
-      renderizarModuloEec('SAEB');
+      renderizarModuloEec();
     }
 
     function esconderLoaderEecSaeb() {
@@ -42640,17 +42607,11 @@ function imprimirAgendaCarro() {
     }
 
     function recarregarIframeEecSaeb() {
-      var mod = MODULOS_EEC[__eecModuloAtivo] || MODULOS_EEC['INICIO'];
-      if (mod && mod.googleSites) {
-        window.open(mod.googleSites, '_blank');
-      }
+      window.open('https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/in%C3%ADcio?authuser=0', '_blank');
     }
 
     function toggleFullscreenEecSaeb() {
-      var mod = MODULOS_EEC[__eecModuloAtivo] || MODULOS_EEC['INICIO'];
-      if (mod && mod.googleSites) {
-        window.open(mod.googleSites, '_blank');
-      }
+      window.open('https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/in%C3%ADcio?authuser=0', '_blank');
     }
 
     function renderizarDashboardSepes() {
