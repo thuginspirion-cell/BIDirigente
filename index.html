@@ -19641,25 +19641,40 @@ function imprimirAgendaCarro() {
       'EEC': {
         sigla: 'EEC',
         nome: 'EEC - Equipe de Especialistas em Currículo',
-        descricao: 'Acompanhamento pedagógico, avaliação diagnóstica SAEB 2025, metas do SARESP, formação continuada de professores e projetos curriculares.',
+        descricao: 'Portal integrado da EEC: Início, Consulta SAEB 2025, Plano de Ação 2.0 (2026), Devolutiva Pedagógica, Consulta de Docentes e Acompanhamento Pedagógico.',
         icone: '📚',
         cor: '#0b2351',
         driveFolder: 'Uploads BIDirigente / EEC',
         setores: [
           { 
+            sigla: 'INICIO', 
+            nome: '🏠 Início EEC', 
+            desc: 'Portal Central e Acesso Unificado da Equipe de Especialistas em Currículo (EEC).' 
+          },
+          { 
             sigla: 'SAEB', 
             nome: '📊 Consulta SAEB 2025', 
-            desc: 'Sistema Oficial de Consulta ao SAEB 2025 - Acompanhamento pedagógico regional das escolas de Itapevi e região.' 
+            desc: 'Sistema Oficial de Consulta ao SAEB 2025 - Diagnóstico e acompanhamento regional.' 
           },
           { 
-            sigla: 'Formacao', 
-            nome: 'Currículo & Formação Docente', 
-            desc: 'Alfabetização, anos iniciais, anos finais, ensino médio e itinerários formativos do Currículo Paulista.' 
+            sigla: 'PLANO_ACAO', 
+            nome: '🎯 Plano de Ação 2.0 2026', 
+            desc: 'Plano de Ação 2.0 (2026) - Planejamento estratégico e metas pedagógicas das escolas.' 
           },
           { 
-            sigla: 'Projetos', 
-            nome: 'Projetos e Programas Especiais', 
-            desc: 'Inova Educação, protagonismo juvenil e iniciativas curriculares especiais da Diretoria de Ensino.' 
+            sigla: 'DEVOLUTIVA', 
+            nome: '📋 Devolutiva Pedagógica', 
+            desc: 'Painel de Devolutivas Pedagógicas - Feedback formativo e alinhamento pedagógico.' 
+          },
+          { 
+            sigla: 'DOCENTES', 
+            nome: '👨‍🏫 Consulta de Docentes', 
+            desc: 'Consulta de Docentes - Quadro de professores e atribuição curricular na rede regional.' 
+          },
+          { 
+            sigla: 'ACOMPANHAMENTO', 
+            nome: '🧭 Acompanhamento Pedagógico', 
+            desc: 'Novo Acompanhamento Pedagógico 2026 - Registro de visitas escolares e tutoria EEC.' 
           }
         ]
       }
@@ -20478,8 +20493,8 @@ function imprimirAgendaCarro() {
         renderizarDashboardSepes();
       } else if (siglaSetor === 'SEFREP') {
         renderizarDashboardSefrep();
-      } else if (siglaSetor === 'SAEB' || (siglaCentro === 'EEC' && (siglaSetor === 'SAEB' || !siglaSetor))) {
-        renderizarModuloEecSaeb();
+      } else if (siglaCentro === 'EEC' || siglaSetor === 'SAEB' || (typeof MODULOS_EEC !== 'undefined' && MODULOS_EEC[siglaSetor])) {
+        renderizarModuloEec(siglaSetor);
       } else {
         if (containerDinamico) {
           containerDinamico.innerHTML = `
@@ -42387,35 +42402,99 @@ function imprimirAgendaCarro() {
     }
 
     /* ======================================================= */
-    /* MÓDULO EXECUTIVO EEC: CONSULTA SAEB 2025 (APPS SCRIPT)  */
+    /* MÓDULO EXECUTIVO EEC: APLICAÇÕES PEDAGÓGICAS APPS SCRIPT */
     /* ======================================================= */
     var EEC_PROTO_SLASH = 'https:' + String.fromCharCode(47, 47);
-    var URLS_OFICIAIS_EEC_SAEB = {
-      gasWebapp: EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbwc79rKkieVXFptQTxBarcJ1yew2ptmiyw9Z_a3kvylsqSxUzyeXAEMmCVkETy6WxPB/exec',
-      googleSites: EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/consulta-saeb-2025?authuser=0'
+    var MODULOS_EEC = {
+      'INICIO': {
+        sigla: 'INICIO',
+        icone: '🏠',
+        nome: 'Início EEC',
+        tituloHeader: 'Início • Portal Central EEC',
+        subtitulo: 'Painel Geral e Acesso Integrado aos Sistemas e Ferramentas da Equipe de Especialistas em Currículo.',
+        tag: 'PORTAL EEC',
+        gasWebapp: EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec',
+        googleSites: EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/in%C3%ADcio?authuser=0'
+      },
+      'SAEB': {
+        sigla: 'SAEB',
+        icone: '📊',
+        nome: 'Consulta SAEB 2025',
+        tituloHeader: 'Consulta SAEB 2025 • EEC',
+        subtitulo: 'Ambiente integrado para consulta, acompanhamento e diagnóstico dos dados do SAEB 2025 nas 60 escolas da Diretoria de Ensino de Itapevi.',
+        tag: 'AVALIAÇÃO SAEB',
+        gasWebapp: EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbwc79rKkieVXFptQTxBarcJ1yew2ptmiyw9Z_a3kvylsqSxUzyeXAEMmCVkETy6WxPB/exec',
+        googleSites: EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/consulta-saeb-2025?authuser=0'
+      },
+      'PLANO_ACAO': {
+        sigla: 'PLANO_ACAO',
+        icone: '🎯',
+        nome: 'Plano de Ação 2.0 2026',
+        tituloHeader: 'Plano de Ação 2.0 2026 • EEC',
+        subtitulo: 'Planejamento estratégico, metas formativas e planos de ação pedagógicos das unidades escolares de Itapevi e região.',
+        tag: 'PLANEJAMENTO 2026',
+        gasWebapp: EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec',
+        googleSites: EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/plano-de-a%C3%A7%C3%A3o-2-0-2026?authuser=0'
+      },
+      'DEVOLUTIVA': {
+        sigla: 'DEVOLUTIVA',
+        icone: '📋',
+        nome: 'Devolutiva Pedagógica',
+        tituloHeader: 'Devolutiva Pedagógica • EEC',
+        subtitulo: 'Sistema de devolutivas pedagógicas, alinhamento curricular e acompanhamento das orientações pedagógicas para a rede.',
+        tag: 'FEEDBACK PEDAGÓGICO',
+        gasWebapp: EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbzGOzNhdgu3AxXCRm63xsdy_AnZ-YIWQymfcpBVlX4D0SOrI9RWc2EOs0maUK7WqfEq0A/exec',
+        googleSites: EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/devolutiva-pedag%C3%B3gica?authuser=0'
+      },
+      'DOCENTES': {
+        sigla: 'DOCENTES',
+        icone: '👨‍🏫',
+        nome: 'Consulta de Docentes',
+        tituloHeader: 'Consulta de Docentes • EEC',
+        subtitulo: 'Acompanhamento do corpo docente, atribuição de aulas e especialidades formativas por componente curricular.',
+        tag: 'QUADRO DOCENTE',
+        gasWebapp: EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbyFcmn8Etf-TpZkMIJCZ-Yrkj_axHVQbwbphhSPgiyy-mPbMj9ALxPeYgwVDfuLTxZ7/exec',
+        googleSites: EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/consulta-de-docentes?authuser=0'
+      },
+      'ACOMPANHAMENTO': {
+        sigla: 'ACOMPANHAMENTO',
+        icone: '🧭',
+        nome: 'Novo Acompanhamento Pedagógico',
+        tituloHeader: 'Novo Acompanhamento Pedagógico 2026 • EEC',
+        subtitulo: 'Registro de visitas escolares, rotinas de tutoria pedagógica e monitoramento das ações formativas da EEC.',
+        tag: 'TUTORIA & VISITAS',
+        gasWebapp: EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbzAFWbSLmLKCNLesPEdx8GMnX-YHimnjHbj4c7rrdBRzu4udzmJOkEPcJ6OhzSYVeXRKw/exec',
+        googleSites: EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/novo-acompanhamento-pedag%C3%B3gico?authuser=0'
+      }
     };
 
-    function renderizarModuloEecSaeb() {
+    var __eecModuloAtivo = 'INICIO';
+
+    function renderizarModuloEec(siglaModulo) {
       var container = document.getElementById('setor-conteudo-dinamico');
       if (!container) return;
+
+      var chave = (siglaModulo && MODULOS_EEC[siglaModulo]) ? siglaModulo : (__eecModuloAtivo || 'INICIO');
+      var mod = MODULOS_EEC[chave] || MODULOS_EEC['INICIO'];
+      __eecModuloAtivo = chave;
 
       var html = '' +
         '<div id="eec-saeb-wrapper" class="eec-saeb-container" style="padding: 0.5rem 0.2rem; font-family: inherit;">' +
           
-          '<!-- BANNER TOPO EXECUTIVO EEC • SAEB 2025 -->' +
+          '<!-- BANNER TOPO EXECUTIVO EEC -->' +
           '<div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 50%, #1e40af 100%); border: 2px solid #f59e0b; border-radius: 16px; padding: 1.3rem 1.5rem; margin-bottom: 1rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">' +
             '<div>' +
               '<div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem; flex-wrap: wrap;">' +
-                '<span style="font-size: 1.6rem;">📊</span>' +
-                '<h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">Consulta SAEB 2025 • EEC</h2>' +
-                '<span style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">SISTEMA OFICIAL EEC</span>' +
+                '<span style="font-size: 1.6rem;">' + mod.icone + '</span>' +
+                '<h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">' + mod.tituloHeader + '</h2>' +
+                '<span style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">' + mod.tag + '</span>' +
                 '<span style="background: #dbeafe; color: #1e40af; border: 1.5px solid #3b82f6; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">@prof.educacao.sp.gov.br</span>' +
               '</div>' +
               '<p style="font-size: 0.86rem; color: #e0e7ff; margin: 0; max-width: 860px; line-height: 1.45; font-weight: 500;">' +
-                'Ambiente integrado para consulta, acompanhamento e diagnóstico dos dados do <strong style="color: #ffffff;">SAEB 2025</strong> nas 60 escolas da Diretoria de Ensino de Itapevi, gerenciado pela Equipe de Especialistas em Currículo (EEC).' +
+                mod.subtitulo +
               '</p>' +
               '<div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">' +
-                '<span>🎯 <strong>Finalidade:</strong> <span style="color: #ffffff;">Diagnóstico Pedagógico SAEB</span></span>' +
+                '<span>🎯 <strong>Módulo:</strong> <span style="color: #ffffff;">' + mod.nome + '</span></span>' +
                 '<span>🏛️ <strong>Equipe:</strong> <span style="color: #ffffff;">EEC - Especialistas em Currículo</span></span>' +
                 '<span>⚡ <strong>Motor:</strong> <span style="color: #38bdf8; font-weight: 800;">Google Apps Script Corporativo</span></span>' +
               '</div>' +
@@ -42428,10 +42507,10 @@ function imprimirAgendaCarro() {
               '<button type="button" onclick="toggleFullscreenEecSaeb()" id="btn-eec-fullscreen" title="Modo Tela Cheia" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.25)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.15)\'">' +
                 '⛶ Tela Cheia' +
               '</button>' +
-              '<a href="' + URLS_OFICIAIS_EEC_SAEB.googleSites + '" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'" onmouseout="this.style.opacity=\'1\'">' +
+              '<a href="' + mod.googleSites + '" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'" onmouseout="this.style.opacity=\'1\'">' +
                 '🌐 Abrir no Google Sites ↗' +
               '</a>' +
-              '<a href="' + URLS_OFICIAIS_EEC_SAEB.gasWebapp + '" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.2); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 8px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.3)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.2)\'">' +
+              '<a href="' + mod.gasWebapp + '" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.2); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 8px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.3)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.2)\'">' +
                 '🚀 Web App Direto ↗' +
               '</a>' +
             '</div>' +
@@ -42456,15 +42535,15 @@ function imprimirAgendaCarro() {
             '<!-- SPINNER DE CARREGAMENTO -->' +
             '<div id="eec-saeb-loader" style="position: absolute; inset: 0; background: #f8fafc; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem; z-index: 10;">' +
               '<div style="width: 44px; height: 44px; border: 4px solid #e2e8f0; border-top-color: #2563eb; border-radius: 50%; animation: eecSaebSpin 0.9s linear infinite;"></div>' +
-              '<span style="font-size: 0.9rem; font-weight: 700; color: #0b2351;">Carregando Consulta SAEB 2025...</span>' +
+              '<span style="font-size: 0.9rem; font-weight: 700; color: #0b2351;">Carregando ' + mod.nome + '...</span>' +
               '<span style="font-size: 0.78rem; color: #64748b;">Conectando com Google Apps Script EEC</span>' +
             '</div>' +
 
             '<!-- IFRAME DO WEB APP -->' +
             '<iframe ' +
               'id="iframe-eec-saeb" ' +
-              'src="' + URLS_OFICIAIS_EEC_SAEB.gasWebapp + '" ' +
-              'title="Consulta SAEB 2025 - EEC" ' +
+              'src="' + mod.gasWebapp + '" ' +
+              'title="' + mod.nome + ' - EEC" ' +
               'style="width: 100%; height: 850px; border: none; display: block;" ' +
               'allow="fullscreen; clipboard-read; clipboard-write" ' +
               'sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox allow-downloads allow-modals" ' +
@@ -42475,7 +42554,7 @@ function imprimirAgendaCarro() {
           '<!-- RODAPÉ INFORMATIVO -->' +
           '<div style="margin-top: 0.9rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem; font-size: 0.78rem; color: #64748b;">' +
             '<div>' +
-              'Caso o aplicativo exiba tela em branco ou solicite login, <a href="' + URLS_OFICIAIS_EEC_SAEB.googleSites + '" target="_blank" rel="noopener noreferrer" style="color: #2563eb; font-weight: 800; text-decoration: underline;">clique aqui para abrir no Google Sites oficial</a>.' +
+              'Caso o aplicativo exiba tela em branco ou solicite login, <a href="' + mod.googleSites + '" target="_blank" rel="noopener noreferrer" style="color: #2563eb; font-weight: 800; text-decoration: underline;">clique aqui para abrir no Google Sites oficial</a>.' +
             '</div>' +
             '<div style="font-weight: 700; color: #0b2351;">' +
               'Diretoria Regional de Ensino de Itapevi • URE Itapevi' +
@@ -42506,6 +42585,10 @@ function imprimirAgendaCarro() {
       container.innerHTML = html;
     }
 
+    function renderizarModuloEecSaeb() {
+      renderizarModuloEec('SAEB');
+    }
+
     function esconderLoaderEecSaeb() {
       var loader = document.getElementById('eec-saeb-loader');
       if (loader) {
@@ -42525,7 +42608,8 @@ function imprimirAgendaCarro() {
         loader.style.opacity = '1';
       }
       if (iframe) {
-        var urlBase = URLS_OFICIAIS_EEC_SAEB.gasWebapp;
+        var mod = MODULOS_EEC[__eecModuloAtivo] || MODULOS_EEC['INICIO'];
+        var urlBase = mod.gasWebapp;
         iframe.src = urlBase + (urlBase.indexOf('?') === -1 ? '?_t=' : '&_t=') + new Date().getTime();
       }
     }
@@ -47148,6 +47232,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     if (typeof selecionarBaseSeintec === 'function') window.selecionarBaseSeintec = selecionarBaseSeintec;
     if (typeof abrirAssessoriaTecnica === 'function') window.abrirAssessoriaTecnica = abrirAssessoriaTecnica;
     if (typeof selecionarSetor === 'function') window.selecionarSetor = selecionarSetor;
+    if (typeof renderizarModuloEec === 'function') window.renderizarModuloEec = renderizarModuloEec;
     if (typeof renderizarModuloEecSaeb === 'function') window.renderizarModuloEecSaeb = renderizarModuloEecSaeb;
     if (typeof recarregarIframeEecSaeb === 'function') window.recarregarIframeEecSaeb = recarregarIframeEecSaeb;
     if (typeof toggleFullscreenEecSaeb === 'function') window.toggleFullscreenEecSaeb = toggleFullscreenEecSaeb;
