@@ -20422,7 +20422,7 @@ function imprimirAgendaCarro() {
       centro.setores.forEach((setor, index) => {
         const btn = document.createElement('button');
         btn.className = 'setor-tab-btn' + (index === 0 ? ' active' : '');
-        btn.innerHTML = `<span>📁</span> <span>${setor.nome}</span>`;
+        btn.innerHTML = `<span>${setor.nome}</span>`;
         btn.onclick = function () {
           selecionarSetor(siglaCentro, setor.sigla, btn);
         };
@@ -42488,7 +42488,7 @@ function imprimirAgendaCarro() {
                 '<span style="font-size: 1.6rem;">' + mod.icone + '</span>' +
                 '<h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">' + mod.tituloHeader + '</h2>' +
                 '<span style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">' + mod.tag + '</span>' +
-                '<span style="background: #dbeafe; color: #1e40af; border: 1.5px solid #3b82f6; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">@prof.educacao.sp.gov.br</span>' +
+                '<span style="background: #dcfce7; color: #166534; border: 1.5px solid #22c55e; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">🌐 LINK PÚBLICO OFICIAL</span>' +
               '</div>' +
               '<p style="font-size: 0.86rem; color: #e0e7ff; margin: 0; max-width: 860px; line-height: 1.45; font-weight: 500;">' +
                 mod.subtitulo +
@@ -42516,16 +42516,22 @@ function imprimirAgendaCarro() {
             '</div>' +
           '</div>' +
 
-          '<!-- AVISO DE CONTA INSTITUCIONAL PROF.EDUCACAO -->' +
-          '<div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 0.75rem 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">' +
-            '<div style="display: flex; align-items: center; gap: 0.6rem;">' +
-              '<span style="font-size: 1.25rem;">🔐</span>' +
-              '<span style="font-size: 0.83rem; color: #166534; font-weight: 600;">' +
-                '<strong>Acesso Corporativo SEDUC:</strong> O sistema utiliza a autenticação do Google Workspace. Certifique-se de estar conectado com sua conta institucional <strong>@prof.educacao.sp.gov.br</strong>.' +
-              '</span>' +
+          '<!-- CARD DE ACESSO PRINCIPAL DIRETO -->' +
+          '<div style="background: #ffffff; border: 2px solid #2563eb; border-radius: 12px; padding: 1rem 1.3rem; margin-bottom: 1rem; box-shadow: 0 4px 15px rgba(37,99,235,0.12); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">' +
+            '<div style="display: flex; align-items: center; gap: 0.8rem;">' +
+              '<div style="background: #dbeafe; width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0;">🌐</div>' +
+              '<div>' +
+                '<div style="font-size: 0.96rem; font-weight: 800; color: #0b2351;">Acesso Direto ao Sistema EEC (Link 100% Público)</div>' +
+                '<div style="font-size: 0.82rem; color: #475569; margin-top: 2px;">Não requer login nem conta institucional. Clique no botão para abrir instantaneamente em tela inteira sem bloqueio de segurança:</div>' +
+              '</div>' +
             '</div>' +
-            '<div style="font-size: 0.76rem; color: #15803d; font-weight: 700;">' +
-              '✨ Renderização Segura & Integrada' +
+            '<div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">' +
+              '<a href="' + mod.googleSites + '" target="_blank" rel="noopener noreferrer" style="background: #2563eb; color: #ffffff; padding: 10px 20px; border-radius: 8px; font-size: 0.9rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(37,99,235,0.3); transition: transform 0.15s, background 0.15s;" onmouseover="this.style.background=\'#1d4ed8\'; this.style.transform=\'scale(1.02)\'" onmouseout="this.style.background=\'#2563eb\'; this.style.transform=\'scale(1)\'">' +
+                '🚀 Abrir ' + mod.nome + ' (Link Público) ↗' +
+              '</a>' +
+              '<a href="' + mod.gasWebapp + '" target="_blank" rel="noopener noreferrer" style="background: #f1f5f9; color: #0f172a; border: 1.5px solid #cbd5e1; padding: 10px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: background 0.15s;" onmouseover="this.style.background=\'#e2e8f0\'" onmouseout="this.style.background=\'#f1f5f9\'">' +
+                '⚡ Executável Web App ↗' +
+              '</a>' +
             '</div>' +
           '</div>' +
 
@@ -42545,8 +42551,7 @@ function imprimirAgendaCarro() {
               'src="' + mod.gasWebapp + '" ' +
               'title="' + mod.nome + ' - EEC" ' +
               'style="width: 100%; height: 850px; border: none; display: block;" ' +
-              'allow="fullscreen; clipboard-read; clipboard-write" ' +
-              'sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox allow-downloads allow-modals" ' +
+              'allow="fullscreen; clipboard-read; clipboard-write; forms; scripts; same-origin" ' +
               'onload="esconderLoaderEecSaeb()" ' +
             '></iframe>' +
           '</div>' +
@@ -42554,7 +42559,7 @@ function imprimirAgendaCarro() {
           '<!-- RODAPÉ INFORMATIVO -->' +
           '<div style="margin-top: 0.9rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem; font-size: 0.78rem; color: #64748b;">' +
             '<div>' +
-              'Caso o aplicativo exiba tela em branco ou solicite login, <a href="' + mod.googleSites + '" target="_blank" rel="noopener noreferrer" style="color: #2563eb; font-weight: 800; text-decoration: underline;">clique aqui para abrir no Google Sites oficial</a>.' +
+              'Caso o navegador restrinja a exibição embutida, utilize o botão <strong>"🚀 Abrir (Link Público)"</strong> acima para acesso direto sem login.' +
             '</div>' +
             '<div style="font-weight: 700; color: #0b2351;">' +
               'Diretoria Regional de Ensino de Itapevi • URE Itapevi' +
