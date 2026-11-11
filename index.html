@@ -13440,7 +13440,7 @@ function imprimirAgendaCarro() {
                   <th style="padding: 0.85rem 1.2rem; font-weight: 800;">Status Operacional</th>
                   <th style="padding: 0.85rem 1.2rem; font-weight: 800;">Indicador Principal (KPI)</th>
                   <th style="padding: 0.85rem 1.2rem; font-weight: 800;">Entregas &amp; Volume</th>
-                  <th style="padding: 0.85rem 1.2rem; font-weight: 800; text-align: right;">Ação Executiva</th>
+                  <th style="padding: 0.85rem 1.2rem; font-weight: 800; text-align: right;" class="no-sort" data-no-sort="true">Ação Executiva</th>
                 </tr>
               </thead>
               <tbody style="divide-y: 1px solid #f1f5f9;">
@@ -18088,12 +18088,113 @@ function imprimirAgendaCarro() {
 
     /* Dados DPAT alimentados exclusivamente pela nuvem (zero localStorage) */
 
+    function parseTimestampDataTabela(dataStr, horaStr, tsFallback) {
+      var mins = 0;
+      if (horaStr) {
+        var hm = String(horaStr).trim().match(/(\d{1,2})\s*[:hH]\s*(\d{2})/);
+        if (hm) {
+          mins = (parseInt(hm[1], 10) * 60 + parseInt(hm[2], 10)) * 60000;
+        }
+      }
+      if (typeof tsFallback === 'number' && !isNaN(tsFallback) && tsFallback > 0) {
+        return tsFallback + mins;
+      }
+      if (!dataStr) return 0;
+      var s = String(dataStr).trim();
+      var br = s.match(/(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?/);
+      if (br) {
+        var d = parseInt(br[1], 10);
+        var m = parseInt(br[2], 10) - 1;
+        var y = br[3] ? parseInt(br[3], 10) : 2026;
+        if (y < 100) y += 2000;
+        var dt = new Date(y, m, d).getTime();
+        if (!isNaN(dt) && dt > 0) return dt + mins;
+      }
+      var iso = s.match(/(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/);
+      if (iso) {
+        var dtIso = new Date(parseInt(iso[1], 10), parseInt(iso[2], 10) - 1, parseInt(iso[3], 10)).getTime();
+        if (!isNaN(dtIso) && dtIso > 0) return dtIso + mins;
+      }
+      return 0;
+    }
+
+    function ordenarListaPorColuna(lista, opts) {
+      if (!Array.isArray(lista) || lista.length <= 1) return lista;
+      var dir = opts.dir === 'asc' ? 'asc' : 'desc';
+      var isDate = !!opts.isDate;
+      var isNum = !!opts.isNum;
+      var getter = opts.getter;
+      var tieId = opts.tieId;
+
+      lista.sort(function(a, b) {
+        var vA = getter(a);
+        var vB = getter(b);
+
+        if (isDate) {
+          var tA = typeof vA === 'number' ? vA : parseTimestampDataTabela(vA);
+          var tB = typeof vB === 'number' ? vB : parseTimestampDataTabela(vB);
+          if (tA <= 0 && tB <= 0) return 0;
+          if (tA <= 0) return 1;
+          if (tB <= 0) return -1;
+          if (tA !== tB) return dir === 'desc' ? (tB - tA) : (tA - tB);
+          if (tieId) {
+            var idA = parseInt(String(tieId(a) || '').replace(/\D+/g, '') || '0', 10);
+            var idB = parseInt(String(tieId(b) || '').replace(/\D+/g, '') || '0', 10);
+            if (idA !== idB) return dir === 'desc' ? (idB - idA) : (idA - idB);
+          }
+          return 0;
+        }
+
+        if (isNum) {
+          var nA = Number(vA) || 0;
+          var nB = Number(vB) || 0;
+          return dir === 'asc' ? (nA - nB) : (nB - nA);
+        }
+
+        var sA = String(vA == null ? '' : vA).trim();
+        var sB = String(vB == null ? '' : vB).trim();
+        if (!sA && !sB) return 0;
+        if (!sA) return 1;
+        if (!sB) return -1;
+        var cmp = sA.localeCompare(sB, 'pt-BR', { sensitivity: 'base', numeric: true });
+        return dir === 'asc' ? cmp : -cmp;
+      });
+      return lista;
+    }
+
+    function gerarThOrdenavelHtml(col, activeCol, activeDir, fnName, extraStyle) {
+      var isAtiva = activeCol === col.key;
+      var cls = 'th-sortable' + (isAtiva ? (activeDir === 'asc' ? ' sort-active-asc' : ' sort-active-desc') : '');
+      var seta = isAtiva ? (activeDir === 'asc' ? '▲' : '▼') : '↕';
+      var alignCls = col.align === 'center' ? 'th-sort-wrapper center' : 'th-sort-wrapper';
+      var sty = 'padding: 10px 12px; font-weight: 800; color: #1e293b;' + (col.width ? (' width: ' + col.width + ';') : '') + (extraStyle || '');
+      return '<th class="' + cls + '" onclick="' + fnName + '(\'' + col.key + '\')" style="' + sty + '" title="Clique para classificar por ' + col.titulo + '">' +
+        '<div class="' + alignCls + '"><span class="th-title-text">' + col.titulo + '</span><span class="sort-arrow">' + seta + '</span></div>' +
+      '</th>';
+    }
+
+    function sincronizarSetasTabelaPorEstado(tableSelector, colAtiva, dir) {
+      document.querySelectorAll(tableSelector + ' th[data-col]').forEach(function(th) {
+        var cName = th.getAttribute('data-col');
+        th.classList.remove('sort-active-asc', 'sort-active-desc');
+        var arrow = th.querySelector('.sort-arrow');
+        if (cName === colAtiva) {
+          th.classList.add(dir === 'asc' ? 'sort-active-asc' : 'sort-active-desc');
+          if (arrow) arrow.textContent = dir === 'asc' ? '▲' : '▼';
+        } else if (arrow) {
+          arrow.textContent = '↕';
+        }
+      });
+    }
+
     let estadoDpat = {
       termoBusca: '',
       filtroAmbiente: 'TODOS',
       filtroEstado: 'TODOS',
       paginaAtual: 1,
-      itensPorPagina: 50
+      itensPorPagina: 50,
+      colOrdenacao: 'chapa',
+      ordemDir: 'asc'
     };
 
     const URLS_OFICIAIS_SECOMSE = {
@@ -19403,7 +19504,9 @@ function imprimirAgendaCarro() {
 };
     let estadoSefisc = {
       filtroStatus: 'TODOS',
-      termoBusca: ''
+      termoBusca: '',
+      colOrdenacao: 'vencimento',
+      ordemDir: 'desc'
     };
 
     /* Dados SEFISC alimentados exclusivamente pela nuvem (zero localStorage) */
@@ -22304,8 +22407,8 @@ function imprimirAgendaCarro() {
       categoria: 'TODOS',
       filtroPub: 'TODOS',
       termoBusca: '',
-      colunaOrdenacao: 'contrato',
-      ordemAsc: true
+      colunaOrdenacao: 'dataAssinatura',
+      ordemAsc: false
     };
 
     function mudarExercicioSecomse(ano) {
@@ -22351,7 +22454,7 @@ function imprimirAgendaCarro() {
         estadoSecomse.ordemAsc = !estadoSecomse.ordemAsc;
       } else {
         estadoSecomse.colunaOrdenacao = coluna;
-        estadoSecomse.ordemAsc = true;
+        estadoSecomse.ordemAsc = (coluna === 'dataAssinatura' || coluna === 'valor') ? false : true;
       }
       atualizarTabelaSecomse();
     }
@@ -22697,21 +22800,21 @@ function imprimirAgendaCarro() {
       });
 
       /* Ordenação */
-      filtrados.sort((a, b) => {
-        let valA = a[estadoSecomse.colunaOrdenacao];
-        let valB = b[estadoSecomse.colunaOrdenacao];
-        if (estadoSecomse.colunaOrdenacao === 'valor') {
-          return estadoSecomse.ordemAsc ? (valA - valB) : (valB - valA);
-        }
-        if (estadoSecomse.colunaOrdenacao === 'dataAssinatura') {
-          return estadoSecomse.ordemAsc ? (a.timestampAssinatura - b.timestampAssinatura) : (b.timestampAssinatura - a.timestampAssinatura);
-        }
-        valA = String(valA || '').toLowerCase();
-        valB = String(valB || '').toLowerCase();
-        if (valA < valB) return estadoSecomse.ordemAsc ? -1 : 1;
-        if (valA > valB) return estadoSecomse.ordemAsc ? 1 : -1;
-        return 0;
+      var colSec = estadoSecomse.colunaOrdenacao || 'dataAssinatura';
+      var dirSec = estadoSecomse.ordemAsc ? 'asc' : 'desc';
+      ordenarListaPorColuna(filtrados, {
+        dir: dirSec,
+        isDate: colSec === 'dataAssinatura',
+        isNum: colSec === 'valor',
+        getter: function(item) {
+          if (colSec === 'dataAssinatura') return item.timestampAssinatura || item.dataAssinatura || '';
+          if (colSec === 'valor') return item.valor || 0;
+          return item[colSec] || '';
+        },
+        tieId: function(item) { return item.id || item.contrato || ''; }
       });
+
+      document.querySelectorAll('#tabela-secomse-contratos th[data-col]').length && sincronizarSetasTabelaPorEstado('#tabela-secomse-contratos', colSec, dirSec);
 
       /* Atualiza contadores */
       const totalSoma = filtrados.reduce((acc, c) => acc + c.valor, 0);
@@ -22949,31 +23052,31 @@ function imprimirAgendaCarro() {
               <span style="font-size: 0.74rem; color: #64748b;">Clique nas colunas para ordenar</span>
             </div>
             <div style="overflow-x: auto;">
-              <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left;">
+              <table id="tabela-secomse-contratos" data-no-sort="true" class="no-sort-table" style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left;">
                 <thead style="background: #f1f5f9; color: #475569; font-weight: 700; border-bottom: 1px solid #cbd5e1; user-select: none;">
                   <tr>
-                    <th onclick="ordenarTabelaSecomse('contrato')" style="padding: 0.75rem 0.9rem; cursor: pointer;">
-                      Contrato / SEI ↕
+                    <th data-col="contrato" class="th-sortable" onclick="ordenarTabelaSecomse('contrato')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Contrato / SEI">
+                      <div class="th-sort-wrapper"><span class="th-title-text">Contrato / SEI</span><span class="sort-arrow">↕</span></div>
                     </th>
-                    <th onclick="ordenarTabelaSecomse('empresa')" style="padding: 0.75rem 0.9rem; cursor: pointer;">
-                      Empresa Contratada ↕
+                    <th data-col="empresa" class="th-sortable" onclick="ordenarTabelaSecomse('empresa')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Empresa Contratada">
+                      <div class="th-sort-wrapper"><span class="th-title-text">Empresa Contratada</span><span class="sort-arrow">↕</span></div>
                     </th>
-                    <th style="padding: 0.75rem 0.9rem;">
-                      Objeto Contratual
+                    <th data-col="objeto" class="th-sortable" onclick="ordenarTabelaSecomse('objeto')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Objeto Contratual">
+                      <div class="th-sort-wrapper"><span class="th-title-text">Objeto Contratual</span><span class="sort-arrow">↕</span></div>
                     </th>
-                    <th style="padding: 0.75rem 0.9rem;">
-                      Compras.Gov
+                    <th data-col="licitacaoComprasGov" class="th-sortable" onclick="ordenarTabelaSecomse('licitacaoComprasGov')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Compras.Gov">
+                      <div class="th-sort-wrapper"><span class="th-title-text">Compras.Gov</span><span class="sort-arrow">↕</span></div>
                     </th>
-                    <th onclick="ordenarTabelaSecomse('valor')" style="padding: 0.75rem 0.9rem; text-align: right; cursor: pointer;">
-                      Valor Global ↕
+                    <th data-col="valor" class="th-sortable" onclick="ordenarTabelaSecomse('valor')" style="padding: 0.75rem 0.9rem; text-align: right;" title="Clique para classificar por Valor Global">
+                      <div class="th-sort-wrapper" style="justify-content: flex-end;"><span class="th-title-text">Valor Global</span><span class="sort-arrow">↕</span></div>
                     </th>
-                    <th onclick="ordenarTabelaSecomse('dataAssinatura')" style="padding: 0.75rem 0.9rem; text-align: center; cursor: pointer;">
-                      Assinatura ↕
+                    <th data-col="dataAssinatura" class="th-sortable sort-active-desc" onclick="ordenarTabelaSecomse('dataAssinatura')" style="padding: 0.75rem 0.9rem; text-align: center;" title="Clique para classificar por Data da Assinatura">
+                      <div class="th-sort-wrapper center"><span class="th-title-text">Assinatura</span><span class="sort-arrow">▼</span></div>
                     </th>
-                    <th style="padding: 0.75rem 0.9rem;">
-                      Vigência
+                    <th data-col="vigencia" class="th-sortable" onclick="ordenarTabelaSecomse('vigencia')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Vigência">
+                      <div class="th-sort-wrapper"><span class="th-title-text">Vigência</span><span class="sort-arrow">↕</span></div>
                     </th>
-                    <th style="padding: 0.75rem 0.9rem; text-align: center;">
+                    <th class="no-sort" data-no-sort="true" style="padding: 0.75rem 0.9rem; text-align: center;">
                       Ação
                     </th>
                   </tr>
@@ -23210,6 +23313,17 @@ function imprimirAgendaCarro() {
       atualizarTabelaInventarioDpat();
     }
 
+    function alternarOrdenacaoDpat(colKey) {
+      if (estadoDpat.colOrdenacao === colKey) {
+        estadoDpat.ordemDir = estadoDpat.ordemDir === 'asc' ? 'desc' : 'asc';
+      } else {
+        estadoDpat.colOrdenacao = colKey;
+        estadoDpat.ordemDir = 'asc';
+      }
+      estadoDpat.paginaAtual = 1;
+      atualizarTabelaInventarioDpat();
+    }
+
     function atualizarTabelaInventarioDpat() {
       var tbody = document.getElementById('tabela-dpat-tbody');
       var counterEl = document.getElementById('dpat-filtro-contador');
@@ -23241,6 +23355,17 @@ function imprimirAgendaCarro() {
         }
         return true;
       });
+
+      var colDpat = estadoDpat.colOrdenacao || 'chapa';
+      var dirDpat = estadoDpat.ordemDir || 'asc';
+      ordenarListaPorColuna(filtrados, {
+        dir: dirDpat,
+        isDate: false,
+        isNum: false,
+        getter: function(item) { return item[colDpat] || ''; }
+      });
+
+      sincronizarSetasTabelaPorEstado('#tabela-dpat-bens', colDpat, dirDpat);
 
       var totalFiltrados = filtrados.length;
       var totalPaginas = Math.ceil(totalFiltrados / estadoDpat.itensPorPagina) || 1;
@@ -23432,16 +23557,16 @@ function imprimirAgendaCarro() {
             </div>
 
             <div style="overflow-x: auto; max-height: 580px;">
-              <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left;">
+              <table id="tabela-dpat-bens" data-no-sort="true" class="no-sort-table" style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left;">
                 <thead style="background: #f1f5f9; color: #475569; font-weight: 700; border-bottom: 1px solid #cbd5e1; position: sticky; top: 0; z-index: 2;">
                   <tr>
-                    <th style="padding: 0.75rem 0.9rem; min-width: 120px; background: #f1f5f9;">Chapa Patrimonial</th>
-                    <th style="padding: 0.75rem 0.9rem; min-width: 280px; background: #f1f5f9;">Material / Descrição do Bem</th>
-                    <th style="padding: 0.75rem 0.9rem; min-width: 170px; background: #f1f5f9;">Local / Ambiente</th>
-                    <th style="padding: 0.75rem 0.9rem; min-width: 110px; background: #f1f5f9;">Responsável</th>
-                    <th style="padding: 0.75rem 0.9rem; text-align: center; min-width: 110px; background: #f1f5f9;">Estado</th>
-                    <th style="padding: 0.75rem 0.9rem; min-width: 100px; background: #f1f5f9;">Chapa Antiga</th>
-                    <th style="padding: 0.75rem 0.9rem; min-width: 120px; background: #f1f5f9;">OBS</th>
+                    <th data-col="chapa" class="th-sortable sort-active-asc" onclick="alternarOrdenacaoDpat('chapa')" style="padding: 0.75rem 0.9rem; min-width: 120px; background: #f1f5f9;" title="Clique para classificar por Chapa Patrimonial"><div class="th-sort-wrapper"><span class="th-title-text">Chapa Patrimonial</span><span class="sort-arrow">▲</span></div></th>
+                    <th data-col="material" class="th-sortable" onclick="alternarOrdenacaoDpat('material')" style="padding: 0.75rem 0.9rem; min-width: 280px; background: #f1f5f9;" title="Clique para classificar por Material / Descrição"><div class="th-sort-wrapper"><span class="th-title-text">Material / Descrição do Bem</span><span class="sort-arrow">↕</span></div></th>
+                    <th data-col="local" class="th-sortable" onclick="alternarOrdenacaoDpat('local')" style="padding: 0.75rem 0.9rem; min-width: 170px; background: #f1f5f9;" title="Clique para classificar por Local / Ambiente"><div class="th-sort-wrapper"><span class="th-title-text">Local / Ambiente</span><span class="sort-arrow">↕</span></div></th>
+                    <th data-col="responsavel" class="th-sortable" onclick="alternarOrdenacaoDpat('responsavel')" style="padding: 0.75rem 0.9rem; min-width: 110px; background: #f1f5f9;" title="Clique para classificar por Responsável"><div class="th-sort-wrapper"><span class="th-title-text">Responsável</span><span class="sort-arrow">↕</span></div></th>
+                    <th data-col="estado" class="th-sortable" onclick="alternarOrdenacaoDpat('estado')" style="padding: 0.75rem 0.9rem; text-align: center; min-width: 110px; background: #f1f5f9;" title="Clique para classificar por Estado"><div class="th-sort-wrapper center"><span class="th-title-text">Estado</span><span class="sort-arrow">↕</span></div></th>
+                    <th data-col="chapaAntiga" class="th-sortable" onclick="alternarOrdenacaoDpat('chapaAntiga')" style="padding: 0.75rem 0.9rem; min-width: 100px; background: #f1f5f9;" title="Clique para classificar por Chapa Antiga"><div class="th-sort-wrapper"><span class="th-title-text">Chapa Antiga</span><span class="sort-arrow">↕</span></div></th>
+                    <th data-col="obs" class="th-sortable" onclick="alternarOrdenacaoDpat('obs')" style="padding: 0.75rem 0.9rem; min-width: 120px; background: #f1f5f9;" title="Clique para classificar por OBS"><div class="th-sort-wrapper"><span class="th-title-text">OBS</span><span class="sort-arrow">↕</span></div></th>
                   </tr>
                 </thead>
                 <tbody id="tabela-dpat-tbody">
@@ -24127,6 +24252,16 @@ function imprimirAgendaCarro() {
       atualizarTabelaZeladoriasSefisc();
     }
 
+    function alternarOrdenacaoSefisc(colKey) {
+      if (estadoSefisc.colOrdenacao === colKey) {
+        estadoSefisc.ordemDir = estadoSefisc.ordemDir === 'desc' ? 'asc' : 'desc';
+      } else {
+        estadoSefisc.colOrdenacao = colKey;
+        estadoSefisc.ordemDir = colKey === 'vencimento' ? 'desc' : 'asc';
+      }
+      atualizarTabelaZeladoriasSefisc();
+    }
+
     function atualizarTabelaZeladoriasSefisc() {
       var tbody = document.getElementById('tabela-sefisc-tbody');
       var counterEl = document.getElementById('sefisc-filtro-contador');
@@ -24153,6 +24288,20 @@ function imprimirAgendaCarro() {
         }
         return true;
       });
+
+      var colSefisc = estadoSefisc.colOrdenacao || 'vencimento';
+      var dirSefisc = estadoSefisc.ordemDir || 'desc';
+      ordenarListaPorColuna(filtrados, {
+        dir: dirSefisc,
+        isDate: colSefisc === 'vencimento',
+        isNum: false,
+        getter: function(item) {
+          if (colSefisc === 'vencimento') return item.vencimento || '';
+          return item[colSefisc] || '';
+        }
+      });
+
+      sincronizarSetasTabelaPorEstado('#tabela-sefisc-zeladorias', colSefisc, dirSefisc);
 
       if (counterEl) {
         counterEl.innerText = filtrados.length + ' zeladorias';
@@ -24350,15 +24499,15 @@ function imprimirAgendaCarro() {
               <span style="font-size: 0.74rem; color: #64748b;">Atualizado automaticamente via SharePoint</span>
             </div>
             <div style="overflow-x: auto;">
-              <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left;">
+              <table id="tabela-sefisc-zeladorias" data-no-sort="true" class="no-sort-table" style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left;">
                 <thead style="background: #f1f5f9; color: #475569; font-weight: 700; border-bottom: 1px solid #cbd5e1;">
                   <tr>
-                    <th style="padding: 0.75rem 0.9rem;">Unidade Escolar</th>
-                    <th style="padding: 0.75rem 0.9rem;">Zelador / RG</th>
-                    <th style="padding: 0.75rem 0.9rem;">Cargo / Lotação</th>
-                    <th style="padding: 0.75rem 0.9rem;">Processo SEI</th>
-                    <th style="padding: 0.75rem 0.9rem;">Vencimento</th>
-                    <th style="padding: 0.75rem 0.9rem; text-align: center;">Situação / OBS</th>
+                    <th data-col="escola" class="th-sortable" onclick="alternarOrdenacaoSefisc('escola')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Unidade Escolar"><div class="th-sort-wrapper"><span class="th-title-text">Unidade Escolar</span><span class="sort-arrow">↕</span></div></th>
+                    <th data-col="zelador" class="th-sortable" onclick="alternarOrdenacaoSefisc('zelador')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Zelador / RG"><div class="th-sort-wrapper"><span class="th-title-text">Zelador / RG</span><span class="sort-arrow">↕</span></div></th>
+                    <th data-col="cargo" class="th-sortable" onclick="alternarOrdenacaoSefisc('cargo')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Cargo / Lotação"><div class="th-sort-wrapper"><span class="th-title-text">Cargo / Lotação</span><span class="sort-arrow">↕</span></div></th>
+                    <th data-col="processo" class="th-sortable" onclick="alternarOrdenacaoSefisc('processo')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Processo SEI"><div class="th-sort-wrapper"><span class="th-title-text">Processo SEI</span><span class="sort-arrow">↕</span></div></th>
+                    <th data-col="vencimento" class="th-sortable sort-active-desc" onclick="alternarOrdenacaoSefisc('vencimento')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Vencimento"><div class="th-sort-wrapper"><span class="th-title-text">Vencimento</span><span class="sort-arrow">▼</span></div></th>
+                    <th data-col="situacao" class="th-sortable" onclick="alternarOrdenacaoSefisc('situacao')" style="padding: 0.75rem 0.9rem; text-align: center;" title="Clique para classificar por Situação / OBS"><div class="th-sort-wrapper center"><span class="th-title-text">Situação / OBS</span><span class="sort-arrow">↕</span></div></th>
                   </tr>
                 </thead>
                 <tbody id="tabela-sefisc-tbody">
@@ -24418,13 +24567,14 @@ function imprimirAgendaCarro() {
     let abaAtivaSemat = 'atendimentos';
     let filtroBuscaSemat = '';
     let filtroMesSemat = 'todos';
-    let ordemDataSemat = 'recente';
+    let ordenacaoSemat = { col: 'data', dir: 'desc' };
     let paginaAtualSemat = 1;
     const ITENS_POR_PAGINA_SEMAT = 50;
 
     function mudarAbaSemat(aba) {
       abaAtivaSemat = aba;
       paginaAtualSemat = 1;
+      ordenacaoSemat = { col: 'data', dir: 'desc' };
       ['atendimentos', 'matriculas', 'sei'].forEach(a => {
         const btn = document.getElementById('tab-btn-semat-' + a);
         if (btn) {
@@ -24468,11 +24618,9 @@ function imprimirAgendaCarro() {
     function filtrarTabelaSemat() {
       const input = document.getElementById('semat-busca-input');
       const selectMes = document.getElementById('semat-filtro-mes');
-      const selectOrdem = document.getElementById('semat-ordem-data');
       
       filtroBuscaSemat = input ? input.value.trim().toLowerCase() : '';
       filtroMesSemat = selectMes ? selectMes.value : 'todos';
-      ordemDataSemat = selectOrdem ? selectOrdem.value : 'recente';
 
       /* Sincroniza visualmente os chips de mês do SEMAT */
       document.querySelectorAll('.btn-semat-mes-chip').forEach(b => {
@@ -24500,6 +24648,17 @@ function imprimirAgendaCarro() {
       renderizarCorpoTabelaSemat();
     }
 
+    function alternarOrdenacaoSemat(colKey) {
+      if (ordenacaoSemat.col === colKey) {
+        ordenacaoSemat.dir = ordenacaoSemat.dir === 'desc' ? 'asc' : 'desc';
+      } else {
+        ordenacaoSemat.col = colKey;
+        ordenacaoSemat.dir = (colKey === 'data') ? 'desc' : 'asc';
+      }
+      paginaAtualSemat = 1;
+      renderizarCorpoTabelaSemat();
+    }
+
     function renderizarCorpoTabelaSemat() {
       const container = document.getElementById('semat-tabela-container');
       const badgeContador = document.getElementById('semat-contador-registros');
@@ -24511,29 +24670,29 @@ function imprimirAgendaCarro() {
       if (abaAtivaSemat === 'atendimentos') {
         baseOriginal = DADOS_SEMAT.atendimentos || DADOS_SEMAT.atendimentosRecentes || [];
         colunas = [
-          { titulo: 'Data & Horário', width: '13%' },
-          { titulo: 'Aluno & RA', width: '25%' },
-          { titulo: 'Série & Turno', width: '12%' },
-          { titulo: 'Origem ➔ Pretendida', width: '25%' },
-          { titulo: 'Motivo & Orientação SEMAT', width: '25%' }
+          { key: 'data', titulo: 'Data & Horário', width: '13%', isDate: true },
+          { key: 'aluno', titulo: 'Aluno & RA', width: '25%' },
+          { key: 'serie', titulo: 'Série & Turno', width: '12%' },
+          { key: 'escolas', titulo: 'Origem ➔ Pretendida', width: '25%' },
+          { key: 'motivo', titulo: 'Motivo & Orientação SEMAT', width: '25%' }
         ];
       } else if (abaAtivaSemat === 'matriculas') {
         baseOriginal = DADOS_SEMAT.matriculas || DADOS_SEMAT.matriculasRecentes || [];
         colunas = [
-          { titulo: 'Data da Matrícula', width: '13%' },
-          { titulo: 'Aluno(a) & RA', width: '27%' },
-          { titulo: 'Unidade Escolar', width: '20%' },
-          { titulo: 'Série & Classe', width: '15%' },
-          { titulo: 'Motivo / Observação', width: '25%' }
+          { key: 'data', titulo: 'Data da Matrícula', width: '13%', isDate: true },
+          { key: 'aluno', titulo: 'Aluno(a) & RA', width: '27%' },
+          { key: 'escola', titulo: 'Unidade Escolar', width: '20%' },
+          { key: 'serie', titulo: 'Série & Classe', width: '15%' },
+          { key: 'motivo', titulo: 'Motivo / Observação', width: '25%' }
         ];
       } else if (abaAtivaSemat === 'sei') {
         baseOriginal = DADOS_SEMAT.processosSei || [];
         colunas = [
-          { titulo: 'Protocolo SEI', width: '22%' },
-          { titulo: 'Data Entrada', width: '12%' },
-          { titulo: 'Assunto / Objeto', width: '32%' },
-          { titulo: 'Interessado(a) / Remetente', width: '20%' },
-          { titulo: 'Situação / Responsável', width: '14%' }
+          { key: 'protocolo', titulo: 'Protocolo SEI', width: '22%' },
+          { key: 'data', titulo: 'Data Entrada', width: '12%', isDate: true },
+          { key: 'assunto', titulo: 'Assunto / Objeto', width: '32%' },
+          { key: 'interessado', titulo: 'Interessado(a) / Remetente', width: '20%' },
+          { key: 'situacao', titulo: 'Situação / Responsável', width: '14%' }
         ];
       }
 
@@ -24555,21 +24714,19 @@ function imprimirAgendaCarro() {
           (item.responsavel && item.responsavel.toLowerCase().includes(b));
       });
 
-      /* Ordenação cronológica */
-      registros.sort((a, b) => {
-        const tA = a.timestamp || 0;
-        const tB = b.timestamp || 0;
-        if (tA !== tB) {
-          return ordemDataSemat === 'recente' ? (tB - tA) : (tA - tB);
-        }
-        const hA = String(a.hora || '').replace(/[^0-9]/g, '').padStart(4, '0');
-        const hB = String(b.hora || '').replace(/[^0-9]/g, '').padStart(4, '0');
-        if (hA && hB && hA !== hB) {
-          return ordemDataSemat === 'recente' ? hB.localeCompare(hA) : hA.localeCompare(hB);
-        }
-        const idA = parseInt(String(a.id || '').replace(/[^0-9]/g, '') || 0, 10);
-        const idB = parseInt(String(b.id || '').replace(/[^0-9]/g, '') || 0, 10);
-        return ordemDataSemat === 'recente' ? (idB - idA) : (idA - idB);
+      /* Ordenação por coluna (padrão: data mais recente -> mais antiga) */
+      const colSemat = ordenacaoSemat.col || 'data';
+      const dirSemat = ordenacaoSemat.dir || 'desc';
+      const colDefSemat = colunas.find(c => c.key === colSemat) || colunas[0];
+      ordenarListaPorColuna(registros, {
+        dir: dirSemat,
+        isDate: !!(colDefSemat && colDefSemat.isDate),
+        getter: function(item) {
+          if (colSemat === 'data') return parseTimestampDataTabela(item.data, item.hora, item.timestamp);
+          if (colSemat === 'escolas') return (item.escolaPretendida || item.escolaAtual || '');
+          return item[colSemat] || '';
+        },
+        tieId: function(item) { return item.id; }
       });
 
       const totalRegistros = registros.length;
@@ -24587,10 +24744,10 @@ function imprimirAgendaCarro() {
 
       let htmlTabela = `
         <div style="overflow-x: auto; max-height: 520px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 10px;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; background: #ffffff;">
+          <table id="tabela-semat-dados" data-no-sort="true" class="no-sort-table" style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; background: #ffffff;">
             <thead>
               <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1; position: sticky; top: 0; z-index: 2;">
-                ${colunas.map(c => `<th style="padding: 10px 12px; font-weight: 800; color: #1e293b; width: ${c.width};">${c.titulo}</th>`).join('')}
+                ${colunas.map(c => gerarThOrdenavelHtml(c, colSemat, dirSemat, 'alternarOrdenacaoSemat')).join('')}
               </tr>
             </thead>
             <tbody>
@@ -24868,15 +25025,6 @@ function imprimirAgendaCarro() {
                   <option value="9">Setembro (222 atend. • 325 matr.)</option>
                   <option value="10">Outubro (73 atend. • 383 matr.)</option>
                   <option value="11">Novembro (9 atend. • 10 matr.)</option>
-                </select>
-              </div>
-
-              <!-- Seletor de Ordem -->
-              <div style="display: flex; align-items: center; gap: 0.35rem;">
-                <span style="font-size: 0.78rem; font-weight: 800; color: #475569;">Ordem:</span>
-                <select id="semat-ordem-data" onchange="filtrarTabelaSemat()" style="background: #ffffff; border: 1.5px solid #cbd5e1; color: #0f172a; padding: 7px 10px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; outline: none; cursor: pointer;">
-                  <option value="recente">Mais Recentes Primeiro</option>
-                  <option value="antigo">Mais Antigos Primeiro (Janeiro ➔)</option>
                 </select>
               </div>
 
@@ -25216,13 +25364,14 @@ function imprimirAgendaCarro() {
     let abaAtivaSevesc = 'atendimentos';
     let filtroBuscaSevesc = '';
     let filtroMesSevesc = 'todos';
-    let ordemDataSevesc = 'recente';
+    let ordenacaoSevesc = { col: 'data', dir: 'desc' };
     let paginaAtualSevesc = 1;
     const ITENS_POR_PAGINA_SEVESC = 50;
 
     function mudarAbaSevesc(aba) {
       abaAtivaSevesc = aba;
       paginaAtualSevesc = 1;
+      ordenacaoSevesc = { col: 'data', dir: 'desc' };
       ['atendimentos', 'sei', 'emails'].forEach(a => {
         const btn = document.getElementById('tab-btn-sevesc-' + a);
         if (btn) {
@@ -25243,17 +25392,26 @@ function imprimirAgendaCarro() {
     function filtrarTabelaSevesc() {
       const input = document.getElementById('sevesc-busca-input');
       const selectMes = document.getElementById('sevesc-filtro-mes');
-      const selectOrdem = document.getElementById('sevesc-ordem-data');
 
       filtroBuscaSevesc = input ? input.value.trim().toLowerCase() : '';
       filtroMesSevesc = selectMes ? selectMes.value : 'todos';
-      ordemDataSevesc = selectOrdem ? selectOrdem.value : 'recente';
       paginaAtualSevesc = 1;
       renderizarCorpoTabelaSevesc();
     }
 
     function mudarPaginaSevesc(delta) {
       paginaAtualSevesc += delta;
+      renderizarCorpoTabelaSevesc();
+    }
+
+    function alternarOrdenacaoSevesc(colKey) {
+      if (ordenacaoSevesc.col === colKey) {
+        ordenacaoSevesc.dir = ordenacaoSevesc.dir === 'desc' ? 'asc' : 'desc';
+      } else {
+        ordenacaoSevesc.col = colKey;
+        ordenacaoSevesc.dir = (colKey === 'data') ? 'desc' : 'asc';
+      }
+      paginaAtualSevesc = 1;
       renderizarCorpoTabelaSevesc();
     }
 
@@ -25268,28 +25426,28 @@ function imprimirAgendaCarro() {
       if (abaAtivaSevesc === 'atendimentos') {
         baseOriginal = DADOS_SEVESC.atendimentos || DADOS_SEVESC.atendimentosRecentes || [];
         colunas = [
-          { titulo: 'Data & Meio', width: '13%' },
-          { titulo: 'Interessado(a) / Aluno', width: '28%' },
-          { titulo: 'Documento / RG', width: '14%' },
-          { titulo: 'Assunto / Unidade Escolar', width: '30%' },
-          { titulo: 'Status / Responsável', width: '15%' }
+          { key: 'data', titulo: 'Data & Meio', width: '13%', isDate: true },
+          { key: 'interessado', titulo: 'Interessado(a) / Aluno', width: '28%' },
+          { key: 'rgCin', titulo: 'Documento / RG', width: '14%' },
+          { key: 'assunto', titulo: 'Assunto / Unidade Escolar', width: '30%' },
+          { key: 'situacao', titulo: 'Status / Responsável', width: '15%' }
         ];
       } else if (abaAtivaSevesc === 'sei') {
         baseOriginal = DADOS_SEVESC.processosSei || [];
         colunas = [
-          { titulo: 'Processo SEI', width: '22%' },
-          { titulo: 'Data Entrada', width: '12%' },
-          { titulo: 'Assunto / Finalidade', width: '30%' },
-          { titulo: 'Interessado / Escola', width: '22%' },
-          { titulo: 'Situação / Responsável', width: '14%' }
+          { key: 'protocolo', titulo: 'Processo SEI', width: '22%' },
+          { key: 'data', titulo: 'Data Entrada', width: '12%', isDate: true },
+          { key: 'assunto', titulo: 'Assunto / Finalidade', width: '30%' },
+          { key: 'interessado', titulo: 'Interessado / Escola', width: '22%' },
+          { key: 'situacao', titulo: 'Situação / Responsável', width: '14%' }
         ];
       } else if (abaAtivaSevesc === 'emails') {
         baseOriginal = DADOS_SEVESC.emails || DADOS_SEVESC.emailsRecentes || [];
         colunas = [
-          { titulo: 'Data / Horário', width: '15%' },
-          { titulo: 'Assunto do Expediente', width: '35%' },
-          { titulo: 'Interessado(a)', width: '25%' },
-          { titulo: 'Escola / Situação', width: '25%' }
+          { key: 'data', titulo: 'Data / Horário', width: '15%', isDate: true },
+          { key: 'assunto', titulo: 'Assunto do Expediente', width: '35%' },
+          { key: 'interessado', titulo: 'Interessado(a)', width: '25%' },
+          { key: 'escola', titulo: 'Escola / Situação', width: '25%' }
         ];
       }
 
@@ -25308,11 +25466,18 @@ function imprimirAgendaCarro() {
           (item.responsavel && item.responsavel.toLowerCase().includes(b));
       });
 
-      /* Ordenação */
-      registros.sort((a, b) => {
-        const tA = a.timestamp || 0;
-        const tB = b.timestamp || 0;
-        return ordemDataSevesc === 'recente' ? (tB - tA) : (tA - tB);
+      /* Ordenação por coluna (padrão: data mais recente -> mais antiga) */
+      const colSevesc = ordenacaoSevesc.col || 'data';
+      const dirSevesc = ordenacaoSevesc.dir || 'desc';
+      const colDefSevesc = colunas.find(c => c.key === colSevesc) || colunas[0];
+      ordenarListaPorColuna(registros, {
+        dir: dirSevesc,
+        isDate: !!(colDefSevesc && colDefSevesc.isDate),
+        getter: function(item) {
+          if (colSevesc === 'data') return parseTimestampDataTabela(item.data, item.hora, item.timestamp);
+          return item[colSevesc] || '';
+        },
+        tieId: function(item) { return item.id; }
       });
 
       const totalRegistros = registros.length;
@@ -25330,10 +25495,10 @@ function imprimirAgendaCarro() {
 
       let htmlTabela = `
         <div style="overflow-x: auto; max-height: 520px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 10px;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; background: #ffffff;">
+          <table id="tabela-sevesc-dados" data-no-sort="true" class="no-sort-table" style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; background: #ffffff;">
             <thead>
               <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1; position: sticky; top: 0; z-index: 2;">
-                ${colunas.map(c => `<th style="padding: 10px 12px; font-weight: 800; color: #1e293b; width: ${c.width};">${c.titulo}</th>`).join('')}
+                ${colunas.map(c => gerarThOrdenavelHtml(c, colSevesc, dirSevesc, 'alternarOrdenacaoSevesc')).join('')}
               </tr>
             </thead>
             <tbody>
@@ -25581,15 +25746,6 @@ function imprimirAgendaCarro() {
                   <option value="9">Setembro (53)</option>
                   <option value="10">Outubro (41)</option>
                   <option value="12">Dezembro (1)</option>
-                </select>
-              </div>
-
-              <!-- Seletor de Ordem -->
-              <div style="display: flex; align-items: center; gap: 0.35rem;">
-                <span style="font-size: 0.78rem; font-weight: 800; color: #475569;">Ordem:</span>
-                <select id="sevesc-ordem-data" onchange="filtrarTabelaSevesc()" style="background: #ffffff; border: 1.5px solid #cbd5e1; color: #0f172a; padding: 7px 10px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; outline: none; cursor: pointer;">
-                  <option value="recente">Mais Recentes Primeiro</option>
-                  <option value="antigo">Mais Antigos Primeiro (Janeiro ➔)</option>
                 </select>
               </div>
 
@@ -37630,9 +37786,11 @@ function imprimirAgendaCarro() {
     let abaAtivaSegre = 'sei';
     let filtroBuscaSegre = '';
     let filtroStatusSegre = 'todos';
+    let ordenacaoSegre = { col: 'data', dir: 'desc' };
 
     function mudarAbaSegre(aba) {
       abaAtivaSegre = aba;
+      ordenacaoSegre = { col: 'data', dir: 'desc' };
       const abas = ['sei', 'vagas', 'ouvidoria', 'concluintes', 'emails'];
       abas.forEach(a => {
         const btn = document.getElementById('tab-btn-segre-' + a);
@@ -37656,6 +37814,16 @@ function imprimirAgendaCarro() {
       const selectStatus = document.getElementById('segre-filtro-status');
       filtroBuscaSegre = input ? input.value.trim().toLowerCase() : '';
       filtroStatusSegre = selectStatus ? selectStatus.value : 'todos';
+      renderizarCorpoTabelaSegre();
+    }
+
+    function alternarOrdenacaoSegre(colKey) {
+      if (ordenacaoSegre.col === colKey) {
+        ordenacaoSegre.dir = ordenacaoSegre.dir === 'desc' ? 'asc' : 'desc';
+      } else {
+        ordenacaoSegre.col = colKey;
+        ordenacaoSegre.dir = (colKey === 'data' || colKey === 'dataConclusao') ? 'desc' : 'asc';
+      }
       renderizarCorpoTabelaSegre();
     }
 
@@ -37686,11 +37854,11 @@ function imprimirAgendaCarro() {
         });
 
         colunas = [
-          { titulo: 'Protocolo SEI', width: '22%' },
-          { titulo: 'Data', width: '12%' },
-          { titulo: 'Assunto / Objeto', width: '32%' },
-          { titulo: 'Interessado / Remetente', width: '20%' },
-          { titulo: 'Situação / Responsável', width: '14%' }
+          { key: 'protocolo', titulo: 'Protocolo SEI', width: '22%' },
+          { key: 'data', titulo: 'Data', width: '12%', isDate: true },
+          { key: 'assunto', titulo: 'Assunto / Objeto', width: '32%' },
+          { key: 'interessado', titulo: 'Interessado / Remetente', width: '20%' },
+          { key: 'situacao', titulo: 'Situação / Responsável', width: '14%' }
         ];
 
       } else if (abaAtivaSegre === 'vagas') {
@@ -37706,11 +37874,11 @@ function imprimirAgendaCarro() {
         });
 
         colunas = [
-          { titulo: 'Data & Meio', width: '13%' },
-          { titulo: 'Aluno & RA', width: '25%' },
-          { titulo: 'Série', width: '8%' },
-          { titulo: 'Escola Atual ➔ Pretendida', width: '27%' },
-          { titulo: 'Motivo & Orientação', width: '27%' }
+          { key: 'data', titulo: 'Data & Meio', width: '13%', isDate: true },
+          { key: 'aluno', titulo: 'Aluno & RA', width: '25%' },
+          { key: 'serie', titulo: 'Série', width: '8%' },
+          { key: 'escolas', titulo: 'Escola Atual ➔ Pretendida', width: '27%' },
+          { key: 'motivo', titulo: 'Motivo & Orientação', width: '27%' }
         ];
 
       } else if (abaAtivaSegre === 'ouvidoria') {
@@ -37731,11 +37899,11 @@ function imprimirAgendaCarro() {
         });
 
         colunas = [
-          { titulo: 'Protocolo Fala.SP', width: '20%' },
-          { titulo: 'Data Entrada', width: '12%' },
-          { titulo: 'Interessado(a)', width: '25%' },
-          { titulo: 'Assunto da Manifestação', width: '30%' },
-          { titulo: 'Status / Responsável', width: '13%' }
+          { key: 'protocolo', titulo: 'Protocolo Fala.SP', width: '20%' },
+          { key: 'data', titulo: 'Data Entrada', width: '12%', isDate: true },
+          { key: 'interessado', titulo: 'Interessado(a)', width: '25%' },
+          { key: 'assunto', titulo: 'Assunto da Manifestação', width: '30%' },
+          { key: 'situacao', titulo: 'Status / Responsável', width: '13%' }
         ];
 
       } else if (abaAtivaSegre === 'concluintes') {
@@ -37748,11 +37916,11 @@ function imprimirAgendaCarro() {
         });
 
         colunas = [
-          { titulo: 'Data Registro', width: '15%' },
-          { titulo: 'Aluno Concluinte', width: '35%' },
-          { titulo: 'Unidade Escolar', width: '25%' },
-          { titulo: 'Ano Conclusão', width: '12%' },
-          { titulo: 'Ensino', width: '13%' }
+          { key: 'data', titulo: 'Data Registro', width: '15%', isDate: true },
+          { key: 'aluno', titulo: 'Aluno Concluinte', width: '35%' },
+          { key: 'escola', titulo: 'Unidade Escolar', width: '25%' },
+          { key: 'anoConclusao', titulo: 'Ano Conclusão', width: '12%', isNum: true },
+          { key: 'tipoEnsino', titulo: 'Ensino', width: '13%' }
         ];
       } else if (abaAtivaSegre === 'emails') {
         registros = (DADOS_SEGRE.emails || []).filter(item => {
@@ -37772,13 +37940,30 @@ function imprimirAgendaCarro() {
         });
 
         colunas = [
-          { titulo: 'Entrada / Hora', width: '14%' },
-          { titulo: 'Remetente / Interessado', width: '26%' },
-          { titulo: 'Assunto da Mensagem / Demanda', width: '34%' },
-          { titulo: 'Situação Executiva', width: '13%' },
-          { titulo: 'Conclusão & Resp.', width: '13%' }
+          { key: 'data', titulo: 'Entrada / Hora', width: '14%', isDate: true },
+          { key: 'remetente', titulo: 'Remetente / Interessado', width: '26%' },
+          { key: 'assunto', titulo: 'Assunto da Mensagem / Demanda', width: '34%' },
+          { key: 'situacao', titulo: 'Situação Executiva', width: '13%' },
+          { key: 'dataConclusao', titulo: 'Conclusão & Resp.', width: '13%', isDate: true }
         ];
       }
+
+      /* Ordenação padrão: data mais recente -> mais antiga */
+      const colSegre = ordenacaoSegre.col || 'data';
+      const dirSegre = ordenacaoSegre.dir || 'desc';
+      const colDefSegre = colunas.find(c => c.key === colSegre) || colunas[0];
+      ordenarListaPorColuna(registros, {
+        dir: dirSegre,
+        isDate: !!(colDefSegre && colDefSegre.isDate),
+        isNum: !!(colDefSegre && colDefSegre.isNum),
+        getter: function(item) {
+          if (colSegre === 'data') return parseTimestampDataTabela(item.data, item.hora, item.timestamp);
+          if (colSegre === 'dataConclusao') return parseTimestampDataTabela(item.dataConclusao, item.horaConclusao);
+          if (colSegre === 'escolas') return item.escolaPretendida || item.escolaAtual || '';
+          return item[colSegre] || '';
+        },
+        tieId: function(item) { return item.id; }
+      });
 
       if (badgeContador) {
         badgeContador.innerText = `Exibindo ${registros.length} registros`;
@@ -37787,10 +37972,10 @@ function imprimirAgendaCarro() {
       /* Monta tabela HTML */
       let htmlTabela = `
         <div style="overflow-x: auto; max-height: 520px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 10px;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; background: #ffffff;">
+          <table id="tabela-segre-dados" data-no-sort="true" class="no-sort-table" style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; background: #ffffff;">
             <thead>
               <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1; position: sticky; top: 0; z-index: 2;">
-                ${colunas.map(c => `<th style="padding: 10px 12px; font-weight: 800; color: #1e293b; width: ${c.width};">${c.titulo}</th>`).join('')}
+                ${colunas.map(c => gerarThOrdenavelHtml(c, colSegre, dirSegre, 'alternarOrdenacaoSegre')).join('')}
               </tr>
             </thead>
             <tbody>
@@ -41862,9 +42047,11 @@ function imprimirAgendaCarro() {
     let abaAtivaSepes = 'aposentadoria';
     let filtroBuscaSepes = '';
     let filtroStatusSepes = 'todos';
+    let ordenacaoSepes = { col: 'dataEntrada', dir: 'desc' };
 
     function mudarAbaSepes(aba) {
       abaAtivaSepes = aba;
+      ordenacaoSepes = { col: 'dataEntrada', dir: 'desc' };
       const abas = ['aposentadoria', 'designacoes', 'abono'];
       abas.forEach(a => {
         const btn = document.getElementById('tab-btn-sepes-' + a);
@@ -41888,6 +42075,16 @@ function imprimirAgendaCarro() {
       const selectStatus = document.getElementById('sepes-filtro-status');
       filtroBuscaSepes = input ? input.value.trim().toLowerCase() : '';
       filtroStatusSepes = selectStatus ? selectStatus.value : 'todos';
+      renderizarCorpoTabelaSepes();
+    }
+
+    function alternarOrdenacaoSepes(colKey) {
+      if (ordenacaoSepes.col === colKey) {
+        ordenacaoSepes.dir = ordenacaoSepes.dir === 'desc' ? 'asc' : 'desc';
+      } else {
+        ordenacaoSepes.col = colKey;
+        ordenacaoSepes.dir = (colKey === 'dataEntrada' || colKey === 'publicacao') ? 'desc' : 'asc';
+      }
       renderizarCorpoTabelaSepes();
     }
 
@@ -41919,11 +42116,11 @@ function imprimirAgendaCarro() {
         });
 
         colunas = [
-          { titulo: 'Entrada / Vigência', width: '15%' },
-          { titulo: 'Servidor(a) & RG/CPF', width: '25%' },
-          { titulo: 'Unidade Escolar / U.A.', width: '23%' },
-          { titulo: 'Processo SEI', width: '18%' },
-          { titulo: 'Situação Executiva', width: '19%' }
+          { key: 'dataEntrada', titulo: 'Entrada / Vigência', width: '15%', isDate: true },
+          { key: 'nome', titulo: 'Servidor(a) & RG/CPF', width: '25%' },
+          { key: 'ua', titulo: 'Unidade Escolar / U.A.', width: '23%' },
+          { key: 'sei', titulo: 'Processo SEI', width: '18%' },
+          { key: 'status', titulo: 'Situação Executiva', width: '19%' }
         ];
 
       } else if (abaAtivaSepes === 'designacoes') {
@@ -41946,12 +42143,12 @@ function imprimirAgendaCarro() {
         });
 
         colunas = [
-          { titulo: 'Data / Publicação', width: '14%' },
-          { titulo: 'Servidor(a) & RG/CIN', width: '24%' },
-          { titulo: 'Função / Cargo', width: '20%' },
-          { titulo: 'Unidade Escolar', width: '22%' },
-          { titulo: 'Processo SEI', width: '10%' },
-          { titulo: 'Situação Executiva', width: '10%' }
+          { key: 'dataEntrada', titulo: 'Data / Publicação', width: '14%', isDate: true },
+          { key: 'nome', titulo: 'Servidor(a) & RG/CIN', width: '24%' },
+          { key: 'funcao', titulo: 'Função / Cargo', width: '20%' },
+          { key: 'ue', titulo: 'Unidade Escolar', width: '22%' },
+          { key: 'sei', titulo: 'Processo SEI', width: '10%' },
+          { key: 'status', titulo: 'Situação Executiva', width: '10%' }
         ];
 
       } else if (abaAtivaSepes === 'abono') {
@@ -41973,14 +42170,28 @@ function imprimirAgendaCarro() {
         });
 
         colunas = [
-          { titulo: 'Data Entrada', width: '13%' },
-          { titulo: 'Servidor(a) & RG/CIN', width: '27%' },
-          { titulo: 'Unidade Escolar', width: '25%' },
-          { titulo: 'Processo SEI', width: '17%' },
-          { titulo: 'Publicação DOE', width: '9%' },
-          { titulo: 'Situação Executiva', width: '9%' }
+          { key: 'dataEntrada', titulo: 'Data Entrada', width: '13%', isDate: true },
+          { key: 'nome', titulo: 'Servidor(a) & RG/CIN', width: '27%' },
+          { key: 'ue', titulo: 'Unidade Escolar', width: '25%' },
+          { key: 'sei', titulo: 'Processo SEI', width: '17%' },
+          { key: 'publicacao', titulo: 'Publicação DOE', width: '9%', isDate: true },
+          { key: 'status', titulo: 'Situação Executiva', width: '9%' }
         ];
       }
+
+      /* Ordenação padrão: data mais recente -> mais antiga */
+      const colSepes = ordenacaoSepes.col || 'dataEntrada';
+      const dirSepes = ordenacaoSepes.dir || 'desc';
+      const colDefSepes = colunas.find(c => c.key === colSepes) || colunas[0];
+      ordenarListaPorColuna(registros, {
+        dir: dirSepes,
+        isDate: !!(colDefSepes && colDefSepes.isDate),
+        getter: function(item) {
+          if (colSepes === 'dataEntrada' || colSepes === 'publicacao') return parseTimestampDataTabela(item[colSepes]);
+          return item[colSepes] || '';
+        },
+        tieId: function(item) { return item.id; }
+      });
 
       if (badgeContador) {
         badgeContador.innerText = `Exibindo ${registros.length} registros`;
@@ -41988,10 +42199,10 @@ function imprimirAgendaCarro() {
 
       let htmlTabela = `
         <div style="overflow-x: auto; max-height: 520px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 10px;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; background: #ffffff;">
+          <table id="tabela-sepes-dados" data-no-sort="true" class="no-sort-table" style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; background: #ffffff;">
             <thead>
               <tr style="background: #f1f5f9; border-bottom: 2px solid #cbd5e1; position: sticky; top: 0; z-index: 2;">
-                ${colunas.map(c => `<th style="padding: 10px 12px; font-weight: 800; color: #1e293b; width: ${c.width};">${c.titulo}</th>`).join('')}
+                ${colunas.map(c => gerarThOrdenavelHtml(c, colSepes, dirSepes, 'alternarOrdenacaoSepes')).join('')}
               </tr>
             </thead>
             <tbody>
@@ -46978,7 +47189,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       var tabelas = document.querySelectorAll('table');
       tabelas.forEach(function(tabela) {
         if (tabela.hasAttribute('data-no-sort') || tabela.classList.contains('no-sort-table')) return;
-        if (tabela.classList.contains('calendar-table')) return;
+        if (tabela.classList.contains('calendar-table') || tabela.classList.contains('m30-table')) return;
 
         var thead = tabela.querySelector('thead');
         if (!thead) return;
