@@ -19641,14 +19641,26 @@ function imprimirAgendaCarro() {
       'EEC': {
         sigla: 'EEC',
         nome: 'EEC - Equipe de Especialistas em Currículo',
-        descricao: 'Acompanhamento pedagógico, metas do SARESP, formação continuada de professores e projetos educacionais.',
+        descricao: 'Acompanhamento pedagógico, avaliação diagnóstica SAEB 2025, metas do SARESP, formação continuada de professores e projetos curriculares.',
         icone: '📚',
         cor: '#0b2351',
         driveFolder: 'Uploads BIDirigente / EEC',
         setores: [
-          { sigla: 'AnosIniciais', nome: 'Formação - Anos Iniciais', desc: 'Alfabetização e currículo paulista' },
-          { sigla: 'AnosFinaisEM', nome: 'Formação - Anos Finais e Ensino Médio', desc: 'Itinerários formativos e avaliações' },
-          { sigla: 'Projetos', nome: 'Projetos e Programas Especiais', desc: 'Inova Educação e protagonismo juvenil' }
+          { 
+            sigla: 'SAEB', 
+            nome: '📊 Consulta SAEB 2025', 
+            desc: 'Sistema Oficial de Consulta ao SAEB 2025 - Acompanhamento pedagógico regional das escolas de Itapevi e região.' 
+          },
+          { 
+            sigla: 'Formacao', 
+            nome: 'Currículo & Formação Docente', 
+            desc: 'Alfabetização, anos iniciais, anos finais, ensino médio e itinerários formativos do Currículo Paulista.' 
+          },
+          { 
+            sigla: 'Projetos', 
+            nome: 'Projetos e Programas Especiais', 
+            desc: 'Inova Educação, protagonismo juvenil e iniciativas curriculares especiais da Diretoria de Ensino.' 
+          }
         ]
       }
     };
@@ -20466,6 +20478,8 @@ function imprimirAgendaCarro() {
         renderizarDashboardSepes();
       } else if (siglaSetor === 'SEFREP') {
         renderizarDashboardSefrep();
+      } else if (siglaSetor === 'SAEB' || (siglaCentro === 'EEC' && (siglaSetor === 'SAEB' || !siglaSetor))) {
+        renderizarModuloEecSaeb();
       } else {
         if (containerDinamico) {
           containerDinamico.innerHTML = `
@@ -42372,6 +42386,174 @@ function imprimirAgendaCarro() {
       `;
     }
 
+    /* ======================================================= */
+    /* MÓDULO EXECUTIVO EEC: CONSULTA SAEB 2025 (APPS SCRIPT)  */
+    /* ======================================================= */
+    var EEC_PROTO_SLASH = 'https:' + String.fromCharCode(47, 47);
+    var URLS_OFICIAIS_EEC_SAEB = {
+      gasWebapp: EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbwc79rKkieVXFptQTxBarcJ1yew2ptmiyw9Z_a3kvylsqSxUzyeXAEMmCVkETy6WxPB/exec',
+      googleSites: EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/consulta-saeb-2025?authuser=0'
+    };
+
+    function renderizarModuloEecSaeb() {
+      var container = document.getElementById('setor-conteudo-dinamico');
+      if (!container) return;
+
+      var html = '' +
+        '<div id="eec-saeb-wrapper" class="eec-saeb-container" style="padding: 0.5rem 0.2rem; font-family: inherit;">' +
+          
+          '<!-- BANNER TOPO EXECUTIVO EEC • SAEB 2025 -->' +
+          '<div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 50%, #1e40af 100%); border: 2px solid #f59e0b; border-radius: 16px; padding: 1.3rem 1.5rem; margin-bottom: 1rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">' +
+            '<div>' +
+              '<div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem; flex-wrap: wrap;">' +
+                '<span style="font-size: 1.6rem;">📊</span>' +
+                '<h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">Consulta SAEB 2025 • EEC</h2>' +
+                '<span style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">SISTEMA OFICIAL EEC</span>' +
+                '<span style="background: #dbeafe; color: #1e40af; border: 1.5px solid #3b82f6; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">@prof.educacao.sp.gov.br</span>' +
+              '</div>' +
+              '<p style="font-size: 0.86rem; color: #e0e7ff; margin: 0; max-width: 860px; line-height: 1.45; font-weight: 500;">' +
+                'Ambiente integrado para consulta, acompanhamento e diagnóstico dos dados do <strong style="color: #ffffff;">SAEB 2025</strong> nas 60 escolas da Diretoria de Ensino de Itapevi, gerenciado pela Equipe de Especialistas em Currículo (EEC).' +
+              '</p>' +
+              '<div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">' +
+                '<span>🎯 <strong>Finalidade:</strong> <span style="color: #ffffff;">Diagnóstico Pedagógico SAEB</span></span>' +
+                '<span>🏛️ <strong>Equipe:</strong> <span style="color: #ffffff;">EEC - Especialistas em Currículo</span></span>' +
+                '<span>⚡ <strong>Motor:</strong> <span style="color: #38bdf8; font-weight: 800;">Google Apps Script Corporativo</span></span>' +
+              '</div>' +
+            '</div>' +
+
+            '<div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">' +
+              '<button type="button" onclick="recarregarIframeEecSaeb()" title="Recarregar o aplicativo Apps Script" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.25)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.15)\'">' +
+                '🔄 Recarregar' +
+              '</button>' +
+              '<button type="button" onclick="toggleFullscreenEecSaeb()" id="btn-eec-fullscreen" title="Modo Tela Cheia" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.25)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.15)\'">' +
+                '⛶ Tela Cheia' +
+              '</button>' +
+              '<a href="' + URLS_OFICIAIS_EEC_SAEB.googleSites + '" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'" onmouseout="this.style.opacity=\'1\'">' +
+                '🌐 Abrir no Google Sites ↗' +
+              '</a>' +
+              '<a href="' + URLS_OFICIAIS_EEC_SAEB.gasWebapp + '" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.2); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 8px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.3)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.2)\'">' +
+                '🚀 Web App Direto ↗' +
+              '</a>' +
+            '</div>' +
+          '</div>' +
+
+          '<!-- AVISO DE CONTA INSTITUCIONAL PROF.EDUCACAO -->' +
+          '<div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 0.75rem 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">' +
+            '<div style="display: flex; align-items: center; gap: 0.6rem;">' +
+              '<span style="font-size: 1.25rem;">🔐</span>' +
+              '<span style="font-size: 0.83rem; color: #166534; font-weight: 600;">' +
+                '<strong>Acesso Corporativo SEDUC:</strong> O sistema utiliza a autenticação do Google Workspace. Certifique-se de estar conectado com sua conta institucional <strong>@prof.educacao.sp.gov.br</strong>.' +
+              '</span>' +
+            '</div>' +
+            '<div style="font-size: 0.76rem; color: #15803d; font-weight: 700;">' +
+              '✨ Renderização Segura & Integrada' +
+            '</div>' +
+          '</div>' +
+
+          '<!-- CONTAINER EMBARCADO COM IFRAME -->' +
+          '<div id="eec-iframe-wrapper" style="position: relative; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 25px -5px rgba(0,0,0,0.08); min-height: 850px; transition: all 0.3s ease;">' +
+            
+            '<!-- SPINNER DE CARREGAMENTO -->' +
+            '<div id="eec-saeb-loader" style="position: absolute; inset: 0; background: #f8fafc; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem; z-index: 10;">' +
+              '<div style="width: 44px; height: 44px; border: 4px solid #e2e8f0; border-top-color: #2563eb; border-radius: 50%; animation: eecSaebSpin 0.9s linear infinite;"></div>' +
+              '<span style="font-size: 0.9rem; font-weight: 700; color: #0b2351;">Carregando Consulta SAEB 2025...</span>' +
+              '<span style="font-size: 0.78rem; color: #64748b;">Conectando com Google Apps Script EEC</span>' +
+            '</div>' +
+
+            '<!-- IFRAME DO WEB APP -->' +
+            '<iframe ' +
+              'id="iframe-eec-saeb" ' +
+              'src="' + URLS_OFICIAIS_EEC_SAEB.gasWebapp + '" ' +
+              'title="Consulta SAEB 2025 - EEC" ' +
+              'style="width: 100%; height: 850px; border: none; display: block;" ' +
+              'allow="fullscreen; clipboard-read; clipboard-write" ' +
+              'sandbox="allow-scripts allow-popups allow-forms allow-same-origin allow-popups-to-escape-sandbox allow-downloads allow-modals" ' +
+              'onload="esconderLoaderEecSaeb()" ' +
+            '></iframe>' +
+          '</div>' +
+
+          '<!-- RODAPÉ INFORMATIVO -->' +
+          '<div style="margin-top: 0.9rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem; font-size: 0.78rem; color: #64748b;">' +
+            '<div>' +
+              'Caso o aplicativo exiba tela em branco ou solicite login, <a href="' + URLS_OFICIAIS_EEC_SAEB.googleSites + '" target="_blank" rel="noopener noreferrer" style="color: #2563eb; font-weight: 800; text-decoration: underline;">clique aqui para abrir no Google Sites oficial</a>.' +
+            '</div>' +
+            '<div style="font-weight: 700; color: #0b2351;">' +
+              'Diretoria Regional de Ensino de Itapevi • URE Itapevi' +
+            '</div>' +
+          '</div>' +
+
+        '</div>' +
+
+        '<style>' +
+          '@keyframes eecSaebSpin {' +
+            'to { transform: rotate(360deg); }' +
+          '}' +
+          '#eec-iframe-wrapper.fullscreen-mode {' +
+            'position: fixed !important;' +
+            'inset: 0 !important;' +
+            'z-index: 999999 !important;' +
+            'width: 100vw !important;' +
+            'height: 100vh !important;' +
+            'min-height: 100vh !important;' +
+            'border-radius: 0 !important;' +
+            'border: none !important;' +
+          '}' +
+          '#eec-iframe-wrapper.fullscreen-mode iframe {' +
+            'height: 100vh !important;' +
+          '}' +
+        '</style>';
+
+      container.innerHTML = html;
+    }
+
+    function esconderLoaderEecSaeb() {
+      var loader = document.getElementById('eec-saeb-loader');
+      if (loader) {
+        loader.style.opacity = '0';
+        loader.style.transition = 'opacity 0.4s ease';
+        setTimeout(function() {
+          if (loader) loader.style.display = 'none';
+        }, 400);
+      }
+    }
+
+    function recarregarIframeEecSaeb() {
+      var iframe = document.getElementById('iframe-eec-saeb');
+      var loader = document.getElementById('eec-saeb-loader');
+      if (loader) {
+        loader.style.display = 'flex';
+        loader.style.opacity = '1';
+      }
+      if (iframe) {
+        var urlBase = URLS_OFICIAIS_EEC_SAEB.gasWebapp;
+        iframe.src = urlBase + (urlBase.indexOf('?') === -1 ? '?_t=' : '&_t=') + new Date().getTime();
+      }
+    }
+
+    function toggleFullscreenEecSaeb() {
+      var wrapper = document.getElementById('eec-iframe-wrapper');
+      var btn = document.getElementById('btn-eec-fullscreen');
+      if (!wrapper) return;
+      var isFs = wrapper.classList.toggle('fullscreen-mode');
+      if (btn) {
+        btn.innerHTML = isFs ? '❌ Sair da Tela Cheia' : '⛶ Tela Cheia';
+      }
+      if (isFs) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        var wrapper = document.getElementById('eec-iframe-wrapper');
+        if (wrapper && wrapper.classList.contains('fullscreen-mode')) {
+          toggleFullscreenEecSaeb();
+        }
+      }
+    });
+
     function renderizarDashboardSepes() {
       const container = document.getElementById('setor-conteudo-dinamico');
       if (!container) return;
@@ -46966,6 +47148,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     if (typeof selecionarBaseSeintec === 'function') window.selecionarBaseSeintec = selecionarBaseSeintec;
     if (typeof abrirAssessoriaTecnica === 'function') window.abrirAssessoriaTecnica = abrirAssessoriaTecnica;
     if (typeof selecionarSetor === 'function') window.selecionarSetor = selecionarSetor;
+    if (typeof renderizarModuloEecSaeb === 'function') window.renderizarModuloEecSaeb = renderizarModuloEecSaeb;
+    if (typeof recarregarIframeEecSaeb === 'function') window.recarregarIframeEecSaeb = recarregarIframeEecSaeb;
+    if (typeof toggleFullscreenEecSaeb === 'function') window.toggleFullscreenEecSaeb = toggleFullscreenEecSaeb;
 
     /* Inicialização do suporte de arrastar e soltar (drag & drop) e hidratação de cards */
     function inicializarTudoPersistente() {

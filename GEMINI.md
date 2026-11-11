@@ -54,6 +54,10 @@ Antes de finalizar qualquer tarefa, SEMPRE validar programaticamente se todos os
   - Conta corporativa: `rosineide_gazolla_educacao_sp_gov_br`
   - Arquivo: `DEMANDAS SEAPE.xlsx`
   - Abas monitoradas: `APOSENTADORIA`, `DESIGNAÇÕES`, `ABONO DE PERMANÊNCIA`
+- **EEC (Equipe de Especialistas em Currículo)**:
+  - Sistema Oficial: Consulta SAEB 2025 (Web App Apps Script & Google Sites)
+  - Google Sites: `https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/consulta-saeb-2025?authuser=0`
+  - Web App Direto: `https://script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbwc79rKkieVXFptQTxBarcJ1yew2ptmiyw9Z_a3kvylsqSxUzyeXAEMmCVkETy6WxPB/exec`
 
 ## 5. Regra Fundamental de Resiliência dos Links Públicos do SharePoint (Anti-Login Universal)
 - **Natureza Pública**: Todos os links de arquivos, pastas e planilhas compartilhados pelos setores da Diretoria de Ensino (SEINTEC, SEAFIN, SEOM, SEGRE, SEPES, EEC, ASURE, etc.) são públicos ("Qualquer pessoa com o link pode visualizar").
