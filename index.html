@@ -1708,13 +1708,22 @@ if (!window.mostrarHome) {
 
         alternarCamadaMapa('ruas', document.getElementById('btn-camada-google-ruas'));
 
-        const iconeSede = criarIconeMarcadorMapa('#0284c7', '🏛️');
-        if (iconeSede) {
-          L.marker(COORDENADA_SEDE_DIRETORIA, { icon: iconeSede })
+        const iconeUre = (typeof L !== 'undefined') ? L.divIcon({
+          className: 'custom-map-pin ure-main-pin',
+          html: '<div style="position: relative; width: 34px; height: 34px;">' +
+            '<div style="position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%); background: #0284c7; color: #ffffff; border: 1.5px solid #ffffff; border-radius: 999px; padding: 2px 8px; font-size: 10.5px; font-weight: 800; white-space: nowrap; box-shadow: 0 3px 10px rgba(2,132,199,0.45); letter-spacing: 0.02em;">URE Itapevi</div>' +
+            '<div style="background: #0284c7; width: 34px; height: 34px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(2,132,199,0.55); border: 2.5px solid #ffffff;"><span style="transform: rotate(45deg); font-size: 15px; line-height: 1;">🏛️</span></div>' +
+          '</div>',
+          iconSize: [34, 34],
+          iconAnchor: [17, 34],
+          popupAnchor: [0, -36]
+        }) : null;
+        if (iconeUre) {
+          window._marcadorUreMapa = L.marker(COORDENADA_SEDE_DIRETORIA, { icon: iconeUre, zIndexOffset: 2000, riseOnHover: true })
             .addTo(mapaRedeInstancia)
             .bindPopup(
               '<div style="font-family: inherit; padding: 4px; min-width: 220px;">' +
-              '<span style="font-size: 0.68rem; font-weight: 800; background: #e0f2fe; color: #0284c7; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">SEDE REGIONAL</span>' +
+              '<span style="font-size: 0.68rem; font-weight: 800; background: #e0f2fe; color: #0284c7; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">URE ITAPEVI</span>' +
               '<h4 style="margin: 4px 0 2px 0; font-size: 0.95rem; font-weight: 800; color: #0b2351;">Diretoria de Ensino • URE Itapevi</h4>' +
               '<p style="margin: 0; font-size: 0.74rem; color: #64748b;">Av. Presidente Vargas, 900 - Vila Nova Itapevi, Itapevi - SP</p>' +
               '<div style="margin-top: 8px;">' +
@@ -1747,6 +1756,9 @@ if (!window.mostrarHome) {
     function focarSedeDiretoriaMapa() {
       if (mapaRedeInstancia) {
         mapaRedeInstancia.flyTo(COORDENADA_SEDE_DIRETORIA, 15, { animate: true, duration: 0.7 });
+        if (window._marcadorUreMapa) {
+          setTimeout(function() { window._marcadorUreMapa.openPopup(); }, 350);
+        }
       }
     }
 
@@ -1834,7 +1846,7 @@ if (!window.mostrarHome) {
               '</div>' +
               '<div style="font-size: 0.71rem; color: #64748b; margin-top: 2px;">CIE ' + cieStr + ' • ' + e.cidade + '</div>' +
               '<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 3px; font-size: 0.68rem; color: #475569;">' +
-                '<span>📍 ' + distKm + ' km da Sede</span>' +
+                '<span>📍 ' + distKm + ' km da URE</span>' +
                 '<span style="color: #0284c7; font-weight: 700;">Ver no Mapa ➔</span>' +
               '</div>' +
             '</div>';
@@ -1873,7 +1885,7 @@ if (!window.mostrarHome) {
               '<div><b>Tel:</b> ' + (e.telefone || '---') + '</div>' +
             '</div>' +
             '<div style="font-size: 0.69rem; color: #0369a1; font-weight: 700; margin-bottom: 7px; background: #f0f9ff; padding: 3px 6px; border-radius: 4px; text-align: center;">' +
-              '📏 Aprox. ' + distKm + ' km da Sede da Diretoria de Ensino' +
+              '📏 Aprox. ' + distKm + ' km da URE Itapevi' +
             '</div>' +
             '<div style="display: flex; flex-direction: column; gap: 4px;">' +
               '<a href="' + gmapsDirUrl + '" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 5px; background: #0284c7; color: #ffffff; text-decoration: none; padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 0.74rem; box-shadow: 0 2px 6px rgba(2,132,199,0.3);">' +
@@ -15779,7 +15791,7 @@ function imprimirAgendaCarro() {
           <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.6rem 0.9rem; display: flex; align-items: center; gap: 0.7rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
             <div style="width: 34px; height: 34px; border-radius: 8px; background: #fef3c7; color: #b45309; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">🏛️</div>
             <div>
-              <div style="font-size: 0.68rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Sede da URE</div>
+              <div style="font-size: 0.68rem; font-weight: 700; color: #64748b; text-transform: uppercase;">URE Itapevi</div>
               <div style="font-size: 1.05rem; font-weight: 800; color: #0b2351; line-height: 1.2;">Itapevi <span style="font-size: 0.68rem; color: #64748b; font-weight: 600;">(Av. Pres. Vargas, 900)</span></div>
             </div>
           </div>
@@ -15865,8 +15877,8 @@ function imprimirAgendaCarro() {
 
               <!-- AÇÕES RÁPIDAS DE FOCO E NAVEGAÇÃO -->
               <div style="display: flex; gap: 4px; align-items: center;">
-                <button type="button" onclick="focarSedeDiretoriaMapa();" title="Centralizar na Sede da Diretoria de Ensino" style="font-size: 11px; padding: 4px 9px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #334155; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                  <span>🏛️ Sede URE</span>
+                <button type="button" onclick="focarSedeDiretoriaMapa();" title="Centralizar na URE Itapevi" style="font-size: 11px; padding: 4px 9px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #334155; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                  <span>🏛️ URE Itapevi</span>
                 </button>
                 <button type="button" onclick="resetarVisualizacaoMapaRede();" title="Enquadrar todas as 60 escolas perfeitamente na tela" style="font-size: 11px; padding: 4px 9px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; color: #0284c7; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px;">
                   <span>🔄 Enquadrar Todas</span>
@@ -15894,7 +15906,7 @@ function imprimirAgendaCarro() {
                 </span>
                 <span style="display: flex; align-items: center; gap: 5px; color: #0369a1; font-weight: 700;">
                   <span style="display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #0284c7;"></span>
-                  <b>Azul:</b> Sede URE Itapevi
+                  <b>Azul:</b> URE Itapevi
                 </span>
               </div>
               <span style="color: #94a3b8; font-size: 10.5px;">Enquadramento Dinâmico • URE Itapevi • Google Maps</span>
@@ -44613,7 +44625,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           const escNome = escObj ? escObj.nome : `CIE ${filtroEscolaCieAtivo}`;
           bannerSub.innerText = `Visão Detalhada da Unidade: ${escNome} (${total.toLocaleString('pt-BR')} itens catalogados)`;
         } else {
-          bannerSub.innerText = `Inventário Oficial Consolidado das 60 Escolas + Sede Regional (${total.toLocaleString('pt-BR')} equipamentos)`;
+          bannerSub.innerText = `Inventário Oficial Consolidado das 60 Escolas + URE Itapevi (${total.toLocaleString('pt-BR')} equipamentos)`;
         }
       }
 
