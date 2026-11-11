@@ -24481,9 +24481,15 @@ function imprimirAgendaCarro() {
     }
 
 
-    function processarPlanilhaSematBase64(base64Data, timestamp) {
+    function processarPlanilhaSematBase64(base64Data, timestamp, jaPurificado) {
       if (typeof XLSX === 'undefined') {
         console.warn('SheetJS (XLSX) não disponível para SEMAT.');
+        return;
+      }
+      if (!jaPurificado && typeof window.purificarXlsxStreamingSeNecessario === 'function') {
+        window.purificarXlsxStreamingSeNecessario(base64Data).then(function(cleanB64) {
+          processarPlanilhaSematBase64(cleanB64, timestamp, true);
+        });
         return;
       }
       try {
@@ -25170,9 +25176,15 @@ function imprimirAgendaCarro() {
       renderizarCorpoTabelaSevesc();
     }
 
-    function processarPlanilhaSevescBase64(base64Data, timestamp) {
+    function processarPlanilhaSevescBase64(base64Data, timestamp, jaPurificado) {
       if (typeof XLSX === 'undefined') {
         console.warn('SheetJS (XLSX) não disponível para SEVESC.');
+        return;
+      }
+      if (!jaPurificado && typeof window.purificarXlsxStreamingSeNecessario === 'function') {
+        window.purificarXlsxStreamingSeNecessario(base64Data).then(function(cleanB64) {
+          processarPlanilhaSevescBase64(cleanB64, timestamp, true);
+        });
         return;
       }
       try {
@@ -37709,9 +37721,15 @@ function imprimirAgendaCarro() {
       renderizarCorpoTabelaSegre();
     }
 
-    function processarPlanilhaSegreBase64(base64Data, timestamp) {
+    function processarPlanilhaSegreBase64(base64Data, timestamp, jaPurificado) {
       if (typeof XLSX === 'undefined') {
         console.warn('SheetJS (XLSX) não disponível para SEGRE.');
+        return;
+      }
+      if (!jaPurificado && typeof window.purificarXlsxStreamingSeNecessario === 'function') {
+        window.purificarXlsxStreamingSeNecessario(base64Data).then(function(cleanB64) {
+          processarPlanilhaSegreBase64(cleanB64, timestamp, true);
+        });
         return;
       }
       try {
@@ -41926,9 +41944,15 @@ function imprimirAgendaCarro() {
       renderizarCorpoTabelaSepes();
     }
 
-    function processarPlanilhaSepesBase64(base64Data, timestamp) {
+    function processarPlanilhaSepesBase64(base64Data, timestamp, jaPurificado) {
       if (typeof XLSX === 'undefined') {
         console.warn('SheetJS (XLSX) não disponível para SEPES.');
+        return;
+      }
+      if (!jaPurificado && typeof window.purificarXlsxStreamingSeNecessario === 'function') {
+        window.purificarXlsxStreamingSeNecessario(base64Data).then(function(cleanB64) {
+          processarPlanilhaSepesBase64(cleanB64, timestamp, true);
+        });
         return;
       }
       try {
@@ -45211,12 +45235,17 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         google.script.run
           .withSuccessHandler(function(res) {
             if (res && res.sucesso && res.dadosBase64) {
-              try {
-                var qtd = processarPlanilhaSharepointBase64(res.dadosBase64, res.timestamp);
-                finalizarComSucesso(qtd, res.timestamp, 'SharePoint via Google Apps Script');
-              } catch (e) {
-                executarTier2Jsonp();
-              }
+              var purificarPromise = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
+                ? window.purificarXlsxStreamingSeNecessario(res.dadosBase64)
+                : Promise.resolve(res.dadosBase64);
+              purificarPromise.then(function(cleanB64) {
+                try {
+                  var qtd = processarPlanilhaSharepointBase64(cleanB64, res.timestamp);
+                  finalizarComSucesso(qtd, res.timestamp, 'SharePoint via Google Apps Script');
+                } catch (e) {
+                  executarTier2Jsonp();
+                }
+              });
             } else if (res && res.sucesso && Array.isArray(res.registros) && res.registros.length > 0) {
               aplicarNovosRegistros(res.registros, res.timestamp, 'SharePoint Direto');
               finalizarComSucesso(res.registros.length, res.timestamp, 'SharePoint Direto');
@@ -45247,13 +45276,18 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           if (el && el.parentNode) el.parentNode.removeChild(el);
 
           if (res && res.sucesso && res.dadosBase64) {
-            try {
-              var qtd = processarPlanilhaSharepointBase64(res.dadosBase64, res.timestamp);
-              finalizarComSucesso(qtd, res.timestamp, 'SharePoint Live (JSONP)');
-            } catch(e) {
-              console.warn('Erro ao processar XLSX JSONP:', e);
-              executarTier4Git();
-            }
+            var purificarPromiseJsonp = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
+              ? window.purificarXlsxStreamingSeNecessario(res.dadosBase64)
+              : Promise.resolve(res.dadosBase64);
+            purificarPromiseJsonp.then(function(cleanB64) {
+              try {
+                var qtd = processarPlanilhaSharepointBase64(cleanB64, res.timestamp);
+                finalizarComSucesso(qtd, res.timestamp, 'SharePoint Live (JSONP)');
+              } catch(e) {
+                console.warn('Erro ao processar XLSX JSONP:', e);
+                executarTier4Git();
+              }
+            });
           } else if (res && res.sucesso && Array.isArray(res.registros) && res.registros.length > 0) {
             aplicarNovosRegistros(res.registros, res.timestamp, 'SharePoint Direto');
             finalizarComSucesso(res.registros.length, res.timestamp, 'SharePoint Direto');
@@ -45657,6 +45691,225 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
     /**
      * =========================================================================
+     * BLINDAGEM ANTI-INCHAÇO EM STREAMING (DecompressionStream NATIVE WEB API)
+     * Detecta em <1ms se alguma aba do .xlsx possui >3 MB de XML descomprimido
+     * (típico de planilhas formatadas até a linha 1.048.576) e purifica a aba
+     * em streaming chunk-a-chunk, descartando linhas vazias antes do SheetJS.
+     * =========================================================================
+     */
+    (function registrarPurificadorXlsxStreaming() {
+      var crcTableCache = null;
+      function getCrcTable() {
+        if (crcTableCache) return crcTableCache;
+        crcTableCache = new Uint32Array(256);
+        for (var n = 0; n < 256; n++) {
+          var c = n;
+          for (var k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+          crcTableCache[n] = c >>> 0;
+        }
+        return crcTableCache;
+      }
+      function crc32U8(u8) {
+        var tbl = getCrcTable(), c = 0xffffffff;
+        for (var i = 0; i < u8.length; i++) c = tbl[(c ^ u8[i]) & 0xff] ^ (c >>> 8);
+        return (c ^ 0xffffffff) >>> 0;
+      }
+      function readU16(b, i) { return (b[i] | (b[i + 1] << 8)) >>> 0; }
+      function readU32(b, i) { return (b[i] | (b[i + 1] << 8) | (b[i + 2] << 16) | (b[i + 3] << 24)) >>> 0; }
+      function b64ToU8(b64) {
+        var bin = atob(b64), u8 = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+        return u8;
+      }
+      function u8ToB64(u8) {
+        var chunks = [];
+        for (var i = 0; i < u8.length; i += 32768) {
+          chunks.push(String.fromCharCode.apply(null, u8.subarray(i, i + 32768)));
+        }
+        return btoa(chunks.join(''));
+      }
+
+      async function purificarSheetDeflateStream(compU8) {
+        var rs = new ReadableStream({
+          start: function(ctrl) {
+            for (var i = 0; i < compU8.length; i += 262144) ctrl.enqueue(compU8.subarray(i, i + 262144));
+            ctrl.close();
+          }
+        });
+        var reader = rs.pipeThrough(new DecompressionStream('deflate-raw')).getReader();
+        var dec = new TextDecoder('utf-8');
+        var slashCh = String.fromCharCode(47);
+        var dimRe = new RegExp('<dimension\\b[^>]*' + slashCh + '>', 'i');
+        var buf = '', inSD = false, doneSD = false, dimStripped = false;
+        var outParts = [];
+
+        while (true) {
+          var step = await reader.read();
+          if (step.value) buf += dec.decode(step.value, { stream: true });
+          if (step.done) buf += dec.decode();
+
+          if (!inSD && !doneSD) {
+            var sdOpen = buf.indexOf('<sheetData');
+            if (sdOpen !== -1) {
+              var sdGt = buf.indexOf('>', sdOpen);
+              if (sdGt !== -1) {
+                var pre = buf.slice(0, sdGt + 1);
+                if (!dimStripped) { pre = pre.replace(dimRe, ''); dimStripped = true; }
+                outParts.push(pre);
+                var isSelfClose = buf[sdGt - 1] === slashCh;
+                buf = buf.slice(sdGt + 1);
+                if (isSelfClose) doneSD = true;
+                else inSD = true;
+              }
+            } else if (buf.length > 64) {
+              var headPart = buf.slice(0, buf.length - 64);
+              if (!dimStripped) headPart = headPart.replace(dimRe, '');
+              outParts.push(headPart);
+              buf = buf.slice(buf.length - 64);
+              if (step.done) { outParts.push(buf); buf = ''; break; }
+              continue;
+            }
+          }
+
+          if (inSD) {
+            var sdCloseTag = '<' + slashCh + 'sheetData>';
+            var rowCloseTag = '<' + slashCh + 'row>';
+            var sPos = 0;
+            while (true) {
+              var sdEnd = buf.indexOf(sdCloseTag, sPos);
+              var rStart = buf.indexOf('<row', sPos);
+              if (sdEnd !== -1 && (rStart === -1 || sdEnd < rStart)) {
+                outParts.push(sdCloseTag);
+                buf = buf.slice(sdEnd + sdCloseTag.length);
+                inSD = false;
+                doneSD = true;
+                break;
+              }
+              if (rStart === -1) {
+                buf = buf.slice(Math.max(sPos, buf.length - 16));
+                break;
+              }
+              var nextCh = buf[rStart + 4];
+              if (nextCh && nextCh !== ' ' && nextCh !== '>') { sPos = rStart + 4; continue; }
+              var tagClose = buf.indexOf('>', rStart);
+              if (tagClose === -1) { buf = buf.slice(rStart); break; }
+              if (buf[tagClose - 1] === slashCh) {
+                sPos = tagClose + 1;
+                continue;
+              }
+              var rEnd = buf.indexOf(rowCloseTag, tagClose);
+              if (rEnd === -1) { buf = buf.slice(rStart); break; }
+              var rowXml = buf.slice(rStart, rEnd + rowCloseTag.length);
+              if (
+                rowXml.indexOf('<v>') !== -1 || rowXml.indexOf('<v ') !== -1 ||
+                rowXml.indexOf('<is>') !== -1 || rowXml.indexOf('<is ') !== -1 ||
+                rowXml.indexOf('<f>') !== -1 || rowXml.indexOf('<f ') !== -1
+              ) {
+                outParts.push(rowXml);
+              }
+              sPos = rEnd + rowCloseTag.length;
+            }
+            if (!inSD && doneSD) { outParts.push(buf); buf = ''; }
+          } else if (doneSD) {
+            outParts.push(buf); buf = '';
+          }
+          if (step.done) break;
+        }
+        if (buf) outParts.push(buf);
+
+        var uncompU8 = new TextEncoder().encode(outParts.join(''));
+        var cs = new Blob([uncompU8]).stream().pipeThrough(new CompressionStream('deflate-raw'));
+        var compCleanU8 = new Uint8Array(await new Response(cs).arrayBuffer());
+        return {
+          compMethod: 8,
+          crc32: crc32U8(uncompU8),
+          uncompSize: uncompU8.length,
+          payload: compCleanU8
+        };
+      }
+
+      window.purificarXlsxStreamingSeNecessario = async function(base64Data) {
+        try {
+          if (!base64Data || typeof DecompressionStream !== 'function' || typeof CompressionStream !== 'function') {
+            return base64Data;
+          }
+          var zipU8 = b64ToU8(base64Data);
+          var eocd = -1;
+          for (var i = zipU8.length - 22; i >= Math.max(0, zipU8.length - 65557); i--) {
+            if (readU32(zipU8, i) === 0x06054b50) { eocd = i; break; }
+          }
+          if (eocd === -1) return base64Data;
+          var cdOff = readU32(zipU8, eocd + 16), cdCnt = readU16(zipU8, eocd + 10);
+          var entries = [], pos = cdOff, dec = new TextDecoder('utf-8');
+          var slashCh = String.fromCharCode(47);
+          var wsPrefix = 'xl' + slashCh + 'worksheets' + slashCh;
+          var hasBloated = false;
+          for (var k = 0; k < cdCnt; k++) {
+            if (readU32(zipU8, pos) !== 0x02014b50) break;
+            var compMethod = readU16(zipU8, pos + 10), modTime = readU16(zipU8, pos + 12), modDate = readU16(zipU8, pos + 14);
+            var crc32 = readU32(zipU8, pos + 16), compSize = readU32(zipU8, pos + 20), uncompSize = readU32(zipU8, pos + 24);
+            var nLen = readU16(zipU8, pos + 28), eLen = readU16(zipU8, pos + 30), cLen = readU16(zipU8, pos + 32), lfhOff = readU32(zipU8, pos + 42);
+            var nameBytes = zipU8.subarray(pos + 46, pos + 46 + nLen);
+            var name = dec.decode(nameBytes);
+            if (name.indexOf(wsPrefix) === 0 && compMethod === 8 && uncompSize > 3 * 1024 * 1024) {
+              hasBloated = true;
+            }
+            entries.push({ name: name, nameBytes: nameBytes, compMethod: compMethod, modTime: modTime, modDate: modDate, crc32: crc32, compSize: compSize, uncompSize: uncompSize, lfhOff: lfhOff });
+            pos += 46 + nLen + eLen + cLen;
+          }
+          if (!hasBloated) return base64Data;
+
+          var items = [];
+          for (var m = 0; m < entries.length; m++) {
+            var e = entries[m];
+            var lfn = readU16(zipU8, e.lfhOff + 26), lex = readU16(zipU8, e.lfhOff + 28);
+            var ds = e.lfhOff + 30 + lfn + lex;
+            var payload = zipU8.subarray(ds, ds + e.compSize);
+            if (e.name.indexOf(wsPrefix) === 0 && e.compMethod === 8 && e.uncompSize > 3 * 1024 * 1024) {
+              var cleaned = await purificarSheetDeflateStream(payload);
+              items.push({ nameBytes: e.nameBytes, modTime: e.modTime, modDate: e.modDate, compMethod: cleaned.compMethod, crc32: cleaned.crc32, uncompSize: cleaned.uncompSize, payload: cleaned.payload });
+            } else {
+              items.push({ nameBytes: e.nameBytes, modTime: e.modTime, modDate: e.modDate, compMethod: e.compMethod, crc32: e.crc32, uncompSize: e.uncompSize, payload: payload });
+            }
+          }
+
+          var totalLfh = 0, totalCd = 0;
+          for (var a = 0; a < items.length; a++) {
+            totalLfh += 30 + items[a].nameBytes.length + items[a].payload.length;
+            totalCd += 46 + items[a].nameBytes.length;
+          }
+          var out = new Uint8Array(totalLfh + totalCd + 22);
+          var dv = new DataView(out.buffer);
+          var off = 0, cdPos = totalLfh;
+          for (var z = 0; z < items.length; z++) {
+            var it = items[z], nb = it.nameBytes, pl = it.payload;
+            dv.setUint32(off, 0x04034b50, true); dv.setUint16(off + 4, 20, true); dv.setUint16(off + 6, 0x0800, true);
+            dv.setUint16(off + 8, it.compMethod, true); dv.setUint16(off + 10, it.modTime, true); dv.setUint16(off + 12, it.modDate, true);
+            dv.setUint32(off + 14, it.crc32, true); dv.setUint32(off + 18, pl.length, true); dv.setUint32(off + 22, it.uncompSize, true);
+            dv.setUint16(off + 26, nb.length, true); dv.setUint16(off + 28, 0, true);
+            out.set(nb, off + 30); out.set(pl, off + 30 + nb.length);
+
+            dv.setUint32(cdPos, 0x02014b50, true); dv.setUint16(cdPos + 4, 20, true); dv.setUint16(cdPos + 6, 20, true); dv.setUint16(cdPos + 8, 0x0800, true);
+            dv.setUint16(cdPos + 10, it.compMethod, true); dv.setUint16(cdPos + 12, it.modTime, true); dv.setUint16(cdPos + 14, it.modDate, true);
+            dv.setUint32(cdPos + 16, it.crc32, true); dv.setUint32(cdPos + 20, pl.length, true); dv.setUint32(cdPos + 24, it.uncompSize, true);
+            dv.setUint16(cdPos + 28, nb.length, true); dv.setUint32(cdPos + 42, off, true);
+            out.set(nb, cdPos + 46);
+
+            off += 30 + nb.length + pl.length;
+            cdPos += 46 + nb.length;
+          }
+          dv.setUint32(cdPos, 0x06054b50, true); dv.setUint16(cdPos + 8, items.length, true); dv.setUint16(cdPos + 10, items.length, true);
+          dv.setUint32(cdPos + 12, totalCd, true); dv.setUint32(cdPos + 16, totalLfh, true);
+          return u8ToB64(out);
+        } catch (errPur) {
+          console.warn('Purificador streaming fallback:', errPur);
+          return base64Data;
+        }
+      };
+    })();
+
+    /**
+     * =========================================================================
      * MOTOR UNIVERSAL CLIENTE DE RESOLUÇÃO PÚBLICA DO SHAREPOINT (ANTI-LOGIN)
      * REGRA FUNDAMENTAL: Todos os setores (SEINTEC, SEAFIN, SEOM, SEGRE, SEPES, EEC, ASURE, etc.)
      * devem utilizar esta função para sincronizar suas planilhas e pastas públicas
@@ -45714,15 +45967,20 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           if (el && el.parentNode) el.parentNode.removeChild(el);
 
           if (res && res.sucesso && res.dadosBase64) {
-            try {
-              if (typeof onProcessar === 'function') {
-                onProcessar(res.dadosBase64, res.timestamp);
+            var purGen = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
+              ? window.purificarXlsxStreamingSeNecessario(res.dadosBase64)
+              : Promise.resolve(res.dadosBase64);
+            purGen.then(function(cleanB64) {
+              try {
+                if (typeof onProcessar === 'function') {
+                  onProcessar(cleanB64, res.timestamp);
+                }
+                finalizarComSucesso(res.timestamp, true);
+              } catch (e) {
+                console.warn('Fallback para base consolidada no setor ' + setor + ':', e);
+                finalizarComSucesso(res ? res.timestamp : null, false);
               }
-              finalizarComSucesso(res.timestamp, true);
-            } catch (e) {
-              console.warn('Fallback para base consolidada no setor ' + setor + ':', e);
-              finalizarComSucesso(res ? res.timestamp : null, false);
-            }
+            });
           } else {
             finalizarComSucesso(res ? res.timestamp : null, false);
           }
@@ -45752,12 +46010,17 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         google.script.run
           .withSuccessHandler(function(res) {
             if (res && res.sucesso && res.dadosBase64) {
-              try {
-                if (typeof onProcessar === 'function') onProcessar(res.dadosBase64, res.timestamp);
-                finalizarComSucesso(res.timestamp, true);
-              } catch(e) {
-                executarJsonpGenerico();
-              }
+              var purGenT1 = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
+                ? window.purificarXlsxStreamingSeNecessario(res.dadosBase64)
+                : Promise.resolve(res.dadosBase64);
+              purGenT1.then(function(cleanB64) {
+                try {
+                  if (typeof onProcessar === 'function') onProcessar(cleanB64, res.timestamp);
+                  finalizarComSucesso(res.timestamp, true);
+                } catch(e) {
+                  executarJsonpGenerico();
+                }
+              });
             } else {
               executarJsonpGenerico();
             }
