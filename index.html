@@ -6131,65 +6131,90 @@ function imprimirAgendaCarro() {
     /* ========================================= */
     /* ========================================================= */
     /* PADRÃO GLOBAL DE BARRAS DE ROLAGEM (PROJETO BI DIRIGENTE)  */
-    /* OCULTO POR PADRÃO • REVELA SUAVEMENTE NO HOVER • SEM SETAS */
+    /* OCULTAS POR PADRÃO • REVELAM APENAS NA PROXIMIDADE DO MOUSE */
     /* ========================================================= */
-    *, html, body, .main-content, .content-area {
-      scrollbar-width: thin;
-      scrollbar-color: transparent transparent;
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      max-height: 100vh;
+      overflow: hidden; /* Evita que a janela nativa do navegador crie scrollbar com setas */
     }
 
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+    .app-layout {
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
     }
 
-    ::-webkit-scrollbar-track {
-      background: transparent;
+    *, html, body, .main-content, .sidebar, .content-area {
+      scrollbar-width: none !important; /* Firefox: oculta completamente por padrão */
     }
 
-    ::-webkit-scrollbar-thumb {
-      background: transparent;
-      border-radius: 8px;
+    /* Webkit (Chrome, Edge, Safari): barra 100% invisível por padrão e sem botões de seta */
+    ::-webkit-scrollbar,
+    *::-webkit-scrollbar {
+      width: 6px !important;
+      height: 6px !important;
+    }
+
+    ::-webkit-scrollbar-track,
+    *::-webkit-scrollbar-track {
+      background: transparent !important;
+    }
+
+    ::-webkit-scrollbar-thumb,
+    *::-webkit-scrollbar-thumb {
+      background: transparent !important;
+      border-radius: 8px !important;
       transition: background-color 0.25s ease;
     }
 
-    ::-webkit-scrollbar-button {
+    ::-webkit-scrollbar-button,
+    *::-webkit-scrollbar-button {
       display: none !important;
       width: 0 !important;
       height: 0 !important;
     }
 
-    /* Revela suavemente quando o mouse passa por cima (hover) */
-    *:hover {
-      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    /* Revela APENAS quando a classe .scrollbar-active estiver presente (ativada na proximidade do mouse) */
+    .scrollbar-active {
+      scrollbar-width: thin !important;
+      scrollbar-color: rgba(100, 116, 139, 0.45) transparent !important;
     }
 
-    *:hover::-webkit-scrollbar-thumb {
-      background: rgba(100, 116, 139, 0.35);
+    .scrollbar-active::-webkit-scrollbar-thumb,
+    .scrollbar-active *::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.45) !important;
     }
 
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(15, 23, 42, 0.6) !important;
+    .scrollbar-active::-webkit-scrollbar-thumb:hover,
+    .scrollbar-active *::-webkit-scrollbar-thumb:hover {
+      background: rgba(15, 23, 42, 0.75) !important;
     }
 
-    /* Barra na Sidebar (fundo escuro navy) */
-    .sidebar:hover {
-      scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+    /* Sidebar escura: thumb translúcido branco */
+    .sidebar.scrollbar-active {
+      scrollbar-width: thin !important;
+      scrollbar-color: rgba(255, 255, 255, 0.35) transparent !important;
     }
 
-    .sidebar:hover::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.28);
+    .sidebar.scrollbar-active::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.35) !important;
     }
 
-    .sidebar::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.48) !important;
+    .sidebar.scrollbar-active::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.55) !important;
     }
 
     .main-content {
       flex: 1;
       display: flex;
       flex-direction: column;
+      height: 100vh;
+      max-height: 100vh;
       overflow-y: auto;
+      overflow-x: hidden;
     }
 
     /* TOPBAR SUPERIOR (COM IDENTIDADE OFICIAL & STATUS DRIVE) */
@@ -46092,16 +46117,12 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       if (timerSincronizacaoSharepoint) clearInterval(timerSincronizacaoSharepoint);
       atualizarBadgeStatusSincronismo();
 
-      /* NUVEM EXCLUSIVA: Ao abrir ou recarregar o site, purga caches locais e sincroniza ao vivo com a nuvem */
+      /* ABERTURA ULTRARRÁPIDA: Não realiza busca de dados ao abrir o site. Renderiza imediatamente a base existente. */
       setTimeout(function() {
-        if (typeof limparTodoArmazenamentoLocal === 'function') limparTodoArmazenamentoLocal();
         if (typeof hidratarTodosModulosNuvem === 'function') hidratarTodosModulosNuvem();
-        if (typeof sincronizarTudoGlobalmente === 'function') {
-          sincronizarTudoGlobalmente(true);
-        } else if (typeof sincronizarSharepointCalls === 'function') {
-          sincronizarSharepointCalls(false);
-        }
-      }, 350);
+        if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
+        atualizarBadgeStatusSincronismo();
+      }, 100);
 
       /* Intervalo recorrente de 60 minutos (1 hora = 3.600.000 ms) */
       timerSincronizacaoSharepoint = setInterval(function() {
@@ -48960,6 +48981,77 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         });
       });
     });
+</script>
+<script>
+    /* ========================================================================= */
+    /* DETECTOR DE PROXIMIDADE DA BARRA DE ROLAGEM (OCULTA / ATIVA POR PROXIMIDADE) */
+    /* ========================================================================= */
+    (function() {
+      function iniciarProximidadeScrollbar() {
+        var mainEl = document.querySelector('.main-content');
+        var sidebarEl = document.querySelector('.sidebar');
+        var timerMain = null;
+        var timerSidebar = null;
+
+        /* Detector para a Área Principal (.main-content) */
+        if (mainEl) {
+          window.addEventListener('mousemove', function(e) {
+            var rect = mainEl.getBoundingClientRect();
+            var distDireita = rect.right - e.clientX;
+            var distTelaDireita = window.innerWidth - e.clientX;
+            /* Se o mouse estiver a 35px ou menos da borda direita da main-content ou da tela */
+            if ((distDireita >= 0 && distDireita <= 35) || (distTelaDireita >= 0 && distTelaDireita <= 35)) {
+              mainEl.classList.add('scrollbar-active');
+            } else {
+              mainEl.classList.remove('scrollbar-active');
+            }
+          }, { passive: true });
+
+          mainEl.addEventListener('scroll', function() {
+            mainEl.classList.add('scrollbar-active');
+            clearTimeout(timerMain);
+            timerMain = setTimeout(function() {
+              mainEl.classList.remove('scrollbar-active');
+            }, 1200);
+          }, { passive: true });
+
+          mainEl.addEventListener('mouseleave', function() {
+            mainEl.classList.remove('scrollbar-active');
+          }, { passive: true });
+        }
+
+        /* Detector para a Barra Lateral (.sidebar) */
+        if (sidebarEl) {
+          sidebarEl.addEventListener('mousemove', function(e) {
+            var rect = sidebarEl.getBoundingClientRect();
+            var distDireita = rect.right - e.clientX;
+            if (distDireita >= 0 && distDireita <= 30) {
+              sidebarEl.classList.add('scrollbar-active');
+            } else {
+              sidebarEl.classList.remove('scrollbar-active');
+            }
+          }, { passive: true });
+
+          sidebarEl.addEventListener('scroll', function() {
+            sidebarEl.classList.add('scrollbar-active');
+            clearTimeout(timerSidebar);
+            timerSidebar = setTimeout(function() {
+              sidebarEl.classList.remove('scrollbar-active');
+            }, 1200);
+          }, { passive: true });
+
+          sidebarEl.addEventListener('mouseleave', function() {
+            sidebarEl.classList.remove('scrollbar-active');
+          }, { passive: true });
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', iniciarProximidadeScrollbar);
+      } else {
+        iniciarProximidadeScrollbar();
+      }
+    })();
 </script>
 </body>
 </html>
