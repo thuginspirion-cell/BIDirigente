@@ -2828,7 +2828,7 @@ function inicializarCarroPadrao() {
         controleTrafegoNum: 'CT-2026/045',
         data: hoje,
         periodo: hoje + ' a ' + hoje,
-        titulo: 'Visita Técnica Regional: Polo Itapevi e Prof. Lênio Vieira de Moraes',
+        titulo: 'Visita Técnica Regional: Itapevi e Prof. Lênio Vieira de Moraes',
         veiculo: 'Chevrolet Spin 1.8 7L',
         placa: 'TLH 1B63',
         patrimonio: 'SP-048972',
@@ -2842,8 +2842,8 @@ function inicializarCarroPadrao() {
         contato: 'Ramal 201 • Gabinete',
         prioridade: 'Gabinete Dirigente',
         apresentarEm: 'URE - ITP - Rua Dimarães Antônio Sandei, 75',
-        destino: 'Prof. Lênio Vieira de Moraes e Polo Central de Itapevi',
-        itinerario: 'URE - ITP -> Prof. Lênio Vieira de Moraes -> Polo Regional -> Retorno URE - ITP',
+        destino: 'Prof. Lênio Vieira de Moraes e Escolas de Itapevi',
+        itinerario: 'URE - ITP -> Prof. Lênio Vieira de Moraes -> Itapevi -> Retorno URE - ITP',
         horarioSaida: '08:30',
         horarioRetorno: '16:30',
         kmPartida: 42800,
@@ -2877,7 +2877,7 @@ function inicializarCarroPadrao() {
         contato: 'Ramal 214 • SEINTEC',
         prioridade: 'Normal',
         apresentarEm: 'URE - ITP - Portaria Principal',
-        destino: 'Escolas Polo Barueri e Jandira',
+        destino: 'Escolas de Barueri e Jandira',
         itinerario: 'URE - ITP -> República do Equador -> Dorvalino Abílio Teixeira -> Retorno',
         horarioSaida: '08:00',
         horarioRetorno: '17:00',
@@ -2898,7 +2898,7 @@ function inicializarCarroPadrao() {
         controleTrafegoNum: 'CT-2026/047',
         data: depois2,
         periodo: depois2 + ' a ' + depois2,
-        titulo: 'Despacho Institucional SEDUC Central',
+        titulo: 'Despacho Institucional SEDUC',
         veiculo: 'Chevrolet Spin 1.8 7L',
         placa: 'TLH 1B63',
         patrimonio: 'SP-048972',
@@ -2912,8 +2912,8 @@ function inicializarCarroPadrao() {
         contato: 'Ramal 203 • ASURE',
         prioridade: 'Alta / Prioritária',
         apresentarEm: 'URE - ITP - Rua Dimarães Antônio Sandei, 75',
-        destino: 'SEDUC Central - Praça da República, 53 - São Paulo',
-        itinerario: 'Itapevi -> Rodovia Castelo Branco -> SEDUC Central (Praça da República) -> Retorno',
+        destino: 'SEDUC - Praça da República, 53 - São Paulo',
+        itinerario: 'Itapevi -> Rodovia Castelo Branco -> SEDUC (Praça da República) -> Retorno',
         horarioSaida: '07:30',
         horarioRetorno: '16:30',
         kmPartida: 42850,
@@ -2968,7 +2968,7 @@ function inicializarCarroPadrao() {
         controleTrafegoNum: 'CT-2026/043',
         data: diaInicioMes,
         periodo: diaInicioMes + ' a ' + diaInicioMes,
-        titulo: 'Supervisão Pedagógica Polo Pirapora do Bom Jesus',
+        titulo: 'Supervisão Pedagógica Pirapora do Bom Jesus',
         veiculo: 'Chevrolet Spin 1.8 7L',
         placa: 'TLH 1B63',
         patrimonio: 'SP-048972',
@@ -4315,7 +4315,7 @@ function popularDatalistEscolasCarro() {
   const dl = document.getElementById('carro-destinos-escolas-list');
   if (!dl) return;
   const opcoes = [
-    'SEDUC Central - Praça da República, 53 - São Paulo',
+    'SEDUC - Praça da República, 53 - São Paulo',
     'URE - ITP - Rua Dimarães Antônio Sandei, 75',
     'Prefeitura Municipal de Itapevi',
     'Prefeitura Municipal de Barueri',
@@ -46604,14 +46604,14 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             <div class="agenda-form-grid">
               <div class="agenda-form-group agenda-form-full">
                 <label class="agenda-form-label">Destino Principal * (Digite para buscar escolas da rede)</label>
-                <input type="text" id="form-carro-destino" list="carro-destinos-escolas-list" class="agenda-form-input" placeholder="Ex: SEDUC Central / Prof. Lênio Vieira de Moraes / Polo Jandira" required oninput="atualizarItinerarioAutomaticoCarro()">
+                <input type="text" id="form-carro-destino" list="carro-destinos-escolas-list" class="agenda-form-input" placeholder="Ex: SEDUC / Prof. Lênio Vieira de Moraes / Jandira" required oninput="atualizarItinerarioAutomaticoCarro()">
                 <div class="carro-req-presets">
                   <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; align-self: center;">Destinos frequentes:</span>
-                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('SEDUC Central - Praça da República, 53 - São Paulo')">SEDUC Central</button>
-                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Escolas Polo Itapevi')">Polo Itapevi</button>
-                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Escolas Polo Barueri')">Polo Barueri</button>
-                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Escolas Polo Jandira')">Polo Jandira</button>
-                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Polo Pirapora do Bom Jesus')">Pirapora</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('SEDUC - Praça da República, 53 - São Paulo')">SEDUC</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Escolas de Itapevi')">Itapevi</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Escolas de Barueri')">Barueri</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Escolas de Jandira')">Jandira</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Pirapora do Bom Jesus')">Pirapora</button>
                 </div>
               </div>
 
@@ -46804,7 +46804,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
               <div class="agenda-form-group agenda-form-full">
                 <label class="agenda-form-label">Detalhamento do Itinerário (Destinos intermediários)</label>
-                <input type="text" id="edit-carro-itinerario" class="agenda-form-input" placeholder="Ex: URE - ITP -> Prof. Lênio Vieira de Moraes -> Polo Regional -> Retorno URE - ITP">
+                <input type="text" id="edit-carro-itinerario" class="agenda-form-input" placeholder="Ex: URE - ITP -> Prof. Lênio Vieira de Moraes -> Itapevi -> Retorno URE - ITP">
               </div>
 
             </div>
