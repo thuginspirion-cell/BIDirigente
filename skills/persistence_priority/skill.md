@@ -1,6 +1,6 @@
 ---
 name: persistence-priority
-description: Garante prioridade absoluta às fontes de dados em nuvem, sincronização por demanda na força bruta sem login Microsoft, controle proativo do teto de 50 MB do Google Apps Script, transparência real de timestamps nos balões de sincronização e não-regressão universal.
+description: Garante prioridade absoluta às fontes de dados em nuvem, busca obrigatória na fonte ao vivo sempre que qualquer botão Sincronizar for acionado (todos os setores presentes e futuros), extração cirúrgica HTTP 206 Range / pasta incremental, transparência real de timestamps e não-regressão universal.
 ---
 
 # Regra de Ouro: Prioridade de Dados na Nuvem, Sincronização Bruta Sem Login, Teto GAS e Transparência Real
@@ -20,7 +20,24 @@ Esta regra e habilidade é de **observância obrigatória e prioridade máxima a
 
 ---
 
-## 2. Regra do Teto do Google Apps Script (50 MB `UrlFetchApp` / Base64) & Motor Seletivo Cirúrgico (`HTTP 206 Range`)
+## 2. Regra Inviolável do Botão "Sincronizar": Sempre Ir na Fonte Ao Vivo (Presentes e Futuros Setores)
+Sempre que **qualquer** botão **Sincronizar** for acionado (seja **"Sincronizar Tudo"**, o botão do cabeçalho do Centro/Módulo em `sincronizarModulo`, ou o botão individual de qualquer setor/aba/inventário):
+1. **Busca Real na Fonte Obrigatória (Proibido Curto-Circuito para Cache/Mirror):**
+   - O acionamento DEVE consultar a **fonte oficial ao vivo** (SharePoint / Google Calendar / GAS) via [`consultarSharepointGasLive`](../../index.html) (**Tier 1:** `google.script.run` nativo no GAS; **Tier 2:** JSONP dinâmico com `_t=Date.now()`, livre de CORS no GHP e Google Sites).
+   - **Proibido** usar apenas `fetch(gasUrl)` cru (sujeito a bloqueio de redirect/CORS do Apps Script), **proibido** ignorar `res.dadosBase64` retornado pelo GAS, e **proibido** fingir conclusão com `setTimeout` antes da resposta real da fonte.
+2. **Processamento Integral & Espelhamento Fiel no Navegador:**
+   - Ao receber `dadosBase64` do SharePoint (ou `arquivosModificados` no caso de pastas multi-arquivos como `InventarioRC - V2`), o cliente passa os bytes por `purificarXlsxStreamingSeNecessario` (`DecompressionStream`), lê via `XLSX.read`, **substitui integralmente** os registros em memória (proibido merge aditivo, preservando deleções da planilha oficial) e re-renderiza KPIs, cards e tabelas imediatamente.
+3. **Sincronização Completa por Centro em `sincronizarModulo`:**
+   - **SEINTEC**: dispara ao vivo `Calls` + `Inventário` (verificação de `TimeLastModified` das 60 escolas no SharePoint e download via `UrlFetchApp.fetchAll`).
+   - **CAF / SEAFIN**: dispara ao vivo **SEFIN** + **SECOMSE** + **DPAT**.
+   - **SEOM**: dispara ao vivo **SEOM** + **SEFISC**.
+   - **SEGRE**: dispara ao vivo **SEGRE** + **SEMAT** + **SEVESC**.
+   - **SEPES**: dispara ao vivo **SEPES (DEMANDAS SEAPE)**.
+   - **Novos Setores Futuros**: devem obrigatoriamente usar `sincronizarBasePublicaSharepoint` + [`consultarSharepointGasLive`](../../index.html) no cliente e [`obterArquivoPublicoSharepoint`](../../Código.gs) / [`obterPastaPublicaSharepoint`](../../Código.gs) no `Código.gs`.
+
+---
+
+## 3. Regra do Teto do Google Apps Script (50 MB `UrlFetchApp` / Base64) & Motor Seletivo Cirúrgico (`HTTP 206 Range`)
 Ao integrar **qualquer setor novo** ou manter setores existentes cujas planilhas no SharePoint possuem abas não exibidas no BI ou crescem com o tempo:
 
 1. **Padrão Universal Obrigatório (`abasNecessarias` + Extração Seletiva `HTTP 206 Range`):**

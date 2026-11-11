@@ -1036,7 +1036,8 @@ function sincronizarPlanilhaSecomse() {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SECOMSE / SEAFIN",
-      descricaoBase: "Controle de Contratos"
+      descricaoBase: "Controle de Contratos",
+      abasNecessarias: ["2026", "2025"]
     });
     if (res && res.sucesso && res.dadosBase64) {
       res.origem = "SharePoint Live UrlFetch";
@@ -1115,7 +1116,8 @@ function sincronizarPlanilhaSefin(forcarBruto) {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4&download=1";
   var res = obterArquivoPublicoSharepoint(url, {
     nomeSetor: "SEFIN / CAF",
-    descricaoBase: "Controle de Prestação de Contas PDDE"
+    descricaoBase: "Controle de Prestação de Contas PDDE",
+    abasNecessarias: ["Prestação de Contas U E"]
   });
   if (res && res.sucesso) {
     res.modoOtimizado = modoOtimizado;
