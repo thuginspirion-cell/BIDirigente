@@ -5523,7 +5523,33 @@ function imprimirDocumentoControleTrafego() {
         '.m30-label { font-weight: 800; margin-right: 6px; white-space: nowrap; font-size: 8pt; }' +
         '.m30-val-underline { border-bottom: 1px dotted #000; padding: 0 4px; font-weight: 600; }' +
         '.m30-user-section { padding: 10px 14px; }' +
-      '</style>');
+      '
+    /* PADRÃO GLOBAL: CARDS EXECUTIVOS SÃO EXCLUSIVAMENTE INFORMATIVOS (NUNCA FILTROS) */
+    .calls-kpi-card,
+    .gab-metric-card,
+    .inv-kpi-card,
+    .escola-kpi-card,
+    .metric-card,
+    .kpi-card {
+      cursor: default !important;
+      user-select: text;
+    }
+    .calls-kpi-card:hover,
+    .gab-metric-card:hover,
+    .inv-kpi-card:hover,
+    .escola-kpi-card:hover {
+      transform: none !important;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06) !important;
+    }
+    .calls-kpi-card.selected,
+    .gab-metric-card.selected,
+    .inv-kpi-card.selected,
+    .escola-kpi-card.selected {
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06) !important;
+      border-color: inherit !important;
+    }
+
+</style>');
       printWindow.document.write('</head><body>');
       printWindow.document.write(container.innerHTML);
       printWindow.document.write('</body></html>');
@@ -13955,7 +13981,7 @@ function imprimirAgendaCarro() {
         <div class="gab-metric-row">
 
           <!-- Card 1: OUVIDORIAS -->
-          <div class="gab-metric-card" onclick="selecionarBaseGabinete('Ouvidoria')">
+          <div class="gab-metric-card" >
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">Ouvidorias</span>
               <span class="gab-card-tag-badge">Fala.SP</span>
@@ -13975,7 +14001,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 2: TERMOS DE VISITA -->
-          <div class="gab-metric-card" onclick="selecionarBaseGabinete('TermosVisita')">
+          <div class="gab-metric-card" >
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">Termos de Visita</span>
               <span class="gab-card-tag-badge">Estaduais + particulares</span>
@@ -13995,7 +14021,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 3: FOLHA DE PONTO -->
-          <div class="gab-metric-card" onclick="selecionarBaseGabinete('FolhaPonto')">
+          <div class="gab-metric-card" >
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">Folha de Ponto</span>
               <span class="gab-card-tag-badge">Acompanhamentos</span>
@@ -14015,7 +14041,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 4: PLANOS DE TRABALHO -->
-          <div class="gab-metric-card" onclick="selecionarBaseGabinete('PlanoTrabalhoDiretores')">
+          <div class="gab-metric-card" >
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">Planos de Trabalho</span>
               <span class="gab-card-tag-badge">Diretores + Supervisores</span>
@@ -14053,7 +14079,7 @@ function imprimirAgendaCarro() {
         <div class="gab-bases-grid">
 
           <!-- 1. Demandas -->
-          <div class="base-card-item" id="card-base-Demandas" onclick="selecionarBaseGabinete('Demandas')">
+          <div class="base-card-item" id="card-base-Demandas" >
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-blue">📄</div>
               <span class="base-card-title">Demandas</span>
@@ -14063,7 +14089,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- 2. Ouvidoria Fala.SP -->
-          <div class="base-card-item" id="card-base-Ouvidoria" onclick="selecionarBaseGabinete('Ouvidoria')">
+          <div class="base-card-item" id="card-base-Ouvidoria" >
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-blue">📢</div>
               <span class="base-card-title">Ouvidoria - Fala.SP</span>
@@ -14073,7 +14099,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- 3. Termos de Visita -->
-          <div class="base-card-item" id="card-base-TermosVisita" onclick="selecionarBaseGabinete('TermosVisita')">
+          <div class="base-card-item" id="card-base-TermosVisita" >
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-green">✔️</div>
               <span class="base-card-title">Termos de Visita</span>
@@ -14083,7 +14109,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- 4. Escala de Férias -->
-          <div class="base-card-item" id="card-base-EscalaFerias" onclick="selecionarBaseGabinete('EscalaFerias')">
+          <div class="base-card-item" id="card-base-EscalaFerias" >
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-yellow-badge">🏖️</div>
               <span class="base-card-title">Escala de Férias</span>
@@ -14093,7 +14119,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- 5. Horário ADM - Diretor -->
-          <div class="base-card-item" id="card-base-HorarioADM" onclick="selecionarBaseGabinete('HorarioADM')">
+          <div class="base-card-item" id="card-base-HorarioADM" >
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-blue">⏰</div>
               <span class="base-card-title">Horário ADM - Diretor</span>
@@ -14103,7 +14129,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- 6. Folha de Ponto - Diretores -->
-          <div class="base-card-item" id="card-base-FolhaPonto" onclick="selecionarBaseGabinete('FolhaPonto')">
+          <div class="base-card-item" id="card-base-FolhaPonto" >
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-green">📝</div>
               <span class="base-card-title">Folha de Ponto - Diretores</span>
@@ -14113,7 +14139,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- 7. Plano de Trabalho - Diretores -->
-          <div class="base-card-item" id="card-base-PlanoTrabalhoDiretores" onclick="selecionarBaseGabinete('PlanoTrabalhoDiretores')">
+          <div class="base-card-item" id="card-base-PlanoTrabalhoDiretores" >
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-blue">📋</div>
               <span class="base-card-title">Plano de Trabalho - Diretores</span>
@@ -14123,7 +14149,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- 8. Plano de Trabalho - Supervisores -->
-          <div class="base-card-item" id="card-base-PlanoTrabalhoSupervisores" onclick="selecionarBaseGabinete('PlanoTrabalhoSupervisores')">
+          <div class="base-card-item" id="card-base-PlanoTrabalhoSupervisores" >
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-yellow-badge">📑</div>
               <span class="base-card-title">Plano de Trabalho - Supervisores</span>
@@ -14133,7 +14159,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- 9. Judicial -->
-          <div class="base-card-item" id="card-base-Judicial" onclick="selecionarBaseGabinete('Judicial')">
+          <div class="base-card-item" id="card-base-Judicial" >
             <div class="base-item-top">
               <div class="base-avatar-badge base-ico-gold-badge">⚖️</div>
               <span class="base-card-title">Judicial</span>
@@ -14245,7 +14271,7 @@ function imprimirAgendaCarro() {
         <div class="seintec-metric-row">
 
           <!-- Card 1: TOTAL DE EQUIPAMENTOS -->
-          <div class="gab-metric-card seintec-card-blue selected" id="metric-card-seintec-total" onclick="clicarCardMetricaSeintec('todos', this)" style="cursor: pointer;" title="Exibir todos os 15.973 equipamentos de hardware">
+          <div class="gab-metric-card seintec-card-blue" id="metric-card-seintec-total"  style="cursor: default;" >
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">TOTAL DE EQUIPAMENTOS</span>
             </div>
@@ -14262,7 +14288,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 2: ADMINISTRATIVOS -->
-          <div class="gab-metric-card seintec-card-red" id="metric-card-seintec-admin" onclick="clicarCardMetricaSeintec('admin', this)" style="cursor: pointer;" title="Filtrar equipamentos do ambiente administrativo (1.300)">
+          <div class="gab-metric-card seintec-card-red" id="metric-card-seintec-admin"  style="cursor: default;" >
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">ADMINISTRATIVOS</span>
             </div>
@@ -14279,7 +14305,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 3: PEDAGÓGICOS -->
-          <div class="gab-metric-card seintec-card-lightblue" id="metric-card-seintec-pedag" onclick="clicarCardMetricaSeintec('pedag', this)" style="cursor: pointer;" title="Filtrar equipamentos do ambiente pedagógico (14.653)">
+          <div class="gab-metric-card seintec-card-lightblue" id="metric-card-seintec-pedag"  style="cursor: default;" >
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">PEDAGÓGICOS</span>
             </div>
@@ -14296,7 +14322,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 4: DISPONÍVEIS PARA USO -->
-          <div class="gab-metric-card seintec-card-crimson" id="metric-card-seintec-disp" onclick="clicarCardMetricaSeintec('disp', this)" style="cursor: pointer;" title="Filtrar equipamentos disponíveis para uso (12.205 - 76,4%)">
+          <div class="gab-metric-card seintec-card-crimson" id="metric-card-seintec-disp"  style="cursor: default;" >
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">DISPONÍVEIS PARA USO</span>
             </div>
@@ -14316,7 +14342,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 5: MANUTENÇÃO / CHAMADO -->
-          <div class="gab-metric-card seintec-card-amber" id="metric-card-seintec-manut" onclick="clicarCardMetricaSeintec('manut', this)" style="cursor: pointer;" title="Filtrar equipamentos em manutenção ou chamado aberto (1.164)">
+          <div class="gab-metric-card seintec-card-amber" id="metric-card-seintec-manut"  style="cursor: default;" >
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">MANUTENÇÃO / CHAMADO</span>
             </div>
@@ -14333,7 +14359,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Card 6: INSERVÍVEL / DANIFICADOS -->
-          <div class="gab-metric-card seintec-card-teal" id="metric-card-seintec-inserv" onclick="clicarCardMetricaSeintec('inserv', this)" style="cursor: pointer;" title="Filtrar equipamentos inservíveis ou danificados (2.627)">
+          <div class="gab-metric-card seintec-card-teal" id="metric-card-seintec-inserv"  style="cursor: default;" >
             <div class="gab-card-tag-row">
               <span class="gab-card-tag-name">INSERVÍVEL / DANIFICADOS</span>
             </div>
@@ -14532,7 +14558,7 @@ function imprimirAgendaCarro() {
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem;">
                 
                 <!-- CARD 1: TOTAL DO PARQUE -->
-                <div class="inv-kpi-card selected" id="inv-kpi-total" onclick="filtrarInventarioPorStatus('todos', this)" style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); cursor: pointer; transition: all 0.2s ease;">
+                <div class="inv-kpi-card" id="inv-kpi-total"  style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); cursor: default; transition: all 0.2s ease;">
                   <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                       <span style="font-size: 0.78rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Total do Parque</span>
@@ -14549,7 +14575,7 @@ function imprimirAgendaCarro() {
                 </div>
 
                 <!-- CARD 2: DISPONÍVEIS (UPTIME) -->
-                <div class="inv-kpi-card" id="inv-kpi-disponivel" onclick="filtrarInventarioPorStatus('Disponível', this)" style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); cursor: pointer; transition: all 0.2s ease;">
+                <div class="inv-kpi-card" id="inv-kpi-disponivel"  style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); cursor: default; transition: all 0.2s ease;">
                   <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                       <span style="font-size: 0.78rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Disponíveis (Uptime)</span>
@@ -14566,7 +14592,7 @@ function imprimirAgendaCarro() {
                 </div>
 
                 <!-- CARD 3: DANIFICADOS (ATENÇÃO) -->
-                <div class="inv-kpi-card" id="inv-kpi-danificado" onclick="filtrarInventarioPorStatus('Danificado', this)" style="background: #ffffff; border: 1.5px solid #fecaca; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.08); cursor: pointer; transition: all 0.2s ease;">
+                <div class="inv-kpi-card" id="inv-kpi-danificado"  style="background: #ffffff; border: 1.5px solid #fecaca; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.08); cursor: default; transition: all 0.2s ease;">
                   <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                       <span style="font-size: 0.78rem; font-weight: 800; color: #b91c1c; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Danificados (Atenção)</span>
@@ -14583,7 +14609,7 @@ function imprimirAgendaCarro() {
                 </div>
 
                 <!-- CARD 4: EM MANUTENÇÃO / OS -->
-                <div class="inv-kpi-card" id="inv-kpi-manutencao" onclick="filtrarInventarioPorStatus('Em manutenção', this)" style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08); cursor: pointer; transition: all 0.2s ease;">
+                <div class="inv-kpi-card" id="inv-kpi-manutencao"  style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08); cursor: default; transition: all 0.2s ease;">
                   <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                       <span style="font-size: 0.78rem; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Em Manutenção / OS</span>
@@ -14600,7 +14626,7 @@ function imprimirAgendaCarro() {
                 </div>
 
                 <!-- CARD 5: INSERVÍVEIS (BAIXA) -->
-                <div class="inv-kpi-card" id="inv-kpi-inservivel" onclick="filtrarInventarioPorStatus('Inservível', this)" style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); cursor: pointer; transition: all 0.2s ease;">
+                <div class="inv-kpi-card" id="inv-kpi-inservivel"  style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); cursor: default; transition: all 0.2s ease;">
                   <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                       <span style="font-size: 0.78rem; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Inservíveis (Baixa)</span>
@@ -14678,7 +14704,7 @@ function imprimirAgendaCarro() {
               </div>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 0.75rem;">
                 <!-- 1. Total Monitorado -->
-                <div class="calls-kpi-card selected" id="kpi-card-calls-todos" onclick="filtrarCallsPorStatus('todos')" title="Ver todos os chamados" style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); cursor: pointer; transition: all 0.2s ease;">
+                <div class="calls-kpi-card" style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); cursor: default; transition: all 0.2s ease;">
                   <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                       <span style="font-size: 0.78rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Total</span>
@@ -14695,7 +14721,7 @@ function imprimirAgendaCarro() {
                 </div>
 
                 <!-- 2. Equipamentos -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Equipamentos" onclick="filtrarCallsPorStatus('Equipamentos e Tablets')" title="Filtrar por Equipamentos e Tablets" style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08); cursor: pointer; transition: all 0.2s ease;">
+                <div class="calls-kpi-card" style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08); cursor: default; transition: all 0.2s ease;">
                   <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                       <span style="font-size: 0.78rem; font-weight: 800; color: #6d28d9; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Equipamentos</span>
@@ -14712,7 +14738,7 @@ function imprimirAgendaCarro() {
                 </div>
 
                 <!-- 3. Inventário -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Inventario" onclick="filtrarCallsPorStatus('Inventario')" title="Filtrar por Inventário" style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); cursor: pointer; transition: all 0.2s ease;">
+                <div class="calls-kpi-card" style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); cursor: default; transition: all 0.2s ease;">
                   <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                       <span style="font-size: 0.78rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Inventário</span>
@@ -14729,7 +14755,7 @@ function imprimirAgendaCarro() {
                 </div>
 
                 <!-- 4. Internet -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Internet" onclick="filtrarCallsPorStatus('Internet / Conectividade')" title="Filtrar por Internet" style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); cursor: pointer; transition: all 0.2s ease;">
+                <div class="calls-kpi-card" style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); cursor: default; transition: all 0.2s ease;">
                   <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                       <span style="font-size: 0.78rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Internet</span>
@@ -14746,7 +14772,7 @@ function imprimirAgendaCarro() {
                 </div>
 
                 <!-- 5. Telefone -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Telefone" onclick="filtrarCallsPorStatus('Telefone')" title="Filtrar por Telefone" style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08); cursor: pointer; transition: all 0.2s ease;">
+                <div class="calls-kpi-card" style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08); cursor: default; transition: all 0.2s ease;">
                   <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                       <span style="font-size: 0.78rem; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Telefone</span>
@@ -14763,7 +14789,7 @@ function imprimirAgendaCarro() {
                 </div>
 
                 <!-- 6. Infraestrutura -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Infraestrutura" onclick="filtrarCallsPorStatus('Infraestrutura')" title="Filtrar por Infraestrutura" style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08); cursor: pointer; transition: all 0.2s ease;">
+                <div class="calls-kpi-card" style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08); cursor: default; transition: all 0.2s ease;">
                   <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                       <span style="font-size: 0.78rem; font-weight: 800; color: #c2410c; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Infraestrutura</span>
@@ -14780,7 +14806,7 @@ function imprimirAgendaCarro() {
                 </div>
 
                 <!-- 7. Outros -->
-                <div class="calls-kpi-card" id="kpi-card-calls-Outros" onclick="filtrarCallsPorStatus('Outros')" title="Filtrar por Outros" style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(51, 65, 85, 0.08); cursor: pointer; transition: all 0.2s ease;">
+                <div class="calls-kpi-card" style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(51, 65, 85, 0.08); cursor: default; transition: all 0.2s ease;">
                   <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                       <span style="font-size: 0.78rem; font-weight: 800; color: #334155; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Outros</span>
@@ -14801,13 +14827,13 @@ function imprimirAgendaCarro() {
             <!-- FILTROS EXECUTIVOS RÁPIDOS EM 1 CLIQUE -->
             <div id="seintec-calls-filter-buttons" style="display: none; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.85rem; align-items: center;">
               <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; margin-right: 0.2rem;">FILTRAR:</span>
-              <button type="button" class="btn-call-filter active" id="btn-call-filter-todos" onclick="filtrarCallsPorStatus('todos')">Todos (<span id="count-filter-todos">1.381</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-equip" onclick="filtrarCallsPorStatus('Equipamentos e Tablets')">💻 Equipamentos (<span id="count-filter-equip">1.045</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-inv" onclick="filtrarCallsPorStatus('Inventario')">📋 Inventário (<span id="count-filter-inv">0</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-internet" onclick="filtrarCallsPorStatus('Internet')">🌐 Internet (<span id="count-filter-internet">264</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-telefone" onclick="filtrarCallsPorStatus('Telefone')">📞 Telefone (<span id="count-filter-telefone">72</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-infra" onclick="filtrarCallsPorStatus('Infraestrutura')">🔌 Infraestrutura (<span id="count-filter-infra">0</span>)</button>
-              <button type="button" class="btn-call-filter" id="btn-call-filter-outros" onclick="filtrarCallsPorStatus('Outros')">⚙️ Outros (<span id="count-filter-outros">0</span>)</button>
+              <button type="button" class="btn-call-filter active" id="btn-call-filter-todos" >Todos (<span id="count-filter-todos">1.381</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-equip" >💻 Equipamentos (<span id="count-filter-equip">1.045</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-inv" >📋 Inventário (<span id="count-filter-inv">0</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-internet" >🌐 Internet (<span id="count-filter-internet">264</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-telefone" >📞 Telefone (<span id="count-filter-telefone">72</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-infra" >🔌 Infraestrutura (<span id="count-filter-infra">0</span>)</button>
+              <button type="button" class="btn-call-filter" id="btn-call-filter-outros" >⚙️ Outros (<span id="count-filter-outros">0</span>)</button>
             </div>
 
             <!-- FILTRO POR MÊS DE ATENDIMENTOS SEINTEC -->
@@ -15169,7 +15195,7 @@ function imprimirAgendaCarro() {
             <button class="agenda-quick-pill" id="agenda-pill-semana" onclick="filtrarAgendaPeriodo('semana')">Esta Semana</button>
             <button class="agenda-quick-pill" id="agenda-pill-todos" onclick="filtrarAgendaPeriodo('todos')">Todos</button>
             
-            <input type="date" class="agenda-date-input" id="agenda-input-data" onchange="aoMudarDataAgenda(this.value)" title="Filtrar por data específica">
+            <input type="date" class="agenda-date-input" id="agenda-input-data" onchange="aoMudarDataAgenda(this.value)" >
           </div>
 
           <div class="agenda-filter-group">
@@ -15489,7 +15515,7 @@ function imprimirAgendaCarro() {
 
         <!-- KPIS RESUMO DA REDE -->
         <div class="escolas-kpi-grid">
-          <div class="escola-kpi-card" id="kpi-card-total" onclick="filtrarPorKpi('todas')">
+          <div class="escola-kpi-card" id="kpi-card-total" >
             <div class="escola-kpi-label">
               <span>TOTAL DE ESCOLAS</span>
               <span>🏫</span>
@@ -15498,7 +15524,7 @@ function imprimirAgendaCarro() {
             <div class="escola-kpi-sub">Unidades escolares na jurisdição</div>
           </div>
 
-          <div class="escola-kpi-card" id="kpi-card-pei" onclick="filtrarPorKpi('pei')">
+          <div class="escola-kpi-card" id="kpi-card-pei" >
             <div class="escola-kpi-label">
               <span>PROGRAMA ENSINO INTEGRAL</span>
               <span>⭐</span>
@@ -15507,7 +15533,7 @@ function imprimirAgendaCarro() {
             <div class="escola-kpi-sub">Escolas de Tempo Integral (PEI)</div>
           </div>
 
-          <div class="escola-kpi-card" id="kpi-card-regular" onclick="filtrarPorKpi('regular')">
+          <div class="escola-kpi-card" id="kpi-card-regular" >
             <div class="escola-kpi-label">
               <span>ENSINO REGULAR / PARCIAL</span>
               <span>📖</span>
@@ -15516,7 +15542,7 @@ function imprimirAgendaCarro() {
             <div class="escola-kpi-sub">Turnos matutino / vespertino / noturno</div>
           </div>
 
-          <div class="escola-kpi-card" id="kpi-card-atencao" onclick="filtrarPorKpi('atencao')">
+          <div class="escola-kpi-card" id="kpi-card-atencao" >
             <div class="escola-kpi-label">
               <span>ACOMPANHAMENTO PRIORITÁRIO</span>
               <span>⚠️</span>
