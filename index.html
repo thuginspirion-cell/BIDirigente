@@ -5523,33 +5523,7 @@ function imprimirDocumentoControleTrafego() {
         '.m30-label { font-weight: 800; margin-right: 6px; white-space: nowrap; font-size: 8pt; }' +
         '.m30-val-underline { border-bottom: 1px dotted #000; padding: 0 4px; font-weight: 600; }' +
         '.m30-user-section { padding: 10px 14px; }' +
-      '
-    /* PADRÃO GLOBAL: CARDS EXECUTIVOS SÃO EXCLUSIVAMENTE INFORMATIVOS (NUNCA FILTROS) */
-    .calls-kpi-card,
-    .gab-metric-card,
-    .inv-kpi-card,
-    .escola-kpi-card,
-    .metric-card,
-    .kpi-card {
-      cursor: default !important;
-      user-select: text;
-    }
-    .calls-kpi-card:hover,
-    .gab-metric-card:hover,
-    .inv-kpi-card:hover,
-    .escola-kpi-card:hover {
-      transform: none !important;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06) !important;
-    }
-    .calls-kpi-card.selected,
-    .gab-metric-card.selected,
-    .inv-kpi-card.selected,
-    .escola-kpi-card.selected {
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06) !important;
-      border-color: inherit !important;
-    }
-
-</style>');
+      '</style>');
       printWindow.document.write('</head><body>');
       printWindow.document.write(container.innerHTML);
       printWindow.document.write('</body></html>');
@@ -8211,18 +8185,8 @@ function imprimirAgendaCarro() {
 
     .gab-metric-card {
       position: relative;
-      cursor: pointer;
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .gab-metric-card:hover {
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
-      border-color: #93c5fd;
-      transform: translateY(-2px);
-    }
-    .gab-metric-card.selected {
-      border: 2px solid #f09b0c !important;
-      box-shadow: 0 0 0 4px rgba(240, 155, 12, 0.22), 0 10px 25px rgba(240, 155, 12, 0.15) !important;
-      transform: translateY(-3px) !important;
+      cursor: default;
+      transition: var(--transition);
     }
     /* Selecao ativa sem badge de texto */
 
@@ -12854,6 +12818,34 @@ function imprimirAgendaCarro() {
       margin: 6mm;
     }
   }
+
+  /* PADRÃO GLOBAL: CARDS EXECUTIVOS SÃO EXCLUSIVAMENTE INFORMATIVOS (NUNCA FILTROS) */
+  .calls-kpi-card,
+  .gab-metric-card,
+  .inv-kpi-card,
+  .escola-kpi-card,
+  .kpi-mini-box,
+  .gauge-card,
+  .metric-card,
+  .kpi-card {
+    cursor: default !important;
+    user-select: text;
+  }
+  .calls-kpi-card:hover,
+  .gab-metric-card:hover,
+  .inv-kpi-card:hover,
+  .escola-kpi-card:hover,
+  .kpi-mini-box:hover,
+  .gauge-card:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06) !important;
+  }
+  .calls-kpi-card.selected,
+  .gab-metric-card.selected,
+  .inv-kpi-card.selected,
+  .escola-kpi-card.selected {
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06) !important;
+  }
   </style>
 </head>
 
@@ -13153,7 +13145,7 @@ function imprimirAgendaCarro() {
 
             <div class="kpi-cards-inner">
               <!-- 1. Escolas na Rede -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('escolas')" style="cursor: pointer;" title="Exibir todas as 60 escolas na Home">
+              <div class="kpi-mini-box" style="cursor: default;" title="Total de 60 escolas na rede estadual">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: var(--brand-gold);"></span>
                   <span class="kpi-big-number" id="kpi-escolas">60</span>
@@ -13162,7 +13154,7 @@ function imprimirAgendaCarro() {
               </div>
 
               <!-- 2. Equipamentos TI (SEINTEC) -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('hardware')" style="cursor: pointer;" title="SEINTEC: 15.973 notebooks, desktops e tablets (12.205 disponíveis)">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEINTEC: 15.973 notebooks, desktops e tablets (12.205 disponíveis)">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #3b82f6;"></span>
                   <span class="kpi-big-number" id="kpi-hardware-home">15.973</span>
@@ -13171,7 +13163,7 @@ function imprimirAgendaCarro() {
               </div>
 
               <!-- 3. Chamados Oficiais (SEINTEC) -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('chamados')" style="cursor: pointer;" title="SEINTEC: 1.363 chamados oficiais registrados e monitorados em tempo real">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEINTEC: chamados oficiais registrados e monitorados em tempo real">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #0284c7;"></span>
                   <span class="kpi-big-number" id="kpi-chamados-home">1.381</span>
@@ -13180,7 +13172,7 @@ function imprimirAgendaCarro() {
               </div>
 
               <!-- 4. Recursos APMs / PDDE (SEAFIN / SEFIN) -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('sefin')" style="cursor: pointer;" title="SEAFIN / SEFIN: R$ 10,1M em repasses gerenciados para as 60 APMs">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN / SEFIN: R$ 10,1M em repasses gerenciados para as 60 APMs">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #10b981;"></span>
                   <span class="kpi-big-number" id="kpi-recursos-sefin" style="color: #059669; font-size: 1.35rem;">R$ 10,1M</span>
@@ -13189,7 +13181,7 @@ function imprimirAgendaCarro() {
               </div>
 
               <!-- 5. Execução Orçamentária APM (SEAFIN / SEFIN) -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('sefin')" style="cursor: pointer;" title="SEAFIN / SEFIN: R$ 4,76M executados nas APMs (47,2% de execução)">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN / SEFIN: R$ 4,76M executados nas APMs (47,2% de execução)">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #0ea5e9;"></span>
                   <span class="kpi-big-number" id="kpi-execucao-sefin">47,2%</span>
@@ -13198,7 +13190,7 @@ function imprimirAgendaCarro() {
               </div>
 
               <!-- 6. Obras FDE Ativas (SEOM) -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('seom')" style="cursor: pointer;" title="SEOM: 34 obras ativas nas 60 escolas mapeadas em 11 dimensões prediais">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEOM: 34 obras ativas nas 60 escolas mapeadas em 11 dimensões prediais">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #b45309;"></span>
                   <span class="kpi-big-number" id="kpi-obras-home" style="color: #b45309;">34</span>
@@ -13207,7 +13199,7 @@ function imprimirAgendaCarro() {
               </div>
 
               <!-- 7. E-mails & Demandas (SEGRE) -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('segre')" style="cursor: pointer;" title="SEGRE: 8.788 e-mails oficiais e demandas de Matrícula (SEMAT) e Vida Escolar (SEVESC)">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEGRE: 8.788 e-mails oficiais e demandas de Matrícula (SEMAT) e Vida Escolar (SEVESC)">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #ea580c;"></span>
                   <span class="kpi-big-number" id="kpi-emails-home" style="color: #ea580c;">8.788</span>
@@ -13216,7 +13208,7 @@ function imprimirAgendaCarro() {
               </div>
 
               <!-- 8. Repasses Auditados (SEAFIN / SECOMSE) -->
-              <div class="kpi-mini-box" onclick="filtrarHomePorTipoKPI('sefin')" style="cursor: pointer;" title="SEAFIN: 176 termos de repasse e contratos monitorados no exercício">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN: 176 termos de repasse e contratos monitorados no exercício">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #8b5cf6;"></span>
                   <span class="kpi-big-number" id="kpi-repasses-sefin">176</span>
@@ -13227,7 +13219,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <!-- Gauge Circular das Visitas da Dirigente -->
-          <div class="gauge-card" onclick="filtrarHomePorTipoKPI('visitas')" style="cursor: pointer;" title="Acompanhamento consolidado de visitas da Dirigente">
+          <div class="gauge-card" style="cursor: default;" title="Acompanhamento consolidado de visitas da Dirigente">
             <div class="gauge-header">
               <div>
                 <div class="gauge-title">Visitas da Dirigente</div>
@@ -14327,7 +14319,7 @@ function imprimirAgendaCarro() {
               <span class="gab-card-tag-name">DISPONÍVEIS PARA USO</span>
             </div>
             <div class="seintec-card-subtag">Disponível + Pedagógico</div>
-            <div class="gab-card-big-val" style="display: flex; align-items: baseline; gap: 0.4rem;">
+            <div class="gab-card-big-val" style="display: flex; align-items: baseline; justify-content: center; gap: 0.4rem;">
               <span id="seintec-metric-disp-val">12.205</span>
               <span id="seintec-metric-disp-pct" style="font-size: 0.85rem; color: #d48208; font-weight: 700;">(76,4%)</span>
             </div>
@@ -14347,7 +14339,7 @@ function imprimirAgendaCarro() {
               <span class="gab-card-tag-name">MANUTENÇÃO / CHAMADO</span>
             </div>
             <div class="seintec-card-subtag">Status de manutenção/chamado</div>
-            <div class="gab-card-big-val" id="seintec-metric-manut">1.155</div>
+            <div class="gab-card-big-val" id="seintec-metric-manut">1.144</div>
             <div class="gab-sparkline-bars">
               <div class="sparkline-col" style="height: 60%; background: #e2e8f0;"></div>
               <div class="sparkline-col" style="height: 50%; background: #fde68a;"></div>
@@ -24365,7 +24357,7 @@ function imprimirAgendaCarro() {
           <!-- 4 CARDS KPIS SEMAT -->
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
             
-            <div onclick="mudarAbaSemat('atendimentos')" style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Atendimento Externo</span>
@@ -24377,11 +24369,11 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #0369a1; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Jan a Nov (100%)</span>
-                <span style="font-weight: 700; color: #0284c7;">Atendimentos ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Atendimentos</span>
               </div>
             </div>
 
-            <div onclick="mudarAbaSemat('matriculas')" style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Matrículas Manuais</span>
@@ -24393,11 +24385,11 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #047857; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Demanda da Rede</span>
-                <span style="font-weight: 700; color: #059669;">Matrículas ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Matrículas</span>
               </div>
             </div>
 
-            <div onclick="mudarAbaSemat('sei')" style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #6d28d9; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Processos SEI</span>
@@ -24409,11 +24401,11 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #6d28d9; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Processos SEI</span>
-                <span style="font-weight: 700; color: #7c3aed;">Processos ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Protocolos</span>
               </div>
             </div>
 
-            <div onclick="mudarAbaSemat('trocas')" style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Trocas de Escola</span>
@@ -24425,11 +24417,11 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #92400e; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Fluxo & Transferências</span>
-                <span style="font-weight: 700; color: #d97706;">Trocas ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Consolidado</span>
               </div>
             </div>
 
-            <div onclick="mudarAbaSemat('emails')" style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #c2410c; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">E-mails & Demandas</span>
@@ -24441,7 +24433,7 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #c2410c; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Demandas & Expedientes</span>
-                <span style="font-weight: 700; color: #ea580c;">E-mails ➔</span>
+                <span style="font-weight: 600; color: #64748b;">E-mails</span>
               </div>
             </div>
 
@@ -25102,7 +25094,7 @@ function imprimirAgendaCarro() {
           <!-- 4 CARDS KPIS SEVESC -->
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
             
-            <div onclick="mudarAbaSevesc('atendimentos')" style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Vida Escolar</span>
@@ -25114,11 +25106,11 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #0369a1; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Jan a Nov (100%)</span>
-                <span style="font-weight: 700; color: #0284c7;">Atendimentos ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Atendimentos</span>
               </div>
             </div>
 
-            <div onclick="mudarAbaSevesc('sei')" style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Processos SEI</span>
@@ -25130,11 +25122,11 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #047857; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Processos Vida Escolar</span>
-                <span style="font-weight: 700; color: #059669;">Ver SEI ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Protocolos</span>
               </div>
             </div>
 
-            <div onclick="mudarAbaSevesc('emails')" style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #c2410c; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">E-mails & Expedientes</span>
@@ -25146,11 +25138,11 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #c2410c; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Demandas & escolas extintas</span>
-                <span style="font-weight: 700; color: #ea580c;">Expedientes ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Expedientes</span>
               </div>
             </div>
 
-            <div onclick="mudarAbaSevesc('prontuarios')" style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #6d28d9; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Prontuários / Concluintes</span>
@@ -25162,7 +25154,7 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #6d28d9; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Acervo escolar da região</span>
-                <span style="font-weight: 700; color: #7c3aed;">Concluintes ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Consolidado</span>
               </div>
             </div>
 
@@ -37604,7 +37596,7 @@ function imprimirAgendaCarro() {
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
             
             <!-- CARD 1: PROCESSOS SEI -->
-            <div onclick="mudarAbaSegre('sei')" style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Processos SEI</span>
@@ -37616,12 +37608,12 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #0369a1; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Encaminhados e Análise</span>
-                <span style="font-weight: 700; color: #0284c7;">Aba SEI ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Processos SEI</span>
               </div>
             </div>
 
             <!-- CARD 2: VAGAS & ATENDIMENTOS -->
-            <div onclick="mudarAbaSegre('vagas')" style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Vagas & Atendimento</span>
@@ -37633,12 +37625,12 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #047857; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Demandas e Matrícula</span>
-                <span style="font-weight: 700; color: #059669;">Aba Vagas ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Vagas</span>
               </div>
             </div>
 
             <!-- CARD 3: OUVIDORIA -->
-            <div onclick="mudarAbaSegre('ouvidoria')" style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Ouvidoria</span>
@@ -37650,12 +37642,12 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #92400e; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Demandas Ouvidoria</span>
-                <span style="font-weight: 700; color: #d97706;">Ouvidoria ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Ouvidoria</span>
               </div>
             </div>
 
             <!-- CARD 4: CONCLUINTES -->
-            <div onclick="mudarAbaSegre('concluintes')" style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #6d28d9; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Concluintes & Históricos</span>
@@ -37667,12 +37659,12 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #6d28d9; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Registros Históricos</span>
-                <span style="font-weight: 700; color: #7c3aed;">Concluintes ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Concluintes</span>
               </div>
             </div>
 
             <!-- CARD 5: E-MAIL -->
-            <div onclick="mudarAbaSegre('emails')" style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #c2410c; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">E-mails & Expedientes</span>
@@ -37684,7 +37676,7 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #c2410c; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Comunicações e Caixas</span>
-                <span style="font-weight: 700; color: #ea580c;">Aba E-mail ➔</span>
+                <span style="font-weight: 600; color: #64748b;">E-mails</span>
               </div>
             </div>
 
@@ -42151,7 +42143,7 @@ function imprimirAgendaCarro() {
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
             
             <!-- CARD 1: TOTAL DEMANDAS ESTRATÉGICAS -->
-            <div onclick="mudarAbaSepes('aposentadoria')" style="background: #ffffff; border: 1.5px solid #c7d2fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(67, 56, 202, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #c7d2fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(67, 56, 202, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #4338ca; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Total Demandas</span>
@@ -42163,12 +42155,12 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #4338ca; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>${kpis.totalFinalizados} Finalizados • ${kpis.totalEmTramitacao} Ativos</span>
-                <span style="font-weight: 700; color: #4338ca;">Geral ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Geral</span>
               </div>
             </div>
 
             <!-- CARD 2: APOSENTADORIA -->
-            <div onclick="mudarAbaSepes('aposentadoria')" style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #c2410c; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Aposentadoria</span>
@@ -42180,12 +42172,12 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #c2410c; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Processos SPPREV & DOE</span>
-                <span style="font-weight: 700; color: #ea580c;">Aba Aposentadoria ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Aposentadoria</span>
               </div>
             </div>
 
             <!-- CARD 3: DESIGNAÇÕES -->
-            <div onclick="mudarAbaSepes('designacoes')" style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Designações</span>
@@ -42197,12 +42189,12 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #047857; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Docentes, CGPG, Diretores</span>
-                <span style="font-weight: 700; color: #059669;">Aba Designações ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Designações</span>
               </div>
             </div>
 
             <!-- CARD 4: ABONO DE PERMANÊNCIA -->
-            <div onclick="mudarAbaSepes('abono')" style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <div class="kpi-card" style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 12px; padding: 0.95rem 0.85rem; min-height: 126px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08); cursor: default;">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.35rem;">
                   <span style="font-size: 0.78rem; font-weight: 800; color: #6d28d9; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;">Abono Permanência</span>
@@ -42214,7 +42206,7 @@ function imprimirAgendaCarro() {
               </div>
               <div style="font-size: 0.74rem; color: #6d28d9; padding-top: 0.4rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-weight: 700;">
                 <span>Publicados e em Análise</span>
-                <span style="font-weight: 700; color: #7c3aed;">Aba Abono ➔</span>
+                <span style="font-weight: 600; color: #64748b;">Abonos</span>
               </div>
             </div>
 
