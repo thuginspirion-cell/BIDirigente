@@ -13887,8 +13887,8 @@ function imprimirAgendaCarro() {
         <div class="centro-banner-header">
           <div class="centro-banner-left">
             <div class="centro-banner-titles">
-              <span class="gab-pre-title" id="banner-centro-pretitle">SERVIÇO / CENTRO REGIONAL</span>
-              <h2 id="banner-centro-nome">CIE - Centro de Informações Educacionais e Tecnologia</h2>
+              <span class="gab-pre-title" id="banner-centro-pretitle" style="display: none;"></span>
+              <h2 id="banner-centro-nome">Centro de Informações Educacionais e Tecnologia | CIE</h2>
               <p id="banner-centro-desc">Gestão de infraestrutura digital, suporte aos polos e sistemas escolares</p>
             </div>
           </div>
@@ -13948,8 +13948,7 @@ function imprimirAgendaCarro() {
         <!-- Header do Núcleo / Gabinete -->
         <div class="gab-header-bar">
           <div class="gab-header-titles">
-            <span class="gab-pretitle">NÚCLEO / CENTRO</span>
-            <h2 class="gab-main-title">ASURE - Assessoria da URE</h2>
+            <h2 class="gab-main-title">Assessoria da URE | ASURE</h2>
             <p class="gab-main-sub">
               Gabinete • Demandas, Ouvidoria, Termos de Visita e acompanhamento administrativo/judicial.
             </p>
@@ -14238,8 +14237,7 @@ function imprimirAgendaCarro() {
         <!-- Header do Núcleo / Centro SEINTEC -->
         <div class="gab-header-bar">
           <div class="gab-header-titles">
-            <span class="gab-pretitle">NÚCLEO / CENTRO</span>
-            <h2 class="gab-main-title">Informações Educacionais e Tecnologia</h2>
+            <h2 class="gab-main-title">Informações Educacionais e Tecnologia | SEINTEC</h2>
             <p class="gab-main-sub">
               Seção de Tecnologia • Demandas, atendimentos, inventário de hardware, rede, TVs/Educatrons e plataformas de recarga.
             </p>
@@ -19666,7 +19664,7 @@ function imprimirAgendaCarro() {
     const ESTRUTURA_ORGANIZACIONAL = {
       'SEINTEC': {
         sigla: 'SEINTEC',
-        nome: 'SEINTEC - Informações Educacionais e Tecnologia',
+        nome: 'Informações Educacionais e Tecnologia | SEINTEC',
         descricao: 'Gestão da infraestrutura tecnológica escolar, inventário de Educatrons, conectividade, sistemas e suporte técnico.',
         icone: '💻',
         cor: '#0b2351',
@@ -19679,7 +19677,7 @@ function imprimirAgendaCarro() {
       },
       'SEAFIN': {
         sigla: 'SEAFIN',
-        nome: 'SEAFIN - Serviço de Administração e Finanças',
+        nome: 'Serviço de Administração e Finanças | SEAFIN',
         descricao: 'Setor responsável pela gestão orçamentária, prestação de contas, compras diretas, atas de registro de preços, contratos e patrimônio escolar.',
         icone: '💼',
         cor: '#0b2351',
@@ -19701,7 +19699,7 @@ function imprimirAgendaCarro() {
       },
       'SEOM': {
         sigla: 'SEOM',
-        nome: 'SEOM - Seção de Obras e Manutenção Escolar',
+        nome: 'Seção de Obras e Manutenção Escolar | SEOM',
         descricao: 'Planejamento e acompanhamento de intervenções prediais, reformas, vistorias estruturais, laudos técnicos de engenharia e SEFISC (Frota e Fiscalização).',
         icone: '🏗️',
         cor: '#0b2351',
@@ -19729,7 +19727,7 @@ function imprimirAgendaCarro() {
       },
       'SEGRE': {
         sigla: 'SEGRE',
-        nome: 'Serviço de Gestão da Rede Escolar (SEGRE)',
+        nome: 'Serviço de Gestão da Rede Escolar | SEGRE',
         descricao: 'Supervisão do atendimento escolar, matrículas (SEMAT), vida escolar (SEVESC) e organização regional.',
         icone: '🏫',
         cor: '#0b2351',
@@ -19757,7 +19755,7 @@ function imprimirAgendaCarro() {
       },
       'SEPES': {
         sigla: 'SEPES',
-        nome: 'SEPES - Serviço de Pessoas',
+        nome: 'Serviço de Pessoas | SEPES',
         descricao: 'Quadro docente, atribuição de aulas, evolução funcional, aposentadorias, designações, abonos e vida funcional dos servidores.',
         icone: '👥',
         cor: '#0b2351',
@@ -19779,7 +19777,7 @@ function imprimirAgendaCarro() {
       },
       'EEC': {
         sigla: 'EEC',
-        nome: 'EEC - Equipe de Especialistas em Currículo',
+        nome: 'Equipe de Especialistas em Currículo | EEC',
         descricao: 'Portal integrado da EEC: Início, Consulta SAEB 2025, Plano de Ação 2.0 (2026), Devolutiva Pedagógica, Consulta de Docentes e Acompanhamento Pedagógico.',
         icone: '📚',
         cor: '#0b2351',
@@ -20581,7 +20579,7 @@ function imprimirAgendaCarro() {
 
       /* Atualiza Header do Centro */
       const preTitleCentro = document.getElementById('banner-centro-pretitle');
-      if (preTitleCentro) preTitleCentro.innerText = 'SERVIÇO / CENTRO REGIONAL • ' + siglaCentro;
+      if (preTitleCentro) { preTitleCentro.innerText = ''; preTitleCentro.style.display = 'none'; }
       document.getElementById('banner-centro-nome').innerText = centro.nome;
       document.getElementById('banner-centro-desc').innerText = centro.descricao;
       document.getElementById('atual-centro-sigla').value = siglaCentro;
