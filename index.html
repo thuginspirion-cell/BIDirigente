@@ -23966,7 +23966,9 @@ function imprimirAgendaCarro() {
       abasAtivas: [
         'ATENDIMENTO EXTERNO',
         'MATRÍCULA MANUAL',
-        'ENTRADA SEI'
+        'ENTRADA SEI',
+        'E-MAIL',
+        'TROCAS DE ESCOLA'
       ],
 
       /* Catálogo de abas do SEMAT para expansão futura: */
@@ -24289,7 +24291,7 @@ function imprimirAgendaCarro() {
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Dados de:</strong> <span id="semat-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
-                <span>⚡ <strong>Origem:</strong> <span style="color: #93c5fd; font-weight: 800;">${meta.origemSync || 'Espelho Automático Nuvem (SharePoint)'}</span></span>
+                <span>⚡ <strong>Origem:</strong> <span style="color: #10b981; font-weight: 800;">${meta.origemSync || 'SharePoint Ao Vivo (Seletivo Range 206)'}</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">Atendimentos, Matrículas, Processos SEI</span></span>
               </div>
             </div>
@@ -24624,6 +24626,16 @@ function imprimirAgendaCarro() {
         });
 
         /* Atualiza base viva */
+        const wsEmailSemat = wb.Sheets['E-MAIL'];
+        const wsTrocasSemat = wb.Sheets['TROCAS DE ESCOLA'];
+        if (wsEmailSemat) {
+          DADOS_SEMAT.kpis = DADOS_SEMAT.kpis || {};
+          DADOS_SEMAT.kpis.totalEmails = XLSX.utils.sheet_to_json(wsEmailSemat, { header: 1 }).length;
+        }
+        if (wsTrocasSemat) {
+          DADOS_SEMAT.kpis = DADOS_SEMAT.kpis || {};
+          DADOS_SEMAT.kpis.totalTrocasEscola = XLSX.utils.sheet_to_json(wsTrocasSemat, { header: 1 }).length;
+        }
         DADOS_SEMAT.atendimentos = atendimentos;
         DADOS_SEMAT.matriculas = matriculas;
         DADOS_SEMAT.processosSei = processosSei;
@@ -24635,18 +24647,18 @@ function imprimirAgendaCarro() {
         DADOS_SEMAT.kpis.mesesMatriculas = contagemPorMesMat;
         if (DADOS_SEMAT.meta) {
           DADOS_SEMAT.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
-          DADOS_SEMAT.meta.origemSync = 'SharePoint Ao Vivo';
+          DADOS_SEMAT.meta.origemSync = 'SharePoint Ao Vivo (Seletivo Range 206)';
         }
 
         renderizarDashboardSemat();
 
-        if (typeof mostrarAlertaSincronizacao === 'function') {
+        if (!window.__sematSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
             tag: 'SEMAT AO VIVO • SHAREPOINT',
             titulo: 'Planilha SEMAT Atualizada em Tempo Real!',
-            mensagem: '<strong>' + atendimentos.length.toLocaleString('pt-BR') + ' atendimentos</strong> e <strong>' + matriculas.length.toLocaleString('pt-BR') + ' matrículas</strong> baixados do SharePoint agora.',
-            detalhes: 'SharePoint Ao Vivo às ' + new Date().toLocaleTimeString('pt-BR'),
+            mensagem: '<strong>' + atendimentos.length.toLocaleString('pt-BR') + ' atendimentos</strong> e <strong>' + matriculas.length.toLocaleString('pt-BR') + ' matrículas</strong> baixados diretamente do SharePoint agora.',
+            detalhes: 'SharePoint Ao Vivo (Extração Seletiva Range 206) às ' + new Date().toLocaleTimeString('pt-BR'),
             duracao: 4500
           });
         }
@@ -24657,17 +24669,14 @@ function imprimirAgendaCarro() {
 
     function sincronizarDashboardSemat(silencioso) {
       const isSil = (silencioso === true);
+      window.__sematSyncSilencioso = isSil;
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
-        const msg = (typeof CONFIG_SINCRONIZACAO_SEMAT !== 'undefined' && CONFIG_SINCRONIZACAO_SEMAT.modoOtimizado)
-          ? 'Consultando espelho automático na nuvem (abastecido do SharePoint via GitHub Actions)...'
-          : 'Baixando planilha do SharePoint em tempo real...';
-
         mostrarAlertaSincronizacao({
           tipo: 'loading',
-          tag: (typeof CONFIG_SINCRONIZACAO_SEMAT !== 'undefined' && CONFIG_SINCRONIZACAO_SEMAT.modoOtimizado) ? 'SEMAT • ESPELHO NUVEM' : 'SEMAT • SHAREPOINT LIVE',
-          titulo: (typeof CONFIG_SINCRONIZACAO_SEMAT !== 'undefined' && CONFIG_SINCRONIZACAO_SEMAT.modoOtimizado) ? 'Buscando Base SEMAT na Nuvem...' : 'Sincronizando Livro de Entrada SEMAT...',
-          mensagem: msg,
-          detalhes: 'Transparência Real de Coleta',
+          tag: 'SEMAT • SHAREPOINT AO VIVO',
+          titulo: 'Baixando Abas Ativas do SEMAT...',
+          mensagem: 'Conectando ao SharePoint em tempo real (extração cirúrgica HTTP 206 Range das 5 abas ativas)...',
+          detalhes: 'Conexão Direta Ao Vivo • Sem Login',
           duracao: 0
         });
       }
@@ -25430,6 +25439,7 @@ function imprimirAgendaCarro() {
         'ENTRADA SEI',
         'ATENDIMENTO VAGA',
         'OUVIDORIA',
+        'CONCLUINTES',
         'E-MAIL'
       ],
 
@@ -37480,7 +37490,7 @@ function imprimirAgendaCarro() {
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Dados de:</strong> <span id="segre-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
-                <span>⚡ <strong>Origem:</strong> <span style="color: #93c5fd; font-weight: 800;">${meta.origemSync || 'Espelho Automático Nuvem (SharePoint)'}</span></span>
+                <span>⚡ <strong>Origem:</strong> <span style="color: #10b981; font-weight: 800;">${meta.origemSync || 'SharePoint Ao Vivo (Seletivo Range 206)'}</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">SEI, Vagas, Ouvidoria, E-mails</span></span>
               </div>
             </div>
@@ -37717,6 +37727,7 @@ function imprimirAgendaCarro() {
         const wsSei = wb.Sheets['ENTRADA SEI'];
         const wsVagas = wb.Sheets['ATENDIMENTO VAGA'];
         const wsOuv = wb.Sheets['OUVIDORIA'];
+        const wsConc = wb.Sheets['CONCLUINTES'];
         const wsEmail = wb.Sheets['E-MAIL'];
 
         const rawSei = wsSei ? XLSX.utils.sheet_to_json(wsSei, { defval: '' }) : [];
@@ -37800,6 +37811,29 @@ function imprimirAgendaCarro() {
           });
         });
 
+        /* 3.5 Concluintes (total + 250 mais recentes) */
+        const rawConc = wsConc ? XLSX.utils.sheet_to_json(wsConc, { defval: '' }) : [];
+        const concluintesRecentes = [];
+        if (rawConc.length > 0) {
+          const startConc = Math.max(0, rawConc.length - 250);
+          for (let i = rawConc.length - 1; i >= startConc; i--) {
+            const rc = rawConc[i];
+            const alC = String(rc['ALUNO '] || rc['ALUNO'] || '').trim();
+            const escC = String(rc['ESCOLA '] || rc['ESCOLA'] || '').trim();
+            if (alC || escC) {
+              concluintesRecentes.push({
+                id: 'CONC-' + (i + 1),
+                data: parseDataXlsxLocal(rc['DATA '] || rc['DATA']),
+                escola: escC,
+                aluno: alC,
+                anoConclusao: rc['ANO '] || rc['ANO'] || 2026,
+                tipoEnsino: String(rc['TIPO ENSINO'] || 'EM').trim(),
+                responsavel: String(rc['RESPONSÁVEL '] || 'SEGRE').trim()
+              });
+            }
+          }
+        }
+
         /* 4. E-mails & Demandas */
         const rawEmail = wsEmail ? XLSX.utils.sheet_to_json(wsEmail, { defval: '' }) : [];
         const emailsLidos = [];
@@ -37838,28 +37872,30 @@ function imprimirAgendaCarro() {
         DADOS_SEGRE.processosSei = processosSei;
         if (atendimentosVagas.length > 0) DADOS_SEGRE.atendimentosVaga = atendimentosVagas;
         if (ouvidorias.length > 0) DADOS_SEGRE.ouvidorias = ouvidorias;
+        if (concluintesRecentes.length > 0) DADOS_SEGRE.concluintesRecentes = concluintesRecentes;
         if (emailsLidos.length > 0) DADOS_SEGRE.emails = emailsLidos;
 
         DADOS_SEGRE.kpis = DADOS_SEGRE.kpis || {};
         DADOS_SEGRE.kpis.totalSei = processosSei.length;
         if (atendimentosVagas.length > 0) DADOS_SEGRE.kpis.totalVagas = atendimentosVagas.length;
         if (ouvidorias.length > 0) DADOS_SEGRE.kpis.totalOuvidoria = ouvidorias.length;
+        if (rawConc.length > 0) DADOS_SEGRE.kpis.totalConcluintes = rawConc.length;
         if (emailsLidos.length > 0) DADOS_SEGRE.kpis.totalEmails = emailsLidos.length;
 
         if (DADOS_SEGRE.meta) {
           DADOS_SEGRE.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
-          DADOS_SEGRE.meta.origemSync = 'SharePoint Ao Vivo';
+          DADOS_SEGRE.meta.origemSync = 'SharePoint Ao Vivo (Seletivo Range 206)';
         }
 
         renderizarDashboardSegre();
 
-        if (typeof mostrarAlertaSincronizacao === 'function') {
+        if (!window.__segreSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
             tag: 'SEGRE AO VIVO • SHAREPOINT',
             titulo: 'Planilha SEGRE Atualizada em Tempo Real!',
-            mensagem: '<strong>' + processosSei.length.toLocaleString('pt-BR') + ' processos SEI</strong>, <strong>' + DADOS_SEGRE.kpis.totalVagas + ' atendimentos de vagas</strong>, <strong>' + (DADOS_SEGRE.kpis.totalOuvidoria || 0) + ' ouvidorias</strong> e <strong>' + (DADOS_SEGRE.kpis.totalEmails || 0).toLocaleString('pt-BR') + ' e-mails</strong> baixados agora.',
-            detalhes: 'SharePoint Ao Vivo às ' + new Date().toLocaleTimeString('pt-BR'),
+            mensagem: '<strong>' + processosSei.length.toLocaleString('pt-BR') + ' processos SEI</strong>, <strong>' + DADOS_SEGRE.kpis.totalVagas + ' atendimentos de vagas</strong>, <strong>' + (DADOS_SEGRE.kpis.totalOuvidoria || 0) + ' ouvidorias</strong> e <strong>' + (DADOS_SEGRE.kpis.totalEmails || 0).toLocaleString('pt-BR') + ' e-mails</strong> baixados diretamente do SharePoint agora.',
+            detalhes: 'SharePoint Ao Vivo (Extração Seletiva Range 206) às ' + new Date().toLocaleTimeString('pt-BR'),
             duracao: 4500
           });
         }
@@ -37870,17 +37906,14 @@ function imprimirAgendaCarro() {
 
     function sincronizarDashboardSegre(silencioso) {
       const isSil = (silencioso === true);
+      window.__segreSyncSilencioso = isSil;
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
-        const msg = CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado
-          ? 'Consultando espelho automático na nuvem (abastecido do SharePoint via GitHub Actions)...'
-          : 'Baixando planilha do SharePoint em tempo real...';
-
         mostrarAlertaSincronizacao({
           tipo: 'loading',
-          tag: CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado ? 'SEGRE • ESPELHO NUVEM' : 'SEGRE • SHAREPOINT BRUTO',
-          titulo: CONFIG_SINCRONIZACAO_SEGRE.modoOtimizado ? 'Buscando Base SEGRE na Nuvem...' : 'Sincronizando Livro de Entrada SEGRE...',
-          mensagem: msg,
-          detalhes: 'Transparência Real de Coleta',
+          tag: 'SEGRE • SHAREPOINT AO VIVO',
+          titulo: 'Baixando Abas Ativas do SEGRE...',
+          mensagem: 'Conectando ao SharePoint em tempo real (extração cirúrgica HTTP 206 Range das 5 abas ativas)...',
+          detalhes: 'Conexão Direta Ao Vivo • Sem Login',
           duracao: 0
         });
       }
