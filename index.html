@@ -4221,6 +4221,89 @@ function fecharModalDetalhesAgendamentoCarro() {
 }
 
 /* ============================================================== */
+/* MOTOR DE AVISOS E CONFIRMAÇÕES UX/UI CENTRALIZADO (ZERO ALERT) */
+/* ============================================================== */
+
+let __carroUxConfirmCallback = null;
+
+function fecharModalAvisoCarroUX() {
+  const modal = document.getElementById('modal-aviso-carro-ux');
+  if (modal) modal.style.display = 'none';
+  __carroUxConfirmCallback = null;
+}
+
+function executarAcaoPrimariaAvisoCarroUX() {
+  if (typeof __carroUxConfirmCallback === 'function') {
+    const fn = __carroUxConfirmCallback;
+    const result = fn();
+    if (result !== false) {
+      fecharModalAvisoCarroUX();
+    }
+  } else {
+    fecharModalAvisoCarroUX();
+  }
+}
+
+function abrirModalAvisoCarroUX(opts) {
+  const modal = document.getElementById('modal-aviso-carro-ux');
+  if (!modal) return;
+  const headerEl = document.getElementById('ux-carro-modal-header');
+  const iconEl = document.getElementById('ux-carro-modal-icon');
+  const eyeEl = document.getElementById('ux-carro-modal-eyebrow');
+  const titleEl = document.getElementById('ux-carro-modal-title');
+  const bodyEl = document.getElementById('ux-carro-modal-body');
+  const primaryBtn = document.getElementById('ux-carro-modal-btn-primary');
+  const closeBtnText = document.getElementById('ux-carro-modal-btn-close-text');
+
+  const tipo = (opts && opts.tipo) || 'aviso';
+  const paleta = tipo === 'conflito' || tipo === 'perigo'
+    ? { border: '#ef4444', badgeBg: 'rgba(239, 68, 68, 0.2)', badgeColor: '#fca5a5', icon: (opts && opts.icone) || '⚠️', eyeColor: '#fca5a5' }
+    : (tipo === 'sucesso' || tipo === 'concluir'
+      ? { border: '#10b981', badgeBg: 'rgba(16, 185, 129, 0.2)', badgeColor: '#6ee7b7', icon: (opts && opts.icone) || '🏁', eyeColor: '#6ee7b7' }
+      : { border: '#f09b0c', badgeBg: 'rgba(240, 155, 12, 0.2)', badgeColor: '#fde047', icon: (opts && opts.icone) || '💡', eyeColor: '#fde047' });
+
+  if (headerEl) headerEl.style.borderBottom = '3px solid ' + paleta.border;
+  if (iconEl) {
+    iconEl.innerText = paleta.icon;
+    iconEl.style.background = paleta.badgeBg;
+    iconEl.style.color = paleta.badgeColor;
+    iconEl.style.borderColor = paleta.border;
+  }
+  if (eyeEl) {
+    eyeEl.innerText = (opts && opts.eyebrow) || 'AVISO DO SISTEMA • FROTA OFICIAL';
+    eyeEl.style.color = paleta.eyeColor;
+  }
+  if (titleEl) titleEl.innerText = (opts && opts.titulo) || 'Atenção';
+  if (bodyEl) bodyEl.innerHTML = (opts && opts.html) || '';
+  if (closeBtnText) closeBtnText.innerText = (opts && opts.textoFechar) || 'Fechar';
+
+  __carroUxConfirmCallback = (opts && typeof opts.onConfirmar === 'function') ? opts.onConfirmar : null;
+  if (primaryBtn) {
+    if (opts && opts.textoConfirmar && __carroUxConfirmCallback) {
+      primaryBtn.style.display = 'inline-flex';
+      primaryBtn.innerHTML = '<span>' + escaparHtmlSimples(opts.textoConfirmar) + '</span>';
+      if (tipo === 'perigo') {
+        primaryBtn.style.background = 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)';
+        primaryBtn.style.borderColor = '#991b1b';
+        primaryBtn.style.color = '#ffffff';
+      } else if (tipo === 'concluir') {
+        primaryBtn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
+        primaryBtn.style.borderColor = '#065f46';
+        primaryBtn.style.color = '#ffffff';
+      } else {
+        primaryBtn.style.background = 'linear-gradient(135deg, #0b2351 0%, #1e40af 100%)';
+        primaryBtn.style.borderColor = '#f09b0c';
+        primaryBtn.style.color = '#ffffff';
+      }
+    } else {
+      primaryBtn.style.display = 'none';
+    }
+  }
+
+  modal.style.display = 'flex';
+}
+
+/* ============================================================== */
 /* CRUD E MODAIS: SOLICITAÇÃO MEGA-PREMIUM, EDIÇÃO E FROTA        */
 /* ============================================================== */
 
@@ -4466,29 +4549,104 @@ function salvarSolicitacaoCarro(event) {
   const itinerarioInput = document.getElementById('form-carro-itinerario') ? document.getElementById('form-carro-itinerario').value.trim() : '';
 
   if (!destino || !data || !dataRetorno || !solicitante) {
-    alert('Por favor, preencha o Destino, as Datas de Ida/Retorno e o Nome do Solicitante.');
+    abrirModalAvisoCarroUX({
+      tipo: 'aviso',
+      icone: '📝',
+      eyebrow: 'CAMPOS OBRIGATÓRIOS',
+      titulo: 'Preencha os dados da viagem',
+      html: '<p style="margin: 0; color: #334155; font-size: 0.9rem; line-height: 1.55;">Para confirmar o agendamento, informe o <strong>Destino</strong>, as datas de <strong>Ida e Retorno</strong> e o <strong>Nome do Solicitante</strong>.</p>',
+      textoFechar: 'Entendi • Voltar'
+    });
     return;
   }
   if (dataRetorno < data) {
-    alert('A data de retorno não pode ser anterior à data de ida.');
+    abrirModalAvisoCarroUX({
+      tipo: 'aviso',
+      icone: '📅',
+      eyebrow: 'VALIDAÇÃO DE PERÍODO',
+      titulo: 'Data de retorno inválida',
+      html: '<p style="margin: 0; color: #334155; font-size: 0.9rem; line-height: 1.55;">A <strong>Data de Retorno</strong> não pode ser anterior à <strong>Data de Ida</strong>. Ajuste o período selecionado.</p>',
+      textoFechar: 'Ajustar Datas'
+    });
     return;
   }
   if (dataRetorno === data && horarioParaMinutos(retorno) <= horarioParaMinutos(saida)) {
-    alert('Para deslocamentos no mesmo dia, o horário de retorno deve ser posterior ao horário de saída.');
+    abrirModalAvisoCarroUX({
+      tipo: 'aviso',
+      icone: '⏰',
+      eyebrow: 'VALIDAÇÃO DE HORÁRIO',
+      titulo: 'Horário de retorno inválido',
+      html: '<p style="margin: 0; color: #334155; font-size: 0.9rem; line-height: 1.55;">Para viagens no mesmo dia, o <strong>Horário de Retorno</strong> deve ser posterior ao <strong>Horário de Saída</strong>.</p>',
+      textoFechar: 'Ajustar Horários'
+    });
     return;
   }
 
   const isSpin = veiculoVal.indexOf('Spin') !== -1;
   const placa = isSpin ? 'TLH 1B63' : 'FZG 0H22';
   if (!isSpin && passageiros > 5) {
-    alert('O Hyundai HB20 comporta no máximo 5 ocupantes. Selecione a Chevrolet Spin (7 lugares) ou ajuste o número de passageiros.');
+    abrirModalAvisoCarroUX({
+      tipo: 'aviso',
+      icone: '👥',
+      eyebrow: 'CAPACIDADE DO VEÍCULO',
+      titulo: 'Lotação excedida para o Hyundai HB20',
+      html: '<p style="margin: 0 0 0.85rem 0; color: #334155; font-size: 0.9rem; line-height: 1.55;">O veículo <strong>Hyundai HB20 1.0 (FZG 0H22)</strong> comporta no máximo <strong>5 ocupantes</strong>.</p><p style="margin: 0; color: #475569; font-size: 0.84rem;">Deseja trocar automaticamente para a <strong>Chevrolet Spin (7 lugares)</strong>?</p>',
+      textoConfirmar: '🚗 Trocar para Spin (7 lugares)',
+      textoFechar: 'Ajustar Passageiros',
+      onConfirmar: function() {
+        selecionarVeiculoSolicitacaoCarro('Chevrolet Spin 1.8 7L (Oficial Gabinete)');
+      }
+    });
     return;
   }
 
   const conf = verificarConflitoAgendaCarro(data, saida, retorno, placa, null, dataRetorno);
   if (conf.temConflito) {
     const c = conf.conflitantes[0];
-    alert('Conflito de horário detectado! O veículo ' + placa + ' já está reservado em ' + formatarDataCompletaBr(data) + ' das ' + c.horarioSaida + ' às ' + c.horarioRetorno + ' para ' + (c.solicitante || '') + '. Escolha outro horário ou o outro veículo da frota.');
+    const cDataIda = formatarDataCompletaBr(c.data);
+    const cDataRet = formatarDataCompletaBr(c.dataRetorno || c.data);
+    const periodoConflito = (cDataRet !== cDataIda)
+      ? (cDataIda + ' (' + c.horarioSaida + ') até ' + cDataRet + ' (' + c.horarioRetorno + ')')
+      : (cDataIda + ' • ' + c.horarioSaida + ' às ' + c.horarioRetorno);
+    const outroPlaca = isSpin ? 'FZG 0H22' : 'TLH 1B63';
+    const outroNome = isSpin ? 'Hyundai HB20 1.0 (FZG 0H22)' : 'Chevrolet Spin 1.8 7L (TLH 1B63)';
+    const outroValor = isSpin ? 'Hyundai HB20 1.0 (Oficial Apoio)' : 'Chevrolet Spin 1.8 7L (Oficial Gabinete)';
+    const confOutro = verificarConflitoAgendaCarro(data, saida, retorno, outroPlaca, null, dataRetorno);
+
+    const conflitoHtml = `
+      <p style="margin: 0 0 0.9rem 0; color: #334155; font-size: 0.88rem; line-height: 1.5;">
+        O veículo solicitado já possui um deslocamento oficial confirmado que sobrepõe este período:
+      </p>
+      <div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #dc2626; border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 0.9rem; display: grid; gap: 0.45rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+          <span style="background: #0b2351; color: #fde047; font-family: monospace; font-size: 0.78rem; font-weight: 800; padding: 0.16rem 0.55rem; border-radius: 5px;">${escaparHtmlSimples(placa)}</span>
+          <span style="font-size: 0.74rem; font-weight: 800; color: #991b1b; background: #fee2e2; padding: 0.14rem 0.55rem; border-radius: 9999px;">${escaparHtmlSimples(c.controleTrafegoNum || 'CT-2026')}</span>
+        </div>
+        <div style="font-size: 0.86rem; font-weight: 800; color: #0f172a;">👤 ${escaparHtmlSimples(c.solicitante || 'Gabinete')}</div>
+        <div style="font-size: 0.8rem; color: #475569;">🏢 ${escaparHtmlSimples(c.unidade || c.setor || 'URE - ITP')}</div>
+        <div style="font-size: 0.82rem; font-weight: 700; color: #b91c1c;">⏰ ${escaparHtmlSimples(periodoConflito)}</div>
+        <div style="font-size: 0.78rem; color: #64748b;">📍 ${escaparHtmlSimples(c.destino || 'Deslocamento Oficial')}</div>
+      </div>
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.7rem 0.85rem; font-size: 0.81rem; color: #334155;">
+        ${!confOutro.temConflito
+          ? ('💡 <strong>Sugestão:</strong> O veículo <strong>' + outroNome + '</strong> está <strong>livre</strong> neste horário. Você pode selecioná-lo agora com 1 clique.')
+          : '💡 Escolha outro horário ou ajuste a data da viagem para evitar sobreposição na frota.'}
+      </div>
+    `;
+
+    abrirModalAvisoCarroUX({
+      tipo: 'conflito',
+      icone: '🚫',
+      eyebrow: 'CONFLITO DE AGENDA • FROTA OFICIAL',
+      titulo: 'Veículo ' + placa + ' indisponível no horário',
+      html: conflitoHtml,
+      textoConfirmar: !confOutro.temConflito ? ('🚗 Trocar para ' + outroPlaca) : null,
+      textoFechar: !confOutro.temConflito ? 'Fechar / Ajustar' : 'Fechar e Ajustar Horário',
+      onConfirmar: !confOutro.temConflito ? function() {
+        selecionarVeiculoSolicitacaoCarro(outroValor);
+        mostrarToastAgenda('Veículo alterado para ' + outroNome + '. Confira e confirme a reserva!', '🚗');
+      } : null
+    });
     return;
   }
 
@@ -4562,7 +4720,13 @@ function salvarSolicitacaoCarro(event) {
 function abrirModalEditarSolicitacaoCarro(idRegistro) {
   const reg = (CARRO_DATA.registros || []).find(r => r.id === idRegistro);
   if (!reg) {
-    alert('Registro de deslocamento não encontrado.');
+    abrirModalAvisoCarroUX({
+      tipo: 'aviso',
+      icone: '🔍',
+      eyebrow: 'REGISTRO NÃO ENCONTRADO',
+      titulo: 'Deslocamento indisponível',
+      html: '<p style="margin: 0; color: #334155; font-size: 0.9rem;">O agendamento selecionado não foi encontrado na base ativa.</p>'
+    });
     return;
   }
 
@@ -4760,42 +4924,79 @@ function concluirViagemRapida(idRegistro) {
   const reg = (CARRO_DATA.registros || []).find(r => r.id === idRegistro);
   if (!reg) return;
 
-  const kmRetornoStr = prompt('Informe o Hodômetro de Retorno (km) para concluir o deslocamento (' + (reg.controleTrafegoNum || '') + '):', String(reg.kmRetorno || (reg.kmPartida + 30)));
-  if (kmRetornoStr === null) return;
+  const sugestaoKm = reg.kmRetorno && reg.kmRetorno > (reg.kmPartida || 0) ? reg.kmRetorno : ((reg.kmPartida || 0) + 35);
+  abrirModalAvisoCarroUX({
+    tipo: 'concluir',
+    icone: '🏁',
+    eyebrow: 'ENCERRAMENTO DE DESLOCAMENTO • ' + (reg.controleTrafegoNum || 'CT-2026'),
+    titulo: 'Concluir Viagem & Registrar Km',
+    html: `
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.8rem 0.95rem; margin-bottom: 0.95rem; font-size: 0.82rem; color: #334155;">
+        <div><strong>Veículo:</strong> ${escaparHtmlSimples(reg.veiculo)} (${escaparHtmlSimples(reg.placa || '')})</div>
+        <div style="margin-top: 0.25rem;"><strong>Hodômetro de Partida:</strong> <span style="font-family: monospace; font-weight: 800; color: #0b2351;">${reg.kmPartida || 0} km</span></div>
+      </div>
+      <label class="agenda-form-label" style="display: block; margin-bottom: 0.35rem;">Informe o Hodômetro de Retorno (km) *</label>
+      <input type="number" id="ux-carro-km-retorno-input" class="agenda-form-input" value="${sugestaoKm}" min="${reg.kmPartida || 0}" style="font-size: 1rem; font-weight: 700;">
+      <div id="ux-carro-km-erro" style="display: none; color: #dc2626; font-size: 0.78rem; font-weight: 700; margin-top: 0.4rem;"></div>
+    `,
+    textoConfirmar: '🏁 Confirmar Conclusão',
+    textoFechar: 'Cancelar',
+    onConfirmar: function() {
+      const inKm = document.getElementById('ux-carro-km-retorno-input');
+      const errEl = document.getElementById('ux-carro-km-erro');
+      const kmRetorno = parseInt(String(inKm ? inKm.value : '').replace(/\D/g, ''), 10);
+      if (isNaN(kmRetorno) || kmRetorno < (reg.kmPartida || 0)) {
+        if (errEl) {
+          errEl.innerText = '⚠️ O hodômetro de retorno deve ser maior ou igual a ' + (reg.kmPartida || 0) + ' km.';
+          errEl.style.display = 'block';
+        }
+        return false;
+      }
 
-  const kmRetorno = parseInt(kmRetornoStr.replace(/\D/g, ''), 10);
-  if (isNaN(kmRetorno) || kmRetorno < (reg.kmPartida || 0)) {
-    alert('Hodômetro de retorno inválido (deve ser maior ou igual a ' + (reg.kmPartida || 0) + ' km).');
-    return;
-  }
+      reg.kmRetorno = kmRetorno;
+      reg.kmDiferenca = kmRetorno - (reg.kmPartida || 0);
+      reg.status = 'Concluído';
 
-  reg.kmRetorno = kmRetorno;
-  reg.kmDiferenca = kmRetorno - (reg.kmPartida || 0);
-  reg.status = 'Concluído';
+      const vFrota = (CARRO_DATA.frota || []).find(f => f.placa === reg.placa);
+      if (vFrota && kmRetorno > (vFrota.kmNum || 0)) {
+        vFrota.kmNum = kmRetorno;
+        vFrota.km = kmRetorno.toLocaleString('pt-BR') + ' km';
+        vFrota.status = 'Disponível no Pátio';
+      }
 
-  /* Atualiza frota */
-  const vFrota = (CARRO_DATA.frota || []).find(f => f.placa === reg.placa);
-  if (vFrota && kmRetorno > (vFrota.kmNum || 0)) {
-    vFrota.kmNum = kmRetorno;
-    vFrota.km = kmRetorno.toLocaleString('pt-BR') + ' km';
-    vFrota.status = 'Disponível no Pátio';
-  }
-
-  salvarCarroStorage();
-  renderizarCarroOficial();
-  mostrarToastAgenda('Deslocamento concluído! Diferença: ' + reg.kmDiferenca + ' km rodados.', '🏁');
+      salvarCarroStorage();
+      renderizarCarroOficial();
+      mostrarToastAgenda('Deslocamento concluído! Diferença: ' + reg.kmDiferenca + ' km rodados.', '🏁');
+    }
+  });
 }
 
 function excluirSolicitacaoCarro(idRegistro) {
   const reg = (CARRO_DATA.registros || []).find(r => r.id === idRegistro);
   if (!reg) return;
 
-  if (confirm('Deseja realmente remover o agendamento ' + (reg.controleTrafegoNum || '') + ' (' + (reg.destino || '') + ')?')) {
-    CARRO_DATA.registros = (CARRO_DATA.registros || []).filter(r => r.id !== idRegistro);
-    salvarCarroStorage();
-    renderizarCarroOficial();
-    mostrarToastAgenda('Agendamento removido com sucesso.', '🗑️');
-  }
+  abrirModalAvisoCarroUX({
+    tipo: 'perigo',
+    icone: '🗑️',
+    eyebrow: 'CONFIRMAÇÃO DE EXCLUSÃO',
+    titulo: 'Remover agendamento da frota?',
+    html: `
+      <p style="margin: 0 0 0.85rem 0; color: #334155; font-size: 0.88rem;">Deseja remover permanentemente este agendamento da nuvem?</p>
+      <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 0.8rem 0.95rem; font-size: 0.82rem; color: #7f1d1d;">
+        <div><strong>${escaparHtmlSimples(reg.controleTrafegoNum || 'CT-2026')} • ${escaparHtmlSimples(reg.placa || '')}</strong></div>
+        <div style="margin-top: 0.2rem;">👤 ${escaparHtmlSimples(reg.solicitante || '')} • ${formatarDataCompletaBr(reg.data)}</div>
+        <div style="margin-top: 0.15rem;">📍 ${escaparHtmlSimples(reg.destino || '')}</div>
+      </div>
+    `,
+    textoConfirmar: '🗑️ Confirmar Exclusão',
+    textoFechar: 'Manter Agendamento',
+    onConfirmar: function() {
+      CARRO_DATA.registros = (CARRO_DATA.registros || []).filter(r => r.id !== idRegistro);
+      salvarCarroStorage();
+      renderizarCarroOficial();
+      mostrarToastAgenda('Agendamento removido com sucesso.', '🗑️');
+    }
+  });
 }
 
 /* ============================================================== */
@@ -4805,7 +5006,13 @@ function excluirSolicitacaoCarro(idRegistro) {
 function abrirModalPdfControleTrafego(idRegistro) {
   const reg = (CARRO_DATA.registros || []).find(r => r.id === idRegistro) || (CARRO_DATA.registros && CARRO_DATA.registros[0]);
   if (!reg) {
-    alert('Solicitação não encontrada para emissão do documento.');
+    abrirModalAvisoCarroUX({
+      tipo: 'aviso',
+      icone: '📄',
+      eyebrow: 'DOCUMENTO INDISPONÍVEL',
+      titulo: 'Solicitação não encontrada',
+      html: '<p style="margin: 0; color: #334155; font-size: 0.9rem;">Não foi possível localizar os dados desta viagem para gerar o Modelo 30.</p>'
+    });
     return;
   }
 
@@ -5303,6 +5510,9 @@ function imprimirAgendaCarro() {
     window.verificarDisponibilidadeModalSolicitacao = verificarDisponibilidadeModalSolicitacao;
     window.aoMudarDataIdaSolicitacaoCarro = aoMudarDataIdaSolicitacaoCarro;
     window.calcularDuracaoViagemCompleta = calcularDuracaoViagemCompleta;
+    window.abrirModalAvisoCarroUX = abrirModalAvisoCarroUX;
+    window.fecharModalAvisoCarroUX = fecharModalAvisoCarroUX;
+    window.executarAcaoPrimariaAvisoCarroUX = executarAcaoPrimariaAvisoCarroUX;
     window.inicializarConfiguracaoCalendarioCarro = inicializarConfiguracaoCalendarioCarro;
 
 
@@ -10208,6 +10418,13 @@ function imprimirAgendaCarro() {
       border-color: #0b2351;
     }
 
+    @keyframes carroUxPopIn {
+      0% { opacity: 0; transform: scale(0.92) translateY(8px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .carro-ux-modal-card {
+      animation: carroUxPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
     .btn-modal-fechar-destaque {
       background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
       color: #9f1239;
@@ -46095,6 +46312,28 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
   <!-- Toast de Notificação -->
     
+  <!-- ============================================================== -->
+  <!-- MODAL UX/UI CENTRALIZADO DE AVISOS, CONFLITOS E CONFIRMAÇÕES (CARRO OFICIAL) -->
+  <!-- ============================================================== -->
+  <div id="modal-aviso-carro-ux" class="agenda-modal-overlay" style="display: none; z-index: 10095; background: rgba(7, 21, 47, 0.74); backdrop-filter: blur(6px);">
+    <div class="agenda-modal-card carro-ux-modal-card" style="max-width: 500px; width: 92%; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,0.18); box-shadow: 0 28px 70px rgba(7, 21, 47, 0.5);">
+      <div id="ux-carro-modal-header" class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 75%, #133979 100%); border-bottom: 3px solid #ef4444; padding: 1.2rem 1.4rem; display: flex; align-items: center; gap: 0.9rem;">
+        <div id="ux-carro-modal-icon" style="width: 46px; height: 46px; min-width: 46px; border-radius: 50%; background: rgba(239,68,68,0.2); border: 1.5px solid #ef4444; display: flex; align-items: center; justify-content: center; font-size: 1.35rem;">⚠️</div>
+        <div>
+          <span id="ux-carro-modal-eyebrow" style="font-size: 0.7rem; font-weight: 800; color: #fca5a5; letter-spacing: 0.06em; text-transform: uppercase; display: block;">CONFLITO DE AGENDA • FROTA OFICIAL</span>
+          <h3 id="ux-carro-modal-title" style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin: 0.15rem 0 0 0; line-height: 1.25;">Atenção</h3>
+        </div>
+      </div>
+
+      <div id="ux-carro-modal-body" class="agenda-modal-body" style="background: #ffffff; padding: 1.3rem 1.4rem;"></div>
+
+      <div class="agenda-modal-footer" style="background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 0.9rem 1.4rem; display: flex; justify-content: flex-end; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+        <button type="button" id="ux-carro-modal-btn-primary" class="btn-gestao-open-agenda" style="display: none; background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1.5px solid #f09b0c; padding: 0.58rem 1.15rem; font-size: 0.84rem; font-weight: 800;" onclick="executarAcaoPrimariaAvisoCarroUX()"></button>
+        <button type="button" class="btn-modal-fechar-destaque" style="padding: 0.55rem 1.2rem;" onclick="fecharModalAvisoCarroUX()"><span>✖</span><span id="ux-carro-modal-btn-close-text">Fechar</span></button>
+      </div>
+    </div>
+  </div>
+
   <!-- ============================================================== -->
   <!-- MODAL: CONFERÊNCIA RÁPIDA DE AGENDAMENTO DO CARRO OFICIAL      -->
   <!-- ============================================================== -->
