@@ -32,7 +32,11 @@ Ao integrar **qualquer setor novo** ou manter setores existentes cujas planilhas
      4. Baixa via `UrlFetchApp.fetchAll` (`HTTP 206 Range`) **somente** os metadados essenciais + as abas em `abasNecessarias`, ignorando abas inchadas não usadas (ex.: no SEGRE `65,64 MB -> ~1,15 MB`; no SEMAT `26,55 MB -> ~1,33 MB`), e remonta um Mini-XLSX válido em memória RAM.
    - Isso garante sincronização **100% ao vivo direto do SharePoint no segundo do clique** tanto no **GS/GAS** quanto no **GHP**, sem depender de agendamentos nem de limpeza manual no Excel do setor.
 
-2. **Fallback Resiliente (`data/*.json`):**
+2. **Camada 2 — Purificação Streaming Anti-Inchaço no Navegador (`DecompressionStream`):**
+   - Toda planilha recebida pelo cliente (`SEGRE`, `SEMAT`, `SEVESC`, `SEPES`, `SEINTEC` e `sincronizarBasePublicaSharepoint`) passa por `window.purificarXlsxStreamingSeNecessario(base64Data)` antes do `XLSX.read`.
+   - Se alguma aba ativa ultrapassar `3 MB` de XML descomprimido (típico de usuários que formataram colunas inteiras até a linha `1.048.576`), o navegador descompacta a aba em *streaming* (`DecompressionStream('deflate-raw')`), descarta na hora todas as `<row>` sem valores (`<v>`, `<is>`, `<f>`), remove `<dimension/>` inflado e recompõe um `.xlsx` leve sem travar a aba nem bloquear o crescimento real de novas linhas com dados.
+
+3. **Fallback Resiliente (`data/*.json`):**
    - Só acionar espelho `data/*.json` caso o SharePoint esteja temporariamente indisponível ou bloqueie `HTTP 206` em algum servidor futuro; nesse caso usar [`scripts/sync_all_mirrors.js`](../../scripts/sync_all_mirrors.js) e sempre preservar o timestamp real da coleta.
 
 3. **Controle do Teto do `PropertiesService` (500 KB) para Módulos Editáveis:**
