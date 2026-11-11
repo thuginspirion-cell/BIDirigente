@@ -12952,7 +12952,7 @@ function imprimirAgendaCarro() {
         <div class="nav-group-title">NÚCLEOS / CENTROS</div>
         <ul class="nav-items-list">
           <li>
-            <button class="nav-item-btn" id="side-btn-ASURE" onclick="abrirCentro('ASURE')" title="ASURE - Assessoria e Suporte Regional">
+            <button class="nav-item-btn" id="side-btn-ASURE" onclick="abrirCentro('ASURE')" title="Assessoria Técnica da Unidade Regional de Ensino | ASURE">
               <span class="centro-icon-badge" title="ASURE - Assessoria e Suporte Regional">🏛️</span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">ASURE</span>
@@ -13948,7 +13948,7 @@ function imprimirAgendaCarro() {
         <!-- Header do Núcleo / Gabinete -->
         <div class="gab-header-bar">
           <div class="gab-header-titles">
-            <h2 class="gab-main-title">Assessoria da URE | ASURE</h2>
+            <h2 class="gab-main-title">Assessoria Técnica da Unidade Regional de Ensino | ASURE</h2>
             <p class="gab-main-sub">
               Gabinete • Demandas, Ouvidoria, Termos de Visita e acompanhamento administrativo/judicial.
             </p>
@@ -19820,7 +19820,7 @@ function imprimirAgendaCarro() {
     ESTRUTURA_ORGANIZACIONAL['CAF'] = ESTRUTURA_ORGANIZACIONAL['SEAFIN']; /* Alias para compatibilidade */
     ESTRUTURA_ORGANIZACIONAL['NOM'] = ESTRUTURA_ORGANIZACIONAL['SEOM']; /* Redirecionamento legado NOM -> SEOM */
     ESTRUTURA_ORGANIZACIONAL['SOEM'] = ESTRUTURA_ORGANIZACIONAL['SEOM']; /* Redirecionamento amigável */
-    ESTRUTURA_ORGANIZACIONAL['ASURE'] = { sigla: 'ASURE', nome: 'ASURE - Assessoria e Suporte Regional', descricao: 'Gabinete da Dirigente, assessoria técnica e ouvidoria regional.', icone: '🏛️', cor: '#0b2351' };
+    ESTRUTURA_ORGANIZACIONAL['ASURE'] = { sigla: 'ASURE', nome: 'Assessoria Técnica da Unidade Regional de Ensino | ASURE', descricao: 'Gabinete da Dirigente, assessoria técnica e ouvidoria regional.', icone: '🏛️', cor: '#0b2351' };
 
     function carregarDadosConsolidados() {
       if (typeof google !== 'undefined' && google.script && google.script.run) {
@@ -35500,7 +35500,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             <div class="agenda-form-group">
               <label class="agenda-form-label">Setor / Centro Envolvido</label>
               <select id="form-agenda-setor" class="agenda-form-select">
-                <option value="ASURE">ASURE (Assessoria da URE / Gabinete)</option>
+                <option value="ASURE">ASURE (Assessoria Técnica da Unidade Regional de Ensino)</option>
                 <option value="SEINTEC">SEINTEC (Tecnologia)</option>
                 <option value="SEAFIN">SEAFIN (Serviço de Administração e Finanças)</option>
                 <option value="SEOM">SEOM (Obras, Manutenção e Frota)</option>
