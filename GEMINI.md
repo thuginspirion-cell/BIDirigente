@@ -55,9 +55,13 @@ Antes de finalizar qualquer tarefa, SEMPRE validar programaticamente se todos os
   - Arquivo: `DEMANDAS SEAPE.xlsx`
   - Abas monitoradas: `APOSENTADORIA`, `DESIGNAÇÕES`, `ABONO DE PERMANÊNCIA`
 - **EEC (Equipe de Especialistas em Currículo)**:
-  - Sistema Oficial: Consulta SAEB 2025 (Web App Apps Script & Google Sites)
-  - Google Sites: `https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/consulta-saeb-2025?authuser=0`
-  - Web App Direto: `https://script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbwc79rKkieVXFptQTxBarcJ1yew2ptmiyw9Z_a3kvylsqSxUzyeXAEMmCVkETy6WxPB/exec`
+  - Sistema Oficial: Portal Pedagógico Integrado (Web Apps Apps Script & Google Sites)
+  - 1. Início EEC: `https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/in%C3%ADcio?authuser=0` (Web App: `https://script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec`)
+  - 2. Consulta SAEB 2025: `https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/consulta-saeb-2025?authuser=0` (Web App: `https://script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbwc79rKkieVXFptQTxBarcJ1yew2ptmiyw9Z_a3kvylsqSxUzyeXAEMmCVkETy6WxPB/exec`)
+  - 3. Plano de Ação 2.0 2026: `https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/plano-de-a%C3%A7%C3%A3o-2-0-2026?authuser=0` (Web App: `https://script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec`)
+  - 4. Devolutiva Pedagógica: `https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/devolutiva-pedag%C3%B3gica?authuser=0` (Web App: `https://script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbzGOzNhdgu3AxXCRm63xsdy_AnZ-YIWQymfcpBVlX4D0SOrI9RWc2EOs0maUK7WqfEq0A/exec`)
+  - 5. Consulta de Docentes: `https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/consulta-de-docentes?authuser=0` (Web App: `https://script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbyFcmn8Etf-TpZkMIJCZ-Yrkj_axHVQbwbphhSPgiyy-mPbMj9ALxPeYgwVDfuLTxZ7/exec`)
+  - 6. Novo Acompanhamento Pedagógico: `https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/novo-acompanhamento-pedag%C3%B3gico?authuser=0` (Web App: `https://script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbzAFWbSLmLKCNLesPEdx8GMnX-YHimnjHbj4c7rrdBRzu4udzmJOkEPcJ6OhzSYVeXRKw/exec`)
 
 ## 5. Regra Fundamental de Resiliência dos Links Públicos do SharePoint (Anti-Login Universal)
 - **Natureza Pública**: Todos os links de arquivos, pastas e planilhas compartilhados pelos setores da Diretoria de Ensino (SEINTEC, SEAFIN, SEOM, SEGRE, SEPES, EEC, ASURE, etc.) são públicos ("Qualquer pessoa com o link pode visualizar").
