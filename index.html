@@ -3490,7 +3490,7 @@ function renderizarCalendarioCarroEmbed() {
         <div style="font-size: 2rem; margin-bottom: 0.4rem;">🚗</div>
         <strong style="color: #0b2351; font-size: 0.95rem; display: block; margin-bottom: 0.25rem;">Nenhum agendamento encontrado em ${mesesNomes[mesAtivoCarro]} de ${anoAtivoCarro}</strong>
         <span style="font-size: 0.82rem; display: block; margin-bottom: 0.9rem;">Clique no botão "+" em qualquer dia do calendário ou solicite uma nova reserva abaixo.</span>
-        <button type="button" class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro(null, '${hojeIso}')">+ Solicitar Carro Oficial</button>
+        <button type="button" class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro(null, '${hojeIso}')">+ Agendar</button>
       </div>
     `;
   } else {
@@ -3540,7 +3540,7 @@ function renderizarCalendarioCarroEmbed() {
           <button type="button" class="btn-cal-nav" onclick="navegarMesCarro('atual')" title="Ir para o mês vigente">Mês Atual</button>
           <button type="button" class="btn-cal-nav" onclick="navegarMesCarro(1)" title="Próximo mês">Próximo ▶</button>
           <button type="button" class="btn-carro-action" style="margin-left: 0.35rem; background: linear-gradient(135deg, #d48208 0%, #f09b0c 100%); color: #07152f;" onclick="abrirModalNovaSolicitacaoCarro(null, '${hojeIso}')">
-            <span>+ Solicitar Carro</span>
+            <span>+ Agendar</span>
           </button>
         </div>
       </div>
@@ -3588,7 +3588,7 @@ function renderizarCalendarioCarroEmbed() {
             <span style="font-size: 0.74rem; font-weight: 700; color: #475569; background: #f1f5f9; padding: 0.15rem 0.55rem; border-radius: 9999px;">${registrosFiltradosMes.length} listado(s)</span>
           </div>
           <button type="button" class="btn-carro-action secondary" onclick="alternarSubTabCarro('feed')" style="font-size: 0.78rem; padding: 0.35rem 0.75rem;">
-            <span>Ver Controle Diário & Hodômetro ↗</span>
+            <span>📋 Controle Diário</span>
           </button>
         </div>
         ${ledgerHtml}
@@ -3785,7 +3785,7 @@ function renderizarCarroOficial() {
         <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">🚗</span>
         <h3 style="font-size: 1.1rem; color: #0f172a; margin-bottom: 0.25rem;">Nenhum agendamento para este dia</h3>
         <p style="font-size: 0.85rem; margin: 0 0 1rem 0;">Você pode registrar uma nova solicitação com cálculo de hodômetro e emissão do Modelo 30.</p>
-        <button class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro(null, '${dataAtivaCarro}')">+ Solicitar Carro Oficial</button>
+        <button class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro(null, '${dataAtivaCarro}')">+ Agendar</button>
       </div>
     `;
     return;
@@ -3857,7 +3857,7 @@ function renderizarCarroOficial() {
                 <span>👁️ Conferir</span>
               </button>
               <button class="btn-carro-card-action btn-modelo30" onclick="abrirModalPdfControleTrafego('${reg.id}')" title="Gerar e imprimir o documento oficial Modelo 30 (IMESP)">
-                <span>📄 Modelo 30 (PDF)</span>
+                <span>📄 Imprimir</span>
               </button>
               <button class="btn-carro-card-action" onclick="abrirModalEditarSolicitacaoCarro('${reg.id}')" title="Editar hodômetro, combustível, carro e dados desta solicitação">
                 <span>✏️ Editar</span>
@@ -3921,10 +3921,10 @@ function renderizarFrotaCards() {
 
         <div style="display: flex; gap: 0.5rem; justify-content: flex-end; border-top: 1px solid #f1f5f9; padding-top: 0.75rem;">
           <button class="btn-carro-card-action" onclick="abrirModalAtualizarFrotaCarro('${v.placa}')" style="background: #f8fafc; border-color: #cbd5e1; color: #0b2351; font-weight: 700;" title="Ajustar km e combustível deste veículo">
-            <span>✏️ Atualizar Km / Tanque</span>
+            <span>✏️ Atualizar</span>
           </button>
           <button class="btn-carro-card-action btn-modelo30" onclick="solicitarCarroParaVeiculo('${v.placa}')" title="Criar agendamento diretamente para este veículo">
-            <span>+ Novo Agendamento</span>
+            <span>+ Agendar</span>
           </button>
         </div>
       </div>
@@ -4006,7 +4006,7 @@ function renderizarTabelaHistoricoCarro(filtro) {
           <span>👁️</span>
         </button>
         <button class="btn-carro-card-action btn-modelo30" onclick="abrirModalPdfControleTrafego('${r.id}')" title="Gerar e imprimir o Modelo 30 oficial (IMESP)">
-          <span>📄 Modelo 30</span>
+          <span>📄 Imprimir</span>
         </button>
         <button class="btn-carro-card-action" onclick="abrirModalEditarSolicitacaoCarro('${r.id}')" title="Editar dados, hodômetro ou trocar de veículo">
           <span>✏️</span>
@@ -10593,6 +10593,12 @@ function imprimirAgendaCarro() {
       color: #065f46;
     }
 
+    .btn-carro-action,
+    .btn-carro-card-action,
+    .btn-cal-nav {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
     .btn-carro-action {
       background: linear-gradient(135deg, #059669 0%, #10b981 100%);
       color: #ffffff;
@@ -15075,7 +15081,7 @@ function imprimirAgendaCarro() {
 
             <div class="carro-header-actions">
               <button class="btn-carro-action" onclick="abrirModalNovaSolicitacaoCarro()" title="Registrar nova solicitação de veículo oficial" style="background: linear-gradient(135deg, #d48208 0%, #f09b0c 100%); color: #07152f; border: 1.5px solid #fde047; padding: 0.7rem 1.4rem; font-size: 0.88rem; font-weight: 800; box-shadow: 0 4px 14px rgba(240, 155, 12, 0.32);">
-                <span>+ Solicitar Carro Oficial</span>
+                <span>+ Agendar</span>
               </button>
             </div>
           </div>
@@ -15096,7 +15102,7 @@ function imprimirAgendaCarro() {
               <span>🔄 Atualizar</span>
             </button>
             <button class="btn-carro-action secondary" onclick="imprimirAgendaCarro()" title="Imprimir Ordem de Tráfego / Saída de Veículos para a portaria">
-              <span>🖨️ Imprimir Ordem</span>
+              <span>🖨️ Imprimir</span>
             </button>
           </div>
         </div>
@@ -46570,7 +46576,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         <div class="agenda-modal-footer" style="background: #ffffff; border-top: 1px solid #e2e8f0; padding: 0.95rem 1.5rem;">
           <button type="button" class="btn-modal-fechar-destaque" onclick="fecharModalCarro()"><span>✖</span><span>Fechar</span></button>
           <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1.5px solid #f09b0c; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.28); font-weight: 800;">
-            <span>✅ Confirmar Reserva do Carro Oficial</span>
+            <span>✅ Confirmar</span>
           </button>
         </div>
       </form>
@@ -46797,7 +46803,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         <div class="agenda-modal-footer">
           <button type="button" class="btn-modal-fechar-destaque" onclick="fecharModalEditarCarro()"><span>✖</span><span>Fechar</span></button>
           <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1px solid #f09b0c; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.25);">
-            <span>Salvar Alterações</span>
+            <span>💾 Salvar</span>
           </button>
         </div>
       </form>
@@ -46859,7 +46865,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         <div class="agenda-modal-footer">
           <button type="button" class="btn-modal-fechar-destaque" onclick="fecharModalAtualizarFrota()"><span>✖</span><span>Fechar</span></button>
           <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%);">
-            <span>Salvar no Veículo</span>
+            <span>💾 Salvar</span>
           </button>
         </div>
       </form>
@@ -46878,13 +46884,13 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           <span style="font-size: 1.5rem;">📄</span>
           <div>
             <div style="font-size: 0.75rem; font-weight: 800; color: #fde047; letter-spacing: 0.05em; text-transform: uppercase;">IMPRENSA OFICIAL DO ESTADO S.A. - IMESP</div>
-            <h3 style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin: 0;">Controle de Tráfego • Modelo Oficial 30 (Frente e Verso)</h3>
+            <h3 style="font-size: 1.12rem; font-weight: 800; color: #ffffff; margin: 0;">Controle de Tráfego • Modelo Oficial 30</h3>
           </div>
         </div>
         
         <div style="display: flex; gap: 0.6rem; align-items: center;">
-          <button type="button" class="btn-carro-card-action" onclick="imprimirDocumentoControleTrafego()" style="background: #10b981; color: #ffffff; border-color: #059669; font-size: 0.88rem; padding: 0.45rem 1rem; font-weight: 800; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);">
-            <span>🖨️ Imprimir / Salvar em PDF (Modelo Oficial 30)</span>
+          <button type="button" class="btn-carro-card-action" onclick="imprimirDocumentoControleTrafego()" title="Imprimir ou Salvar em PDF (Modelo Oficial 30)" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border-color: #047857; font-size: 0.88rem; padding: 0.55rem 1.35rem; font-weight: 800; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35); white-space: nowrap; flex-shrink: 0;">
+            <span>🖨️ Imprimir</span>
           </button>
           
         </div>
@@ -46946,7 +46952,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
           <button type="button" class="btn-modal-fechar-destaque" onclick="fecharModalConfigCalendarCarro()"><span>✖</span><span>Fechar</span></button>
           <button type="button" class="btn-carro-action" onclick="salvarConfigCalendarioCarro()" style="padding: 0.6rem 1.2rem;">
-            <span>Salvar e Sincronizar</span>
+            <span>💾 Salvar</span>
           </button>
         </div>
       </div>
