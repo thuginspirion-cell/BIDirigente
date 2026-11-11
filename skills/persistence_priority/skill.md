@@ -20,26 +20,22 @@ Esta regra e habilidade é de **observância obrigatória e prioridade máxima a
 
 ---
 
-## 2. Regra do Teto do Google Apps Script (50 MB `UrlFetchApp` / ~20 MB Base64) & Crescimento de Planilhas
-Ao integrar **qualquer setor novo** ou manter setores existentes cujas planilhas no SharePoint crescem com o tempo:
+## 2. Regra do Teto do Google Apps Script (50 MB `UrlFetchApp` / Base64) & Motor Seletivo Cirúrgico (`HTTP 206 Range`)
+Ao integrar **qualquer setor novo** ou manter setores existentes cujas planilhas no SharePoint possuem abas não exibidas no BI ou crescem com o tempo:
 
-1. **Auditoria Obrigatória de Tamanho Real Antes do Deploy:**
-   - Medir o tamanho real do `.xlsx` retornado pelo SharePoint e testar o endpoint `?action=...` diretamente no Web App do GAS em produção (`dadosBase64.length > 0`).
-   - Lembrar que:
-     - `UrlFetchApp.fetch()` no GAS aborta acima de **50 MB**.
-     - A codificação Base64 no retorno JSON aumenta o tráfego em **+33%**; na prática, arquivos `.xlsx` acima de ~**20–25 MB** já podem falhar na devolução `base64` via GAS Web App (`SEMAT` = 26,55 MB; `SEGRE` = 65,64 MB).
+1. **Padrão Universal Obrigatório (`abasNecessarias` + Extração Seletiva `HTTP 206 Range`):**
+   - Toda função de sincronização no [`Código.gs`](../../Código.gs) DEVE passar `opcoes.abasNecessarias: [...]` listando **exclusivamente** as abas realmente lidas pelo BI para [`obterArquivoPublicoSharepoint`](../../Código.gs).
+   - Para arquivos acima de `1,5 MB`, o motor executa automaticamente [`obterAbasSeletivasSharepointZip_`](../../Código.gs):
+     1. Sonda o tamanho via `Range: bytes=0-1` (`HTTP 206 Partial Content`).
+     2. Baixa os últimos `64 KB` do `.xlsx` (ZIP Central Directory).
+     3. Lê `xl/workbook.xml` e `xl/_rels/workbook.xml.rels` em paralelo.
+     4. Baixa via `UrlFetchApp.fetchAll` (`HTTP 206 Range`) **somente** os metadados essenciais + as abas em `abasNecessarias`, ignorando abas inchadas não usadas (ex.: no SEGRE `65,64 MB -> ~1,15 MB`; no SEMAT `26,55 MB -> ~1,33 MB`), e remonta um Mini-XLSX válido em memória RAM.
+   - Isso garante sincronização **100% ao vivo direto do SharePoint no segundo do clique** tanto no **GS/GAS** quanto no **GHP**, sem depender de agendamentos nem de limpeza manual no Excel do setor.
 
-2. **Regra de Ouro: SharePoint Live Sempre Que Couber:**
-   - **Planilhas <= ~18 MB** (`SEPES`, `SEINTEC`, `SEOM`, `SEFISC`, `SECOMSE`, `DPAT`, `SEFIN`, `SEVESC` = 1,22 MB): **DEVEM obrigatoriamente** tentar primeiro o download ao vivo direto do SharePoint (`obterArquivoPublicoSharepoint`) em [`Código.gs`](../../Código.gs), usando o espelho `data/*.json` **somente** como fallback de contingência se o SharePoint falhar.
-   - **PROIBIDO** deixar uma planilha leve (`<= 18 MB`) travada em `modoOtimizado: true` servindo JSON antigo do GitHub primeiro.
+2. **Fallback Resiliente (`data/*.json`):**
+   - Só acionar espelho `data/*.json` caso o SharePoint esteja temporariamente indisponível ou bloqueie `HTTP 206` em algum servidor futuro; nesse caso usar [`scripts/sync_all_mirrors.js`](../../scripts/sync_all_mirrors.js) e sempre preservar o timestamp real da coleta.
 
-3. **Protocolo Obrigatório Quando uma Planilha Crescer Demais (> 20 MB ou > 50 MB):**
-   - **Diagnóstico de Abas Inchadas:** Inspecionar os arquivos XML internos do `.xlsx` (`xl/worksheets/sheet*.xml`) para identificar abas com milhões de linhas vazias formatadas até `1048576` (ex.: no SEGRE, 4 abas não exibidas no BI — `DUPLICIDADE`, `CONSELHO`, `AJUSTE RA`, `EXCLUSÃO RA POR ERRO` — somavam `62,10 MB` de `65,64 MB`).
-   - **Automação Obrigatória no GitHub Actions (Nunca Deixar Script Manual Parado):**
-     - Todo setor que depender de JSON pré-extraído em `data/*.json` por ultrapassar a capacidade do GAS **DEVE** estar incluído no workflow agendado na nuvem (`.github/workflows/sync-sharepoint-mirrors.yml` via `scripts/sync_all_mirrors.js`).
-     - Como `Código.gs` lê `https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/<arquivo>.json`, manter esse workflow ativo na nuvem atualiza automaticamente **tanto o GHP quanto o GS/GAS** sem exigir `clasp deploy` nem PC ligado.
-
-4. **Controle do Teto do `PropertiesService` (500 KB) para Módulos Editáveis:**
+3. **Controle do Teto do `PropertiesService` (500 KB) para Módulos Editáveis:**
    - Dados gravados via `gravarEstadoNuvem` (`CARRO_DATA`, `AGENDA_DATA`, `ESCOLAS_DATA`, `VISITAS_DATA`) compartilham a cota total de **500 KB** do `PropertiesService.getScriptProperties()`. Monitorar periodicamente o consumo e migrar para aba em Google Sheets antes de atingir 80% da cota quando o volume diário crescer.
 
 ---

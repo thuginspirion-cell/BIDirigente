@@ -152,12 +152,302 @@ function verificarSeBytesSaoXlsx(bytes) {
 }
 
 /**
+ * Utilitários binários ZIP em memória (compatíveis com byte[] assinado -128..127 do Apps Script)
+ */
+function lerU16LE_(bytes, idx) {
+  return (bytes[idx] & 0xFF) | ((bytes[idx + 1] & 0xFF) << 8);
+}
+
+function lerU32LE_(bytes, idx) {
+  return ((bytes[idx] & 0xFF) |
+    ((bytes[idx + 1] & 0xFF) << 8) |
+    ((bytes[idx + 2] & 0xFF) << 16) |
+    ((bytes[idx + 3] & 0xFF) << 24)) >>> 0;
+}
+
+function escreverU16LE_(arr, val) {
+  var b0 = val & 0xFF;
+  var b1 = (val >>> 8) & 0xFF;
+  arr.push(b0 > 127 ? b0 - 256 : b0);
+  arr.push(b1 > 127 ? b1 - 256 : b1);
+}
+
+function escreverU32LE_(arr, val) {
+  var u = val >>> 0;
+  for (var i = 0; i < 4; i++) {
+    var b = (u >>> (i * 8)) & 0xFF;
+    arr.push(b > 127 ? b - 256 : b);
+  }
+}
+
+function anexarBytesAssinados_(dst, src, start, end) {
+  for (var i = start; i < end; i++) {
+    dst.push(src[i]);
+  }
+}
+
+function parsearCentralDirectoryZip_(tailBytes, tailStartAbs) {
+  var eocd = -1;
+  for (var i = tailBytes.length - 22; i >= 0; i--) {
+    if (lerU32LE_(tailBytes, i) === 0x06054b50) {
+      eocd = i;
+      break;
+    }
+  }
+  if (eocd === -1) return null;
+  var cdOffsetAbs = lerU32LE_(tailBytes, eocd + 16);
+  var cdCount = lerU16LE_(tailBytes, eocd + 10);
+  if (cdOffsetAbs < tailStartAbs) {
+    return { needMoreFrom: cdOffsetAbs };
+  }
+  var pos = cdOffsetAbs - tailStartAbs;
+  var entries = [];
+  for (var k = 0; k < cdCount; k++) {
+    if (pos + 46 > tailBytes.length || lerU32LE_(tailBytes, pos) !== 0x02014b50) break;
+    var compMethod = lerU16LE_(tailBytes, pos + 10);
+    var modTime = lerU16LE_(tailBytes, pos + 12);
+    var modDate = lerU16LE_(tailBytes, pos + 14);
+    var crc32 = lerU32LE_(tailBytes, pos + 16);
+    var compSize = lerU32LE_(tailBytes, pos + 20);
+    var uncompSize = lerU32LE_(tailBytes, pos + 24);
+    var nameLen = lerU16LE_(tailBytes, pos + 28);
+    var extraLen = lerU16LE_(tailBytes, pos + 30);
+    var commentLen = lerU16LE_(tailBytes, pos + 32);
+    var lfhOffset = lerU32LE_(tailBytes, pos + 42);
+    var nameBytes = tailBytes.slice(pos + 46, pos + 46 + nameLen);
+    var name = Utilities.newBlob(nameBytes).getDataAsString("UTF-8");
+    entries.push({
+      name: name,
+      nameBytes: nameBytes,
+      compMethod: compMethod,
+      modTime: modTime,
+      modDate: modDate,
+      crc32: crc32,
+      compSize: compSize,
+      uncompSize: uncompSize,
+      lfhOffset: lfhOffset
+    });
+    pos += 46 + nameLen + extraLen + commentLen;
+  }
+  return { entries: entries };
+}
+
+function montarMiniZipBytes_(items, usarNomeSimplesAscii) {
+  var lfhOut = [];
+  var cdOut = [];
+  var offset = 0;
+  var asciiName = [105, 116, 101, 109, 46, 120, 109, 108]; // "item.xml"
+  for (var i = 0; i < items.length; i++) {
+    var it = items[i];
+    var e = it.entry;
+    var nb = usarNomeSimplesAscii ? asciiName : e.nameBytes;
+    var p = it.payload;
+
+    // Local File Header (30 bytes + name)
+    escreverU32LE_(lfhOut, 0x04034b50);
+    escreverU16LE_(lfhOut, 20);
+    escreverU16LE_(lfhOut, usarNomeSimplesAscii ? 0 : 0x0800);
+    escreverU16LE_(lfhOut, e.compMethod);
+    escreverU16LE_(lfhOut, e.modTime);
+    escreverU16LE_(lfhOut, e.modDate);
+    escreverU32LE_(lfhOut, e.crc32);
+    escreverU32LE_(lfhOut, p.length);
+    escreverU32LE_(lfhOut, e.uncompSize);
+    escreverU16LE_(lfhOut, nb.length);
+    escreverU16LE_(lfhOut, 0);
+    anexarBytesAssinados_(lfhOut, nb, 0, nb.length);
+    anexarBytesAssinados_(lfhOut, p, 0, p.length);
+
+    // Central Directory Entry (46 bytes + name)
+    escreverU32LE_(cdOut, 0x02014b50);
+    escreverU16LE_(cdOut, 20);
+    escreverU16LE_(cdOut, 20);
+    escreverU16LE_(cdOut, usarNomeSimplesAscii ? 0 : 0x0800);
+    escreverU16LE_(cdOut, e.compMethod);
+    escreverU16LE_(cdOut, e.modTime);
+    escreverU16LE_(cdOut, e.modDate);
+    escreverU32LE_(cdOut, e.crc32);
+    escreverU32LE_(cdOut, p.length);
+    escreverU32LE_(cdOut, e.uncompSize);
+    escreverU16LE_(cdOut, nb.length);
+    escreverU16LE_(cdOut, 0);
+    escreverU16LE_(cdOut, 0);
+    escreverU16LE_(cdOut, 0);
+    escreverU16LE_(cdOut, 0);
+    escreverU32LE_(cdOut, 0);
+    escreverU32LE_(cdOut, offset);
+    anexarBytesAssinados_(cdOut, nb, 0, nb.length);
+
+    offset += 30 + nb.length + p.length;
+  }
+
+  var cdLen = cdOut.length;
+  anexarBytesAssinados_(lfhOut, cdOut, 0, cdLen);
+  // EOCD (22 bytes)
+  escreverU32LE_(lfhOut, 0x06054b50);
+  escreverU16LE_(lfhOut, 0);
+  escreverU16LE_(lfhOut, 0);
+  escreverU16LE_(lfhOut, items.length);
+  escreverU16LE_(lfhOut, items.length);
+  escreverU32LE_(lfhOut, cdLen);
+  escreverU32LE_(lfhOut, offset);
+  return lfhOut;
+}
+
+function extrairPayloadEntradaRange_(respBytes, entry) {
+  var fnLen = lerU16LE_(respBytes, 26);
+  var exLen = lerU16LE_(respBytes, 28);
+  var dataStart = 30 + fnLen + exLen;
+  return respBytes.slice(dataStart, dataStart + entry.compSize);
+}
+
+function extrairAtributoXml_(tagStr, attrName) {
+  var re = new RegExp(attrName + '="([^"]+)"', "i");
+  var m = tagStr.match(re);
+  return m ? m[1] : "";
+}
+
+function obterAbasSeletivasSharepointZip_(finalDownloadUrl, cookieHeader, abasNecessarias, totalLen) {
+  var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+
+  // 1. Ler os últimos 64 KB do ZIP (Central Directory + EOCD)
+  var tailStart = Math.max(0, totalLen - 65536);
+  var respTail = UrlFetchApp.fetch(finalDownloadUrl, {
+    muteHttpExceptions: true,
+    followRedirects: true,
+    headers: { "User-Agent": ua, "Cookie": cookieHeader, "Range": "bytes=" + tailStart + "-" + (totalLen - 1) }
+  });
+  if (respTail.getResponseCode() !== 206) return null;
+
+  var tailBytes = respTail.getContent();
+  var parsedCd = parsearCentralDirectoryZip_(tailBytes, tailStart);
+  if (!parsedCd) return null;
+
+  if (parsedCd.needMoreFrom !== undefined) {
+    tailStart = parsedCd.needMoreFrom;
+    var respTail2 = UrlFetchApp.fetch(finalDownloadUrl, {
+      muteHttpExceptions: true,
+      followRedirects: true,
+      headers: { "User-Agent": ua, "Cookie": cookieHeader, "Range": "bytes=" + tailStart + "-" + (totalLen - 1) }
+    });
+    if (respTail2.getResponseCode() !== 206) return null;
+    tailBytes = respTail2.getContent();
+    parsedCd = parsearCentralDirectoryZip_(tailBytes, tailStart);
+    if (!parsedCd || !parsedCd.entries) return null;
+  }
+
+  var entries = parsedCd.entries;
+  var wbEntry = null, relsEntry = null;
+  for (var i = 0; i < entries.length; i++) {
+    if (entries[i].name === "xl/workbook.xml") wbEntry = entries[i];
+    else if (entries[i].name === "xl/_rels/workbook.xml.rels") relsEntry = entries[i];
+  }
+  if (!wbEntry || !relsEntry) return null;
+
+  function criarReqRange(entry) {
+    var endByte = entry.lfhOffset + 30 + entry.nameBytes.length + 256 + entry.compSize - 1;
+    return {
+      url: finalDownloadUrl,
+      muteHttpExceptions: true,
+      followRedirects: true,
+      headers: { "User-Agent": ua, "Cookie": cookieHeader, "Range": "bytes=" + entry.lfhOffset + "-" + endByte }
+    };
+  }
+
+  // 2. Baixar workbook.xml e rels em paralelo para mapear nomes de abas -> arquivos sheet*.xml
+  var metaResps = UrlFetchApp.fetchAll([criarReqRange(wbEntry), criarReqRange(relsEntry)]);
+  if (metaResps[0].getResponseCode() !== 206 || metaResps[1].getResponseCode() !== 206) return null;
+
+  var wbPayload = extrairPayloadEntradaRange_(metaResps[0].getContent(), wbEntry);
+  var relsPayload = extrairPayloadEntradaRange_(metaResps[1].getContent(), relsEntry);
+
+  var wbXml = Utilities.unzip(Utilities.newBlob(montarMiniZipBytes_([{ entry: wbEntry, payload: wbPayload }], true), "application/zip"))[0].getDataAsString("UTF-8");
+  var relsXml = Utilities.unzip(Utilities.newBlob(montarMiniZipBytes_([{ entry: relsEntry, payload: relsPayload }], true), "application/zip"))[0].getDataAsString("UTF-8");
+
+  var relMap = {};
+  var relTags = relsXml.match(/<Relationship\b[^>]*>/gi) || [];
+  for (var r = 0; r < relTags.length; r++) {
+    var rId = extrairAtributoXml_(relTags[r], "Id");
+    var target = extrairAtributoXml_(relTags[r], "Target");
+    if (rId && target) {
+      relMap[rId] = "xl/" + target.replace(/^\/?xl\//i, "").replace(/^\//, "");
+    }
+  }
+
+  var wantedNormMap = {};
+  for (var w = 0; w < abasNecessarias.length; w++) {
+    wantedNormMap[String(abasNecessarias[w]).replace(/\s+/g, " ").trim().toUpperCase()] = true;
+  }
+
+  var wantedPathSet = {};
+  var abasExtraidas = [];
+  var sheetTags = wbXml.match(/<sheet\b[^>]*>/gi) || [];
+  for (var s = 0; s < sheetTags.length; s++) {
+    var sName = extrairAtributoXml_(sheetTags[s], "name");
+    var sRid = extrairAtributoXml_(sheetTags[s], "r:id");
+    var sNorm = sName.replace(/\s+/g, " ").trim().toUpperCase();
+    if (sRid && relMap[sRid] && wantedNormMap[sNorm]) {
+      wantedPathSet[relMap[sRid]] = true;
+      abasExtraidas.push(sName);
+    }
+  }
+  if (abasExtraidas.length === 0) return null;
+
+  // 3. Selecionar somente metadados leves + as abas desejadas (descartando abas inchadas, imagens e comentarios)
+  var filtered = [];
+  for (var j = 0; j < entries.length; j++) {
+    var en = entries[j];
+    if (en.name === "xl/workbook.xml" || en.name === "xl/_rels/workbook.xml.rels") continue;
+    if (en.name.indexOf("xl/worksheets/") === 0) {
+      if (!wantedPathSet[en.name]) continue;
+    } else if (
+      en.name.indexOf("xl/comments") === 0 ||
+      en.name.indexOf("xl/threadedComments/") === 0 ||
+      en.name.indexOf("xl/drawings/") === 0 ||
+      en.name.indexOf("xl/media/") === 0 ||
+      en.compSize > 4 * 1024 * 1024
+    ) {
+      continue;
+    }
+    filtered.push(en);
+  }
+
+  // 4. Download paralelo das partes essenciais via fetchAll
+  var reqs = [];
+  for (var f = 0; f < filtered.length; f++) {
+    reqs.push(criarReqRange(filtered[f]));
+  }
+  var resps = reqs.length > 0 ? UrlFetchApp.fetchAll(reqs) : [];
+  var items = [
+    { entry: wbEntry, payload: wbPayload },
+    { entry: relsEntry, payload: relsPayload }
+  ];
+  var downloadedTotal = tailBytes.length + wbPayload.length + relsPayload.length;
+  for (var idx = 0; idx < filtered.length; idx++) {
+    if (resps[idx].getResponseCode() !== 206) return null;
+    var rb = resps[idx].getContent();
+    downloadedTotal += rb.length;
+    items.push({ entry: filtered[idx], payload: extrairPayloadEntradaRange_(rb, filtered[idx]) });
+  }
+
+  var miniBytes = montarMiniZipBytes_(items, false);
+  return {
+    base64: Utilities.base64Encode(miniBytes),
+    miniBytes: miniBytes.length,
+    downloadedBytes: downloadedTotal,
+    totalBytes: totalLen,
+    abasExtraidas: abasExtraidas
+  };
+}
+
+/**
  * MOTOR UNIVERSAL DE DOWNLOAD DE ARQUIVOS PÚBLICOS DO SHAREPOINT
- * Executa o fluxo de handshake em duas etapas com preservação de cookies anônimos (FedAuth/rtFa),
- * blindando contra telas de login e garantindo entrega do binário Excel/ZIP.
+ * Executa o fluxo de handshake em duas etapas com preservação de cookies anônimos (FedAuth/rtFa).
+ * Quando `opcoes.abasNecessarias` é informado e o arquivo ultrapassa 1,5 MB, aplica extração
+ * cirúrgica via HTTP 206 Range para baixar apenas as abas ativas em memória RAM (contornando o teto de 50 MB).
  *
  * @param {string} rawUrl - Link público de compartilhamento
- * @param {object} [opcoes] - Opções { nomeSetor, descricaoBase, contingenciaLocal }
+ * @param {object} [opcoes] - Opções { nomeSetor, descricaoBase, abasNecessarias, sempreSeletivo }
  * @return {object} { sucesso, dadosBase64, usarBaseLocal, aviso, timestamp, data }
  */
 function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
@@ -230,7 +520,59 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
       finalDownloadUrl = (location1.indexOf("http") === 0) ? location1 : ("https://seesp-my.sharepoint.com" + location1);
     }
 
-    // 2. Download do arquivo com repasse integral dos cookies anônimos
+    // 1.5 Sondagem de tamanho + Extração Seletiva via HTTP 206 Range quando houver abasNecessarias
+    var totalLenRemoto = 0;
+    if (opcoes.abasNecessarias && opcoes.abasNecessarias.length > 0) {
+      try {
+        var respProbe = UrlFetchApp.fetch(finalDownloadUrl, {
+          muteHttpExceptions: true,
+          followRedirects: true,
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Cookie": cookieHeader,
+            "Range": "bytes=0-1"
+          }
+        });
+        if (respProbe.getResponseCode() === 206) {
+          var pHeaders = respProbe.getAllHeaders();
+          var cRange = pHeaders["Content-Range"] || pHeaders["content-range"] || "";
+          var mTotal = String(cRange).match(/\/(\d+)/);
+          if (mTotal) totalLenRemoto = parseInt(mTotal[1], 10);
+
+          if (totalLenRemoto > 1572864 || opcoes.sempreSeletivo) {
+            var seletivo = obterAbasSeletivasSharepointZip_(finalDownloadUrl, cookieHeader, opcoes.abasNecessarias, totalLenRemoto);
+            if (seletivo && seletivo.base64) {
+              return {
+                sucesso: true,
+                dadosBase64: seletivo.base64,
+                tamanhoBytes: seletivo.miniBytes,
+                tamanhoOriginalBytes: seletivo.totalBytes,
+                bytesBaixadosRange: seletivo.downloadedBytes,
+                abasExtraidas: seletivo.abasExtraidas,
+                origem: "SharePoint Live (Seletivo Range 206)",
+                timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+                data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
+              };
+            }
+          }
+        }
+      } catch (errRange) {
+        Logger.log("Aviso extração seletiva (" + setor + "): " + errRange.toString());
+      }
+    }
+
+    // Se o arquivo inteiro exceder 35 MB (acima do limite prático Base64/GAS), não tenta download bruto
+    if (totalLenRemoto > 35 * 1024 * 1024) {
+      return {
+        sucesso: true,
+        usarBaseLocal: true,
+        aviso: "Arquivo de " + setor + " (" + (totalLenRemoto / (1024 * 1024)).toFixed(1) + " MB) excedeu teto bruto do GAS e extração seletiva não retornou abas.",
+        timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+        data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
+      };
+    }
+
+    // 2. Download completo para arquivos leves com repasse integral dos cookies anônimos
     var response = UrlFetchApp.fetch(finalDownloadUrl, {
       muteHttpExceptions: true,
       followRedirects: true,
@@ -250,6 +592,7 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
           sucesso: true,
           dadosBase64: base64,
           tamanhoBytes: bytes.length,
+          origem: "SharePoint Live UrlFetch",
           timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
           data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
         };
@@ -388,34 +731,31 @@ function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivo
  * @param {boolean} [forcarBruto=false] - Se true, reverte para a tentativa de download bruto da planilha inteira.
  */
 function sincronizarPlanilhaSemat(forcarBruto) {
-  if (!forcarBruto) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/semat_livro_2026.json?_t=" + new Date().getTime();
-      var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (resMirror.getResponseCode() === 200) {
-        var dados = JSON.parse(resMirror.getContentText());
-        dados.modoFallback = false;
-        dados.modoOtimizado = true;
-        dados.origem = "Espelho Automático Nuvem (GitHub)";
-        return dados;
-      }
-    } catch (errMirror) {
-      Logger.log("Erro ao buscar mirror SEMAT: " + errMirror.toString());
-    }
-  }
-
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_semat_educacao_sp_gov_br/cQrYEXIt2H-VQ7J7y23DGOFPEgUCfXXr5h6IlHmqWJZMJFuU5Q?download=1";
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEMAT / SEGRE",
-      descricaoBase: "Livro Entrada 2026 SEMAT"
+      descricaoBase: "Livro Entrada 2026 SEMAT",
+      abasNecessarias: ["ATENDIMENTO EXTERNO", "MATRÍCULA MANUAL", "ENTRADA SEI", "E-MAIL", "TROCAS DE ESCOLA"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
     Logger.log("Aviso SEMAT live: " + e.toString());
+  }
+
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/semat_livro_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.origem = "Espelho Automático Nuvem (Fallback)";
+      return dados;
+    }
+  } catch (errMirror) {
+    Logger.log("Erro ao buscar mirror SEMAT: " + errMirror.toString());
   }
 
   return { sucesso: true, usarBaseLocal: true, aviso: "Base SEMAT mantida ativa." };
@@ -443,10 +783,11 @@ function sincronizarPlanilhaSepes(forcarBruto) {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEPES",
-      descricaoBase: "Demandas SEAPE (Aposentadoria, Designações e Abono)"
+      descricaoBase: "Demandas SEAPE (Aposentadoria, Designações e Abono)",
+      abasNecessarias: ["APOSENTADORIA", "DESIGNAÇÕES", "ABONO DE PERMANÊNCIA"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
+      res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
@@ -474,10 +815,11 @@ function sincronizarPlanilhaSevesc(forcarBruto) {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEVESC / SEGRE",
-      descricaoBase: "Livro Entrada 2026 SEVESC"
+      descricaoBase: "Livro Entrada 2026 SEVESC",
+      abasNecessarias: ["ATENDIMENTO ", "ENTRADA SEI", "E-MAIL"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
+      res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
@@ -527,10 +869,11 @@ function sincronizarPlanilhaDpat() {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "DPAT",
-      descricaoBase: "Inventário Patrimonial URE"
+      descricaoBase: "Inventário Patrimonial URE",
+      abasNecessarias: ["Inventário Físico"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
+      res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
@@ -558,10 +901,11 @@ function sincronizarPlanilhaSeom() {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEOM",
-      descricaoBase: "Mapa de Obras e Manutenção 2026"
+      descricaoBase: "Mapa de Obras e Manutenção 2026",
+      abasNecessarias: ["MAPA "]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
+      res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
@@ -589,10 +933,11 @@ function sincronizarPlanilhaSefisc() {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEFISC",
-      descricaoBase: "Controle de Zeladorias"
+      descricaoBase: "Controle de Zeladorias",
+      abasNecessarias: ["SEFISC"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
+      res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
@@ -658,34 +1003,31 @@ function sincronizarPlanilhaSecomse() {
  * @param {boolean} [forcarBruto=false] - Se true, reverte para a tentativa de download bruto da planilha inteira.
  */
 function sincronizarPlanilhaSegre(forcarBruto) {
-  if (!forcarBruto) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/segre_livro_2026.json?_t=" + new Date().getTime();
-      var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (resMirror.getResponseCode() === 200) {
-        var dados = JSON.parse(resMirror.getContentText());
-        dados.modoFallback = false;
-        dados.modoOtimizado = true;
-        dados.origem = "Espelho Automático Nuvem (GitHub)";
-        return dados;
-      }
-    } catch (errOpt) {
-      Logger.log("Aviso SEGRE otimizado: " + errOpt.toString());
-    }
-  }
-
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_segre_educacao_sp_gov_br/cQouoXOHq3vgRIXANB5q2uJjEgUCzXuNPLJKVLwuVFU2EtFcnw?download=1";
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEGRE",
-      descricaoBase: "Livro Entrada 2026 SEGRE"
+      descricaoBase: "Livro Entrada 2026 SEGRE",
+      abasNecessarias: ["ENTRADA SEI", "ATENDIMENTO VAGA", "OUVIDORIA", "CONCLUINTES", "E-MAIL"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
     Logger.log("Aviso SEGRE live: " + e.toString());
+  }
+
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/segre_livro_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.origem = "Espelho Automático Nuvem (Fallback)";
+      return dados;
+    }
+  } catch (errOpt) {
+    Logger.log("Aviso SEGRE contingência: " + errOpt.toString());
   }
 
   return { sucesso: true, usarBaseLocal: true, aviso: "Base SEGRE mantida ativa." };
@@ -726,10 +1068,11 @@ function sincronizarPlanilhaSharepoint() {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEINTEC",
-      descricaoBase: "Planilha de Chamados Técnicos 2026"
+      descricaoBase: "Planilha de Chamados Técnicos 2026",
+      abasNecessarias: ["Calls"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
+      res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
   } catch (errLive) {
