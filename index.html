@@ -6129,30 +6129,67 @@ function imprimirAgendaCarro() {
     /* ========================================= */
     /* 2. ÁREA DE CONTEÚDO PRINCIPAL */
     /* ========================================= */
+    /* ========================================================= */
+    /* PADRÃO GLOBAL DE BARRAS DE ROLAGEM (PROJETO BI DIRIGENTE)  */
+    /* OCULTO POR PADRÃO • REVELA SUAVEMENTE NO HOVER • SEM SETAS */
+    /* ========================================================= */
+    *, html, body, .main-content, .content-area {
+      scrollbar-width: thin;
+      scrollbar-color: transparent transparent;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: transparent;
+      border-radius: 8px;
+      transition: background-color 0.25s ease;
+    }
+
+    ::-webkit-scrollbar-button {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    /* Revela suavemente quando o mouse passa por cima (hover) */
+    *:hover {
+      scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    }
+
+    *:hover::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(15, 23, 42, 0.6) !important;
+    }
+
+    /* Barra na Sidebar (fundo escuro navy) */
+    .sidebar:hover {
+      scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+    }
+
+    .sidebar:hover::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.48) !important;
+    }
+
     .main-content {
       flex: 1;
       display: flex;
       flex-direction: column;
       overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: #cbd5e1 transparent;
-    }
-
-    .main-content::-webkit-scrollbar {
-      width: 7px;
-    }
-
-    .main-content::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .main-content::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 8px;
-    }
-
-    .main-content::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
     }
 
     /* TOPBAR SUPERIOR (COM IDENTIDADE OFICIAL & STATUS DRIVE) */
@@ -7459,11 +7496,11 @@ function imprimirAgendaCarro() {
     .setor-tab-btn {
       padding: 0.65rem 1.25rem;
       border: none;
-      background: transparent;
-      border-radius: var(--radius-sm);
+      background: #e2e8f0;
+      border-radius: 6px;
       font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-muted);
+      font-weight: 800;
+      color: #0b2351;
       cursor: pointer;
       transition: var(--transition);
       display: flex;
@@ -7473,13 +7510,14 @@ function imprimirAgendaCarro() {
     }
 
     .setor-tab-btn:hover {
-      background: #e2e8f0;
-      color: var(--text-main);
+      background: #cbd5e1;
+      color: #07152f;
     }
 
     .setor-tab-btn.active {
       background: var(--primary-navy);
-      color: white;
+      color: #ffffff;
+      font-weight: 800;
     }
 
     /* CARTÃO DO SETOR ATIVO & ÁREA DE UPLOAD */
@@ -8422,11 +8460,11 @@ function imprimirAgendaCarro() {
     .detail-tab-btn {
       padding: 0.5rem 1rem;
       border: none;
-      background: transparent;
-      border-radius: var(--radius-sm);
+      background: #e2e8f0;
+      border-radius: 6px;
       font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--text-muted);
+      font-weight: 800;
+      color: #0b2351;
       cursor: pointer;
       transition: var(--transition);
       display: flex;
@@ -8435,13 +8473,14 @@ function imprimirAgendaCarro() {
     }
 
     .detail-tab-btn:hover {
-      background: #f1f5f9;
-      color: var(--text-main);
+      background: #cbd5e1;
+      color: #07152f;
     }
 
     .detail-tab-btn.active {
       background: var(--primary-navy);
       color: #ffffff;
+      font-weight: 800;
     }
 
     .detail-tab-content {
@@ -10948,13 +10987,13 @@ function imprimirAgendaCarro() {
       flex-wrap: wrap;
     }
     .carro-subtab-btn {
-      background: none;
+      background: #e2e8f0;
       border: none;
       padding: 0.5rem 1rem;
       border-radius: 6px;
       font-size: 0.88rem;
-      font-weight: 600;
-      color: #64748b;
+      font-weight: 800;
+      color: #0b2351;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -10962,13 +11001,13 @@ function imprimirAgendaCarro() {
       transition: all 0.15s;
     }
     .carro-subtab-btn:hover {
-      color: #0b2351;
-      background: #f1f5f9;
+      color: #07152f;
+      background: #cbd5e1;
     }
     .carro-subtab-btn.active {
-      color: #b86e00;
-      background: #fffbeb;
-      font-weight: 700;
+      color: #ffffff;
+      background: var(--primary-navy);
+      font-weight: 800;
     }
 
     /* Feed de Viagens / Deslocamentos (Cards SEFISC) */
@@ -23830,17 +23869,7 @@ function imprimirAgendaCarro() {
               </div>
             </div>
 
-            <!-- FILTROS POR TÉCNICO / SITUAÇÃO -->
-            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;">
-              <span style="font-size: 0.74rem; font-weight: 700; color: #64748b; margin-right: 0.3rem;">Filtros:</span>
-              <button type="button" class="btn-seom-resp" data-resp="TODOS" onclick="mudarFiltroResponsavelSeom('TODOS', this)" style="padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.73rem; font-weight: 700; background: #0b2351; color: #ffffff; border: 1px solid #0b2351; cursor: pointer;">Todas as 60 Escolas</button>
-              <button type="button" class="btn-seom-resp" data-resp="OBRAS_ATIVAS" onclick="mudarFiltroResponsavelSeom('OBRAS_ATIVAS', this)" style="padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.73rem; font-weight: 500; background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; cursor: pointer;">Com Obras Ativas</button>
-              <button type="button" class="btn-seom-resp" data-resp="AVCB_PENDENTE" onclick="mudarFiltroResponsavelSeom('AVCB_PENDENTE', this)" style="padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.73rem; font-weight: 500; background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; cursor: pointer;">AVCB Pendente</button>
-              <button type="button" class="btn-seom-resp" data-resp="OSWALDO" onclick="mudarFiltroResponsavelSeom('OSWALDO', this)" style="padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.73rem; font-weight: 500; background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; cursor: pointer;">Pendências Oswaldo</button>
-              <button type="button" class="btn-seom-resp" data-resp="NICOLAS" onclick="mudarFiltroResponsavelSeom('NICOLAS', this)" style="padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.73rem; font-weight: 500; background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; cursor: pointer;">Pendências Nicolas</button>
-              <button type="button" class="btn-seom-resp" data-resp="MARCIA" onclick="mudarFiltroResponsavelSeom('MARCIA', this)" style="padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.73rem; font-weight: 500; background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; cursor: pointer;">Pendências Márcia</button>
-              <button type="button" class="btn-seom-resp" data-resp="LAURA" onclick="mudarFiltroResponsavelSeom('LAURA', this)" style="padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.73rem; font-weight: 500; background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; cursor: pointer;">Pendências Laura</button>
-            </div>
+            <!-- FILTROS SEOM REMOVIDOS CONFORME SOLICITADO -->
 
             <!-- LEGENDA DE STATUS -->
             <div style="display: flex; gap: 0.85rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.85rem; font-size: 0.72rem; color: #475569; background: #f8fafc; padding: 0.45rem 0.75rem; border-radius: 6px; border: 1px solid #e2e8f0;">
@@ -42475,7 +42504,7 @@ function imprimirAgendaCarro() {
         tituloHeader: 'Início • Portal Central EEC',
         subtitulo: 'Painel Geral e Acesso Integrado aos Sistemas e Ferramentas da Equipe de Especialistas em Currículo.',
         tag: 'PORTAL EEC',
-        gasWebapp: EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec',
+        gasWebapp: EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/in%C3%ADcio?authuser=0',
         googleSites: EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/in%C3%ADcio?authuser=0'
       },
       'PLANO_ACAO': {
@@ -42669,7 +42698,7 @@ function imprimirAgendaCarro() {
             '</div>' +
 
             '<div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">' +
-              '<a href="https://script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 11px 20px; border-radius: 9px; font-size: 0.88rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4); transition: transform 0.15s, opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'; this.style.transform=\'scale(1.02)\'" onmouseout="this.style.opacity=\'1\'; this.style.transform=\'scale(1)\'">' +
+              '<a href="' + EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 11px 20px; border-radius: 9px; font-size: 0.88rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4); transition: transform 0.15s, opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'; this.style.transform=\'scale(1.02)\'" onmouseout="this.style.opacity=\'1\'; this.style.transform=\'scale(1)\'">' +
                 '🚀 Acessar Portal Central EEC ↗' +
               '</a>' +
             '</div>' +
@@ -42729,11 +42758,11 @@ function imprimirAgendaCarro() {
     }
 
     function recarregarIframeEecSaeb() {
-      window.open('https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/in%C3%ADcio?authuser=0', '_blank');
+      window.open(EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/in%C3%ADcio?authuser=0', '_blank');
     }
 
     function toggleFullscreenEecSaeb() {
-      window.open('https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/in%C3%ADcio?authuser=0', '_blank');
+      window.open(EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/in%C3%ADcio?authuser=0', '_blank');
     }
 
         function renderizarDashboardSepes() {
