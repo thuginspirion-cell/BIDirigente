@@ -5707,6 +5707,42 @@ function imprimirAgendaCarro() {
       overflow-x: hidden;
       z-index: 100;
       transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      scrollbar-width: thin;
+      scrollbar-color: transparent transparent;
+    }
+
+    /* Barra de rolagem invisível por padrão na sidebar */
+    .sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+      background: transparent;
+      border-radius: 8px;
+      transition: background-color 0.25s ease;
+    }
+
+    .sidebar::-webkit-scrollbar-button {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    /* Revela suavemente quando o mouse passa por perto (hover) */
+    .sidebar:hover {
+      scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+    }
+
+    .sidebar:hover::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    .sidebar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.48);
     }
 
     .sidebar-header {
@@ -6098,6 +6134,25 @@ function imprimirAgendaCarro() {
       display: flex;
       flex-direction: column;
       overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 transparent;
+    }
+
+    .main-content::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    .main-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .main-content::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 8px;
+    }
+
+    .main-content::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
     }
 
     /* TOPBAR SUPERIOR (COM IDENTIDADE OFICIAL & STATUS DRIVE) */
@@ -42583,12 +42638,9 @@ function imprimirAgendaCarro() {
               '</p>' +
             '</div>' +
 
-            '<div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.4rem; padding-top: 0.8rem; border-top: 1px solid #f1f5f9;">' +
-              '<a href="' + item.googleSites + '" target="_blank" rel="noopener noreferrer" style="background: #2563eb; color: #ffffff; padding: 10px 14px; border-radius: 8px; font-size: 0.86rem; font-weight: 800; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.45rem; box-shadow: 0 4px 10px rgba(37,99,235,0.25); transition: background 0.15s;" onmouseover="this.style.background=\'#1d4ed8\'" onmouseout="this.style.background=\'#2563eb\'">' +
-                '🌐 Abrir no Google Sites ↗' +
-              '</a>' +
-              '<a href="' + item.gasWebapp + '" target="_blank" rel="noopener noreferrer" style="background: #ffffff; color: #0b2351; border: 1px solid #cbd5e1; padding: 8px 12px; border-radius: 8px; font-size: 0.78rem; font-weight: 700; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.35rem; transition: background 0.15s;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#ffffff\'">' +
-                '⚡ Executar Web App Direto ↗' +
+            '<div style="margin-top: 0.4rem; padding-top: 0.8rem; border-top: 1px solid #f1f5f9;">' +
+              '<a href="' + item.gasWebapp + '" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%); color: #ffffff; padding: 11px 16px; border-radius: 10px; font-size: 0.88rem; font-weight: 800; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(37,99,235,0.28); transition: transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform=\'translateY(-1px)\'; this.style.boxShadow=\'0 6px 16px rgba(37,99,235,0.38)\'" onmouseout="this.style.transform=\'translateY(0)\'; this.style.boxShadow=\'0 4px 12px rgba(37,99,235,0.28)\'">' +
+                '🚀 Acessar Sistema Oficial ↗' +
               '</a>' +
             '</div>' +
           '</div>';
@@ -42617,11 +42669,8 @@ function imprimirAgendaCarro() {
             '</div>' +
 
             '<div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">' +
-              '<a href="https://sites.google.com/prof.educacao.sp.gov.br/appscript2026/in%C3%ADcio?authuser=0" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 10px 18px; border-radius: 8px; font-size: 0.88rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4); transition: transform 0.15s, opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'; this.style.transform=\'scale(1.02)\'" onmouseout="this.style.opacity=\'1\'; this.style.transform=\'scale(1)\'">' +
-                '🌐 Início Google Sites ↗' +
-              '</a>' +
-              '<a href="https://script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec" target="_blank" rel="noopener noreferrer" style="background: rgba(255,255,255,0.2); color: #ffffff; border: 1px solid rgba(255,255,255,0.4); padding: 10px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.3)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.2)\'">' +
-                '🚀 Web App Central ↗' +
+              '<a href="https://script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 11px 20px; border-radius: 9px; font-size: 0.88rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4); transition: transform 0.15s, opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'; this.style.transform=\'scale(1.02)\'" onmouseout="this.style.opacity=\'1\'; this.style.transform=\'scale(1)\'">' +
+                '🚀 Acessar Portal Central EEC ↗' +
               '</a>' +
             '</div>' +
           '</div>' +
