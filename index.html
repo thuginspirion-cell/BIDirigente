@@ -13605,7 +13605,7 @@ function imprimirAgendaCarro() {
               </div>
 
               <!-- 8. Repasses Auditados (SEAFIN / SEPES / SECOMSE) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN, SEPES e SECOMSE: Repasses auditados, processos RH e contratos">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN, SEPES e SECOMSE: Repasses auditados, processos SEPES e contratos">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #8b5cf6;"></span>
                   <span class="kpi-big-number" id="kpi-repasses-sefin">204</span>
@@ -13775,7 +13775,7 @@ function imprimirAgendaCarro() {
               <span id="atencao-counter-badge" style="background: rgba(239,68,68,0.12); color: #b91c1c; font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(239,68,68,0.25);">Top 5 Vulnerabilidades (IMRO 360°)</span>
             </div>
             <div style="font-size: 0.76rem; color: #64748b; margin-top: 3px;">
-              Gestão por exceção multissetorial: ranking calculado dinamicamente cruzando Obras (SEOM), TI (SEINTEC), Execução PDDE (SEAFIN), RH (SEPES) e Demandas (SEGRE) — extensível para ASURE e EEC.
+              Gestão por exceção multissetorial: ranking em escala 0–100 calculado dinamicamente cruzando Obras (SEOM), TI (SEINTEC), Execução PDDE (SEAFIN), Pessoas (SEPES) e Demandas (SEGRE) — extensível para ASURE e EEC.
             </div>
           </div>
           <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
@@ -14047,7 +14047,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 1.25rem;">
-            O <strong>Índice Multissetorial de Risco Operacional (IMRO 360°)</strong> é calculado dinamicamente para todas as 60 escolas cruzando dados reais de infraestrutura, tecnologia, execução financeira, pessoas e fluxo de atendimento, eliminando o viés de olhar apenas para um setor.
+            O <strong>Índice Multissetorial de Risco Operacional (IMRO 360°)</strong> opera em escala executiva normalizada de <strong>0 a 100 pontos</strong> com teto por pilar (Crítico ≥ 62 • Alto Risco 50–61 • Atenção 40–49 • Regular &lt; 40), cruzando infraestrutura, tecnologia, execução financeira, pessoas e fluxo de atendimento.
           </p>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
@@ -14055,39 +14055,39 @@ function imprimirAgendaCarro() {
             <!-- Bloco 1: Infraestrutura (SEOM) -->
             <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
               <div style="color: #f59e0b; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
-                <span>🏗️</span> <span>Infraestrutura &amp; Segurança (SEOM)</span>
+                <span>🏗️</span> <span>Infraestrutura &amp; Segurança (SEOM • teto 35 pts)</span>
               </div>
               <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.75rem; color: #94a3b8; line-height: 1.55;">
-                <li><strong style="color: #ef4444;">AVCB Pendente (+25 pts):</strong> Ausência de laudo do Corpo de Bombeiros.</li>
-                <li><strong style="color: #ef4444;">Saneamento / Esgoto (+25 pts):</strong> Demanda crítica de rede/fossa.</li>
-                <li><strong style="color: #f97316;">Telhado Crítico (+20 pts):</strong> Infiltrações em salas/áreas comuns.</li>
-                <li><strong style="color: #f97316;">Elétrica Sobrecarregada (+20 pts):</strong> Restrição para carga tecnológica.</li>
-                <li><strong style="color: #eab308;">Obra FDE Ativa (+15 pts) &amp; Zeladoria (+10 pts):</strong> Intervenção física ou ausência de zelador.</li>
+                <li><strong style="color: #ef4444;">AVCB Pendente (+8 pts):</strong> Ausência de laudo do Corpo de Bombeiros.</li>
+                <li><strong style="color: #ef4444;">Saneamento / Esgoto (+8 pts):</strong> Demanda crítica de rede/fossa.</li>
+                <li><strong style="color: #f97316;">Telhado Crítico (+7 pts):</strong> Infiltrações em salas/áreas comuns.</li>
+                <li><strong style="color: #f97316;">Elétrica Sobrecarregada (+6 pts):</strong> Restrição para carga tecnológica.</li>
+                <li><strong style="color: #eab308;">Obra FDE (+4 pts) &amp; Zeladoria/Cuidador (+2 pts):</strong> Intervenção física ou déficit de apoio.</li>
               </ul>
             </div>
 
             <!-- Bloco 2: Tecnologia (SEINTEC) -->
             <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
               <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
-                <span>💻</span> <span>Tecnologia &amp; Suporte (SEINTEC)</span>
+                <span>💻</span> <span>Tecnologia &amp; Suporte (SEINTEC • teto 25 pts)</span>
               </div>
               <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.75rem; color: #94a3b8; line-height: 1.55;">
-                <li><strong style="color: #ef4444;">Sucateamento Crítico (+35 pts):</strong> &gt;150 máquinas danificadas/em reparo.</li>
-                <li><strong style="color: #f97316;">Parque Danificado (+20 pts):</strong> Entre 60 e 150 equipamentos comprometidos.</li>
-                <li><strong style="color: #ef4444;">Polo Crítico de Suporte (+30 pts):</strong> ≥30 chamados no exercício ou backlog aberto.</li>
-                <li><strong style="color: #f97316;">Alta Demanda de TI (+20 pts):</strong> Entre 20 e 29 chamados oficiais.</li>
+                <li><strong style="color: #ef4444;">Sucateamento Crítico (+12 pts):</strong> &gt;150 máquinas danificadas/em reparo.</li>
+                <li><strong style="color: #f97316;">Parque Danificado (+7 pts):</strong> Entre 60 e 150 equipamentos comprometidos.</li>
+                <li><strong style="color: #ef4444;">Polo Crítico de Suporte (+10 pts):</strong> ≥30 chamados no exercício (+4 pts se ≥3 abertos).</li>
+                <li><strong style="color: #f97316;">Alta Demanda de TI (+6 pts):</strong> Entre 20 e 29 chamados oficiais.</li>
               </ul>
             </div>
 
-            <!-- Bloco 3: Finanças, RH & Rede (Ativos) -->
+            <!-- Bloco 3: Finanças, Pessoas & Rede (Ativos) -->
             <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
               <div style="color: #a78bfa; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
                 <span>💼</span> <span>Finanças, Pessoas &amp; Rede (Ativos)</span>
               </div>
               <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.75rem; color: #94a3b8; line-height: 1.55;">
-                <li><strong style="color: #10b981;">SEAFIN (+10 a +20 pts):</strong> Execução PDDE 2026 &lt;40% no 2º semestre ou saldo elevado ocioso em escola crítica.</li>
-                <li><strong style="color: #a78bfa;">SEPES (+8 a +20 pts):</strong> Processos em tramitação/exigência na unidade (designações, aposentadorias, abonos).</li>
-                <li><strong style="color: #fb923c;">SEGRE (+6 a +15 pts):</strong> Processos SEI em aberto no SEGRE/SEMAT/SEVESC.</li>
+                <li><strong style="color: #10b981;">SEAFIN (teto 15 pts):</strong> Execução PDDE 2026 baixa (&lt;35% +9 / &lt;50% +5) ou saldo ≥R$ 100 mil ocioso c/ demanda (+6).</li>
+                <li><strong style="color: #a78bfa;">SEPES (teto 10 pts):</strong> Processos em tramitação/exigência na unidade (≥3 proc. +10 / 1–2 proc. +5).</li>
+                <li><strong style="color: #fb923c;">SEGRE (teto 10 pts):</strong> Processos SEI em aberto no SEGRE/SEMAT/SEVESC (≥3 SEI +10 / 1–2 SEI +4).</li>
               </ul>
             </div>
 
@@ -15771,7 +15771,7 @@ function imprimirAgendaCarro() {
               <span>🎯</span>
             </div>
             <div class="escola-kpi-number" id="escolas-count-atencao" style="color: #dc2626;">0</div>
-            <div class="escola-kpi-sub">Escolas em Crítico ou Alto Risco (IMRO ≥ 90)</div>
+            <div class="escola-kpi-sub">Escolas em Crítico ou Alto Risco (IMRO ≥ 50)</div>
           </div>
         </div>
 
@@ -15803,11 +15803,11 @@ function imprimirAgendaCarro() {
 
           <select id="escolas-filter-status" class="escolas-select-filter" onchange="filtrarEscolas()">
             <option value="">Todos os Níveis (IMRO 360°)</option>
-            <option value="ALTO_RISCO_OU_CRITICO">🔴🟠 Prioritárias (IMRO ≥ 90)</option>
-            <option value="Crítico">🔴 Crítico (≥ 130 pts)</option>
-            <option value="Alto Risco">🟠 Alto Risco (90–129 pts)</option>
-            <option value="Atenção">🟡 Atenção (50–89 pts)</option>
-            <option value="Regular">🟢 Regular (&lt; 50 pts)</option>
+            <option value="ALTO_RISCO_OU_CRITICO">🔴🟠 Prioritárias (IMRO ≥ 50)</option>
+            <option value="Crítico">🔴 Crítico (≥ 62 pts)</option>
+            <option value="Alto Risco">🟠 Alto Risco (50–61 pts)</option>
+            <option value="Atenção">🟡 Atenção (40–49 pts)</option>
+            <option value="Regular">🟢 Regular (&lt; 40 pts)</option>
           </select>
 
           <button type="button" onclick="limparFiltrosEscolasAvancado()" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.45rem 0.85rem; font-size: 0.75rem; font-weight: 700; color: #475569; cursor: pointer;" title="Limpar todos os filtros da tabela de escolas">
@@ -15892,10 +15892,10 @@ function imprimirAgendaCarro() {
                 <span>🎯</span> <span>Faixas da Coluna IMRO 360°</span>
               </div>
               <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
-                <li><strong style="color: #ef4444;">🔴 Crítico (≥ 130 pts):</strong> Acúmulo severo de gargalos multissetoriais (obras FDE, falta de AVCB, TI, PDDE ocioso ou pendências de rede/RH).</li>
-                <li><strong style="color: #fb923c;">🟠 Alto Risco (90–129 pts):</strong> Unidade prioritária que requer acompanhamento ativo da Dirigente e intervenções coordenadas entre setores.</li>
-                <li><strong style="color: #facc15;">🟡 Atenção (50–89 pts):</strong> Ocorrências pontuais em andamento nos sistemas integrados, sob monitoramento preventivo.</li>
-                <li><strong style="color: #10b981;">🟢 Regular (&lt; 50 pts):</strong> Operação estável e conforme nos painéis SEOM, SEINTEC, SEAFIN, SEPES e SEGRE.</li>
+                <li><strong style="color: #ef4444;">🔴 Crítico (≥ 62 pts):</strong> Acúmulo severo de gargalos multissetoriais na escala 0–100 (obras FDE, falta de AVCB, TI, PDDE ocioso ou pendências de Rede/Pessoas).</li>
+                <li><strong style="color: #fb923c;">🟠 Alto Risco (50–61 pts):</strong> Unidade prioritária que requer acompanhamento ativo da Dirigente e intervenções coordenadas entre setores.</li>
+                <li><strong style="color: #facc15;">🟡 Atenção (40–49 pts):</strong> Ocorrências pontuais em andamento nos sistemas integrados, sob monitoramento preventivo.</li>
+                <li><strong style="color: #10b981;">🟢 Regular (&lt; 40 pts):</strong> Operação estável e conforme nos painéis SEOM, SEINTEC, SEAFIN, SEPES e SEGRE.</li>
               </ul>
             </div>
 
@@ -17431,7 +17431,7 @@ function imprimirAgendaCarro() {
           ['SEOM', 'SEOM'],
           ['SEINTEC', 'TI'],
           ['SEAFIN', 'PDDE'],
-          ['SEPES', 'RH'],
+          ['SEPES', 'SEPES'],
           ['SEGRE', 'Rede'],
           ['ASURE', 'ASURE'],
           ['EEC', 'EEC']
@@ -17472,7 +17472,7 @@ function imprimirAgendaCarro() {
       const total = listaEscolas.length;
       const pei = listaEscolas.filter(e => e.tipo && e.tipo.includes('PEI')).length;
       const regular = listaEscolas.filter(e => e.tipo && !e.tipo.includes('PEI')).length;
-      const atencao = listaEscolas.filter(e => obterResumoImroEscola(e).imro >= 90).length;
+      const atencao = listaEscolas.filter(e => obterResumoImroEscola(e).imro >= 50).length;
 
       const elTotal = document.getElementById('escolas-count-total');
       if (elTotal) elTotal.innerText = total;
@@ -17580,7 +17580,7 @@ function imprimirAgendaCarro() {
         if (status) {
           const imroInfo = obterResumoImroEscola(e);
           if (status === 'ALTO_RISCO_OU_CRITICO') {
-            matchStatus = imroInfo.imro >= 90;
+            matchStatus = imroInfo.imro >= 50;
           } else {
             matchStatus = imroInfo.tier === status;
           }
@@ -20494,7 +20494,7 @@ function imprimirAgendaCarro() {
         if (kpiEmailsHome) kpiEmailsHome.textContent = (fatoEsc.segreAbertos || 0).toLocaleString('pt-BR');
         if (lblEmailsHome) lblEmailsHome.textContent = 'Processos SEI Abertos';
         if (kpiRep) kpiRep.textContent = (fatoEsc.sepesPend || 0).toLocaleString('pt-BR');
-        if (lblRep) lblRep.textContent = 'Processos RH (SEPES)';
+        if (lblRep) lblRep.textContent = 'Processos SEPES (Pessoas)';
 
         const setUnitCtx = function(id, txt, cls) {
           const el = document.getElementById(id);
@@ -20502,7 +20502,7 @@ function imprimirAgendaCarro() {
           el.textContent = txt;
           el.className = 'kpi-ctx-line' + (cls ? (' ' + cls) : '');
         };
-        setUnitCtx('kpi-ctx-escolas', 'CIE ' + fatoEsc.cie + ' • ' + fatoEsc.cidade, fatoEsc.imro >= 90 ? 'ctx-alert' : 'ctx-ok');
+        setUnitCtx('kpi-ctx-escolas', 'CIE ' + fatoEsc.cie + ' • ' + fatoEsc.cidade, fatoEsc.imro >= 50 ? 'ctx-alert' : 'ctx-ok');
         setUnitCtx('kpi-ctx-hardware', (dados.hwDisp || 0) + ' disp. • ' + fatoEsc.hwBad + ' em reparo/baixa', fatoEsc.hwBad >= 60 ? 'ctx-warn' : 'ctx-ok');
         setUnitCtx('kpi-ctx-chamados', (dados.callsConc || 0) + ' concluídos no exercício', (dados.callsPend || 0) > 2 ? 'ctx-warn' : 'ctx-ok');
         setUnitCtx('kpi-ctx-recursos', 'Saldo ocioso: ' + fmtCurto(fatoEsc.saldoOcioso2026), fatoEsc.saldoOcioso2026 > 50000 ? 'ctx-warn' : '');
@@ -26675,7 +26675,7 @@ function imprimirAgendaCarro() {
   "sucesso": true,
   "meta": {
     "nomeArquivo": "DEMANDAS SEAPE.xlsx",
-    "setor": "SEPES - Serviço de Pessoas (Gestão de Recursos Humanos)",
+    "setor": "SEPES - Serviço de Pessoas (Vida Funcional)",
     "contaResponsavel": "rosineide_gazolla_educacao_sp_gov_br",
     "sharepointUrl": "https:\/\/seesp-my.sharepoint.com/:x:/g/personal/rosineide_gazolla_educacao_sp_gov_br/cQoeOJnO6_6aTpffoLZQ-VZaEgUCZ4107PIc0qdIlEuWeWTsug",
     "atualizadoEm": "2026-11-05T17:41:17.062Z",
@@ -30833,7 +30833,7 @@ function imprimirAgendaCarro() {
             <!-- Renderizado dinamicamente via renderizarCorpoTabelaSepes() -->
           </div>
 
-          <!-- NOTAS METODOLÓGICAS & CRITÉRIOS DE RECURSOS HUMANOS (SEPES • SEAPE & SEFREP) -->
+          <!-- NOTAS METODOLÓGICAS & CRITÉRIOS DO SERVIÇO DE PESSOAS (SEPES • SEAPE & SEFREP) -->
           <div id="nota-metodologica-sepes" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.85rem; border: 1px solid #1e293b; margin-top: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: all 0.3s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.15rem; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.85rem;">
               <div style="display: flex; align-items: center; gap: 0.6rem;">
@@ -31378,7 +31378,7 @@ function imprimirAgendaCarro() {
         console.warn('Erro ao sincronizar SEGRE:', eSegre);
       }
 
-      /* 2.8 SEPES (SharePoint Serviço de Pessoas / RH) */
+      /* 2.8 SEPES (SharePoint Serviço de Pessoas) */
       try {
         if (typeof sincronizarDashboardSepes === 'function') {
           sincronizarDashboardSepes(true);
@@ -35947,7 +35947,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                   <option value="SEOM - Obras, Manutenção e Frota">SEOM (Obras, Manutenção e Frota)</option>
                   <option value="SEINTEC - Tecnologia da Informação">SEINTEC (Tecnologia)</option>
                   <option value="SEGRE - Gestão da Rede Escolar">SEGRE (Gestão Escolar)</option>
-                  <option value="SEPES - Recursos Humanos">SEPES (Pessoal e Frequência)</option>
+                  <option value="SEPES - Serviço de Pessoas">SEPES (Pessoal e Frequência)</option>
                   <option value="EEC - Equipe Curricular">EEC (Especialistas em Currículo)</option>
                 </select>
               </div>
@@ -37177,42 +37177,45 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           var ptsSeom = 0;
           var flagsSeom = [];
           if (seom) {
-            if (seom.avcb !== 1) { ptsSeom += 25; flagsSeom.push('Sem AVCB'); }
-            if (seom.esgoto === 2) { ptsSeom += 25; flagsSeom.push('Saneamento crítico'); }
-            if (seom.telhado === 2) { ptsSeom += 20; flagsSeom.push('Telhado crítico'); }
-            if (seom.eletrica === 2) { ptsSeom += 20; flagsSeom.push('Elétrica sobrecarregada'); }
-            if (seom.obraFde === 2 || seom.obraFde === 1) { ptsSeom += 15; flagsSeom.push('Obra FDE ativa'); }
-            if (seom.zeladoria !== 1) { ptsSeom += 10; flagsSeom.push('Sem zelador'); }
-            if (seom.cuidador === 2) { ptsSeom += 5; flagsSeom.push('Déficit cuidador'); }
+            if (seom.avcb !== 1) { ptsSeom += 8; flagsSeom.push('Sem AVCB'); }
+            if (seom.esgoto === 2) { ptsSeom += 8; flagsSeom.push('Saneamento crítico'); }
+            if (seom.telhado === 2) { ptsSeom += 7; flagsSeom.push('Telhado crítico'); }
+            if (seom.eletrica === 2) { ptsSeom += 6; flagsSeom.push('Elétrica sobrecarregada'); }
+            if (seom.obraFde === 2 || seom.obraFde === 1) { ptsSeom += 4; flagsSeom.push('Obra FDE ativa'); }
+            if (seom.zeladoria !== 1) { ptsSeom += 2; flagsSeom.push('Sem zelador'); }
+            if (seom.cuidador === 2) { ptsSeom += 2; flagsSeom.push('Déficit cuidador'); }
+            ptsSeom = Math.min(35, ptsSeom);
           }
 
-          /* 2. SEINTEC */
+          /* 2. SEINTEC (teto 25 pts) */
           var hwInfo = hwPorCie[cie] || { total: 0, disp: 0, bad: 0 };
           var callInfo = callsPorCie[cie] || { total: 0, abertos: 0 };
           var ptsSeintec = 0;
           var flagsSeintec = [];
-          if (hwInfo.bad > 150) { ptsSeintec += 35; flagsSeintec.push(hwInfo.bad + ' PCs com defeito'); }
-          else if (hwInfo.bad >= 60) { ptsSeintec += 20; flagsSeintec.push(hwInfo.bad + ' PCs em reparo'); }
-          if (callInfo.total >= 30) { ptsSeintec += 30; flagsSeintec.push(callInfo.total + ' chamados'); }
-          else if (callInfo.total >= 20) { ptsSeintec += 20; flagsSeintec.push(callInfo.total + ' chamados'); }
-          if (callInfo.abertos >= 3) { ptsSeintec += 10; flagsSeintec.push(callInfo.abertos + ' em aberto'); }
+          if (hwInfo.bad > 150) { ptsSeintec += 12; flagsSeintec.push(hwInfo.bad + ' PCs com defeito'); }
+          else if (hwInfo.bad >= 60) { ptsSeintec += 7; flagsSeintec.push(hwInfo.bad + ' PCs em reparo'); }
+          if (callInfo.total >= 30) { ptsSeintec += 10; flagsSeintec.push(callInfo.total + ' chamados'); }
+          else if (callInfo.total >= 20) { ptsSeintec += 6; flagsSeintec.push(callInfo.total + ' chamados'); }
+          if (callInfo.abertos >= 3) { ptsSeintec += 4; flagsSeintec.push(callInfo.abertos + ' em aberto'); }
+          ptsSeintec = Math.min(25, ptsSeintec);
 
-          /* 3. SEAFIN (2026) */
+          /* 3. SEAFIN (2026 • teto 15 pts) */
           var finInfo = sefinPorCie[cie] || { rec: 0, desp: 0, repasses: 0, emAndamento: 0 };
           var saldoOcioso = Math.max(0, finInfo.rec - finInfo.desp);
           var execPct = finInfo.rec > 0 ? Math.min(100, (finInfo.desp / finInfo.rec) * 100) : 0;
           var ptsSeafin = 0;
           var flagsSeafin = [];
           if (finInfo.rec > 0) {
-            if (mesAtual >= 7 && execPct < 35) { ptsSeafin += 20; flagsSeafin.push('Execução PDDE baixa (' + execPct.toFixed(0) + '%)'); }
-            else if (mesAtual >= 7 && execPct < 50) { ptsSeafin += 10; flagsSeafin.push('Ritmo PDDE lento (' + execPct.toFixed(0) + '%)'); }
-            if (saldoOcioso >= 100000 && (ptsSeom >= 40 || ptsSeintec >= 30)) {
-              ptsSeafin += 10;
+            if (mesAtual >= 7 && execPct < 35) { ptsSeafin += 9; flagsSeafin.push('Execução PDDE baixa (' + execPct.toFixed(0) + '%)'); }
+            else if (mesAtual >= 7 && execPct < 50) { ptsSeafin += 5; flagsSeafin.push('Ritmo PDDE lento (' + execPct.toFixed(0) + '%)'); }
+            if (saldoOcioso >= 100000 && (ptsSeom >= 15 || ptsSeintec >= 10)) {
+              ptsSeafin += 6;
               flagsSeafin.push(formatarMoedaCurta(saldoOcioso) + ' parado c/ demanda');
             }
+            ptsSeafin = Math.min(15, ptsSeafin);
           }
 
-          /* 4. SEPES */
+          /* 4. SEPES (Serviço de Pessoas • teto 10 pts) */
           var sepesPend = 0;
           var sepesDesigPend = 0;
           for (var pIdx = 0; pIdx < todosSepes.length; pIdx++) {
@@ -37226,11 +37229,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           }
           var ptsSepes = 0;
           var flagsSepes = [];
-          if (sepesPend >= 3) { ptsSepes += 18; flagsSepes.push(sepesPend + ' processos RH em fila'); }
-          else if (sepesPend >= 1) { ptsSepes += 8; flagsSepes.push(sepesPend + ' proc. RH ativo'); }
-          if (sepesDesigPend >= 1) { ptsSepes += 6; flagsSepes.push(sepesDesigPend + ' designação pend.'); }
+          if (sepesPend >= 3) { ptsSepes += 10; flagsSepes.push(sepesPend + ' processos SEPES em fila'); }
+          else if (sepesPend >= 1) { ptsSepes += 5; flagsSepes.push(sepesPend + ' proc. SEPES ativo'); }
+          if (sepesDesigPend >= 1) { flagsSepes.push(sepesDesigPend + ' designação pend.'); }
 
-          /* 5. SEGRE (SEI abertos) */
+          /* 5. SEGRE (SEI abertos • teto 10 pts) */
           var segreAbertos = 0;
           for (var gIdx = 0; gIdx < todosSei.length; gIdx++) {
             var sei = todosSei[gIdx];
@@ -37240,10 +37243,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           }
           var ptsSegre = 0;
           var flagsSegre = [];
-          if (segreAbertos >= 3) { ptsSegre += 15; flagsSegre.push(segreAbertos + ' SEI em aberto'); }
-          else if (segreAbertos >= 1) { ptsSegre += 6; flagsSegre.push(segreAbertos + ' SEI ativo'); }
+          if (segreAbertos >= 3) { ptsSegre += 10; flagsSegre.push(segreAbertos + ' SEI em aberto'); }
+          else if (segreAbertos >= 1) { ptsSegre += 4; flagsSegre.push(segreAbertos + ' SEI ativo'); }
 
-          /* 6. ASURE (Visitas internas + Extensivel) */
+          /* 6. ASURE (Visitas internas + Extensivel • teto 5 pts) */
           var vObj = visitasMap[esc.id] || visitasMap[cie] || null;
           var visitada = Boolean(vObj && vObj.visitada);
           var dataVisita = (vObj && vObj.data) ? vObj.data : '';
@@ -37255,7 +37258,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                 if (asureExt[aIdx].visitada !== undefined) visitada = Boolean(asureExt[aIdx].visitada);
                 if (asureExt[aIdx].dataVisita) dataVisita = asureExt[aIdx].dataVisita;
                 if (Number(asureExt[aIdx].ouvidoriasAbertas || 0) > 0) {
-                  ptsAsure += Math.min(20, Number(asureExt[aIdx].ouvidoriasAbertas) * 10);
+                  ptsAsure += Math.min(5, Number(asureExt[aIdx].ouvidoriasAbertas) * 2);
                   flagsAsure.push(asureExt[aIdx].ouvidoriasAbertas + ' ouvidoria(s)');
                 }
                 break;
@@ -37263,7 +37266,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             }
           }
 
-          /* 7. EEC (Extensivel) */
+          /* 7. EEC (Extensivel • teto 10 pts) */
           var ptsEec = 0;
           var eecScore = null;
           var flagsEec = [];
@@ -37272,7 +37275,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               if (normCie(eecExt[kIdx].cie) === cie || matchNomeEscola(eecExt[kIdx].escola, nomeBruto)) {
                 eecScore = Number(eecExt[kIdx].proficiencia != null ? eecExt[kIdx].proficiencia : (eecExt[kIdx].aderencia || 0));
                 if (eecScore > 0 && eecScore < 50) {
-                  ptsEec += 20;
+                  ptsEec += 10;
                   flagsEec.push('Alerta pedagógico (' + eecScore.toFixed(0) + '%)');
                 }
                 break;
@@ -37280,11 +37283,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             }
           }
 
-          var imroTotal = ptsSeom + ptsSeintec + ptsSeafin + ptsSepes + ptsSegre + ptsAsure + ptsEec;
+          var imroTotal = Math.min(100, ptsSeom + ptsSeintec + ptsSeafin + ptsSepes + ptsSegre + ptsAsure + ptsEec);
           var tier = 'Regular';
-          if (imroTotal >= 130) tier = 'Crítico';
-          else if (imroTotal >= 90) tier = 'Alto Risco';
-          else if (imroTotal >= 50) tier = 'Atenção';
+          if (imroTotal >= 62) tier = 'Crítico';
+          else if (imroTotal >= 50) tier = 'Alto Risco';
+          else if (imroTotal >= 40) tier = 'Atenção';
 
           fato.push({
             id: esc.id,
@@ -37650,7 +37653,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var altoCount = fato.filter(function(e) { return e.tier === 'Alto Risco'; }).length;
         var regCount = Math.max(0, fato.length - critCount - altoCount);
         var avgImro = fato.length > 0 ? (fato.reduce(function(a, b) { return a + b.imro; }, 0) / fato.length) : 0;
-        var isrScore = Math.max(0, Math.min(100, Math.round(100 - (avgImro * 0.45))));
+        var isrScore = Math.max(0, Math.min(100, Math.round(100 - avgImro)));
 
         var isrPill = document.getElementById('hero-isr-pill');
         if (isrPill) {
@@ -37708,7 +37711,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var grid = document.getElementById('home-atencao-grid');
         if (!grid) return;
         var top5 = fato.slice(0, 5);
-        var maxScore = (top5[0] && top5[0].imro > 0) ? top5[0].imro : 180;
+        var maxScore = 100;
 
         var html = top5.map(function(esc, idx) {
           var isCrit = esc.tier === 'Crítico';
@@ -37722,7 +37725,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           if (esc.pts.SEOM > 0) tags.push('<span class="imro-pill-tag" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa;">🏗️ SEOM +' + esc.pts.SEOM + '</span>');
           if (esc.pts.SEINTEC > 0) tags.push('<span class="imro-pill-tag" style="background:#e0f2fe;color:#0369a1;border-color:#bae6fd;">💻 TI +' + esc.pts.SEINTEC + '</span>');
           if (esc.pts.SEAFIN > 0) tags.push('<span class="imro-pill-tag" style="background:#ecfdf5;color:#047857;border-color:#a7f3d0;">💼 PDDE +' + esc.pts.SEAFIN + '</span>');
-          if (esc.pts.SEPES > 0) tags.push('<span class="imro-pill-tag" style="background:#f5f3ff;color:#6d28d9;border-color:#ddd6fe;">👥 RH +' + esc.pts.SEPES + '</span>');
+          if (esc.pts.SEPES > 0) tags.push('<span class="imro-pill-tag" style="background:#f5f3ff;color:#6d28d9;border-color:#ddd6fe;">👥 SEPES +' + esc.pts.SEPES + '</span>');
           if (esc.pts.SEGRE > 0) tags.push('<span class="imro-pill-tag" style="background:#fff7ed;color:#ea580c;border-color:#fed7aa;">🏫 Rede +' + esc.pts.SEGRE + '</span>');
           if (esc.pts.ASURE > 0) tags.push('<span class="imro-pill-tag" style="background:#fef3c7;color:#92400e;border-color:#fde68a;">🏛️ ASURE +' + esc.pts.ASURE + '</span>');
           if (esc.pts.EEC > 0) tags.push('<span class="imro-pill-tag" style="background:#f0fdf4;color:#15803d;border-color:#bbf7d0;">📚 EEC +' + esc.pts.EEC + '</span>');
@@ -37909,8 +37912,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var w = 600, h = 265, padL = 44, padR = 18, padT = 16, padB = 34;
         var plotW = w - padL - padR;
         var plotH = h - padT - padB;
-        var maxX = Math.max(170, (fato[0] ? fato[0].imro : 170) + 10);
-        var threshX = 90;
+        var maxX = 100;
+        var threshX = 50;
         var threshY = 60;
         var xThreshPx = padL + (threshX / maxX) * plotW;
         var yThreshPx = padT + ((100 - threshY) / 100) * plotH;
@@ -37960,7 +37963,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             '<text x="' + (padL - 6) + '" y="' + (yThreshPx + 3).toFixed(1) + '" text-anchor="end" font-size="9" fill="#64748b">60%</text>' +
             '<text x="' + (padL - 6) + '" y="' + (padT + plotH) + '" text-anchor="end" font-size="9" fill="#64748b">0%</text>' +
             '<text x="' + padL + '" y="' + (h - 10) + '" font-size="9" fill="#64748b">0 pts (Menor Risco)</text>' +
-            '<text x="' + xThreshPx.toFixed(1) + '" y="' + (h - 10) + '" text-anchor="middle" font-size="9" font-weight="700" fill="#475569">90 pts (Alto Risco)</text>' +
+            '<text x="' + xThreshPx.toFixed(1) + '" y="' + (h - 10) + '" text-anchor="middle" font-size="9" font-weight="700" fill="#475569">50 pts (Alto Risco)</text>' +
             '<text x="' + (padL + plotW) + '" y="' + (h - 10) + '" text-anchor="end" font-size="9" fill="#b91c1c">' + maxX + ' pts</text>' +
             circles.join('') +
           '</svg>';
@@ -37990,7 +37993,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         if (!listEl) return;
 
         /* Decisao 1: Risco Alto com Saldo PDDE Ocioso */
-        var critComSaldo = fato.filter(function(e) { return e.imro >= 90 && e.saldoOcioso2026 >= 10000; });
+        var critComSaldo = fato.filter(function(e) { return e.imro >= 50 && e.saldoOcioso2026 >= 10000; });
         var somaSaldoCrit = critComSaldo.reduce(function(a, b) { return a + b.saldoOcioso2026; }, 0);
         var nomesTopSaldo = critComSaldo.slice(0, 3).map(function(e) { return e.nome.split(',')[0] + ' (' + formatarMoedaCurta(e.saldoOcioso2026) + ')'; });
 
@@ -38000,7 +38003,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var contCrit = tel.SEAFIN.vencendo60d;
 
         /* Decisao 3: Priorizacao ASURE (Top IMRO sem visita registrada) */
-        var semVisitaTop = fato.filter(function(e) { return e.imro >= 90 && !e.visitada; });
+        var semVisitaTop = fato.filter(function(e) { return e.imro >= 50 && !e.visitada; });
         var nomesSemVisita = semVisitaTop.slice(0, 3).map(function(e) { return e.nome.split(',')[0] + ' (' + e.imro + ' pts)'; });
 
         var cards = [
@@ -38019,7 +38022,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           {
             cls: (sepesCrit > 10 || contCrit > 0) ? 'nba-warn' : 'nba-info',
             tag: '2. SEPES × SEGRE × SECOMSE • SLA & Prazos Legais',
-            titulo: sepesCrit + ' processos RH (>30d) • ' + segreCrit + ' SEI Rede (>30d) • ' + contCrit + ' contratos vencem ≤60d',
+            titulo: sepesCrit + ' processos SEPES (>30d) • ' + segreCrit + ' SEI Rede (>30d) • ' + contCrit + ' contratos vencem ≤60d',
             desc: 'Atacar fila envelhecida em Aposentadorias/Designações (' + tel.SEPES.emTramitacao + ' ativos no SEAPE) e renovar vigências críticas em Compras (' + formatarMoedaCurta(tel.SEAFIN.valorVencendo60d) + ').',
             btnLabel: 'Abrir SEPES →',
             btnClick: 'abrirCentro(\'SEPES\')'
@@ -38098,9 +38101,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           : 'Parque tecnológico sem alertas críticos';
 
         var prescricao = '';
-        if (esc.imro >= 90 && esc.saldoOcioso2026 >= 10000) {
+        if (esc.imro >= 50 && esc.saldoOcioso2026 >= 10000) {
           prescricao = 'Unidade em ' + esc.tier + ' com ' + formatarMoedaCurta(esc.saldoOcioso2026) + ' disponíveis no PDDE 2026: orientar APM para uso prioritário nos gargalos físicos/TI listados.';
-        } else if (esc.imro >= 90 && !esc.visitada) {
+        } else if (esc.imro >= 50 && !esc.visitada) {
           prescricao = 'Unidade #' + rankIdx + ' no ranking de risco e ainda sem registro de visita ASURE: incluir na próxima rota prioritária da Dirigente.';
         } else if (esc.sepesPend > 0 || esc.segreAbertos > 0) {
           prescricao = 'Acompanhar tramitação dos ' + (esc.sepesPend + esc.segreAbertos) + ' processo(s) ativo(s) em SEPES/SEGRE para evitar impacto operacional.';
@@ -38142,7 +38145,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               '<span style="font-size:0.69rem;font-weight:800;color:#6d28d9;text-transform:uppercase;">👥 SEPES &amp; 🏫 SEGRE</span>' +
               '<span style="font-size:0.68rem;font-weight:800;color:#5b21b6;background:#ede9fe;padding:1px 6px;border-radius:5px;">+' + (esc.pts.SEPES + esc.pts.SEGRE) + ' pts</span>' +
             '</div>' +
-            '<div style="font-size:0.88rem;font-weight:800;color:#0f172a;margin-bottom:0.25rem;">' + esc.sepesPend + ' proc. RH • ' + esc.segreAbertos + ' SEI Rede em aberto</div>' +
+            '<div style="font-size:0.88rem;font-weight:800;color:#0f172a;margin-bottom:0.25rem;">' + esc.sepesPend + ' proc. SEPES • ' + esc.segreAbertos + ' SEI Rede em aberto</div>' +
             '<div style="font-size:0.73rem;color:#475569;line-height:1.4;">' + escHtml([].concat(esc.flags.SEPES, esc.flags.SEGRE).join(' • ') || 'Sem pendências abertas nas planilhas SEAPE/SEGRE') + '</div>' +
           '</div>' +
 
@@ -38212,7 +38215,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             '<div style="color:#cbd5e1;font-size:0.68rem;margin-bottom:4px;">CIE: ' + escHtml(esc.cie) + ' • ' + escHtml(esc.cidade) + ' • ' + escHtml(esc.tipo) + '</div>' +
             '<div>• <strong>IMRO 360°:</strong> ' + esc.imro + ' pts (' + escHtml(esc.tier) + ')</div>' +
             '<div>• <strong>PDDE 2026:</strong> ' + esc.execPct2026.toFixed(1).replace('.', ',') + '% exec. (Saldo: ' + formatarMoedaCurta(esc.saldoOcioso2026) + ')</div>' +
-            '<div>• <strong>TI / Obras / RH:</strong> ' + esc.hwBad + ' PCs def. • ' + esc.callsTotal + ' cham. • ' + esc.sepesPend + ' RH</div>' +
+            '<div>• <strong>TI / Obras / SEPES:</strong> ' + esc.hwBad + ' PCs def. • ' + esc.callsTotal + ' cham. • ' + esc.sepesPend + ' SEPES</div>' +
             (esc.eecScore != null ? ('<div>• <strong>EEC Pedagógico:</strong> ' + esc.eecScore.toFixed(1).replace('.', ',') + '%</div>') : '') +
             '<div style="margin-top:4px;color:#fbbf24;font-weight:700;">Clique para abrir Raio-X 360°</div>';
           tip.style.display = 'block';
