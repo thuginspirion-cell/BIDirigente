@@ -13693,14 +13693,14 @@ function imprimirAgendaCarro() {
                 <div class="kpi-ctx-line" id="kpi-ctx-emails">Apurando fila SEI aberta...</div>
               </div>
 
-              <!-- 8. Repasses Auditados (SEAFIN / SEPES / SECOMSE) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN, SEPES e SECOMSE: Repasses auditados, processos SEPES e contratos">
+              <!-- 8. Gestão de Pessoas & Folha (SEPES: SEFREP + SEAPE) -->
+              <div class="kpi-mini-box" style="cursor: default;" title="SEPES: Monitoramento de Folha de Pagamento (SEFREP) e Processos de Pessoal (SEAPE) integrados ao IMRO 360°">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #8b5cf6;"></span>
-                  <span class="kpi-big-number" id="kpi-repasses-sefin">204</span>
+                  <span class="kpi-big-number" id="kpi-repasses-sefin" style="color: #7c3aed;">333</span>
                 </div>
-                <span class="kpi-mini-label" id="kpi-lbl-repasses-sefin">Repasses Auditados</span>
-                <div class="kpi-ctx-line" id="kpi-ctx-repasses">Apurando SEPES &amp; SECOMSE...</div>
+                <span class="kpi-mini-label" id="kpi-lbl-repasses-sefin">Devoluções Folha (SEPES)</span>
+                <div class="kpi-ctx-line ctx-warn" id="kpi-ctx-repasses">333 devoluções (24,1%) • 66 proc. SEAPE</div>
               </div>
             </div>
           </div>
@@ -13857,27 +13857,6 @@ function imprimirAgendaCarro() {
           </div>
         </div>
 
-
-        <!-- BANNER DE INSIGHT EXECUTIVO NA HOME: DEVOLUÇÕES DE FOLHA & GESTÃO DE PESSOAS (SEFREP 2026) -->
-        <div id="home-sefrep-insight-banner" style="background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.95rem 1.35rem; margin-top: 1.5rem; margin-bottom: 0.85rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.85rem; box-shadow: 0 2px 8px rgba(245,158,11,0.06);">
-          <div style="display: flex; align-items: center; gap: 0.85rem;">
-            <span style="font-size: 1.6rem;">💡</span>
-            <div>
-              <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #92400e;">
-                  Insight Executivo SEPES • Devoluções de Folha de Pagamento (SEFREP 2026)
-                </h4>
-                <span style="background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">INTEGRADO AO IMRO 360°</span>
-              </div>
-              <p style="margin: 0.2rem 0 0 0; font-size: 0.78rem; color: #78350f; line-height: 1.35;">
-                333 devoluções monitoradas (24,1% dos expedientes). Suporte formativo do SEPES a estas unidades reduz retrabalho e previne atrasos salariais aos servidores:
-              </p>
-            </div>
-          </div>
-          <div id="home-sefrep-pills-container" style="display: flex; gap: 0.45rem; flex-wrap: wrap;">
-            <!-- Preenchido dinamicamente pelo BI_DECISION_ENGINE com clique para abrir o Dossiê 360° -->
-          </div>
-        </div>
 
         <!-- 4. SEÇÃO: ESCOLAS EM ATENÇÃO (IMRO 360° MULTISSETORIAL) -->
         <div class="section-title-row" style="margin-top: 1.5rem; margin-bottom: 0.95rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.85rem;">
@@ -20544,8 +20523,9 @@ function imprimirAgendaCarro() {
         if (kpiExec) kpiExec.textContent = execPctFmt;
         if (lblExec) lblExec.textContent = 'Taxa Execução (' + despFmt + ')';
 
-        if (kpiRep) kpiRep.textContent = (sefinK.totalRepasses || 204).toLocaleString('pt-BR');
-        if (lblRep) lblRep.textContent = 'Repasses Auditados';
+        const sefrepDevsGlobal = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis.totalDevolucoes : 333;
+        if (kpiRep) kpiRep.textContent = sefrepDevsGlobal.toLocaleString('pt-BR');
+        if (lblRep) lblRep.textContent = 'Devoluções Folha (SEPES)';
 
         const callsTotHome = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros))
           ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length
@@ -20599,8 +20579,8 @@ function imprimirAgendaCarro() {
         if (lblObrasHome) lblObrasHome.textContent = 'Alertas Prediais SEOM';
         if (kpiEmailsHome) kpiEmailsHome.textContent = (fatoEsc.segreAbertos || 0).toLocaleString('pt-BR');
         if (lblEmailsHome) lblEmailsHome.textContent = 'Processos SEI Abertos';
-        if (kpiRep) kpiRep.textContent = (fatoEsc.sepesPend || 0).toLocaleString('pt-BR');
-        if (lblRep) lblRep.textContent = 'Processos SEPES (Pessoas)';
+        if (kpiRep) kpiRep.textContent = (fatoEsc.sefrepDevolucoes || 0).toLocaleString('pt-BR');
+        if (lblRep) lblRep.textContent = 'Devoluções Folha (SEFREP)';
 
         const setUnitCtx = function(id, txt, cls) {
           const el = document.getElementById(id);
@@ -20615,7 +20595,8 @@ function imprimirAgendaCarro() {
         setUnitCtx('kpi-ctx-execucao', fatoEsc.rec2026 > 0 ? ('Meta calendário: ~' + Math.min(95, Math.round(((new Date().getMonth() + 1) / 12) * 100)) + '%') : 'Sem repasse 2026', fatoEsc.rec2026 > 0 && fatoEsc.execPct2026 < 45 ? 'ctx-alert' : 'ctx-ok');
         setUnitCtx('kpi-ctx-obras', (fatoEsc.flags.SEOM || []).slice(0, 2).join(' • ') || 'Sem alertas críticos SEOM', (fatoEsc.pts.SEOM >= 40) ? 'ctx-alert' : 'ctx-ok');
         setUnitCtx('kpi-ctx-emails', fatoEsc.segreAbertos > 0 ? 'Em tramitação SEGRE/SEMAT/SEVESC' : 'Sem SEI pendente', fatoEsc.segreAbertos > 0 ? 'ctx-warn' : 'ctx-ok');
-        setUnitCtx('kpi-ctx-repasses', fatoEsc.visitada ? ('Visita registrada: ' + (fatoEsc.dataVisita || 'OK')) : 'Sem registro de visita ASURE', fatoEsc.visitada ? 'ctx-ok' : 'ctx-warn');
+        var sefrepUnitTxt = (fatoEsc.sefrepDevolucoes > 0) ? (fatoEsc.sefrepDevolucoes + ' devoluções folha') : 'Folha regular (0 dev.)';
+        setUnitCtx('kpi-ctx-repasses', sefrepUnitTxt + ' • ' + (fatoEsc.sepesPend || 0) + ' proc. SEAPE', (fatoEsc.sefrepDevolucoes >= 2 || fatoEsc.sepesPend >= 2) ? 'ctx-warn' : 'ctx-ok');
       }
 
       if (gaugePct) gaugePct.textContent = (dados.hwPctDisp || '0') + '%';
@@ -20736,8 +20717,9 @@ function imprimirAgendaCarro() {
       if (lblRec) lblRec.textContent = 'Recursos PDDE (2026)';
       if (kpiExec) kpiExec.textContent = execPctFmt;
       if (lblExec) lblExec.textContent = 'Taxa Execução (' + despFmt + ')';
-      if (kpiRep) kpiRep.textContent = (sefinK.totalRepasses || 204).toLocaleString('pt-BR');
-      if (lblRep) lblRep.textContent = 'Repasses Auditados';
+      const sefrepDevsInit = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis.totalDevolucoes : 333;
+      if (kpiRep) kpiRep.textContent = sefrepDevsInit.toLocaleString('pt-BR');
+      if (lblRep) lblRep.textContent = 'Devoluções Folha (SEPES)';
       if (lblAlertas) lblAlertas.textContent = 'Em atenção prioritária';
 
       const gaugePct = document.getElementById('home-gauge-pct');
@@ -38648,7 +38630,14 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         setCtx('kpi-ctx-execucao', 'Ritmo esperado: ' + tel.metaCalendarioPct + '% (' + (gapExec >= 0 ? '+' : '') + gapExec.toFixed(1).replace('.', ',') + ' p.p.)', gapExec < -20 ? 'ctx-alert' : (gapExec < -8 ? 'ctx-warn' : 'ctx-ok'));
         setCtx('kpi-ctx-obras', tel.SEOM.avcbSem + ' sem AVCB • ' + tel.SEOM.escolasInfraCritica + ' c/ alerta predial', tel.SEOM.avcbSem > 15 ? 'ctx-alert' : 'ctx-warn');
         setCtx('kpi-ctx-emails', tel.SEGRE.seiAbertos + ' SEI em aberto (' + tel.SEGRE.seiAged30 + ' >30d)', tel.SEGRE.seiAged30 > 10 ? 'ctx-warn' : '');
-        setCtx('kpi-ctx-repasses', 'SEPES: ' + tel.SEPES.emTramitacao + ' pend. • SECOMSE: ' + tel.SEAFIN.vencendo60d + ' venc. ≤60d', (tel.SEAFIN.vencendo60d > 0 || tel.SEPES.aged30 > 15) ? 'ctx-warn' : '');
+        var sefrepTotDev = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis.totalDevolucoes : 333;
+        var sefrepPctDev = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis.taxaDevolucaoPct : 24.1;
+        var sepesFila = (tel.SEPES && tel.SEPES.emTramitacao) ? tel.SEPES.emTramitacao : 66;
+        setCtx('kpi-ctx-repasses', sefrepTotDev + ' devoluções (' + sefrepPctDev.toFixed(1).replace('.', ',') + '%) • ' + sepesFila + ' proc. SEAPE', sefrepTotDev > 100 ? 'ctx-warn' : 'ctx-ok');
+        var kpiRepEl = document.getElementById('kpi-repasses-sefin');
+        if (kpiRepEl) kpiRepEl.textContent = sefrepTotDev.toLocaleString('pt-BR');
+        var lblRepEl = document.getElementById('kpi-lbl-repasses-sefin');
+        if (lblRepEl) lblRepEl.textContent = 'Devoluções Folha (SEPES)';
 
         var covEl = document.getElementById('home-gauge-risk-cov');
         if (covEl) {
@@ -38660,24 +38649,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             '<span style="color: #94a3b8;">' + (10 - tel.ASURE.top10Visitadas) + ' prioritárias p/ agenda</span>';
         }
 
-        /* Renderiza os pills de escolas com devoluções no banner da Home */
-        var sefrepPillsCont = document.getElementById('home-sefrep-pills-container');
-        if (sefrepPillsCont) {
-          var topDevs = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && Array.isArray(DADOS_SEFREP.topEscolasDevolucoes))
-            ? DADOS_SEFREP.topEscolasDevolucoes.filter(function(e) { return e.escola.indexOf('Diretoria') === -1; }).slice(0, 5)
-            : [];
-          var htmlPills = '';
-          var baseEsc = (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas) && listaEscolas.length > 0)
-            ? listaEscolas
-            : ((typeof BASE_ESCOLAS_PADRAO !== 'undefined' && Array.isArray(BASE_ESCOLAS_PADRAO)) ? BASE_ESCOLAS_PADRAO : []);
-
-          topDevs.forEach(function(td) {
-            var match = baseEsc.find(function(b) { return matchNomeEscola(td.escola, b.nome) || matchNomeEscola(td.escola, b.nomeOficialBruto); });
-            var cieArg = match ? match.cie : '';
-            htmlPills += '<button type="button" onclick="' + (cieArg ? ("selecionarEscolaHomeSpotlight('" + cieArg + "')") : '') + '" style="background: #ffffff; border: 1.5px solid #fcd34d; color: #92400e; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 0.35rem;" title="Clique para abrir Dossiê 360° no Spotlight">' + td.escola + ': <strong>' + td.total + ' devoluções</strong></button>';
-          });
-          sefrepPillsCont.innerHTML = htmlPills;
-        }
+        
       }
 
       function renderTop5Atencao(fato) {
