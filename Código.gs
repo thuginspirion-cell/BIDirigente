@@ -1719,7 +1719,7 @@ function executarAuditoriaCompletaBases() {
     { nome: "SEGRE Gestão Escolar", arquivo: "Livro Entrada 2026 SEGRE.xlsx", fn: function() { return sincronizarPlanilhaSegre(); } },
     { nome: "SEMAT Matrícula", arquivo: "Livro Entrada 2026 SEMAT.xlsx", fn: function() { return sincronizarPlanilhaSemat(); } },
     { nome: "SEVESC Vida Escolar", arquivo: "Livro Entrada 2026 SEVESC.xlsx", fn: function() { return sincronizarPlanilhaSevesc(); } },
-    { nome: "SEPES Recursos Humanos", arquivo: "DEMANDAS SEAPE.xlsx", fn: function() { return sincronizarPlanilhaSepes(); } },
+    { nome: "SEPES Serviço de Pessoas", arquivo: "DEMANDAS SEAPE.xlsx", fn: function() { return sincronizarPlanilhaSepes(); } },
     { nome: "SECOMSE Contratos", arquivo: "Controle de contratos.xlsx", fn: function() { return sincronizarPlanilhaSecomse(); } },
     { nome: "DPAT Patrimônio", arquivo: "Patrimônio Escolar", fn: function() { return sincronizarPlanilhaDpat(); } },
     { nome: "SEOM Obras", arquivo: "Aba MAPA - Obras 2026", fn: function() { return sincronizarPlanilhaSeom(); } },
