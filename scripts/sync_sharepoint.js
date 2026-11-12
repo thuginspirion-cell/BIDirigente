@@ -154,13 +154,27 @@ async function syncSharepointData() {
       status = 'Em Atendimento (FDE)';
     }
 
-    let tipo = 'Equipamentos e Tablets';
-    const tipoRaw = String(r['1. Tipo de Ocorrência '] || r['Tipo'] || '').toLowerCase();
+    const tipoRaw = String(r['1. Tipo de Ocorrência '] || r['Tipo'] || '').trim().toLowerCase();
+    let tipo = 'Equipamentos';
 
-    if (tipoRaw.includes('net') || tipoRaw.includes('inter') || /wifi|wi-fi|fibra|link/i.test(relato)) {
-      tipo = 'Internet / Conectividade';
-    } else if (tipoRaw.includes('telef') || tipoRaw.includes('fone') || /linha|ramal|ligação|telefone/i.test(relato)) {
-      tipo = 'Telefonia';
+    if (tipoRaw.includes('invent')) {
+      tipo = 'Inventario';
+    } else if (tipoRaw.includes('infra')) {
+      tipo = 'Infraestrutura';
+    } else if (tipoRaw.includes('net') || tipoRaw.includes('inter')) {
+      tipo = 'Internet';
+    } else if (tipoRaw.includes('telef') || tipoRaw.includes('fone')) {
+      tipo = 'Telefone';
+    } else if (tipoRaw.includes('equip') || tipoRaw.includes('tablet') || tipoRaw.includes('pc') || tipoRaw.includes('note') || tipoRaw.includes('chromebook')) {
+      tipo = 'Equipamentos';
+    } else if (tipoRaw.includes('outro')) {
+      tipo = 'Outros';
+    } else if (/wifi|wi-fi|fibra|link/i.test(relato)) {
+      tipo = 'Internet';
+    } else if (/linha|ramal|ligação|telefone/i.test(relato)) {
+      tipo = 'Telefone';
+    } else if (tipoRaw) {
+      tipo = String(r['1. Tipo de Ocorrência '] || r['Tipo'] || '').trim();
     }
 
     chamados2026.push({
