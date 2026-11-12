@@ -2,7 +2,8 @@
 README.md
 .clasp.json
 .claspignore
-gh-pages-redirect/**
+index-*.html
+index-SunnyPro.html
 *.png
 *.jpg
 node_modules/**
