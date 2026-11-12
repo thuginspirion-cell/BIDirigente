@@ -2991,7 +2991,7 @@ function inicializarCarroPadrao() {
         motorista: 'Steve Rogers',
         solicitante: 'Carol Danvers',
         funcao: 'Supervisor de Ensino',
-        unidade: 'Supervisão de Ensino',
+        unidade: 'ESE',
         passageiros: 3,
         contato: 'Ramal 209 • Supervisão',
         prioridade: 'Normal',
@@ -3075,7 +3075,7 @@ function sanitizarObjetoCarroData(parsed) {
     if (r.id === 'car-102' && r.solicitante === 'Diretor Técnico SEINTEC') r.solicitante = 'Tony Stark';
     if (r.id === 'car-103' && r.solicitante === 'Assessoria Técnica do Gabinete') r.solicitante = 'Diana Prince';
     if (r.id === 'car-104' && r.solicitante === 'Diretor SEOM') r.solicitante = 'Bruce Wayne';
-    if (r.id === 'car-105' && r.solicitante === 'Supervisão de Ensino') r.solicitante = 'Carol Danvers';
+    if (r.id === 'car-105' && r.solicitante === 'ESE') r.solicitante = 'Carol Danvers';
     if (!r.funcao) r.funcao = r.solicitante && r.solicitante.indexOf('Dirigente') !== -1 ? 'Dirigente Regional de Ensino' : 'Responsável Técnico';
     if (!r.unidade) r.unidade = r.setor || 'Gabinete / URE Itapevi';
     if (!r.passageiros) r.passageiros = isSpin ? 3 : 2;
@@ -21541,7 +21541,7 @@ function imprimirAgendaCarro() {
         XLSX.utils.book_append_sheet(wb, ws, "Prestação de Contas");
         XLSX.writeFile(wb, nomeArquivo);
         if (typeof mostrarToastAgenda === 'function') {
-          mostrarToastAgenda('Planilha Excel (.xlsx) exportada com sucesso!', '📊');
+          mostrarToastAgenda('Planilha Excel exportada com sucesso!', '📊');
         }
       } else {
         /* Fallback CSV */
@@ -22096,8 +22096,8 @@ function imprimirAgendaCarro() {
               <div id="sefin-contador-linhas" style="font-size: 0.82rem; color: #475569; font-weight: 700;">
                 Exibindo ${Math.min(listaRepasses.length, filtrosSefinAvancados.limiteLinhas)} de ${listaRepasses.length} repasses encontrados ${filtrosSefinAvancados.ordenarPor === 'ano' ? (filtrosSefinAvancados.ordenarDirecao === 'desc' ? '(Ano mais recente primeiro: 2026 → 2019)' : '(Ano mais antigo primeiro: 2019 → 2026)') : ''}
               </div>
-              <button onclick="exportarBalanceteSefinXlsx()" style="background: #ffffff; border: 1.5px solid #cbd5e1; color: #475569; padding: 5px 13px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.35rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'; this.style.borderColor='#94a3b8'; this.style.color='#0f172a';" onmouseout="this.style.background='#ffffff'; this.style.borderColor='#cbd5e1'; this.style.color='#475569';" title="Exportar dados filtrados para planilha Excel (.xlsx)">
-                <span>📊 Exportar XLSX</span>
+              <button onclick="exportarBalanceteSefinXlsx()" style="background: #ffffff; border: 1.5px solid #cbd5e1; color: #475569; padding: 5px 13px; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.35rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'; this.style.borderColor='#94a3b8'; this.style.color='#0f172a';" onmouseout="this.style.background='#ffffff'; this.style.borderColor='#cbd5e1'; this.style.color='#475569';" title="Exportar dados filtrados para Excel">
+                <span>📊 Baixar Excel</span>
               </button>
             </div>
 
@@ -32495,7 +32495,7 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
         desc: 'Registros administrativos e judiciais do Gabinete da Dirigente.',
         pasta: 'Demandas',
         registros: [
-          { id: 'DEM-2026/041', origem: 'Supervisão de Ensino', assunto: 'Adequação de módulo docente EE Prof. José Barreto', data: '18/10/2026', status: 'Em Análise' },
+          { id: 'DEM-2026/041', origem: 'ESE', assunto: 'Adequação de módulo docente EE Prof. José Barreto', data: '18/10/2026', status: 'Em Análise' },
           { id: 'DEM-2026/039', origem: 'Prefeitura de Itapevi', assunto: 'Termo de Cooperação Transporte Escolar', data: '15/10/2026', status: 'Homologado' },
           { id: 'DEM-2026/038', origem: 'FDE', assunto: 'Cronograma de reformas prediais 2026', data: '12/10/2026', status: 'Concluído' }
         ]
@@ -32517,7 +32517,7 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
         desc: 'Termos de visita e acompanhamento das escolas estaduais e particulares.',
         pasta: 'TermosVisita',
         registros: [
-          { id: 'TRM-145/26', origem: 'Supervisão Regional', assunto: 'Visita Técnica e Pedagógica - EE Celso Pacheco', data: '20/10/2026', status: 'Arquivado' },
+          { id: 'TRM-145/26', origem: 'ESE', assunto: 'Visita Técnica e Pedagógica - EE Celso Pacheco', data: '20/10/2026', status: 'Arquivado' },
           { id: 'TRM-144/26', origem: 'Dirigente Regional', assunto: 'Acompanhamento do SARESP - EE Toufic Joulian', data: '18/10/2026', status: 'Arquivado' },
           { id: 'TRM-143/26', origem: 'Supervisão Particular', assunto: 'Inspeção Anual Colégio Objetivo Itapevi', data: '15/10/2026', status: 'Aprovado' }
         ]
@@ -32888,6 +32888,42 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
       }
     };
     window.SEINTEC_BASES_CONFIG = SEINTEC_BASES_CONFIG;
+
+    /* Mapa de Classificação Curada e Canônica SEINTEC (Garante que Inventário, Infraestrutura e Outros nunca zerem) */
+    window.MAPA_CURADO_SEINTEC_TIPO = {};
+    if (SEINTEC_BASES_CONFIG && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros)) {
+      SEINTEC_BASES_CONFIG['Atendimentos'].registros.forEach(function(r) {
+        if (r && r.id && r.tipo) {
+          window.MAPA_CURADO_SEINTEC_TIPO[r.id] = r.tipo;
+        }
+      });
+    }
+
+    function resolverTipoChamadoSeintec(id, tipoRaw, relato) {
+      if (window.MAPA_CURADO_SEINTEC_TIPO && id && window.MAPA_CURADO_SEINTEC_TIPO[id]) {
+        return window.MAPA_CURADO_SEINTEC_TIPO[id];
+      }
+      var rel = (relato || '').toLowerCase();
+      var raw = (tipoRaw || '').toLowerCase();
+
+      if (raw.includes('invent') || rel.includes('invent')) {
+        return 'Inventario';
+      }
+      if (raw.includes('infra') || /rack|cabeament|ponto de rede|pontos de rede|patch panel|patch cord|switch 1|switch 2|tomada de rede|organizar o rack|el[eé]tric/i.test(rel)) {
+        return 'Infraestrutura';
+      }
+      if (raw.includes('telef') || raw.includes('fone') || /linha telef|ramal|sem sinal de linha|linha 2658|n[aã]o d[aá] sinal de linha/i.test(rel)) {
+        return 'Telefone';
+      }
+      if (raw.includes('net') || raw.includes('inter') || /wifi|wi-fi|fibra|link|intragov|sem internet|sem rede/i.test(rel)) {
+        return 'Internet';
+      }
+      if (raw.includes('outro')) {
+        return 'Outros';
+      }
+      return 'Equipamentos';
+    }
+    window.resolverTipoChamadoSeintec = resolverTipoChamadoSeintec;
 
     let baseAtivaSeintec = 'Atendimentos';
 
@@ -34918,7 +34954,13 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       novos.forEach(function(item) {
         if (item && ehRegistroChamadoValido(item)) {
           var k = item.id || ((item.cie || '') + '_' + (item.data || ''));
-          mapa[k] = usarSubstituicaoCompleta ? item : Object.assign({}, mapa[k] || {}, item);
+          var existente = mapa[k];
+          if (typeof resolverTipoChamadoSeintec === 'function') {
+            item.tipo = resolverTipoChamadoSeintec(item.id, item.tipo, item.relato);
+          } else if (existente && existente.tipo && existente.tipo !== 'Equipamentos' && item.tipo === 'Equipamentos') {
+            item.tipo = existente.tipo;
+          }
+          mapa[k] = usarSubstituicaoCompleta ? item : Object.assign({}, existente || {}, item);
         }
       });
 
@@ -35257,28 +35299,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           status = 'Em Atendimento (FDE)';
         }
 
-        const tipoRaw = String(r['1. Tipo de Ocorrência '] || r['Tipo'] || '').trim().toLowerCase();
-        let tipo = 'Equipamentos';
-
-        if (tipoRaw.includes('invent')) {
-          tipo = 'Inventario';
-        } else if (tipoRaw.includes('infra')) {
-          tipo = 'Infraestrutura';
-        } else if (tipoRaw.includes('net') || tipoRaw.includes('inter')) {
-          tipo = 'Internet';
-        } else if (tipoRaw.includes('telef') || tipoRaw.includes('fone')) {
-          tipo = 'Telefone';
-        } else if (tipoRaw.includes('equip') || tipoRaw.includes('tablet') || tipoRaw.includes('pc') || tipoRaw.includes('note') || tipoRaw.includes('chromebook')) {
-          tipo = 'Equipamentos';
-        } else if (tipoRaw.includes('outro')) {
-          tipo = 'Outros';
-        } else if (/wifi|wi-fi|fibra|link/i.test(relato)) {
-          tipo = 'Internet';
-        } else if (/linha|ramal|ligação|telefone/i.test(relato)) {
-          tipo = 'Telefone';
-        } else if (tipoRaw) {
-          tipo = String(r['1. Tipo de Ocorrência '] || r['Tipo'] || '').trim();
-        }
+        const callId = 'CALL-' + (idx + 1);
+        const tipoRaw = String(r['1. Tipo de Ocorrência '] || r['Tipo'] || '').trim();
+        const tipo = (typeof resolverTipoChamadoSeintec === 'function')
+          ? resolverTipoChamadoSeintec(callId, tipoRaw, relato)
+          : (/invent/i.test(relato) ? 'Inventario' : (tipoRaw || 'Equipamentos'));
 
         chamadosNovos2026.push({
           id: 'CALL-' + (idx + 1),
@@ -37418,9 +37443,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     .exec-doc-page {
       width: 210mm;
       max-width: 100%;
-      height: 297mm;
-      min-height: 297mm;
-      max-height: 297mm;
+      height: 296.5mm;
+      min-height: 296.5mm;
+      max-height: 296.5mm;
       box-sizing: border-box;
       margin: 0 auto 30px auto;
       background: #ffffff;
@@ -40126,6 +40151,15 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         }
         var oldShadow = canvas.style.boxShadow;
         canvas.style.boxShadow = 'none';
+        var pages = canvas.querySelectorAll('.exec-doc-page');
+        var oldMargins = [];
+        var oldBoxShadows = [];
+        pages.forEach(function(p, i) {
+          oldMargins[i] = p.style.margin;
+          oldBoxShadows[i] = p.style.boxShadow;
+          p.style.margin = '0 auto';
+          p.style.boxShadow = 'none';
+        });
 
         html2pdf().set({
           margin: 0,
@@ -40135,6 +40169,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
           pagebreak: { mode: ['css', 'legacy'], avoid: ['.doc-section', '.doc-card', 'tr'] }
         }).from(canvas).save().then(function() {
+          pages.forEach(function(p, i) {
+            p.style.margin = oldMargins[i] || '';
+            p.style.boxShadow = oldBoxShadows[i] || '';
+          });
           canvas.style.boxShadow = oldShadow;
           if (btn) {
             btn.disabled = false;
@@ -40144,6 +40182,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             mostrarToastAgenda('PDF baixado com sucesso!', '📄');
           }
         }).catch(function(err) {
+          pages.forEach(function(p, i) {
+            p.style.margin = oldMargins[i] || '';
+            p.style.boxShadow = oldBoxShadows[i] || '';
+          });
           console.warn('Fallback PDF print:', err);
           canvas.style.boxShadow = oldShadow;
           if (btn) {
