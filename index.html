@@ -13573,52 +13573,34 @@ function imprimirAgendaCarro() {
           </button>
         </div>
 
-        <!-- PAINEL EXECUTIVO DA ESCOLA SELECIONADA (RESULTADO IMEDIATO 100% REATIVO NA HOME) -->
-        <div id="home-school-spotlight" style="display: none; margin-bottom: 1.5rem; background: #ffffff; border: 2px solid #2563eb; border-radius: 14px; padding: 1.35rem 1.65rem; box-shadow: 0 8px 24px rgba(37,99,235,0.10); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.85rem; margin-bottom: 1.15rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.95rem;">
+        <!-- PAINEL EXECUTIVO DA ESCOLA SELECIONADA (DOSSIÊ MULTISSETORIAL 360° EM TEMPO REAL) -->
+        <div id="home-school-spotlight" style="display: none; margin-bottom: 1.5rem; background: #ffffff; border: 2px solid #1d4ed8; border-radius: 14px; padding: 1.35rem 1.65rem; box-shadow: 0 10px 28px rgba(30,58,138,0.10); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.85rem; margin-bottom: 1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.9rem;">
             <div>
-              <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
-                <span style="font-size: 1.45rem;">🏫</span>
-                <h3 id="spotlight-school-name" style="font-size: 1.3rem; font-weight: 800; color: #0b2351; margin: 0; letter-spacing: -0.01em;">Nome da Escola</h3>
-                <span id="spotlight-school-cie" style="font-size: 0.76rem; background: #eff6ff; color: #1d4ed8; font-weight: 700; padding: 4px 10px; border-radius: 6px; border: 1px solid #bfdbfe;">CIE: 000000</span>
-                <span id="spotlight-school-city" style="font-size: 0.76rem; background: #f1f5f9; color: #475569; font-weight: 700; padding: 4px 10px; border-radius: 6px;">Município</span>
-                <span id="spotlight-school-status" style="font-size: 0.76rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; background: rgba(16,185,129,0.15); color: #047857; border: 1px solid #10b981;">Conformidade Regular</span>
+              <div style="display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap;">
+                <span style="font-size: 1.4rem;">🏫</span>
+                <h3 id="spotlight-school-name" style="font-size: 1.25rem; font-weight: 800; color: #0b2351; margin: 0; letter-spacing: -0.01em;">Nome da Escola</h3>
+                <span id="spotlight-school-cie" style="font-size: 0.74rem; background: #eff6ff; color: #1d4ed8; font-weight: 800; padding: 3px 9px; border-radius: 6px; border: 1px solid #bfdbfe;">CIE: 000000</span>
+                <span id="spotlight-school-city" style="font-size: 0.74rem; background: #f1f5f9; color: #475569; font-weight: 700; padding: 3px 9px; border-radius: 6px;">Município</span>
+                <span id="spotlight-school-status" style="font-size: 0.74rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1;">IMRO 360°</span>
               </div>
-              <div id="spotlight-school-details" style="font-size: 0.86rem; color: #64748b; margin-top: 0.45rem; line-height: 1.45;">
+              <div id="spotlight-school-details" style="font-size: 0.82rem; color: #475569; margin-top: 0.45rem; line-height: 1.45;">
                 Direção, contatos e dados cadastrais da unidade
               </div>
             </div>
-            <button type="button" onclick="limparFiltrosHome()" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; font-size: 0.8rem; font-weight: 700; padding: 0.45rem 0.95rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;" title="Fechar detalhes e ver todas as escolas">
-              <span>✕</span> Ver Todas as 60 Escolas
-            </button>
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+              <button type="button" id="spotlight-btn-modal-360" onclick="abrirModalDetalhesEscola(document.getElementById('home-filter-escola').value)" style="background: #0b2351; border: none; color: #ffffff; font-size: 0.78rem; font-weight: 700; padding: 0.45rem 0.95rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;" title="Abrir ficha cadastral e predial completa">
+                <span>🔍</span> Ficha 360° Completa
+              </button>
+              <button type="button" onclick="limparFiltrosHome()" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; font-size: 0.78rem; font-weight: 700; padding: 0.45rem 0.95rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;" title="Fechar dossiê e voltar para as 60 escolas">
+                <span>✕</span> Ver Todas as 60 Escolas
+              </button>
+            </div>
           </div>
 
-          <!-- Mini Grid Executivo de Indicadores da Escola Selecionada -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.85rem;">
-            <!-- Box 1: Hardware SEINTEC -->
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
-              <div style="font-size: 0.7rem; font-weight: 800; color: #2563eb; text-transform: uppercase; letter-spacing: 0.04em;">💻 Hardware SEINTEC</div>
-              <div id="spotlight-hw-total" style="font-size: 1.45rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0; text-align: center;">0 itens</div>
-              <div id="spotlight-hw-sub" style="font-size: 0.78rem; color: #059669; font-weight: 600;">0 disponíveis (0%)</div>
-            </div>
-            <!-- Box 2: Chamados / Calls -->
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
-              <div style="font-size: 0.7rem; font-weight: 800; color: #d97706; text-transform: uppercase; letter-spacing: 0.04em;">📞 Chamados / Atendimentos SEINTEC</div>
-              <div id="spotlight-calls-total" style="font-size: 1.45rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0; text-align: center;">0 chamados</div>
-              <div id="spotlight-calls-sub" style="font-size: 0.78rem; color: #64748b;">0 pendentes • 0 concluídos</div>
-            </div>
-            <!-- Box 3: Estrutura & Ambientes -->
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
-              <div style="font-size: 0.7rem; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 0.04em;">🏫 Rede & Segmento</div>
-              <div id="spotlight-tipo" style="font-size: 1.25rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0; text-align: center;">Regular</div>
-              <div id="spotlight-segmento" style="font-size: 0.78rem; color: #64748b;">Ensino Fundamental e Médio</div>
-            </div>
-            <!-- Box 4: Gestão & Contato -->
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
-              <div style="font-size: 0.7rem; font-weight: 800; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.04em;">👥 Gestão da Unidade</div>
-              <div id="spotlight-diretor" style="font-size: 1.15rem; font-weight: 800; color: #1e293b; margin: 0.25rem 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; text-align: center;">-</div>
-              <div id="spotlight-telefone" style="font-size: 0.78rem; color: #64748b;">Tel: -</div>
-            </div>
+          <!-- Grid Multissetorial 360° (6 Dimensões Reais) -->
+          <div id="spotlight-dossie-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.85rem;">
+            <!-- Preenchido dinamicamente por BI_DECISION_ENGINE.renderizarDossieEscola -->
           </div>
         </div>
 
@@ -20152,50 +20134,19 @@ function imprimirAgendaCarro() {
       const elNome = document.getElementById('spotlight-school-name');
       const elCie = document.getElementById('spotlight-school-cie');
       const elCity = document.getElementById('spotlight-school-city');
-      const elStatus = document.getElementById('spotlight-school-status');
       const elDetails = document.getElementById('spotlight-school-details');
 
       if (elNome) elNome.textContent = dados.nome;
       if (elCie) elCie.textContent = 'CIE: ' + dados.cie;
       if (elCity) elCity.textContent = dados.cidade + (dados.bairro && dados.bairro !== '-' ? ' • ' + dados.bairro : '');
 
-      if (elStatus) {
-        if (dados.emAtencao) {
-          elStatus.style.background = 'rgba(239, 68, 68, 0.15)';
-          elStatus.style.color = '#b91c1c';
-          elStatus.style.borderColor = '#ef4444';
-          elStatus.textContent = '⚠️ Atenção Prioritária';
-        } else {
-          elStatus.style.background = 'rgba(16, 185, 129, 0.15)';
-          elStatus.style.color = '#047857';
-          elStatus.style.borderColor = '#10b981';
-          elStatus.textContent = '🟢 Conformidade Regular';
-        }
-      }
-
       if (elDetails) {
-        elDetails.innerHTML = '<strong>Direção:</strong> ' + (dados.diretor || 'Equipe Gestora') + ' &nbsp;|&nbsp; <strong>Telefone:</strong> ' + (dados.telefone || '-') + ' &nbsp;|&nbsp; <strong>Segmento:</strong> ' + (dados.segmento || 'Ensino Fundamental e Médio');
+        elDetails.innerHTML = '<strong>Direção:</strong> ' + (dados.diretor || 'Equipe Gestora') + ' &nbsp;|&nbsp; <strong>Telefone:</strong> ' + (dados.telefone || '-') + ' &nbsp;|&nbsp; <strong>Modelo:</strong> ' + (dados.tipo || 'Regular') + ' (' + (dados.segmento || 'Ensino Fundamental e Médio') + ')';
       }
 
-      const elHwTotal = document.getElementById('spotlight-hw-total');
-      const elHwSub = document.getElementById('spotlight-hw-sub');
-      if (elHwTotal) elHwTotal.textContent = dados.hwTotal.toLocaleString('pt-BR') + ' itens';
-      if (elHwSub) elHwSub.textContent = dados.hwDisp + ' disp. (' + dados.hwPctDisp + '%) • ' + dados.hwManut + ' em reparo';
-
-      const elCallsTotal = document.getElementById('spotlight-calls-total');
-      const elCallsSub = document.getElementById('spotlight-calls-sub');
-      if (elCallsTotal) elCallsTotal.textContent = dados.callsTotal + ' chamados';
-      if (elCallsSub) elCallsSub.textContent = dados.callsPend + ' pendentes • ' + dados.callsConc + ' concluídos';
-
-      const elTipo = document.getElementById('spotlight-tipo');
-      const elSeg = document.getElementById('spotlight-segmento');
-      if (elTipo) elTipo.textContent = dados.tipo;
-      if (elSeg) elSeg.textContent = dados.hwPedag + ' equipamentos pedagógicos • ' + dados.hwAdmin + ' administrativos';
-
-      const elDir = document.getElementById('spotlight-diretor');
-      const elTel = document.getElementById('spotlight-telefone');
-      if (elDir) elDir.textContent = dados.diretor;
-      if (elTel) elTel.textContent = 'Tel: ' + dados.telefone;
+      if (window.BI_DECISION_ENGINE && typeof window.BI_DECISION_ENGINE.renderizarDossieEscola === 'function') {
+        window.BI_DECISION_ENGINE.renderizarDossieEscola(dados.cie, dados);
+      }
     }
 
     function atualizarKpisSuperioresHomeParaEscola(dados) {
@@ -20215,6 +20166,12 @@ function imprimirAgendaCarro() {
       const lblExec = document.getElementById('kpi-lbl-execucao-sefin');
       const kpiRep = document.getElementById('kpi-repasses-sefin');
       const lblRep = document.getElementById('kpi-lbl-repasses-sefin');
+      const kpiCallsHome = document.getElementById('kpi-chamados-home');
+      const lblCallsHome = document.getElementById('kpi-lbl-chamados-home');
+      const kpiObrasHome = document.getElementById('kpi-obras-home');
+      const lblObrasHome = document.getElementById('kpi-lbl-obras-home');
+      const kpiEmailsHome = document.getElementById('kpi-emails-home');
+      const lblEmailsHome = document.getElementById('kpi-lbl-emails-home');
 
       const gaugePct = document.getElementById('home-gauge-pct');
       const gaugeVal = document.getElementById('home-gauge-val');
@@ -20251,33 +20208,21 @@ function imprimirAgendaCarro() {
         if (kpiRep) kpiRep.textContent = (sefinK.totalRepasses || 204).toLocaleString('pt-BR');
         if (lblRep) lblRep.textContent = 'Repasses Auditados';
 
-        const kpiCallsHome = document.getElementById('kpi-chamados-home');
         const callsTotHome = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros))
           ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length
           : 1641;
         if (kpiCallsHome) kpiCallsHome.textContent = callsTotHome.toLocaleString('pt-BR');
+        if (lblCallsHome) lblCallsHome.textContent = 'Atendimentos TI';
 
-        const kpiObrasHome = document.getElementById('kpi-obras-home');
         if (kpiObrasHome && typeof DADOS_SEOM !== 'undefined' && Array.isArray(DADOS_SEOM.escolas)) {
           kpiObrasHome.textContent = DADOS_SEOM.escolas.filter(e => e.obraFde == 1 || e.obraFde == 2).length.toLocaleString('pt-BR');
         }
+        if (lblObrasHome) lblObrasHome.textContent = 'Obras FDE Ativas';
 
-        const kpiEmailsHome = document.getElementById('kpi-emails-home');
         if (kpiEmailsHome && typeof DADOS_SEGRE !== 'undefined' && DADOS_SEGRE.kpis && DADOS_SEGRE.kpis.totalEmails) {
           kpiEmailsHome.textContent = DADOS_SEGRE.kpis.totalEmails.toLocaleString('pt-BR');
         }
-
-        const matSeafinRep = document.getElementById('matrix-seafin-repasses');
-        const matSeafinRec = document.getElementById('matrix-seafin-receita');
-        const matSeafinExec = document.getElementById('matrix-seafin-exec');
-        if (matSeafinRep) matSeafinRep.innerHTML = '<span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span> ' + (sefinK.totalRepasses || 204).toLocaleString('pt-BR') + ' Repasses Ativos';
-        if (matSeafinRec) matSeafinRec.textContent = recFmt + ' Repassados';
-        if (matSeafinExec) matSeafinExec.textContent = despFmt + ' executados (' + execPctFmt + ')';
-
-        const matSegreEmails = document.getElementById('matrix-segre-emails');
-        if (matSegreEmails && typeof DADOS_SEGRE !== 'undefined' && DADOS_SEGRE.kpis && DADOS_SEGRE.kpis.totalEmails) {
-          matSegreEmails.textContent = DADOS_SEGRE.kpis.totalEmails.toLocaleString('pt-BR') + ' E-mails & Demandas';
-        }
+        if (lblEmailsHome) lblEmailsHome.textContent = 'E-mails & Demandas';
 
         if (gaugePct) gaugePct.textContent = '90%';
         if (gaugeVal) gaugeVal.textContent = '54 de 60';
@@ -20285,25 +20230,54 @@ function imprimirAgendaCarro() {
         return;
       }
 
-      /* Visao filtrada para uma escola especifica selecionada */
-      if (kpiEscolas) kpiEscolas.textContent = '1';
-      if (lblEscolas) lblEscolas.textContent = 'Escola: CIE ' + (dados.cie || '---');
+      /* Visao filtrada com DADOS REAIS multissetoriais da escola selecionada */
+      const fatoEsc = (window.BI_DECISION_ENGINE && typeof window.BI_DECISION_ENGINE.obterFatoEscola === 'function')
+        ? window.BI_DECISION_ENGINE.obterFatoEscola(dados.cie)
+        : null;
+
+      if (kpiEscolas) kpiEscolas.textContent = fatoEsc ? (fatoEsc.imro + ' pts') : '1';
+      if (lblEscolas) lblEscolas.textContent = fatoEsc ? ('IMRO 360° (' + fatoEsc.tier + ')') : ('Escola: CIE ' + (dados.cie || '---'));
 
       if (kpiHw) kpiHw.textContent = (dados.hwTotal || 0).toLocaleString('pt-BR');
-      if (lblHw) lblHw.textContent = (dados.hwPctDisp || '0') + '% Disponíveis';
+      if (lblHw) lblHw.textContent = 'Equipamentos (' + (dados.hwPctDisp || '0') + '% disp.)';
 
-      if (kpiVisitas) kpiVisitas.textContent = dados.callsTotal || 0;
-      if (lblVisitas) lblVisitas.textContent = 'Chamados / Atendimentos';
+      if (kpiCallsHome) kpiCallsHome.textContent = (dados.callsTotal || 0).toLocaleString('pt-BR');
+      if (lblCallsHome) lblCallsHome.textContent = 'Chamados TI (' + (dados.callsPend || 0) + ' abertos)';
 
-      if (kpiAlertas) kpiAlertas.textContent = dados.emAtencao ? '1' : '0';
-      if (lblAlertas) lblAlertas.textContent = dados.emAtencao ? 'Atenção prioritária' : 'Monitoramento regular';
+      const fmtCurto = function(v) {
+        const n = Number(v || 0);
+        if (n >= 1e6) return 'R$ ' + (n / 1e6).toFixed(2).replace('.', ',') + 'M';
+        if (n >= 1000) return 'R$ ' + Math.round(n / 1000).toLocaleString('pt-BR') + ' mil';
+        return 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+      };
 
-      if (kpiRec) kpiRec.textContent = dados.emAtencao ? 'Auditando' : 'Regular';
-      if (lblRec) lblRec.textContent = 'Status SEFIN / APM';
-      if (kpiExec) kpiExec.textContent = '100%';
-      if (lblExec) lblExec.textContent = 'Adimplência Contábil';
-      if (kpiRep) kpiRep.textContent = 'Ativo';
-      if (lblRep) lblRep.textContent = 'Termo de Cooperação';
+      if (fatoEsc) {
+        if (kpiRec) kpiRec.textContent = fmtCurto(fatoEsc.rec2026);
+        if (lblRec) lblRec.textContent = 'PDDE 2026 da Unidade';
+        if (kpiExec) kpiExec.textContent = fatoEsc.execPct2026.toFixed(1).replace('.', ',') + '%';
+        if (lblExec) lblExec.textContent = 'Executado (' + fmtCurto(fatoEsc.desp2026) + ')';
+        if (kpiObrasHome) kpiObrasHome.textContent = (fatoEsc.flags && fatoEsc.flags.SEOM) ? fatoEsc.flags.SEOM.length : 0;
+        if (lblObrasHome) lblObrasHome.textContent = 'Alertas Prediais SEOM';
+        if (kpiEmailsHome) kpiEmailsHome.textContent = (fatoEsc.segreAbertos || 0).toLocaleString('pt-BR');
+        if (lblEmailsHome) lblEmailsHome.textContent = 'Processos SEI Abertos';
+        if (kpiRep) kpiRep.textContent = (fatoEsc.sepesPend || 0).toLocaleString('pt-BR');
+        if (lblRep) lblRep.textContent = 'Processos RH (SEPES)';
+
+        const setUnitCtx = function(id, txt, cls) {
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.textContent = txt;
+          el.className = 'kpi-ctx-line' + (cls ? (' ' + cls) : '');
+        };
+        setUnitCtx('kpi-ctx-escolas', 'CIE ' + fatoEsc.cie + ' • ' + fatoEsc.cidade, fatoEsc.imro >= 90 ? 'ctx-alert' : 'ctx-ok');
+        setUnitCtx('kpi-ctx-hardware', (dados.hwDisp || 0) + ' disp. • ' + fatoEsc.hwBad + ' em reparo/baixa', fatoEsc.hwBad >= 60 ? 'ctx-warn' : 'ctx-ok');
+        setUnitCtx('kpi-ctx-chamados', (dados.callsConc || 0) + ' concluídos no exercício', (dados.callsPend || 0) > 2 ? 'ctx-warn' : 'ctx-ok');
+        setUnitCtx('kpi-ctx-recursos', 'Saldo ocioso: ' + fmtCurto(fatoEsc.saldoOcioso2026), fatoEsc.saldoOcioso2026 > 50000 ? 'ctx-warn' : '');
+        setUnitCtx('kpi-ctx-execucao', fatoEsc.rec2026 > 0 ? ('Meta calendário: ~' + Math.min(95, Math.round(((new Date().getMonth() + 1) / 12) * 100)) + '%') : 'Sem repasse 2026', fatoEsc.rec2026 > 0 && fatoEsc.execPct2026 < 45 ? 'ctx-alert' : 'ctx-ok');
+        setUnitCtx('kpi-ctx-obras', (fatoEsc.flags.SEOM || []).slice(0, 2).join(' • ') || 'Sem alertas críticos SEOM', (fatoEsc.pts.SEOM >= 40) ? 'ctx-alert' : 'ctx-ok');
+        setUnitCtx('kpi-ctx-emails', fatoEsc.segreAbertos > 0 ? 'Em tramitação SEGRE/SEMAT/SEVESC' : 'Sem SEI pendente', fatoEsc.segreAbertos > 0 ? 'ctx-warn' : 'ctx-ok');
+        setUnitCtx('kpi-ctx-repasses', fatoEsc.visitada ? ('Visita registrada: ' + (fatoEsc.dataVisita || 'OK')) : 'Sem registro de visita ASURE', fatoEsc.visitada ? 'ctx-ok' : 'ctx-warn');
+      }
 
       if (gaugePct) gaugePct.textContent = (dados.hwPctDisp || '0') + '%';
       if (gaugeVal) gaugeVal.textContent = (dados.hwDisp || 0) + ' de ' + (dados.hwTotal || 0);
@@ -37844,6 +37818,116 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         }).join('');
       }
 
+      function renderDossieEscolaInternal(cie, dadosFallback) {
+        var norm = normCie(cie);
+        var lista = ultimoFato.length ? ultimoFato : construirFatoEscolas();
+        var rankIdx = -1;
+        var esc = null;
+        for (var i = 0; i < lista.length; i++) {
+          if (lista[i].cie === norm) {
+            esc = lista[i];
+            rankIdx = i + 1;
+            break;
+          }
+        }
+
+        var elStatus = document.getElementById('spotlight-school-status');
+        var grid = document.getElementById('spotlight-dossie-grid');
+        if (!esc) {
+          if (elStatus) {
+            elStatus.textContent = 'CIE sem cruzamento no IMRO';
+            elStatus.style.background = '#f1f5f9';
+            elStatus.style.color = '#475569';
+            elStatus.style.borderColor = '#cbd5e1';
+          }
+          if (grid) grid.innerHTML = '<div style="padding:1rem;color:#64748b;font-size:0.8rem;">Dados multissetoriais ainda não consolidados para esta unidade.</div>';
+          return;
+        }
+
+        if (elStatus) {
+          var bg = '#ecfdf5', fg = '#047857', bd = '#10b981', ico = '🟢', labelTier = 'Risco Baixo';
+          if (esc.tier === 'Crítico') { bg = '#fee2e2'; fg = '#991b1b'; bd = '#ef4444'; ico = '🔴'; labelTier = 'Crítico'; }
+          else if (esc.tier === 'Alto Risco') { bg = '#ffedd5'; fg = '#c2410c'; bd = '#f97316'; ico = '🟠'; labelTier = 'Alto Risco'; }
+          else if (esc.tier === 'Atenção') { bg = '#fef3c7'; fg = '#b45309'; bd = '#f59e0b'; ico = '🟡'; labelTier = 'Atenção'; }
+          elStatus.style.background = bg;
+          elStatus.style.color = fg;
+          elStatus.style.borderColor = bd;
+          elStatus.textContent = ico + ' ' + labelTier + ' • ' + esc.imro + ' pts IMRO 360° (#' + rankIdx + '/60)';
+        }
+
+        if (!grid) return;
+        var hwDispPct = esc.hwTotal > 0 ? ((esc.hwDisp / esc.hwTotal) * 100).toFixed(1).replace('.', ',') : '0,0';
+        var seomResumo = (esc.flags.SEOM && esc.flags.SEOM.length > 0)
+          ? esc.flags.SEOM.join(' • ')
+          : 'Infraestrutura conforme nos indicadores monitorados';
+        var seintecResumo = (esc.flags.SEINTEC && esc.flags.SEINTEC.length > 0)
+          ? esc.flags.SEINTEC.join(' • ')
+          : 'Parque tecnológico sem alertas críticos';
+
+        var prescricao = '';
+        if (esc.imro >= 90 && esc.saldoOcioso2026 >= 10000) {
+          prescricao = 'Unidade em ' + esc.tier + ' com ' + formatarMoedaCurta(esc.saldoOcioso2026) + ' disponíveis no PDDE 2026: orientar APM para uso prioritário nos gargalos físicos/TI listados.';
+        } else if (esc.imro >= 90 && !esc.visitada) {
+          prescricao = 'Unidade #' + rankIdx + ' no ranking de risco e ainda sem registro de visita ASURE: incluir na próxima rota prioritária da Dirigente.';
+        } else if (esc.sepesPend > 0 || esc.segreAbertos > 0) {
+          prescricao = 'Acompanhar tramitação dos ' + (esc.sepesPend + esc.segreAbertos) + ' processo(s) ativo(s) em SEPES/SEGRE para evitar impacto operacional.';
+        } else {
+          prescricao = 'Manter monitoramento preventivo de rotina; sem gargalos críticos acumulados neste momento.';
+        }
+
+        var boxStyle = 'background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:0.9rem 1rem;cursor:default;user-select:text;';
+        grid.innerHTML = '' +
+          '<div style="' + boxStyle + 'border-top:3px solid #d97706;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">' +
+              '<span style="font-size:0.69rem;font-weight:800;color:#b45309;text-transform:uppercase;">🏗️ SEOM • Infraestrutura</span>' +
+              '<span style="font-size:0.68rem;font-weight:800;color:#92400e;background:#fef3c7;padding:1px 6px;border-radius:5px;">+' + esc.pts.SEOM + ' pts</span>' +
+            '</div>' +
+            '<div style="font-size:0.88rem;font-weight:800;color:#0f172a;margin-bottom:0.25rem;">' + (esc.seomObj ? (esc.seomObj.avcb === 1 ? 'AVCB Regularizado' : 'AVCB Pendente') : 'Mapa 11D') + '</div>' +
+            '<div style="font-size:0.73rem;color:#475569;line-height:1.4;">' + escHtml(seomResumo) + '</div>' +
+          '</div>' +
+
+          '<div style="' + boxStyle + 'border-top:3px solid #0284c7;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">' +
+              '<span style="font-size:0.69rem;font-weight:800;color:#0369a1;text-transform:uppercase;">💻 SEINTEC • TI &amp; Suporte</span>' +
+              '<span style="font-size:0.68rem;font-weight:800;color:#075985;background:#e0f2fe;padding:1px 6px;border-radius:5px;">+' + esc.pts.SEINTEC + ' pts</span>' +
+            '</div>' +
+            '<div style="font-size:0.88rem;font-weight:800;color:#0f172a;margin-bottom:0.25rem;">' + esc.hwTotal.toLocaleString('pt-BR') + ' itens (' + hwDispPct + '% disp.) • ' + esc.callsTotal + ' chamados</div>' +
+            '<div style="font-size:0.73rem;color:#475569;line-height:1.4;">' + esc.hwBad + ' em reparo/inservíveis • ' + esc.callsAbertos + ' chamados abertos • ' + escHtml(seintecResumo) + '</div>' +
+          '</div>' +
+
+          '<div style="' + boxStyle + 'border-top:3px solid #059669;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">' +
+              '<span style="font-size:0.69rem;font-weight:800;color:#047857;text-transform:uppercase;">💼 SEAFIN • PDDE 2026</span>' +
+              '<span style="font-size:0.68rem;font-weight:800;color:#065f46;background:#d1fae5;padding:1px 6px;border-radius:5px;">+' + esc.pts.SEAFIN + ' pts</span>' +
+            '</div>' +
+            '<div style="font-size:0.88rem;font-weight:800;color:#0f172a;margin-bottom:0.25rem;">' + (esc.rec2026 > 0 ? (esc.execPct2026.toFixed(1).replace('.', ',') + '% executado de ' + formatarMoedaCurta(esc.rec2026)) : 'Sem repasse 2026 registrado') + '</div>' +
+            '<div style="font-size:0.73rem;color:#475569;line-height:1.4;">Executado: <strong>' + formatarMoedaCurta(esc.desp2026) + '</strong> • Saldo ocioso: <strong>' + formatarMoedaCurta(esc.saldoOcioso2026) + '</strong></div>' +
+          '</div>' +
+
+          '<div style="' + boxStyle + 'border-top:3px solid #7c3aed;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">' +
+              '<span style="font-size:0.69rem;font-weight:800;color:#6d28d9;text-transform:uppercase;">👥 SEPES &amp; 🏫 SEGRE</span>' +
+              '<span style="font-size:0.68rem;font-weight:800;color:#5b21b6;background:#ede9fe;padding:1px 6px;border-radius:5px;">+' + (esc.pts.SEPES + esc.pts.SEGRE) + ' pts</span>' +
+            '</div>' +
+            '<div style="font-size:0.88rem;font-weight:800;color:#0f172a;margin-bottom:0.25rem;">' + esc.sepesPend + ' proc. RH • ' + esc.segreAbertos + ' SEI Rede em aberto</div>' +
+            '<div style="font-size:0.73rem;color:#475569;line-height:1.4;">' + escHtml([].concat(esc.flags.SEPES, esc.flags.SEGRE).join(' • ') || 'Sem pendências abertas nas planilhas SEAPE/SEGRE') + '</div>' +
+          '</div>' +
+
+          '<div style="' + boxStyle + 'border-top:3px solid #1e293b;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">' +
+              '<span style="font-size:0.69rem;font-weight:800;color:#334155;text-transform:uppercase;">🏛️ ASURE &amp; 📚 EEC</span>' +
+              '<span style="font-size:0.68rem;font-weight:800;color:#334155;background:#e2e8f0;padding:1px 6px;border-radius:5px;">' + (esc.visitada ? 'Visitada' : 'Sem visita') + '</span>' +
+            '</div>' +
+            '<div style="font-size:0.88rem;font-weight:800;color:#0f172a;margin-bottom:0.25rem;">' + (esc.visitada ? ('Visita em ' + escHtml(esc.dataVisita || 'data registrada')) : 'Sem registro de visita recente') + '</div>' +
+            '<div style="font-size:0.73rem;color:#475569;line-height:1.4;">' + (esc.eecScore != null ? ('Índice EEC: <strong>' + esc.eecScore.toFixed(1).replace('.', ',') + '%</strong>') : 'Adaptador EEC &amp; ASURE pronto para dados nominais') + '</div>' +
+          '</div>' +
+
+          '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-top:3px solid #1d4ed8;border-radius:10px;padding:0.9rem 1rem;cursor:default;user-select:text;">' +
+            '<div style="font-size:0.69rem;font-weight:800;color:#1d4ed8;text-transform:uppercase;margin-bottom:0.35rem;">⚡ Síntese Prescritiva (Posição #' + rankIdx + '/60)</div>' +
+            '<div style="font-size:0.76rem;color:#1e293b;font-weight:600;line-height:1.45;">' + escHtml(prescricao) + '</div>' +
+          '</div>';
+      }
+
       window.BI_DECISION_ENGINE = {
         atualizar: function(dadosEscolaSelecionada) {
           try {
@@ -37865,6 +37949,15 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             console.warn('BI_DECISION_ENGINE aviso:', err);
           }
         },
+        obterFatoEscola: function(cie) {
+          var norm = normCie(cie);
+          var lista = ultimoFato.length ? ultimoFato : construirFatoEscolas();
+          for (var i = 0; i < lista.length; i++) {
+            if (lista[i].cie === norm) return lista[i];
+          }
+          return null;
+        },
+        renderizarDossieEscola: renderDossieEscolaInternal,
         definirModoQuadrante: function(modo) {
           modoQuadranteAtual = (modo === 'eec') ? 'eec' : 'fin';
           renderQuadrante60Escolas(ultimoFato.length ? ultimoFato : construirFatoEscolas());
