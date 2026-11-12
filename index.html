@@ -13629,7 +13629,7 @@ function imprimirAgendaCarro() {
                 <div class="kpi-ctx-line" id="kpi-ctx-escolas">Apurando distribuição de risco...</div>
               </div>
 
-              <!-- 2. Equipamentos TI (SEINTEC) -->
+              <!-- 2. Equipamentos (SEINTEC) -->
               <div class="kpi-mini-box" style="cursor: default;" title="SEINTEC: Disponibilidade operacional real do parque de hardware">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #3b82f6;"></span>
@@ -13863,7 +13863,7 @@ function imprimirAgendaCarro() {
               <span id="atencao-counter-badge" style="background: rgba(239,68,68,0.12); color: #b91c1c; font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(239,68,68,0.25);">Top 5 Vulnerabilidades (IMRO 360°)</span>
             </div>
             <div style="font-size: 0.76rem; color: #64748b; margin-top: 3px;">
-              Gestão por exceção multissetorial: ranking em escala 0–100 calculado dinamicamente cruzando Obras (SEOM), TI (SEINTEC), Execução PDDE (SEAFIN), Pessoas (SEPES) e Demandas (SEGRE) — extensível para ASURE e EEC.
+              Gestão por exceção multissetorial: ranking em escala 0–100 calculado dinamicamente cruzando Obras (SEOM), SEINTEC, Execução PDDE (SEAFIN), Pessoas (SEPES) e Demandas (SEGRE) — extensível para ASURE e EEC.
             </div>
           </div>
           <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
@@ -17520,7 +17520,7 @@ function imprimirAgendaCarro() {
       if (fato && fato.pts) {
         var mapaRotulos = [
           ['SEOM', 'SEOM'],
-          ['SEINTEC', 'TI'],
+          ['SEINTEC', 'SEINTEC'],
           ['SEAFIN', 'PDDE'],
           ['SEPES', 'SEPES'],
           ['SEGRE', 'Rede'],
@@ -39232,7 +39232,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
           var tags = [];
           if (esc.pts.SEOM > 0) tags.push('<span class="imro-pill-tag" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa;">🏗️ SEOM +' + esc.pts.SEOM + '</span>');
-          if (esc.pts.SEINTEC > 0) tags.push('<span class="imro-pill-tag" style="background:#e0f2fe;color:#0369a1;border-color:#bae6fd;">💻 TI +' + esc.pts.SEINTEC + '</span>');
+          if (esc.pts.SEINTEC > 0) tags.push('<span class="imro-pill-tag" style="background:#e0f2fe;color:#0369a1;border-color:#bae6fd;">💻 SEINTEC +' + esc.pts.SEINTEC + '</span>');
           if (esc.pts.SEAFIN > 0) tags.push('<span class="imro-pill-tag" style="background:#ecfdf5;color:#047857;border-color:#a7f3d0;">💼 PDDE +' + esc.pts.SEAFIN + '</span>');
           if (esc.pts.SEPES > 0) tags.push('<span class="imro-pill-tag" style="background:#f5f3ff;color:#6d28d9;border-color:#ddd6fe;">👥 SEPES +' + esc.pts.SEPES + '</span>');
           if (esc.pts.SEGRE > 0) tags.push('<span class="imro-pill-tag" style="background:#fff7ed;color:#ea580c;border-color:#fed7aa;">🏫 Rede +' + esc.pts.SEGRE + '</span>');
@@ -39633,7 +39633,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
           '<div style="' + boxStyle + 'border-top:3px solid #0284c7;">' +
             '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">' +
-              '<span style="font-size:0.69rem;font-weight:800;color:#0369a1;text-transform:uppercase;">💻 SEINTEC • TI &amp; Suporte</span>' +
+              '<span style="font-size:0.69rem;font-weight:800;color:#0369a1;text-transform:uppercase;">💻 SEINTEC — Informações & Tecnologia</span>' +
               '<span style="font-size:0.68rem;font-weight:800;color:#075985;background:#e0f2fe;padding:1px 6px;border-radius:5px;">+' + esc.pts.SEINTEC + ' pts</span>' +
             '</div>' +
             '<div style="font-size:0.88rem;font-weight:800;color:#0f172a;margin-bottom:0.25rem;">' + esc.hwTotal.toLocaleString('pt-BR') + ' itens (' + hwDispPct + '% disp.) • ' + esc.callsTotal + ' chamados</div>' +
@@ -40187,7 +40187,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               'SEOM (pts)': e.pts.SEOM,
               'SEINTEC (pts)': e.pts.SEINTEC,
               'TI Quarto': e.quartoTi || '1/4',
-              '% TI Comprometida': e.hwBadPct || 0,
+              '% Equipamentos Comprometidos': e.hwBadPct || 0,
               'TI Defeito / Total': e.hwBad + '/' + e.hwTotal,
               'SEAFIN (pts)': e.pts.SEAFIN,
               '% PDDE 2026': Number((e.execPct2026 || 0).toFixed(1)),
@@ -40208,7 +40208,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               'IMRO Médio': Number((m.sumImro / m.qtd).toFixed(1)),
               'Prioritárias (IMRO ≥50)': m.critAlto,
               'AVCBs Regulares': m.avcbOk,
-              '% TI Comprometida': m.hwTot > 0 ? Number(((m.hwBad / m.hwTot) * 100).toFixed(1)) : 0
+              '% Equipamentos Comprometidos': m.hwTot > 0 ? Number(((m.hwBad / m.hwTot) * 100).toFixed(1)) : 0
             };
           });
           XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(abaMun), 'Consolidado_Municipios');
@@ -40522,7 +40522,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
         var pilaresBarra = [
           { nome: 'SEOM (Infra)', pts: fato.pts.SEOM, max: 35, cor: '#d97706' },
-          { nome: 'SEINTEC (TI)', pts: fato.pts.SEINTEC, max: 25, cor: '#0284c7' },
+          { nome: 'SEINTEC', pts: fato.pts.SEINTEC, max: 25, cor: '#0284c7' },
           { nome: 'SEAFIN (PDDE)', pts: fato.pts.SEAFIN, max: 15, cor: '#059669' },
           { nome: 'SEPES (Pessoas)', pts: fato.pts.SEPES, max: 10, cor: '#7c3aed' },
           { nome: 'SEGRE (Rede)', pts: fato.pts.SEGRE, max: 10, cor: '#ea580c' },
@@ -40689,7 +40689,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var linhasNucleos = [
           { 'Núcleo / Centro': 'SEINTEC — Informações & Tecnologia', 'Saúde': tel.SEINTEC.health + '%', 'Entrega': tel.SEINTEC.hwDispPct.toFixed(1).replace('.', ',') + '% hardware disponível', 'Gargalos SLA': tel.SEINTEC.slaMain + ' — ' + tel.SEINTEC.slaSub },
           { 'Núcleo / Centro': 'ASURE — Gabinete & Assessoria', 'Saúde': tel.ASURE.isReal ? (tel.ASURE.health + '%') : 'Adaptador Ativo', 'Entrega': tel.ASURE.bulletCaption, 'Gargalos SLA': tel.ASURE.slaMain },
-          { 'Núcleo / Centro': 'SEAFIN — Administração & Finanças', 'Saúde': tel.SEAFIN.health + '%', 'Entrega': tel.SEAFIN.execPct2026.toFixed(1).replace('.', ',') + '% PDDE executado', 'Gargalos SLA': tel.SEAFIN.slaMain + ' — ' + tel.SEAFIN.slaSub },
+          { 'Núcleo / Centro': 'SEAFIN & SECOMSE — Finanças, Contratos & Compras', 'Saúde': tel.SEAFIN.health + '%', 'Entrega': tel.SEAFIN.execPct2026.toFixed(1).replace('.', ',') + '% PDDE executado | R$ 7,86M contratos monitorados', 'Gargalos SLA': tel.SEAFIN.slaMain + ' — SECOMSE: ' + tel.SEAFIN.vencendo60d + ' contrato(s) a vencer em ≤60d' },
           { 'Núcleo / Centro': 'SEOM — Obras, Fiscalização & Patrimônio', 'Saúde': tel.SEOM.health + '%', 'Entrega': tel.SEOM.bulletCaption, 'Gargalos SLA': tel.SEOM.slaMain + ' — ' + tel.SEOM.slaSub },
           { 'Núcleo / Centro': 'SEGRE — Serviço de Gestão da Rede Escolar', 'Saúde': tel.SEGRE.health + '%', 'Entrega': tel.SEGRE.bulletCaption, 'Gargalos SLA': tel.SEGRE.slaMain + ' — ' + tel.SEGRE.slaSub },
           { 'Núcleo / Centro': 'SEPES — Serviço de Pessoas', 'Saúde': tel.SEPES.health + '%', 'Entrega': tel.SEPES.bulletCaption, 'Gargalos SLA': tel.SEPES.slaMain + ' — ' + tel.SEPES.slaSub },
@@ -40713,12 +40713,12 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                 '<div class="doc-grid-4">' +
                   '<div class="doc-kpi" style="--kpi-accent:#0b2351;"><div class="doc-kpi-lbl">ISR Regional (0–100)</div><div class="doc-kpi-val" style="color:#0b2351;">' + isrScore + ' / 100</div><div class="doc-kpi-sub">IMRO médio: ' + avgImro.toFixed(1).replace('.', ',') + ' pts • Saúde da Rede</div></div>' +
                   '<div class="doc-kpi" style="--kpi-accent:#1e40af;"><div class="doc-kpi-lbl">Rede Escolar</div><div class="doc-kpi-val">' + totalEsc + ' UEs</div><div class="doc-kpi-sub">' + peiCount + ' PEI • ' + regCount + ' Regulares • ' + (critCount + altoCount) + ' priorit.</div></div>' +
-                  '<div class="doc-kpi" style="--kpi-accent:#0284c7;"><div class="doc-kpi-lbl">Hardware TI (SEINTEC)</div><div class="doc-kpi-val" style="color:#0369a1;">' + tel.SEINTEC.hwTotal.toLocaleString('pt-BR') + '</div><div class="doc-kpi-sub">' + tel.SEINTEC.hwDispPct.toFixed(1).replace('.', ',') + '% disp. • ' + tel.SEINTEC.callsAbertos + ' em aberto</div></div>' +
+                  '<div class="doc-kpi" style="--kpi-accent:#0284c7;"><div class="doc-kpi-lbl">Hardware & Equipamentos (SEINTEC)</div><div class="doc-kpi-val" style="color:#0369a1;">' + tel.SEINTEC.hwTotal.toLocaleString('pt-BR') + '</div><div class="doc-kpi-sub">' + tel.SEINTEC.hwDispPct.toFixed(1).replace('.', ',') + '% disp. • ' + tel.SEINTEC.callsAbertos + ' em aberto</div></div>' +
                   '<div class="doc-kpi" style="--kpi-accent:#059669;"><div class="doc-kpi-lbl">PDDE 2026 (SEAFIN)</div><div class="doc-kpi-val" style="color:#059669;">' + formatarMoedaCurta(tel.SEAFIN.receita2026) + '</div><div class="doc-kpi-sub">' + tel.SEAFIN.execPct2026.toFixed(1).replace('.', ',') + '% exec. | Saldo ' + formatarMoedaCurta(tel.SEAFIN.saldoOcioso2026) + '</div></div>' +
                   '<div class="doc-kpi" style="--kpi-accent:#d97706;"><div class="doc-kpi-lbl">Infraestrutura (SEOM)</div><div class="doc-kpi-val" style="color:#b45309;">' + tel.SEOM.avcbSem + ' Pendentes</div><div class="doc-kpi-sub">34 obras FDE • ' + tel.SEOM.avcbOk + ' AVCBs regulares</div></div>' +
                   '<div class="doc-kpi" style="--kpi-accent:#ea580c;"><div class="doc-kpi-lbl">Processos SEI (SEGRE)</div><div class="doc-kpi-val" style="color:#c2410c;">' + tel.SEGRE.seiAbertos + ' Ativos</div><div class="doc-kpi-sub">' + tel.SEGRE.seiAged30 + ' c/ &gt;30d • ' + tel.SEGRE.emailsTot.toLocaleString('pt-BR') + ' e-mails</div></div>' +
                   '<div class="doc-kpi" style="--kpi-accent:#6366f1;"><div class="doc-kpi-lbl">Pessoas (SEPES)</div><div class="doc-kpi-val" style="color:#4f46e5;">' + tel.SEPES.emTramitacao + ' Demandas</div><div class="doc-kpi-sub">' + tel.SEPES.aged30 + ' em análise há &gt;30d</div></div>' +
-                  '<div class="doc-kpi" style="--kpi-accent:#475569;"><div class="doc-kpi-lbl">Contratos &amp; ASURE</div><div class="doc-kpi-val" style="color:#334155;">' + tel.SEAFIN.vencendo60d + ' a Vencer</div><div class="doc-kpi-sub">≤60d SECOMSE • ' + tel.ASURE.top10Visitadas + '/10 Top IMRO visit.</div></div>' +
+                  '<div class="doc-kpi" style="--kpi-accent:#b45309;"><div class="doc-kpi-lbl">Contratos SECOMSE (Serviços)</div><div class="doc-kpi-val" style="color:#b45309;">' + tel.SEAFIN.vencendo60d + ' a Vencer (≤60d)</div><div class="doc-kpi-sub">R$ 7,86M em serviços essenciais | Gestão CAF/SECOMSE</div></div>' +
                 '</div>' +
               '</section>' +
               '<section class="doc-section">' +
@@ -40731,7 +40731,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                   '<div class="doc-card">' +
                     '<div class="doc-card-head"><span>🗺️ Consolidado por Município</span><span>4 Municípios URE</span></div>' +
                     '<table class="doc-table" style="font-size:6.8pt;">' +
-                      '<thead><tr><th>Município</th><th>UEs (PEI)</th><th>IMRO Médio</th><th>Priorit. (≥50)</th><th>% TI Comp.</th></tr></thead>' +
+                      '<thead><tr><th>Município</th><th>UEs (PEI)</th><th>IMRO Médio</th><th>Priorit. (≥50)</th><th>% Comprometido</th></tr></thead>' +
                       '<tbody>' +
                         listaMun.map(function(m) {
                           var avgM = (m.sumImro / m.qtd).toFixed(1).replace('.', ',');
@@ -40784,7 +40784,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                 '<th style="width:46px;">CIE</th>' +
                 '<th>Unidade Escolar • Município • Modelo</th>' +
                 '<th style="width:96px;">IMRO 360°</th>' +
-                '<th style="width:90px;">TI (Quarto / %)</th>' +
+                '<th style="width:90px;">SEINTEC (Quarto / %)</th>' +
                 '<th style="width:84px;">Infra (SEOM)</th>' +
                 '<th style="width:74px;">PDDE 2026</th>' +
                 '<th style="width:58px;">SEPES/SEI</th>' +
