@@ -30576,10 +30576,7 @@ function renderizarDashboardSefrep() {
   const pilar = estadoSefrep.filtroPilar;
   const spLink = (typeof URLS_OFICIAIS_SEFREP !== 'undefined' && URLS_OFICIAIS_SEFREP.sharepoint) ? URLS_OFICIAIS_SEFREP.sharepoint : '#';
 
-  var htmlTopEscolas = '';
-  topEscolasUes.forEach(function(e) {
-    htmlTopEscolas += '<span style="background: #ffffff; border: 1px solid #fcd34d; color: #92400e; font-size: 0.74rem; font-weight: 700; padding: 3px 9px; border-radius: 6px;">' + e.escola + ': <strong>' + e.total + ' devoluções</strong></span>';
-  });
+
 
   var html = '';
   html += '<div class="sefrep-dash-executive" style="padding: 0.5rem 0.2rem; font-family: inherit;">';
@@ -30677,22 +30674,75 @@ function renderizarDashboardSefrep() {
 
   html += '</div>';
 
-  /* INSIGHT EXECUTIVO PILAR 1: TOP ESCOLAS COM DEVOLUÇÃO */
-  html += '<div style="background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 12px; padding: 1rem 1.35rem; margin-bottom: 1.3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.85rem;">';
-  html += '<div style="display: flex; align-items: center; gap: 0.85rem;">';
-  html += '<span style="font-size: 1.6rem;">💡</span>';
+  /* CARD EXECUTIVO DE INTELIGÊNCIA: FOCO FORMATIVO & PREVENÇÃO DE DEVOLUÇÕES (PILAR 1) */
+  html += '<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.25rem 1.45rem; margin-bottom: 1.3rem; box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05);">';
+  
+  /* Cabeçalho do Card */
+  html += '<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.65rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.85rem;">';
+  html += '<div style="display: flex; align-items: center; gap: 0.75rem;">';
+  html += '<div style="width: 38px; height: 38px; border-radius: 10px; background: #fef2f2; border: 1.5px solid #fee2e2; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">🎯</div>';
   html += '<div>';
-  html += '<h4 style="margin: 0 0 0.2rem 0; font-size: 0.95rem; font-weight: 800; color: #92400e;">';
-  html += 'Insight Executivo (Pilar 1): Ranking de Unidades com Devoluções de Folha';
-  html += '</h4>';
-  html += '<p style="margin: 0; font-size: 0.78rem; color: #78350f; line-height: 1.35;">';
-  html += 'Apoio formativo e suporte pontual do SEPES a estas escolas reduz retrabalho e previne atrasos salariais:';
-  html += '</p>';
+  html += '<div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">';
+  html += '<h4 style="margin: 0; font-size: 0.98rem; font-weight: 800; color: #0f172a; letter-spacing: -0.01em;">Foco de Apoio Formativo &amp; Prevenção de Erros de Folha</h4>';
+  html += '<span style="background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; font-size: 0.69rem; font-weight: 800; padding: 2px 7px; border-radius: 4px;">PILAR 1</span>';
+  html += '</div>';
+  html += '<p style="margin: 0.2rem 0 0 0; font-size: 0.76rem; color: #64748b; line-height: 1.35;">Unidades com maior incidência de devoluções no BFE • Ação preventiva do SEPES reduz retrabalho e previne atrasos salariais</p>';
   html += '</div>';
   html += '</div>';
-  html += '<div style="display: flex; gap: 0.45rem; flex-wrap: wrap;">';
-  html += htmlTopEscolas;
+  html += '<div style="display: flex; align-items: center; gap: 0.5rem;">';
+  html += '<span style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; font-size: 0.72rem; font-weight: 700; padding: 4px 11px; border-radius: 6px;">Top 5 Escolas Prioritárias</span>';
   html += '</div>';
+  html += '</div>';
+
+  /* Grid com os 5 Micro-Cards */
+  html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.85rem; margin-top: 1rem;">';
+
+  var baseEscolasRef = (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas) && listaEscolas.length > 0)
+    ? listaEscolas
+    : ((typeof BASE_ESCOLAS_PADRAO !== 'undefined' && Array.isArray(BASE_ESCOLAS_PADRAO)) ? BASE_ESCOLAS_PADRAO : []);
+
+  topEscolasUes.forEach(function(e, idx) {
+    var match = baseEscolasRef.find(function(b) { return matchNomeEscola(e.escola, b.nome) || matchNomeEscola(e.escola, b.nomeOficialBruto); });
+    var nomeExib = match ? match.nome : e.escola;
+    var cieExib = match ? match.cie : '---';
+    var cidadeExib = match ? match.cidade : 'Itapevi';
+    var rankNum = idx + 1;
+    var pctVisual = Math.min(100, Math.round((e.total / 5) * 100));
+
+    html += '<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem 1rem; display: flex; flex-direction: column; justify-content: space-between; gap: 0.65rem; cursor: default; user-select: text;">';
+html += '<div style="display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;">';
+    html += '<div style="display: flex; align-items: center; gap: 0.4rem;">';
+    html += '<span style="font-size: 0.72rem; font-weight: 800; color: #475569; background: #e2e8f0; width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center;">' + rankNum + 'º</span>';
+    html += '<span style="font-size: 0.68rem; font-weight: 700; color: #64748b; text-transform: uppercase;">' + cidadeExib + '</span>';
+    html += '</div>';
+    html += '<span style="font-size: 0.72rem; font-weight: 800; color: #b91c1c; background: #fee2e2; border: 1px solid #fecaca; padding: 2px 7px; border-radius: 5px;">⚠️ ' + e.total + ' devoluções</span>';
+    html += '</div>';
+
+    html += '<div>';
+    html += '<div style="font-size: 0.84rem; font-weight: 800; color: #0f172a; line-height: 1.35; min-height: 2.3rem; display: flex; align-items: center;" title="' + nomeExib + '">' + nomeExib + '</div>';
+    html += '<div style="font-size: 0.69rem; color: #64748b; margin-top: 0.2rem;">CIE: <strong style="color: #334155;">' + cieExib + '</strong></div>';
+    html += '</div>';
+
+    html += '<div>';
+    html += '<div style="width: 100%; background: #e2e8f0; height: 5px; border-radius: 999px; overflow: hidden; margin-bottom: 0.35rem;">';
+    html += '<div style="background: linear-gradient(90deg, #f59e0b, #ef4444); width: ' + pctVisual + '%; height: 100%; border-radius: 999px;"></div>';
+    html += '</div>';
+    html += '<div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; color: #64748b;">';
+    html += '<span>Inconsistência BFE</span>';
+    html += '<span style="font-weight: 700; color: #b91c1c;">Prioridade Formativa</span>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+  });
+
+  html += '</div>';
+
+  /* Rodapé Informativo Sutil */
+  html += '<div style="margin-top: 0.95rem; padding-top: 0.75rem; border-top: 1px dashed #e2e8f0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; font-size: 0.74rem; color: #64748b;">';
+  html += '<span>💡 <strong>Diretriz de Gestão:</strong> A capacitação e o acompanhamento direcionado a estas 5 unidades resolve <strong>7,5% de todas as devoluções</strong> de folha de pagamento registradas na Diretoria em 2026.</span>';
+  html += '<span style="color: #94a3b8; font-size: 0.7rem;">Fonte: SEFREP / Livro Entrada 2026</span>';
+  html += '</div>';
+
   html += '</div>';
 
   /* BARRA DE CONTROLE DEDICADA DE FILTROS & BUSCA (REGRA 8) */
