@@ -30659,18 +30659,21 @@ function renderizarDashboardSefrep() {
 
   /* CARD 5: CELERIDADE (PILAR 3) */
   html += '<div style="background: #ffffff; border: 1px solid #dcfce7; border-left: 4px solid #10b981; border-radius: 12px; padding: 1.15rem; cursor: default; user-select: text; box-shadow: 0 2px 8px rgba(16,185,129,0.05);">';
-  html += '<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">';
+  html += '<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem;">';
   html += '<span style="font-size: 0.72rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.05em;">PILAR 3 • STATUS</span>';
   html += '<span style="font-size: 1.3rem;">⚡</span>';
   html += '</div>';
-  html += '<div style="display: flex; align-items: baseline; gap: 0.4rem;">';
-  html += '<span style="font-size: 1.35rem; font-weight: 800; color: #0284c7;">' + (kpis.totalEmTramitacao || 678) + '</span>';
-  html += '<span style="font-size: 0.72rem; color: #64748b;">em andamento</span>';
-  html += '<span style="font-size: 1.1rem; color: #cbd5e1;">•</span>';
-  html += '<span style="font-size: 1.35rem; font-weight: 800; color: #047857;">' + (kpis.totalConcluidos || 323) + '</span>';
-  html += '<span style="font-size: 0.72rem; color: #64748b;">concluídos</span>';
+  html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; align-items: center;">';
+  html += '<div style="background: #f0f9ff; border: 1px solid #e0f2fe; border-radius: 8px; padding: 0.45rem 0.5rem; text-align: center;">';
+  html += '<div style="font-size: 1.45rem; font-weight: 800; color: #0284c7; line-height: 1;">' + (kpis.totalEmTramitacao || 678) + '</div>';
+  html += '<div style="font-size: 0.68rem; font-weight: 700; color: #0369a1; margin-top: 3px; white-space: nowrap;">Em andamento</div>';
   html += '</div>';
-  html += '<div style="font-size: 0.73rem; color: #64748b; margin-top: 0.35rem;">Celeridade e fluxo contínuo</div>';
+  html += '<div style="background: #f0fdf4; border: 1px solid #dcfce7; border-radius: 8px; padding: 0.45rem 0.5rem; text-align: center;">';
+  html += '<div style="font-size: 1.45rem; font-weight: 800; color: #047857; line-height: 1;">' + (kpis.totalConcluidos || 323) + '</div>';
+  html += '<div style="font-size: 0.68rem; font-weight: 700; color: #15803d; margin-top: 3px; white-space: nowrap;">Concluídos</div>';
+  html += '</div>';
+  html += '</div>';
+  html += '<div style="font-size: 0.72rem; color: #64748b; margin-top: 0.5rem; text-align: center;">Celeridade e fluxo contínuo</div>';
   html += '</div>';
 
   html += '</div>';
