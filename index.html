@@ -9602,6 +9602,36 @@ function imprimirAgendaCarro() {
       border-bottom: 3px solid #d48208;
     }
 
+    .agenda-modal-close {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 0;
+      outline: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+    .agenda-modal-close:hover {
+      background: #ef4444;
+      border-color: #dc2626;
+      color: #ffffff;
+      transform: scale(1.08);
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+    }
+    .agenda-modal-close:active {
+      transform: scale(0.94);
+    }
+
     .agenda-modal-title {
       font-size: 1.05rem;
       font-weight: 800;
@@ -18324,7 +18354,7 @@ function imprimirAgendaCarro() {
       document.getElementById('form-visita-data').value = new Date().toISOString().slice(0, 10);
       document.getElementById('form-visita-tipo').value = 'Acompanhamento Pedagógico';
       document.getElementById('form-visita-obs').value = '';
-      document.getElementById('form-visita-marcar-atencao').checked = false;
+      if (document.getElementById('form-visita-marcar-atencao')) document.getElementById('form-visita-marcar-atencao').checked = false;
 
       document.getElementById('modal-visita-titulo').innerText = 'Registrar Visita da Dirigente';
       document.getElementById('modal-registro-visita').style.display = 'flex';
@@ -18340,7 +18370,7 @@ function imprimirAgendaCarro() {
       document.getElementById('form-visita-data').value = info.data || new Date().toISOString().slice(0, 10);
       document.getElementById('form-visita-tipo').value = info.tipo || 'Acompanhamento Pedagógico';
       document.getElementById('form-visita-obs').value = info.obs || '';
-      document.getElementById('form-visita-marcar-atencao').checked = esc.status === 'Alta prioridade';
+      if (document.getElementById('form-visita-marcar-atencao')) document.getElementById('form-visita-marcar-atencao').checked = false;
 
       document.getElementById('modal-visita-titulo').innerText = 'Alterar Data / Dados da Visita';
       document.getElementById('modal-registro-visita').style.display = 'flex';
@@ -18356,18 +18386,8 @@ function imprimirAgendaCarro() {
       const data = document.getElementById('form-visita-data').value;
       const tipo = document.getElementById('form-visita-tipo').value;
       const obs = document.getElementById('form-visita-obs').value.trim();
-      const marcarAtencao = document.getElementById('form-visita-marcar-atencao').checked;
 
       visitasRegistro[id] = { visitada: true, data, tipo, obs };
-
-      if (marcarAtencao) {
-        const esc = listaEscolas.find(item => item.id === id);
-        if (esc) {
-          esc.status = 'Alta prioridade';
-          if (!esc.motivo) esc.motivo = 'Ponto de atenção observado na visita da Dirigente em ' + formatarDataBR(data);
-          salvarEscolasLocalStorage();
-        }
-      }
 
       salvarVisitasLocalStorage();
       fecharModalRegistroVisita();
@@ -37049,14 +37069,14 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
 
   <!-- MODAL: REGISTRAR / ALTERAR VISITA -->
-  <div id="modal-registro-visita" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalRegistroVisita()">
+  <div id="modal-registro-visita" class="agenda-modal-overlay" style="display: none;">
     <div class="agenda-modal-card" style="max-width: 520px;">
       <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border-bottom: 2px solid #f09b0c;">
         <div>
           <span style="font-size: 0.78rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">ACOMPANHAMENTO DA DIRIGENTE</span>
           <h3 id="modal-visita-titulo" style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Registrar Visita à Escola</h3>
         </div>
-        <button type="button" class="agenda-modal-close" onclick="fecharModalRegistroVisita()">✕</button>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalRegistroVisita()" title="Fechar" aria-label="Fechar modal">✕</button>
       </div>
 
       <form id="form-registro-visita" onsubmit="salvarRegistroVisita(event)">
@@ -37088,13 +37108,6 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             <div class="agenda-form-group agenda-form-full">
               <label class="agenda-form-label">Termo de Visita / Observações da Dirigente</label>
               <textarea id="form-visita-obs" class="agenda-form-textarea" rows="3" placeholder="Ex: Acompanhamento da formação docente, verificação das salas com Educatrons e diálogo com grêmio estudantil..."></textarea>
-            </div>
-
-            <div class="agenda-form-group agenda-form-full" style="background: #fefce8; border: 1px solid #fef08a; border-radius: 8px; padding: 0.75rem 1rem;">
-              <label style="display: flex; align-items: center; gap: 0.65rem; font-size: 0.85rem; font-weight: 700; color: #854d0e; cursor: pointer; margin: 0;">
-                <input type="checkbox" id="form-visita-marcar-atencao" style="width: 16px; height: 16px; cursor: pointer;">
-                <span>⚠️ Marcar esta escola em "Acompanhamento Prioritário / Em Atenção"</span>
-              </label>
             </div>
 
           </div>
