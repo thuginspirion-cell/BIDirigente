@@ -11557,35 +11557,54 @@ function imprimirAgendaCarro() {
     .badge-status-regular {
       background: #dcfce7;
       color: #166534;
-      font-size: 0.75rem;
+      border: 1px solid #bbf7d0;
+      font-size: 0.74rem;
       font-weight: 700;
       padding: 3px 8px;
       border-radius: 12px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      white-space: nowrap;
     }
     .badge-status-atencao {
       background: #fee2e2;
       color: #991b1b;
-      font-size: 0.75rem;
+      border: 1px solid #fecaca;
+      font-size: 0.74rem;
       font-weight: 700;
       padding: 3px 8px;
       border-radius: 12px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      white-space: nowrap;
+    }
+    .badge-status-alto-risco {
+      background: #ffedd5;
+      color: #9a3412;
+      border: 1px solid #fdba74;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
     }
     .badge-status-reforma {
       background: #fef9c3;
       color: #854d0e;
-      font-size: 0.75rem;
+      border: 1px solid #fde047;
+      font-size: 0.74rem;
       font-weight: 700;
       padding: 3px 8px;
       border-radius: 12px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      white-space: nowrap;
     }
     .escola-actions-cell {
       display: flex;
@@ -15748,11 +15767,11 @@ function imprimirAgendaCarro() {
 
           <div class="escola-kpi-card" id="kpi-card-atencao" >
             <div class="escola-kpi-label">
-              <span>ACOMPANHAMENTO PRIORITÁRIO</span>
-              <span>⚠️</span>
+              <span>ACOMPANHAMENTO PRIORITÁRIO (IMRO)</span>
+              <span>🎯</span>
             </div>
             <div class="escola-kpi-number" id="escolas-count-atencao" style="color: #dc2626;">0</div>
-            <div class="escola-kpi-sub">Demandas urgentes de supervisão/obras</div>
+            <div class="escola-kpi-sub">Escolas em Crítico ou Alto Risco (IMRO ≥ 90)</div>
           </div>
         </div>
 
@@ -15783,10 +15802,12 @@ function imprimirAgendaCarro() {
           </select>
 
           <select id="escolas-filter-status" class="escolas-select-filter" onchange="filtrarEscolas()">
-            <option value="">Todas as Situações</option>
-            <option value="Regular">● Regular (Conforme)</option>
-            <option value="Alta prioridade">▲ Alta Prioridade (Em Atenção)</option>
-            <option value="Em Reforma">🛠️ Em Reforma / Obras FDE</option>
+            <option value="">Todos os Níveis (IMRO 360°)</option>
+            <option value="ALTO_RISCO_OU_CRITICO">🔴🟠 Prioritárias (IMRO ≥ 90)</option>
+            <option value="Crítico">🔴 Crítico (≥ 130 pts)</option>
+            <option value="Alto Risco">🟠 Alto Risco (90–129 pts)</option>
+            <option value="Atenção">🟡 Atenção (50–89 pts)</option>
+            <option value="Regular">🟢 Regular (&lt; 50 pts)</option>
           </select>
 
           <button type="button" onclick="limparFiltrosEscolasAvancado()" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.45rem 0.85rem; font-size: 0.75rem; font-weight: 700; color: #475569; cursor: pointer;" title="Limpar todos os filtros da tabela de escolas">
@@ -15834,10 +15855,10 @@ function imprimirAgendaCarro() {
                       <span class="sort-arrow" id="sort-arrow-esc-diretor">↕</span>
                     </div>
                   </th>
-                  <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('status')" style="width: 140px;" title="Classificar por Situação">
+                  <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('imro')" style="width: 180px;" title="Classificar por Índice IMRO 360° (Risco Multissetorial)">
                     <div class="th-sort-wrapper">
-                      <span class="th-title-text">Situação</span>
-                      <span class="sort-arrow" id="sort-arrow-esc-status">↕</span>
+                      <span class="th-title-text">IMRO 360°</span>
+                      <span class="sort-arrow" id="sort-arrow-esc-imro">↕</span>
                     </div>
                   </th>
                   <th style="text-align: right; width: 140px;"><span class="th-title-text">Ações</span></th>
@@ -15865,15 +15886,16 @@ function imprimirAgendaCarro() {
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.15rem; margin-bottom: 1.25rem;">
             
-            <!-- Coluna 1: SITUAÇÃO -->
+            <!-- Coluna 1: IMRO 360° -->
             <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
               <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
-                <span>🏷️</span> <span>Significado da Coluna SITUAÇÃO</span>
+                <span>🎯</span> <span>Faixas da Coluna IMRO 360°</span>
               </div>
               <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
-                <li><strong style="color: #10b981;">● Regular:</strong> A unidade opera em plena conformidade cadastral e rotina pedagógica estável, sem gargalos prediais graves ou obras emergenciais abertas nos setores integrados.</li>
-                <li><strong style="color: #ef4444;">▲ Alta Prioridade:</strong> Escola sob acompanhamento direto da Dirigente por acumular criticidades no Índice Multissetorial (IMRO) — como obra ativa FDE, sem AVCB dos Bombeiros, alto sucateamento de TI ou sobrecarga de matrículas.</li>
-                <li><strong style="color: #f59e0b;">🛠️ Em Reforma:</strong> Prédio escolar com canteiro de obras ativo, intervenção estrutural ou reforma gerenciada pela FDE / SEOM.</li>
+                <li><strong style="color: #ef4444;">🔴 Crítico (≥ 130 pts):</strong> Acúmulo severo de gargalos multissetoriais (obras FDE, falta de AVCB, TI, PDDE ocioso ou pendências de rede/RH).</li>
+                <li><strong style="color: #fb923c;">🟠 Alto Risco (90–129 pts):</strong> Unidade prioritária que requer acompanhamento ativo da Dirigente e intervenções coordenadas entre setores.</li>
+                <li><strong style="color: #facc15;">🟡 Atenção (50–89 pts):</strong> Ocorrências pontuais em andamento nos sistemas integrados, sob monitoramento preventivo.</li>
+                <li><strong style="color: #10b981;">🟢 Regular (&lt; 50 pts):</strong> Operação estável e conforme nos painéis SEOM, SEINTEC, SEAFIN, SEPES e SEGRE.</li>
               </ul>
             </div>
 
@@ -15885,7 +15907,6 @@ function imprimirAgendaCarro() {
               <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
                 <li><strong style="color: #60a5fa;">👁️ Detalhes 360°:</strong> Abre o Raio-X completo da escola, unificando em uma única tela os dados de Infraestrutura (SEOM), Tecnologia (SEINTEC), Finanças APM (SEAFIN), Rede (SEGRE) e Gabinete.</li>
                 <li><strong style="color: #94a3b8;">✏️ Editar:</strong> Abre o formulário cadastral para atualização de equipe gestora, telefone institucional, endereço e modelo de jornada.</li>
-                <li><strong style="color: #f87171;">⚠️ Alternar Alerta:</strong> Sinaliza ou remove manualmente a escola do regime de monitoramento prioritário do Gabinete.</li>
                 <li><strong style="color: #fca5a5;">🗑️ Excluir:</strong> Remove a unidade da base local após confirmação formal.</li>
               </ul>
             </div>
@@ -17388,7 +17409,7 @@ function imprimirAgendaCarro() {
 
       if (filtroInicial === 'atencao') {
         const statusSelect = document.getElementById('escolas-filter-status');
-        if (statusSelect) statusSelect.value = 'Alta prioridade';
+        if (statusSelect) statusSelect.value = 'ALTO_RISCO_OU_CRITICO';
       } else {
         const statusSelect = document.getElementById('escolas-filter-status');
         if (statusSelect && !filtroInicial) statusSelect.value = '';
@@ -17398,11 +17419,60 @@ function imprimirAgendaCarro() {
       rolarAoTopoSuave();
     }
 
+    function obterResumoImroEscola(esc) {
+      var fato = (esc && window.BI_DECISION_ENGINE && typeof window.BI_DECISION_ENGINE.obterFatoEscola === 'function')
+        ? window.BI_DECISION_ENGINE.obterFatoEscola(esc.cie)
+        : null;
+      var score = fato ? (Number(fato.imro) || 0) : 0;
+      var tier = fato ? (fato.tier || 'Regular') : 'Regular';
+      var pilares = [];
+      if (fato && fato.pts) {
+        var mapaRotulos = [
+          ['SEOM', 'SEOM'],
+          ['SEINTEC', 'TI'],
+          ['SEAFIN', 'PDDE'],
+          ['SEPES', 'RH'],
+          ['SEGRE', 'Rede'],
+          ['ASURE', 'ASURE'],
+          ['EEC', 'EEC']
+        ];
+        mapaRotulos.forEach(function(pair) {
+          var v = Number(fato.pts[pair[0]]) || 0;
+          if (v > 0) pilares.push({ nome: pair[1], pts: v });
+        });
+        pilares.sort(function(a, b) { return b.pts - a.pts; });
+      }
+      var badgeClass = 'badge-status-regular';
+      var icon = '🟢';
+      if (tier === 'Crítico') {
+        badgeClass = 'badge-status-atencao';
+        icon = '🔴';
+      } else if (tier === 'Alto Risco') {
+        badgeClass = 'badge-status-alto-risco';
+        icon = '🟠';
+      } else if (tier === 'Atenção') {
+        badgeClass = 'badge-status-reforma';
+        icon = '🟡';
+      }
+      var resumoTexto = pilares.slice(0, 3).map(function(p) { return p.nome + ' +' + p.pts; }).join(' • ');
+      var resumoCompleto = pilares.map(function(p) { return p.nome + ' +' + p.pts; }).join(' • ');
+      return {
+        imro: score,
+        tier: tier,
+        icon: icon,
+        badgeClass: badgeClass,
+        badgeLabel: icon + ' ' + tier + ' • ' + score + ' pts',
+        resumoPilares: resumoTexto,
+        resumoCompleto: resumoCompleto,
+        fato: fato
+      };
+    }
+
     function atualizarKpisEscolas() {
       const total = listaEscolas.length;
       const pei = listaEscolas.filter(e => e.tipo && e.tipo.includes('PEI')).length;
       const regular = listaEscolas.filter(e => e.tipo && !e.tipo.includes('PEI')).length;
-      const atencao = listaEscolas.filter(e => e.status === 'Alta prioridade').length;
+      const atencao = listaEscolas.filter(e => obterResumoImroEscola(e).imro >= 90).length;
 
       const elTotal = document.getElementById('escolas-count-total');
       if (elTotal) elTotal.innerText = total;
@@ -17433,7 +17503,7 @@ function imprimirAgendaCarro() {
           ordenacaoEscolasAtual.ordem = ordenacaoEscolasAtual.ordem === 'asc' ? 'desc' : 'asc';
         } else {
           ordenacaoEscolasAtual.campo = campo;
-          ordenacaoEscolasAtual.ordem = 'asc';
+          ordenacaoEscolasAtual.ordem = (campo === 'imro' || campo === 'status') ? 'desc' : 'asc';
         }
       }
       atualizarIndicadoresOrdenacaoEscolas();
@@ -17461,7 +17531,7 @@ function imprimirAgendaCarro() {
       }
 
       /* Atualizar ícones nos cabeçalhos <th> (apenas setinha ↕, ▲ ou ▼) */
-      var campos = ['cie', 'nome', 'cidade', 'segmento', 'diretor', 'status'];
+      var campos = ['cie', 'nome', 'cidade', 'segmento', 'diretor', 'imro'];
       campos.forEach(function(c) {
         var arrowEl = document.getElementById('sort-arrow-esc-' + c) ||
                       document.getElementById('sort-icon-esc-' + c) ||
@@ -17506,13 +17576,28 @@ function imprimirAgendaCarro() {
           matchTipo = e.tipo && !e.tipo.includes('PEI');
         }
 
-        const matchStatus = !status || e.status === status;
+        let matchStatus = true;
+        if (status) {
+          const imroInfo = obterResumoImroEscola(e);
+          if (status === 'ALTO_RISCO_OU_CRITICO') {
+            matchStatus = imroInfo.imro >= 90;
+          } else {
+            matchStatus = imroInfo.tier === status;
+          }
+        }
 
         return matchTermo && matchCidade && matchTipo && matchStatus;
       });
 
       /* Aplica ordenação ativa aos registros filtrados */
       filtradas.sort(function(a, b) {
+        if (ordenacaoEscolasAtual.campo === 'imro' || ordenacaoEscolasAtual.campo === 'status') {
+          var sA = obterResumoImroEscola(a).imro;
+          var sB = obterResumoImroEscola(b).imro;
+          var diff = sA - sB;
+          if (diff === 0) diff = String(a.nome || '').localeCompare(String(b.nome || ''), 'pt-BR', { sensitivity: 'base' });
+          return ordenacaoEscolasAtual.ordem === 'asc' ? diff : -diff;
+        }
         var valA = a[ordenacaoEscolasAtual.campo] !== undefined ? a[ordenacaoEscolasAtual.campo] : '';
         var valB = b[ordenacaoEscolasAtual.campo] !== undefined ? b[ordenacaoEscolasAtual.campo] : '';
         var strA = String(valA).trim();
@@ -17598,25 +17683,28 @@ function imprimirAgendaCarro() {
       document.getElementById('det-modal-cidade').textContent = 'Município: ' + (esc.cidade || 'Itapevi');
       document.getElementById('det-modal-segmento').textContent = esc.segmento || 'Ensino Fundamental e Médio';
 
-      /* Status Badge */
+      /* Status Badge (IMRO 360°) */
       const elStatus = document.getElementById('det-modal-status-badge');
       if (elStatus) {
-        if (esc.status === 'Alta prioridade') {
+        const imroDet = obterResumoImroEscola(esc);
+        if (imroDet.tier === 'Crítico') {
           elStatus.style.background = 'rgba(239, 68, 68, 0.2)';
           elStatus.style.color = '#f87171';
           elStatus.style.borderColor = 'rgba(239, 68, 68, 0.4)';
-          elStatus.textContent = '▲ Alta Prioridade';
-        } else if (esc.status === 'Em Reforma') {
+        } else if (imroDet.tier === 'Alto Risco') {
+          elStatus.style.background = 'rgba(249, 115, 22, 0.2)';
+          elStatus.style.color = '#fb923c';
+          elStatus.style.borderColor = 'rgba(249, 115, 22, 0.4)';
+        } else if (imroDet.tier === 'Atenção') {
           elStatus.style.background = 'rgba(245, 158, 11, 0.2)';
           elStatus.style.color = '#fbbf24';
           elStatus.style.borderColor = 'rgba(245, 158, 11, 0.4)';
-          elStatus.textContent = '🛠️ Em Reforma';
         } else {
           elStatus.style.background = 'rgba(16, 185, 129, 0.2)';
           elStatus.style.color = '#34d399';
           elStatus.style.borderColor = 'rgba(16, 185, 129, 0.4)';
-          elStatus.textContent = '● Regular';
         }
+        elStatus.textContent = imroDet.badgeLabel;
       }
 
       /* Tipo Badge */
@@ -17747,7 +17835,7 @@ function imprimirAgendaCarro() {
         if (tipoSelect) tipoSelect.value = 'Regular';
         document.getElementById('kpi-card-regular')?.classList.add('active-filter');
       } else if (filtro === 'atencao') {
-        if (statusSelect) statusSelect.value = 'Alta prioridade';
+        if (statusSelect) statusSelect.value = 'ALTO_RISCO_OU_CRITICO';
         if (tipoSelect) tipoSelect.value = '';
         document.getElementById('kpi-card-atencao')?.classList.add('active-filter');
       }
@@ -17761,7 +17849,7 @@ function imprimirAgendaCarro() {
       if (!dados || dados.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="6" style="text-align: center; padding: 2.5rem 1rem; color: #64748b;">
+            <td colspan="7" style="text-align: center; padding: 2.5rem 1rem; color: #64748b;">
               <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">🔍</span>
               <strong>Nenhuma escola encontrada com os filtros selecionados.</strong>
               <p style="margin: 0.25rem 0 0 0; font-size: 0.8rem;">Tente ajustar os termos de pesquisa ou clique em "Cadastrar Nova Escola".</p>
@@ -17777,12 +17865,11 @@ function imprimirAgendaCarro() {
           ? `<span class="badge-pei">${e.tipo}</span>` 
           : `<span class="badge-regular">${e.tipo || 'Regular'}</span>`;
 
-        let badgeStatus = '<span class="badge-status-regular">● Regular</span>';
-        if (e.status === 'Alta prioridade') {
-          badgeStatus = '<span class="badge-status-atencao">▲ Alta prioridade</span>';
-        } else if (e.status === 'Em Reforma') {
-          badgeStatus = '<span class="badge-status-reforma">🛠️ Em Reforma</span>';
-        }
+        const imroInfo = obterResumoImroEscola(e);
+        const badgeStatus = `<span class="${imroInfo.badgeClass}" title="${imroInfo.resumoCompleto ? ('Ofensores IMRO 360°: ' + imroInfo.resumoCompleto) : 'Operação regular no IMRO 360°'}">${imroInfo.badgeLabel}</span>`;
+        const subImro = imroInfo.resumoPilares
+          ? `<div style="font-size: 0.69rem; color: #64748b; font-weight: 600; margin-top: 3px; line-height: 1.3;">${imroInfo.resumoPilares}</div>`
+          : '';
 
         const descObs = (e.status === 'Alta prioridade' && e.motivo && !e.motivo.toLowerCase().includes('monitoramento regular')) ? `<div style="font-size: 0.74rem; color: #b91c1c; font-weight: 600; margin-top: 2px;">⚠️ ${e.motivo}</div>` : '';
 
@@ -17811,6 +17898,7 @@ function imprimirAgendaCarro() {
             </td>
             <td>
               ${badgeStatus}
+              ${subImro}
             </td>
             <td style="text-align: right;">
               <div class="escola-actions-cell" style="justify-content: flex-end; display: flex; align-items: center; gap: 0.35rem; flex-wrap: nowrap;">
@@ -17938,19 +18026,24 @@ function imprimirAgendaCarro() {
           return;
         }
 
-        const dadosExportacao = listaEscolas.map(e => ({
-          'Código CIE': e.cie || '',
-          'Unidade Escolar': e.nome || '',
-          'Município': e.cidade || '',
-          'Bairro': e.bairro || '',
-          'Modelo': e.tipo || '',
-          'Segmento': e.segmento || '',
-          'Diretor(a)': e.diretor || '',
-          'Telefone': e.telefone || '',
-          'Educatrons': e.educatrons || 0,
-          'Situação': e.status || '',
-          'Motivo Atenção / Obs': e.motivo || ''
-        }));
+        const dadosExportacao = listaEscolas.map(e => {
+          const imroInfo = obterResumoImroEscola(e);
+          return {
+            'Código CIE': e.cie || '',
+            'Unidade Escolar': e.nome || '',
+            'Município': e.cidade || '',
+            'Bairro': e.bairro || '',
+            'Modelo': e.tipo || '',
+            'Segmento': e.segmento || '',
+            'Diretor(a)': e.diretor || '',
+            'Telefone': e.telefone || '',
+            'Educatrons': e.educatrons || 0,
+            'Faixa IMRO 360°': imroInfo.tier,
+            'Pontuação IMRO (pts)': imroInfo.imro,
+            'Pilares Ofensores IMRO': imroInfo.resumoCompleto || 'Conforme',
+            'Observações': e.motivo || ''
+          };
+        });
 
         const ws = XLSX.utils.json_to_sheet(dadosExportacao);
         const wb = XLSX.utils.book_new();
@@ -38085,6 +38178,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             renderMatrizExecutiva2(tel);
             renderQuadrante60Escolas(fato);
             renderNextBestActions(fato, tel);
+            if (typeof window.filtrarEscolas === 'function' && document.getElementById('escolas-table-body')) {
+              window.filtrarEscolas();
+            }
           } catch (err) {
             console.warn('BI_DECISION_ENGINE aviso:', err);
           }
