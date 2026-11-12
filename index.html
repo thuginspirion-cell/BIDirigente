@@ -1152,7 +1152,7 @@ if (!window.mostrarHome) {
       const tag = config.tag || (tipo === 'loading' ? 'SINCRONIZAÇÃO EM ANDAMENTO' : (tipo === 'success' ? 'SUCESSO • ATUALIZADO' : (tipo === 'error' ? 'FALHA NO SINCRONISMO' : 'INFORMAÇÃO')));
       const titulo = config.titulo || (tipo === 'loading' ? 'Sincronizando...' : (tipo === 'success' ? 'Sincronização Concluída!' : (tipo === 'error' ? 'Erro na Sincronização' : 'Aviso')));
       const mensagem = config.mensagem || '';
-      const detalhes = config.detalhes || (tipo === 'loading' ? 'SharePoint Cloud • Conectando...' : 'SharePoint Cloud • 100% Operacional');
+      const detalhes = config.detalhes || (tipo === 'loading' ? 'SharePoint Cloud • Conectando...' : 'SharePoint Cloud • Conectado');
       const hora = config.hora || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
       
       /* Erros e avisos de falha permanecem na tela INDEFINIDAMENTE até o usuário fechar manualmente (duracao = 0) */
@@ -5528,7 +5528,7 @@ function imprimirDocumentoControleTrafego() {
       printWindow.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Controle de Tráfego - Modelo Oficial 30</title>');
       printWindow.document.write('<style>' +
         gerarCssComputerModernSans() +
-        '@page { size: A4 portrait; margin: 6mm; }' +
+        '@page { size: A4 portrait; margin: 10mm; }' +
         'body { margin: 0; padding: 0; background: #fff; font-family: "CMU Sans Serif", "Latin Modern Sans", sans-serif; color: #000; line-height: 1.45; -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
         '.modelo30-page, .modelo30-page * { font-family: "CMU Sans Serif", "Latin Modern Sans", sans-serif; }' +
         '.modelo30-page { width: 100%; min-height: 275mm; padding: 6mm 10mm; box-sizing: border-box; page-break-after: always; break-after: page; position: relative; line-height: 1.45; }' +
@@ -6517,12 +6517,43 @@ function imprimirAgendaCarro() {
       color: #e2e8f0;
     }
 
-    .drive-status-dot {
-      width: 7px;
-      height: 7px;
+    @keyframes pulseDot {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+      50% {
+        opacity: 0.45;
+        transform: scale(1.22);
+        box-shadow: 0 0 0 5px rgba(16, 185, 129, 0);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+
+    .pulse-green-dot {
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: #10b981;
-      box-shadow: 0 0 6px #10b981;
+      display: inline-block;
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+      animation: pulseDot 2s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+
+    .drive-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.7);
+      display: inline-block;
+      animation: pulseDot 2s infinite ease-in-out;
     }
 
     .btn-verify-now {
@@ -13542,7 +13573,7 @@ function imprimirAgendaCarro() {
                   <span style="font-size: 1rem;">🔔</span>
                   <strong style="color: #ffffff; font-size: 0.85rem;">Alertas & Notificações</strong>
                 </div>
-                <span class="bell-dropdown-badge" id="bell-dropdown-status-tag" style="background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 2px 8px; border-radius: 99px; font-size: 0.7rem; font-weight: 700; border: 1px solid rgba(52, 211, 153, 0.3);">100% Operacional</span>
+                <span class="bell-dropdown-badge" id="bell-dropdown-status-tag" style="background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 2px 8px; border-radius: 99px; font-size: 0.7rem; font-weight: 700; border: 1px solid rgba(52, 211, 153, 0.3); display: inline-flex; align-items: center; gap: 5px;"><span class="pulse-green-dot" style="width: 6px; height: 6px;"></span>Conectado</span>
               </div>
               <div class="bell-dropdown-body" id="bell-dropdown-body">
                 <div class="bell-dropdown-empty" id="bell-dropdown-empty" style="text-align: center; padding: 1.2rem 0.5rem; color: #64748b;">
@@ -15684,7 +15715,7 @@ function imprimirAgendaCarro() {
             <div class="carro-date-right-tools">
               <label style="font-size: 0.82rem; color: #64748b; font-weight: 600;">Ir para a data:</label>
               <input type="date" class="carro-date-input" id="carro-input-data" onchange="aoMudarDataCarro(this.value)">
-              <span class="carro-sync-time" id="carro-sync-label">Sincronizado 17:16</span>
+              <span class="carro-sync-time" id="carro-sync-label" style="display: inline-flex; align-items: center; gap: 5px;"><span class="pulse-green-dot" style="width: 6px; height: 6px;"></span>Sincronizado 17:16</span>
               <button class="btn-carro-refresh" onclick="atualizarCarroOficial()" title="Forçar sincronização">
                 <span>🔄</span>
                 <span>Atualizar</span>
@@ -16036,7 +16067,7 @@ function imprimirAgendaCarro() {
               <span class="visitas-title-accent"></span>
               <h2 class="visitas-main-title">Visitas da dirigente</h2>
             </div>
-            <span class="visitas-badge-pill">● VISITAS</span>
+            <span class="visitas-badge-pill" style="display: inline-flex; align-items: center; gap: 6px;"><span class="pulse-green-dot" style="width: 7px; height: 7px;"></span>VISITAS CONECTADAS</span>
           </div>
           <p class="visitas-main-desc">
             Painel de acompanhamento das escolas já visitadas e das pendentes. As marcações ficam centralizadas no BI e podem ser consultadas em qualquer dispositivo.
@@ -21822,7 +21853,7 @@ function imprimirAgendaCarro() {
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Atualizado:</strong> <span style="color: #ffffff;">${DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao}</span></span>
-                <span>⚡ <strong>Sincronização:</strong> <span style="color: #10b981; font-weight: 800;">Modo Otimizado (Bases Ativas)</span></span>
+                <span style="display: inline-flex; align-items: center; gap: 5px;"><span class="pulse-green-dot" style="width: 7px; height: 7px;"></span><strong>Sincronização:</strong> <span style="color: #10b981; font-weight: 800;">Modo Otimizado (Bases Ativas)</span></span>
                 <span>📁 <strong>Bases Monitoradas:</strong> <span style="color: #ffffff;">PDDE Paulista & Federal (60 Escolas)</span></span>
               </div>
             </div>
@@ -22774,6 +22805,7 @@ function imprimirAgendaCarro() {
                 <span>📅 <strong>Atualizado:</strong> <span style="color: #ffffff;">${DADOS_SECOMSE.ultimaAtualizacao || 'Hoje'}</span></span>
                 <span>🔒 <strong>Conta Corporativa:</strong> <span style="color: #38bdf8; font-weight: 700;">itp_secomse_educacao_sp_gov_br</span></span>
                 <span>📁 <strong>Arquivo:</strong> <span style="color: #ffffff;">Controle de contratos.xlsx</span></span>
+                <span style="display: inline-flex; align-items: center; gap: 5px;"><span class="pulse-green-dot" style="width: 7px; height: 7px;"></span><strong>Sincronização:</strong> <span style="color: #38bdf8; font-weight: 800;">SharePoint Conectado</span></span>
               </div>
             </div>
 
@@ -23302,7 +23334,7 @@ function imprimirAgendaCarro() {
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Atualizado:</strong> <span style="color: #ffffff;">Hoje</span></span>
-                <span>⚡ <strong>Sincronização:</strong> <span style="color: #10b981; font-weight: 800;">Modo Otimizado (Abas Ativas)</span></span>
+                <span style="display: inline-flex; align-items: center; gap: 5px;"><span class="pulse-green-dot" style="width: 7px; height: 7px;"></span><strong>Sincronização:</strong> <span style="color: #10b981; font-weight: 800;">Modo Otimizado (Abas Ativas)</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">Inventário Físico Oficial</span></span>
               </div>
             </div>
@@ -23483,7 +23515,7 @@ function imprimirAgendaCarro() {
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Atualizado:</strong> <span style="color: #ffffff;">Hoje</span></span>
-                <span>⚡ <strong>Sincronização:</strong> <span style="color: #10b981; font-weight: 800;">Modo Otimizado (Abas Ativas)</span></span>
+                <span style="display: inline-flex; align-items: center; gap: 5px;"><span class="pulse-green-dot" style="width: 7px; height: 7px;"></span><strong>Sincronização:</strong> <span style="color: #10b981; font-weight: 800;">Modo Otimizado (Abas Ativas)</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">MAPA, Obras FDE, AVCB, Telhados</span></span>
               </div>
             </div>
@@ -24225,7 +24257,7 @@ function imprimirAgendaCarro() {
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Atualizado:</strong> <span style="color: #ffffff;">Hoje</span></span>
-                <span>⚡ <strong>Sincronização:</strong> <span style="color: #10b981; font-weight: 800;">Modo Otimizado (Abas Ativas)</span></span>
+                <span style="display: inline-flex; align-items: center; gap: 5px;"><span class="pulse-green-dot" style="width: 7px; height: 7px;"></span><strong>Sincronização:</strong> <span style="color: #10b981; font-weight: 800;">Modo Otimizado (Abas Ativas)</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">Zeladorias 2026, Processos SEI</span></span>
               </div>
             </div>
@@ -24733,7 +24765,7 @@ function imprimirAgendaCarro() {
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Dados de:</strong> <span id="semat-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
-                <span>⚡ <strong>Origem:</strong> <span style="color: #10b981; font-weight: 800;">${meta.origemSync || 'SharePoint Ao Vivo (Seletivo Range 206)'}</span></span>
+                <span style="display: inline-flex; align-items: center; gap: 5px;"><span class="pulse-green-dot" style="width: 7px; height: 7px;"></span><strong>Origem:</strong> <span style="color: #10b981; font-weight: 800;">${meta.origemSync || 'SharePoint Ao Vivo (Seletivo Range 206)'}</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">Atendimentos, Matrículas, Processos SEI</span></span>
               </div>
             </div>
@@ -25474,7 +25506,7 @@ function imprimirAgendaCarro() {
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Dados de:</strong> <span id="sevesc-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
-                <span>⚡ <strong>Origem:</strong> <span style="color: #10b981; font-weight: 800;">${meta.origemSync || 'SharePoint Ao Vivo (1,2 MB)'}</span></span>
+                <span style="display: inline-flex; align-items: center; gap: 5px;"><span class="pulse-green-dot" style="width: 7px; height: 7px;"></span><strong>Origem:</strong> <span style="color: #10b981; font-weight: 800;">${meta.origemSync || 'SharePoint Ao Vivo (1,2 MB)'}</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">Atendimentos, Processos SEI, E-mails/Concluintes</span></span>
               </div>
             </div>
@@ -26255,7 +26287,7 @@ function imprimirAgendaCarro() {
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Dados de:</strong> <span id="segre-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
-                <span>⚡ <strong>Origem:</strong> <span style="color: #10b981; font-weight: 800;">${meta.origemSync || 'SharePoint Ao Vivo (Seletivo Range 206)'}</span></span>
+                <span style="display: inline-flex; align-items: center; gap: 5px;"><span class="pulse-green-dot" style="width: 7px; height: 7px;"></span><strong>Origem:</strong> <span style="color: #10b981; font-weight: 800;">${meta.origemSync || 'SharePoint Ao Vivo (Seletivo Range 206)'}</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">SEI, Vagas, Ouvidoria, E-mails</span></span>
               </div>
             </div>
@@ -31509,7 +31541,7 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #c7d2fe; font-weight: 600;">
                 <span>🕒 <strong>Dados de:</strong> <span id="sepes-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
-                <span>⚡ <strong>Origem:</strong> <span style="color: #10b981; font-weight: 800;">${meta.origemSync || 'SharePoint Ao Vivo (3 Abas Ativas)'}</span></span>
+                <span style="display: inline-flex; align-items: center; gap: 5px;"><span class="pulse-green-dot" style="width: 7px; height: 7px;"></span><strong>Origem:</strong> <span style="color: #10b981; font-weight: 800;">${meta.origemSync || 'SharePoint Ao Vivo (3 Abas Ativas)'}</span></span>
                 <span>📁 <strong>Abas Monitoradas:</strong> <span style="color: #ffffff;">Aposentadoria, Designações, Abono de Permanência</span></span>
               </div>
             </div>
@@ -32070,13 +32102,16 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
       if (dot) {
         if (estado === 'loading') {
           dot.style.background = '#f59e0b';
-          dot.style.boxShadow = '0 0 8px #f59e0b';
+          dot.style.boxShadow = '0 0 8px rgba(245, 158, 11, 0.8)';
+          dot.style.animation = 'pulseDot 0.8s infinite ease-in-out';
         } else if (estado === 'error') {
           dot.style.background = '#ef4444';
-          dot.style.boxShadow = '0 0 8px #ef4444';
+          dot.style.boxShadow = '0 0 8px rgba(239, 68, 68, 0.8)';
+          dot.style.animation = 'none';
         } else {
           dot.style.background = '#10b981';
-          dot.style.boxShadow = '0 0 8px #10b981';
+          dot.style.boxShadow = '0 0 8px rgba(16, 185, 129, 0.8)';
+          dot.style.animation = 'pulseDot 2s infinite ease-in-out';
         }
       }
     }
@@ -32288,7 +32323,7 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
           btn.classList.remove('syncing');
           if (txt) txt.innerText = 'Sincronizar Tudo';
         }
-        atualizarPillStatusGlobal('Sincronizado às ' + agoraHora + ' • 100% Operacional', 'success');
+        atualizarPillStatusGlobal('Sincronizado às ' + agoraHora, 'success');
 
         if (isSilencioso) {
           mostrarToastAgenda('Atualização automática concluída • 12 Módulos e Bases sincronizados às ' + agoraHora, '🔄');
@@ -32298,7 +32333,7 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
             tag: 'SISTEMA CONSOLIDADO',
             titulo: 'Sincronização Global Concluída!',
             mensagem: 'Todos os <strong>12 módulos</strong>, <strong>60 escolas</strong> e bases operacionais foram sincronizados.',
-            detalhes: 'Consolidado às ' + agoraStr + ' • 100% Operacional',
+            detalhes: 'Consolidado às ' + agoraStr,
             duracao: 5500
           });
         }
@@ -32426,7 +32461,7 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
         mostrarToastAgenda('Erro ao sincronizar: ' + (err.message || err), '❌');
       }
 
-      atualizarPillStatusGlobal('Sincronizado às ' + agoraStr + ' • 100% Operacional', 'success');
+      atualizarPillStatusGlobal('Sincronizado às ' + agoraStr, 'success');
 
       setTimeout(function() {
         if (btnEl) {
@@ -35487,7 +35522,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             tag: "INVENTÁRIO ATUALIZADO • 60 ESCOLAS",
             titulo: "Inventário Sincronizado com Sucesso!",
             mensagem: "Todas as <strong>60 escolas</strong> e <strong>" + totalEq.toLocaleString("pt-BR") + " equipamentos</strong> (" + hwCount.toLocaleString("pt-BR") + " de Hardware) foram verificados e sincronizados com o repositório público do SharePoint.",
-            detalhes: (res && res.liveDeltaCount > 0 ? (res.liveDeltaCount + " escola(s) atualizada(s) ao vivo • ") : "") + "Conexão Nuvem às " + agora + " • 100% Operacional",
+            detalhes: (res && res.liveDeltaCount > 0 ? (res.liveDeltaCount + " escola(s) atualizada(s) ao vivo • ") : "") + "Conexão Nuvem às " + agora,
             duracao: 5000
           });
         }
@@ -36030,7 +36065,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         badge.style.display = 'none';
         badge.classList.remove('active-pulse');
         if (statusTag) {
-          statusTag.innerText = '100% Operacional';
+          statusTag.innerHTML = '<span class="pulse-green-dot" style="width: 6px; height: 6px; margin-right: 5px;"></span>Conectado';
           statusTag.style.background = 'rgba(16, 185, 129, 0.2)';
           statusTag.style.color = '#34d399';
           statusTag.style.borderColor = 'rgba(52, 211, 153, 0.3)';
@@ -37734,28 +37769,52 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     }
 
     @media print {
-      body {
+      @page {
+        size: A4 portrait;
+        margin: 10mm;
+      }
+      html, body {
         margin: 0 !important;
         padding: 0 !important;
         background: #ffffff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      #relatorio-executivo-canvas,
+      .exec-doc-sheet {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        background: transparent !important;
       }
       .exec-doc-page {
         width: 100% !important;
         max-width: 100% !important;
-        height: 295mm !important;
-        min-height: 295mm !important;
-        max-height: 295mm !important;
+        height: 277mm !important;
+        min-height: 277mm !important;
+        max-height: 277mm !important;
         margin: 0 !important;
-        padding: 8mm 10mm !important;
+        padding: 0 !important;
         box-shadow: none !important;
         border-radius: 0 !important;
+        box-sizing: border-box !important;
         page-break-after: always !important;
         break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
         overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
       }
       .exec-doc-page:last-child {
         page-break-after: avoid !important;
         break-after: avoid !important;
+      }
+      .doc-footer {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        flex-shrink: 0 !important;
       }
     }
   </style>
@@ -40017,7 +40076,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           w.document.open();
           w.document.write('<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>' + escHtml(title) + '</title>');
           w.document.write('<link rel="stylesheet" href="' + fontHref + '">');
-          w.document.write('<style>@page{size:A4 portrait;margin:9mm 10mm;}body{margin:0;padding:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}' + (stylesEl ? stylesEl.textContent : '') + '</style>');
+          w.document.write('<style>@page{size:A4 portrait;margin:10mm;}body{margin:0;padding:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}' + (stylesEl ? stylesEl.textContent : '') + '</style>');
           w.document.write('</head><body><div class="exec-doc-sheet">' + canvas.innerHTML + '</div></body></html>');
           w.document.close();
           w.focus();
@@ -40054,7 +40113,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         canvas.style.boxShadow = 'none';
 
         html2pdf().set({
-          margin: [6, 7, 6, 7],
+          margin: [10, 10, 10, 10],
           filename: baseName + '.pdf',
           image: { type: 'jpeg', quality: 0.99 },
           html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollY: 0, logging: false },
@@ -40635,8 +40694,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           '</section>' +
           '</div>' +
           '<footer class="doc-footer">' +
-            '<span>Governo do Estado de São Paulo — Secretaria da Educação • URE Itapevi • Folha 1 de 1</span>' +
-            '<span>Termômetro IMRO (Risco 0–100) | Saúde da Unidade ISR = ' + isrUnidade + '/100 • Exercício 2026</span>' +
+            '<span>Governo do Estado de São Paulo — Secretaria da Educação — URE Itapevi — Folha 1 de 1</span>' +
+            '<span>Termômetro IMRO (Risco 0–100) | Saúde da Unidade ISR = ' + isrUnidade + '/100 — Exercício 2026</span>' +
           '</footer>' +
         '</div>';
 
