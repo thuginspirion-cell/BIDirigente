@@ -13603,11 +13603,7 @@ function imprimirAgendaCarro() {
               Decision Intelligence em tempo real: telemetria cruzada de SLA, execução orçamentária, riscos multissetoriais das 60 escolas e prioridades prescritivas.
             </p>
           </div>
-          <div class="executive-hero-right" style="display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 0.6rem; z-index: 3;">
-            <button type="button" class="btn-hero-relatorio" onclick="abrirModalCentralRelatorios()" title="Central de Relatórios Executivos (Geral da Rede ou por Escola)">
-              <span>📄</span> <span>Relatório</span>
-            </button>
-            <span style="font-size: 0.68rem; color: rgba(255, 255, 255, 0.7); font-weight: 700; letter-spacing: 0.04em;">PDF • EXCEL • IMPRESSÃO</span>
+          <div class="executive-hero-right" style="display: flex; align-items: center; justify-content: center; z-index: 3;">
             <div class="hero-crest-watermark" style="opacity: 0.22; width: 132px; height: 132px; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none;">
               <img src="logo_ure_itapevi_480.png" class="brand-logo-img hero-crest-img" alt="Brasão Oficial URE Itapevi" onerror="if(this.src!=='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png')this.src='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png';">
             </div>
@@ -37778,7 +37774,6 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             <!-- RESUMO INFORMATIVO DO RELATÓRIO GERAL -->
             <div id="painel-relatorio-geral" style="margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px solid rgba(11, 35, 81, 0.12); display: flex; gap: 0.45rem; flex-wrap: wrap; font-size: 0.72rem; font-weight: 700;">
               <span style="background: #e0f2fe; color: #0369a1; padding: 3px 9px; border-radius: 6px;">60 Escolas Estaduais</span>
-              <span style="background: #fef3c7; color: #b45309; padding: 3px 9px; border-radius: 6px;">5 Municípios</span>
               <span style="background: #dcfce7; color: #15803d; padding: 3px 9px; border-radius: 6px;">Metodologia IMRO 360°</span>
               <span style="background: #ffffff; color: #334155; border: 1px solid #cbd5e1; padding: 3px 9px; border-radius: 6px;">PDF / Excel / Impressão</span>
             </div>
@@ -40342,7 +40337,13 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           opt.innerText = '[' + (e.cie || 'CIE') + '] ' + (e.nome || 'Escola') + ' — ' + (e.cidade || '');
           sel.appendChild(opt);
         });
-        sel.value = '';
+
+        /* Busca em tempo real: conforme o usuário digita termo na busca, seleciona e exibe imediatamente */
+        if (termo.length > 0) {
+          sel.value = filtradas[0].id || filtradas[0].cie;
+        } else {
+          sel.value = '';
+        }
       }
       atualizarPreviaEscolaRelatorio();
     }
