@@ -16912,7 +16912,7 @@ function imprimirAgendaCarro() {
     "nome": "Nercy Amelia Martelini Daher Professora",
     "nomeOficialBruto": "NERCY AMELIA MARTELINI DAHER PROFESSORA",
     "arquivoInventario": "43333 - NERCY AMELIA MARTELINI DAHER PROFESSORA - INVENTÁRIO.xlsx",
-    "cidade": "Pirapora",
+    "cidade": "Pirapora do Bom Jesus",
     "bairro": "Rua Aluizio de Azevedo, 100 – Vila Nova",
     "tipo": "Regular",
     "segmento": "Anos Finais e Ensino Médio",
@@ -17392,7 +17392,7 @@ function imprimirAgendaCarro() {
     "nome": "Parque Payol",
     "nomeOficialBruto": "PARQUE PAYOL",
     "arquivoInventario": "925834 - PARQUE PAYOL - INVENTÁRIO.xlsx",
-    "cidade": "Pirapora",
+    "cidade": "Pirapora do Bom Jesus",
     "bairro": "Rua Orlando Bucci, 71 – Pq Payol",
     "tipo": "Regular",
     "segmento": "Anos Finais e Ensino Médio",
@@ -40335,18 +40335,31 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     function filtrarEscolasRelatorioModal() {
       var inputBusca = document.getElementById('input-busca-relatorio-escola');
       var termo = inputBusca ? inputBusca.value.trim().toLowerCase() : '';
-      var mun = estadoCentralRelatorios.municipioAtivo.toLowerCase();
+      var mun = (estadoCentralRelatorios.municipioAtivo || 'todos').toLowerCase();
 
       var base = (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas) && listaEscolas.length > 0)
         ? listaEscolas
         : ((typeof BASE_ESCOLAS_PADRAO !== 'undefined' && Array.isArray(BASE_ESCOLAS_PADRAO)) ? BASE_ESCOLAS_PADRAO : []);
 
       var filtradas = base.filter(function(e) {
-        var mMatch = (mun === 'todos') || (String(e.cidade || '').toLowerCase().indexOf(mun) !== -1);
+        var cidEsc = String(e.cidade || '').toLowerCase();
+        
+        /* Relacionamento inteligente de Pirapora do Bom Jesus == Pirapora */
+        var mMatch = (mun === 'todos');
+        if (!mMatch) {
+          if (mun.indexOf('pirapora') !== -1 && cidEsc.indexOf('pirapora') !== -1) {
+            mMatch = true;
+          } else if (cidEsc.indexOf(mun) !== -1 || mun.indexOf(cidEsc) !== -1) {
+            mMatch = true;
+          }
+        }
+
         var tMatch = !termo ||
           (String(e.nome || '').toLowerCase().indexOf(termo) !== -1) ||
           (String(e.cie || '').indexOf(termo) !== -1) ||
-          (String(e.cidade || '').toLowerCase().indexOf(termo) !== -1);
+          (cidEsc.indexOf(termo) !== -1) ||
+          (termo.indexOf('pirapora') !== -1 && cidEsc.indexOf('pirapora') !== -1);
+
         return mMatch && tMatch;
       });
 
@@ -40371,7 +40384,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         filtradas.forEach(function(e) {
           var opt = document.createElement('option');
           opt.value = e.id || e.cie;
-          opt.innerText = '[' + (e.cie || 'CIE') + '] ' + (e.nome || 'Escola') + ' — ' + (e.cidade || '');
+          var cidExib = String(e.cidade || '').toLowerCase().indexOf('pirapora') !== -1 ? 'Pirapora do Bom Jesus' : (e.cidade || '');
+          opt.innerText = '[' + (e.cie || 'CIE') + '] ' + (e.nome || 'Escola') + ' — ' + cidExib;
           sel.appendChild(opt);
         });
 
@@ -40414,7 +40428,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       if (boxPrevia) boxPrevia.style.display = 'flex';
 
       if (prevNome) prevNome.innerText = esc.nome;
-      if (prevMun) prevMun.innerText = (esc.cidade || 'Itapevi') + ' • ' + (esc.tipo || 'Regular');
+      var cidExib = String(esc.cidade || '').toLowerCase().indexOf('pirapora') !== -1 ? 'Pirapora do Bom Jesus' : (esc.cidade || 'Itapevi');
+      if (prevMun) prevMun.innerText = cidExib + ' — ' + (esc.tipo || 'Regular');
       if (prevCie) prevCie.innerText = 'CIE: ' + (esc.cie || '---');
 
       var imroScore = (typeof OBTER_IMRO_ESCOLA === 'function') ? OBTER_IMRO_ESCOLA(esc.cie) : null;
