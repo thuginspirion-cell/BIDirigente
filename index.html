@@ -12846,6 +12846,235 @@ function imprimirAgendaCarro() {
   .escola-kpi-card.selected {
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06) !important;
   }
+
+  /* ===================================================================== */
+  /* BI DIRIGENTE 2.0 • DECISION INTELLIGENCE ENGINE & MATRIX STYLES       */
+  /* ===================================================================== */
+  .executive-hero-left {
+    padding: 1.45rem 2.15rem !important;
+  }
+  .hero-telemetry-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+    margin-bottom: 0.55rem;
+  }
+  .hero-isr-pill {
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(16, 185, 129, 0.18);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+  }
+  .hero-fresh-pill {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(56, 189, 248, 0.16);
+    color: #bae6fd;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+  }
+  .kpi-ctx-line {
+    font-size: 0.67rem;
+    font-weight: 700;
+    color: #64748b;
+    margin-top: 0.35rem;
+    padding-top: 0.3rem;
+    border-top: 1px dashed #e2e8f0;
+    line-height: 1.3;
+  }
+  .kpi-ctx-line.ctx-alert { color: #b91c1c; }
+  .kpi-ctx-line.ctx-warn { color: #b45309; }
+  .kpi-ctx-line.ctx-ok { color: #047857; }
+  .gauge-risk-cov {
+    margin-top: 0.45rem;
+    padding: 0.45rem 0.65rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    font-size: 0.7rem;
+    color: #cbd5e1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .atencao-card {
+    cursor: default !important;
+    user-select: text;
+  }
+  .imro-pillar-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.28rem;
+    margin-bottom: 0.55rem;
+  }
+  .imro-pill-tag {
+    font-size: 0.64rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+  }
+  .imro-bridge-strip {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.69rem;
+    color: #334155;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-top: 0.35rem;
+  }
+  .di-score-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.74rem;
+    font-weight: 800;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .di-bullet-wrap {
+    min-width: 145px;
+    max-width: 210px;
+  }
+  .di-bullet-track {
+    position: relative;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: visible;
+    margin: 4px 0;
+  }
+  .di-bullet-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.35s ease;
+  }
+  .di-bullet-target {
+    position: absolute;
+    top: -3px;
+    width: 2.5px;
+    height: 16px;
+    background: #0f172a;
+    border-radius: 2px;
+  }
+  .di-cross-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 1.15rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  @media (max-width: 1120px) {
+    .di-cross-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .di-panel-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .di-panel-header {
+    padding: 1rem 1.25rem;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .di-quad-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    padding: 0.75rem 1.15rem 1rem 1.15rem;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+  }
+  .di-quad-stat-box {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.45rem 0.65rem;
+    cursor: default !important;
+    user-select: text;
+  }
+  .di-nba-list {
+    padding: 1rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    flex: 1;
+  }
+  .di-nba-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 5px solid #0284c7;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    cursor: default !important;
+    user-select: text;
+  }
+  .di-nba-card.nba-crit { border-left-color: #dc2626; background: #fef2f2; border-color: #fecaca; }
+  .di-nba-card.nba-warn { border-left-color: #d97706; background: #fffbeb; border-color: #fde68a; }
+  .di-nba-card.nba-info { border-left-color: #2563eb; background: #eff6ff; border-color: #bfdbfe; }
+  .di-scatter-tooltip {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    background: #0f172a;
+    color: #f8fafc;
+    border: 1px solid #38bdf8;
+    border-radius: 10px;
+    padding: 0.65rem 0.85rem;
+    font-size: 0.74rem;
+    line-height: 1.45;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.35);
+    max-width: 280px;
+    display: none;
+  }
+  .di-mode-btn {
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #475569;
+    font-size: 0.69rem;
+    font-weight: 700;
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .di-mode-btn.active {
+    background: #0b2351;
+    color: #ffffff;
+    border-color: #0b2351;
+  }
   </style>
 </head>
 
@@ -13115,21 +13344,21 @@ function imprimirAgendaCarro() {
       <!-- ============================================== -->
       <section id="pane-home" class="view-pane active">
 
-        <!-- 1. HERO BANNER EXECUTIVO COM BRASÃO OFICIAL & ATALHOS RÁPIDOS -->
+        <!-- 1. HERO BANNER EXECUTIVO COM TELEMETRIA DE SAÚDE E OBSERVABILIDADE -->
         <div class="executive-hero">
           <div class="executive-hero-left">
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.6rem;">
+            <div class="hero-telemetry-pills">
               <span class="hero-pretitle" style="margin-bottom: 0;">⭐ DIRETORIA REGIONAL DE ENSINO DE ITAPEVI • URE ITAPEVI</span>
-              <span style="font-size: 0.72rem; background: rgba(240, 155, 12, 0.22); color: #f09b0c; border: 1px solid rgba(240, 155, 12, 0.45); padding: 2px 8px; border-radius: 20px; font-weight: 700;">🟢 Rede 100% Operacional</span>
-              
+              <span id="hero-isr-pill" class="hero-isr-pill" title="Índice de Saúde Regional (0–100) calculado em tempo real sobre as 60 escolas">🟢 ISR Regional: calculando...</span>
+              <span id="hero-freshness-pill" class="hero-fresh-pill" title="Observabilidade dos pipelines SharePoint e adaptadores">📡 Observabilidade: apurando bases...</span>
             </div>
-            <h2 class="hero-main-title" style="color: #ffffff !important; white-space: nowrap;">BI Dirigente • Painel Integrado de Gestão</h2>
-            <p class="hero-main-desc">
-              Visão panorâmica consolidada da liderança regional: indicadores em tempo real, acompanhamento dos setores da Diretoria e monitoramento contínuo das 60 escolas.
+            <h2 class="hero-main-title" style="color: #ffffff !important; white-space: nowrap;">BI Dirigente • Centro de Inteligência de Gestão</h2>
+            <p class="hero-main-desc" id="hero-main-desc-text">
+              Decision Intelligence em tempo real: telemetria cruzada de SLA, execução orçamentária, riscos multissetoriais das 60 escolas e prioridades prescritivas.
             </p>
           </div>
           <div class="executive-hero-right">
-            <div class="hero-crest-watermark" style="opacity: 0.35; width: 145px; height: 145px; position: relative; right: auto; top: auto; transform: none;">
+            <div class="hero-crest-watermark" style="opacity: 0.35; width: 132px; height: 132px; position: relative; right: auto; top: auto; transform: none;">
               <img src="logo_ure_itapevi_480.png" class="brand-logo-img hero-crest-img" alt="Brasão Oficial URE Itapevi" onerror="if(this.src!=='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png')this.src='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png';">
             </div>
           </div>
@@ -13138,96 +13367,105 @@ function imprimirAgendaCarro() {
         <div class="indicators-split">
           
           <div class="kpi-row-card">
-            <div class="kpi-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
-              <span class="kpi-row-title">Indicadores da rede</span>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">Painel consolidado em tempo real</span>
+            <div class="kpi-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.4rem;">
+              <span class="kpi-row-title">Indicadores da rede com contexto e ritmo</span>
+              <span id="home-kpi-context-stamp" style="font-size: 0.74rem; color: var(--text-muted);">Benchmark proporcional ao exercício vigente</span>
             </div>
 
             <div class="kpi-cards-inner">
               <!-- 1. Escolas na Rede -->
-              <div class="kpi-mini-box" style="cursor: default;" title="Total de 60 escolas na rede estadual">
+              <div class="kpi-mini-box" style="cursor: default;" title="Total de 60 escolas estaduais monitoradas no IMRO 360°">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: var(--brand-gold);"></span>
                   <span class="kpi-big-number" id="kpi-escolas">60</span>
                 </div>
                 <span class="kpi-mini-label" id="kpi-lbl-escolas">Escolas na rede</span>
+                <div class="kpi-ctx-line" id="kpi-ctx-escolas">Apurando distribuição de risco...</div>
               </div>
 
               <!-- 2. Equipamentos TI (SEINTEC) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEINTEC: 15.973 notebooks, desktops e tablets (12.205 disponíveis)">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEINTEC: Disponibilidade operacional real do parque de hardware">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #3b82f6;"></span>
                   <span class="kpi-big-number" id="kpi-hardware-home">15.973</span>
                 </div>
                 <span class="kpi-mini-label" id="kpi-lbl-hardware">Equipamentos TI</span>
+                <div class="kpi-ctx-line" id="kpi-ctx-hardware">Apurando disponibilidade...</div>
               </div>
 
               <!-- 3. Chamados Oficiais (SEINTEC) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEINTEC: 1.641 chamados oficiais registrados e monitorados em tempo real">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEINTEC: Chamados oficiais e taxa de resolução SLA">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #0284c7;"></span>
                   <span class="kpi-big-number" id="kpi-chamados-home">1.641</span>
                 </div>
                 <span class="kpi-mini-label" id="kpi-lbl-chamados-home">Atendimentos TI</span>
+                <div class="kpi-ctx-line" id="kpi-ctx-chamados">Apurando SLA e abertos...</div>
               </div>
 
               <!-- 4. Recursos APMs / PDDE (SEAFIN / SEFIN) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN / SEFIN: R$ 10,4M em repasses gerenciados para as 60 APMs (2026)">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN / SEFIN: Repasses PDDE 2026 e saldo ocioso em conta APM">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #10b981;"></span>
                   <span class="kpi-big-number" id="kpi-recursos-sefin" style="color: #059669; font-size: 1.35rem;">R$ 10,4M</span>
                 </div>
                 <span class="kpi-mini-label" id="kpi-lbl-recursos-sefin">Recursos PDDE (2026)</span>
+                <div class="kpi-ctx-line" id="kpi-ctx-recursos">Calculando saldo ocioso...</div>
               </div>
 
               <!-- 5. Execução Orçamentária APM (SEAFIN / SEFIN) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN / SEFIN: R$ 5,40M executados nas APMs (52,1% de execução em 2026)">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN / SEFIN: Execução real comparada ao ritmo esperado no mês">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #0ea5e9;"></span>
                   <span class="kpi-big-number" id="kpi-execucao-sefin">52,1%</span>
                 </div>
                 <span class="kpi-mini-label" id="kpi-lbl-execucao-sefin">Taxa Execução (R$ 5,40M)</span>
+                <div class="kpi-ctx-line" id="kpi-ctx-execucao">Comparando com ritmo do ano...</div>
               </div>
 
               <!-- 6. Obras FDE Ativas (SEOM) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEOM: 34 obras ativas nas 60 escolas mapeadas em 11 dimensões prediais">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEOM: Obras ativas e alertas legais/prediais nas 60 escolas">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #b45309;"></span>
                   <span class="kpi-big-number" id="kpi-obras-home" style="color: #b45309;">34</span>
                 </div>
                 <span class="kpi-mini-label" id="kpi-lbl-obras-home">Obras FDE Ativas</span>
+                <div class="kpi-ctx-line" id="kpi-ctx-obras">Apurando AVCB e críticas...</div>
               </div>
 
               <!-- 7. E-mails & Demandas (SEGRE) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEGRE: 8.921 e-mails oficiais e demandas de Matrícula (SEMAT) e Vida Escolar (SEVESC)">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEGRE / SEMAT / SEVESC: Volume consolidado e fila SEI em aberto">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #ea580c;"></span>
                   <span class="kpi-big-number" id="kpi-emails-home" style="color: #ea580c;">8.921</span>
                 </div>
                 <span class="kpi-mini-label" id="kpi-lbl-emails-home">E-mails &amp; Demandas</span>
+                <div class="kpi-ctx-line" id="kpi-ctx-emails">Apurando fila SEI aberta...</div>
               </div>
 
-              <!-- 8. Repasses Auditados (SEAFIN / SECOMSE) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN: 204 termos de repasse e prestação de contas monitorados em 2026">
+              <!-- 8. Repasses Auditados (SEAFIN / SEPES / SECOMSE) -->
+              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN, SEPES e SECOMSE: Repasses auditados, processos RH e contratos">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #8b5cf6;"></span>
                   <span class="kpi-big-number" id="kpi-repasses-sefin">204</span>
                 </div>
                 <span class="kpi-mini-label" id="kpi-lbl-repasses-sefin">Repasses Auditados</span>
+                <div class="kpi-ctx-line" id="kpi-ctx-repasses">Apurando SEPES &amp; SECOMSE...</div>
               </div>
             </div>
           </div>
 
-          <!-- Gauge Circular das Visitas da Dirigente -->
-          <div class="gauge-card" style="cursor: default;" title="Acompanhamento consolidado de visitas da Dirigente">
+          <!-- Gauge Circular das Visitas da Dirigente (com Cobertura por Risco) -->
+          <div class="gauge-card" style="cursor: default;" title="Acompanhamento consolidado e cobertura das escolas de maior risco">
             <div class="gauge-header">
               <div>
                 <div class="gauge-title">Visitas da Dirigente</div>
-                <div class="gauge-sub">Acompanhamento da rede estadual</div>
+                <div class="gauge-sub" id="home-gauge-source-sub">Cobertura geral &amp; priorização por risco</div>
               </div>
+              <span id="home-gauge-asure-tag" style="font-size: 0.64rem; font-weight: 800; background: rgba(245, 158, 11, 0.18); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.35); padding: 2px 7px; border-radius: 999px;">Base Interna</span>
             </div>
 
-            <div class="gauge-center-box">
+            <div class="gauge-center-box" style="margin: 0.85rem 0;">
               <div class="circular-progress-wrap">
                 <div class="circular-progress-inner" id="home-gauge-pct">90%</div>
               </div>
@@ -13237,7 +13475,11 @@ function imprimirAgendaCarro() {
               </div>
             </div>
 
-            <div style="text-align: right;">
+            <div class="gauge-risk-cov" id="home-gauge-risk-cov">
+              <span>🎯 Top 10 IMRO visitadas: <strong style="color: #ffffff;">calculando...</strong></span>
+            </div>
+
+            <div style="text-align: right; margin-top: 0.45rem;">
               <span class="gauge-footer-link" onclick="event.stopPropagation(); filtrarHomePorTipoKPI('visitas');" style="cursor: pointer;">Ver plano de visitas →</span>
             </div>
           </div>
@@ -13381,500 +13623,348 @@ function imprimirAgendaCarro() {
         </div>
 
 
-        <!-- 4. SEÇÃO: ESCOLAS EM ATENÇÃO (GESTÃO POR EXCEÇÃO) -->
+        <!-- 4. SEÇÃO: ESCOLAS EM ATENÇÃO (IMRO 360° MULTISSETORIAL) -->
         <div class="section-title-row" style="margin-top: 1.5rem; margin-bottom: 0.95rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.85rem;">
           <div>
             <div class="section-main-heading" style="display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap;">
               <span style="color: #ef4444; font-size: 1.25rem;">⚠️</span>
               <span style="font-size: 1.15rem; font-weight: 800; color: #0f172a; letter-spacing: -0.01em;">Em foco: escolas que exigem atenção</span>
-              <span id="atencao-counter-badge" style="background: rgba(239,68,68,0.12); color: #b91c1c; font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(239,68,68,0.25);">Top 5 Vulnerabilidades (IMRO)</span>
+              <span id="atencao-counter-badge" style="background: rgba(239,68,68,0.12); color: #b91c1c; font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(239,68,68,0.25);">Top 5 Vulnerabilidades (IMRO 360°)</span>
             </div>
             <div style="font-size: 0.76rem; color: #64748b; margin-top: 3px;">
-              Gestão por exceção multissetorial: unidades com os maiores índices de criticidade apurados pelo cruzamento das bases ativas da Diretoria (Obras, TI, Finanças e Rede).
+              Gestão por exceção multissetorial: ranking calculado dinamicamente cruzando Obras (SEOM), TI (SEINTEC), Execução PDDE (SEAFIN), RH (SEPES) e Demandas (SEGRE) — extensível para ASURE e EEC.
             </div>
           </div>
           <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-            <button type="button" onclick="rolarParaNotaMetodologica()" style="background: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.74rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.15s;" title="Ver critérios técnicos, fórmula de cálculo e pesos de cada setor">
-              <span>📌 Ver Legenda &amp; Critérios de Risco ↓</span>
+            <button type="button" onclick="rolarParaNotaMetodologica()" style="background: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.74rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.15s;" title="Ver critérios técnicos, fórmula de cálculo e adaptadores de novos setores">
+              <span>📌 Ver Legenda &amp; Metodologia IMRO 360° ↓</span>
             </button>
           </div>
         </div>
 
         <div class="atencao-grid" id="home-atencao-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-          
-          <!-- Card 1: Maria Soares Santos, Professora -->
-          <div class="atencao-card" id="card-atencao-910454" onclick="selecionarEscolaNaHome('910454')" style="background: #ffffff; border: 1px solid #fecaca; border-left: 6px solid #b91c1c; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 14px rgba(185,28,28,0.06); display: flex; flex-direction: column; justify-content: space-between; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(185,28,28,0.12)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(185,28,28,0.06)';" title="Clique para abrir a visão 360° da escola">
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
-                <span style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">#1 • 170 pts (Crítico)</span>
-                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 910454 • Barueri</span>
-              </div>
-              <div style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Maria Soares Santos, Professora</div>
-              <div style="width: 100%; height: 5px; background: #fee2e2; border-radius: 3px; margin-bottom: 0.65rem; overflow: hidden;">
-                <div style="width: 95%; height: 100%; background: #b91c1c; border-radius: 3px;"></div>
-              </div>
-              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: #334155; line-height: 1.4;">
-                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
-                  <span style="color: #b45309; font-weight: 800;">🏗️ SEOM:</span>
-                  <span>Sem AVCB dos Bombeiros • Infiltração crítica no telhado • Rede elétrica sobrecarregada • Sem zelador residente.</span>
-                </div>
-                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
-                  <span style="color: #0284c7; font-weight: 800;">💻 SEINTEC:</span>
-                  <span>158 equipamentos quebrados/inservíveis • 31 chamados de suporte técnico abertos no exercício.</span>
-                </div>
-              </div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
-              <span style="color: #b91c1c; font-weight: 800;">⚡ Maior risco da rede</span>
-              <span style="color: #2563eb; font-weight: 800;">Analisar unidade 360° →</span>
-            </div>
+          <!-- Preenchido dinamicamente pelo motor BI_DECISION_ENGINE com IMRO 360° das 60 escolas -->
+          <div class="atencao-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; color: #64748b; font-size: 0.82rem;">
+            Calculando Índice Multissetorial de Risco Operacional (IMRO 360°) das 60 escolas...
           </div>
-
-          <!-- Card 2: Celina de Barros Bairão, Professora -->
-          <div class="atencao-card" id="card-atencao-010424" onclick="selecionarEscolaNaHome('010424')" style="background: #ffffff; border: 1px solid #fecaca; border-left: 6px solid #dc2626; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 14px rgba(220,38,38,0.06); display: flex; flex-direction: column; justify-content: space-between; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(220,38,38,0.12)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(220,38,38,0.06)';" title="Clique para abrir a visão 360° da escola">
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
-                <span style="background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">#2 • 150 pts (Crítico)</span>
-                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 010424 • Itapevi</span>
-              </div>
-              <div style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Celina de Barros Bairão, Professora</div>
-              <div style="width: 100%; height: 5px; background: #fee2e2; border-radius: 3px; margin-bottom: 0.65rem; overflow: hidden;">
-                <div style="width: 85%; height: 100%; background: #dc2626; border-radius: 3px;"></div>
-              </div>
-              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: #334155; line-height: 1.4;">
-                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
-                  <span style="color: #0284c7; font-weight: 800;">💻 SEINTEC:</span>
-                  <span><strong>264 equipamentos quebrados</strong> (recorde da rede aguardando baixa) • 33 chamados de suporte.</span>
-                </div>
-                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
-                  <span style="color: #b45309; font-weight: 800;">🏗️ SEOM:</span>
-                  <span>Sem AVCB dos Bombeiros • Laudo de telhado com infiltração • Rede elétrica instável.</span>
-                </div>
-              </div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
-              <span style="color: #dc2626; font-weight: 800;">⚡ Maior sucateamento TI</span>
-              <span style="color: #2563eb; font-weight: 800;">Analisar unidade 360° →</span>
-            </div>
-          </div>
-
-          <!-- Card 3: Parque Payol -->
-          <div class="atencao-card" id="card-atencao-925834" onclick="selecionarEscolaNaHome('925834')" style="background: #ffffff; border: 1px solid #fed7aa; border-left: 6px solid #ea580c; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 14px rgba(234,88,12,0.06); display: flex; flex-direction: column; justify-content: space-between; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(234,88,12,0.12)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(234,88,12,0.06)';" title="Clique para abrir a visão 360° da escola">
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
-                <span style="background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">#3 • 150 pts (Crítico)</span>
-                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 925834 • Pirapora</span>
-              </div>
-              <div style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Parque Payol</div>
-              <div style="width: 100%; height: 5px; background: #ffedd5; border-radius: 3px; margin-bottom: 0.65rem; overflow: hidden;">
-                <div style="width: 85%; height: 100%; background: #ea580c; border-radius: 3px;"></div>
-              </div>
-              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: #334155; line-height: 1.4;">
-                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
-                  <span style="color: #b45309; font-weight: 800;">🏗️ SEOM:</span>
-                  <span>Obra ativa FDE com interdições • Sem AVCB dos Bombeiros • Telhado e elétrica críticos • Sem zelador.</span>
-                </div>
-                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
-                  <span style="color: #0284c7; font-weight: 800;">💻 SEINTEC:</span>
-                  <span>25 chamados de suporte técnico registrados • 69 equipamentos aguardando baixa.</span>
-                </div>
-              </div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
-              <span style="color: #ea580c; font-weight: 800;">⚡ Obra FDE &amp; 8 gargalos</span>
-              <span style="color: #2563eb; font-weight: 800;">Analisar unidade 360° →</span>
-            </div>
-          </div>
-
-          <!-- Card 4: Raul Briquet, Doutor -->
-          <div class="atencao-card" id="card-atencao-010467" onclick="selecionarEscolaNaHome('010467')" style="background: #ffffff; border: 1px solid #fed7aa; border-left: 6px solid #d97706; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 14px rgba(217,119,6,0.06); display: flex; flex-direction: column; justify-content: space-between; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(217,119,6,0.12)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(217,119,6,0.06)';" title="Clique para abrir a visão 360° da escola">
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
-                <span style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">#4 • 140 pts (Alto Risco)</span>
-                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 010467 • Itapevi</span>
-              </div>
-              <div style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Raul Briquet, Doutor</div>
-              <div style="width: 100%; height: 5px; background: #fef3c7; border-radius: 3px; margin-bottom: 0.65rem; overflow: hidden;">
-                <div style="width: 78%; height: 100%; background: #d97706; border-radius: 3px;"></div>
-              </div>
-              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: #334155; line-height: 1.4;">
-                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
-                  <span style="color: #0284c7; font-weight: 800;">💻 SEINTEC:</span>
-                  <span><strong>227 equipamentos danificados/inservíveis</strong> • 25 chamados de suporte técnico.</span>
-                </div>
-                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
-                  <span style="color: #b45309; font-weight: 800;">🏗️ SEOM:</span>
-                  <span>Sem AVCB dos Bombeiros • Infiltrações no telhado • Rede elétrica sobrecarregada.</span>
-                </div>
-              </div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
-              <span style="color: #d97706; font-weight: 800;">⚡ 227 PCs com defeito</span>
-              <span style="color: #2563eb; font-weight: 800;">Analisar unidade 360° →</span>
-            </div>
-          </div>
-
-          <!-- Card 5: Henrique Fernando Gomes, Estudante -->
-          <div class="atencao-card" id="card-atencao-290075" onclick="selecionarEscolaNaHome('290075')" style="background: #ffffff; border: 1px solid #fed7aa; border-left: 6px solid #d97706; border-radius: 12px; padding: 1.15rem; box-shadow: 0 4px 14px rgba(217,119,6,0.06); display: flex; flex-direction: column; justify-content: space-between; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(217,119,6,0.12)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 14px rgba(217,119,6,0.06)';" title="Clique para abrir a visão 360° da escola">
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
-                <span style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">#5 • 140 pts (Alto Risco)</span>
-                <span style="font-size: 0.72rem; color: #64748b; font-weight: 700;">CIE: 290075 • Itapevi</span>
-              </div>
-              <div style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">Henrique Fernando Gomes, Estudante</div>
-              <div style="width: 100%; height: 5px; background: #fef3c7; border-radius: 3px; margin-bottom: 0.65rem; overflow: hidden;">
-                <div style="width: 78%; height: 100%; background: #d97706; border-radius: 3px;"></div>
-              </div>
-              <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: #334155; line-height: 1.4;">
-                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
-                  <span style="color: #b45309; font-weight: 800;">🏗️ SEOM:</span>
-                  <span>Obra ativa FDE em andamento • Sem AVCB dos Bombeiros • Telhado e elétrica com avarias • Sem zelador.</span>
-                </div>
-                <div style="display: flex; align-items: flex-start; gap: 0.35rem;">
-                  <span style="color: #0284c7; font-weight: 800;">💻 SEINTEC:</span>
-                  <span>25 chamados de suporte técnico registrados no exercício.</span>
-                </div>
-              </div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; font-size: 0.74rem;">
-              <span style="color: #d97706; font-weight: 800;">⚡ Obra FDE em curso</span>
-              <span style="color: #2563eb; font-weight: 800;">Analisar unidade 360° →</span>
-            </div>
-          </div>
-
         </div>
 
-        <!-- 5. SEÇÃO: PAINEL GERAL DOS SETORES DA DIRETORIA (MÉTRICAS & INDICADORES CONSOLIDADOS) -->
+        <!-- 5. SEÇÃO: CENTRO DE INTELIGÊNCIA & DECISÃO REGIONAL (MATRIZ 2.0 + QUADRANTE + NEXT BEST ACTIONS) -->
         <div class="section-title-row" style="margin-top: 1.25rem;">
           <div class="section-main-heading">
-            <span>🏛️ Painel dos Setores • Métricas e Dados Consolidados</span>
+            <span>🏛️ Centro de Inteligência dos Setores • Performance, SLA, Risco &amp; Decisões</span>
           </div>
           <span class="section-see-all" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" style="cursor: pointer;">Subir ao topo ↑</span>
         </div>
 
-        <div class="centros-matrix-container" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.03); overflow: hidden; margin-bottom: 2rem;">
+        <div class="centros-matrix-container" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.03); overflow: hidden; margin-bottom: 1.5rem;">
           
-          <!-- Header do Scorecard Executivo -->
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.4rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+          <!-- Header de Observabilidade e Saúde dos Pipelines -->
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.05rem 1.35rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 0.75rem;">
             <div>
               <div style="font-size: 0.88rem; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem;">
-                <span>📊</span> Matriz Executiva de Performance e Saúde dos Centros
+                <span>📊</span> Matriz Executiva 2.0: Saúde, SLA, Ritmo &amp; Anomalias por Centro
               </div>
-              <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">Monitoramento consolidado dos 7 setores e centros regionais em tempo real</div>
+              <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">
+                Substitui contadores brutos por eficiência vs. meta, backlog envelhecido (aging), concentração Pareto 80/20 e anomalias estatísticas (Z-score)
+              </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-              <span style="font-size: 0.7rem; font-weight: 700; background: rgba(16, 185, 129, 0.12); color: #047857; padding: 0.25rem 0.65rem; border-radius: 999px; border: 1px solid rgba(16, 185, 129, 0.25);">🟢 100% dos Centros Ativos</span>
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <span id="di-matrix-observability-pill" style="font-size: 0.7rem; font-weight: 800; background: rgba(14, 165, 233, 0.12); color: #0369a1; padding: 0.28rem 0.75rem; border-radius: 999px; border: 1px solid rgba(14, 165, 233, 0.3);">
+                📡 Pipeline: apurando fontes...
+              </span>
+              <span id="di-matrix-completeness-pill" style="font-size: 0.7rem; font-weight: 800; background: rgba(16, 185, 129, 0.12); color: #047857; padding: 0.28rem 0.75rem; border-radius: 999px; border: 1px solid rgba(16, 185, 129, 0.28);">
+                🛡️ Integridade: --%
+              </span>
             </div>
           </div>
 
-          <!-- Tabela Executiva de Centros (Executive Health Matrix) -->
+          <!-- Tabela Executiva 2.0 (6 Colunas de Decision Intelligence) -->
           <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.8rem;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.79rem;">
               <thead>
-                <tr style="background: #f1f5f9; color: #475569; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #cbd5e1;">
-                  <th style="padding: 0.85rem 1.2rem; font-weight: 800;">Núcleo / Setor</th>
-                  <th style="padding: 0.85rem 1.2rem; font-weight: 800;">Status Operacional</th>
-                  <th style="padding: 0.85rem 1.2rem; font-weight: 800;">Indicador Principal (KPI)</th>
-                  <th style="padding: 0.85rem 1.2rem; font-weight: 800;">Entregas &amp; Volume</th>
-                  <th style="padding: 0.85rem 1.2rem; font-weight: 800; text-align: right;" class="no-sort" data-no-sort="true">Ação Executiva</th>
+                <tr style="background: #f1f5f9; color: #475569; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #cbd5e1;">
+                  <th style="padding: 0.8rem 1rem; font-weight: 800;">Núcleo / Setor &amp; Origem</th>
+                  <th style="padding: 0.8rem 1rem; font-weight: 800;">Health Score &amp; Tendência</th>
+                  <th style="padding: 0.8rem 1rem; font-weight: 800;">Eficiência vs. Ritmo (Bullet)</th>
+                  <th style="padding: 0.8rem 1rem; font-weight: 800;">Gargalo &amp; SLA (Aging)</th>
+                  <th style="padding: 0.8rem 1rem; font-weight: 800;">Pareto 80/20 &amp; Anomalia</th>
+                  <th style="padding: 0.8rem 1rem; font-weight: 800; text-align: right;" class="no-sort" data-no-sort="true">Ação</th>
                 </tr>
               </thead>
-              <tbody style="divide-y: 1px solid #f1f5f9;">
+              <tbody id="di-matrix-tbody">
 
                 <!-- 1. SEINTEC -->
                 <tr id="row-setor-seintec" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                      <div style="width: 36px; height: 36px; border-radius: 8px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">💻</div>
+                  <td style="padding: 0.9rem 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                      <div style="width: 34px; height: 34px; border-radius: 8px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">💻</div>
                       <div>
                         <div style="font-weight: 800; color: #0f172a;">SEINTEC • Informações &amp; Tecnologia</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">Atendimentos, Hardware, Redes e TVs/Educatrons</div>
+                        <div style="font-size: 0.68rem; color: #64748b;" id="di-seintec-fresh">SharePoint Ao Vivo • Hardware, Redes e Chamados</div>
                       </div>
                     </div>
                   </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <span id="matrix-seintec-badge-calls" style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #047857; background: #ecfdf5; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #a7f3d0;">
-                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span> 1.641 Atendimentos
-                    </span>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 800; color: #0f172a;" id="matrix-seintec-kpi">15.973 Equipamentos</div>
-                    <div style="font-size: 0.7rem; color: #059669;" id="matrix-seintec-sub">12.205 em uso pedagógico e administrativo</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;" id="matrix-seintec-calls">1.641 Chamados Oficiais</div>
-                    <div style="font-size: 0.7rem; color: #64748b;" id="matrix-seintec-bases-sub">542 Redes • 734 TVs • 198 Recargas</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirSeintec()" style="background: #0284c7; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#0369a1'" onmouseout="this.style.background='#0284c7'">
-                      SEINTEC
-                    </button>
+                  <td style="padding: 0.9rem 1rem;" id="di-seintec-health">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-seintec-bullet">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-seintec-sla">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-seintec-pareto">--</td>
+                  <td style="padding: 0.9rem 1rem; text-align: right;">
+                    <button onclick="abrirSeintec()" style="background: #0284c7; color: #ffffff; border: none; padding: 0.42rem 0.9rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; min-width: 82px;">SEINTEC</button>
                   </td>
                 </tr>
 
-                <!-- 2. ASURE -->
+                <!-- 2. ASURE (Adaptador Pronto para Dados Reais) -->
                 <tr id="row-setor-asure" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                      <div style="width: 36px; height: 36px; border-radius: 8px; background: #fef3c7; color: #b45309; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">🏛️</div>
+                  <td style="padding: 0.9rem 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                      <div style="width: 34px; height: 34px; border-radius: 8px; background: #fef3c7; color: #b45309; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">🏛️</div>
                       <div>
                         <div style="font-weight: 800; color: #0f172a;">ASURE • Gabinete &amp; Assessoria</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">Rotina da Dirigente, Visitas, Agenda e Ouvidoria</div>
+                        <div style="font-size: 0.68rem; color: #64748b;" id="di-asure-fresh">Adaptador pronto • Aguardando planilha SharePoint ASURE</div>
                       </div>
                     </div>
                   </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #1e40af; background: #eff6ff; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #bfdbfe;">
-                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #3b82f6;"></span> 90,0% Metas Cumpridas
-                    </span>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 800; color: #0f172a;">54 Visitas Realizadas</div>
-                    <div style="font-size: 0.7rem; color: #2563eb;">Meta de 60 escolas da regional</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;">100% Despachos em Dia</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">Agenda Executiva e Frota Oficial</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirAssessoriaTecnica()" style="background: #1e293b; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#0f172a'" onmouseout="this.style.background='#1e293b'">
-                      ASURE
-                    </button>
+                  <td style="padding: 0.9rem 1rem;" id="di-asure-health">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-asure-bullet">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-asure-sla">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-asure-pareto">--</td>
+                  <td style="padding: 0.9rem 1rem; text-align: right;">
+                    <button onclick="abrirAssessoriaTecnica()" style="background: #1e293b; color: #ffffff; border: none; padding: 0.42rem 0.9rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; min-width: 82px;">ASURE</button>
                   </td>
                 </tr>
 
-                <!-- 3. SEAFIN (CAF) -->
+                <!-- 3. SEAFIN (SEFIN + SECOMSE) -->
                 <tr id="row-setor-seafin" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                      <div style="width: 36px; height: 36px; border-radius: 8px; background: #ecfdf5; color: #047857; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">💼</div>
+                  <td style="padding: 0.9rem 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                      <div style="width: 34px; height: 34px; border-radius: 8px; background: #ecfdf5; color: #047857; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">💼</div>
                       <div>
                         <div style="font-weight: 800; color: #0f172a;">SEAFIN • Administração &amp; Finanças</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">SEFIN (Finanças &amp; Orçamento) e SECOMSE (Contratos 2026)</div>
+                        <div style="font-size: 0.68rem; color: #64748b;" id="di-seafin-fresh">SEFIN (PDDE) + SECOMSE (Contratos)</div>
                       </div>
                     </div>
                   </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <span id="matrix-seafin-repasses" style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #047857; background: #ecfdf5; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #a7f3d0;">
-                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span> 204 Repasses Ativos
-                    </span>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 800; color: #0f172a;" id="matrix-seafin-receita">R$ 10,4M Repassados</div>
-                    <div style="font-size: 0.7rem; color: #059669;" id="matrix-seafin-exec">R$ 5,40M executados (52,1%)</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;">Finanças &amp; Contratos 2026</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">SEFIN (PDDE) • SECOMSE (Compras &amp; Serviços)</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('CAF')" style="background: #047857; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#065f46'" onmouseout="this.style.background='#047857'">
-                      SEAFIN
-                    </button>
+                  <td style="padding: 0.9rem 1rem;" id="di-seafin-health">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-seafin-bullet">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-seafin-sla">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-seafin-pareto">--</td>
+                  <td style="padding: 0.9rem 1rem; text-align: right;">
+                    <button onclick="abrirCentro('CAF')" style="background: #047857; color: #ffffff; border: none; padding: 0.42rem 0.9rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; min-width: 82px;">SEAFIN</button>
                   </td>
                 </tr>
 
-                <!-- 4. SEOM (Obras, Manutenção & Fiscalização) -->
+                <!-- 4. SEOM (SEOM + SEFISC + DPAT) -->
                 <tr id="row-setor-seom" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                      <div style="width: 36px; height: 36px; border-radius: 8px; background: #fff7ed; color: #c2410c; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">🏗️</div>
+                  <td style="padding: 0.9rem 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                      <div style="width: 34px; height: 34px; border-radius: 8px; background: #fff7ed; color: #c2410c; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">🏗️</div>
                       <div>
-                        <div style="font-weight: 800; color: #0f172a;">SEOM • Obras, Manutenção &amp; Fiscalização</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">SEOM (Obras), SEFISC (Zeladorias) e DPAT (Patrimônio)</div>
+                        <div style="font-weight: 800; color: #0f172a;">SEOM • Obras, Fiscalização &amp; Patrimônio</div>
+                        <div style="font-size: 0.68rem; color: #64748b;" id="di-seom-fresh">SEOM (Mapa 11D) + SEFISC + DPAT</div>
                       </div>
                     </div>
                   </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #c2410c; background: #fff7ed; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #ffedd5;">
-                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #f97316;"></span> 100% Demandas Vistoriadas
-                    </span>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 800; color: #0f172a;">Engenharia, Fiscalização &amp; Bens</div>
-                    <div style="font-size: 0.7rem; color: #c2410c;">Laudos técnicos, AVCB, obras e reformas</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;">SEOM • SEFISC • DPAT</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">Fiscalização, Zeladorias 2026 e Inventário Patrimonial</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('SEOM')" style="background: #b45309; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#92400e'" onmouseout="this.style.background='#b45309'">
-                      SEOM
-                    </button>
+                  <td style="padding: 0.9rem 1rem;" id="di-seom-health">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-seom-bullet">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-seom-sla">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-seom-pareto">--</td>
+                  <td style="padding: 0.9rem 1rem; text-align: right;">
+                    <button onclick="abrirCentro('SEOM')" style="background: #b45309; color: #ffffff; border: none; padding: 0.42rem 0.9rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; min-width: 82px;">SEOM</button>
                   </td>
                 </tr>
 
-                <!-- 5. SEGRE -->
+                <!-- 5. SEGRE (SEGRE + SEMAT + SEVESC) -->
                 <tr id="row-setor-segre" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                      <div style="width: 36px; height: 36px; border-radius: 8px; background: #fff7ed; color: #ea580c; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">🏫</div>
+                  <td style="padding: 0.9rem 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                      <div style="width: 34px; height: 34px; border-radius: 8px; background: #fff7ed; color: #ea580c; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">🏫</div>
                       <div>
-                        <div style="font-weight: 800; color: #0f172a;">SEGRE • Serviço de Gestão da Rede Escolar</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">SEMAT (Matrículas), SEVESC (Vida Escolar) e Base E-MAIL</div>
+                        <div style="font-weight: 800; color: #0f172a;">SEGRE • Gestão da Rede Escolar</div>
+                        <div style="font-size: 0.68rem; color: #64748b;" id="di-segre-fresh">Livros 2026: SEGRE + SEMAT + SEVESC</div>
                       </div>
                     </div>
                   </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #c2410c; background: #fff7ed; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #ffedd5;">
-                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #ea580c;"></span> 60 Escolas Monitoradas
-                    </span>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 800; color: #0f172a;">100% de Cobertura Regional</div>
-                    <div style="font-size: 0.7rem; color: #ea580c;">SEMAT (Vagas) &amp; SEVESC (Vida Escolar)</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;" id="matrix-segre-emails">8.921 E-mails &amp; Demandas</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">Livros de Entrada 2026 SEMAT &amp; SEVESC</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('SEGRE')" style="background: #ea580c; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#c2410c'" onmouseout="this.style.background='#ea580c'">
-                      SEGRE
-                    </button>
+                  <td style="padding: 0.9rem 1rem;" id="di-segre-health">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-segre-bullet">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-segre-sla">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-segre-pareto">--</td>
+                  <td style="padding: 0.9rem 1rem; text-align: right;">
+                    <button onclick="abrirCentro('SEGRE')" style="background: #ea580c; color: #ffffff; border: none; padding: 0.42rem 0.9rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; min-width: 82px;">SEGRE</button>
                   </td>
                 </tr>
 
-                <!-- 6. SEPES -->
+                <!-- 6. SEPES (SEAPE + SEFREP) -->
                 <tr id="row-setor-sepes" style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                      <div style="width: 36px; height: 36px; border-radius: 8px; background: #f5f3ff; color: #7c3aed; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">👥</div>
+                  <td style="padding: 0.9rem 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                      <div style="width: 34px; height: 34px; border-radius: 8px; background: #f5f3ff; color: #7c3aed; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">👥</div>
                       <div>
                         <div style="font-weight: 800; color: #0f172a;">SEPES • Serviço de Pessoas</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">SEAPE (Vida Funcional) e SEFREP (Frequência &amp; Pagamento)</div>
+                        <div style="font-size: 0.68rem; color: #64748b;" id="di-sepes-fresh">DEMANDAS SEAPE.xlsx • Aposentadorias, Designações e Abonos</div>
                       </div>
                     </div>
                   </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #6d28d9; background: #f5f3ff; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #ddd6fe;">
-                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #8b5cf6;"></span> Quadro Regular
-                    </span>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 800; color: #0f172a;">SEAPE • Vida Funcional</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">Aposentadorias, Designações &amp; Abono de Permanência</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;">SEAPE &amp; SEFREP</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">SED, Folha de Pagamento e Modulação Docente</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('SEPES')" style="background: #7c3aed; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#6d28d9'" onmouseout="this.style.background='#7c3aed'">
-                      SEPES
-                    </button>
+                  <td style="padding: 0.9rem 1rem;" id="di-sepes-health">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-sepes-bullet">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-sepes-sla">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-sepes-pareto">--</td>
+                  <td style="padding: 0.9rem 1rem; text-align: right;">
+                    <button onclick="abrirCentro('SEPES')" style="background: #7c3aed; color: #ffffff; border: none; padding: 0.42rem 0.9rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; min-width: 82px;">SEPES</button>
                   </td>
                 </tr>
 
-                <!-- 7. EEC -->
+                <!-- 7. EEC (Adaptador Pronto para Dados Pedagógicos Consolidados) -->
                 <tr id="row-setor-eec" style="transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                      <div style="width: 36px; height: 36px; border-radius: 8px; background: #f0fdf4; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold;">📚</div>
+                  <td style="padding: 0.9rem 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                      <div style="width: 34px; height: 34px; border-radius: 8px; background: #f0fdf4; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">📚</div>
                       <div>
                         <div style="font-weight: 800; color: #0f172a;">EEC • Currículo &amp; Formação Pedagógica</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">Anos Iniciais, Anos Finais, Ensino Médio e Projetos Especiais</div>
+                        <div style="font-size: 0.68rem; color: #64748b;" id="di-eec-fresh">12 Portais Apps Script • Adaptador SARESP/Prova Paulista pronto</div>
                       </div>
                     </div>
                   </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; color: #15803d; background: #f0fdf4; padding: 0.25rem 0.6rem; border-radius: 999px; border: 1px solid #bbf7d0;">
-                      <span style="width: 6px; height: 6px; border-radius: 50%; background: #22c55e;"></span> Avaliações Ativas
-                    </span>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 800; color: #0f172a;">SARESP &amp; Prova Paulista</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">Currículo Paulista e Educação Especial</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem;">
-                    <div style="font-weight: 700; color: #334155;">Formação Continuada de Professores</div>
-                    <div style="font-size: 0.7rem; color: #64748b;">Oficinas pedagógicas e planos de nivelamento</div>
-                  </td>
-                  <td style="padding: 1rem 1.2rem; text-align: right;">
-                    <button onclick="abrirCentro('EEC')" style="background: #16a34a; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 86px; text-align: center;" onmouseover="this.style.background='#15803d'" onmouseout="this.style.background='#16a34a'">
-                      EEC
-                    </button>
+                  <td style="padding: 0.9rem 1rem;" id="di-eec-health">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-eec-bullet">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-eec-sla">--</td>
+                  <td style="padding: 0.9rem 1rem;" id="di-eec-pareto">--</td>
+                  <td style="padding: 0.9rem 1rem; text-align: right;">
+                    <button onclick="abrirCentro('EEC')" style="background: #16a34a; color: #ffffff; border: none; padding: 0.42rem 0.9rem; border-radius: 6px; font-size: 0.74rem; font-weight: 700; cursor: pointer; min-width: 82px;">EEC</button>
                   </td>
                 </tr>
 
               </tbody>
             </table>
           </div>
+        </div>
 
-        
+        <!-- DUO DE INTELIGÊNCIA CRUZADA: QUADRANTE DAS 60 ESCOLAS + MOTOR PRESCRITIVO (NEXT BEST ACTIONS) -->
+        <div class="di-cross-grid" id="di-intelligence-duo">
 
-          <!-- NOTA METODOLÓGICA & LEGENDA DE RISCO MULTISSETORIAL (IMRO) -->
-          <div id="nota-metodologica-imro" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.85rem; border: 1px solid #1e293b; margin-top: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: box-shadow 0.3s ease;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.85rem;">
-              <div style="display: flex; align-items: center; gap: 0.6rem;">
-                <span style="font-size: 1.4rem;">📌</span>
-                <div>
-                  <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">NOTA METODOLÓGICA &amp; MATRIZ DE RISCO OPERACIONAL (IMRO)</h4>
-                  <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Metodologia oficial de Gestão por Exceção para priorização de investimentos e suporte da Dirigente Regional</div>
+          <!-- Painel Esquerdo: Quadrante Executivo das 60 Escolas -->
+          <div class="di-panel-card" id="di-quadrant-panel">
+            <div class="di-panel-header">
+              <div>
+                <div style="font-size: 0.86rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 0.45rem;">
+                  <span>🎯</span> Quadrante Executivo das 60 Escolas (Cruzamento Multissetorial)
+                </div>
+                <div style="font-size: 0.71rem; color: #64748b; margin-top: 2px;" id="di-quad-subtitle">
+                  Eixo X: Risco Operacional (IMRO 360°) × Eixo Y: Execução PDDE 2026 (%) — clique em qualquer ponto para abrir a unidade
                 </div>
               </div>
-              <span style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px;">Arquitetura Dinâmica &amp; Extensível</span>
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <button type="button" id="btn-quad-mode-fin" class="di-mode-btn active" onclick="BI_DECISION_ENGINE.definirModoQuadrante('fin')">Risco × PDDE (Ao Vivo)</button>
+                <button type="button" id="btn-quad-mode-eec" class="di-mode-btn" onclick="BI_DECISION_ENGINE.definirModoQuadrante('eec')">Risco × EEC Pedagógico</button>
+              </div>
             </div>
 
-            <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 1.25rem;">
-              O <strong>Índice Multissetorial de Risco Operacional (IMRO)</strong> é apurado matematicamente através do cruzamento em tempo real dos indicadores de desempenho e dados oficiais reportados pelos centros e setores da Diretoria de Ensino. O objetivo é eliminar escolhas empíricas e apontar objetivamente à liderança regional onde se concentram os maiores gargalos prediais, tecnológicos, orçamentários e administrativos da rede.
-            </p>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
-              
-              <!-- Bloco 1: Infraestrutura (SEOM) -->
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
-                <div style="color: #f59e0b; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
-                  <span>🏗️</span> <span>Dimensão Infraestrutura &amp; Segurança (SEOM)</span>
-                </div>
-                <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #94a3b8; line-height: 1.6;">
-                  <li><strong style="color: #ef4444;">AVCB Pendente (+25 pts):</strong> Ausência de laudo do Corpo de Bombeiros (risco legal).</li>
-                  <li><strong style="color: #ef4444;">Saneamento / Esgoto (+25 pts):</strong> Demanda crítica de rede ou fossa séptica.</li>
-                  <li><strong style="color: #f97316;">Telhado Crítico (+20 pts):</strong> Goteiras e infiltrações que afetam salas de aula.</li>
-                  <li><strong style="color: #f97316;">Elétrica Sobrecarregada (+20 pts):</strong> Instalações sob tensão sem suporte a Educatrons.</li>
-                  <li><strong style="color: #eab308;">Obra FDE Ativa (+15 pts):</strong> Intervenção predial física gerando área isolada.</li>
-                  <li><strong style="color: #94a3b8;">Zeladoria / Cuidadores (+10 pts):</strong> Ausência de zelador ou carência de suporte.</li>
-                </ul>
-              </div>
-
-              <!-- Bloco 2: Tecnologia (SEINTEC) -->
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
-                <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
-                  <span>💻</span> <span>Dimensão Tecnologia &amp; Suporte (SEINTEC)</span>
-                </div>
-                <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #94a3b8; line-height: 1.6;">
-                  <li><strong style="color: #ef4444;">Sucateamento Crítico (+35 pts):</strong> Acima de 150 máquinas danificadas sem baixa.</li>
-                  <li><strong style="color: #f97316;">Parque Danificado (+20 pts):</strong> Entre 60 e 150 equipamentos quebrados.</li>
-                  <li><strong style="color: #ef4444;">Polo Crítico de Suporte (+30 pts):</strong> Unidade com 30 ou mais chamados abertos.</li>
-                  <li><strong style="color: #f97316;">Alta Demanda de TI (+20 pts):</strong> Entre 20 e 29 chamados oficiais no exercício.</li>
-                  <li><strong style="color: #38bdf8;">Oscilação de Link:</strong> Instabilidade frequente no link Intragov de fibra.</li>
-                </ul>
-              </div>
-
-              <!-- Bloco 3: Extensibilidade Futura -->
-              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
-                <div style="color: #10b981; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
-                  <span>🏢</span> <span>Integração Contínua de Novos Setores</span>
-                </div>
-                <div style="font-size: 0.76rem; color: #94a3b8; line-height: 1.6;">
-                  À medida que as bases públicas dos demais núcleos forem consolidadas, novos fatores de ponderação ingressam automaticamente no cálculo do IMRO:
-                  <div style="margin-top: 0.4rem;">
-                    • <strong>SEAFIN / SEFIN:</strong> Taxa de execução de repasses do PDDE e prazos de prestação de contas das APMs.<br>
-                    • <strong>SEGRE / SEMAT:</strong> Fila de matrículas manuais e compatibilização regional de vagas.<br>
-                    • <strong>SEPES:</strong> Modulação docente, licenças e absenteísmo funcional.<br>
-                    • <strong>EEC:</strong> Metas pedagógicas e proficiência no SARESP.
-                  </div>
-                </div>
-              </div>
-
+            <div style="padding: 0.85rem 1rem 0.45rem 1rem; position: relative;" id="di-quadrant-canvas-wrap">
+              <!-- SVG Scatter Plot gerado dinamicamente -->
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
-              <span><strong>URE Itapevi</strong> • Diretoria Regional de Ensino • BI Dirigente</span>
-              <span>Padronização Nomenclatural: Denominação oficial padronizada para gestão executiva.</span>
+            <div class="di-quad-stats" id="di-quad-stats">
+              <!-- 4 contadores de quadrante não clicáveis -->
             </div>
           </div>
+
+          <!-- Painel Direito: Motor Prescritivo (Top 3 Decisões de Maior Retorno Hoje) -->
+          <div class="di-panel-card" id="di-nba-panel">
+            <div class="di-panel-header">
+              <div>
+                <div style="font-size: 0.86rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 0.45rem;">
+                  <span>⚡</span> Motor Prescritivo • Top 3 Decisões de Maior Impacto
+                </div>
+                <div style="font-size: 0.71rem; color: #64748b; margin-top: 2px;">
+                  Ações priorizadas automaticamente por cruzamento de risco, recurso ocioso e SLA vencido
+                </div>
+              </div>
+              <span style="font-size: 0.68rem; font-weight: 800; background: #0b2351; color: #fbbf24; padding: 3px 9px; border-radius: 999px;">IA Analítica</span>
+            </div>
+            <div class="di-nba-list" id="di-nba-list">
+              <!-- Top 3 Recomendações geradas em tempo real -->
+            </div>
+          </div>
+
+        </div>
+
+        <div id="di-scatter-tooltip" class="di-scatter-tooltip"></div>
+
+        <!-- NOTA METODOLÓGICA & LEGENDA DE RISCO MULTISSETORIAL (IMRO 360°) -->
+        <div id="nota-metodologica-imro" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 1.85rem; border: 1px solid #1e293b; margin-top: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.12); transition: box-shadow 0.3s ease;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid #334155; padding-bottom: 0.85rem;">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <span style="font-size: 1.4rem;">📌</span>
+              <div>
+                <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">NOTA METODOLÓGICA &amp; MATRIZ DE RISCO OPERACIONAL (IMRO 360°)</h4>
+                <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Metodologia oficial de Gestão por Exceção e Decision Intelligence para a liderança regional</div>
+              </div>
+            </div>
+            <span style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px;">Arquitetura Dinâmica &amp; Extensível (6+2 Pilares)</span>
+          </div>
+
+          <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 1.25rem;">
+            O <strong>Índice Multissetorial de Risco Operacional (IMRO 360°)</strong> é calculado dinamicamente para todas as 60 escolas cruzando dados reais de infraestrutura, tecnologia, execução financeira, pessoas e fluxo de atendimento, eliminando o viés de olhar apenas para um setor.
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+            
+            <!-- Bloco 1: Infraestrutura (SEOM) -->
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+              <div style="color: #f59e0b; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>🏗️</span> <span>Infraestrutura &amp; Segurança (SEOM)</span>
+              </div>
+              <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.75rem; color: #94a3b8; line-height: 1.55;">
+                <li><strong style="color: #ef4444;">AVCB Pendente (+25 pts):</strong> Ausência de laudo do Corpo de Bombeiros.</li>
+                <li><strong style="color: #ef4444;">Saneamento / Esgoto (+25 pts):</strong> Demanda crítica de rede/fossa.</li>
+                <li><strong style="color: #f97316;">Telhado Crítico (+20 pts):</strong> Infiltrações em salas/áreas comuns.</li>
+                <li><strong style="color: #f97316;">Elétrica Sobrecarregada (+20 pts):</strong> Restrição para carga tecnológica.</li>
+                <li><strong style="color: #eab308;">Obra FDE Ativa (+15 pts) &amp; Zeladoria (+10 pts):</strong> Intervenção física ou ausência de zelador.</li>
+              </ul>
+            </div>
+
+            <!-- Bloco 2: Tecnologia (SEINTEC) -->
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+              <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>💻</span> <span>Tecnologia &amp; Suporte (SEINTEC)</span>
+              </div>
+              <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.75rem; color: #94a3b8; line-height: 1.55;">
+                <li><strong style="color: #ef4444;">Sucateamento Crítico (+35 pts):</strong> &gt;150 máquinas danificadas/em reparo.</li>
+                <li><strong style="color: #f97316;">Parque Danificado (+20 pts):</strong> Entre 60 e 150 equipamentos comprometidos.</li>
+                <li><strong style="color: #ef4444;">Polo Crítico de Suporte (+30 pts):</strong> ≥30 chamados no exercício ou backlog aberto.</li>
+                <li><strong style="color: #f97316;">Alta Demanda de TI (+20 pts):</strong> Entre 20 e 29 chamados oficiais.</li>
+              </ul>
+            </div>
+
+            <!-- Bloco 3: Finanças, RH & Rede (Ativos) -->
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
+              <div style="color: #a78bfa; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>💼</span> <span>Finanças, Pessoas &amp; Rede (Ativos)</span>
+              </div>
+              <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.75rem; color: #94a3b8; line-height: 1.55;">
+                <li><strong style="color: #10b981;">SEAFIN (+10 a +20 pts):</strong> Execução PDDE 2026 &lt;40% no 2º semestre ou saldo elevado ocioso em escola crítica.</li>
+                <li><strong style="color: #a78bfa;">SEPES (+8 a +20 pts):</strong> Processos em tramitação/exigência na unidade (designações, aposentadorias, abonos).</li>
+                <li><strong style="color: #fb923c;">SEGRE (+6 a +15 pts):</strong> Processos SEI em aberto no SEGRE/SEMAT/SEVESC.</li>
+              </ul>
+            </div>
+
+            <!-- Bloco 4: Adaptadores Plug & Play (ASURE & EEC) -->
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(56,189,248,0.22); border-radius: 8px; padding: 1rem;">
+              <div style="color: #10b981; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>🔌</span> <span>Adaptadores Prontos: ASURE &amp; EEC</span>
+              </div>
+              <div style="font-size: 0.75rem; color: #94a3b8; line-height: 1.55;">
+                Quando as planilhas/APIs de <strong>ASURE</strong> (ouvidoria, visitas e despachos) e <strong>EEC</strong> (proficiência SARESP / Prova Paulista) forem plugadas via <code style="color: #bae6fd;">window.registrarDadosAsure()</code> e <code style="color: #bae6fd;">window.registrarDadosEec()</code>, a Matriz 2.0, o IMRO 360° e o Quadrante Pedagógico ativam automaticamente sem alterar layout.
+              </div>
+            </div>
+
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
+            <span><strong>URE Itapevi</strong> • Diretoria Regional de Ensino • BI Dirigente</span>
+            <span>Decision Intelligence Engine 2.0 • 100% Nuvem &amp; Extensível</span>
+          </div>
+        </div>
 
 </div></section>
 
@@ -20263,20 +20353,23 @@ function imprimirAgendaCarro() {
     }
 
     function destacarAtencaoHomeParaEscola(dados) {
-      const cards = ['card-atencao-910454', 'card-atencao-010424', 'card-atencao-925834', 'card-atencao-010467', 'card-atencao-290075'];
-      cards.forEach(id => {
-        const el = document.getElementById(id);
+      const cards = document.querySelectorAll('#home-atencao-grid .atencao-card');
+      cards.forEach(el => {
         if (!el) return;
-        if (id.includes(dados.cie)) {
+        const cardCie = el.getAttribute('data-cie') || el.id || '';
+        if (dados && dados.cie && cardCie.includes(dados.cie)) {
           el.style.border = '2px solid #ef4444';
           el.style.boxShadow = '0 0 16px rgba(239, 68, 68, 0.35)';
           el.style.opacity = '1';
         } else {
           el.style.border = '1px solid #e2e8f0';
           el.style.boxShadow = 'none';
-          el.style.opacity = dados.emAtencao ? '0.45' : '1';
+          el.style.opacity = (dados && dados.emAtencao) ? '0.45' : '1';
         }
       });
+      if (window.BI_DECISION_ENGINE && typeof window.BI_DECISION_ENGINE.destacarEscolaNoQuadrante === 'function') {
+        window.BI_DECISION_ENGINE.destacarEscolaNoQuadrante(dados ? dados.cie : null);
+      }
     }
 
     function restaurarVisaoConsolidadaHome() {
@@ -20342,69 +20435,18 @@ function imprimirAgendaCarro() {
       if (gaugeVal) gaugeVal.textContent = '54 de 60';
       if (gaugeSub) gaugeSub.textContent = 'visitas concluídas na rede estadual';
 
-      /* Restaurar SEINTEC */
-      const sHw = document.getElementById('home-seintec-m1');
-      const sDisp = document.getElementById('home-seintec-m2');
-      const sManut = document.getElementById('home-seintec-m3');
-      const sStatus = document.getElementById('home-seintec-status');
-      if (sHw) sHw.textContent = hwTotConsolidado.toLocaleString('pt-BR');
-      if (sDisp) sDisp.textContent = hwDispConsolidado.toLocaleString('pt-BR');
-      if (sManut) sManut.textContent = hwManutConsolidado.toLocaleString('pt-BR');
-      if (sStatus) sStatus.textContent = '🟢 ' + hwPctConsolidado + ' Disp.';
-
-      /* Restaurar ASURE */
-      const aM1 = document.getElementById('home-asure-m1');
-      const aM2 = document.getElementById('home-asure-m2');
-      const aM3 = document.getElementById('home-asure-m3');
-      const aStatus = document.getElementById('home-asure-status');
-      const aLbl1 = document.getElementById('home-asure-lbl1');
-      const aLbl2 = document.getElementById('home-asure-lbl2');
-      if (aM1) aM1.textContent = '54';
-      if (aLbl1) aLbl1.textContent = 'Visitas Feitas';
-      if (aM2) aM2.textContent = '60';
-      if (aLbl2) aLbl2.textContent = 'Meta da Rede';
-      if (aM3) aM3.textContent = '90%';
-      if (aStatus) aStatus.textContent = '🟢 90,0% Metas';
-
-      /* Restaurar SEAFIN */
-      const sfM1 = document.getElementById('home-seafin-m1');
-      const sfStatus = document.getElementById('home-seafin-status');
-      const sefinRepTot = (sefinK.totalRepasses || 204).toLocaleString('pt-BR');
-      if (sfM1) sfM1.textContent = sefinRepTot + ' Repasses';
-      if (sfStatus) sfStatus.textContent = '🟢 ' + sefinRepTot + ' Repasses Ativos (2026)';
-      const matSeafinRep2 = document.getElementById('matrix-seafin-repasses');
-      const matSeafinRec2 = document.getElementById('matrix-seafin-receita');
-      const matSeafinExec2 = document.getElementById('matrix-seafin-exec');
-      if (matSeafinRep2) matSeafinRep2.innerHTML = '<span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span> ' + sefinRepTot + ' Repasses Ativos';
-      if (matSeafinRec2) matSeafinRec2.textContent = recFmt + ' Repassados';
-      if (matSeafinExec2) matSeafinExec2.textContent = despFmt + ' executados (' + execPctFmt + ')';
-
-      /* Restaurar SEGRE */
-      const sgM1 = document.getElementById('home-segre-m1');
-      const sgLbl1 = document.getElementById('home-segre-lbl1');
-      const sgStatus = document.getElementById('home-segre-status');
-      if (sgM1) sgM1.textContent = '60';
-      if (sgLbl1) sgLbl1.textContent = 'Escolas';
-      if (sgStatus) sgStatus.textContent = '🟢 60 Escolas';
-
-      /* Restaurar SEPES */
-      const spStatus = document.getElementById('home-sepes-status');
-      if (spStatus) spStatus.textContent = '🟢 Atribuição OK';
-
-      /* Restaurar EEC */
-      const eecStatus = document.getElementById('home-eec-status');
-      if (eecStatus) eecStatus.textContent = '🟢 Avaliações';
-
       /* Restaurar Atenção */
-      const cards = ['card-atencao-910454', 'card-atencao-010424', 'card-atencao-925834', 'card-atencao-010467', 'card-atencao-290075'];
-      cards.forEach(id => {
-        const el = document.getElementById(id);
+      const cards = document.querySelectorAll('#home-atencao-grid .atencao-card');
+      cards.forEach(el => {
         if (el) {
-          el.style.border = '1px solid #e2e8f0';
-          el.style.boxShadow = 'none';
+          el.style.border = '';
+          el.style.boxShadow = '';
           el.style.opacity = '1';
         }
       });
+      if (window.BI_DECISION_ENGINE && typeof window.BI_DECISION_ENGINE.atualizar === 'function') {
+        window.BI_DECISION_ENGINE.atualizar(null);
+      }
     }
 
     function destacarCentroNaHome(sigla) {
@@ -36691,6 +36733,1212 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         document.addEventListener('DOMContentLoaded', iniciarProximidadeScrollbar);
       } else {
         iniciarProximidadeScrollbar();
+      }
+    })();
+</script>
+
+<script>
+    /* ========================================================================= */
+    /* BI DIRIGENTE 2.0 • DECISION INTELLIGENCE ENGINE (100% NUVEM & EXTENSÍVEL) */
+    /* ========================================================================= */
+    (function() {
+      window.DADOS_ASURE = window.DADOS_ASURE || null;
+      window.DADOS_EEC = window.DADOS_EEC || null;
+
+      function escHtml(str) {
+        return String(str == null ? '' : str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function normCie(v) {
+        var digits = String(v == null ? '' : v).replace(/\D/g, '');
+        if (!digits) return '';
+        if (digits.length > 6) digits = digits.slice(-6);
+        while (digits.length < 6) digits = '0' + digits;
+        return digits;
+      }
+
+      function normTexto(s) {
+        var txt = String(s == null ? '' : s).toUpperCase();
+        if (typeof txt.normalize === 'function') {
+          txt = txt.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+        return txt
+          .replace(/\b(EE|E\.E\.|PROF|PROFA|PROFESSOR|PROFESSORA|DR|DOUTOR|PE|PADRE|MARECHAL|DEPUTADO|PREFEITO|ESTUDANTE|ALFERES|DESEMBARGADOR)\b/g, ' ')
+          .replace(/[^A-Z0-9]+/g, ' ')
+          .trim();
+      }
+
+      function matchNomeEscola(nomeA, nomeB) {
+        var a = normTexto(nomeA);
+        var b = normTexto(nomeB);
+        if (!a || !b || a.length < 4 || b.length < 4) return false;
+        if (a === b) return true;
+        if (a.indexOf(b) !== -1 || b.indexOf(a) !== -1) return true;
+        var tokensA = a.split(' ').filter(function(t) { return t.length >= 4; });
+        var tokensB = b.split(' ').filter(function(t) { return t.length >= 4; });
+        if (tokensA.length === 0 || tokensB.length === 0) return false;
+        var matches = 0;
+        for (var i = 0; i < tokensA.length; i++) {
+          if (tokensB.indexOf(tokensA[i]) !== -1) matches++;
+        }
+        return matches >= Math.min(2, Math.min(tokensA.length, tokensB.length));
+      }
+
+      function parseDataBrMs(str) {
+        if (!str) return 0;
+        var s = String(str).trim();
+        var mIso = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+        if (mIso) {
+          return new Date(parseInt(mIso[1], 10), parseInt(mIso[2], 10) - 1, parseInt(mIso[3], 10)).getTime();
+        }
+        var mBr = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
+        if (mBr) {
+          var ano = parseInt(mBr[3], 10);
+          if (ano < 100) ano += 2000;
+          return new Date(ano, parseInt(mBr[2], 10) - 1, parseInt(mBr[1], 10)).getTime();
+        }
+        return 0;
+      }
+
+      function formatarMoedaCurta(val) {
+        var n = Number(val || 0);
+        if (isNaN(n)) n = 0;
+        if (n >= 1000000) return 'R$ ' + (n / 1000000).toFixed(2).replace('.', ',') + 'M';
+        if (n >= 1000) return 'R$ ' + Math.round(n / 1000).toLocaleString('pt-BR') + ' mil';
+        return 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+      }
+
+      function calcZScore(serie) {
+        if (!Array.isArray(serie) || serie.length < 4) return { z: 0, label: 'Série curta', status: 'neutral' };
+        var hist = serie.slice(0, serie.length - 1);
+        var atual = Number(serie[serie.length - 1] || 0);
+        var soma = 0;
+        for (var i = 0; i < hist.length; i++) soma += Number(hist[i] || 0);
+        var media = soma / hist.length;
+        var sq = 0;
+        for (var j = 0; j < hist.length; j++) {
+          var d = Number(hist[j] || 0) - media;
+          sq += d * d;
+        }
+        var dp = Math.sqrt(sq / hist.length);
+        if (dp < 0.5) return { z: 0, label: 'Estável (0,0σ)', status: 'ok' };
+        var z = (atual - media) / dp;
+        var zTxt = (z >= 0 ? '+' : '') + z.toFixed(1).replace('.', ',') + 'σ';
+        if (z >= 1.8) return { z: z, label: 'Pico anômalo (' + zTxt + ')', status: 'crit' };
+        if (z <= -1.8) return { z: z, label: 'Queda acentuada (' + zTxt + ')', status: 'warn' };
+        return { z: z, label: 'Dentro do padrão (' + zTxt + ')', status: 'ok' };
+      }
+
+      function buildSparklineSvg(serie, strokeColor, bgColor) {
+        if (!Array.isArray(serie) || serie.length < 2) {
+          return '<span style="font-size: 0.67rem; color: #94a3b8; font-weight: 600;">Aguardando série histórica</span>';
+        }
+        var w = 86;
+        var h = 24;
+        var pad = 3;
+        var minV = Math.min.apply(null, serie);
+        var maxV = Math.max.apply(null, serie);
+        var span = (maxV - minV) || 1;
+        var pts = [];
+        for (var i = 0; i < serie.length; i++) {
+          var x = pad + (i / (serie.length - 1)) * (w - pad * 2);
+          var y = (h - pad) - ((serie[i] - minV) / span) * (h - pad * 2);
+          pts.push(x.toFixed(1) + ',' + y.toFixed(1));
+        }
+        var lastPt = pts[pts.length - 1].split(',');
+        var areaPts = pts.join(' ') + ' ' + (w - pad).toFixed(1) + ',' + (h - pad).toFixed(1) + ' ' + pad.toFixed(1) + ',' + (h - pad).toFixed(1);
+        return '' +
+          '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" style="display: block; overflow: visible;">' +
+            '<polygon points="' + areaPts + '" fill="' + (bgColor || 'rgba(14,165,233,0.14)') + '"></polygon>' +
+            '<polyline fill="none" stroke="' + (strokeColor || '#0284c7') + '" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" points="' + pts.join(' ') + '"></polyline>' +
+            '<circle cx="' + lastPt[0] + '" cy="' + lastPt[1] + '" r="2.6" fill="' + (strokeColor || '#0284c7') + '"></circle>' +
+          '</svg>';
+      }
+
+      function buildBulletHtml(actualPct, targetPct, color, caption) {
+        var a = Math.max(0, Math.min(100, Math.round(actualPct)));
+        var t = Math.max(0, Math.min(100, Math.round(targetPct)));
+        return '' +
+          '<div class="di-bullet-wrap">' +
+            '<div style="display: flex; justify-content: space-between; font-size: 0.68rem; font-weight: 800; color: #0f172a;">' +
+              '<span>' + actualPct.toFixed(1).replace('.', ',') + '%</span>' +
+              '<span style="color: #64748b; font-weight: 600;">Meta ' + t + '%</span>' +
+            '</div>' +
+            '<div class="di-bullet-track" title="Realizado: ' + actualPct.toFixed(1) + '% | Referência: ' + t + '%">' +
+              '<div class="di-bullet-fill" style="width: ' + a + '%; background: ' + color + ';"></div>' +
+              '<div class="di-bullet-target" style="left: calc(' + t + '% - 1px);"></div>' +
+            '</div>' +
+            '<div style="font-size: 0.65rem; color: #64748b;">' + escHtml(caption) + '</div>' +
+          '</div>';
+      }
+
+      function statusSeiAberto(situacao) {
+        var st = String(situacao || '').toUpperCase();
+        if (!st) return true;
+        if (st.indexOf('ARQUIV') !== -1 || st.indexOf('FINALIZ') !== -1 || st.indexOf('CONCLU') !== -1 || st.indexOf('ATENDID') !== -1 || st.indexOf('RESPONDID') !== -1 || st.indexOf('DEVOLVID') !== -1 || st.indexOf('PUBLICA') !== -1) {
+          return false;
+        }
+        return true;
+      }
+
+      function construirFatoEscolas() {
+        var baseEscolas = (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas) && listaEscolas.length > 0)
+          ? listaEscolas
+          : ((typeof BASE_ESCOLAS_PADRAO !== 'undefined' && Array.isArray(BASE_ESCOLAS_PADRAO)) ? BASE_ESCOLAS_PADRAO : []);
+
+        var seomEscolas = (typeof DADOS_SEOM !== 'undefined' && DADOS_SEOM && Array.isArray(DADOS_SEOM.escolas)) ? DADOS_SEOM.escolas : [];
+        var hwList = (window.INVENTARIO_COMPLETO_TUPLES && Array.isArray(window.INVENTARIO_COMPLETO_TUPLES.hardware)) ? window.INVENTARIO_COMPLETO_TUPLES.hardware : [];
+        var callsList = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros)) ? SEINTEC_BASES_CONFIG['Atendimentos'].registros : [];
+        var repassesRaw = (typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN && Array.isArray(DADOS_FINANCEIROS_SEFIN.repassesCompactos)) ? DADOS_FINANCEIROS_SEFIN.repassesCompactos : [];
+        var sepesApos = (typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES && Array.isArray(DADOS_SEPES.aposentadorias)) ? DADOS_SEPES.aposentadorias : [];
+        var sepesDesig = (typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES && Array.isArray(DADOS_SEPES.designacoes)) ? DADOS_SEPES.designacoes : [];
+        var sepesAbonos = (typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES && Array.isArray(DADOS_SEPES.abonos)) ? DADOS_SEPES.abonos : [];
+        var segreSei = (typeof DADOS_SEGRE !== 'undefined' && DADOS_SEGRE && Array.isArray(DADOS_SEGRE.processosSei)) ? DADOS_SEGRE.processosSei : [];
+        var sematSei = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && Array.isArray(DADOS_SEMAT.processosSei)) ? DADOS_SEMAT.processosSei : [];
+        var sevescSei = (typeof DADOS_SEVESC !== 'undefined' && DADOS_SEVESC && Array.isArray(DADOS_SEVESC.processosSei)) ? DADOS_SEVESC.processosSei : [];
+        var visitasMap = (typeof visitasRegistro !== 'undefined' && visitasRegistro) ? visitasRegistro : {};
+        var asureExt = (window.DADOS_ASURE && Array.isArray(window.DADOS_ASURE.escolas)) ? window.DADOS_ASURE.escolas : null;
+        var eecExt = (window.DADOS_EEC && Array.isArray(window.DADOS_EEC.escolas)) ? window.DADOS_EEC.escolas : null;
+
+        /* Pre-indexar SEINTEC Hardware e Chamados por CIE */
+        var hwPorCie = {};
+        for (var i = 0; i < hwList.length; i++) {
+          var h = hwList[i];
+          var c = normCie(h[0]);
+          if (!c) continue;
+          if (!hwPorCie[c]) hwPorCie[c] = { total: 0, disp: 0, bad: 0 };
+          hwPorCie[c].total++;
+          var stH = String(h[5] || '').toLowerCase();
+          if (stH.indexOf('dispon') !== -1) hwPorCie[c].disp++;
+          if (stH.indexOf('inserv') !== -1 || stH.indexOf('manut') !== -1 || stH.indexOf('danif') !== -1 || stH.indexOf('aguard') !== -1 || stH.indexOf('chamado') !== -1 || stH.indexOf('quebr') !== -1 || stH.indexOf('repar') !== -1) {
+            hwPorCie[c].bad++;
+          }
+        }
+
+        var callsPorCie = {};
+        for (var j = 0; j < callsList.length; j++) {
+          var cl = callsList[j];
+          var cc = normCie(cl.cie);
+          if (!cc) continue;
+          if (!callsPorCie[cc]) callsPorCie[cc] = { total: 0, abertos: 0 };
+          callsPorCie[cc].total++;
+          var stC = String(cl.status || '').toLowerCase();
+          if (stC.indexOf('pend') !== -1 || stC.indexOf('abert') !== -1 || stC.indexOf('atend') !== -1) {
+            callsPorCie[cc].abertos++;
+          }
+        }
+
+        /* Pre-indexar SEFIN 2026 por CIE */
+        var sefinPorCie = {};
+        if (typeof descompactarRepasseSefin === 'function') {
+          for (var rIdx = 0; rIdx < repassesRaw.length; rIdx++) {
+            var rObj = descompactarRepasseSefin(repassesRaw[rIdx]);
+            if (String(rObj.ano) !== '2026') continue;
+            var rCie = normCie(rObj.cie);
+            if (!rCie) continue;
+            if (!sefinPorCie[rCie]) sefinPorCie[rCie] = { rec: 0, desp: 0, repasses: 0, emAndamento: 0 };
+            sefinPorCie[rCie].rec += Number(rObj.recTotal || 0);
+            sefinPorCie[rCie].desp += Number(rObj.despTotal || 0);
+            sefinPorCie[rCie].repasses++;
+            if (String(rObj.statusSed || '').toUpperCase().indexOf('ANDAMENTO') !== -1) sefinPorCie[rCie].emAndamento++;
+          }
+        }
+
+        var todosSei = segreSei.concat(sematSei).concat(sevescSei);
+        var todosSepes = sepesApos.concat(sepesDesig).concat(sepesAbonos);
+        var mesAtual = new Date().getMonth() + 1;
+
+        var fato = [];
+        for (var eIdx = 0; eIdx < baseEscolas.length; eIdx++) {
+          var esc = baseEscolas[eIdx];
+          var cie = normCie(esc.cie);
+          var nomeBruto = esc.nomeOficialBruto || esc.nome || '';
+
+          /* 1. SEOM */
+          var seom = null;
+          for (var sIdx = 0; sIdx < seomEscolas.length; sIdx++) {
+            if (matchNomeEscola(seomEscolas[sIdx].escola, nomeBruto)) {
+              seom = seomEscolas[sIdx];
+              break;
+            }
+          }
+          var ptsSeom = 0;
+          var flagsSeom = [];
+          if (seom) {
+            if (seom.avcb !== 1) { ptsSeom += 25; flagsSeom.push('Sem AVCB'); }
+            if (seom.esgoto === 2) { ptsSeom += 25; flagsSeom.push('Saneamento crítico'); }
+            if (seom.telhado === 2) { ptsSeom += 20; flagsSeom.push('Telhado crítico'); }
+            if (seom.eletrica === 2) { ptsSeom += 20; flagsSeom.push('Elétrica sobrecarregada'); }
+            if (seom.obraFde === 2 || seom.obraFde === 1) { ptsSeom += 15; flagsSeom.push('Obra FDE ativa'); }
+            if (seom.zeladoria !== 1) { ptsSeom += 10; flagsSeom.push('Sem zelador'); }
+            if (seom.cuidador === 2) { ptsSeom += 5; flagsSeom.push('Déficit cuidador'); }
+          }
+
+          /* 2. SEINTEC */
+          var hwInfo = hwPorCie[cie] || { total: 0, disp: 0, bad: 0 };
+          var callInfo = callsPorCie[cie] || { total: 0, abertos: 0 };
+          var ptsSeintec = 0;
+          var flagsSeintec = [];
+          if (hwInfo.bad > 150) { ptsSeintec += 35; flagsSeintec.push(hwInfo.bad + ' PCs com defeito'); }
+          else if (hwInfo.bad >= 60) { ptsSeintec += 20; flagsSeintec.push(hwInfo.bad + ' PCs em reparo'); }
+          if (callInfo.total >= 30) { ptsSeintec += 30; flagsSeintec.push(callInfo.total + ' chamados'); }
+          else if (callInfo.total >= 20) { ptsSeintec += 20; flagsSeintec.push(callInfo.total + ' chamados'); }
+          if (callInfo.abertos >= 3) { ptsSeintec += 10; flagsSeintec.push(callInfo.abertos + ' em aberto'); }
+
+          /* 3. SEAFIN (2026) */
+          var finInfo = sefinPorCie[cie] || { rec: 0, desp: 0, repasses: 0, emAndamento: 0 };
+          var saldoOcioso = Math.max(0, finInfo.rec - finInfo.desp);
+          var execPct = finInfo.rec > 0 ? Math.min(100, (finInfo.desp / finInfo.rec) * 100) : 0;
+          var ptsSeafin = 0;
+          var flagsSeafin = [];
+          if (finInfo.rec > 0) {
+            if (mesAtual >= 7 && execPct < 35) { ptsSeafin += 20; flagsSeafin.push('Execução PDDE baixa (' + execPct.toFixed(0) + '%)'); }
+            else if (mesAtual >= 7 && execPct < 50) { ptsSeafin += 10; flagsSeafin.push('Ritmo PDDE lento (' + execPct.toFixed(0) + '%)'); }
+            if (saldoOcioso >= 100000 && (ptsSeom >= 40 || ptsSeintec >= 30)) {
+              ptsSeafin += 10;
+              flagsSeafin.push(formatarMoedaCurta(saldoOcioso) + ' parado c/ demanda');
+            }
+          }
+
+          /* 4. SEPES */
+          var sepesPend = 0;
+          var sepesDesigPend = 0;
+          for (var pIdx = 0; pIdx < todosSepes.length; pIdx++) {
+            var sp = todosSepes[pIdx];
+            if (sp.concluido) continue;
+            var ueNome = sp.ue || sp.ua || '';
+            if (matchNomeEscola(ueNome, nomeBruto)) {
+              sepesPend++;
+              if (String(sp.id || '').indexOf('DESIG') === 0) sepesDesigPend++;
+            }
+          }
+          var ptsSepes = 0;
+          var flagsSepes = [];
+          if (sepesPend >= 3) { ptsSepes += 18; flagsSepes.push(sepesPend + ' processos RH em fila'); }
+          else if (sepesPend >= 1) { ptsSepes += 8; flagsSepes.push(sepesPend + ' proc. RH ativo'); }
+          if (sepesDesigPend >= 1) { ptsSepes += 6; flagsSepes.push(sepesDesigPend + ' designação pend.'); }
+
+          /* 5. SEGRE (SEI abertos) */
+          var segreAbertos = 0;
+          for (var gIdx = 0; gIdx < todosSei.length; gIdx++) {
+            var sei = todosSei[gIdx];
+            if (!statusSeiAberto(sei.situacao)) continue;
+            var alvoSei = sei.escola || sei.interessado || sei.remetente || '';
+            if (matchNomeEscola(alvoSei, nomeBruto)) segreAbertos++;
+          }
+          var ptsSegre = 0;
+          var flagsSegre = [];
+          if (segreAbertos >= 3) { ptsSegre += 15; flagsSegre.push(segreAbertos + ' SEI em aberto'); }
+          else if (segreAbertos >= 1) { ptsSegre += 6; flagsSegre.push(segreAbertos + ' SEI ativo'); }
+
+          /* 6. ASURE (Visitas internas + Extensivel) */
+          var vObj = visitasMap[esc.id] || visitasMap[cie] || null;
+          var visitada = Boolean(vObj && vObj.visitada);
+          var dataVisita = (vObj && vObj.data) ? vObj.data : '';
+          var ptsAsure = 0;
+          var flagsAsure = [];
+          if (asureExt) {
+            for (var aIdx = 0; aIdx < asureExt.length; aIdx++) {
+              if (normCie(asureExt[aIdx].cie) === cie || matchNomeEscola(asureExt[aIdx].escola, nomeBruto)) {
+                if (asureExt[aIdx].visitada !== undefined) visitada = Boolean(asureExt[aIdx].visitada);
+                if (asureExt[aIdx].dataVisita) dataVisita = asureExt[aIdx].dataVisita;
+                if (Number(asureExt[aIdx].ouvidoriasAbertas || 0) > 0) {
+                  ptsAsure += Math.min(20, Number(asureExt[aIdx].ouvidoriasAbertas) * 10);
+                  flagsAsure.push(asureExt[aIdx].ouvidoriasAbertas + ' ouvidoria(s)');
+                }
+                break;
+              }
+            }
+          }
+
+          /* 7. EEC (Extensivel) */
+          var ptsEec = 0;
+          var eecScore = null;
+          var flagsEec = [];
+          if (eecExt) {
+            for (var kIdx = 0; kIdx < eecExt.length; kIdx++) {
+              if (normCie(eecExt[kIdx].cie) === cie || matchNomeEscola(eecExt[kIdx].escola, nomeBruto)) {
+                eecScore = Number(eecExt[kIdx].proficiencia != null ? eecExt[kIdx].proficiencia : (eecExt[kIdx].aderencia || 0));
+                if (eecScore > 0 && eecScore < 50) {
+                  ptsEec += 20;
+                  flagsEec.push('Alerta pedagógico (' + eecScore.toFixed(0) + '%)');
+                }
+                break;
+              }
+            }
+          }
+
+          var imroTotal = ptsSeom + ptsSeintec + ptsSeafin + ptsSepes + ptsSegre + ptsAsure + ptsEec;
+          var tier = 'Regular';
+          if (imroTotal >= 130) tier = 'Crítico';
+          else if (imroTotal >= 90) tier = 'Alto Risco';
+          else if (imroTotal >= 50) tier = 'Atenção';
+
+          fato.push({
+            id: esc.id,
+            cie: cie,
+            nome: esc.nome,
+            cidade: esc.cidade || 'Itapevi',
+            tipo: esc.tipo || 'Regular',
+            imro: imroTotal,
+            tier: tier,
+            pts: {
+              SEOM: ptsSeom,
+              SEINTEC: ptsSeintec,
+              SEAFIN: ptsSeafin,
+              SEPES: ptsSepes,
+              SEGRE: ptsSegre,
+              ASURE: ptsAsure,
+              EEC: ptsEec
+            },
+            flags: {
+              SEOM: flagsSeom,
+              SEINTEC: flagsSeintec,
+              SEAFIN: flagsSeafin,
+              SEPES: flagsSepes,
+              SEGRE: flagsSegre,
+              ASURE: flagsAsure,
+              EEC: flagsEec
+            },
+            hwTotal: hwInfo.total,
+            hwDisp: hwInfo.disp,
+            hwBad: hwInfo.bad,
+            callsTotal: callInfo.total,
+            callsAbertos: callInfo.abertos,
+            rec2026: finInfo.rec,
+            desp2026: finInfo.desp,
+            saldoOcioso2026: saldoOcioso,
+            execPct2026: execPct,
+            sepesPend: sepesPend,
+            segreAbertos: segreAbertos,
+            visitada: visitada,
+            dataVisita: dataVisita,
+            eecScore: eecScore,
+            seomObj: seom
+          });
+        }
+
+        fato.sort(function(a, b) { return b.imro - a.imro; });
+        return fato;
+      }
+
+      function serieSemanalChamados(callsList) {
+        var dated = [];
+        for (var i = 0; i < callsList.length; i++) {
+          var ms = parseDataBrMs(callsList[i].data);
+          if (ms > 0) dated.push(ms);
+        }
+        if (dated.length === 0) return [];
+        var maxMs = Math.max.apply(null, dated);
+        var weekMs = 7 * 24 * 60 * 60 * 1000;
+        var buckets = [0, 0, 0, 0, 0, 0, 0, 0];
+        for (var j = 0; j < dated.length; j++) {
+          var diffWeeks = Math.floor((maxMs - dated[j]) / weekMs);
+          if (diffWeeks >= 0 && diffWeeks < 8) {
+            buckets[7 - diffWeeks]++;
+          }
+        }
+        return buckets;
+      }
+
+      function serieMensalObj(mesesMap) {
+        if (!mesesMap || typeof mesesMap !== 'object') return [];
+        var keys = Object.keys(mesesMap).map(function(k) { return parseInt(k, 10); }).filter(function(n) { return !isNaN(n) && n >= 1 && n <= 12; }).sort(function(a, b) { return a - b; });
+        if (keys.length < 2) return [];
+        var lastKeys = keys.slice(-8);
+        return lastKeys.map(function(k) { return Number(mesesMap[String(k)] || 0); });
+      }
+
+      function computarTelemetriaSetores(fato) {
+        var nowMs = Date.now();
+        var mesAtual = new Date().getMonth() + 1;
+        var metaCalendarioPct = Math.min(95, Math.max(10, Math.round((mesAtual / 12) * 100)));
+
+        /* 1. SEINTEC */
+        var hwList = (window.INVENTARIO_COMPLETO_TUPLES && Array.isArray(window.INVENTARIO_COMPLETO_TUPLES.hardware)) ? window.INVENTARIO_COMPLETO_TUPLES.hardware : [];
+        var callsList = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros)) ? SEINTEC_BASES_CONFIG['Atendimentos'].registros : [];
+        var hwTotal = hwList.length || 15973;
+        var hwDisp = hwList.filter(function(t) { return String(t[5] || '').toLowerCase().indexOf('dispon') !== -1; }).length;
+        var hwBad = hwList.filter(function(t) {
+          var st = String(t[5] || '').toLowerCase();
+          return st.indexOf('inserv') !== -1 || st.indexOf('manut') !== -1 || st.indexOf('danif') !== -1 || st.indexOf('aguard') !== -1 || st.indexOf('chamado') !== -1;
+        }).length;
+        var hwDispPct = hwTotal > 0 ? (hwDisp / hwTotal) * 100 : 0;
+        var callsAbertos = 0;
+        var callsAged15 = 0;
+        var callsConcluidos = 0;
+        var callsPorEscola = {};
+        for (var ci = 0; ci < callsList.length; ci++) {
+          var c = callsList[ci];
+          var stC = String(c.status || '').toLowerCase();
+          var escKey = normCie(c.cie) || String(c.escola || 'OUTROS');
+          callsPorEscola[escKey] = (callsPorEscola[escKey] || 0) + 1;
+          if (stC.indexOf('conclu') !== -1 || stC.indexOf('fechad') !== -1) {
+            callsConcluidos++;
+          } else {
+            callsAbertos++;
+            var cms = parseDataBrMs(c.data);
+            if (cms > 0 && (nowMs - cms) > 15 * 86400000) callsAged15++;
+          }
+        }
+        var callsSlaPct = callsList.length > 0 ? (callsConcluidos / callsList.length) * 100 : 100;
+        var topCallsEsc = Object.values(callsPorEscola).sort(function(a, b) { return b - a; }).slice(0, 5);
+        var sumTopCalls = topCallsEsc.reduce(function(acc, v) { return acc + v; }, 0);
+        var paretoCallsPct = callsList.length > 0 ? Math.round((sumTopCalls / callsList.length) * 100) : 0;
+        var serieSeintec = serieSemanalChamados(callsList);
+        var zSeintec = calcZScore(serieSeintec);
+        var healthSeintec = Math.round((hwDispPct * 0.45) + (callsSlaPct * 0.55));
+
+        /* 2. SEAFIN (SEFIN + SECOMSE) */
+        var sefinMeta = (typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN.meta) ? DADOS_FINANCEIROS_SEFIN.meta : {};
+        var sefinK = (typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN.kpisPorAno && DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026'])
+          ? DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026']
+          : { totalReceita: 0, totalDespesa: 0, taxaExecucao: 0, totalRepasses: 0 };
+        var execPct2026 = Number(sefinK.taxaExecucao || 0);
+        var saldoOciosoTotal = Math.max(0, Number(sefinK.totalReceita || 0) - Number(sefinK.totalDespesa || 0));
+        var secomseContratos = (typeof DADOS_SECOMSE !== 'undefined' && DADOS_SECOMSE && DADOS_SECOMSE.contratos)
+          ? ((DADOS_SECOMSE.contratos['2026'] || []).concat(DADOS_SECOMSE.contratos['2025'] || []))
+          : [];
+        var vencendo60d = 0;
+        var valorVencendo60d = 0;
+        for (var sci = 0; sci < secomseContratos.length; sci++) {
+          var ct = secomseContratos[sci];
+          var vig = String(ct.vigencia || '');
+          var partsVig = vig.split(/\s+a\s+|\s+e\s+/i);
+          if (partsVig.length >= 2) {
+            var fimMs = parseDataBrMs(partsVig[1]);
+            if (fimMs > 0) {
+              var diasRest = (fimMs - nowMs) / 86400000;
+              if (diasRest >= 0 && diasRest <= 60) {
+                vencendo60d++;
+                valorVencendo60d += Number(ct.valor || 0);
+              }
+            }
+          }
+        }
+        var saldosPorEsc = fato.map(function(e) { return e.saldoOcioso2026; }).sort(function(a, b) { return b - a; });
+        var top10Saldo = saldosPorEsc.slice(0, 10).reduce(function(a, b) { return a + b; }, 0);
+        var paretoSaldoPct = saldoOciosoTotal > 0 ? Math.min(100, Math.round((top10Saldo / saldoOciosoTotal) * 100)) : 0;
+        var anosHist = ['2021', '2022', '2023', '2024', '2025', '2026'];
+        var serieSefin = anosHist.map(function(y) {
+          var obj = (typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN.kpisPorAno) ? DADOS_FINANCEIROS_SEFIN.kpisPorAno[y] : null;
+          return obj ? Math.round(obj.taxaExecucao || 0) : 0;
+        });
+        var zSefin = calcZScore(serieSefin);
+        var gapExec = Math.max(0, metaCalendarioPct - execPct2026);
+        var healthSeafin = Math.max(25, Math.min(100, Math.round(100 - (gapExec * 0.9) - Math.min(15, vencendo60d * 2))));
+
+        /* 3. SEOM (SEOM + SEFISC + DPAT) */
+        var seomEscolas = (typeof DADOS_SEOM !== 'undefined' && DADOS_SEOM && Array.isArray(DADOS_SEOM.escolas)) ? DADOS_SEOM.escolas : [];
+        var avcbOk = 0;
+        var obrasAtivas = 0;
+        var escolasInfraCritica = 0;
+        for (var si = 0; si < seomEscolas.length; si++) {
+          var sObj = seomEscolas[si];
+          if (sObj.avcb === 1) avcbOk++;
+          if (sObj.obraFde === 1 || sObj.obraFde === 2) obrasAtivas++;
+          if (sObj.avcb !== 1 || sObj.telhado === 2 || sObj.eletrica === 2 || sObj.esgoto === 2) escolasInfraCritica++;
+        }
+        var avcbPct = seomEscolas.length > 0 ? (avcbOk / seomEscolas.length) * 100 : 0;
+        var dpatKpis = (typeof DADOS_DPAT !== 'undefined' && DADOS_DPAT && DADOS_DPAT.kpis) ? DADOS_DPAT.kpis : { totalBens: 0, bensLocalizados: 0 };
+        var dpatLocPct = dpatKpis.totalBens > 0 ? Math.round((dpatKpis.bensLocalizados / dpatKpis.totalBens) * 100) : 0;
+        var sefiscTot = (typeof DADOS_SEFISC !== 'undefined' && DADOS_SEFISC) ? (DADOS_SEFISC.totalRegistros || 0) : 0;
+        var healthSeom = Math.round((avcbPct * 0.55) + ((100 - (escolasInfraCritica / Math.max(1, seomEscolas.length) * 100)) * 0.25) + (dpatLocPct * 0.20));
+
+        /* 4. SEGRE (SEGRE + SEMAT + SEVESC) */
+        var seiAllSegre = [].concat(
+          (typeof DADOS_SEGRE !== 'undefined' && DADOS_SEGRE && DADOS_SEGRE.processosSei) ? DADOS_SEGRE.processosSei : [],
+          (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.processosSei) ? DADOS_SEMAT.processosSei : [],
+          (typeof DADOS_SEVESC !== 'undefined' && DADOS_SEVESC && DADOS_SEVESC.processosSei) ? DADOS_SEVESC.processosSei : []
+        );
+        var seiAbertos = 0;
+        var seiAged30 = 0;
+        for (var gi = 0; gi < seiAllSegre.length; gi++) {
+          if (statusSeiAberto(seiAllSegre[gi].situacao)) {
+            seiAbertos++;
+            var gms = parseDataBrMs(seiAllSegre[gi].data);
+            if (gms > 0 && (nowMs - gms) > 30 * 86400000) seiAged30++;
+          }
+        }
+        var seiConcPct = seiAllSegre.length > 0 ? ((seiAllSegre.length - seiAbertos) / seiAllSegre.length) * 100 : 100;
+        var mesesSemat = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis && DADOS_SEMAT.kpis.mesesAtendimentos) ? serieMensalObj(DADOS_SEMAT.kpis.mesesAtendimentos) : [];
+        var zSegre = calcZScore(mesesSemat);
+        var emailsSegreTot = (typeof DADOS_SEGRE !== 'undefined' && DADOS_SEGRE && DADOS_SEGRE.kpis && DADOS_SEGRE.kpis.totalEmails) ? DADOS_SEGRE.kpis.totalEmails : 8921;
+        var healthSegre = Math.max(30, Math.round((seiConcPct * 0.75) + (seiAged30 === 0 ? 25 : Math.max(0, 25 - seiAged30))));
+
+        /* 5. SEPES */
+        var sepesK = (typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES && DADOS_SEPES.kpis) ? DADOS_SEPES.kpis : { totalDemandas: 0, totalFinalizados: 0, totalEmTramitacao: 0 };
+        var sepesTodos = [].concat(
+          (typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES && DADOS_SEPES.aposentadorias) ? DADOS_SEPES.aposentadorias : [],
+          (typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES && DADOS_SEPES.designacoes) ? DADOS_SEPES.designacoes : [],
+          (typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES && DADOS_SEPES.abonos) ? DADOS_SEPES.abonos : []
+        );
+        var sepesAged30 = 0;
+        var sepesPendPorUe = {};
+        var sepesMeses = [0, 0, 0, 0, 0, 0];
+        for (var pi = 0; pi < sepesTodos.length; pi++) {
+          var pObj = sepesTodos[pi];
+          var dMs = parseDataBrMs(pObj.dataEntrada || pObj.publicacao);
+          if (dMs > 0) {
+            var dMonthDiff = Math.floor((nowMs - dMs) / (30 * 86400000));
+            if (dMonthDiff >= 0 && dMonthDiff < 6) sepesMeses[5 - dMonthDiff]++;
+          }
+          if (!pObj.concluido) {
+            var uKey = normTexto(pObj.ue || pObj.ua || 'OUTRAS') || 'OUTRAS';
+            sepesPendPorUe[uKey] = (sepesPendPorUe[uKey] || 0) + 1;
+            if (dMs > 0 && (nowMs - dMs) > 30 * 86400000) sepesAged30++;
+          }
+        }
+        var sepesConcPct = sepesK.totalDemandas > 0 ? (sepesK.totalFinalizados / sepesK.totalDemandas) * 100 : 100;
+        var topSepesUes = Object.values(sepesPendPorUe).sort(function(a, b) { return b - a; }).slice(0, 5).reduce(function(a, b) { return a + b; }, 0);
+        var paretoSepesPct = sepesK.totalEmTramitacao > 0 ? Math.round((topSepesUes / sepesK.totalEmTramitacao) * 100) : 0;
+        var zSepes = calcZScore(sepesMeses);
+        var healthSepes = Math.max(30, Math.round((sepesConcPct * 0.75) + Math.max(0, 25 - sepesAged30)));
+
+        /* 6. ASURE (Adaptador pronto para DADOS_ASURE real) */
+        var asureReal = Boolean(window.DADOS_ASURE && window.DADOS_ASURE.meta && window.DADOS_ASURE.meta.real);
+        var top10Imro = fato.slice(0, 10);
+        var top10Visitadas = top10Imro.filter(function(e) { return e.visitada; }).length;
+        var totalVisitasReg = fato.filter(function(e) { return e.visitada; }).length;
+        var gaugePctEl = document.getElementById('home-gauge-pct');
+        var visitasGaugePct = (asureReal && window.DADOS_ASURE.kpis && window.DADOS_ASURE.kpis.coberturaPct != null)
+          ? Number(window.DADOS_ASURE.kpis.coberturaPct)
+          : (totalVisitasReg > 10 ? Math.round((totalVisitasReg / Math.max(1, fato.length)) * 100) : parseInt((gaugePctEl ? gaugePctEl.textContent : '90'), 10) || 90);
+
+        /* 7. EEC (Adaptador pronto para DADOS_EEC real) */
+        var eecReal = Boolean(window.DADOS_EEC && Array.isArray(window.DADOS_EEC.escolas) && window.DADOS_EEC.escolas.length > 0);
+        var modulosEecCount = (typeof MODULOS_EEC !== 'undefined') ? Object.keys(MODULOS_EEC).length : 12;
+
+        return {
+          metaCalendarioPct: metaCalendarioPct,
+          fontesVivas: 5 + (asureReal ? 1 : 0) + (eecReal ? 1 : 0),
+          totalNucleos: 7,
+          SEINTEC: {
+            fresh: 'Base SharePoint • ' + hwTotal.toLocaleString('pt-BR') + ' itens + ' + callsList.length.toLocaleString('pt-BR') + ' chamados',
+            health: healthSeintec,
+            serie: serieSeintec,
+            actualPct: hwDispPct,
+            targetPct: 85,
+            bulletCaption: hwDisp.toLocaleString('pt-BR') + ' disp. • ' + hwBad.toLocaleString('pt-BR') + ' em reparo/baixa',
+            slaMain: callsAbertos + ' chamados em aberto',
+            slaSub: callsAged15 + ' há >15d • SLA concl.: ' + callsSlaPct.toFixed(1).replace('.', ',') + '%',
+            pareto: 'Top 5 escolas = ' + paretoCallsPct + '% dos chamados',
+            zObj: zSeintec,
+            hwTotal: hwTotal,
+            hwDisp: hwDisp,
+            hwBad: hwBad,
+            hwDispPct: hwDispPct,
+            callsTotal: callsList.length,
+            callsAbertos: callsAbertos,
+            callsSlaPct: callsSlaPct
+          },
+          ASURE: {
+            isReal: asureReal,
+            fresh: asureReal
+              ? ('SharePoint ASURE • ' + (window.DADOS_ASURE.meta.atualizadoFormatado || 'Ao Vivo'))
+              : ('Adaptador pronto • ' + totalVisitasReg + ' visitas c/ registro nominal na base interna'),
+            health: asureReal ? Number(window.DADOS_ASURE.kpis.healthScore || 85) : null,
+            serie: (asureReal && Array.isArray(window.DADOS_ASURE.serieSemanal)) ? window.DADOS_ASURE.serieSemanal : [],
+            actualPct: asureReal ? visitasGaugePct : (top10Visitadas * 10),
+            targetPct: 100,
+            bulletCaption: asureReal
+              ? 'Cobertura oficial ASURE'
+              : (top10Visitadas + ' de 10 escolas Top IMRO c/ visita registrada'),
+            slaMain: asureReal ? (Number(window.DADOS_ASURE.kpis.ouvidoriasAbertas || 0) + ' ouvidorias abertas') : 'Aguardando planilha ASURE',
+            slaSub: asureReal ? (Number(window.DADOS_ASURE.kpis.despachosPrazoPct || 100) + '% despachos no prazo') : 'Plug-and-play via registrarDadosAsure()',
+            pareto: 'Top 10 IMRO: ' + (10 - top10Visitadas) + ' sem visita recente',
+            zObj: asureReal ? calcZScore(window.DADOS_ASURE.serieSemanal || []) : { label: 'Aguardando série ASURE', status: 'neutral' },
+            top10Visitadas: top10Visitadas,
+            totalVisitasReg: totalVisitasReg
+          },
+          SEAFIN: {
+            fresh: 'SEFIN ' + (sefinMeta.ultimaAtualizacao || '2026') + ' • SECOMSE ' + ((typeof DADOS_SECOMSE !== 'undefined' && DADOS_SECOMSE.ultimaAtualizacao) ? DADOS_SECOMSE.ultimaAtualizacao.slice(0, 10) : ''),
+            health: healthSeafin,
+            serie: serieSefin,
+            actualPct: execPct2026,
+            targetPct: metaCalendarioPct,
+            bulletCaption: 'Ritmo PDDE: ' + (execPct2026 - metaCalendarioPct).toFixed(1).replace('.', ',') + ' p.p. vs. calendário',
+            slaMain: formatarMoedaCurta(saldoOciosoTotal) + ' ocioso (2026)',
+            slaSub: vencendo60d + ' contratos SECOMSE vencem ≤60d (' + formatarMoedaCurta(valorVencendo60d) + ')',
+            pareto: '10 APMs detêm ' + paretoSaldoPct + '% do saldo',
+            zObj: zSefin,
+            receita2026: sefinK.totalReceita || 0,
+            despesa2026: sefinK.totalDespesa || 0,
+            saldoOcioso2026: saldoOciosoTotal,
+            execPct2026: execPct2026,
+            repasses2026: sefinK.totalRepasses || 204,
+            vencendo60d: vencendo60d,
+            valorVencendo60d: valorVencendo60d
+          },
+          SEOM: {
+            fresh: 'SEOM ' + ((typeof DADOS_SEOM !== 'undefined' && DADOS_SEOM.dataExtracao) || '2026') + ' • DPAT ' + ((typeof DADOS_DPAT !== 'undefined' && DADOS_DPAT.dataExtracao) || ''),
+            health: healthSeom,
+            serie: [],
+            actualPct: avcbPct,
+            targetPct: 100,
+            bulletCaption: avcbOk + ' de ' + seomEscolas.length + ' escolas com AVCB em dia',
+            slaMain: escolasInfraCritica + ' escolas c/ alerta predial',
+            slaSub: obrasAtivas + ' obras FDE • DPAT ' + dpatLocPct + '% localizado • ' + sefiscTot + ' zeladorias',
+            pareto: (seomEscolas.length - avcbOk) + ' unidades sem AVCB válido',
+            zObj: { label: 'Mapa 11D consolidado', status: avcbPct < 60 ? 'warn' : 'ok' },
+            avcbOk: avcbOk,
+            avcbSem: Math.max(0, seomEscolas.length - avcbOk),
+            obrasAtivas: obrasAtivas,
+            escolasInfraCritica: escolasInfraCritica
+          },
+          SEGRE: {
+            fresh: 'Livros 2026 • ' + ((typeof DADOS_SEGRE !== 'undefined' && DADOS_SEGRE.meta && DADOS_SEGRE.meta.atualizadoFormatado) || 'Atualizado'),
+            health: healthSegre,
+            serie: mesesSemat,
+            actualPct: seiConcPct,
+            targetPct: 90,
+            bulletCaption: (seiAllSegre.length - seiAbertos) + ' de ' + seiAllSegre.length + ' SEI tramitados',
+            slaMain: seiAbertos + ' processos SEI em aberto',
+            slaSub: seiAged30 + ' parados há >30d • ' + emailsSegreTot.toLocaleString('pt-BR') + ' e-mails',
+            pareto: 'SEMAT + SEVESC + SEGRE consolidados',
+            zObj: zSegre,
+            seiAbertos: seiAbertos,
+            seiAged30: seiAged30,
+            emailsTot: emailsSegreTot
+          },
+          SEPES: {
+            fresh: 'SEAPE ' + ((typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES.meta && DADOS_SEPES.meta.atualizadoFormatado) || 'Atualizado'),
+            health: healthSepes,
+            serie: sepesMeses,
+            actualPct: sepesConcPct,
+            targetPct: 85,
+            bulletCaption: sepesK.totalFinalizados + ' de ' + sepesK.totalDemandas + ' demandas concluídas',
+            slaMain: sepesK.totalEmTramitacao + ' em tramitação',
+            slaSub: sepesAged30 + ' aguardando há >30d',
+            pareto: 'Top 5 UEs = ' + paretoSepesPct + '% das pendências',
+            zObj: zSepes,
+            emTramitacao: sepesK.totalEmTramitacao || 0,
+            aged30: sepesAged30
+          },
+          EEC: {
+            isReal: eecReal,
+            fresh: eecReal
+              ? ('Base Pedagógica • ' + ((window.DADOS_EEC.meta && window.DADOS_EEC.meta.atualizadoFormatado) || 'Ao Vivo'))
+              : (modulosEecCount + ' Portais Apps Script • Aguardando consolidação única'),
+            health: eecReal ? Number(window.DADOS_EEC.healthScore || 80) : null,
+            serie: (eecReal && Array.isArray(window.DADOS_EEC.serie)) ? window.DADOS_EEC.serie : [],
+            actualPct: eecReal ? Number(window.DADOS_EEC.aderenciaPct || 0) : 0,
+            targetPct: 80,
+            bulletCaption: eecReal ? 'Aderência aos planos pedagógicos' : 'Adaptador pronto via registrarDadosEec()',
+            slaMain: eecReal ? (Number(window.DADOS_EEC.escolasAlerta || 0) + ' escolas em nivelamento') : (modulosEecCount + ' sistemas externos ativos'),
+            slaSub: eecReal ? 'SARESP & Prova Paulista integrados' : 'Pronto para cruzar com IMRO 360°',
+            pareto: eecReal ? (window.DADOS_EEC.paretoTxt || 'Foco Anos Finais/EM') : 'Aguardando dataset por CIE',
+            zObj: eecReal ? calcZScore(window.DADOS_EEC.serie || []) : { label: 'Aguardando série EEC', status: 'neutral' }
+          }
+        };
+      }
+
+      function renderHeroAndKpis(fato, tel) {
+        var critCount = fato.filter(function(e) { return e.tier === 'Crítico'; }).length;
+        var altoCount = fato.filter(function(e) { return e.tier === 'Alto Risco'; }).length;
+        var regCount = Math.max(0, fato.length - critCount - altoCount);
+        var avgImro = fato.length > 0 ? (fato.reduce(function(a, b) { return a + b.imro; }, 0) / fato.length) : 0;
+        var isrScore = Math.max(0, Math.min(100, Math.round(100 - (avgImro * 0.45))));
+
+        var isrPill = document.getElementById('hero-isr-pill');
+        if (isrPill) {
+          var isrEmoji = isrScore >= 75 ? '🟢' : (isrScore >= 55 ? '🟡' : '🔴');
+          isrPill.textContent = isrEmoji + ' ISR Regional: ' + isrScore + '/100 (' + critCount + ' Críticas • ' + altoCount + ' Alto Risco)';
+          if (isrScore < 55) {
+            isrPill.style.background = 'rgba(239,68,68,0.22)';
+            isrPill.style.color = '#fecaca';
+            isrPill.style.borderColor = 'rgba(239,68,68,0.45)';
+          } else if (isrScore < 75) {
+            isrPill.style.background = 'rgba(245,158,11,0.22)';
+            isrPill.style.color = '#fde68a';
+            isrPill.style.borderColor = 'rgba(245,158,11,0.45)';
+          } else {
+            isrPill.style.background = 'rgba(16,185,129,0.2)';
+            isrPill.style.color = '#6ee7b7';
+            isrPill.style.borderColor = 'rgba(16,185,129,0.4)';
+          }
+        }
+
+        var freshPill = document.getElementById('hero-freshness-pill');
+        if (freshPill) {
+          freshPill.textContent = '📡 Observabilidade: ' + tel.fontesVivas + '/7 Núcleos c/ Base Viva • ' + (7 - tel.fontesVivas) + ' adaptador(es) pronto(s)';
+        }
+
+        var setCtx = function(id, text, cls) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          el.textContent = text;
+          el.className = 'kpi-ctx-line' + (cls ? (' ' + cls) : '');
+        };
+
+        setCtx('kpi-ctx-escolas', critCount + ' Críticas • ' + altoCount + ' Alto Risco • ' + regCount + ' Regulares', critCount > 0 ? 'ctx-alert' : 'ctx-ok');
+        setCtx('kpi-ctx-hardware', tel.SEINTEC.hwDispPct.toFixed(1).replace('.', ',') + '% disponíveis • ' + tel.SEINTEC.hwBad.toLocaleString('pt-BR') + ' em reparo/baixa', tel.SEINTEC.hwDispPct < 75 ? 'ctx-warn' : 'ctx-ok');
+        setCtx('kpi-ctx-chamados', tel.SEINTEC.callsAbertos + ' em aberto • SLA ' + tel.SEINTEC.callsSlaPct.toFixed(1).replace('.', ',') + '% concluído', tel.SEINTEC.callsAbertos > 25 ? 'ctx-warn' : 'ctx-ok');
+        setCtx('kpi-ctx-recursos', 'Saldo ocioso APM: ' + formatarMoedaCurta(tel.SEAFIN.saldoOcioso2026), tel.SEAFIN.saldoOcioso2026 > 3000000 ? 'ctx-warn' : '');
+        var gapExec = tel.SEAFIN.execPct2026 - tel.metaCalendarioPct;
+        setCtx('kpi-ctx-execucao', 'Ritmo esperado: ' + tel.metaCalendarioPct + '% (' + (gapExec >= 0 ? '+' : '') + gapExec.toFixed(1).replace('.', ',') + ' p.p.)', gapExec < -20 ? 'ctx-alert' : (gapExec < -8 ? 'ctx-warn' : 'ctx-ok'));
+        setCtx('kpi-ctx-obras', tel.SEOM.avcbSem + ' sem AVCB • ' + tel.SEOM.escolasInfraCritica + ' c/ alerta predial', tel.SEOM.avcbSem > 15 ? 'ctx-alert' : 'ctx-warn');
+        setCtx('kpi-ctx-emails', tel.SEGRE.seiAbertos + ' SEI em aberto (' + tel.SEGRE.seiAged30 + ' >30d)', tel.SEGRE.seiAged30 > 10 ? 'ctx-warn' : '');
+        setCtx('kpi-ctx-repasses', 'SEPES: ' + tel.SEPES.emTramitacao + ' pend. • SECOMSE: ' + tel.SEAFIN.vencendo60d + ' venc. ≤60d', (tel.SEAFIN.vencendo60d > 0 || tel.SEPES.aged30 > 15) ? 'ctx-warn' : '');
+
+        var covEl = document.getElementById('home-gauge-risk-cov');
+        if (covEl) {
+          var tagAsure = document.getElementById('home-gauge-asure-tag');
+          if (tagAsure) {
+            tagAsure.textContent = tel.ASURE.isReal ? 'SharePoint ASURE' : 'Base Interna (Aguardando ASURE)';
+          }
+          covEl.innerHTML = '<span>🎯 Top 10 IMRO c/ visita registrada: <strong style="color: ' + (tel.ASURE.top10Visitadas >= 7 ? '#6ee7b7' : '#fbbf24') + ';">' + tel.ASURE.top10Visitadas + ' de 10</strong></span>' +
+            '<span style="color: #94a3b8;">' + (10 - tel.ASURE.top10Visitadas) + ' prioritárias p/ agenda</span>';
+        }
+      }
+
+      function renderTop5Atencao(fato) {
+        var grid = document.getElementById('home-atencao-grid');
+        if (!grid) return;
+        var top5 = fato.slice(0, 5);
+        var maxScore = (top5[0] && top5[0].imro > 0) ? top5[0].imro : 180;
+
+        var html = top5.map(function(esc, idx) {
+          var isCrit = esc.tier === 'Crítico';
+          var borderCol = isCrit ? '#dc2626' : '#d97706';
+          var bgBadge = isCrit ? '#fee2e2' : '#fef3c7';
+          var txtBadge = isCrit ? '#991b1b' : '#b45309';
+          var borderBadge = isCrit ? '#fca5a5' : '#fde68a';
+          var pctBar = Math.min(100, Math.max(25, Math.round((esc.imro / maxScore) * 100)));
+
+          var tags = [];
+          if (esc.pts.SEOM > 0) tags.push('<span class="imro-pill-tag" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa;">🏗️ SEOM +' + esc.pts.SEOM + '</span>');
+          if (esc.pts.SEINTEC > 0) tags.push('<span class="imro-pill-tag" style="background:#e0f2fe;color:#0369a1;border-color:#bae6fd;">💻 TI +' + esc.pts.SEINTEC + '</span>');
+          if (esc.pts.SEAFIN > 0) tags.push('<span class="imro-pill-tag" style="background:#ecfdf5;color:#047857;border-color:#a7f3d0;">💼 PDDE +' + esc.pts.SEAFIN + '</span>');
+          if (esc.pts.SEPES > 0) tags.push('<span class="imro-pill-tag" style="background:#f5f3ff;color:#6d28d9;border-color:#ddd6fe;">👥 RH +' + esc.pts.SEPES + '</span>');
+          if (esc.pts.SEGRE > 0) tags.push('<span class="imro-pill-tag" style="background:#fff7ed;color:#ea580c;border-color:#fed7aa;">🏫 Rede +' + esc.pts.SEGRE + '</span>');
+          if (esc.pts.ASURE > 0) tags.push('<span class="imro-pill-tag" style="background:#fef3c7;color:#92400e;border-color:#fde68a;">🏛️ ASURE +' + esc.pts.ASURE + '</span>');
+          if (esc.pts.EEC > 0) tags.push('<span class="imro-pill-tag" style="background:#f0fdf4;color:#15803d;border-color:#bbf7d0;">📚 EEC +' + esc.pts.EEC + '</span>');
+
+          var linhas = [];
+          if (esc.flags.SEOM.length > 0) linhas.push('<div><strong style="color:#b45309;">🏗️ SEOM:</strong> ' + escHtml(esc.flags.SEOM.slice(0, 4).join(' • ')) + '</div>');
+          if (esc.flags.SEINTEC.length > 0) linhas.push('<div><strong style="color:#0284c7;">💻 SEINTEC:</strong> ' + escHtml(esc.flags.SEINTEC.join(' • ')) + '</div>');
+          var extras = [].concat(esc.flags.SEAFIN, esc.flags.SEPES, esc.flags.SEGRE, esc.flags.ASURE, esc.flags.EEC);
+          if (extras.length > 0) linhas.push('<div><strong style="color:#6d28d9;">📌 Gestão:</strong> ' + escHtml(extras.slice(0, 3).join(' • ')) + '</div>');
+
+          var pddeTxt = esc.rec2026 > 0
+            ? ('💰 Saldo PDDE: <strong>' + formatarMoedaCurta(esc.saldoOcioso2026) + '</strong> (' + esc.execPct2026.toFixed(0) + '% exec.)')
+            : '💰 PDDE 2026: <strong>Sem repasse ativo</strong>';
+          var visTxt = esc.visitada
+            ? ('🏛️ Visita: <strong>' + escHtml(esc.dataVisita || 'Registrada') + '</strong>')
+            : '🏛️ Visita: <strong style="color:#b91c1c;">Sem registro</strong>';
+
+          return '' +
+            '<div class="atencao-card" id="card-atencao-' + escHtml(esc.cie) + '" data-cie="' + escHtml(esc.cie) + '" style="background:#ffffff;border:1px solid ' + borderBadge + ';border-left:6px solid ' + borderCol + ';border-radius:12px;padding:1.1rem;box-shadow:0 4px 14px rgba(15,23,42,0.05);display:flex;flex-direction:column;justify-content:space-between;gap:0.6rem;">' +
+              '<div>' +
+                '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.45rem;flex-wrap:wrap;gap:0.35rem;">' +
+                  '<span style="background:' + bgBadge + ';color:' + txtBadge + ';border:1px solid ' + borderBadge + ';font-size:0.71rem;font-weight:800;padding:2px 8px;border-radius:6px;">#' + (idx + 1) + ' • ' + esc.imro + ' pts (' + esc.tier + ')</span>' +
+                  '<span style="font-size:0.71rem;color:#64748b;font-weight:700;">CIE: ' + escHtml(esc.cie) + ' • ' + escHtml(esc.cidade) + '</span>' +
+                '</div>' +
+                '<div style="font-size:0.98rem;font-weight:800;color:#0f172a;margin-bottom:0.35rem;">' + escHtml(esc.nome) + '</div>' +
+                '<div style="width:100%;height:5px;background:' + bgBadge + ';border-radius:3px;margin-bottom:0.55rem;overflow:hidden;">' +
+                  '<div style="width:' + pctBar + '%;height:100%;background:' + borderCol + ';border-radius:3px;"></div>' +
+                '</div>' +
+                '<div class="imro-pillar-badges">' + tags.join('') + '</div>' +
+                '<div style="display:flex;flex-direction:column;gap:0.3rem;font-size:0.75rem;color:#334155;line-height:1.38;">' +
+                  linhas.join('') +
+                '</div>' +
+              '</div>' +
+              '<div>' +
+                '<div class="imro-bridge-strip">' +
+                  '<span>' + pddeTxt + '</span>' +
+                  '<span>' + visTxt + '</span>' +
+                '</div>' +
+                '<div style="display:flex;justify-content:space-between;align-items:center;padding-top:0.55rem;margin-top:0.45rem;border-top:1px solid #f1f5f9;font-size:0.73rem;">' +
+                  '<span style="color:' + txtBadge + ';font-weight:800;">' + (idx === 0 ? '⚡ Maior risco composto' : '📌 Prioridade multissetorial') + '</span>' +
+                  '<button type="button" onclick="selecionarEscolaNaHome(\'' + escHtml(esc.cie) + '\')" style="background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;padding:0.28rem 0.65rem;border-radius:6px;font-size:0.72rem;font-weight:800;cursor:pointer;">Analisar unidade 360° →</button>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+        }).join('');
+
+        grid.innerHTML = html;
+      }
+
+      function renderHealthBadge(score, serie, color) {
+        if (score == null) {
+          return '' +
+            '<div style="display:flex;flex-direction:column;gap:0.25rem;">' +
+              '<span class="di-score-pill" style="background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;width:fit-content;">⏳ Aguardando base</span>' +
+              '<span style="font-size:0.65rem;color:#94a3b8;">Adaptador ativo p/ ingestão</span>' +
+            '</div>';
+        }
+        var bg = score >= 80 ? '#ecfdf5' : (score >= 60 ? '#fffbeb' : '#fef2f2');
+        var fg = score >= 80 ? '#047857' : (score >= 60 ? '#b45309' : '#b91c1c');
+        var bd = score >= 80 ? '#a7f3d0' : (score >= 60 ? '#fde68a' : '#fecaca');
+        var dot = score >= 80 ? '#10b981' : (score >= 60 ? '#f59e0b' : '#ef4444');
+        return '' +
+          '<div style="display:flex;align-items:center;gap:0.65rem;flex-wrap:wrap;">' +
+            '<span class="di-score-pill" style="background:' + bg + ';color:' + fg + ';border:1px solid ' + bd + ';">' +
+              '<span style="width:7px;height:7px;border-radius:50%;background:' + dot + ';"></span> ' + score + '/100' +
+            '</span>' +
+            buildSparklineSvg(serie, color, 'rgba(14,165,233,0.12)') +
+          '</div>';
+      }
+
+      function renderAnomalyCell(paretoTxt, zObj) {
+        var zBg = zObj.status === 'crit' ? '#fee2e2' : (zObj.status === 'warn' ? '#fef3c7' : (zObj.status === 'ok' ? '#ecfdf5' : '#f1f5f9'));
+        var zFg = zObj.status === 'crit' ? '#991b1b' : (zObj.status === 'warn' ? '#92400e' : (zObj.status === 'ok' ? '#047857' : '#64748b'));
+        return '' +
+          '<div style="font-weight:700;color:#334155;font-size:0.75rem;">' + escHtml(paretoTxt) + '</div>' +
+          '<span style="display:inline-block;margin-top:3px;font-size:0.65rem;font-weight:800;padding:1px 7px;border-radius:999px;background:' + zBg + ';color:' + zFg + ';">' + escHtml(zObj.label) + '</span>';
+      }
+
+      function renderMatrizExecutiva2(tel) {
+        var obsPill = document.getElementById('di-matrix-observability-pill');
+        if (obsPill) obsPill.textContent = '📡 Pipeline: ' + tel.fontesVivas + '/7 Núcleos ao Vivo • ASURE & EEC plug-and-play';
+        var compPill = document.getElementById('di-matrix-completeness-pill');
+        if (compPill) compPill.textContent = '🛡️ 60/60 Escolas Mapeadas (100% CIE)';
+
+        var setCell = function(id, html) {
+          var el = document.getElementById(id);
+          if (el) el.innerHTML = html;
+        };
+        var setText = function(id, txt) {
+          var el = document.getElementById(id);
+          if (el) el.textContent = txt;
+        };
+
+        /* SEINTEC */
+        setText('di-seintec-fresh', tel.SEINTEC.fresh);
+        setCell('di-seintec-health', renderHealthBadge(tel.SEINTEC.health, tel.SEINTEC.serie, '#0284c7'));
+        setCell('di-seintec-bullet', buildBulletHtml(tel.SEINTEC.actualPct, tel.SEINTEC.targetPct, '#0284c7', tel.SEINTEC.bulletCaption));
+        setCell('di-seintec-sla', '<div style="font-weight:800;color:#0f172a;">' + escHtml(tel.SEINTEC.slaMain) + '</div><div style="font-size:0.68rem;color:#64748b;">' + escHtml(tel.SEINTEC.slaSub) + '</div>');
+        setCell('di-seintec-pareto', renderAnomalyCell(tel.SEINTEC.pareto, tel.SEINTEC.zObj));
+
+        /* ASURE */
+        setText('di-asure-fresh', tel.ASURE.fresh);
+        setCell('di-asure-health', renderHealthBadge(tel.ASURE.health, tel.ASURE.serie, '#b45309'));
+        setCell('di-asure-bullet', buildBulletHtml(tel.ASURE.actualPct, tel.ASURE.targetPct, '#d97706', tel.ASURE.bulletCaption));
+        setCell('di-asure-sla', '<div style="font-weight:800;color:#0f172a;">' + escHtml(tel.ASURE.slaMain) + '</div><div style="font-size:0.68rem;color:#64748b;">' + escHtml(tel.ASURE.slaSub) + '</div>');
+        setCell('di-asure-pareto', renderAnomalyCell(tel.ASURE.pareto, tel.ASURE.zObj));
+
+        /* SEAFIN */
+        setText('di-seafin-fresh', tel.SEAFIN.fresh);
+        setCell('di-seafin-health', renderHealthBadge(tel.SEAFIN.health, tel.SEAFIN.serie, '#047857'));
+        setCell('di-seafin-bullet', buildBulletHtml(tel.SEAFIN.actualPct, tel.SEAFIN.targetPct, tel.SEAFIN.actualPct < tel.SEAFIN.targetPct - 20 ? '#d97706' : '#059669', tel.SEAFIN.bulletCaption));
+        setCell('di-seafin-sla', '<div style="font-weight:800;color:#0f172a;">' + escHtml(tel.SEAFIN.slaMain) + '</div><div style="font-size:0.68rem;color:#b45309;">' + escHtml(tel.SEAFIN.slaSub) + '</div>');
+        setCell('di-seafin-pareto', renderAnomalyCell(tel.SEAFIN.pareto, tel.SEAFIN.zObj));
+
+        /* SEOM */
+        setText('di-seom-fresh', tel.SEOM.fresh);
+        setCell('di-seom-health', renderHealthBadge(tel.SEOM.health, tel.SEOM.serie, '#b45309'));
+        setCell('di-seom-bullet', buildBulletHtml(tel.SEOM.actualPct, tel.SEOM.targetPct, tel.SEOM.actualPct < 60 ? '#dc2626' : '#d97706', tel.SEOM.bulletCaption));
+        setCell('di-seom-sla', '<div style="font-weight:800;color:#0f172a;">' + escHtml(tel.SEOM.slaMain) + '</div><div style="font-size:0.68rem;color:#64748b;">' + escHtml(tel.SEOM.slaSub) + '</div>');
+        setCell('di-seom-pareto', renderAnomalyCell(tel.SEOM.pareto, tel.SEOM.zObj));
+
+        /* SEGRE */
+        setText('di-segre-fresh', tel.SEGRE.fresh);
+        setCell('di-segre-health', renderHealthBadge(tel.SEGRE.health, tel.SEGRE.serie, '#ea580c'));
+        setCell('di-segre-bullet', buildBulletHtml(tel.SEGRE.actualPct, tel.SEGRE.targetPct, '#ea580c', tel.SEGRE.bulletCaption));
+        setCell('di-segre-sla', '<div style="font-weight:800;color:#0f172a;">' + escHtml(tel.SEGRE.slaMain) + '</div><div style="font-size:0.68rem;color:#64748b;">' + escHtml(tel.SEGRE.slaSub) + '</div>');
+        setCell('di-segre-pareto', renderAnomalyCell(tel.SEGRE.pareto, tel.SEGRE.zObj));
+
+        /* SEPES */
+        setText('di-sepes-fresh', tel.SEPES.fresh);
+        setCell('di-sepes-health', renderHealthBadge(tel.SEPES.health, tel.SEPES.serie, '#7c3aed'));
+        setCell('di-sepes-bullet', buildBulletHtml(tel.SEPES.actualPct, tel.SEPES.targetPct, '#7c3aed', tel.SEPES.bulletCaption));
+        setCell('di-sepes-sla', '<div style="font-weight:800;color:#0f172a;">' + escHtml(tel.SEPES.slaMain) + '</div><div style="font-size:0.68rem;color:' + (tel.SEPES.aged30 > 15 ? '#b91c1c' : '#64748b') + ';">' + escHtml(tel.SEPES.slaSub) + '</div>');
+        setCell('di-sepes-pareto', renderAnomalyCell(tel.SEPES.pareto, tel.SEPES.zObj));
+
+        /* EEC */
+        setText('di-eec-fresh', tel.EEC.fresh);
+        setCell('di-eec-health', renderHealthBadge(tel.EEC.health, tel.EEC.serie, '#16a34a'));
+        setCell('di-eec-bullet', tel.EEC.isReal ? buildBulletHtml(tel.EEC.actualPct, tel.EEC.targetPct, '#16a34a', tel.EEC.bulletCaption) : '<span style="font-size:0.72rem;color:#64748b;">12 Portais conectados • Aguardando consolidação por CIE</span>');
+        setCell('di-eec-sla', '<div style="font-weight:800;color:#0f172a;">' + escHtml(tel.EEC.slaMain) + '</div><div style="font-size:0.68rem;color:#64748b;">' + escHtml(tel.EEC.slaSub) + '</div>');
+        setCell('di-eec-pareto', renderAnomalyCell(tel.EEC.pareto, tel.EEC.zObj));
+      }
+
+      var modoQuadranteAtual = 'fin';
+      var cieDestacadoQuadrante = null;
+      var ultimoFato = [];
+      var ultimaTel = null;
+
+      function renderQuadrante60Escolas(fato) {
+        var wrap = document.getElementById('di-quadrant-canvas-wrap');
+        var statsEl = document.getElementById('di-quad-stats');
+        var subEl = document.getElementById('di-quad-subtitle');
+        if (!wrap || !statsEl) return;
+
+        var btnFin = document.getElementById('btn-quad-mode-fin');
+        var btnEec = document.getElementById('btn-quad-mode-eec');
+        if (btnFin) btnFin.classList.toggle('active', modoQuadranteAtual === 'fin');
+        if (btnEec) btnEec.classList.toggle('active', modoQuadranteAtual === 'eec');
+
+        var hasEec = fato.some(function(e) { return e.eecScore != null; });
+        if (modoQuadranteAtual === 'eec' && !hasEec) {
+          if (subEl) subEl.textContent = 'Adaptador EEC pronto para plotar Proficiência/Aderência (SARESP / Prova Paulista) × Risco Operacional';
+          wrap.innerHTML = '' +
+            '<div style="background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:10px;padding:1.65rem 1.25rem;text-align:center;">' +
+              '<div style="font-size:1.45rem;margin-bottom:0.4rem;">📚🔌</div>' +
+              '<div style="font-weight:800;color:#0f172a;font-size:0.86rem;margin-bottom:0.35rem;">Eixo Pedagógico (EEC) pronto para ativação automática</div>' +
+              '<div style="font-size:0.75rem;color:#475569;max-width:460px;margin:0 auto 0.85rem auto;line-height:1.5;">' +
+                'Os 12 sistemas da EEC operam em portais externos. Assim que os dados consolidados por escola forem conectados via <code>window.registrarDadosEec({ escolas: [{ cie, proficiencia, aderencia }] })</code>, este quadrante cruza automaticamente risco predial/TI com desempenho pedagógico.' +
+              '</div>' +
+              '<button type="button" onclick="BI_DECISION_ENGINE.definirModoQuadrante(\'fin\')" style="background:#0b2351;color:#ffffff;border:none;padding:0.45rem 1rem;border-radius:7px;font-size:0.74rem;font-weight:700;cursor:pointer;">Voltar para Risco × PDDE (Dados Reais Agora)</button>' +
+            '</div>';
+          statsEl.innerHTML = '' +
+            '<div class="di-quad-stat-box"><div style="font-size:0.68rem;font-weight:800;color:#0f172a;">Status Adaptador EEC</div><div style="font-size:0.72rem;color:#64748b;">Aguardando base consolidada por CIE</div></div>' +
+            '<div class="di-quad-stat-box"><div style="font-size:0.68rem;font-weight:800;color:#0f172a;">Modo Risco × PDDE</div><div style="font-size:0.72rem;color:#047857;">100% ativo com 60 escolas reais</div></div>';
+          return;
+        }
+
+        if (subEl) {
+          subEl.textContent = modoQuadranteAtual === 'eec'
+            ? 'Eixo X: Risco Operacional (IMRO 360°) × Eixo Y: Índice Pedagógico (EEC) — clique em qualquer ponto'
+            : 'Eixo X: Risco Operacional (IMRO 360°) × Eixo Y: Execução PDDE 2026 (%) — clique em qualquer ponto';
+        }
+
+        var w = 600, h = 265, padL = 44, padR = 18, padT = 16, padB = 34;
+        var plotW = w - padL - padR;
+        var plotH = h - padT - padB;
+        var maxX = Math.max(170, (fato[0] ? fato[0].imro : 170) + 10);
+        var threshX = 90;
+        var threshY = 60;
+        var xThreshPx = padL + (threshX / maxX) * plotW;
+        var yThreshPx = padT + ((100 - threshY) / 100) * plotH;
+
+        var qCritParado = 0, qCritExec = 0, qEstavelSub = 0, qExcelencia = 0;
+        var circles = [];
+        for (var i = 0; i < fato.length; i++) {
+          var esc = fato[i];
+          var yVal = modoQuadranteAtual === 'eec' ? Number(esc.eecScore || 0) : Number(esc.execPct2026 || 0);
+          var cx = padL + Math.min(1, esc.imro / maxX) * plotW;
+          var cy = padT + (1 - Math.min(100, Math.max(0, yVal)) / 100) * plotH;
+
+          var highRisk = esc.imro >= threshX;
+          var highY = yVal >= threshY;
+          if (highRisk && !highY) qCritParado++;
+          else if (highRisk && highY) qCritExec++;
+          else if (!highRisk && !highY) qEstavelSub++;
+          else qExcelencia++;
+
+          var dotCol = esc.tier === 'Crítico' ? '#dc2626' : (esc.tier === 'Alto Risco' ? '#f59e0b' : (esc.tier === 'Atenção' ? '#0284c7' : '#10b981'));
+          var isSelected = cieDestacadoQuadrante && cieDestacadoQuadrante === esc.cie;
+          var r = isSelected ? 7.5 : (highRisk ? 5.2 : 4.2);
+          circles.push(
+            '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + r + '" ' +
+              'fill="' + dotCol + '" fill-opacity="0.88" stroke="' + (isSelected ? '#0f172a' : '#ffffff') + '" stroke-width="' + (isSelected ? '2.4' : '1.2') + '" ' +
+              'style="cursor:pointer;" ' +
+              'onclick="selecionarEscolaNaHome(\'' + escHtml(esc.cie) + '\')" ' +
+              'onmousemove="BI_DECISION_ENGINE.mostrarTooltipPonto(event, \'' + escHtml(esc.cie) + '\')" ' +
+              'onmouseleave="BI_DECISION_ENGINE.esconderTooltipPonto()" />'
+          );
+        }
+
+        var svg = '' +
+          '<svg viewBox="0 0 ' + w + ' ' + h + '" style="width:100%;height:auto;display:block;font-family:inherit;">' +
+            '<rect x="' + padL + '" y="' + padT + '" width="' + (xThreshPx - padL).toFixed(1) + '" height="' + (yThreshPx - padT).toFixed(1) + '" fill="rgba(16,185,129,0.08)"></rect>' +
+            '<rect x="' + xThreshPx.toFixed(1) + '" y="' + padT + '" width="' + (padL + plotW - xThreshPx).toFixed(1) + '" height="' + (yThreshPx - padT).toFixed(1) + '" fill="rgba(245,158,11,0.08)"></rect>' +
+            '<rect x="' + padL + '" y="' + yThreshPx.toFixed(1) + '" width="' + (xThreshPx - padL).toFixed(1) + '" height="' + (padT + plotH - yThreshPx).toFixed(1) + '" fill="rgba(59,130,246,0.06)"></rect>' +
+            '<rect x="' + xThreshPx.toFixed(1) + '" y="' + yThreshPx.toFixed(1) + '" width="' + (padL + plotW - xThreshPx).toFixed(1) + '" height="' + (padT + plotH - yThreshPx).toFixed(1) + '" fill="rgba(239,68,68,0.10)"></rect>' +
+            '<line x1="' + xThreshPx.toFixed(1) + '" y1="' + padT + '" x2="' + xThreshPx.toFixed(1) + '" y2="' + (padT + plotH) + '" stroke="#94a3b8" stroke-dasharray="4 3" stroke-width="1"></line>' +
+            '<line x1="' + padL + '" y1="' + yThreshPx.toFixed(1) + '" x2="' + (padL + plotW) + '" y2="' + yThreshPx.toFixed(1) + '" stroke="#94a3b8" stroke-dasharray="4 3" stroke-width="1"></line>' +
+            '<rect x="' + padL + '" y="' + padT + '" width="' + plotW + '" height="' + plotH + '" fill="none" stroke="#cbd5e1" stroke-width="1"></rect>' +
+            '<text x="' + (padL + 6) + '" y="' + (padT + 13) + '" font-size="9.5" font-weight="800" fill="#047857">Excelência Operacional</text>' +
+            '<text x="' + (padL + plotW - 6) + '" y="' + (padT + 13) + '" text-anchor="end" font-size="9.5" font-weight="800" fill="#b45309">Risco Alto + Alta Execução</text>' +
+            '<text x="' + (padL + 6) + '" y="' + (padT + plotH - 6) + '" font-size="9.5" font-weight="800" fill="#1d4ed8">Estável + Subexecução</text>' +
+            '<text x="' + (padL + plotW - 6) + '" y="' + (padT + plotH - 6) + '" text-anchor="end" font-size="9.5" font-weight="800" fill="#b91c1c">CRÍTICO + DINHEIRO PARADO</text>' +
+            '<text x="' + (padL - 6) + '" y="' + (padT + 8) + '" text-anchor="end" font-size="9" fill="#64748b">100%</text>' +
+            '<text x="' + (padL - 6) + '" y="' + (yThreshPx + 3).toFixed(1) + '" text-anchor="end" font-size="9" fill="#64748b">60%</text>' +
+            '<text x="' + (padL - 6) + '" y="' + (padT + plotH) + '" text-anchor="end" font-size="9" fill="#64748b">0%</text>' +
+            '<text x="' + padL + '" y="' + (h - 10) + '" font-size="9" fill="#64748b">0 pts (Menor Risco)</text>' +
+            '<text x="' + xThreshPx.toFixed(1) + '" y="' + (h - 10) + '" text-anchor="middle" font-size="9" font-weight="700" fill="#475569">90 pts (Alto Risco)</text>' +
+            '<text x="' + (padL + plotW) + '" y="' + (h - 10) + '" text-anchor="end" font-size="9" fill="#b91c1c">' + maxX + ' pts</text>' +
+            circles.join('') +
+          '</svg>';
+
+        wrap.innerHTML = svg;
+        statsEl.innerHTML = '' +
+          '<div class="di-quad-stat-box" style="border-left:4px solid #dc2626;">' +
+            '<div style="font-size:0.78rem;font-weight:800;color:#b91c1c;">' + qCritParado + ' escolas</div>' +
+            '<div style="font-size:0.67rem;color:#64748b;">Risco Alto + Subexecução (&lt;60%)</div>' +
+          '</div>' +
+          '<div class="di-quad-stat-box" style="border-left:4px solid #d97706;">' +
+            '<div style="font-size:0.78rem;font-weight:800;color:#b45309;">' + qCritExec + ' escolas</div>' +
+            '<div style="font-size:0.67rem;color:#64748b;">Risco Alto + Alta Execução (≥60%)</div>' +
+          '</div>' +
+          '<div class="di-quad-stat-box" style="border-left:4px solid #2563eb;">' +
+            '<div style="font-size:0.78rem;font-weight:800;color:#1d4ed8;">' + qEstavelSub + ' escolas</div>' +
+            '<div style="font-size:0.67rem;color:#64748b;">Risco Estável + Subexecução (&lt;60%)</div>' +
+          '</div>' +
+          '<div class="di-quad-stat-box" style="border-left:4px solid #10b981;">' +
+            '<div style="font-size:0.78rem;font-weight:800;color:#047857;">' + qExcelencia + ' escolas</div>' +
+            '<div style="font-size:0.67rem;color:#64748b;">Excelência Operacional (Estável + ≥60%)</div>' +
+          '</div>';
+      }
+
+      function renderNextBestActions(fato, tel) {
+        var listEl = document.getElementById('di-nba-list');
+        if (!listEl) return;
+
+        /* Decisao 1: Risco Alto com Saldo PDDE Ocioso */
+        var critComSaldo = fato.filter(function(e) { return e.imro >= 90 && e.saldoOcioso2026 >= 10000; });
+        var somaSaldoCrit = critComSaldo.reduce(function(a, b) { return a + b.saldoOcioso2026; }, 0);
+        var nomesTopSaldo = critComSaldo.slice(0, 3).map(function(e) { return e.nome.split(',')[0] + ' (' + formatarMoedaCurta(e.saldoOcioso2026) + ')'; });
+
+        /* Decisao 2: Gargalos de SLA (SEPES >30d + SEGRE >30d + SECOMSE <=60d) */
+        var sepesCrit = tel.SEPES.aged30;
+        var segreCrit = tel.SEGRE.seiAged30;
+        var contCrit = tel.SEAFIN.vencendo60d;
+
+        /* Decisao 3: Priorizacao ASURE (Top IMRO sem visita registrada) */
+        var semVisitaTop = fato.filter(function(e) { return e.imro >= 90 && !e.visitada; });
+        var nomesSemVisita = semVisitaTop.slice(0, 3).map(function(e) { return e.nome.split(',')[0] + ' (' + e.imro + ' pts)'; });
+
+        var cards = [
+          {
+            cls: critComSaldo.length > 0 ? 'nba-crit' : 'nba-info',
+            tag: '1. SEAFIN × SEOM/TI • Destravamento Orçamentário',
+            titulo: critComSaldo.length > 0
+              ? (critComSaldo.length + ' escolas de Alto Risco têm ' + formatarMoedaCurta(somaSaldoCrit) + ' parados no PDDE 2026')
+              : 'Escolas críticas com boa execução financeira PDDE',
+            desc: critComSaldo.length > 0
+              ? ('Priorizar orientação APM para empenho imediato em demandas de elétrica, telhado e TI: ' + nomesTopSaldo.join(', ') + '.')
+              : 'Nenhuma escola de alto risco acumula saldo relevante ocioso no momento.',
+            btnLabel: 'Abrir SEAFIN →',
+            btnClick: 'abrirCentro(\'CAF\')'
+          },
+          {
+            cls: (sepesCrit > 10 || contCrit > 0) ? 'nba-warn' : 'nba-info',
+            tag: '2. SEPES × SEGRE × SECOMSE • SLA & Prazos Legais',
+            titulo: sepesCrit + ' processos RH (>30d) • ' + segreCrit + ' SEI Rede (>30d) • ' + contCrit + ' contratos vencem ≤60d',
+            desc: 'Atacar fila envelhecida em Aposentadorias/Designações (' + tel.SEPES.emTramitacao + ' ativos no SEAPE) e renovar vigências críticas em Compras (' + formatarMoedaCurta(tel.SEAFIN.valorVencendo60d) + ').',
+            btnLabel: 'Abrir SEPES →',
+            btnClick: 'abrirCentro(\'SEPES\')'
+          },
+          {
+            cls: semVisitaTop.length > 0 ? 'nba-warn' : 'nba-info',
+            tag: '3. ASURE × IMRO 360° • Roteiro de Visitas por Risco',
+            titulo: semVisitaTop.length > 0
+              ? (semVisitaTop.length + ' escolas de Risco Alto/Crítico sem visita registrada na base atual')
+              : 'Cobertura de visitas alinhada às escolas críticas',
+            desc: semVisitaTop.length > 0
+              ? ('Direcionar agenda da Dirigente para: ' + nomesSemVisita.join(', ') + (tel.ASURE.isReal ? '.' : ' (com base nos registros atuais; sincronizar planilha ASURE quando disponível).'))
+              : 'Todas as unidades de risco alto possuem registro de visita recente.',
+            btnLabel: 'Abrir Visitas →',
+            btnClick: 'abrirVisitas()'
+          }
+        ];
+
+        listEl.innerHTML = cards.map(function(c) {
+          return '' +
+            '<div class="di-nba-card ' + c.cls + '">' +
+              '<div style="font-size:0.66rem;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;color:#475569;margin-bottom:0.25rem;">' + escHtml(c.tag) + '</div>' +
+              '<div style="font-size:0.83rem;font-weight:800;color:#0f172a;margin-bottom:0.3rem;line-height:1.3;">' + escHtml(c.titulo) + '</div>' +
+              '<div style="font-size:0.73rem;color:#334155;line-height:1.45;margin-bottom:0.55rem;">' + escHtml(c.desc) + '</div>' +
+              '<div style="text-align:right;">' +
+                '<button type="button" onclick="' + c.btnClick + '" style="background:#0b2351;color:#ffffff;border:none;padding:0.32rem 0.75rem;border-radius:6px;font-size:0.71rem;font-weight:700;cursor:pointer;">' + escHtml(c.btnLabel) + '</button>' +
+              '</div>' +
+            '</div>';
+        }).join('');
+      }
+
+      window.BI_DECISION_ENGINE = {
+        atualizar: function(dadosEscolaSelecionada) {
+          try {
+            if (dadosEscolaSelecionada && dadosEscolaSelecionada.cie) {
+              cieDestacadoQuadrante = normCie(dadosEscolaSelecionada.cie);
+            } else if (dadosEscolaSelecionada === null) {
+              cieDestacadoQuadrante = null;
+            }
+            var fato = construirFatoEscolas();
+            var tel = computarTelemetriaSetores(fato);
+            ultimoFato = fato;
+            ultimaTel = tel;
+            renderHeroAndKpis(fato, tel);
+            renderTop5Atencao(fato);
+            renderMatrizExecutiva2(tel);
+            renderQuadrante60Escolas(fato);
+            renderNextBestActions(fato, tel);
+          } catch (err) {
+            console.warn('BI_DECISION_ENGINE aviso:', err);
+          }
+        },
+        definirModoQuadrante: function(modo) {
+          modoQuadranteAtual = (modo === 'eec') ? 'eec' : 'fin';
+          renderQuadrante60Escolas(ultimoFato.length ? ultimoFato : construirFatoEscolas());
+        },
+        destacarEscolaNoQuadrante: function(cie) {
+          cieDestacadoQuadrante = cie ? normCie(cie) : null;
+          if (ultimoFato.length) renderQuadrante60Escolas(ultimoFato);
+        },
+        mostrarTooltipPonto: function(ev, cie) {
+          var tip = document.getElementById('di-scatter-tooltip');
+          if (!tip) return;
+          var esc = ultimoFato.find(function(e) { return e.cie === cie; });
+          if (!esc) return;
+          tip.innerHTML = '' +
+            '<div style="font-weight:800;color:#38bdf8;margin-bottom:2px;">' + escHtml(esc.nome) + '</div>' +
+            '<div style="color:#cbd5e1;font-size:0.68rem;margin-bottom:4px;">CIE: ' + escHtml(esc.cie) + ' • ' + escHtml(esc.cidade) + ' • ' + escHtml(esc.tipo) + '</div>' +
+            '<div>• <strong>IMRO 360°:</strong> ' + esc.imro + ' pts (' + escHtml(esc.tier) + ')</div>' +
+            '<div>• <strong>PDDE 2026:</strong> ' + esc.execPct2026.toFixed(1).replace('.', ',') + '% exec. (Saldo: ' + formatarMoedaCurta(esc.saldoOcioso2026) + ')</div>' +
+            '<div>• <strong>TI / Obras / RH:</strong> ' + esc.hwBad + ' PCs def. • ' + esc.callsTotal + ' cham. • ' + esc.sepesPend + ' RH</div>' +
+            (esc.eecScore != null ? ('<div>• <strong>EEC Pedagógico:</strong> ' + esc.eecScore.toFixed(1).replace('.', ',') + '%</div>') : '') +
+            '<div style="margin-top:4px;color:#fbbf24;font-weight:700;">Clique para abrir Raio-X 360°</div>';
+          tip.style.display = 'block';
+          var x = (ev && ev.clientX ? ev.clientX : 200) + 14;
+          var y = (ev && ev.clientY ? ev.clientY : 200) + 14;
+          if (typeof window !== 'undefined' && window.innerWidth && x + 280 > window.innerWidth) x = Math.max(12, x - 295);
+          tip.style.left = x + 'px';
+          tip.style.top = y + 'px';
+        },
+        esconderTooltipPonto: function() {
+          var tip = document.getElementById('di-scatter-tooltip');
+          if (tip) tip.style.display = 'none';
+        },
+        obterDiagnostico: function() {
+          return { escolas: ultimoFato, telemetria: ultimaTel };
+        }
+      };
+
+      /* API Pública Plug & Play para Novos Setores (ASURE, EEC e futuros) */
+      window.registrarDadosAsure = function(payload) {
+        window.DADOS_ASURE = payload;
+        window.BI_DECISION_ENGINE.atualizar();
+      };
+      window.registrarDadosEec = function(payload) {
+        window.DADOS_EEC = payload;
+        window.BI_DECISION_ENGINE.atualizar();
+      };
+
+      /* Hooks pós-atualização nos sincronizadores existentes (sem alterar lógica original) */
+      function acoplarHookPosExecucao(fnName) {
+        var orig = window[fnName];
+        if (typeof orig === 'function' && !orig.__biDiHooked) {
+          var wrapped = function() {
+            var ret = orig.apply(this, arguments);
+            if (window.BI_DECISION_ENGINE) {
+              setTimeout(function() { window.BI_DECISION_ENGINE.atualizar(); }, 30);
+            }
+            return ret;
+          };
+          wrapped.__biDiHooked = true;
+          window[fnName] = wrapped;
+        }
+      }
+
+      function iniciarMotorDecisao() {
+        acoplarHookPosExecucao('sincronizarCardsBasesSeintec');
+        acoplarHookPosExecucao('atualizarPainelVisitas');
+        acoplarHookPosExecucao('sincronizarTudoGlobalmente');
+        window.BI_DECISION_ENGINE.atualizar();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', iniciarMotorDecisao);
+      } else {
+        iniciarMotorDecisao();
       }
     })();
 </script>
