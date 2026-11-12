@@ -9631,6 +9631,56 @@ function imprimirAgendaCarro() {
     .agenda-modal-close:active {
       transform: scale(0.94);
     }
+    /* CENTRAL DE RELATÓRIOS EXECUTIVOS BUTTONS */
+    .btn-hero-relatorio {
+      background: linear-gradient(135deg, #f09b0c 0%, #d97706 100%);
+      color: #07152f;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 0.6rem 1.35rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 16px rgba(240, 155, 12, 0.45), 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 4;
+      white-space: nowrap;
+    }
+    .btn-hero-relatorio:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(240, 155, 12, 0.6);
+      background: linear-gradient(135deg, #fbbf24 0%, #f09b0c 100%);
+    }
+    .btn-hero-relatorio:active {
+      transform: translateY(0);
+    }
+    .btn-relatorio-header {
+      background: rgba(240, 155, 12, 0.15);
+      border: 1px solid rgba(240, 155, 12, 0.45);
+      color: #f09b0c;
+      padding: 0.35rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-relatorio-header:hover {
+      background: #f09b0c;
+      color: #07152f;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(240, 155, 12, 0.3);
+    }
+
 
     .agenda-modal-title {
       font-size: 1.05rem;
@@ -13525,6 +13575,9 @@ function imprimirAgendaCarro() {
           <button class="btn-verify-now" id="btn-sync-global" onclick="sincronizarTudoGlobalmente()" title="Sincronizar todos os 12 módulos e bases em tempo real">
             <span class="sync-spin-icon" id="btn-sync-global-icon">🔄</span> <span id="btn-sync-global-text">Sincronizar Tudo</span>
           </button>
+          <button type="button" class="btn-relatorio-header" id="btn-relatorio-global" onclick="abrirModalCentralRelatorios()" title="Central de Relatórios Executivos (Geral ou por Escola)">
+            <span>📄</span> <span>Relatório</span>
+          </button>
         </div>
       </div>
     </header>
@@ -13549,14 +13602,13 @@ function imprimirAgendaCarro() {
             <p class="hero-main-desc" id="hero-main-desc-text">
               Decision Intelligence em tempo real: telemetria cruzada de SLA, execução orçamentária, riscos multissetoriais das 60 escolas e prioridades prescritivas.
             </p>
-            <div style="margin-top: 0.75rem; display: flex; gap: 0.55rem; flex-wrap: wrap;">
-              <button type="button" onclick="gerarRelatorioPdfGeralUre()" style="background: rgba(240, 155, 12, 0.95); color: #07152f; border: none; padding: 0.48rem 0.95rem; border-radius: 8px; font-size: 0.78rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.3); transition: all 0.15s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'" title="Gerar Relatório Executivo Geral em PDF da Unidade Regional de Ensino de Itapevi (60 escolas e 7 setores)">
-                <span>📄</span><span>Relatório Geral PDF (URE Itapevi)</span>
-              </button>
-            </div>
           </div>
-          <div class="executive-hero-right">
-            <div class="hero-crest-watermark" style="opacity: 0.35; width: 132px; height: 132px; position: relative; right: auto; top: auto; transform: none;">
+          <div class="executive-hero-right" style="display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 0.6rem; z-index: 3;">
+            <button type="button" class="btn-hero-relatorio" onclick="abrirModalCentralRelatorios()" title="Central de Relatórios Executivos (Geral da Rede ou por Escola)">
+              <span>📄</span> <span>Relatório</span>
+            </button>
+            <span style="font-size: 0.68rem; color: rgba(255, 255, 255, 0.7); font-weight: 700; letter-spacing: 0.04em;">PDF • EXCEL • IMPRESSÃO</span>
+            <div class="hero-crest-watermark" style="opacity: 0.22; width: 132px; height: 132px; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none;">
               <img src="logo_ure_itapevi_480.png" class="brand-logo-img hero-crest-img" alt="Brasão Oficial URE Itapevi" onerror="if(this.src!=='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png')this.src='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png';">
             </div>
           </div>
@@ -15765,9 +15817,9 @@ function imprimirAgendaCarro() {
               <button class="btn-escola-primary" onclick="abrirModalNovaEscola()" title="Adicionar nova escola à base">
                 <span>➕ Cadastrar Nova Escola</span>
               </button>
-              <button class="btn-escola-secondary" onclick="gerarRelatorioPdfGeralUre()" title="Gerar Relatório Consolidado | URE - Itapevi em PDF (60 escolas e 7 setores)" style="background: rgba(15, 118, 110, 0.92); border-color: rgba(45, 212, 191, 0.55); color: #ffffff; font-weight: 700;">
+              <button class="btn-escola-secondary" onclick="abrirModalCentralRelatorios('escola')" title="Central de Relatórios Executivos (Geral ou por Escola)" style="background: rgba(15, 118, 110, 0.92); border-color: rgba(45, 212, 191, 0.55); color: #ffffff; font-weight: 700;">
                 <span>📄</span>
-                <span>Relatório PDF Geral (URE)</span>
+                <span>Relatório</span>
               </button>
               <button class="btn-escola-secondary" onclick="exportarEscolasExcel()" title="Exportar tabela atual de escolas para arquivo Excel">
                 <span>📤 Exportar</span>
@@ -36806,6 +36858,128 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
   </style>
 
   <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- MODAL: CENTRAL DE RELATÓRIOS EXECUTIVOS (GERAL / ESCOLA) -->
+  <!-- ======================================================== -->
+  <div id="modal-central-relatorios" class="agenda-modal-overlay" style="display: none; z-index: 10450; backdrop-filter: blur(4px); background: rgba(7, 21, 47, 0.72);">
+    <div class="agenda-modal-card" style="max-width: 660px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45); border: 1px solid rgba(240, 155, 12, 0.35);">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border-bottom: 2px solid #f09b0c; padding: 1.15rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <span style="font-size: 0.74rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.08em; text-transform: uppercase;">CENTRAL DE RELATÓRIOS • URE ITAPEVI</span>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.15rem 0 0 0; letter-spacing: -0.01em;">Relatórios Executivos da Rede</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalCentralRelatorios()" title="Fechar" aria-label="Fechar">✕</button>
+      </div>
+
+      <div class="agenda-modal-body" style="padding: 1.5rem; background: #ffffff;">
+        <label class="agenda-form-label" style="font-size: 0.82rem; font-weight: 800; color: #0b2351; margin-bottom: 0.65rem; display: block; text-transform: uppercase; letter-spacing: 0.04em;">
+          Selecione o Escopo do Relatório:
+        </label>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <!-- CARD GERAL -->
+          <div id="card-relatorio-tipo-geral" onclick="selecionarTipoRelatorioCentral('geral')" style="border: 2px solid #0b2351; background: #f0f7ff; border-radius: 12px; padding: 1rem 1.15rem; cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); position: relative; box-shadow: 0 4px 12px rgba(11, 35, 81, 0.08);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span style="font-size: 1.5rem;">🏛️</span>
+              <span id="badge-tipo-geral" style="background: #0b2351; color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">✓ Selecionado</span>
+            </div>
+            <h4 style="margin: 0 0 0.25rem 0; font-size: 1rem; font-weight: 800; color: #0b2351;">Relatório Geral</h4>
+            <p style="margin: 0; font-size: 0.76rem; color: #475569; line-height: 1.35;">
+              Consolidado das <strong>60 Escolas Estaduais</strong> e 7 Núcleos • Metodologia IMRO 360° e ranking.
+            </p>
+          </div>
+
+          <!-- CARD ESCOLA -->
+          <div id="card-relatorio-tipo-escola" onclick="selecionarTipoRelatorioCentral('escola')" style="border: 2px solid #e2e8f0; background: #ffffff; border-radius: 12px; padding: 1rem 1.15rem; cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); position: relative;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span style="font-size: 1.5rem;">🏫</span>
+              <span id="badge-tipo-escola" style="background: #f1f5f9; color: #64748b; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 999px;">Dossiê Individual</span>
+            </div>
+            <h4 style="margin: 0 0 0.25rem 0; font-size: 1rem; font-weight: 800; color: #0f172a;">Por Escola</h4>
+            <p style="margin: 0; font-size: 0.76rem; color: #475569; line-height: 1.35;">
+              Dossiê Executivo 360° de uma unidade: Infra (SEOM), TI, PDDE, Pessoas e ASURE.
+            </p>
+          </div>
+        </div>
+
+        <!-- PAINEL DE CONFIGURAÇÃO: GERAL -->
+        <div id="painel-relatorio-geral" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.15rem 1.25rem; margin-bottom: 0.5rem;">
+          <div style="display: flex; align-items: flex-start; gap: 0.85rem;">
+            <span style="font-size: 1.4rem; color: #0b2351; flex-shrink: 0;">📊</span>
+            <div>
+              <h5 style="margin: 0 0 0.3rem 0; font-size: 0.92rem; font-weight: 800; color: #0b2351;">Visão Consolidada da Rede Regional</h5>
+              <p style="margin: 0 0 0.65rem 0; font-size: 0.79rem; color: #475569; line-height: 1.45;">
+                Gera o relatório executivo completo com telemetria dos 7 setores da URE, quadro de riscos IMRO 360°, execução orçamentária SEAFIN e a tabela ordenada das 60 escolas da rede.
+              </p>
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; font-size: 0.72rem; font-weight: 700;">
+                <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px;">60 Escolas Estaduais</span>
+                <span style="background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 4px;">5 Municípios</span>
+                <span style="background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 4px;">Metodologia IMRO 360°</span>
+                <span style="background: #f1f5f9; color: #334155; padding: 2px 8px; border-radius: 4px;">PDF / Excel / Impressão</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAINEL DE CONFIGURAÇÃO: ESCOLA -->
+        <div id="painel-relatorio-escola" style="display: none; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.15rem 1.25rem; margin-bottom: 0.5rem;">
+          <div style="margin-bottom: 0.85rem;">
+            <label class="agenda-form-label" style="font-size: 0.78rem; font-weight: 800; color: #0b2351; margin-bottom: 0.4rem; display: block;">
+              Filtrar por Município:
+            </label>
+            <div id="container-pills-mun-relatorio" style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+              <!-- Preenchido dinamicamente -->
+            </div>
+          </div>
+
+          <div style="margin-bottom: 0.85rem;">
+            <label class="agenda-form-label" style="font-size: 0.78rem; font-weight: 800; color: #0b2351; margin-bottom: 0.4rem; display: block;">
+              Buscar Escola (Nome ou CIE):
+            </label>
+            <div style="position: relative;">
+              <input type="text" id="input-busca-relatorio-escola" oninput="filtrarEscolasRelatorioModal()" placeholder="Digite o nome da escola ou CIE (ex: Raul Benedito ou 009921)..." style="width: 100%; box-sizing: border-box; padding: 0.55rem 0.85rem 0.55rem 2.2rem; font-size: 0.84rem; border: 1.5px solid #cbd5e1; border-radius: 8px; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#0b2351'" onblur="this.style.borderColor='#cbd5e1'">
+              <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 0.95rem; color: #94a3b8; pointer-events: none;">🔍</span>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 0.85rem;">
+            <label class="agenda-form-label" style="font-size: 0.78rem; font-weight: 800; color: #0b2351; margin-bottom: 0.4rem; display: flex; justify-content: space-between;">
+              <span>Selecione a Unidade Escolar:</span>
+              <span id="contagem-escolas-relatorio" style="font-size: 0.72rem; color: #64748b; font-weight: 600;">60 escolas disponíveis</span>
+            </label>
+            <select id="select-relatorio-escola" onchange="atualizarPreviaEscolaRelatorio()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.85rem; font-size: 0.85rem; font-weight: 600; border: 1.5px solid #0b2351; border-radius: 8px; background: #ffffff; color: #0f172a; outline: none; cursor: pointer;">
+              <!-- Preenchido dinamicamente -->
+            </select>
+          </div>
+
+          <!-- PRÉVIA DA ESCOLA SELECIONADA -->
+          <div id="previa-escola-relatorio" style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;">
+            <div>
+              <span id="previa-esc-mun" style="font-size: 0.68rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Município</span>
+              <h5 id="previa-esc-nome" style="margin: 0.1rem 0; font-size: 0.95rem; font-weight: 800; color: #0b2351;">Nome da Escola</h5>
+              <span id="previa-esc-cie" style="font-size: 0.72rem; color: #475569; font-weight: 600; font-family: monospace;">CIE: 000000</span>
+            </div>
+            <div id="previa-esc-badge" style="text-align: right;">
+              <!-- Badge IMRO da escola -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-modal-footer" style="padding: 1rem 1.5rem; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.74rem; color: #64748b; display: flex; align-items: center; gap: 0.35rem;">
+          <span>⚡</span> Pronto para PDF, impressão e análise
+        </span>
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1; padding: 0.55rem 1.15rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px;" onclick="fecharModalCentralRelatorios()">Cancelar</button>
+          <button type="button" class="btn-visitas-mapa" onclick="executarGeracaoRelatorioCentral()" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); color: #ffffff; border: none; padding: 0.55rem 1.35rem; font-size: 0.85rem; font-weight: 800; border-radius: 8px; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.35); cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem;">
+            <span>📄</span> <span id="btn-texto-gerar-relatorio">Gerar Relatório Geral</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL ESTÚDIO: PRÉ-VISUALIZAÇÃO & EXPORTAÇÃO PDF / EXCEL -->
   <!-- ======================================================== -->
   <div id="modal-relatorio-executivo" class="agenda-modal-overlay" style="display: none; z-index: 10500; backdrop-filter: blur(4px); background: rgba(7, 21, 47, 0.76);" onclick="if(event.target === this) fecharModalRelatorioExecutivo()">
@@ -39077,6 +39251,225 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           mostrarToastAgenda('Planilha Excel gerada com sucesso!', '📊');
         }
       };
+
+
+    /* ========================================================
+       CENTRAL DE RELATÓRIOS EXECUTIVOS (GERAL / ESCOLA)
+       ======================================================== */
+    var estadoCentralRelatorios = {
+      tipo: 'geral',
+      municipioAtivo: 'todos',
+      escolaSelecionadaId: null
+    };
+
+    function abrirModalCentralRelatorios(tipoInicial) {
+      if (tipoInicial === 'escola') {
+        selecionarTipoRelatorioCentral('escola');
+      } else {
+        selecionarTipoRelatorioCentral('geral');
+      }
+      inicializarFiltrosMunicipiosRelatorio();
+      filtrarEscolasRelatorioModal();
+      var modal = document.getElementById('modal-central-relatorios');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function fecharModalCentralRelatorios() {
+      var modal = document.getElementById('modal-central-relatorios');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function selecionarTipoRelatorioCentral(tipo) {
+      estadoCentralRelatorios.tipo = tipo;
+      var cardGeral = document.getElementById('card-relatorio-tipo-geral');
+      var cardEscola = document.getElementById('card-relatorio-tipo-escola');
+      var badgeGeral = document.getElementById('badge-tipo-geral');
+      var badgeEscola = document.getElementById('badge-tipo-escola');
+      var painelGeral = document.getElementById('painel-relatorio-geral');
+      var painelEscola = document.getElementById('painel-relatorio-escola');
+      var btnTexto = document.getElementById('btn-texto-gerar-relatorio');
+
+      if (tipo === 'geral') {
+        if (cardGeral) {
+          cardGeral.style.borderColor = '#0b2351';
+          cardGeral.style.background = '#f0f7ff';
+          cardGeral.style.boxShadow = '0 4px 14px rgba(11, 35, 81, 0.12)';
+        }
+        if (cardEscola) {
+          cardEscola.style.borderColor = '#e2e8f0';
+          cardEscola.style.background = '#ffffff';
+          cardEscola.style.boxShadow = 'none';
+        }
+        if (badgeGeral) {
+          badgeGeral.innerText = '✓ Selecionado';
+          badgeGeral.style.background = '#0b2351';
+          badgeGeral.style.color = '#ffffff';
+        }
+        if (badgeEscola) {
+          badgeEscola.innerText = 'Dossiê Individual';
+          badgeEscola.style.background = '#f1f5f9';
+          badgeEscola.style.color = '#64748b';
+        }
+        if (painelGeral) painelGeral.style.display = 'block';
+        if (painelEscola) painelEscola.style.display = 'none';
+        if (btnTexto) btnTexto.innerText = 'Gerar Relatório Geral';
+      } else {
+        if (cardEscola) {
+          cardEscola.style.borderColor = '#0b2351';
+          cardEscola.style.background = '#f0f7ff';
+          cardEscola.style.boxShadow = '0 4px 14px rgba(11, 35, 81, 0.12)';
+        }
+        if (cardGeral) {
+          cardGeral.style.borderColor = '#e2e8f0';
+          cardGeral.style.background = '#ffffff';
+          cardGeral.style.boxShadow = 'none';
+        }
+        if (badgeEscola) {
+          badgeEscola.innerText = '✓ Selecionado';
+          badgeEscola.style.background = '#0b2351';
+          badgeEscola.style.color = '#ffffff';
+        }
+        if (badgeGeral) {
+          badgeGeral.innerText = 'Consolidado Rede';
+          badgeGeral.style.background = '#f1f5f9';
+          badgeGeral.style.color = '#64748b';
+        }
+        if (painelGeral) painelGeral.style.display = 'none';
+        if (painelEscola) painelEscola.style.display = 'block';
+        if (btnTexto) btnTexto.innerText = 'Gerar Dossiê da Escola';
+        atualizarPreviaEscolaRelatorio();
+      }
+    }
+
+    function inicializarFiltrosMunicipiosRelatorio() {
+      var cont = document.getElementById('container-pills-mun-relatorio');
+      if (!cont) return;
+      var municipios = ['Todos', 'Itapevi', 'Barueri', 'Jandira', 'Pirapora do Bom Jesus', 'Santana de Parnaíba'];
+      var htmlPills = '';
+      municipios.forEach(function(m) {
+        var isAtivo = (estadoCentralRelatorios.municipioAtivo.toLowerCase() === m.toLowerCase()) ||
+                      (m === 'Todos' && estadoCentralRelatorios.municipioAtivo === 'todos');
+        var bg = isAtivo ? '#0b2351' : '#f1f5f9';
+        var col = isAtivo ? '#ffffff' : '#475569';
+        var brd = isAtivo ? '#0b2351' : '#cbd5e1';
+        htmlPills += '<button type="button" onclick="selecionarMunicipioFiltroRelatorio(\'' + m + '\')" style="background: ' + bg + '; color: ' + col + '; border: 1px solid ' + brd + '; font-size: 0.72rem; font-weight: 700; padding: 2.5px 8px; border-radius: 6px; cursor: pointer; transition: all 0.15s;">' + m + '</button>';
+      });
+      cont.innerHTML = htmlPills;
+    }
+
+    function selecionarMunicipioFiltroRelatorio(m) {
+      estadoCentralRelatorios.municipioAtivo = (m === 'Todos') ? 'todos' : m;
+      inicializarFiltrosMunicipiosRelatorio();
+      filtrarEscolasRelatorioModal();
+    }
+
+    function filtrarEscolasRelatorioModal() {
+      var inputBusca = document.getElementById('input-busca-relatorio-escola');
+      var termo = inputBusca ? inputBusca.value.trim().toLowerCase() : '';
+      var mun = estadoCentralRelatorios.municipioAtivo.toLowerCase();
+
+      var base = (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas) && listaEscolas.length > 0)
+        ? listaEscolas
+        : ((typeof BASE_ESCOLAS_PADRAO !== 'undefined' && Array.isArray(BASE_ESCOLAS_PADRAO)) ? BASE_ESCOLAS_PADRAO : []);
+
+      var filtradas = base.filter(function(e) {
+        var mMatch = (mun === 'todos') || (String(e.cidade || '').toLowerCase().indexOf(mun) !== -1);
+        var tMatch = !termo ||
+          (String(e.nome || '').toLowerCase().indexOf(termo) !== -1) ||
+          (String(e.cie || '').indexOf(termo) !== -1) ||
+          (String(e.cidade || '').toLowerCase().indexOf(termo) !== -1);
+        return mMatch && tMatch;
+      });
+
+      var sel = document.getElementById('select-relatorio-escola');
+      var countEl = document.getElementById('contagem-escolas-relatorio');
+      if (countEl) countEl.innerText = filtradas.length + ' escola(s) encontrada(s)';
+
+      if (!sel) return;
+      sel.innerHTML = '';
+      if (filtradas.length === 0) {
+        var opt = document.createElement('option');
+        opt.value = '';
+        opt.innerText = 'Nenhuma escola encontrada com este filtro';
+        sel.appendChild(opt);
+      } else {
+        filtradas.forEach(function(e) {
+          var opt = document.createElement('option');
+          opt.value = e.id || e.cie;
+          opt.innerText = '[' + (e.cie || 'CIE') + '] ' + (e.nome || 'Escola') + ' — ' + (e.cidade || '');
+          sel.appendChild(opt);
+        });
+      }
+      atualizarPreviaEscolaRelatorio();
+    }
+
+    function atualizarPreviaEscolaRelatorio() {
+      var sel = document.getElementById('select-relatorio-escola');
+      if (!sel) return;
+      var val = sel.value;
+      var base = (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas) && listaEscolas.length > 0)
+        ? listaEscolas
+        : ((typeof BASE_ESCOLAS_PADRAO !== 'undefined' && Array.isArray(BASE_ESCOLAS_PADRAO)) ? BASE_ESCOLAS_PADRAO : []);
+
+      var esc = base.find(function(e) { return e.id === val || e.cie === val; });
+      var prevNome = document.getElementById('previa-esc-nome');
+      var prevMun = document.getElementById('previa-esc-mun');
+      var prevCie = document.getElementById('previa-esc-cie');
+      var prevBadge = document.getElementById('previa-esc-badge');
+
+      if (!esc) {
+        if (prevNome) prevNome.innerText = 'Nenhuma escola selecionada';
+        if (prevMun) prevMun.innerText = '---';
+        if (prevCie) prevCie.innerText = '---';
+        if (prevBadge) prevBadge.innerHTML = '';
+        return;
+      }
+
+      if (prevNome) prevNome.innerText = esc.nome;
+      if (prevMun) prevMun.innerText = (esc.cidade || 'Itapevi') + ' • ' + (esc.tipo || 'Regular');
+      if (prevCie) prevCie.innerText = 'CIE: ' + (esc.cie || '---');
+
+      var imroScore = (typeof OBTER_IMRO_ESCOLA === 'function') ? OBTER_IMRO_ESCOLA(esc.cie) : null;
+      if (prevBadge) {
+        if (imroScore !== null && typeof imroScore === 'object') {
+          var bgBadge = imroScore.tier === 'Crítico' ? '#fee2e2' : (imroScore.tier === 'Alto Risco' ? '#ffedd5' : '#e0f2fe');
+          var colBadge = imroScore.tier === 'Crítico' ? '#991b1b' : (imroScore.tier === 'Alto Risco' ? '#9a3412' : '#0369a1');
+          prevBadge.innerHTML = '<span style="background:' + bgBadge + '; color:' + colBadge + '; padding:3px 8px; border-radius:6px; font-size:0.72rem; font-weight:800; display:inline-block;">IMRO ' + (imroScore.pontos || '--') + ' pts (' + (imroScore.tier || '---') + ')</span>';
+        } else {
+          prevBadge.innerHTML = '<span style="background:#f1f5f9; color:#475569; padding:3px 8px; border-radius:6px; font-size:0.72rem; font-weight:700;">Pronto para Dossiê 360°</span>';
+        }
+      }
+    }
+
+    function executarGeracaoRelatorioCentral() {
+      if (estadoCentralRelatorios.tipo === 'geral') {
+        fecharModalCentralRelatorios();
+        if (typeof window.gerarRelatorioPdfGeralUre === 'function') {
+          window.gerarRelatorioPdfGeralUre();
+        }
+      } else {
+        var sel = document.getElementById('select-relatorio-escola');
+        var val = sel ? sel.value : null;
+        if (!val) {
+          if (typeof mostrarToastAgenda === 'function') {
+            mostrarToastAgenda('Selecione uma escola para emitir o dossiê.', '⚠️');
+          }
+          return;
+        }
+        fecharModalCentralRelatorios();
+        if (typeof window.gerarRelatorioPdfEscola === 'function') {
+          window.gerarRelatorioPdfEscola(val);
+        }
+      }
+    }
+
+    window.abrirModalCentralRelatorios = abrirModalCentralRelatorios;
+    window.fecharModalCentralRelatorios = fecharModalCentralRelatorios;
+    window.selecionarTipoRelatorioCentral = selecionarTipoRelatorioCentral;
+    window.selecionarMunicipioFiltroRelatorio = selecionarMunicipioFiltroRelatorio;
+    window.filtrarEscolasRelatorioModal = filtrarEscolasRelatorioModal;
+    window.atualizarPreviaEscolaRelatorio = atualizarPreviaEscolaRelatorio;
+    window.executarGeracaoRelatorioCentral = executarGeracaoRelatorioCentral;
 
       window.gerarRelatorioPdfEscola = function(idOuCie) {
         var base = (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas) && listaEscolas.length > 0)
