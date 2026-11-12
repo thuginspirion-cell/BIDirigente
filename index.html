@@ -15735,7 +15735,7 @@ function imprimirAgendaCarro() {
               <button class="btn-escola-primary" onclick="abrirModalNovaEscola()" title="Adicionar nova escola à base">
                 <span>➕ Cadastrar Nova Escola</span>
               </button>
-              <button class="btn-escola-secondary" onclick="gerarRelatorioPdfGeralUre()" title="Gerar Relatório Executivo Consolidado em PDF da Unidade Regional de Ensino (60 escolas e 7 setores)" style="background: rgba(15, 118, 110, 0.92); border-color: rgba(45, 212, 191, 0.55); color: #ffffff; font-weight: 700;">
+              <button class="btn-escola-secondary" onclick="gerarRelatorioPdfGeralUre()" title="Gerar Relatório Consolidado | URE - Itapevi em PDF (60 escolas e 7 setores)" style="background: rgba(15, 118, 110, 0.92); border-color: rgba(45, 212, 191, 0.55); color: #ffffff; font-weight: 700;">
                 <span>📄</span>
                 <span>Relatório PDF Geral (URE)</span>
               </button>
@@ -36497,11 +36497,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     .doc-masthead {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 14px;
-      padding-bottom: 11px;
-      margin-bottom: 13px;
-      border-bottom: 2px solid #0b2351;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+      border-bottom: 2.5px solid #0b2351;
       position: relative;
     }
     .doc-masthead::after {
@@ -36509,59 +36509,97 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       position: absolute;
       left: 0;
       right: 0;
-      bottom: -5px;
-      height: 1.5px;
-      background: #d97706;
+      bottom: -4px;
+      height: 1px;
+      background: #cbd5e1;
     }
     .doc-masthead-left {
       display: flex;
       align-items: center;
-      gap: 13px;
+      gap: 14px;
+      min-width: 0;
+      flex: 1;
     }
-    .doc-kicker {
-      font-size: 6.8pt;
+    .doc-masthead-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-right: 14px;
+      border-right: 1.5px solid #e2e8f0;
+      flex-shrink: 0;
+    }
+    .doc-masthead-logo {
+      height: 52px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.08));
+    }
+    .doc-masthead-logo-fallback {
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      background: #0b2351;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: 800;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      color: #b45309;
-      margin-bottom: 3px;
+      font-size: 13pt;
+      letter-spacing: 0.05em;
+    }
+    .doc-masthead-text {
+      min-width: 0;
+      flex: 1;
     }
     .doc-title {
-      font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
-      font-size: 16.5pt;
-      font-weight: 700;
+      font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 13pt;
+      font-weight: 800;
       color: #0b2351;
       margin: 0;
-      line-height: 1.16;
-      letter-spacing: -0.015em;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .doc-subtitle {
-      font-size: 8.2pt;
+      font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 7.7pt;
       color: #475569;
-      margin-top: 4px;
+      margin-top: 3px;
       font-weight: 500;
+      line-height: 1.35;
+      letter-spacing: 0.005em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .doc-meta-box {
       text-align: right;
       flex-shrink: 0;
-      min-width: 148px;
+      min-width: 145px;
     }
     .doc-type-badge {
       display: inline-block;
       background: #0b2351;
-      color: #fbbf24;
+      color: #ffffff;
       font-size: 6.8pt;
       font-weight: 800;
-      letter-spacing: 0.06em;
-      padding: 3.5px 10px;
+      letter-spacing: 0.07em;
+      padding: 3.5px 9px;
       border-radius: 4px;
       text-transform: uppercase;
+      box-shadow: 0 1px 2px rgba(11, 35, 81, 0.15);
     }
     .doc-meta-line {
-      font-family: "JetBrains Mono", monospace;
-      font-size: 6.9pt;
-      color: #475569;
+      font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
+      font-size: 6.8pt;
+      font-weight: 600;
+      color: #64748b;
       margin-top: 4px;
+      letter-spacing: 0.02em;
     }
     .doc-section {
       margin-bottom: 12px;
@@ -38594,14 +38632,13 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       function gerarMastheadEditorial(tituloDoc, subtituloDoc, badgeDoc, codigoRef) {
         var agora = new Date().toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
         var logoHtml = (typeof window !== 'undefined' && window.BRASAO_SP_DATA_URI)
-          ? '<img src="' + window.BRASAO_SP_DATA_URI + '" alt="Brasão Oficial SP" style="height:54px;width:auto;object-fit:contain;display:block;" />'
-          : '<div style="width:46px;height:46px;border-radius:6px;background:#0b2351;color:#fbbf24;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13pt;">SP</div>';
+          ? '<img src="' + window.BRASAO_SP_DATA_URI + '" alt="Brasão Oficial SP" class="doc-masthead-logo" />'
+          : '<div class="doc-masthead-logo-fallback">SP</div>';
         return '' +
           '<header class="doc-masthead">' +
             '<div class="doc-masthead-left">' +
-              logoHtml +
-              '<div>' +
-                '<div class="doc-kicker">SECRETARIA DA EDUCAÇÃO DO ESTADO DE SÃO PAULO • UNIDADE REGIONAL DE ENSINO DE ITAPEVI</div>' +
+              '<div class="doc-masthead-brand">' + logoHtml + '</div>' +
+              '<div class="doc-masthead-text">' +
                 '<h1 class="doc-title">' + escHtml(tituloDoc) + '</h1>' +
                 '<div class="doc-subtitle">' + escHtml(subtituloDoc) + '</div>' +
               '</div>' +
@@ -39246,7 +39283,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         ];
 
         var html = gerarMastheadEditorial(
-          'Relatório Executivo Consolidado da Rede Regional',
+          'Relatório Consolidado | URE - Itapevi',
           'Panorama Multissetorial das ' + totalEsc + ' Escolas Estaduais e 7 Núcleos • Metodologia IMRO 360° (0–100)',
           'RELATÓRIO GERAL • URE ITAPEVI',
           'URE-ITP-' + new Date().toISOString().slice(0, 10)
