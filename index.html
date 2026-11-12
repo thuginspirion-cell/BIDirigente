@@ -13858,6 +13858,27 @@ function imprimirAgendaCarro() {
         </div>
 
 
+        <!-- BANNER DE INSIGHT EXECUTIVO NA HOME: DEVOLUÇÕES DE FOLHA & GESTÃO DE PESSOAS (SEFREP 2026) -->
+        <div id="home-sefrep-insight-banner" style="background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 12px; padding: 0.95rem 1.35rem; margin-top: 1.5rem; margin-bottom: 0.85rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.85rem; box-shadow: 0 2px 8px rgba(245,158,11,0.06);">
+          <div style="display: flex; align-items: center; gap: 0.85rem;">
+            <span style="font-size: 1.6rem;">💡</span>
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #92400e;">
+                  Insight Executivo SEPES • Devoluções de Folha de Pagamento (SEFREP 2026)
+                </h4>
+                <span style="background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">INTEGRADO AO IMRO 360°</span>
+              </div>
+              <p style="margin: 0.2rem 0 0 0; font-size: 0.78rem; color: #78350f; line-height: 1.35;">
+                333 devoluções monitoradas (24,1% dos expedientes). Suporte formativo do SEPES a estas unidades reduz retrabalho e previne atrasos salariais aos servidores:
+              </p>
+            </div>
+          </div>
+          <div id="home-sefrep-pills-container" style="display: flex; gap: 0.45rem; flex-wrap: wrap;">
+            <!-- Preenchido dinamicamente pelo BI_DECISION_ENGINE com clique para abrir o Dossiê 360° -->
+          </div>
+        </div>
+
         <!-- 4. SEÇÃO: ESCOLAS EM ATENÇÃO (IMRO 360° MULTISSETORIAL) -->
         <div class="section-title-row" style="margin-top: 1.5rem; margin-bottom: 0.95rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.85rem;">
           <div>
@@ -38058,6 +38079,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
         var todosSei = segreSei.concat(sematSei).concat(sevescSei);
         var todosSepes = sepesApos.concat(sepesDesig).concat(sepesAbonos);
+        var sefrepRegs = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && Array.isArray(DADOS_SEFREP.registros)) ? DADOS_SEFREP.registros : [];
         var mesAtual = new Date().getMonth() + 1;
 
         var fato = [];
@@ -38119,7 +38141,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             ptsSeafin = Math.min(15, ptsSeafin);
           }
 
-          /* 4. SEPES (Serviço de Pessoas • teto 10 pts) */
+          /* 4. SEPES (SEAPE + SEFREP Folha de Pagamento) */
           var sepesPend = 0;
           var sepesDesigPend = 0;
           for (var pIdx = 0; pIdx < todosSepes.length; pIdx++) {
@@ -38131,11 +38153,35 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               if (String(sp.id || '').indexOf('DESIG') === 0) sepesDesigPend++;
             }
           }
+
+          /* Cruzamento SEFREP (Devoluções de Folha & Erros de BFE) */
+          var sefrepDev = 0;
+          var sefrepTotal = 0;
+          for (var sfIdx = 0; sfIdx < sefrepRegs.length; sfIdx++) {
+            var sf = sefrepRegs[sfIdx];
+            if (matchNomeEscola(sf.ue, nomeBruto)) {
+              sefrepTotal++;
+              if (sf.dev) sefrepDev++;
+            }
+          }
+
           var ptsSepes = 0;
           var flagsSepes = [];
-          if (sepesPend >= 3) { ptsSepes += 10; flagsSepes.push(sepesPend + ' processos SEPES em fila'); }
-          else if (sepesPend >= 1) { ptsSepes += 5; flagsSepes.push(sepesPend + ' proc. SEPES ativo'); }
+          if (sepesPend >= 3) { ptsSepes += 8; flagsSepes.push(sepesPend + ' processos SEAPE em fila'); }
+          else if (sepesPend >= 1) { ptsSepes += 4; flagsSepes.push(sepesPend + ' proc. SEAPE ativo'); }
           if (sepesDesigPend >= 1) { flagsSepes.push(sepesDesigPend + ' designação pend.'); }
+
+          /* Pontuação por Devoluções de Folha (SEFREP - Erros de preenchimento geram atrasos salariais) */
+          if (sefrepDev >= 4) {
+            ptsSepes += 8;
+            flagsSepes.push('⚠️ ' + sefrepDev + ' devoluções de folha (SEFREP)');
+          } else if (sefrepDev >= 2) {
+            ptsSepes += 5;
+            flagsSepes.push('⚠️ ' + sefrepDev + ' devoluções de folha (SEFREP)');
+          } else if (sefrepDev === 1) {
+            ptsSepes += 2;
+            flagsSepes.push('1 devolução de folha (SEFREP)');
+          }
 
           /* 5. SEGRE (SEI abertos • teto 10 pts) */
           var segreAbertos = 0;
@@ -38231,6 +38277,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             saldoOcioso2026: saldoOcioso,
             execPct2026: execPct,
             sepesPend: sepesPend,
+            sefrepDevolucoes: sefrepDev,
+            sefrepTotal: sefrepTotal,
             segreAbertos: segreAbertos,
             visitada: visitada,
             dataVisita: dataVisita,
@@ -38610,6 +38658,25 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           }
           covEl.innerHTML = '<span>🎯 Top 10 IMRO c/ visita registrada: <strong style="color: ' + (tel.ASURE.top10Visitadas >= 7 ? '#6ee7b7' : '#fbbf24') + ';">' + tel.ASURE.top10Visitadas + ' de 10</strong></span>' +
             '<span style="color: #94a3b8;">' + (10 - tel.ASURE.top10Visitadas) + ' prioritárias p/ agenda</span>';
+        }
+
+        /* Renderiza os pills de escolas com devoluções no banner da Home */
+        var sefrepPillsCont = document.getElementById('home-sefrep-pills-container');
+        if (sefrepPillsCont) {
+          var topDevs = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && Array.isArray(DADOS_SEFREP.topEscolasDevolucoes))
+            ? DADOS_SEFREP.topEscolasDevolucoes.filter(function(e) { return e.escola.indexOf('Diretoria') === -1; }).slice(0, 5)
+            : [];
+          var htmlPills = '';
+          var baseEsc = (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas) && listaEscolas.length > 0)
+            ? listaEscolas
+            : ((typeof BASE_ESCOLAS_PADRAO !== 'undefined' && Array.isArray(BASE_ESCOLAS_PADRAO)) ? BASE_ESCOLAS_PADRAO : []);
+
+          topDevs.forEach(function(td) {
+            var match = baseEsc.find(function(b) { return matchNomeEscola(td.escola, b.nome) || matchNomeEscola(td.escola, b.nomeOficialBruto); });
+            var cieArg = match ? match.cie : '';
+            htmlPills += '<button type="button" onclick="' + (cieArg ? ("selecionarEscolaHomeSpotlight('" + cieArg + "')") : '') + '" style="background: #ffffff; border: 1.5px solid #fcd34d; color: #92400e; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 0.35rem;" title="Clique para abrir Dossiê 360° no Spotlight">' + td.escola + ': <strong>' + td.total + ' devoluções</strong></button>';
+          });
+          sefrepPillsCont.innerHTML = htmlPills;
         }
       }
 
@@ -39051,8 +39118,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               '<span style="font-size:0.69rem;font-weight:800;color:#6d28d9;text-transform:uppercase;">👥 SEPES &amp; 🏫 SEGRE</span>' +
               '<span style="font-size:0.68rem;font-weight:800;color:#5b21b6;background:#ede9fe;padding:1px 6px;border-radius:5px;">+' + (esc.pts.SEPES + esc.pts.SEGRE) + ' pts</span>' +
             '</div>' +
-            '<div style="font-size:0.88rem;font-weight:800;color:#0f172a;margin-bottom:0.25rem;">' + esc.sepesPend + ' proc. SEPES • ' + esc.segreAbertos + ' SEI Rede em aberto</div>' +
-            '<div style="font-size:0.73rem;color:#475569;line-height:1.4;">' + escHtml([].concat(esc.flags.SEPES, esc.flags.SEGRE).join(' • ') || 'Sem pendências abertas nas planilhas SEAPE/SEGRE') + '</div>' +
+            '<div style="font-size:0.88rem;font-weight:800;color:#0f172a;margin-bottom:0.25rem;">' + esc.sepesPend + ' proc. SEAPE • ' + (esc.sefrepDevolucoes || 0) + ' devoluções folha (SEFREP) • ' + esc.segreAbertos + ' SEI Rede</div>' +
+            '<div style="font-size:0.73rem;color:#475569;line-height:1.4;">' + escHtml([].concat(esc.flags.SEPES, esc.flags.SEGRE).join(' • ') || 'Sem pendências abertas em SEAPE/SEFREP/SEGRE') + '</div>' +
           '</div>' +
 
           '<div style="' + boxStyle + 'border-top:3px solid #1e293b;">' +
@@ -39070,7 +39137,23 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           '</div>';
       }
 
-      window.BI_DECISION_ENGINE = {
+      
+    function selecionarEscolaHomeSpotlight(cie) {
+      var sel = document.getElementById('home-filter-escola');
+      if (sel) {
+        sel.value = cie;
+        if (typeof aoMudarFiltroEscolaHome === 'function') {
+          aoMudarFiltroEscolaHome(cie);
+        }
+        var spotlight = document.getElementById('home-spotlight-dossie');
+        if (spotlight) {
+          spotlight.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+    window.selecionarEscolaHomeSpotlight = selecionarEscolaHomeSpotlight;
+  
+    window.BI_DECISION_ENGINE = {
         atualizar: function(dadosEscolaSelecionada) {
           try {
             if (dadosEscolaSelecionada && dadosEscolaSelecionada.cie) {
