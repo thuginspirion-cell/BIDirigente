@@ -1326,7 +1326,7 @@ if (!window.mostrarHome) {
     /* Centro regional exato entre os 4 municípios */
     const CENTRO_REGIONAL_URE = [-23.5350, -46.9150];
 
-    /* Coordenadas geográficas oficiais das 60 escolas da Diretoria de Ensino de Itapevi */
+    /* Coordenadas geográficas oficiais das 60 escolas da Unidade Regional de Ensino de Itapevi */
     const COORDENADAS_REDE_ESCOLAS = {
     "149317": [
         -23.5562,
@@ -1570,7 +1570,7 @@ if (!window.mostrarHome) {
     ]
 };
 
-    /* Coordenada da Sede da Diretoria de Ensino Região de Itapevi */
+    /* Coordenada da Sede da Unidade Regional de Ensino de Itapevi */
     const COORDENADA_SEDE_DIRETORIA = [-23.5488, -46.9341];
 
     function calcularDistanciaSedeKm(coords) {
@@ -1724,10 +1724,10 @@ if (!window.mostrarHome) {
             .bindPopup(
               '<div style="font-family: inherit; padding: 4px; min-width: 220px;">' +
               '<span style="font-size: 0.68rem; font-weight: 800; background: #e0f2fe; color: #0284c7; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">URE ITAPEVI</span>' +
-              '<h4 style="margin: 4px 0 2px 0; font-size: 0.95rem; font-weight: 800; color: #0b2351;">Diretoria de Ensino • URE Itapevi</h4>' +
+              '<h4 style="margin: 4px 0 2px 0; font-size: 0.95rem; font-weight: 800; color: #0b2351;">Unidade Regional de Ensino • URE Itapevi</h4>' +
               '<p style="margin: 0; font-size: 0.74rem; color: #64748b;">Av. Presidente Vargas, 900 - Vila Nova Itapevi, Itapevi - SP</p>' +
               '<div style="margin-top: 8px;">' +
-              '<a href="https:' + String.fromCharCode(47, 47) + 'www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Diretoria de Ensino Região de Itapevi') + '" target="_blank" rel="noopener noreferrer" style="display: block; text-align: center; background: #0b2351; color: #ffffff; text-decoration: none; padding: 5px 8px; border-radius: 6px; font-weight: 700; font-size: 0.72rem;">' +
+              '<a href="https:' + String.fromCharCode(47, 47) + 'www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Unidade Regional de Ensino de Itapevi') + '" target="_blank" rel="noopener noreferrer" style="display: block; text-align: center; background: #0b2351; color: #ffffff; text-decoration: none; padding: 5px 8px; border-radius: 6px; font-weight: 700; font-size: 0.72rem;">' +
               '📍 Abrir no Google Maps</a>' +
               '</div></div>',
               {
@@ -5309,7 +5309,7 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
             
             <div style="border-top: 1px solid #000; padding: 4px 8px; font-size: 8pt; display: flex; align-items: center;">
               <span style="font-weight: 800; margin-right: 6px;">EXPEDIDOR:</span>
-              <span style="flex: 1; border-bottom: 1px dotted #000; font-size: 8.5pt;">${ab.expedidor || 'SEOM / Diretoria de Ensino - URE Itapevi'}</span>
+              <span style="flex: 1; border-bottom: 1px dotted #000; font-size: 8.5pt;">${ab.expedidor || 'SEOM / Unidade Regional de Ensino - URE Itapevi'}</span>
             </div>
           </div>
 
@@ -7063,7 +7063,7 @@ function imprimirAgendaCarro() {
     }
 
     /* ========================================= */
-    /* 6. SEÇÃO: CENTROS DA DIRETORIA (NOVA HOME) */
+    /* 6. SEÇÃO: CENTROS DA UNIDADE REGIONAL (NOVA HOME) */
     /* ========================================= */
     .section-title-row {
       display: flex;
@@ -13176,7 +13176,7 @@ function imprimirAgendaCarro() {
         </ul>
       </div>
 
-      <!-- Grupo 2: Núcleos / Centros da Diretoria -->
+      <!-- Grupo 2: Núcleos / Centros da Unidade Regional -->
       <div>
         <div class="nav-group-title">NÚCLEOS / CENTROS</div>
         <ul class="nav-items-list">
@@ -13348,7 +13348,7 @@ function imprimirAgendaCarro() {
         <div class="executive-hero">
           <div class="executive-hero-left">
             <div class="hero-telemetry-pills">
-              <span class="hero-pretitle" style="margin-bottom: 0;">⭐ DIRETORIA REGIONAL DE ENSINO DE ITAPEVI • URE ITAPEVI</span>
+              <span class="hero-pretitle" style="margin-bottom: 0;">⭐ UNIDADE REGIONAL DE ENSINO DE ITAPEVI • URE ITAPEVI</span>
               <span id="hero-isr-pill" class="hero-isr-pill" title="Índice de Saúde Regional (0–100) calculado em tempo real sobre as 60 escolas">🟢 ISR Regional: calculando...</span>
               <span id="hero-freshness-pill" class="hero-fresh-pill" title="Observabilidade dos pipelines SharePoint e adaptadores">📡 Observabilidade: apurando bases...</span>
             </div>
@@ -13943,7 +13943,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
-            <span><strong>URE Itapevi</strong> • Diretoria Regional de Ensino • BI Dirigente</span>
+            <span><strong>URE Itapevi</strong> • Unidade Regional de Ensino • BI Dirigente</span>
             <span>Decision Intelligence Engine 2.0 • 100% Nuvem &amp; Extensível</span>
           </div>
         </div>
@@ -14536,7 +14536,7 @@ function imprimirAgendaCarro() {
                 </div>
                 <div>
                   <div style="font-size: 10.5px; font-weight: 800; letter-spacing: 1px; color: #38bdf8; text-transform: uppercase; margin-bottom: 2px;">
-                    SEINTEC • DIRETORIA DE ENSINO • ITAPEVI
+                    SEINTEC • UNIDADE REGIONAL DE ENSINO • ITAPEVI
                   </div>
                   <h3 id="seintec-inv-banner-title" style="margin: 0; font-size: 18px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px;">
                     Equipamentos de Hardware & Conectividade
@@ -15550,7 +15550,7 @@ function imprimirAgendaCarro() {
         <div class="escolas-header-card">
           <div class="escolas-header-inner">
             <div class="escolas-header-left">
-              <span class="escolas-pretitle">DIRETORIA REGIONAL DE ENSINO • URE ITAPEVI</span>
+              <span class="escolas-pretitle">UNIDADE REGIONAL DE ENSINO • URE ITAPEVI</span>
               <h2 class="escolas-main-title">Rede Escolar Estadual</h2>
               <p class="escolas-main-desc">
                 Gestão cadastral, indicadores de atendimento, unidades PEI, distribuição por município e escolas em acompanhamento prioritário.
@@ -15757,14 +15757,13 @@ function imprimirAgendaCarro() {
                 <li><strong style="color: #fbbf24;">PEI 9h:</strong> Programa Ensino Integral com jornada diária de 9 horas (tutoria pedagógica, 2 refeições diárias e clubes juvenis).</li>
                 <li><strong style="color: #fde68a;">PEI 7h:</strong> Programa Ensino Integral com jornada diária de 7 horas.</li>
                 <li><strong style="color: #38bdf8;">Regular:</strong> Unidade de ensino estadual com funcionamento em turnos parciais (manhã, tarde ou noite).</li>
-                <li><strong style="color: #cbd5e1;">Nomenclatura Oficial:</strong> Remoção de prefixos redundantes (como 'EE') e padronização da titulação com vírgula no final para leitura executiva fluida.</li>
               </ul>
             </div>
 
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.73rem; color: #94a3b8; flex-wrap: wrap; gap: 0.5rem;">
-            <span><strong>Diretoria Regional de Ensino • URE Itapevi</strong> • Painel Integrado de Gestão Escolar</span>
+            <span><strong>Unidade Regional de Ensino • URE Itapevi</strong> • Painel Integrado de Gestão Escolar</span>
             <span>Auditoria contínua sincronizada com as bases oficiais do SharePoint corporativo e BlueMonitor.</span>
           </div>
         </div>
@@ -15950,7 +15949,7 @@ function imprimirAgendaCarro() {
         <div style="background: linear-gradient(135deg, #0b2351 0%, #173877 100%); border-radius: 12px; padding: 1.15rem 1.5rem; margin-bottom: 0.85rem; color: #ffffff; box-shadow: 0 4px 14px rgba(11,35,81,0.12); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.85rem;">
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 0.72rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.06em; text-transform: uppercase;">DIRETORIA REGIONAL DE ENSINO • URE ITAPEVI</span>
+              <span style="font-size: 0.72rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.06em; text-transform: uppercase;">UNIDADE REGIONAL DE ENSINO • URE ITAPEVI</span>
               <span style="font-size: 0.68rem; font-weight: 700; background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); padding: 1px 7px; border-radius: 999px;">Google Maps Corporativo</span>
             </div>
             <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0.2rem 0 0 0; color: #ffffff; letter-spacing: -0.02em;">Centro de Inteligência Territorial • 60 Escolas</h2>
@@ -16046,7 +16045,7 @@ function imprimirAgendaCarro() {
             <!-- RODAPÉ DA LISTA -->
             <div style="padding: 0.45rem 0.8rem; border-top: 1px solid #f1f5f9; background: #f8fafc; border-radius: 0 0 12px 12px; font-size: 10.5px; color: #64748b; display: flex; justify-content: space-between; align-items: center;">
               <span>💡 Clique na escola para focar no mapa</span>
-              <span id="mapa-total-visitas-badge" style="font-weight: 700; color: #0284c7;">Diretoria de Ensino</span>
+              <span id="mapa-total-visitas-badge" style="font-weight: 700; color: #0284c7;">Unidade Regional de Ensino</span>
             </div>
           </div>
 
@@ -19791,7 +19790,7 @@ function imprimirAgendaCarro() {
           {
             sigla: 'DPAT',
             nome: 'DPAT - Divisão de Patrimônio',
-            desc: 'Inventário físico oficial de bens móveis permanentes, tombamento patrimonial (chapas ITP), localização por ambiente da Diretoria de Ensino e conservação de materiais.',
+            desc: 'Inventário físico oficial de bens móveis permanentes, tombamento patrimonial (chapas ITP), localização por ambiente da Unidade Regional de Ensino e conservação de materiais.',
             sharepointUrl: URLS_OFICIAIS_DPAT.sharepoint
           }
         ]
@@ -21497,7 +21496,7 @@ function imprimirAgendaCarro() {
                 <span style="background: #d1fae5; color: #065f46; border: 1.5px solid #10b981; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT</span>
               </div>
               <p style="font-size: 0.86rem; color: #f1f5f9; margin: 0; max-width: 820px; line-height: 1.45; font-weight: 500;">
-                Controle e acompanhamento da execução financeira e prestação de contas dos repasses do <strong style="color: #ffffff;">PDDE Paulista</strong> e <strong style="color: #ffffff;">PDDE Federal</strong> para as Associações de Pais e Mestres (APMs) das 60 unidades escolares da Diretoria Regional de Itapevi.
+                Controle e acompanhamento da execução financeira e prestação de contas dos repasses do <strong style="color: #ffffff;">PDDE Paulista</strong> e <strong style="color: #ffffff;">PDDE Federal</strong> para as Associações de Pais e Mestres (APMs) das 60 unidades escolares da Unidade Regional de Ensino de Itapevi.
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Atualizado:</strong> <span style="color: #ffffff;">${DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao}</span></span>
@@ -21863,7 +21862,7 @@ function imprimirAgendaCarro() {
                   <div style="background: #ffffff; border-left: 4px solid #d97706; border-radius: 8px; padding: 0.85rem 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
                     <strong style="color: #b45309; font-size: 0.86rem; display: block; margin-bottom: 0.25rem; font-weight: 800;">APM • Associação de Pais e Mestres</strong>
                     <p style="font-size: 0.78rem; color: #334155; margin: 0; line-height: 1.45;">
-                      Entidade jurídica de direito privado sem fins lucrativos que gerencia os recursos públicos escolares e responde legalmente pela correta execução e prestação de contas dos repasses perante a Diretoria de Ensino e órgãos de controle externo (TCE-SP e TCU).
+                      Entidade jurídica de direito privado sem fins lucrativos que gerencia os recursos públicos escolares e responde legalmente pela correta execução e prestação de contas dos repasses perante a Unidade Regional de Ensino e órgãos de controle externo (TCE-SP e TCU).
                     </p>
                   </div>
 
@@ -21890,7 +21889,7 @@ function imprimirAgendaCarro() {
                 <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 1.1rem;">
                   <strong style="color: #047857; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; font-weight: 800;">📝 Despesas Executadas (Custeio + Capital)</strong>
                   <p style="font-size: 0.82rem; color: #334155; margin: 0; line-height: 1.5; font-weight: 500;">
-                    Gastos efetivamente executados e comprovados pela equipe gestora da Unidade Escolar (colunas U e V), comprovados mediante notas fiscais eletrônicas, orçamentos prévios (mínimo de três propostas), recibos e balancetes validados pela Diretoria Regional de Ensino.
+                    Gastos efetivamente executados e comprovados pela equipe gestora da Unidade Escolar (colunas U e V), comprovados mediante notas fiscais eletrônicas, orçamentos prévios (mínimo de três propostas), recibos e balancetes validados pela Unidade Regional de Ensino.
                   </p>
                 </div>
 
@@ -21915,7 +21914,7 @@ function imprimirAgendaCarro() {
               <!-- RODAPÉ DE AUDITORIA E BASE -->
               <div style="border-top: 1.5px solid #e2e8f0; padding-top: 0.85rem; font-size: 0.78rem; color: #475569; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-weight: 600;">
                 <span>Fonte Oficial: <strong style="color: #0f172a;">Controle prestação de contas U.E..xlsx</strong> (SharePoint Corporativo SEDUC)</span>
-                <span>Unidade Responsável: <strong style="color: #0f172a;">SEAFIN / SEFIN • Diretoria de Ensino da Região de Itapevi</strong></span>
+                <span>Unidade Responsável: <strong style="color: #0f172a;">SEAFIN / SEFIN • Unidade Regional de Ensino de Itapevi</strong></span>
                 <span>Normativas: <strong style="color: #0284c7;">Res. SEDUC 11/2024 • Res. CD/FNDE 15/2021</strong></span>
               </div>
 
@@ -22977,7 +22976,7 @@ function imprimirAgendaCarro() {
                 <span style="background: #d1fae5; color: #065f46; border: 1.5px solid #10b981; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT</span>
               </div>
               <p style="font-size: 0.86rem; color: #f1f5f9; margin: 0; max-width: 820px; line-height: 1.45; font-weight: 500;">
-                Inventário físico oficial de bens móveis permanentes, tombamento patrimonial (chapas ITP), localização por ambiente da Diretoria de Ensino e conservação de materiais.
+                Inventário físico oficial de bens móveis permanentes, tombamento patrimonial (chapas ITP), localização por ambiente da Unidade Regional de Ensino e conservação de materiais.
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Atualizado:</strong> <span style="color: #ffffff;">Hoje</span></span>
@@ -24405,7 +24404,7 @@ function imprimirAgendaCarro() {
                 <span style="background: #d1fae5; color: #065f46; border: 1.5px solid #10b981; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT</span>
               </div>
               <p style="font-size: 0.86rem; color: #f1f5f9; margin: 0; max-width: 820px; line-height: 1.45; font-weight: 500;">
-                Gestão das rotinas de atendimento, compatibilização de vagas, matrículas manuais, transferências e processos SEI da Diretoria Regional de Ensino de Itapevi.
+                Gestão das rotinas de atendimento, compatibilização de vagas, matrículas manuais, transferências e processos SEI da Unidade Regional de Ensino de Itapevi.
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Dados de:</strong> <span id="semat-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
@@ -25915,7 +25914,7 @@ function imprimirAgendaCarro() {
                 <span style="background: #d1fae5; color: #065f46; border: 1.5px solid #10b981; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT</span>
               </div>
               <p style="font-size: 0.86rem; color: #f1f5f9; margin: 0; max-width: 820px; line-height: 1.45; font-weight: 500;">
-                Acompanhamento em tempo real do <strong style="color: #ffffff;">Livro de Entrada 2026</strong>: Processos SEI, Atendimentos de Vagas e Transferências, Ouvidorias Fala.SP e Registros de Concluintes da Diretoria Regional de Ensino de Itapevi.
+                Acompanhamento em tempo real do <strong style="color: #ffffff;">Livro de Entrada 2026</strong>: Processos SEI, Atendimentos de Vagas e Transferências, Ouvidorias Fala.SP e Registros de Concluintes da Unidade Regional de Ensino de Itapevi.
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #cbd5e1; font-weight: 600;">
                 <span>🕒 <strong>Dados de:</strong> <span id="segre-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
@@ -30132,7 +30131,7 @@ function imprimirAgendaCarro() {
                 <span style="background: #e0f2fe; color: #0369a1; border: 1.5px solid #38bdf8; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">SEPES • URE ITAPEVI</span>
               </div>
               <p style="font-size: 0.86rem; color: #e0e7ff; margin: 0; max-width: 840px; line-height: 1.45; font-weight: 500;">
-                Gestão da folha de pagamento, controle de frequência, benefícios, adicionais e direitos dos servidores docentes e administrativos da Diretoria Regional de Ensino de Itapevi.
+                Gestão da folha de pagamento, controle de frequência, benefícios, adicionais e direitos dos servidores docentes e administrativos da Unidade Regional de Ensino de Itapevi.
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">
                 <span>🕒 <strong>Status:</strong> <span style="color: #ffffff;">Módulo em estruturação</span></span>
@@ -30203,7 +30202,7 @@ function imprimirAgendaCarro() {
         icone: '📊',
         nome: 'Consulta SAEB 2025',
         tituloHeader: 'Consulta SAEB 2025 • EEC',
-        subtitulo: 'Ambiente integrado para consulta, acompanhamento e diagnóstico dos dados do SAEB 2025 nas 60 escolas da Diretoria de Ensino de Itapevi.',
+        subtitulo: 'Ambiente integrado para consulta, acompanhamento e diagnóstico dos dados do SAEB 2025 nas 60 escolas da Unidade Regional de Ensino de Itapevi.',
         tag: 'DIAGNÓSTICO SAEB',
         gasWebapp: EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbwc79rKkieVXFptQTxBarcJ1yew2ptmiyw9Z_a3kvylsqSxUzyeXAEMmCVkETy6WxPB/exec',
         googleSites: EEC_PROTO_SLASH + 'sites.google.com/prof.educacao.sp.gov.br/appscript2026/consulta-saeb-2025?authuser=0'
@@ -30359,7 +30358,7 @@ function imprimirAgendaCarro() {
                 '<span style="background: #dcfce7; color: #166534; border: 1.5px solid #22c55e; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">🌐 LINKS PÚBLICOS OFICIAIS</span>' +
               '</div>' +
               '<p style="font-size: 0.86rem; color: #e0e7ff; margin: 0; max-width: 860px; line-height: 1.45; font-weight: 500;">' +
-                'Acesso unificado aos sistemas, plataformas e ferramentas pedagógicas oficiais da Equipe de Especialistas em Currículo (EEC) da Diretoria de Ensino de Itapevi.' +
+                'Acesso unificado aos sistemas, plataformas e ferramentas pedagógicas oficiais da Equipe de Especialistas em Currículo (EEC) da Unidade Regional de Ensino de Itapevi.' +
               '</p>' +
               '<div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">' +
                 '<span>🎯 <strong>Sistemas:</strong> <span style="color: #ffffff;">12 Módulos Oficiais Integrados</span></span>' +
@@ -30411,7 +30410,7 @@ function imprimirAgendaCarro() {
               '</div>' +
             '</div>' +
             '<div style="font-size: 0.76rem; font-weight: 700; color: #64748b; align-self: center;">' +
-              'Diretoria Regional de Ensino de Itapevi • URE Itapevi' +
+              'Unidade Regional de Ensino de Itapevi • URE Itapevi' +
             '</div>' +
           '</div>' +
 
@@ -30462,7 +30461,7 @@ function imprimirAgendaCarro() {
                 <span style="background: #d1fae5; color: #065f46; border: 1.5px solid #10b981; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT • SEPES</span>
               </div>
               <p style="font-size: 0.86rem; color: #e0e7ff; margin: 0; max-width: 840px; line-height: 1.45; font-weight: 500;">
-                Acompanhamento em tempo real das demandas estratégicas da planilha oficial <strong style="color: #ffffff;">DEMANDAS SEAPE</strong>: Aposentadorias de servidores, Designações docentes e de gestão pedagógica, e Abonos de Permanência da Diretoria de Ensino de Itapevi.
+                Acompanhamento em tempo real das demandas estratégicas da planilha oficial <strong style="color: #ffffff;">DEMANDAS SEAPE</strong>: Aposentadorias de servidores, Designações docentes e de gestão pedagógica, e Abonos de Permanência da Unidade Regional de Ensino de Itapevi.
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.6rem; font-size: 0.76rem; color: #c7d2fe; font-weight: 600;">
                 <span>🕒 <strong>Dados de:</strong> <span id="sepes-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>

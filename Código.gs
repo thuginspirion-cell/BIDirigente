@@ -123,7 +123,7 @@ function include(filename) {
  * MOTOR UNIVERSAL DE RESOLUÇÃO PÚBLICA DO SHAREPOINT (ANTI-LOGIN RESILIENTE)
  * REGRA FUNDAMENTAL DO PROJETO:
  * Todos os arquivos, pastas e planilhas públicas compartilhadas por qualquer
- * setor da Diretoria de Ensino (SEINTEC, SEAFIN, SEOM, SEGRE, SEPES, EEC, ASURE, etc.)
+ * setor da Unidade Regional de Ensino (SEINTEC, SEAFIN, SEOM, SEGRE, SEPES, EEC, ASURE, etc.)
  * devem ser sincronizados sem interrupções e sem exigir login, preservando os
  * cookies anônimos de visitante e ativando a base de contingência transparente.
  * =========================================================================
@@ -1810,7 +1810,7 @@ function testarDisparoEmailAlerta(emailDestino) {
   var html = 
     "<div style='font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;'>" +
     "<div style='background: #0f172a; padding: 20px 24px; color: #ffffff;'>" +
-    "<div style='font-size: 13px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;'>Diretoria Regional de Ensino • URE Itapevi</div>" +
+    "<div style='font-size: 13px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;'>Unidade Regional de Ensino • URE Itapevi</div>" +
     "<h2 style='margin: 6px 0 0 0; font-size: 20px; color: #ffffff;'>Canal de Alertas do BI Dirigente</h2>" +
     "</div>" +
     "<div style='padding: 24px; color: #334155; line-height: 1.6;'>" +
@@ -1827,7 +1827,7 @@ function testarDisparoEmailAlerta(emailDestino) {
     "</table>" +
     "</div>" +
     "<div style='background: #f8fafc; padding: 14px 24px; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; text-align: center;'>" +
-    "BI Dirigente • Diretoria de Ensino de Itapevi • Sistema de Alertas Automatizado" +
+    "BI Dirigente • Unidade Regional de Ensino de Itapevi • Sistema de Alertas Automatizado" +
     "</div>" +
     "</div>";
 
@@ -1888,7 +1888,7 @@ function dispararEmailFalhaDetectada(resultado) {
     "<p style='font-size: 13px; color: #64748b; margin-top: 15px;'>Horário da detecção: <strong>" + agoraStr + "</strong>. As contingências locais foram preservadas para manter a navegação dos usuários, mas a sincronização ao vivo requer verificação do link ou das credenciais.</p>" +
     "</div>" +
     "<div style='background: #f8fafc; padding: 14px 24px; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; text-align: center;'>" +
-    "BI Dirigente • Diretoria de Ensino de Itapevi • Monitoramento Automatizado 24/7" +
+    "BI Dirigente • Unidade Regional de Ensino de Itapevi • Monitoramento Automatizado 24/7" +
     "</div>" +
     "</div>";
 
