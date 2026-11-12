@@ -38,6 +38,8 @@ function doGet(e) {
         output = sincronizarPlanilhaSevesc(forcarBruto);
       } else if (action === 'sincronizarSepes') {
         output = sincronizarPlanilhaSepes(forcarBruto);
+      } else if (action === 'sincronizarSefrep') {
+        output = sincronizarPlanilhaSefrep(forcarBruto);
       } else if (action === 'sincronizarSecomse') {
         output = sincronizarPlanilhaSecomse(forcarBruto);
       } else if (action === 'sincronizarDpat') {
@@ -881,6 +883,43 @@ function sincronizarPlanilhaSepes(forcarBruto) {
   return { sucesso: true, usarBaseLocal: true, aviso: "Base SEPES mantida ativa." };
 }
 
+/**
+ * Sincroniza a planilha oficial pública do SEFREP (Pagamento e Frequência 2026 - SEPES).
+ * Link Oficial: https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefrep_educacao_sp_gov_br/cQrO53ta2ztgRYD5y6ke2QD2EgUC5Wx8sWTg9fgjf0asi90zMg?rtime=72HhmMNA30g
+ */
+function sincronizarPlanilhaSefrep(forcarBruto) {
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefrep_educacao_sp_gov_br/cQrO53ta2ztgRYD5y6ke2QD2EgUC5Wx8sWTg9fgjf0asi90zMg?download=1";
+  try {
+    var res = obterArquivoPublicoSharepoint(url, {
+      nomeSetor: "SEFREP",
+      descricaoBase: "Pagamento e Frequência 2026 (Devoluções, F17 e Tramitações)",
+      abasNecessarias: ["01-2026", "DEVOLUÇÃO 01-2026"]
+    });
+    if (res && res.sucesso && res.dadosBase64) {
+      res.origem = res.origem || "SharePoint Live UrlFetch";
+      return res;
+    }
+  } catch (e) {
+    Logger.log("Aviso SEFREP live: " + e.toString());
+  }
+
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefrep_curated_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.origem = "Mirror GitHub Curado Oficial 2026";
+      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
+      return dados;
+    }
+  } catch (errMirror) {
+    Logger.log("Erro ao buscar mirror SEFREP: " + errMirror.toString());
+  }
+
+  return { sucesso: true, usarBaseLocal: true, aviso: "Base SEFREP mantida ativa." };
+}
+
 function sincronizarPlanilhaSevesc(forcarBruto) {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sevesc_educacao_sp_gov_br/cQroeBSCMXZCQbbGQSCaAqMaEgUCxrdIuNVbs_RPejCEfptcng?download=1";
   try {
@@ -1720,6 +1759,7 @@ function executarAuditoriaCompletaBases() {
     { nome: "SEMAT Matrícula", arquivo: "Livro Entrada 2026 SEMAT.xlsx", fn: function() { return sincronizarPlanilhaSemat(); } },
     { nome: "SEVESC Vida Escolar", arquivo: "Livro Entrada 2026 SEVESC.xlsx", fn: function() { return sincronizarPlanilhaSevesc(); } },
     { nome: "SEPES Serviço de Pessoas", arquivo: "DEMANDAS SEAPE.xlsx", fn: function() { return sincronizarPlanilhaSepes(); } },
+    { nome: "SEFREP Frequência & Pagto", arquivo: "Planilha SEFREP 2026.xlsx", fn: function() { return sincronizarPlanilhaSefrep(); } },
     { nome: "SECOMSE Contratos", arquivo: "Controle de contratos.xlsx", fn: function() { return sincronizarPlanilhaSecomse(); } },
     { nome: "DPAT Patrimônio", arquivo: "Patrimônio Escolar", fn: function() { return sincronizarPlanilhaDpat(); } },
     { nome: "SEOM Obras", arquivo: "Aba MAPA - Obras 2026", fn: function() { return sincronizarPlanilhaSeom(); } },
