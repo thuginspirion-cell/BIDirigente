@@ -30601,12 +30601,12 @@ function renderizarDashboardSefrep() {
   html += '</div>';
 
   html += '<div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">';
-  html += '<a href="' + spLink + '" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4);">';
+  html += '<button type="button" onclick="sincronizarBasePublicaSefrep(true)" id="btn-sefrep-sync-base" style="background: rgba(255,255,255,0.18); color: #ffffff; border: 1.5px solid rgba(255,255,255,0.35); padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.45rem; transition: all 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.28)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.18)\'">';
+  html += '<span class="sync-spin-icon">🔄</span><span>Sincronizar SEFREP</span>';
+  html += '</button>';
+  html += '<a href="' + spLink + '" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'" onmouseout="this.style.opacity=\'1\'">';
   html += '<span>📊</span><span>Abrir no Excel 365 ↗</span>';
   html += '</a>';
-  html += '<button type="button" onclick="sincronizarBasePublicaSefrep(true)" style="background: rgba(255,255,255,0.18); color: #ffffff; border: 1.5px solid rgba(255,255,255,0.35); padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">';
-  html += '<span>🔄</span><span>Sincronizar SEFREP</span>';
-  html += '</button>';
   html += '</div>';
   html += '</div>';
 
