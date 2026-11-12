@@ -5138,30 +5138,30 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
         
         <!-- HEADER OFICIAL DO ESTADO -->
         <div class="m30-row m30-border-bottom" style="display: flex;">
-          <div style="width: 14%; border-right: 1.5px solid #000; padding: 4px; display: flex; align-items: center; justify-content: center;">
+          <div style="width: 14%; border-right: 1.5px solid #000; padding: 6px; display: flex; align-items: center; justify-content: center;">
             ${BRASAO_SP_SVG}
           </div>
-          <div style="width: 53%; border-right: 1.5px solid #000; padding: 6px 10px; display: flex; flex-direction: column; justify-content: center;">
-            <div style="font-size: 13pt; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px;">SECRETARIA DA EDUCAÇÃO</div>
-            <div style="font-size: 9.5pt; font-weight: 700; margin-bottom: 2px;">SUBFROTA: <span style="font-weight: normal; text-decoration: underline;">URE - Itapevi</span></div>
+          <div style="width: 53%; border-right: 1.5px solid #000; padding: 8px 12px; display: flex; flex-direction: column; justify-content: center; line-height: 1.45;">
+            <div style="font-size: 13pt; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 5px;">SECRETARIA DA EDUCAÇÃO</div>
+            <div style="font-size: 9.5pt; font-weight: 700; margin-bottom: 3px;">SUBFROTA: <span style="font-weight: normal; text-decoration: underline;">URE - Itapevi</span></div>
             <div style="font-size: 9.5pt; font-weight: 700;">CIDADE: <span style="font-weight: normal; text-decoration: underline;">Itapevi</span></div>
           </div>
-          <div style="width: 33%; padding: 4px 8px; font-size: 8pt; display: flex; flex-direction: column; justify-content: space-between;">
-            <div style="text-align: center; font-weight: 800; border-bottom: 1px solid #000; padding-bottom: 2px; letter-spacing: 0.5px;">AUTENTICAÇÃO MECÂNICA</div>
-            <div style="display: flex; justify-content: space-between; margin-top: 3px;">
+          <div style="width: 33%; padding: 6px 10px; font-size: 8pt; line-height: 1.45; display: flex; flex-direction: column; justify-content: space-between;">
+            <div style="text-align: center; font-weight: 800; border-bottom: 1px solid #000; padding-bottom: 3px; letter-spacing: 0.5px;">AUTENTICAÇÃO MECÂNICA</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 5px;">
               <span>PARTIDA (data e hora):</span>
-              <strong style="font-family: monospace;">${dataPartidaAutenticada}</strong>
+              <strong class="m30-num">${dataPartidaAutenticada}</strong>
             </div>
-            <div style="display: flex; justify-content: space-between; margin-top: 3px;">
+            <div style="display: flex; justify-content: space-between; margin-top: 5px;">
               <span>RETORNO (data e hora):</span>
-              <strong style="font-family: monospace;">${dataRetornoAutenticada}</strong>
+              <strong class="m30-num">${dataRetornoAutenticada}</strong>
             </div>
           </div>
         </div>
 
         <!-- FAIXA CONTROLE DE TRÁFEGO Nº -->
         <div class="m30-title-bar">
-          CONTROLE DE TRÁFEGO Nº <span style="font-family: monospace; font-size: 14pt; margin-left: 8px;">${reg.controleTrafegoNum || 'CT-2026/042'}</span>
+          CONTROLE DE TRÁFEGO Nº <span class="m30-num" style="font-size: 14pt; margin-left: 8px;">${reg.controleTrafegoNum || 'CT-2026/042'}</span>
         </div>
 
         <!-- TABELA 4 COLUNAS: PLACA, PATRIMÔNIO, TIPO, GRUPO -->
@@ -5176,8 +5176,8 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
           </thead>
           <tbody>
             <tr>
-              <td style="font-weight: 900; font-size: 11pt; font-family: monospace;">${placa}</td>
-              <td style="font-weight: 700; font-size: 10pt;">${patrimonio}</td>
+              <td class="m30-num" style="font-weight: 900; font-size: 11pt;">${placa}</td>
+              <td class="m30-num" style="font-weight: 700; font-size: 10pt;">${patrimonio}</td>
               <td style="font-size: 9.5pt;">${tipo}</td>
               <td style="font-size: 9.5pt;">${grupo}</td>
             </tr>
@@ -5190,20 +5190,20 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
             <span class="m30-label">CONDUTOR:</span>
             <span class="m30-val-underline" style="flex: 1;">${reg.motorista || 'Steve Rogers'}</span>
           </div>
-          <div class="m30-line" style="margin-top: 6px;">
+          <div class="m30-line" style="margin-top: 10px;">
             <span class="m30-label">APRESENTAR-SE EM:</span>
             <span class="m30-val-underline" style="flex: 2;">${reg.apresentarEm || 'URE - ITP - Rua Dimarães Antônio Sandei, 75'}</span>
             <span class="m30-label" style="margin-left: 10px;">ÀS:</span>
-            <span class="m30-val-underline" style="width: 45px; text-align: center;">${horaSaidaSplit[0] || '08'}</span>
+            <span class="m30-val-underline m30-num" style="width: 45px; text-align: center;">${horaSaidaSplit[0] || '08'}</span>
             <span class="m30-label">HORAS E</span>
-            <span class="m30-val-underline" style="width: 45px; text-align: center;">${horaSaidaSplit[1] || '30'}</span>
+            <span class="m30-val-underline m30-num" style="width: 45px; text-align: center;">${horaSaidaSplit[1] || '30'}</span>
             <span class="m30-label">MINUTOS</span>
           </div>
-          <div class="m30-line" style="margin-top: 6px;">
+          <div class="m30-line" style="margin-top: 10px;">
             <span class="m30-label">AO SR.:</span>
             <span class="m30-val-underline" style="flex: 1;">${reg.solicitante || 'Natasha Romanoff'}</span>
           </div>
-          <div class="m30-line" style="margin-top: 6px;">
+          <div class="m30-line" style="margin-top: 10px;">
             <span class="m30-label">FUNÇÃO:</span>
             <span class="m30-val-underline" style="flex: 1;">${reg.funcao || 'Responsável Técnico'}</span>
             <span class="m30-label" style="margin-left: 10px;">UNIDADE:</span>
@@ -5230,15 +5230,15 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
                   <tbody>
                     <tr>
                       <td style="width: 45%; font-weight: 700; font-size: 8pt; text-align: left; padding-left: 6px;">RETORNO</td>
-                      <td colspan="2" style="font-family: monospace; font-size: 9.5pt; font-weight: 800; text-align: right; padding-right: 8px;">${reg.kmRetorno ? (reg.kmRetorno.toLocaleString('pt-BR') + ' km') : '______ km'}</td>
+                      <td colspan="2" class="m30-num" style="font-size: 9.5pt; font-weight: 800; text-align: right; padding-right: 8px;">${reg.kmRetorno ? (reg.kmRetorno.toLocaleString('pt-BR') + ' km') : '______ km'}</td>
                     </tr>
                     <tr>
                       <td style="font-weight: 700; font-size: 8pt; text-align: left; padding-left: 6px;">PARTIDA</td>
-                      <td colspan="2" style="font-family: monospace; font-size: 9.5pt; font-weight: 800; text-align: right; padding-right: 8px;">${(reg.kmPartida || 0).toLocaleString('pt-BR')} km</td>
+                      <td colspan="2" class="m30-num" style="font-size: 9.5pt; font-weight: 800; text-align: right; padding-right: 8px;">${(reg.kmPartida || 0).toLocaleString('pt-BR')} km</td>
                     </tr>
                     <tr>
                       <td style="font-weight: 700; font-size: 8pt; text-align: left; padding-left: 6px;">DIFERENÇA</td>
-                      <td colspan="2" style="font-family: monospace; font-size: 9.5pt; font-weight: 800; text-align: right; padding-right: 8px; color: #000;">${difKm ? (difKm.toLocaleString('pt-BR') + ' km') : '______ km'}</td>
+                      <td colspan="2" class="m30-num" style="font-size: 9.5pt; font-weight: 800; text-align: right; padding-right: 8px; color: #000;">${difKm ? (difKm.toLocaleString('pt-BR') + ' km') : '______ km'}</td>
                     </tr>
                     <tr>
                       <td rowspan="2" style="font-weight: 700; font-size: 7.5pt; text-align: left; padding-left: 6px;">TANQUE CHEIO</td>
@@ -5273,31 +5273,31 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
                   </thead>
                   <tbody>
                     <tr>
-                      <td style="font-weight: 700; font-size: 8pt; text-align: left; padding-left: 4px;">GASOLINA</td>
+                      <td style="font-weight: 700; font-size: 8pt; text-align: left; padding-left: 6px;">GASOLINA</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Gasolina' ? (ab.quant || '') : ''}</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Gasolina' ? (ab.reqNum || '') : ''}</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Gasolina' ? (ab.nfNum || '') : ''}</td>
                     </tr>
                     <tr>
-                      <td style="font-weight: 700; font-size: 8pt; text-align: left; padding-left: 4px;">DIESEL</td>
+                      <td style="font-weight: 700; font-size: 8pt; text-align: left; padding-left: 6px;">DIESEL</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Diesel' ? (ab.quant || '') : ''}</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Diesel' ? (ab.reqNum || '') : ''}</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Diesel' ? (ab.nfNum || '') : ''}</td>
                     </tr>
                     <tr>
-                      <td style="font-weight: 700; font-size: 8pt; text-align: left; padding-left: 4px;">ÁLCOOL</td>
+                      <td style="font-weight: 700; font-size: 8pt; text-align: left; padding-left: 6px;">ÁLCOOL</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Álcool' ? (ab.quant || '') : ''}</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Álcool' ? (ab.reqNum || '') : ''}</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Álcool' ? (ab.nfNum || '') : ''}</td>
                     </tr>
                     <tr>
-                      <td style="font-weight: 700; font-size: 8pt; text-align: left; padding-left: 4px;">ADITIVO</td>
+                      <td style="font-weight: 700; font-size: 8pt; text-align: left; padding-left: 6px;">ADITIVO</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Aditivo' ? (ab.quant || '') : ''}</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Aditivo' ? (ab.reqNum || '') : ''}</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Aditivo' ? (ab.nfNum || '') : ''}</td>
                     </tr>
                     <tr>
-                      <td style="font-weight: 700; font-size: 8pt; text-align: left; padding-left: 4px;">ÓLEO</td>
+                      <td style="font-weight: 700; font-size: 8pt; text-align: left; padding-left: 6px;">ÓLEO</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Óleo' ? (ab.quant || '') : ''}</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Óleo' ? (ab.reqNum || '') : ''}</td>
                       <td style="font-size: 8.5pt;">${ab.natureza === 'Óleo' ? (ab.nfNum || '') : ''}</td>
@@ -5307,9 +5307,9 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
               </div>
             </div>
             
-            <div style="border-top: 1px solid #000; padding: 4px 8px; font-size: 8pt; display: flex; align-items: center;">
+            <div style="border-top: 1px solid #000; padding: 6px 10px; font-size: 8pt; line-height: 1.45; display: flex; align-items: center;">
               <span style="font-weight: 800; margin-right: 6px;">EXPEDIDOR:</span>
-              <span style="flex: 1; border-bottom: 1px dotted #000; font-size: 8.5pt;">${ab.expedidor || 'SEOM / Unidade Regional de Ensino - URE Itapevi'}</span>
+              <span style="flex: 1; border-bottom: 1px dotted #000; font-size: 8.5pt; padding-bottom: 1px;">${ab.expedidor || 'SEOM / Unidade Regional de Ensino - URE Itapevi'}</span>
             </div>
           </div>
 
@@ -5317,11 +5317,11 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
 
         <!-- SEÇÃO: O USUÁRIO PREENCHERÁ -->
         <div class="m30-user-section">
-          <div style="text-align: center; font-weight: 900; font-size: 11pt; letter-spacing: 1px; margin-bottom: 10px;">
+          <div style="text-align: center; font-weight: 900; font-size: 11pt; letter-spacing: 1px; margin-bottom: 14px;">
             O USUÁRIO PREENCHERÁ:
           </div>
 
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; line-height: 1.45;">
             <span style="font-size: 8.5pt; font-weight: 700;">O VEÍCULO FOI APRESENTADO NA HORA E LOCAL CERTOS?</span>
             <div style="display: flex; gap: 20px; font-size: 8.5pt;">
               <span>[${reg.status === 'Concluído' ? 'X' : '&nbsp;&nbsp;'}] SIM</span>
@@ -5329,20 +5329,20 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
             </div>
           </div>
 
-          <div class="m30-line" style="margin-bottom: 8px;">
+          <div class="m30-line" style="margin-bottom: 12px;">
             <span class="m30-label">DISPENSADO ÀS</span>
-            <span class="m30-val-underline" style="width: 50px; text-align: center;">${horaRetornoSplit[0] || '16'}</span>
+            <span class="m30-val-underline m30-num" style="width: 50px; text-align: center;">${horaRetornoSplit[0] || '16'}</span>
             <span class="m30-label">HORAS E</span>
-            <span class="m30-val-underline" style="width: 50px; text-align: center;">${horaRetornoSplit[1] || '30'}</span>
+            <span class="m30-val-underline m30-num" style="width: 50px; text-align: center;">${horaRetornoSplit[1] || '30'}</span>
             <span class="m30-label">MINUTOS</span>
           </div>
 
-          <div class="m30-line" style="margin-bottom: 8px;">
+          <div class="m30-line" style="margin-bottom: 12px;">
             <span class="m30-label">LOCAL:</span>
             <span class="m30-val-underline" style="flex: 1;">${reg.destino || 'URE - ITP'}</span>
           </div>
 
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; line-height: 1.45;">
             <span style="font-size: 8.5pt; font-weight: 700;">NOVA APRESENTAÇÃO?</span>
             <div style="display: flex; gap: 20px; font-size: 8.5pt;">
               <span>[&nbsp;&nbsp;] SIM</span>
@@ -5350,21 +5350,21 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
             </div>
           </div>
 
-          <div class="m30-line" style="margin-bottom: 8px;">
+          <div class="m30-line" style="margin-bottom: 14px;">
             <span class="m30-label" style="font-size: 8pt;">ESPECIFICAR PARA O CASO DE SIM: DIA - HORA - LOCAL:</span>
             <span class="m30-val-underline" style="flex: 1;"></span>
           </div>
 
-          <div style="margin-top: 10px;">
-            <div style="font-size: 8pt; font-weight: 800; margin-bottom: 4px;">CONSIDERAÇÕES GERAIS SOBRE O VEÍCULO E/OU O CONDUTOR:</div>
-            <div style="border-bottom: 1px dotted #000; min-height: 18px; font-size: 8.5pt;">${reg.observacoes || 'Deslocamento oficial realizado em perfeita conformidade institucional.'}</div>
-            <div style="border-bottom: 1px dotted #000; min-height: 18px; margin-top: 4px;"></div>
+          <div style="margin-top: 14px;">
+            <div style="font-size: 8pt; font-weight: 800; margin-bottom: 6px; line-height: 1.45;">CONSIDERAÇÕES GERAIS SOBRE O VEÍCULO E/OU O CONDUTOR:</div>
+            <div class="m30-ruled-line">${reg.observacoes || 'Deslocamento oficial realizado em perfeita conformidade institucional.'}</div>
+            <div class="m30-ruled-line" style="margin-top: 8px;"></div>
           </div>
 
-          <div style="display: flex; justify-content: flex-end; margin-top: 25px;">
-            <div style="width: 320px; text-align: center;">
-              <div style="border-bottom: 1.5px solid #000; height: 1px; margin-bottom: 4px;"></div>
-              <span style="font-weight: 900; font-size: 9pt; letter-spacing: 0.5px;">USUÁRIO</span>
+          <div class="m30-signature-row">
+            <div class="m30-signature-box">
+              <div class="m30-signature-line"></div>
+              <span class="m30-signature-label">USUÁRIO</span>
             </div>
           </div>
 
@@ -5379,7 +5379,7 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
       <div class="modelo30-outer-box">
         
         <!-- TÍTULO VERSO -->
-        <div style="text-align: center; font-weight: 900; font-size: 11pt; letter-spacing: 1px; padding: 6px 0; border-bottom: 1.5px solid #000;">
+        <div style="text-align: center; font-weight: 900; font-size: 11pt; letter-spacing: 1px; padding: 7px 0; border-bottom: 1.5px solid #000;">
           O CONDUTOR PREENCHERÁ:
         </div>
 
@@ -5399,44 +5399,44 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
           <tbody>
             ${itinerarioLinhas.map(it => `
               <tr>
-                <td style="text-align: left; padding-left: 6px; font-size: 8.5pt; height: 22px;">${it.destino}</td>
-                <td style="text-align: center; font-size: 8.5pt;">${it.chegada}</td>
-                <td style="text-align: center; font-size: 8.5pt;">${it.partida}</td>
-                <td style="text-align: center; font-size: 8.5pt; font-family: monospace;">${it.odo}</td>
+                <td style="text-align: left; padding: 4px 7px; font-size: 8.5pt; height: 24px; line-height: 1.4;">${it.destino}</td>
+                <td class="m30-num" style="text-align: center; font-size: 8.5pt;">${it.chegada}</td>
+                <td class="m30-num" style="text-align: center; font-size: 8.5pt;">${it.partida}</td>
+                <td class="m30-num" style="text-align: center; font-size: 8.5pt;">${it.odo}</td>
               </tr>
             `).join('')}
           </tbody>
         </table>
 
         <!-- ANOTAÇÕES DO CONDUTOR -->
-        <div class="m30-box-content m30-border-bottom" style="padding: 10px 14px;">
-          <div style="font-size: 8pt; font-weight: 700; margin-bottom: 4px;">
-            O condutor anotará os defeitos verificados: <span style="font-weight: normal; font-size: 8.5pt;">${reg.defeitos !== undefined && reg.defeitos !== null && reg.defeitos.toString().trim() !== '' ? reg.defeitos : 'Nenhum defeito ou avaria identificado durante o percurso.'}</span>
+        <div class="m30-box-content m30-border-bottom" style="padding: 14px 16px 18px 16px;">
+          <div style="font-size: 8.5pt; font-weight: 700; line-height: 1.5; margin-bottom: 6px;">
+            O condutor anotará os defeitos verificados: <span style="font-weight: 500; font-size: 8.5pt;">${reg.defeitos !== undefined && reg.defeitos !== null && reg.defeitos.toString().trim() !== '' ? reg.defeitos : 'Nenhum defeito ou avaria identificado durante o percurso.'}</span>
           </div>
-          <div style="border-bottom: 1px dotted #000; height: 16px;"></div>
-          <div style="border-bottom: 1px dotted #000; height: 16px; margin-top: 4px;"></div>
+          <div class="m30-ruled-line"></div>
+          <div class="m30-ruled-line" style="margin-top: 8px;"></div>
 
-          <div style="font-size: 8pt; font-weight: 700; margin-top: 10px; margin-bottom: 4px;">
-            O condutor fará observações sobre multas, irregularidades e acidentes: <span style="font-weight: normal; font-size: 8.5pt;">${reg.multas !== undefined && reg.multas !== null && reg.multas.toString().trim() !== '' ? reg.multas : 'Sem ocorrências de trânsito, multas ou sinistros.'}</span>
+          <div style="font-size: 8.5pt; font-weight: 700; line-height: 1.5; margin-top: 16px; margin-bottom: 6px;">
+            O condutor fará observações sobre multas, irregularidades e acidentes: <span style="font-weight: 500; font-size: 8.5pt;">${reg.multas !== undefined && reg.multas !== null && reg.multas.toString().trim() !== '' ? reg.multas : 'Sem ocorrências de trânsito, multas ou sinistros.'}</span>
           </div>
-          <div style="border-bottom: 1px dotted #000; height: 16px;"></div>
-          <div style="border-bottom: 1px dotted #000; height: 16px; margin-top: 4px;"></div>
+          <div class="m30-ruled-line"></div>
+          <div class="m30-ruled-line" style="margin-top: 8px;"></div>
 
-          <div style="display: flex; justify-content: flex-end; margin-top: 25px;">
-            <div style="width: 320px; text-align: center;">
-              <div style="border-bottom: 1.5px solid #000; height: 1px; margin-bottom: 4px;"></div>
-              <span style="font-weight: 900; font-size: 9pt; letter-spacing: 0.5px;">CONDUTOR</span>
+          <div class="m30-signature-row">
+            <div class="m30-signature-box">
+              <div class="m30-signature-line"></div>
+              <span class="m30-signature-label">CONDUTOR</span>
             </div>
           </div>
         </div>
 
         <!-- BOX INFERIOR: O EXPEDIDOR PREENCHERÁ -->
-        <div style="padding: 12px 16px;">
-          <div style="font-size: 9pt; font-weight: 800; margin-bottom: 8px;">
+        <div style="padding: 14px 16px 18px 16px;">
+          <div style="font-size: 9pt; font-weight: 800; line-height: 1.45; margin-bottom: 12px;">
             O expedidor preencherá quando do retorno do veículo:
           </div>
 
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; line-height: 1.45; margin-bottom: 10px;">
             <span style="font-size: 8.5pt;">1) Foram preenchidos os itens referentes ao condutor e ao usuário?</span>
             <div style="display: flex; gap: 20px; font-size: 8.5pt;">
               <span>[X] SIM</span>
@@ -5444,7 +5444,7 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
             </div>
           </div>
 
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; line-height: 1.45; margin-bottom: 12px;">
             <span style="font-size: 8.5pt;">2) Estão corretos os itens preenchidos pelo condutor?</span>
             <div style="display: flex; gap: 20px; font-size: 8.5pt;">
               <span>[X] SIM</span>
@@ -5454,19 +5454,19 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
 
           <div class="m30-line" style="margin-bottom: 14px;">
             <span class="m30-label">3) O veículo percorreu</span>
-            <span class="m30-val-underline" style="width: 70px; text-align: center; font-weight: 800;">${difKm || '50'}</span>
+            <span class="m30-val-underline m30-num" style="width: 70px; text-align: center; font-weight: 800;">${difKm || '50'}</span>
             <span class="m30-label">km</span>
             <span class="m30-label" style="margin-left: 20px;">Tempo de utilização:</span>
-            <span class="m30-val-underline" style="width: 45px; text-align: center; font-weight: 800;">${tempoUsoHoras}</span>
+            <span class="m30-val-underline m30-num" style="width: 45px; text-align: center; font-weight: 800;">${tempoUsoHoras}</span>
             <span class="m30-label">horas e</span>
-            <span class="m30-val-underline" style="width: 45px; text-align: center; font-weight: 800;">${tempoUsoMinutos}</span>
+            <span class="m30-val-underline m30-num" style="width: 45px; text-align: center; font-weight: 800;">${tempoUsoMinutos}</span>
             <span class="m30-label">minutos.</span>
           </div>
 
-          <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
-            <div style="width: 320px; text-align: center;">
-              <div style="border-bottom: 1.5px solid #000; height: 1px; margin-bottom: 4px;"></div>
-              <span style="font-weight: 900; font-size: 9pt; letter-spacing: 0.5px;">EXPEDIDOR</span>
+          <div class="m30-signature-row">
+            <div class="m30-signature-box">
+              <div class="m30-signature-line"></div>
+              <span class="m30-signature-label">EXPEDIDOR</span>
             </div>
           </div>
 
@@ -5485,6 +5485,24 @@ function abrirModalPdfControleTrafego(idRegistro, manterFiltro) {
 function fecharModalPdfControleTrafego() {
   const modal = document.getElementById('modal-pdf-controle-trafego');
   if (modal) modal.style.display = 'none';
+}
+
+function gerarCssComputerModernSans() {
+  const baseUrl = 'https:' + String.fromCharCode(47, 47) + 'cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/';
+  const faces = [
+    { weight: 400, style: 'normal', file: 'cmu-sans-serif-500-roman' },
+    { weight: 500, style: 'normal', file: 'cmu-sans-serif-500-roman' },
+    { weight: 600, style: 'normal', file: 'cmu-sans-serif-700-roman' },
+    { weight: 700, style: 'normal', file: 'cmu-sans-serif-700-roman' },
+    { weight: 800, style: 'normal', file: 'cmu-sans-serif-700-roman' },
+    { weight: 900, style: 'normal', file: 'cmu-sans-serif-700-roman' },
+    { weight: 400, style: 'italic', file: 'cmu-sans-serif-500-italic' },
+    { weight: 500, style: 'italic', file: 'cmu-sans-serif-500-italic' },
+    { weight: 700, style: 'italic', file: 'cmu-sans-serif-700-italic' }
+  ];
+  return faces.map(function(f) {
+    return '@font-face { font-family: "CMU Sans Serif"; font-style: ' + f.style + '; font-weight: ' + f.weight + '; font-display: swap; src: url("' + baseUrl + f.file + '.woff2") format("woff2"), url("' + baseUrl + f.file + '.ttf") format("truetype"); }';
+  }).join('\n');
 }
 
 function imprimirDocumentoControleTrafego() {
@@ -5507,31 +5525,46 @@ function imprimirDocumentoControleTrafego() {
       printWindow.document.open();
       printWindow.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Controle de Tráfego - Modelo Oficial 30</title>');
       printWindow.document.write('<style>' +
+        gerarCssComputerModernSans() +
         '@page { size: A4 portrait; margin: 6mm; }' +
-        'body { margin: 0; padding: 0; background: #fff; font-family: Arial, Helvetica, sans-serif; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
-        '.modelo30-page { width: 100%; min-height: 275mm; padding: 6mm 10mm; box-sizing: border-box; page-break-after: always; break-after: page; position: relative; }' +
+        'body { margin: 0; padding: 0; background: #fff; font-family: "CMU Sans Serif", "Latin Modern Sans", sans-serif; color: #000; line-height: 1.45; -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
+        '.modelo30-page, .modelo30-page * { font-family: "CMU Sans Serif", "Latin Modern Sans", sans-serif; }' +
+        '.modelo30-page { width: 100%; min-height: 275mm; padding: 6mm 10mm; box-sizing: border-box; page-break-after: always; break-after: page; position: relative; line-height: 1.45; }' +
         '.modelo30-page:last-child { page-break-after: avoid; break-after: avoid; }' +
-        '.modelo30-sidebar-text { position: absolute; left: 2mm; bottom: 30mm; transform-origin: 0 0; transform: rotate(-90deg); font-size: 6pt; font-weight: 700; letter-spacing: 0.5px; font-family: Arial, sans-serif; }' +
+        '.modelo30-sidebar-text { position: absolute; left: 2mm; bottom: 30mm; transform-origin: 0 0; transform: rotate(-90deg); font-size: 6pt; font-weight: 700; letter-spacing: 0.5px; font-family: "CMU Sans Serif", "Latin Modern Sans", sans-serif; }' +
         '.modelo30-outer-box { border: 2px solid #000; width: 100%; box-sizing: border-box; }' +
         '.m30-border-bottom { border-bottom: 1.5px solid #000; }' +
-        '.m30-title-bar { background: #000; color: #fff; text-align: center; font-weight: 900; font-size: 11pt; letter-spacing: 1px; padding: 4px 0; border-bottom: 1.5px solid #000; }' +
+        '.m30-title-bar { background: #000; color: #fff; text-align: center; font-weight: 900; font-size: 11pt; letter-spacing: 1px; padding: 6px 0; border-bottom: 1.5px solid #000; }' +
         '.m30-table { width: 100%; border-collapse: collapse; }' +
-        '.m30-table th, .m30-table td { border: 1px solid #000; padding: 3px 6px; text-align: center; font-size: 8.5pt; }' +
+        '.m30-table th, .m30-table td { border: 1px solid #000; padding: 5px 7px; text-align: center; font-size: 8.5pt; line-height: 1.4; }' +
         '.m30-table th { background: #f1f5f9; font-weight: 800; font-size: 8pt; letter-spacing: 0.5px; }' +
-        '.m30-box-content { padding: 8px 12px; }' +
-        '.m30-line { display: flex; align-items: baseline; font-size: 8.5pt; }' +
+        '.m30-box-content { padding: 12px 14px; }' +
+        '.m30-line { display: flex; align-items: baseline; font-size: 8.5pt; line-height: 1.45; }' +
         '.m30-label { font-weight: 800; margin-right: 6px; white-space: nowrap; font-size: 8pt; }' +
-        '.m30-val-underline { border-bottom: 1px dotted #000; padding: 0 4px; font-weight: 600; }' +
-        '.m30-user-section { padding: 10px 14px; }' +
+        '.m30-val-underline { border-bottom: 1px dotted #000; padding: 1px 5px 2px 5px; font-weight: 500; }' +
+        '.m30-user-section { padding: 14px 16px 18px 16px; }' +
+        '.m30-ruled-line { border-bottom: 1px dotted #000; min-height: 22px; font-size: 8.5pt; line-height: 1.5; padding: 2px 0; }' +
+        '.m30-signature-row { display: flex; justify-content: flex-end; margin-top: 56px; }' +
+        '.m30-signature-box { width: 320px; text-align: center; }' +
+        '.m30-signature-line { border-bottom: 1.5px solid #000; height: 1px; margin-bottom: 5px; }' +
+        '.m30-signature-label { font-weight: 900; font-size: 9pt; letter-spacing: 0.5px; }' +
+        '.m30-num { font-variant-numeric: tabular-nums; }' +
       '</style>');
       printWindow.document.write('</head><body>');
       printWindow.document.write(container.innerHTML);
       printWindow.document.write('</body></html>');
       printWindow.document.close();
       printWindow.focus();
-      setTimeout(function() {
+      var jaImpresso = false;
+      var dispararPrint = function() {
+        if (jaImpresso) return;
+        jaImpresso = true;
         printWindow.print();
-      }, 350);
+      };
+      if (printWindow.document.fonts && printWindow.document.fonts.ready) {
+        printWindow.document.fonts.ready.then(function() { setTimeout(dispararPrint, 120); });
+      }
+      setTimeout(dispararPrint, 700);
       return;
     }
   } catch(err) {
@@ -12648,6 +12681,80 @@ function imprimirAgendaCarro() {
     background: #fee2e2;
   }
 
+  /* Fonte Computer Modern Sans Serif (Clássica LaTeX sem serifa) para Documento Modelo Oficial 30 */
+  @font-face {
+    font-family: "CMU Sans Serif";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-500-roman.woff2") format("woff2"),
+         url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-500-roman.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "CMU Sans Serif";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-500-roman.woff2") format("woff2"),
+         url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-500-roman.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "CMU Sans Serif";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-700-roman.woff2") format("woff2"),
+         url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-700-roman.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "CMU Sans Serif";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-700-roman.woff2") format("woff2"),
+         url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-700-roman.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "CMU Sans Serif";
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src: url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-700-roman.woff2") format("woff2"),
+         url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-700-roman.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "CMU Sans Serif";
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-700-roman.woff2") format("woff2"),
+         url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-700-roman.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "CMU Sans Serif";
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-500-italic.woff2") format("woff2"),
+         url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-500-italic.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "CMU Sans Serif";
+    font-style: italic;
+    font-weight: 500;
+    font-display: swap;
+    src: url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-500-italic.woff2") format("woff2"),
+         url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-500-italic.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "CMU Sans Serif";
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-700-italic.woff2") format("woff2"),
+         url("https://cdn.jsdelivr.net/npm/computer-modern@0.1.3/fonts/cmu-sans-serif-700-italic.ttf") format("truetype");
+  }
+
   /* Documento Modelo Oficial 30 (IMESP) */
   .modelo30-page {
     width: 210mm;
@@ -12657,10 +12764,14 @@ function imprimirAgendaCarro() {
     box-sizing: border-box;
     padding: 8mm 12mm;
     margin: 0 auto 20px auto;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "CMU Sans Serif", "Latin Modern Sans", sans-serif;
     position: relative;
     box-shadow: 0 4px 18px rgba(0,0,0,0.18);
-    line-height: 1.25;
+    line-height: 1.45;
+  }
+  .modelo30-page,
+  .modelo30-page * {
+    font-family: "CMU Sans Serif", "Latin Modern Sans", sans-serif;
   }
   .modelo30-sidebar-text {
     position: absolute;
@@ -12672,7 +12783,7 @@ function imprimirAgendaCarro() {
     font-weight: 700;
     letter-spacing: 0.5px;
     color: #000000;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "CMU Sans Serif", "Latin Modern Sans", sans-serif;
   }
   .modelo30-outer-box {
     border: 2px solid #000000;
@@ -12689,7 +12800,7 @@ function imprimirAgendaCarro() {
     font-weight: 900;
     font-size: 11pt;
     letter-spacing: 1px;
-    padding: 4px 0;
+    padding: 6px 0;
     border-bottom: 1.5px solid #000000;
   }
   .m30-table {
@@ -12698,9 +12809,10 @@ function imprimirAgendaCarro() {
   }
   .m30-table th, .m30-table td {
     border: 1px solid #000000;
-    padding: 3px 6px;
+    padding: 5px 7px;
     text-align: center;
     font-size: 8.5pt;
+    line-height: 1.4;
   }
   .m30-table th {
     background: #f1f5f9;
@@ -12709,12 +12821,13 @@ function imprimirAgendaCarro() {
     letter-spacing: 0.5px;
   }
   .m30-box-content {
-    padding: 8px 12px;
+    padding: 12px 14px;
   }
   .m30-line {
     display: flex;
     align-items: baseline;
     font-size: 8.5pt;
+    line-height: 1.45;
   }
   .m30-label {
     font-weight: 800;
@@ -12724,11 +12837,40 @@ function imprimirAgendaCarro() {
   }
   .m30-val-underline {
     border-bottom: 1px dotted #000000;
-    padding: 0 4px;
-    font-weight: 600;
+    padding: 1px 5px 2px 5px;
+    font-weight: 500;
   }
   .m30-user-section {
-    padding: 10px 14px;
+    padding: 14px 16px 18px 16px;
+  }
+  .m30-ruled-line {
+    border-bottom: 1px dotted #000000;
+    min-height: 22px;
+    font-size: 8.5pt;
+    line-height: 1.5;
+    padding: 2px 0;
+  }
+  .m30-signature-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 56px;
+  }
+  .m30-signature-box {
+    width: 320px;
+    text-align: center;
+  }
+  .m30-signature-line {
+    border-bottom: 1.5px solid #000000;
+    height: 1px;
+    margin-bottom: 5px;
+  }
+  .m30-signature-label {
+    font-weight: 900;
+    font-size: 9pt;
+    letter-spacing: 0.5px;
+  }
+  .m30-num {
+    font-variant-numeric: tabular-nums;
   }
 
   @media print {
