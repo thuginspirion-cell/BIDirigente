@@ -14072,8 +14072,7 @@ function imprimirAgendaCarro() {
                 <span>💻</span> <span>Tecnologia &amp; Suporte (SEINTEC • teto 25 pts)</span>
               </div>
               <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.75rem; color: #94a3b8; line-height: 1.55;">
-                <li><strong style="color: #ef4444;">Sucateamento Crítico (+12 pts):</strong> &gt;150 máquinas danificadas/em reparo.</li>
-                <li><strong style="color: #f97316;">Parque Danificado (+7 pts):</strong> Entre 60 e 150 equipamentos comprometidos.</li>
+                <li><strong style="color: #38bdf8;">Parque em Quartos (0–12 pts contínuo):</strong> Taxa real <code style="color: #bae6fd;">danificados / total</code> (amostra ≥20) dividida em <strong>1/4</strong> (&lt;25%: 0–4 pts) • <strong>2/4</strong> (25–49%: 4–8 pts) • <strong>3/4</strong> (50–74%: 8–12 pts) • <strong>4/4</strong> (≥75%: teto 12 pts).</li>
                 <li><strong style="color: #ef4444;">Polo Crítico de Suporte (+10 pts):</strong> ≥30 chamados no exercício (+4 pts se ≥3 abertos).</li>
                 <li><strong style="color: #f97316;">Alta Demanda de TI (+6 pts):</strong> Entre 20 e 29 chamados oficiais.</li>
               </ul>
@@ -37187,13 +37186,17 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             ptsSeom = Math.min(35, ptsSeom);
           }
 
-          /* 2. SEINTEC (teto 25 pts) */
+          /* 2. SEINTEC (teto 25 pts • parque proporcional em quartos 1/4 a 4/4) */
           var hwInfo = hwPorCie[cie] || { total: 0, disp: 0, bad: 0 };
           var callInfo = callsPorCie[cie] || { total: 0, abertos: 0 };
-          var ptsSeintec = 0;
+          var hwPctBad = hwInfo.total >= 20 ? (hwInfo.bad / hwInfo.total) * 100 : 0;
+          var quartoTi = hwPctBad >= 75 ? '4/4' : (hwPctBad >= 50 ? '3/4' : (hwPctBad >= 25 ? '2/4' : '1/4'));
+          var ptsHwRatio = Math.min(12, Math.round((hwPctBad / 75) * 12));
+          var ptsSeintec = ptsHwRatio;
           var flagsSeintec = [];
-          if (hwInfo.bad > 150) { ptsSeintec += 12; flagsSeintec.push(hwInfo.bad + ' PCs com defeito'); }
-          else if (hwInfo.bad >= 60) { ptsSeintec += 7; flagsSeintec.push(hwInfo.bad + ' PCs em reparo'); }
+          if (hwInfo.total >= 20 && hwPctBad >= 15) {
+            flagsSeintec.push(quartoTi + ' • ' + hwPctBad.toFixed(1).replace('.', ',') + '% TI comp. (' + hwInfo.bad + '/' + hwInfo.total + ')');
+          }
           if (callInfo.total >= 30) { ptsSeintec += 10; flagsSeintec.push(callInfo.total + ' chamados'); }
           else if (callInfo.total >= 20) { ptsSeintec += 6; flagsSeintec.push(callInfo.total + ' chamados'); }
           if (callInfo.abertos >= 3) { ptsSeintec += 4; flagsSeintec.push(callInfo.abertos + ' em aberto'); }
@@ -37318,6 +37321,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             hwTotal: hwInfo.total,
             hwDisp: hwInfo.disp,
             hwBad: hwInfo.bad,
+            hwBadPct: Number(hwPctBad.toFixed(1)),
+            quartoTi: quartoTi,
             callsTotal: callInfo.total,
             callsAbertos: callInfo.abertos,
             rec2026: finInfo.rec,
@@ -38215,7 +38220,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             '<div style="color:#cbd5e1;font-size:0.68rem;margin-bottom:4px;">CIE: ' + escHtml(esc.cie) + ' • ' + escHtml(esc.cidade) + ' • ' + escHtml(esc.tipo) + '</div>' +
             '<div>• <strong>IMRO 360°:</strong> ' + esc.imro + ' pts (' + escHtml(esc.tier) + ')</div>' +
             '<div>• <strong>PDDE 2026:</strong> ' + esc.execPct2026.toFixed(1).replace('.', ',') + '% exec. (Saldo: ' + formatarMoedaCurta(esc.saldoOcioso2026) + ')</div>' +
-            '<div>• <strong>TI / Obras / SEPES:</strong> ' + esc.hwBad + ' PCs def. • ' + esc.callsTotal + ' cham. • ' + esc.sepesPend + ' SEPES</div>' +
+            '<div>• <strong>TI / Obras / SEPES:</strong> ' + esc.hwBad + '/' + esc.hwTotal + ' TI (' + (esc.hwBadPct || 0).toFixed(1).replace('.', ',') + '% • ' + (esc.quartoTi || '1/4') + ') • ' + esc.callsTotal + ' cham. • ' + esc.sepesPend + ' SEPES</div>' +
             (esc.eecScore != null ? ('<div>• <strong>EEC Pedagógico:</strong> ' + esc.eecScore.toFixed(1).replace('.', ',') + '%</div>') : '') +
             '<div style="margin-top:4px;color:#fbbf24;font-weight:700;">Clique para abrir Raio-X 360°</div>';
           tip.style.display = 'block';
