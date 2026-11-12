@@ -35530,8 +35530,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     function prepararCabecalhosOrdenacaoTabelas() {
       var tabelas = document.querySelectorAll('table');
       tabelas.forEach(function(tabela) {
-        if (tabela.hasAttribute('data-no-sort') || tabela.classList.contains('no-sort-table')) return;
-        if (tabela.classList.contains('calendar-table') || tabela.classList.contains('m30-table')) return;
+      if (tabela.hasAttribute('data-no-sort') || tabela.classList.contains('no-sort-table')) return;
+      if (tabela.classList.contains('calendar-table') || tabela.classList.contains('m30-table') || tabela.classList.contains('doc-table') || (tabela.closest && tabela.closest('.exec-doc-sheet'))) return;
 
         var thead = tabela.querySelector('thead');
         if (!thead) return;
@@ -36472,19 +36472,24 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
   <!-- ======================================================== -->
   <style id="exec-doc-print-styles">
     .exec-doc-sheet {
-      width: 194mm;
-      max-width: 100%;
+      width: 196mm;
+      max-width: calc(100% - 4px);
+      overflow-x: hidden;
       margin: 0 auto;
       background: #ffffff;
       color: #0f172a;
-      padding: 11mm 12mm;
+      padding: 10mm 11mm;
       box-sizing: border-box;
       font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 8.6pt;
-      line-height: 1.48;
+      font-size: 8.5pt;
+      line-height: 1.46;
       box-shadow: 0 18px 42px rgba(15, 23, 42, 0.24);
       border-radius: 3px;
       border-top: 5px solid #0b2351;
+    }
+    .exec-doc-sheet .sort-arrow,
+    table.doc-table .sort-arrow {
+      display: none !important;
     }
     .exec-doc-sheet * {
       box-sizing: border-box;
@@ -36624,12 +36629,17 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 6px;
       font-size: 7.8pt;
       font-weight: 800;
       color: #0b2351;
       border-bottom: 1px solid #f1f5f9;
       padding-bottom: 4px;
       margin-bottom: 5px;
+    }
+    .doc-card-head > span:last-child {
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .doc-kv {
       display: flex;
@@ -36649,9 +36659,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     }
     .doc-pill {
       display: inline-block;
-      padding: 1.8px 7px;
+      padding: 1.5px 5px;
       border-radius: 999px;
-      font-size: 6.9pt;
+      font-size: 6.3pt;
       font-weight: 800;
       white-space: nowrap;
     }
