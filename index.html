@@ -21735,6 +21735,9 @@ function imprimirAgendaCarro() {
         }
         renderizarDashboardFinanceiroSefin();
         if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.gravarEstadoNuvem === 'function' && typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN) {
+          window.gravarEstadoNuvem('SEFIN_DATA', DADOS_FINANCEIROS_SEFIN);
+        }
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: veioLive ? 'success' : 'info',
@@ -22461,6 +22464,9 @@ function imprimirAgendaCarro() {
           DADOS_SECOMSE.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR');
         }
         renderizarDashboardSecomse();
+        if (typeof window.gravarEstadoNuvem === 'function' && typeof DADOS_SECOMSE !== 'undefined' && DADOS_SECOMSE) {
+          window.gravarEstadoNuvem('SECOMSE_DATA', DADOS_SECOMSE);
+        }
 
         if (btnSync) {
           btnSync.disabled = false;
@@ -23810,6 +23816,9 @@ function imprimirAgendaCarro() {
               DADOS_SEOM = parsed;
               if (document.getElementById('tabela-seom-tbody')) renderizarDashboardSeom();
               concluirSucesso('SharePoint Live (Aba MAPA)', true);
+              if (typeof window.gravarEstadoNuvem === 'function' && typeof DADOS_SEOM !== 'undefined' && DADOS_SEOM) {
+                window.gravarEstadoNuvem('SEOM_DATA', DADOS_SEOM);
+              }
             } else {
               buscarMirrorSeom();
             }
@@ -25086,6 +25095,9 @@ function imprimirAgendaCarro() {
         }
 
         renderizarDashboardSemat();
+        if (typeof window.gravarEstadoNuvem === 'function') {
+          window.gravarEstadoNuvem('SEMAT_DATA', DADOS_SEMAT);
+        }
 
         if (!window.__sematSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -25121,6 +25133,9 @@ function imprimirAgendaCarro() {
           DADOS_SEMAT = novos;
           if (DADOS_SEMAT.meta) {
             DADOS_SEMAT.meta.origemSync = novos.origem || 'Espelho Automático Nuvem (GitHub)';
+          }
+          if (typeof window.gravarEstadoNuvem === 'function') {
+            window.gravarEstadoNuvem('SEMAT_DATA', DADOS_SEMAT);
           }
         }
         const tsReal = (DADOS_SEMAT.meta && DADOS_SEMAT.meta.atualizadoFormatado) ? DADOS_SEMAT.meta.atualizadoFormatado : 'Data não informada';
@@ -25773,6 +25788,9 @@ function imprimirAgendaCarro() {
         }
 
         renderizarDashboardSevesc();
+        if (typeof window.gravarEstadoNuvem === 'function') {
+          window.gravarEstadoNuvem('SEVESC_DATA', DADOS_SEVESC);
+        }
 
         if (!window.__sevescSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -25808,6 +25826,9 @@ function imprimirAgendaCarro() {
           DADOS_SEVESC = novos;
           if (DADOS_SEVESC.meta) {
             DADOS_SEVESC.meta.origemSync = novos.origem || 'Espelho Automático Nuvem (Fallback)';
+          }
+          if (typeof window.gravarEstadoNuvem === 'function') {
+            window.gravarEstadoNuvem('SEVESC_DATA', DADOS_SEVESC);
           }
         }
         const tsReal = (DADOS_SEVESC.meta && DADOS_SEVESC.meta.atualizadoFormatado) ? DADOS_SEVESC.meta.atualizadoFormatado : 'Data não informada';
@@ -26645,6 +26666,16 @@ function imprimirAgendaCarro() {
         }
 
         renderizarDashboardSegre();
+        if (typeof window.gravarEstadoNuvem === 'function') {
+          window.gravarEstadoNuvem('SEGRE_DATA', {
+            meta: DADOS_SEGRE.meta,
+            kpis: DADOS_SEGRE.kpis,
+            processosSei: (DADOS_SEGRE.processosSei || []).slice(0, 300),
+            atendimentosVaga: DADOS_SEGRE.atendimentosVaga,
+            ouvidorias: DADOS_SEGRE.ouvidorias,
+            concluintesRecentes: DADOS_SEGRE.concluintesRecentes
+          });
+        }
 
         if (!window.__segreSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -26680,6 +26711,16 @@ function imprimirAgendaCarro() {
           DADOS_SEGRE = novos;
           if (DADOS_SEGRE.meta) {
             DADOS_SEGRE.meta.origemSync = novos.origem || 'Espelho Automático Nuvem (GitHub)';
+          }
+          if (typeof window.gravarEstadoNuvem === 'function') {
+            window.gravarEstadoNuvem('SEGRE_DATA', {
+              meta: DADOS_SEGRE.meta,
+              kpis: DADOS_SEGRE.kpis,
+              processosSei: (DADOS_SEGRE.processosSei || []).slice(0, 300),
+              atendimentosVaga: DADOS_SEGRE.atendimentosVaga,
+              ouvidorias: DADOS_SEGRE.ouvidorias,
+              concluintesRecentes: DADOS_SEGRE.concluintesRecentes
+            });
           }
         }
         const tsReal = (DADOS_SEGRE.meta && DADOS_SEGRE.meta.atualizadoFormatado) ? DADOS_SEGRE.meta.atualizadoFormatado : 'Data não informada';
@@ -26768,17 +26809,17 @@ function imprimirAgendaCarro() {
     "setor": "SEPES - Serviço de Pessoas (Vida Funcional)",
     "contaResponsavel": "rosineide_gazolla_educacao_sp_gov_br",
     "sharepointUrl": "https:\/\/seesp-my.sharepoint.com/:x:/g/personal/rosineide_gazolla_educacao_sp_gov_br/cQoeOJnO6_6aTpffoLZQ-VZaEgUCZ4107PIc0qdIlEuWeWTsug",
-    "atualizadoEm": "2026-11-05T17:41:17.062Z",
-    "atualizadoFormatado": "05/11/2026, 14:41:17",
-    "tamanhoArquivoKb": "265.8"
+    "atualizadoEm": "2026-11-12T16:51:41.238Z",
+    "atualizadoFormatado": "12/11/2026, 13:34:08",
+    "tamanhoArquivoKb": "270.4"
   },
   "kpis": {
-    "totalDemandas": 293,
-    "totalAposentadorias": 84,
-    "totalDesignacoes": 159,
-    "totalAbonos": 50,
-    "totalFinalizados": 227,
-    "totalEmTramitacao": 66
+    "totalDemandas": 306,
+    "totalAposentadorias": 87,
+    "totalDesignacoes": 166,
+    "totalAbonos": 53,
+    "totalFinalizados": 232,
+    "totalEmTramitacao": 74
   },
   "aposentadorias": [
     {
@@ -26786,7 +26827,7 @@ function imprimirAgendaCarro() {
       "dataEntrada": "20/05/2024",
       "vigencia": "APÓS. INVALIDEZ 07/03/23",
       "nome": "BRUNA FERNANDA ALVES MACARIO",
-      "rgCpf": "397.327.788-57",
+      "rgCpf": "—",
       "sei": "015.00360286/2024-97",
       "ua": "EE CANDIDO RONDON",
       "status": "EXIG 19/03/2025",
@@ -27207,7 +27248,7 @@ function imprimirAgendaCarro() {
       "rgCpf": "061.309.628-27",
       "sei": "015.00349957/2023-88",
       "ua": "EE REPÚBLICA DE CUBA",
-      "status": "EXIG 28/09",
+      "status": "DEVOLVIDO P SPPREV 05/11/2026",
       "concluido": false
     },
     {
@@ -27281,10 +27322,10 @@ function imprimirAgendaCarro() {
       "dataEntrada": "09/03/2026",
       "vigencia": "05/03/2026",
       "nome": "JAILTON CARLOS DA SILVA",
-      "rgCpf": "15327619",
+      "rgCpf": "8379447832",
       "sei": "015.00096619/2025-08",
       "ua": "EE MARIA CRISTINA LOPES",
-      "status": "ENVIADO P/SPPREV 15/10/2026",
+      "status": "EXIG. 09/11/26",
       "concluido": false
     },
     {
@@ -27372,7 +27413,7 @@ function imprimirAgendaCarro() {
       "rgCpf": "7930409813",
       "sei": "015.00549119/2024-93",
       "ua": "EE JOSÉ WILSON PADINHA",
-      "status": "ENVIADO P SPPREV 20/10/26",
+      "status": "EXIG 28/10/26",
       "concluido": false
     },
     {
@@ -27427,7 +27468,7 @@ function imprimirAgendaCarro() {
       "rgCpf": "096.664.558-89",
       "sei": "015.00198893/2025-11",
       "ua": "EE PE GIUSEPPE ANGELO BERTOLLI",
-      "status": "DEVOLVIDO P SPPREV 29/09",
+      "status": "APOS. 07/10/2026",
       "concluido": false
     },
     {
@@ -27515,7 +27556,7 @@ function imprimirAgendaCarro() {
       "rgCpf": "047.525.678-65",
       "sei": "015.00826154/2024-31",
       "ua": "EE MARIO JOAQUIM ESCOBAR DE ANDRADE",
-      "status": "ENVIADO P SPPREV 23/09/2026",
+      "status": "EXIG. 02/10/26",
       "concluido": false
     },
     {
@@ -27556,10 +27597,10 @@ function imprimirAgendaCarro() {
       "dataEntrada": "11/08/2026",
       "vigencia": "03/08/2026",
       "nome": "MARCOS MARINHO",
-      "rgCpf": "15482746",
+      "rgCpf": "042.917.648-12",
       "sei": "015.00239219/2026-76",
       "ua": "EE JOÃO NASCIF CHALUPP",
-      "status": "AGUARD. ATENDIMENTO",
+      "status": "ENVIADO P SPPREV 05/11/2026",
       "concluido": false
     },
     {
@@ -27592,7 +27633,7 @@ function imprimirAgendaCarro() {
       "rgCpf": "059.512.728-23",
       "sei": "015.00757731/2024-38",
       "ua": "EE PE GIUSEPPE ANGELO BERTOLLI",
-      "status": "DEVOLVIDO P SPPREV 21/10",
+      "status": "APOS. 04/11/2026",
       "concluido": false
     },
     {
@@ -27625,7 +27666,7 @@ function imprimirAgendaCarro() {
       "rgCpf": "010.198.378-61",
       "sei": "015.00382764/2025-09",
       "ua": "EE CELINA DE BARROS BAIRÃO",
-      "status": "DEVOLVIDO P SPPREV 21/10",
+      "status": "EXIG 22/10/26",
       "concluido": false
     },
     {
@@ -27701,6 +27742,39 @@ function imprimirAgendaCarro() {
       "nome": "LUCIMAR DE SOUSA OLIVEIRA",
       "rgCpf": "16823876824",
       "sei": "015.00535135/2026-61",
+      "ua": "EE JARDIM MARIA HELENA I",
+      "status": "AGUARD. ATENDIMENTO",
+      "concluido": false
+    },
+    {
+      "id": "APOS-85",
+      "dataEntrada": "",
+      "vigencia": "03/11/2026",
+      "nome": "BEATRIZ HELENA MORAES DA SILVA",
+      "rgCpf": "161.135.978-30",
+      "sei": "015.00403045/2026-10",
+      "ua": "EE ALFERES HENRIQUE SAMMARTINO",
+      "status": "AGUARD. ATENDIMENTO",
+      "concluido": false
+    },
+    {
+      "id": "APOS-86",
+      "dataEntrada": "",
+      "vigencia": "03/11/2026",
+      "nome": "VERONICE RODRIGUES DOS SANTOS",
+      "rgCpf": "035.325.498-32",
+      "sei": "015.00904610/2025-72",
+      "ua": "EE MARIA SOARES SANTOS",
+      "status": "AGUARD. ATENDIMENTO",
+      "concluido": false
+    },
+    {
+      "id": "APOS-87",
+      "dataEntrada": "",
+      "vigencia": "06/11/2026",
+      "nome": "FERNANDA FUNARI VENUTO",
+      "rgCpf": "148.811.438-24",
+      "sei": "015.00550782/2026-01",
       "ua": "EE JARDIM MARIA HELENA I",
       "status": "AGUARD. ATENDIMENTO",
       "concluido": false
@@ -29528,8 +29602,8 @@ function imprimirAgendaCarro() {
       "sei": "015.00775054/2026-00",
       "funcao": "DOCENTE",
       "publicacao": "22/10/2026",
-      "status": "Aguardando Publicação",
-      "concluido": false
+      "status": "FINALIZADO",
+      "concluido": true
     },
     {
       "id": "DESIG-153",
@@ -29540,8 +29614,8 @@ function imprimirAgendaCarro() {
       "sei": "015.00784965/2026-10",
       "funcao": "DOCENTE",
       "publicacao": "23/10/2026",
-      "status": "Colocar na Sed",
-      "concluido": false
+      "status": "FINALIZADO",
+      "concluido": true
     },
     {
       "id": "DESIG-154",
@@ -29576,7 +29650,7 @@ function imprimirAgendaCarro() {
       "sei": "015.00783023/2026-14",
       "funcao": "COORDENADOR DE GESTÃO PEDAGÓGICA",
       "publicacao": "03/11/2026",
-      "status": "Aguardando Assinatura",
+      "status": "Colocar na Sed",
       "concluido": false
     },
     {
@@ -29612,6 +29686,90 @@ function imprimirAgendaCarro() {
       "sei": "015.00982393/2025-51",
       "funcao": "DOCENTE",
       "publicacao": "06/11/2026",
+      "status": "FINALIZADO",
+      "concluido": true
+    },
+    {
+      "id": "DESIG-160",
+      "dataEntrada": "",
+      "nome": "JOSSELI TOMAZ",
+      "rgCin": "21857740-0",
+      "ue": "TEREZINHA PALONE",
+      "sei": "015.00775337/2026-43",
+      "funcao": "DOCENTE",
+      "publicacao": "09/11/2026",
+      "status": "FINALIZADO",
+      "concluido": true
+    },
+    {
+      "id": "DESIG-161",
+      "dataEntrada": "",
+      "nome": "JOSÉ EDUARDO FERREIRA BRANDÃO",
+      "rgCin": "932406866",
+      "ue": "UNIDADE REGIONAL DE ENSINO DE ITAPEVI",
+      "sei": "015.00829761/2026-15",
+      "funcao": "ASSISTENTE TÉCNICO",
+      "publicacao": "11/11/2026",
+      "status": "Portaria assinada e enviada no SEI",
+      "concluido": false
+    },
+    {
+      "id": "DESIG-162",
+      "dataEntrada": "",
+      "nome": "ROSALINA MUNIZ SILVA",
+      "rgCin": "22249614-9",
+      "ue": "PARQUE PAYOL",
+      "sei": "015.00322079/2026-04",
+      "funcao": "COORDENADOR DE GESTÃO PEDAGÓGICA",
+      "publicacao": "29/06/2026",
+      "status": "FINALIZADO",
+      "concluido": true
+    },
+    {
+      "id": "DESIG-163",
+      "dataEntrada": "",
+      "nome": "CAROLINA PEREIRA DE ALMEIDA LIMA",
+      "rgCin": "42168966-3",
+      "ue": "NACIF AMIN",
+      "sei": "015.00747797/2026-81",
+      "funcao": "DOCENTE",
+      "publicacao": "12/11/2026",
+      "status": "Colocar publicação na Sed",
+      "concluido": false
+    },
+    {
+      "id": "DESIG-164",
+      "dataEntrada": "",
+      "nome": "OLIVIA PINHEIRO DE CARVALHO",
+      "rgCin": "34542763-4",
+      "ue": "TEREZINHA PALONE",
+      "sei": "015.00423127/2026-72",
+      "funcao": "DOCENTE",
+      "publicacao": "12/11/2026",
+      "status": "Colocar publicação na Sed",
+      "concluido": false
+    },
+    {
+      "id": "DESIG-165",
+      "dataEntrada": "",
+      "nome": "PRISCILA RAMOS DALLASTRA",
+      "rgCin": "45842570",
+      "ue": "MARIO JOAQUIM",
+      "sei": "015.00268225/2024-79",
+      "funcao": "DOCENTE",
+      "publicacao": "12/11/2026",
+      "status": "Aguardando Publicação e Assinatura",
+      "concluido": false
+    },
+    {
+      "id": "DESIG-166",
+      "dataEntrada": "",
+      "nome": "CLEONICE CALDEIRA MARTINS CARVALHO",
+      "rgCin": "15904654",
+      "ue": "LEONOR",
+      "sei": "015.00163462/2026-14",
+      "funcao": "DOCENTE",
+      "publicacao": "28/10/2026",
       "status": "Aguardando Assinatura",
       "concluido": false
     }
@@ -29757,7 +29915,7 @@ function imprimirAgendaCarro() {
       "ue": "EE PROF JOSEFA PINTO CHIAVELLI",
       "sei": "015.004692482026-61",
       "publicacao": "",
-      "status": "AGUARDANDO ATENDIMENTO",
+      "status": "EM ATENDIMENTO",
       "concluido": false
     },
     {
@@ -29966,7 +30124,7 @@ function imprimirAgendaCarro() {
       "ue": "EE PE GIUSEPPE ANGELO BERTOLLI",
       "sei": "015.00475554/2026-36",
       "publicacao": "",
-      "status": "AGUARDANDO ATENDIMENTO",
+      "status": "EM ATENDIMENTO",
       "concluido": false
     },
     {
@@ -30010,7 +30168,7 @@ function imprimirAgendaCarro() {
       "ue": "EE JOÃO BATISTA SOLDÉ",
       "sei": "015.00204133/2026-22",
       "publicacao": "",
-      "status": "AGUARDANDO ATENDIMENTO",
+      "status": "EM ATENDIMENTO",
       "concluido": false
     },
     {
@@ -30109,7 +30267,7 @@ function imprimirAgendaCarro() {
       "ue": "EE PROF MARIA SOARES SANTOS",
       "sei": "015.00344647/2026-10",
       "publicacao": "",
-      "status": "AGUARDANDO ATENDIMENTO",
+      "status": "EM ATENDIMENTO",
       "concluido": false
     },
     {
@@ -30142,7 +30300,7 @@ function imprimirAgendaCarro() {
       "ue": "EE PROF TEREZINHA PALONE DA SILVA DOMINGUES",
       "sei": "015.00685767/2024-11",
       "publicacao": "",
-      "status": "AGUARDANDO ATENDIMENTO",
+      "status": "EM ATENDIMENTO",
       "concluido": false
     },
     {
@@ -30165,6 +30323,39 @@ function imprimirAgendaCarro() {
       "sei": "015.00768641/2026-34",
       "publicacao": "",
       "status": "AGUARDANDO ATENDIMENTO",
+      "concluido": false
+    },
+    {
+      "id": "ABONO-51",
+      "dataEntrada": "28/08/2026",
+      "nome": "LUIZA MARTINS FRANCISCO",
+      "rgCin": "17463360",
+      "ue": "EE MARIA CRISTINA LOPES",
+      "sei": "015.00644684/2026-25",
+      "publicacao": "",
+      "status": "EM ATENDIMENTO",
+      "concluido": false
+    },
+    {
+      "id": "ABONO-52",
+      "dataEntrada": "06/11/2026",
+      "nome": "OSVALDO RIBEIRO DA SILVA",
+      "rgCin": "15273654",
+      "ue": "EE JOSE SERGIO PEREIRA",
+      "sei": "015.00583748/2026-12",
+      "publicacao": "",
+      "status": "EM ATENDIMENTO",
+      "concluido": false
+    },
+    {
+      "id": "ABONO-53",
+      "dataEntrada": "03/07/2026",
+      "nome": "IVAIR ANTONIO MARTINEZ",
+      "rgCin": "14934676",
+      "ue": "EE JOSE SERGIO PEREIRA",
+      "sei": "015.0053657/2026-00",
+      "publicacao": "",
+      "status": "EM ATENDIMENTO",
       "concluido": false
     }
   ]
@@ -30850,6 +31041,9 @@ function sincronizarBasePublicaSefrep(isManual) {
       .then(function(dados) {
         if (dados && dados.sucesso) {
           DADOS_SEFREP = dados;
+          if (typeof window.gravarEstadoNuvem === 'function') {
+            window.gravarEstadoNuvem('SEFREP_DATA', DADOS_SEFREP);
+          }
           renderizarDashboardSefrep();
           if (typeof mostrarNotificacaoFlutuante === 'function') {
             mostrarNotificacaoFlutuante('SEFREP 2026 sincronizado com sucesso!', 'sucesso');
@@ -30869,6 +31063,9 @@ function sincronizarBasePublicaSefrep(isManual) {
           fallbackMirror();
         } else if (res && res.sucesso) {
           DADOS_SEFREP = res;
+          if (typeof window.gravarEstadoNuvem === 'function') {
+            window.gravarEstadoNuvem('SEFREP_DATA', DADOS_SEFREP);
+          }
           renderizarDashboardSefrep();
           if (typeof mostrarNotificacaoFlutuante === 'function') {
             mostrarNotificacaoFlutuante('SEFREP 2026 atualizado via nuvem!', 'sucesso');
@@ -31537,6 +31734,9 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
         }
 
         renderizarDashboardSepes();
+        if (typeof window.gravarEstadoNuvem === 'function') {
+          window.gravarEstadoNuvem('SEPES_DATA', DADOS_SEPES);
+        }
 
         if (!window.__sepesSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -31572,6 +31772,9 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
           DADOS_SEPES = novos;
           if (DADOS_SEPES.meta) {
             DADOS_SEPES.meta.origemSync = novos.origem || 'Espelho Nuvem (Fallback)';
+          }
+          if (typeof window.gravarEstadoNuvem === 'function') {
+            window.gravarEstadoNuvem('SEPES_DATA', DADOS_SEPES);
           }
         }
         const tsReal = (DADOS_SEPES.meta && DADOS_SEPES.meta.atualizadoFormatado) ? DADOS_SEPES.meta.atualizadoFormatado : 'Data não informada';
@@ -31873,13 +32076,16 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
         console.warn('Erro ao sincronizar SEGRE:', eSegre);
       }
 
-      /* 2.8 SEPES (SharePoint Serviço de Pessoas) */
+      /* 2.8 SEPES & SEFREP (SharePoint Serviço de Pessoas e Frequência/Pagamento) */
       try {
         if (typeof sincronizarDashboardSepes === 'function') {
           sincronizarDashboardSepes(true);
         }
+        if (typeof sincronizarBasePublicaSefrep === 'function') {
+          sincronizarBasePublicaSefrep(false);
+        }
       } catch (eSepes) {
-        console.warn('Erro ao sincronizar SEPES:', eSepes);
+        console.warn('Erro ao sincronizar SEPES/SEFREP:', eSepes);
       }
 
       /* 3. Minha Gestão */
@@ -34499,12 +34705,19 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       if (timerSincronizacaoSharepoint) clearInterval(timerSincronizacaoSharepoint);
       atualizarBadgeStatusSincronismo();
 
-      /* ABERTURA ULTRARRÁPIDA: Não realiza busca de dados ao abrir o site. Renderiza imediatamente a base existente. */
+      /* ABERTURA INSTANTÂNEA E HIDRATAÇÃO UNIVERSAL EM NUVEM */
       setTimeout(function() {
         if (typeof hidratarTodosModulosNuvem === 'function') hidratarTodosModulosNuvem();
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         atualizarBadgeStatusSincronismo();
       }, 100);
+
+      /* Sincronização Silenciosa em Segundo Plano na Inicialização (Regra 7 - Dados Reais Mais Recentes ao Vivo) */
+      setTimeout(function() {
+        if (typeof sincronizarTudoGlobalmente === 'function') {
+          sincronizarTudoGlobalmente(true);
+        }
+      }, 1200);
 
       /* Intervalo recorrente de 60 minutos (1 hora = 3.600.000 ms) */
       timerSincronizacaoSharepoint = setInterval(function() {
@@ -34611,6 +34824,12 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         if (typeof atualizarMetricasSuperioresSeintec === 'function') atualizarMetricasSuperioresSeintec();
         if (typeof atualizarMetricasInventario === 'function') atualizarMetricasInventario(baseAtivaSeintec || 'Hardware');
+        if (typeof window.gravarEstadoNuvem === 'function' && typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos']) {
+          window.gravarEstadoNuvem('SEINTEC_CALLS', {
+            desc: SEINTEC_BASES_CONFIG['Atendimentos'].desc,
+            registros: (SEINTEC_BASES_CONFIG['Atendimentos'].registros || []).slice(0, 300)
+          });
+        }
 
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -35221,6 +35440,75 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       try { if (typeof carregarEscolasLocalStorage === 'function') carregarEscolasLocalStorage(); } catch(e) {}
       try { if (typeof carregarVisitasLocalStorage === 'function') carregarVisitasLocalStorage(); } catch(e) {}
       try { if (typeof carregarConfigEmailAlerta === 'function') carregarConfigEmailAlerta(); } catch(e) {}
+
+      /* Hidratação Universal em Nuvem para Todos os Setores (Anti-F5 / Multi-Dispositivos) */
+      if (typeof window.lerEstadoNuvem === 'function') {
+        /* 1. SEPES */
+        window.lerEstadoNuvem('SEPES_DATA', function(dados) {
+          if (dados && (dados.kpis || dados.aposentadorias)) {
+            DADOS_SEPES = dados;
+            if (typeof renderizarDashboardSepes === 'function') renderizarDashboardSepes();
+            if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+          }
+        });
+
+        /* 2. SEFREP */
+        window.lerEstadoNuvem('SEFREP_DATA', function(dados) {
+          if (dados && dados.sucesso) {
+            DADOS_SEFREP = dados;
+            if (typeof renderizarDashboardSefrep === 'function') renderizarDashboardSefrep();
+          }
+        });
+
+        /* 3. SEGRE */
+        window.lerEstadoNuvem('SEGRE_DATA', function(dados) {
+          if (dados && (dados.kpis || dados.processosSei)) {
+            DADOS_SEGRE = dados;
+            if (typeof renderizarDashboardSegre === 'function') renderizarDashboardSegre();
+          }
+        });
+
+        /* 4. SEMAT */
+        window.lerEstadoNuvem('SEMAT_DATA', function(dados) {
+          if (dados && dados.kpis) {
+            DADOS_SEMAT = dados;
+            if (typeof renderizarDashboardSemat === 'function') renderizarDashboardSemat();
+          }
+        });
+
+        /* 5. SEVESC */
+        window.lerEstadoNuvem('SEVESC_DATA', function(dados) {
+          if (dados && dados.kpis) {
+            DADOS_SEVESC = dados;
+            if (typeof renderizarDashboardSevesc === 'function') renderizarDashboardSevesc();
+          }
+        });
+
+        /* 6. SEFIN */
+        window.lerEstadoNuvem('SEFIN_DATA', function(dados) {
+          if (dados && dados.repassesCompactos) {
+            DADOS_FINANCEIROS_SEFIN = dados;
+            if (typeof renderizarDashboardFinanceiroSefin === 'function') renderizarDashboardFinanceiroSefin();
+            if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+          }
+        });
+
+        /* 7. SECOMSE */
+        window.lerEstadoNuvem('SECOMSE_DATA', function(dados) {
+          if (dados && dados.kpis) {
+            DADOS_SECOMSE = dados;
+            if (typeof renderizarDashboardSecomse === 'function') renderizarDashboardSecomse();
+          }
+        });
+
+        /* 8. SEOM */
+        window.lerEstadoNuvem('SEOM_DATA', function(dados) {
+          if (dados && dados.escolas) {
+            DADOS_SEOM = dados;
+            if (typeof renderizarDashboardSeom === 'function') renderizarDashboardSeom();
+          }
+        });
+      }
 
       /* Carrega configuração do calendário do Carro Oficial direto do GAS */
       try {
