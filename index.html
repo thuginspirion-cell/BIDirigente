@@ -13517,6 +13517,11 @@ function imprimirAgendaCarro() {
             <p class="hero-main-desc" id="hero-main-desc-text">
               Decision Intelligence em tempo real: telemetria cruzada de SLA, execução orçamentária, riscos multissetoriais das 60 escolas e prioridades prescritivas.
             </p>
+            <div style="margin-top: 0.75rem; display: flex; gap: 0.55rem; flex-wrap: wrap;">
+              <button type="button" onclick="gerarRelatorioPdfGeralUre()" style="background: rgba(240, 155, 12, 0.95); color: #07152f; border: none; padding: 0.48rem 0.95rem; border-radius: 8px; font-size: 0.78rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.3); transition: all 0.15s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'" title="Gerar Relatório Executivo Geral em PDF da Unidade Regional de Ensino de Itapevi (60 escolas e 7 setores)">
+                <span>📄</span><span>Relatório Geral PDF (URE Itapevi)</span>
+              </button>
+            </div>
           </div>
           <div class="executive-hero-right">
             <div class="hero-crest-watermark" style="opacity: 0.35; width: 132px; height: 132px; position: relative; right: auto; top: auto; transform: none;">
@@ -13750,6 +13755,9 @@ function imprimirAgendaCarro() {
               </div>
             </div>
             <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+              <button type="button" onclick="gerarRelatorioPdfEscola(document.getElementById('home-filter-escola').value)" style="background: #0f766e; border: none; color: #ffffff; font-size: 0.78rem; font-weight: 700; padding: 0.45rem 0.95rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;" title="Gerar Relatório Executivo PDF desta Escola">
+                <span>📄</span> Relatório PDF
+              </button>
               <button type="button" id="spotlight-btn-modal-360" onclick="abrirModalDetalhesEscola(document.getElementById('home-filter-escola').value)" style="background: #0b2351; border: none; color: #ffffff; font-size: 0.78rem; font-weight: 700; padding: 0.45rem 0.95rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;" title="Abrir ficha cadastral e predial completa">
                 <span>🔍</span> Ficha 360° Completa
               </button>
@@ -15725,6 +15733,10 @@ function imprimirAgendaCarro() {
               <button class="btn-escola-primary" onclick="abrirModalNovaEscola()" title="Adicionar nova escola à base">
                 <span>➕ Cadastrar Nova Escola</span>
               </button>
+              <button class="btn-escola-secondary" onclick="gerarRelatorioPdfGeralUre()" title="Gerar Relatório Executivo Consolidado em PDF da Unidade Regional de Ensino (60 escolas e 7 setores)" style="background: rgba(15, 118, 110, 0.92); border-color: rgba(45, 212, 191, 0.55); color: #ffffff; font-weight: 700;">
+                <span>📄</span>
+                <span>Relatório PDF Geral (URE)</span>
+              </button>
               <button class="btn-escola-secondary" onclick="exportarEscolasExcel()" title="Exportar tabela atual de escolas para arquivo Excel">
                 <span>📤 Exportar</span>
               </button>
@@ -15860,7 +15872,7 @@ function imprimirAgendaCarro() {
                       <span class="sort-arrow" id="sort-arrow-esc-imro">↕</span>
                     </div>
                   </th>
-                  <th style="text-align: right; width: 140px;"><span class="th-title-text">Ações</span></th>
+                  <th style="text-align: right; width: 225px;"><span class="th-title-text">Ações</span></th>
                 </tr>
               </thead>
               <tbody id="escolas-table-body">
@@ -15906,7 +15918,7 @@ function imprimirAgendaCarro() {
               <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
                 <li><strong style="color: #60a5fa;">👁️ Detalhes 360°:</strong> Abre o Raio-X completo da escola, unificando em uma única tela os dados de Infraestrutura (SEOM), Tecnologia (SEINTEC), Finanças APM (SEAFIN), Rede (SEGRE) e Gabinete.</li>
                 <li><strong style="color: #94a3b8;">✏️ Editar:</strong> Abre o formulário cadastral para atualização de equipe gestora, telefone institucional, endereço e modelo de jornada.</li>
-                <li><strong style="color: #fca5a5;">🗑️ Excluir:</strong> Remove a unidade da base local após confirmação formal.</li>
+                <li><strong style="color: #2dd4bf;">📄 PDF:</strong> Emite o relatório executivo individual da escola em formato A4 (com IMRO 360°, parque de TI em quartos, SEOM, SEAFIN, SEPES, SEGRE e parecer prescritivo). O botão <strong>Relatório PDF Geral (URE)</strong> no topo consolida todas as 60 unidades.</li>
               </ul>
             </div>
 
@@ -17816,6 +17828,13 @@ function imprimirAgendaCarro() {
       abrirModalEditarEscola(id);
     }
 
+    function gerarRelatorioPdfEscolaAtualDetalhes() {
+      if (!escolaSelecionadaParaDetalhes) return;
+      if (typeof window.gerarRelatorioPdfEscola === 'function') {
+        window.gerarRelatorioPdfEscola(escolaSelecionadaParaDetalhes.cie || escolaSelecionadaParaDetalhes.id);
+      }
+    }
+
     function filtrarPorKpi(filtro) {
       document.querySelectorAll('.escola-kpi-card').forEach(c => c.classList.remove('active-filter'));
       const statusSelect = document.getElementById('escolas-filter-status');
@@ -17905,7 +17924,7 @@ function imprimirAgendaCarro() {
                   👁️ Detalhes 360°
                 </button>
                 <button class="btn-table-action" onclick="abrirModalEditarEscola('${e.id}')" title="Editar dados da unidade" style="padding: 0.35rem 0.55rem; font-size: 0.76rem;">✏️ Editar</button>
-                <button class="btn-table-action danger" onclick="excluirEscola('${e.id}')" title="Excluir unidade" style="padding: 0.35rem 0.45rem; font-size: 0.76rem;">🗑️</button>
+                <button class="btn-table-action" onclick="gerarRelatorioPdfEscola('${e.id}')" title="Gerar Relatório Executivo Individual em PDF" style="background: #0f766e; color: #ffffff; border: 1.5px solid #0f766e; font-weight: 700; padding: 0.35rem 0.58rem; font-size: 0.76rem; display: inline-flex; align-items: center; gap: 3px; border-radius: 6px; cursor: pointer; transition: all 0.15s;" onmouseover="this.style.background='#0d9488'; this.style.borderColor='#0d9488';" onmouseout="this.style.background='#0f766e'; this.style.borderColor='#0f766e';">📄 PDF</button>
               </div>
             </td>
           </tr>
@@ -17995,18 +18014,6 @@ function imprimirAgendaCarro() {
 
       salvarEscolasLocalStorage();
       filtrarEscolas();
-    }
-
-    function excluirEscola(id) {
-      const esc = listaEscolas.find(e => e.id === id);
-      if (!esc) return;
-
-      if (confirm('Deseja realmente remover "' + esc.nome + '" da lista de escolas?')) {
-        listaEscolas = listaEscolas.filter(e => e.id !== id);
-        salvarEscolasLocalStorage();
-        filtrarEscolas();
-        mostrarToastAgenda('Escola removida.', '🗑️');
-      }
     }
 
     function restaurarEscolasPadrao() {
@@ -36559,7 +36566,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         <div style="font-size: 0.76rem; color: #64748b;">
           * Indicadores sincronizados com as bases oficiais dos setores no exercício vigente.
         </div>
-        <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+          <button type="button" onclick="gerarRelatorioPdfEscolaAtualDetalhes()" style="background: #0f766e; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.15s; display: inline-flex; align-items: center; gap: 0.35rem;" title="Gerar Relatório Executivo Individual em PDF desta escola">
+            <span>📄</span><span>Relatório PDF</span>
+          </button>
           <button type="button" id="btn-det-modal-editar" onclick="editarEscolaDoDetalhes()" style="background: #f1f5f9; color: #0b2351; border: 1px solid #cbd5e1; padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.15s;">
             ✏️ Editar Cadastro
           </button>
@@ -38237,6 +38247,433 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         obterDiagnostico: function() {
           return { escolas: ultimoFato, telemetria: ultimaTel };
         }
+      };
+
+      /* ========================================================================= */
+      /* MOTOR EXECUTIVO DE RELATÓRIOS PDF (INDIVIDUAL ESCOLA & GERAL DA URE)      */
+      /* ========================================================================= */
+      function estiloTierPdf(tier) {
+        if (tier === 'Crítico') return { bg: '#fee2e2', txt: '#991b1b', brd: '#fca5a5', bar: '#dc2626', dot: '🔴' };
+        if (tier === 'Alto Risco') return { bg: '#ffedd5', txt: '#9a3412', brd: '#fdba74', bar: '#ea580c', dot: '🟠' };
+        if (tier === 'Atenção') return { bg: '#fef9c3', txt: '#854d0e', brd: '#fde047', bar: '#ca8a04', dot: '🟡' };
+        return { bg: '#dcfce7', txt: '#166534', brd: '#86efac', bar: '#16a34a', dot: '🟢' };
+      }
+
+      function gerarCabecalhoPdf(tituloDoc, subtituloDoc, badgeDoc) {
+        var agora = new Date().toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        var logoHtml = (typeof window !== 'undefined' && window.BRASAO_SP_DATA_URI)
+          ? '<img src="' + window.BRASAO_SP_DATA_URI + '" alt="Brasão SP" style="height:56px;width:auto;object-fit:contain;display:block;" />'
+          : '<div style="width:48px;height:48px;border-radius:8px;background:#0b2351;color:#f09b0c;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14pt;">SP</div>';
+        return '' +
+          '<header class="pdf-header">' +
+            '<div class="pdf-header-left">' +
+              logoHtml +
+              '<div>' +
+                '<div class="pdf-org">SECRETARIA DA EDUCAÇÃO DO ESTADO DE SÃO PAULO • UNIDADE REGIONAL DE ENSINO DE ITAPEVI</div>' +
+                '<h1>' + escHtml(tituloDoc) + '</h1>' +
+                '<div class="pdf-sub">' + escHtml(subtituloDoc) + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="pdf-header-right">' +
+              '<div class="pdf-badge">' + escHtml(badgeDoc) + '</div>' +
+              '<div class="pdf-date">Emitido em ' + escHtml(agora) + '</div>' +
+            '</div>' +
+          '</header>';
+      }
+
+      function abrirJanelaRelatorioPdf(tituloPagina, corpoHtml) {
+        var fontHref = 'https:' + String.fromCharCode(47, 47) + 'fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap';
+        var cssPdf = '' +
+          '@page { size: A4 portrait; margin: 10mm 11mm; }' +
+          '* { box-sizing: border-box; }' +
+          'body { margin: 0; padding: 0; background: #e2e8f0; color: #0f172a; font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; font-size: 9pt; line-height: 1.45; -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
+          '.no-print-bar { position: sticky; top: 0; z-index: 100; background: #07152f; color: #ffffff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; gap: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.25); }' +
+          '.no-print-btn { background: #0f766e; color: #ffffff; border: none; border-radius: 7px; padding: 7px 14px; font-weight: 700; font-size: 9.5pt; cursor: pointer; font-family: inherit; }' +
+          '.no-print-btn.sec { background: rgba(255,255,255,0.14); }' +
+          '.pdf-sheet { width: 210mm; min-height: 277mm; margin: 14px auto; background: #ffffff; padding: 11mm 12mm; box-shadow: 0 10px 30px rgba(15,23,42,0.18); }' +
+          '.pdf-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 10px; border-bottom: 2.5px solid #0b2351; margin-bottom: 12px; }' +
+          '.pdf-header-left { display: flex; align-items: center; gap: 12px; }' +
+          '.pdf-org { font-size: 7pt; font-weight: 800; letter-spacing: 0.05em; color: #b45309; text-transform: uppercase; margin-bottom: 2px; }' +
+          '.pdf-header h1 { margin: 0; font-size: 14.5pt; font-weight: 800; color: #0b2351; line-height: 1.2; }' +
+          '.pdf-sub { font-size: 8.5pt; color: #475569; margin-top: 2px; font-weight: 500; }' +
+          '.pdf-header-right { text-align: right; flex-shrink: 0; }' +
+          '.pdf-badge { display: inline-block; background: #0b2351; color: #f09b0c; font-size: 7.5pt; font-weight: 800; padding: 3px 9px; border-radius: 999px; letter-spacing: 0.04em; }' +
+          '.pdf-date { font-size: 7.5pt; color: #64748b; margin-top: 4px; font-weight: 600; }' +
+          '.pdf-section { margin-bottom: 11px; break-inside: avoid; page-break-inside: avoid; }' +
+          '.pdf-sec-title { font-size: 8.5pt; font-weight: 800; color: #0b2351; text-transform: uppercase; letter-spacing: 0.05em; border-left: 3.5px solid #f09b0c; padding-left: 7px; margin: 0 0 7px 0; }' +
+          '.pdf-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }' +
+          '.pdf-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }' +
+          '.pdf-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }' +
+          '.pdf-kpi { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 7px; padding: 7px 9px; }' +
+          '.pdf-kpi-lbl { font-size: 7pt; font-weight: 700; color: #64748b; text-transform: uppercase; }' +
+          '.pdf-kpi-val { font-size: 13pt; font-weight: 800; color: #0f172a; margin-top: 2px; font-variant-numeric: tabular-nums; }' +
+          '.pdf-kpi-sub { font-size: 7pt; color: #475569; margin-top: 1px; }' +
+          '.pdf-card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 9px 11px; }' +
+          '.pdf-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 8pt; font-weight: 800; color: #0b2351; border-bottom: 1px solid #f1f5f9; padding-bottom: 4px; }' +
+          '.pdf-kv { display: flex; justify-content: space-between; font-size: 8pt; padding: 2px 0; border-bottom: 1px dotted #e2e8f0; gap: 6px; }' +
+          '.pdf-kv:last-child { border-bottom: none; }' +
+          '.pdf-kv span:first-child { color: #64748b; font-weight: 600; }' +
+          '.pdf-kv strong { color: #0f172a; text-align: right; font-variant-numeric: tabular-nums; }' +
+          '.pdf-pill { display: inline-block; padding: 2px 7px; border-radius: 999px; font-size: 7.2pt; font-weight: 800; white-space: nowrap; }' +
+          '.pdf-bar-track { width: 100%; height: 6px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin-top: 3px; }' +
+          '.pdf-bar-fill { height: 100%; border-radius: 999px; }' +
+          'table.pdf-table { width: 100%; border-collapse: collapse; font-size: 7.5pt; }' +
+          'table.pdf-table thead { display: table-header-group; }' +
+          'table.pdf-table tr { break-inside: avoid; page-break-inside: avoid; }' +
+          'table.pdf-table th { background: #0b2351; color: #ffffff; text-align: left; padding: 5px 6px; font-weight: 700; font-size: 7pt; text-transform: uppercase; letter-spacing: 0.03em; }' +
+          'table.pdf-table td { border-bottom: 1px solid #e2e8f0; padding: 4.5px 6px; vertical-align: middle; font-variant-numeric: tabular-nums; }' +
+          'table.pdf-table tbody tr:nth-child(even) { background: #f8fafc; }' +
+          '.pdf-footer { margin-top: 14px; padding-top: 8px; border-top: 1.5px solid #cbd5e1; display: flex; justify-content: space-between; font-size: 7pt; color: #64748b; font-weight: 600; }' +
+          '@media print { body { background: #ffffff; } .no-print-bar { display: none !important; } .pdf-sheet { width: 100%; min-height: auto; margin: 0; padding: 0; box-shadow: none; } .pdf-page-break { page-break-before: always; break-before: page; } }';
+
+        try {
+          var w = window.open('', '_blank', 'width=980,height=860');
+          if (!w) {
+            if (typeof mostrarToastAgenda === 'function') {
+              mostrarToastAgenda('Habilite pop-ups no navegador para gerar e salvar o relatório PDF.', '⚠️');
+            } else {
+              alert('Habilite pop-ups no navegador para abrir o relatório PDF.');
+            }
+            return;
+          }
+          w.document.open();
+          w.document.write('<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>' + escHtml(tituloPagina) + '</title>');
+          w.document.write('<link rel="stylesheet" href="' + fontHref + '">');
+          w.document.write('<style>' + cssPdf + '</style></head><body>');
+          w.document.write(
+            '<div class="no-print-bar">' +
+              '<span style="font-weight:700;font-size:9.5pt;">📄 Pré-visualização Oficial A4 • BI Dirigente (URE Itapevi)</span>' +
+              '<div style="display:flex;gap:8px;">' +
+                '<button type="button" class="no-print-btn" onclick="window.print()">🖨️ Imprimir / Salvar como PDF</button>' +
+                '<button type="button" class="no-print-btn sec" onclick="window.close()">✖ Fechar</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="pdf-sheet">' + corpoHtml + '</div>'
+          );
+          w.document.write('</body></html>');
+          w.document.close();
+          w.focus();
+          var impresso = false;
+          var dispararPrint = function() {
+            if (impresso) return;
+            impresso = true;
+            w.print();
+          };
+          if (w.document.fonts && w.document.fonts.ready) {
+            w.document.fonts.ready.then(function() { setTimeout(dispararPrint, 180); });
+          }
+          setTimeout(dispararPrint, 850);
+        } catch (err) {
+          console.warn('Erro ao abrir relatório PDF:', err);
+        }
+      }
+
+      window.gerarRelatorioPdfEscola = function(idOuCie) {
+        var base = (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas) && listaEscolas.length > 0)
+          ? listaEscolas
+          : ((typeof BASE_ESCOLAS_PADRAO !== 'undefined' && Array.isArray(BASE_ESCOLAS_PADRAO)) ? BASE_ESCOLAS_PADRAO : []);
+        var normAlvo = normCie(idOuCie);
+        var escCad = null;
+        for (var i = 0; i < base.length; i++) {
+          if (base[i].id === idOuCie || normCie(base[i].cie) === normAlvo) {
+            escCad = base[i];
+            break;
+          }
+        }
+        if (!escCad) return;
+
+        var listaFato = ultimoFato.length ? ultimoFato : construirFatoEscolas();
+        var cieEsc = normCie(escCad.cie);
+        var fato = null;
+        var rankIdx = -1;
+        for (var j = 0; j < listaFato.length; j++) {
+          if (listaFato[j].cie === cieEsc) {
+            fato = listaFato[j];
+            rankIdx = j + 1;
+            break;
+          }
+        }
+        if (!fato) return;
+
+        var nomeExib = (typeof formatarNomeEscolaExecutivo === 'function') ? formatarNomeEscolaExecutivo(escCad.nome) : escCad.nome;
+        var st = estiloTierPdf(fato.tier);
+        var seomObj = fato.seomObj || null;
+        var hwDispPct = fato.hwTotal > 0 ? ((fato.hwDisp / fato.hwTotal) * 100).toFixed(1).replace('.', ',') : '0,0';
+        var hwBadPctTxt = (fato.hwBadPct || 0).toFixed(1).replace('.', ',');
+        var eduQtd = escCad.educatrons || 0;
+        if (window.INVENTARIO_COMPLETO_TUPLES && Array.isArray(window.INVENTARIO_COMPLETO_TUPLES.educatrons)) {
+          var countEdu = window.INVENTARIO_COMPLETO_TUPLES.educatrons.filter(function(it) { return normCie(it[0]) === cieEsc; }).length;
+          if (countEdu > 0) eduQtd = countEdu;
+        }
+
+        var prescricao = '';
+        if (fato.imro >= 50 && fato.saldoOcioso2026 >= 10000) {
+          prescricao = 'Unidade prioritária (' + fato.tier + ') com saldo disponível de ' + formatarMoedaCurta(fato.saldoOcioso2026) + ' no PDDE 2026: recomenda-se orientação direta à APM para execução prioritária nas demandas de infraestrutura e TI.';
+        } else if (fato.imro >= 50 && !fato.visitada) {
+          prescricao = 'Unidade classificada na posição #' + rankIdx + ' de risco sem registro de visita recente ASURE: priorizar inclusão na próxima agenda de acompanhamento in loco da Dirigente.';
+        } else if (fato.sepesPend > 0 || fato.segreAbertos > 0) {
+          prescricao = 'Acompanhar tramitação dos ' + (fato.sepesPend + fato.segreAbertos) + ' processo(s) ativo(s) em SEPES/SEGRE para preservar a regularidade operacional da unidade.';
+        } else {
+          prescricao = 'Unidade operando dentro dos parâmetros de regularidade regional; manter acompanhamento preventivo de rotina.';
+        }
+
+        var pilaresBarra = [
+          { nome: 'SEOM (Infraestrutura)', pts: fato.pts.SEOM, max: 35, cor: '#d97706' },
+          { nome: 'SEINTEC (TI & Suporte)', pts: fato.pts.SEINTEC, max: 25, cor: '#0284c7' },
+          { nome: 'SEAFIN (PDDE 2026)', pts: fato.pts.SEAFIN, max: 15, cor: '#059669' },
+          { nome: 'SEPES (Pessoas)', pts: fato.pts.SEPES, max: 10, cor: '#7c3aed' },
+          { nome: 'SEGRE (Rede/SEI)', pts: fato.pts.SEGRE, max: 10, cor: '#ea580c' },
+          { nome: 'ASURE / EEC', pts: fato.pts.ASURE + fato.pts.EEC, max: 15, cor: '#334155' }
+        ];
+
+        var html = gerarCabecalhoPdf(
+          nomeExib,
+          'CIE: ' + cieEsc + ' • ' + (escCad.cidade || 'Itapevi') + ' • ' + (escCad.tipo || 'Regular') + ' • ' + (escCad.segmento || 'Ensino Fundamental e Médio'),
+          'RELATÓRIO INDIVIDUAL 360°'
+        );
+
+        /* Bloco Identificação + Termômetro IMRO */
+        html += '' +
+          '<section class="pdf-section">' +
+            '<div class="pdf-grid-2">' +
+              '<div class="pdf-card">' +
+                '<div class="pdf-card-head"><span>📍 Identificação &amp; Gestão Escolar</span><span>CIE ' + escHtml(cieEsc) + '</span></div>' +
+                '<div class="pdf-kv"><span>Endereço</span><strong>' + escHtml(escCad.bairro || 'Região Escolar') + '</strong></div>' +
+                '<div class="pdf-kv"><span>Município</span><strong>' + escHtml(escCad.cidade || 'Itapevi') + '</strong></div>' +
+                '<div class="pdf-kv"><span>Direção Escolar</span><strong>' + escHtml(escCad.diretor || 'Equipe Gestora') + '</strong></div>' +
+                '<div class="pdf-kv"><span>Telefone</span><strong>' + escHtml(escCad.telefone || '(11) 4141-0000') + '</strong></div>' +
+                '<div class="pdf-kv"><span>Jornada / Segmento</span><strong>' + escHtml((escCad.tipo || 'Regular') + ' • ' + (escCad.segmento || '')) + '</strong></div>' +
+              '</div>' +
+              '<div class="pdf-card" style="border-color:' + st.brd + ';background:' + st.bg + '44;">' +
+                '<div class="pdf-card-head"><span>🎯 Termômetro IMRO 360° (Escala 0–100)</span><span class="pdf-pill" style="background:' + st.bg + ';color:' + st.txt + ';border:1px solid ' + st.brd + ';">' + st.dot + ' ' + escHtml(fato.tier) + '</span></div>' +
+                '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;">' +
+                  '<div><span style="font-size:21pt;font-weight:800;color:' + st.txt + ';">' + fato.imro + '</span> <span style="font-size:9pt;font-weight:700;color:#64748b;">/ 100 pts</span></div>' +
+                  '<div style="font-size:8.5pt;font-weight:800;color:#0b2351;">Posição Regional: #' + rankIdx + ' / ' + listaFato.length + ' escolas</div>' +
+                '</div>' +
+                '<div class="pdf-bar-track" style="height:8px;margin-bottom:7px;"><div class="pdf-bar-fill" style="width:' + Math.min(100, fato.imro) + '%;background:' + st.bar + ';"></div></div>' +
+                '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;">' +
+                  pilaresBarra.map(function(p) {
+                    var wPct = Math.min(100, Math.round((p.pts / p.max) * 100));
+                    return '<div>' +
+                      '<div style="display:flex;justify-content:space-between;font-size:7pt;font-weight:700;"><span>' + p.nome + '</span><span>' + p.pts + '/' + p.max + '</span></div>' +
+                      '<div class="pdf-bar-track" style="height:4px;"><div class="pdf-bar-fill" style="width:' + wPct + '%;background:' + p.cor + ';"></div></div>' +
+                    '</div>';
+                  }).join('') +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</section>';
+
+        /* Grid Multissetorial 6 cards */
+        html += '' +
+          '<section class="pdf-section">' +
+            '<h2 class="pdf-sec-title">Diagnóstico Operacional por Setor (Dados Vivos Consolidados)</h2>' +
+            '<div class="pdf-grid-2">' +
+              '<div class="pdf-card" style="border-left:4px solid #d97706;">' +
+                '<div class="pdf-card-head"><span>🏗️ Infraestrutura &amp; Segurança (SEOM / SEFISC)</span><span>+' + fato.pts.SEOM + ' pts</span></div>' +
+                '<div class="pdf-kv"><span>Laudo AVCB Bombeiros</span><strong>' + (seomObj ? (seomObj.avcb === 1 ? 'Regularizado' : 'Pendente') : 'Não mapeado') + '</strong></div>' +
+                '<div class="pdf-kv"><span>Obra FDE</span><strong>' + (seomObj ? (seomObj.obraFde === 2 ? 'Ativa em andamento' : (seomObj.obraFde === 1 ? 'Prevista/Em análise' : 'Sem obra ativa')) : '---') + '</strong></div>' +
+                '<div class="pdf-kv"><span>Telhado / Elétrica / Esgoto</span><strong>' + (seomObj ? ((seomObj.telhado === 2 ? 'Telhado Crítico' : 'Telhado OK') + ' • ' + (seomObj.eletrica === 2 ? 'Elétrica Crítica' : 'Elétrica OK') + ' • ' + (seomObj.esgoto === 2 ? 'Esgoto Crítico' : 'Esgoto OK')) : '---') + '</strong></div>' +
+                '<div class="pdf-kv"><span>Zeladoria / Cuidador</span><strong>' + (seomObj ? ((seomObj.zeladoria === 1 ? 'Residente' : 'Sem zelador') + ' • ' + (seomObj.cuidador === 2 ? 'Demanda aberta' : 'Atendido')) : '---') + '</strong></div>' +
+              '</div>' +
+
+              '<div class="pdf-card" style="border-left:4px solid #0284c7;">' +
+                '<div class="pdf-card-head"><span>💻 Tecnologia &amp; Suporte (SEINTEC)</span><span>+' + fato.pts.SEINTEC + ' pts</span></div>' +
+                '<div class="pdf-kv"><span>Parque de Hardware</span><strong>' + fato.hwTotal.toLocaleString('pt-BR') + ' equipamentos (' + hwDispPct + '% disp.)</strong></div>' +
+                '<div class="pdf-kv"><span>Taxa de Comprometimento</span><strong>' + (fato.quartoTi || '1/4') + ' • ' + hwBadPctTxt + '% (' + fato.hwBad + '/' + fato.hwTotal + ')</strong></div>' +
+                '<div class="pdf-kv"><span>Educatrons (Telas Interativas)</span><strong>' + eduQtd + ' unidades</strong></div>' +
+                '<div class="pdf-kv"><span>Chamados Oficiais 2026</span><strong>' + fato.callsTotal + ' totais (' + fato.callsAbertos + ' em aberto)</strong></div>' +
+              '</div>' +
+
+              '<div class="pdf-card" style="border-left:4px solid #059669;">' +
+                '<div class="pdf-card-head"><span>💼 Finanças da APM • PDDE 2026 (SEAFIN)</span><span>+' + fato.pts.SEAFIN + ' pts</span></div>' +
+                '<div class="pdf-kv"><span>Repasses / Receita 2026</span><strong>' + formatarMoedaCurta(fato.rec2026) + '</strong></div>' +
+                '<div class="pdf-kv"><span>Valor Executado</span><strong>' + formatarMoedaCurta(fato.desp2026) + ' (' + fato.execPct2026.toFixed(1).replace('.', ',') + '%)</strong></div>' +
+                '<div class="pdf-kv"><span>Saldo Ocioso em Conta APM</span><strong>' + formatarMoedaCurta(fato.saldoOcioso2026) + '</strong></div>' +
+              '</div>' +
+
+              '<div class="pdf-card" style="border-left:4px solid #7c3aed;">' +
+                '<div class="pdf-card-head"><span>👥 Pessoas (SEPES) &amp; 🏫 Rede Escolar (SEGRE)</span><span>+' + (fato.pts.SEPES + fato.pts.SEGRE) + ' pts</span></div>' +
+                '<div class="pdf-kv"><span>Processos SEPES (SEAPE)</span><strong>' + fato.sepesPend + ' em tramitação</strong></div>' +
+                '<div class="pdf-kv"><span>Processos SEI Rede (SEGRE)</span><strong>' + fato.segreAbertos + ' em aberto</strong></div>' +
+                '<div class="pdf-kv"><span>Visita Regional (ASURE)</span><strong>' + (fato.visitada ? ('Registrada (' + escHtml(fato.dataVisita || '2026') + ')') : 'Sem registro recente') + '</strong></div>' +
+              '</div>' +
+            '</div>' +
+          '</section>';
+
+        /* Síntese Prescritiva + Parecer para Despacho */
+        html += '' +
+          '<section class="pdf-section">' +
+            '<h2 class="pdf-sec-title">Síntese Prescritiva &amp; Encaminhamentos Executivos</h2>' +
+            '<div class="pdf-card" style="background:#eff6ff;border-color:#bfdbfe;margin-bottom:10px;">' +
+              '<div style="font-size:8pt;font-weight:800;color:#1d4ed8;margin-bottom:3px;">⚡ Recomendação Decision Intelligence (Posição #' + rankIdx + ' de ' + listaFato.length + ')</div>' +
+              '<div style="font-size:8.5pt;color:#1e293b;line-height:1.5;">' + escHtml(prescricao) + '</div>' +
+            '</div>' +
+            '<div class="pdf-card">' +
+              '<div style="font-size:7.5pt;font-weight:800;color:#475569;margin-bottom:18px;">ANOTAÇÕES / DESPACHO DA DIRIGENTE REGIONAL E SUPERVISÃO:</div>' +
+              '<div style="border-bottom:1px dotted #94a3b8;height:18px;"></div>' +
+              '<div style="border-bottom:1px dotted #94a3b8;height:20px;"></div>' +
+              '<div style="border-bottom:1px dotted #94a3b8;height:20px;"></div>' +
+            '</div>' +
+          '</section>' +
+          '<footer class="pdf-footer">' +
+            '<span>Unidade Regional de Ensino de Itapevi • URE Itapevi • BI Dirigente</span>' +
+            '<span>Documento gerencial consolidado a partir das bases oficiais SharePoint SEDUC-SP</span>' +
+          '</footer>';
+
+        abrirJanelaRelatorioPdf('Relatório Individual - ' + nomeExib + ' (CIE ' + cieEsc + ')', html);
+      };
+
+      window.gerarRelatorioPdfGeralUre = function() {
+        var fato = ultimoFato.length ? ultimoFato : construirFatoEscolas();
+        var tel = ultimaTel || computarTelemetriaSetores(fato);
+
+        var totalEsc = fato.length || 60;
+        var peiCount = fato.filter(function(e) { return (e.tipo || '').indexOf('PEI') !== -1; }).length;
+        var regCount = totalEsc - peiCount;
+        var critCount = fato.filter(function(e) { return e.tier === 'Crítico'; }).length;
+        var altoCount = fato.filter(function(e) { return e.tier === 'Alto Risco'; }).length;
+        var atencCount = fato.filter(function(e) { return e.tier === 'Atenção'; }).length;
+        var okCount = fato.filter(function(e) { return e.tier === 'Regular'; }).length;
+        var avgImro = totalEsc > 0 ? (fato.reduce(function(s, e) { return s + e.imro; }, 0) / totalEsc) : 0;
+        var isrScore = Math.max(0, Math.min(100, Math.round(100 - avgImro)));
+
+        /* Agrupamento por Município */
+        var porMun = {};
+        fato.forEach(function(e) {
+          var cid = e.cidade || 'Itapevi';
+          if (cid.toLowerCase().indexOf('pirapora') !== -1) cid = 'Pirapora do Bom Jesus';
+          if (!porMun[cid]) porMun[cid] = { nome: cid, qtd: 0, pei: 0, sumImro: 0, critAlto: 0, avcbOk: 0, hwTot: 0, hwBad: 0 };
+          porMun[cid].qtd++;
+          if ((e.tipo || '').indexOf('PEI') !== -1) porMun[cid].pei++;
+          porMun[cid].sumImro += e.imro;
+          if (e.imro >= 50) porMun[cid].critAlto++;
+          if (e.seomObj && e.seomObj.avcb === 1) porMun[cid].avcbOk++;
+          porMun[cid].hwTot += e.hwTotal;
+          porMun[cid].hwBad += e.hwBad;
+        });
+        var listaMun = Object.keys(porMun).map(function(k) { return porMun[k]; }).sort(function(a, b) { return b.qtd - a.qtd; });
+
+        var html = gerarCabecalhoPdf(
+          'Relatório Executivo Consolidado da Rede Regional',
+          'Panorama Multissetorial das ' + totalEsc + ' Escolas Estaduais e 7 Núcleos • Escala IMRO 360° (0–100)',
+          'RELATÓRIO GERAL • URE ITAPEVI'
+        );
+
+        /* Bloco 1: KPIs Executivos da Rede */
+        html += '' +
+          '<section class="pdf-section">' +
+            '<h2 class="pdf-sec-title">1. Síntese Executiva &amp; Saúde Operacional Regional</h2>' +
+            '<div class="pdf-grid-4">' +
+              '<div class="pdf-kpi"><div class="pdf-kpi-lbl">ISR Regional (0–100)</div><div class="pdf-kpi-val" style="color:#0b2351;">' + isrScore + ' / 100</div><div class="pdf-kpi-sub">IMRO médio: ' + avgImro.toFixed(1).replace('.', ',') + ' pts • ' + tel.fontesVivas + '/7 núcleos vivos</div></div>' +
+              '<div class="pdf-kpi"><div class="pdf-kpi-lbl">Rede Escolar</div><div class="pdf-kpi-val">' + totalEsc + ' escolas</div><div class="pdf-kpi-sub">' + peiCount + ' PEI • ' + regCount + ' Regulares • ' + (critCount + altoCount) + ' prioritárias</div></div>' +
+              '<div class="pdf-kpi"><div class="pdf-kpi-lbl">Parque TI (SEINTEC)</div><div class="pdf-kpi-val">' + tel.SEINTEC.hwTotal.toLocaleString('pt-BR') + '</div><div class="pdf-kpi-sub">' + tel.SEINTEC.hwDispPct.toFixed(1).replace('.', ',') + '% disp. • ' + tel.SEINTEC.callsAbertos + ' cham. abertos</div></div>' +
+              '<div class="pdf-kpi"><div class="pdf-kpi-lbl">PDDE 2026 (SEAFIN)</div><div class="pdf-kpi-val" style="color:#059669;">' + formatarMoedaCurta(tel.SEAFIN.receita2026) + '</div><div class="pdf-kpi-sub">' + tel.SEAFIN.execPct2026.toFixed(1).replace('.', ',') + '% exec. • Saldo: ' + formatarMoedaCurta(tel.SEAFIN.saldoOcioso2026) + '</div></div>' +
+              '<div class="pdf-kpi"><div class="pdf-kpi-lbl">Infraestrutura (SEOM)</div><div class="pdf-kpi-val" style="color:#b45309;">' + tel.SEOM.avcbSem + ' s/ AVCB</div><div class="pdf-kpi-sub">' + tel.SEOM.obrasAtivas + ' obras FDE • ' + tel.SEOM.avcbOk + ' AVCBs válidos</div></div>' +
+              '<div class="pdf-kpi"><div class="pdf-kpi-lbl">Rede &amp; SEI (SEGRE)</div><div class="pdf-kpi-val" style="color:#ea580c;">' + tel.SEGRE.seiAbertos + ' SEI</div><div class="pdf-kpi-sub">' + tel.SEGRE.seiAged30 + ' &gt;30 dias • ' + tel.SEGRE.emailsTot.toLocaleString('pt-BR') + ' e-mails</div></div>' +
+              '<div class="pdf-kpi"><div class="pdf-kpi-lbl">Pessoas (SEPES)</div><div class="pdf-kpi-val" style="color:#7c3aed;">' + tel.SEPES.emTramitacao + ' ativos</div><div class="pdf-kpi-sub">' + tel.SEPES.aged30 + ' aguardando há &gt;30 dias</div></div>' +
+              '<div class="pdf-kpi"><div class="pdf-kpi-lbl">Cobertura ASURE</div><div class="pdf-kpi-val">' + tel.ASURE.top10Visitadas + ' / 10</div><div class="pdf-kpi-sub">Top 10 IMRO visitadas • ' + tel.ASURE.totalVisitasReg + ' registros</div></div>' +
+            '</div>' +
+          '</section>';
+
+        /* Bloco 2: Distribuição IMRO + Breakdown Municipal */
+        html += '' +
+          '<section class="pdf-section">' +
+            '<div class="pdf-grid-2">' +
+              '<div class="pdf-card">' +
+                '<div class="pdf-card-head"><span>🎯 Distribuição do IMRO 360° nas 60 Unidades</span><span>Escala 0–100</span></div>' +
+                '<div class="pdf-kv"><span>🔴 Crítico (≥ 62 pts)</span><strong>' + critCount + ' escolas (' + ((critCount / totalEsc) * 100).toFixed(1).replace('.', ',') + '%)</strong></div>' +
+                '<div class="pdf-kv"><span>🟠 Alto Risco (50–61 pts)</span><strong>' + altoCount + ' escolas (' + ((altoCount / totalEsc) * 100).toFixed(1).replace('.', ',') + '%)</strong></div>' +
+                '<div class="pdf-kv"><span>🟡 Atenção (40–49 pts)</span><strong>' + atencCount + ' escolas (' + ((atencCount / totalEsc) * 100).toFixed(1).replace('.', ',') + '%)</strong></div>' +
+                '<div class="pdf-kv"><span>🟢 Regular (&lt; 40 pts)</span><strong>' + okCount + ' escolas (' + ((okCount / totalEsc) * 100).toFixed(1).replace('.', ',') + '%)</strong></div>' +
+              '</div>' +
+              '<div class="pdf-card">' +
+                '<div class="pdf-card-head"><span>🗺️ Consolidado por Município</span><span>4 Jurisdições</span></div>' +
+                '<table class="pdf-table" style="font-size:7.3pt;">' +
+                  '<thead><tr><th>Município</th><th>Escolas (PEI)</th><th>IMRO Médio</th><th>Priorit. (≥50)</th><th>% TI Comp.</th></tr></thead>' +
+                  '<tbody>' +
+                    listaMun.map(function(m) {
+                      var avgM = (m.sumImro / m.qtd).toFixed(1).replace('.', ',');
+                      var tiPctM = m.hwTot > 0 ? ((m.hwBad / m.hwTot) * 100).toFixed(1).replace('.', ',') + '%' : '---';
+                      return '<tr><td><strong>' + escHtml(m.nome) + '</strong></td><td>' + m.qtd + ' (' + m.pei + ')</td><td><strong>' + avgM + ' pts</strong></td><td>' + m.critAlto + '</td><td>' + tiPctM + '</td></tr>';
+                    }).join('') +
+                  '</tbody>' +
+                '</table>' +
+              '</div>' +
+            '</div>' +
+          '</section>';
+
+        /* Bloco 3: Matriz Executiva dos 7 Núcleos */
+        var linhasNucleos = [
+          { nome: 'SEINTEC • Informações & Tecnologia', saude: tel.SEINTEC.health + '%', kpi: tel.SEINTEC.hwDispPct.toFixed(1).replace('.', ',') + '% hardware disponível', sla: tel.SEINTEC.slaMain + ' • ' + tel.SEINTEC.slaSub },
+          { nome: 'ASURE • Gabinete & Assessoria', saude: tel.ASURE.isReal ? (tel.ASURE.health + '%') : 'Adaptador Ativo', kpi: tel.ASURE.bulletCaption, sla: tel.ASURE.slaMain },
+          { nome: 'SEAFIN • Administração & Finanças', saude: tel.SEAFIN.health + '%', kpi: tel.SEAFIN.execPct2026.toFixed(1).replace('.', ',') + '% PDDE executado', sla: tel.SEAFIN.slaMain + ' • ' + tel.SEAFIN.slaSub },
+          { nome: 'SEOM • Obras, Fiscalização & Patrimônio', saude: tel.SEOM.health + '%', kpi: tel.SEOM.bulletCaption, sla: tel.SEOM.slaMain + ' • ' + tel.SEOM.slaSub },
+          { nome: 'SEGRE • Serviço de Gestão da Rede Escolar', saude: tel.SEGRE.health + '%', kpi: tel.SEGRE.bulletCaption, sla: tel.SEGRE.slaMain + ' • ' + tel.SEGRE.slaSub },
+          { nome: 'SEPES • Serviço de Pessoas', saude: tel.SEPES.health + '%', kpi: tel.SEPES.bulletCaption, sla: tel.SEPES.slaMain + ' • ' + tel.SEPES.slaSub },
+          { nome: 'EEC • Currículo & Formação Pedagógica', saude: tel.EEC.isReal ? (tel.EEC.health + '%') : '12 Módulos Ativos', kpi: tel.EEC.bulletCaption, sla: tel.EEC.slaMain }
+        ];
+        html += '' +
+          '<section class="pdf-section">' +
+            '<h2 class="pdf-sec-title">2. Performance Consolidada dos 7 Núcleos Regionais</h2>' +
+            '<table class="pdf-table">' +
+              '<thead><tr><th>Núcleo / Centro</th><th>Saúde Operacional</th><th>Indicador de Entrega</th><th>Gargalos / SLA Monitorados</th></tr></thead>' +
+              '<tbody>' +
+                linhasNucleos.map(function(n) {
+                  return '<tr><td><strong>' + escHtml(n.nome) + '</strong></td><td><strong>' + escHtml(n.saude) + '</strong></td><td>' + escHtml(n.kpi) + '</td><td>' + escHtml(n.sla) + '</td></tr>';
+                }).join('') +
+              '</tbody>' +
+            '</table>' +
+          '</section>';
+
+        /* Bloco 4: Anexo Completo - Ranking das 60 Escolas */
+        html += '' +
+          '<div class="pdf-page-break"></div>' +
+          gerarCabecalhoPdf(
+            'Ranking Completo da Rede Escolar • IMRO 360°',
+            'Todas as ' + totalEsc + ' Unidades Ordenadas por Risco Multissetorial Decrescente (0–100 pts)',
+            'ANEXO TÉCNICO • 60 ESCOLAS'
+          ) +
+          '<table class="pdf-table">' +
+            '<thead>' +
+              '<tr>' +
+                '<th style="width:26px;">#</th>' +
+                '<th style="width:46px;">CIE</th>' +
+                '<th>Unidade Escolar • Município • Modelo</th>' +
+                '<th style="width:94px;">IMRO 360°</th>' +
+                '<th style="width:92px;">TI (Quarto / %)</th>' +
+                '<th style="width:88px;">Infra (SEOM)</th>' +
+                '<th style="width:74px;">PDDE 2026</th>' +
+                '<th style="width:62px;">SEPES/SEI</th>' +
+              '</tr>' +
+            '</thead>' +
+            '<tbody>' +
+              fato.map(function(e, idx) {
+                var stE = estiloTierPdf(e.tier);
+                var nomeLimpo = (typeof formatarNomeEscolaExecutivo === 'function') ? formatarNomeEscolaExecutivo(e.nome) : e.nome;
+                var avcbTxt = e.seomObj ? (e.seomObj.avcb === 1 ? 'AVCB OK' : 'Sem AVCB') : '---';
+                var obraTxt = (e.seomObj && (e.seomObj.obraFde === 2 || e.seomObj.obraFde === 1)) ? ' • Obra' : '';
+                var pddeCell = e.rec2026 > 0 ? (e.execPct2026.toFixed(0) + '% exec.') : 'S/ repasse';
+                return '' +
+                  '<tr>' +
+                    '<td><strong>' + (idx + 1) + '</strong></td>' +
+                    '<td>' + escHtml(e.cie) + '</td>' +
+                    '<td><strong>' + escHtml(nomeLimpo) + '</strong><br><span style="color:#64748b;font-size:6.8pt;">' + escHtml(e.cidade) + ' • ' + escHtml(e.tipo) + '</span></td>' +
+                    '<td><span class="pdf-pill" style="background:' + stE.bg + ';color:' + stE.txt + ';border:1px solid ' + stE.brd + ';">' + stE.dot + ' ' + e.imro + ' pts • ' + escHtml(e.tier) + '</span></td>' +
+                    '<td><strong>' + escHtml(e.quartoTi || '1/4') + '</strong> (' + (e.hwBadPct || 0).toFixed(1).replace('.', ',') + '%)<br><span style="color:#64748b;font-size:6.7pt;">' + e.hwBad + '/' + e.hwTotal + ' • ' + e.callsTotal + ' ch.</span></td>' +
+                    '<td>' + avcbTxt + obraTxt + '<br><span style="color:#64748b;font-size:6.7pt;">+' + e.pts.SEOM + ' pts SEOM</span></td>' +
+                    '<td>' + pddeCell + '<br><span style="color:#64748b;font-size:6.7pt;">' + formatarMoedaCurta(e.saldoOcioso2026) + '</span></td>' +
+                    '<td>' + e.sepesPend + ' / ' + e.segreAbertos + '</td>' +
+                  '</tr>';
+              }).join('') +
+            '</tbody>' +
+          '</table>' +
+          '<footer class="pdf-footer">' +
+            '<span>Unidade Regional de Ensino de Itapevi • URE Itapevi • BI Dirigente</span>' +
+            '<span>Metodologia IMRO 360° (0–100) • Relatório Consolidado da Rede Estadual</span>' +
+          '</footer>';
+
+        abrirJanelaRelatorioPdf('Relatório Executivo Geral - URE Itapevi (' + totalEsc + ' Escolas)', html);
       };
 
       /* API Pública Plug & Play para Novos Setores (ASURE, EEC e futuros) */
