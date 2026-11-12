@@ -30437,374 +30437,385 @@ function imprimirAgendaCarro() {
       container.innerHTML = htmlTabela;
     }
 
-    `
+    
     /* ======================================================= */
-    /* MÓDULO EXECUTIVO SEFREP: GESTÃO DE FOLHA & FREQUÊNCIA 2026 */
     /* ======================================================= */
-    let estadoSefrep = {
-      filtroPilar: 'devolucoes', /* 'devolucoes' | 'f17' | 'todos' */
-      busca: '',
-      paginaAtual: 1,
-      porPagina: 20
-    };
+/* MÓDULO EXECUTIVO SEFREP: GESTÃO DE FOLHA & FREQUÊNCIA 2026 */
+/* ======================================================= */
+let estadoSefrep = {
+  filtroPilar: 'devolucoes', /* 'devolucoes' | 'f17' | 'todos' */
+  busca: '',
+  paginaAtual: 1,
+  porPagina: 20
+};
 
-    function mudarPilarSefrep(pilar) {
-      estadoSefrep.filtroPilar = pilar;
-      estadoSefrep.paginaAtual = 1;
-      renderizarDashboardSefrep();
+function mudarPilarSefrep(pilar) {
+  estadoSefrep.filtroPilar = pilar;
+  estadoSefrep.paginaAtual = 1;
+  renderizarDashboardSefrep();
+}
+
+function filtrarBuscaSefrep(termo) {
+  estadoSefrep.busca = (termo || '').toLowerCase().trim();
+  estadoSefrep.paginaAtual = 1;
+  renderizarTabelaRegistrosSefrep();
+}
+
+function mudarPaginaSefrep(delta) {
+  estadoSefrep.paginaAtual = Math.max(1, estadoSefrep.paginaAtual + delta);
+  renderizarTabelaRegistrosSefrep();
+}
+
+function obterRegistrosFiltradosSefrep() {
+  const todos = (DADOS_SEFREP && Array.isArray(DADOS_SEFREP.registros)) ? DADOS_SEFREP.registros : [];
+  const pilar = estadoSefrep.filtroPilar;
+  const busca = estadoSefrep.busca;
+
+  return todos.filter(function(r) {
+    if (pilar === 'devolucoes' && !r.dev) return false;
+    if (pilar === 'f17') {
+      const cat = (r.cat || '').toLowerCase();
+      const doc = (r.doc || '').toLowerCase();
+      const isF17OrExt = cat.indexOf('f17') !== -1 || cat.indexOf('extinção') !== -1 || doc.indexOf('f17') !== -1 || doc.indexOf('extinção') !== -1;
+      if (!isF17OrExt) return false;
     }
 
-    function filtrarBuscaSefrep(termo) {
-      estadoSefrep.busca = (termo || '').toLowerCase().trim();
-      estadoSefrep.paginaAtual = 1;
-      renderizarTabelaRegistrosSefrep();
+    if (busca) {
+      const matchNome = (r.nome || '').toLowerCase().indexOf(busca) !== -1;
+      const matchUe = (r.ue || '').toLowerCase().indexOf(busca) !== -1;
+      const matchRg = (r.rg || '').toLowerCase().indexOf(busca) !== -1;
+      const matchSei = (r.sei || '').toLowerCase().indexOf(busca) !== -1;
+      const matchDoc = (r.doc || '').toLowerCase().indexOf(busca) !== -1;
+      if (!matchNome && !matchUe && !matchRg && !matchSei && !matchDoc) return false;
     }
 
-    function mudarPaginaSefrep(delta) {
-      estadoSefrep.paginaAtual = Math.max(1, estadoSefrep.paginaAtual + delta);
-      renderizarTabelaRegistrosSefrep();
+    return true;
+  });
+}
+
+function renderizarTabelaRegistrosSefrep() {
+  const containerTabela = document.getElementById('sefrep-tbody-registros');
+  const containerPaginacao = document.getElementById('sefrep-paginacao-info');
+  const btnAnt = document.getElementById('sefrep-btn-ant');
+  const btnProx = document.getElementById('sefrep-btn-prox');
+  if (!containerTabela) return;
+
+  const filtrados = obterRegistrosFiltradosSefrep();
+  const total = filtrados.length;
+  const porPag = estadoSefrep.porPagina;
+  const totalPaginas = Math.ceil(total / porPag) || 1;
+  estadoSefrep.paginaAtual = Math.min(Math.max(1, estadoSefrep.paginaAtual), totalPaginas);
+
+  const inicio = (estadoSefrep.paginaAtual - 1) * porPag;
+  const fim = Math.min(inicio + porPag, total);
+  const paginaItens = filtrados.slice(inicio, fim);
+
+  if (containerPaginacao) {
+    containerPaginacao.innerHTML = 'Exibindo <strong>' + (total > 0 ? (inicio + 1) : 0) + '–' + fim + '</strong> de <strong>' + total + '</strong> tramitações (Pág ' + estadoSefrep.paginaAtual + ' de ' + totalPaginas + ')';
+  }
+  if (btnAnt) btnAnt.disabled = (estadoSefrep.paginaAtual <= 1);
+  if (btnProx) btnProx.disabled = (estadoSefrep.paginaAtual >= totalPaginas);
+
+  if (paginaItens.length === 0) {
+    containerTabela.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2.5rem; color: #64748b; font-size: 0.88rem;">Nenhum expediente encontrado para os filtros selecionados.</td></tr>';
+    return;
+  }
+
+  var htmlRows = '';
+  paginaItens.forEach(function(r) {
+    var statusBadge = '';
+    if (r.dev) {
+      statusBadge = '<span style="background: rgba(239, 68, 68, 0.12); color: #b91c1c; border: 1px solid rgba(239, 68, 68, 0.3); font-size: 0.72rem; font-weight: 800; padding: 3px 9px; border-radius: 999px;">⚠️ Devolvido / Correção</span>';
+    } else if (r.ok) {
+      statusBadge = '<span style="background: rgba(16, 185, 129, 0.12); color: #047857; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.72rem; font-weight: 800; padding: 3px 9px; border-radius: 999px;">✓ Concluído</span>';
+    } else {
+      statusBadge = '<span style="background: rgba(2, 132, 199, 0.12); color: #0369a1; border: 1px solid rgba(2, 132, 199, 0.3); font-size: 0.72rem; font-weight: 800; padding: 3px 9px; border-radius: 999px;">⏳ Em Tramitação</span>';
     }
 
-    function obterRegistrosFiltradosSefrep() {
-      const todos = (DADOS_SEFREP && Array.isArray(DADOS_SEFREP.registros)) ? DADOS_SEFREP.registros : [];
-      const pilar = estadoSefrep.filtroPilar;
-      const busca = estadoSefrep.busca;
+    var catBadge = '<span style="background: #f1f5f9; color: #475569; font-size: 0.71rem; font-weight: 700; padding: 2px 8px; border-radius: 6px;">' + (r.cat || 'Geral') + '</span>';
 
-      return todos.filter(function(r) {
-        /* Filtro do Pilar */
-        if (pilar === 'devolucoes' && !r.dev) return false;
-        if (pilar === 'f17') {
-          const cat = (r.cat || '').toLowerCase();
-          const doc = (r.doc || '').toLowerCase();
-          const isF17OrExt = cat.indexOf('f17') !== -1 || cat.indexOf('extinção') !== -1 || doc.indexOf('f17') !== -1 || doc.indexOf('extinção') !== -1;
-          if (!isF17OrExt) return false;
+    htmlRows += '<tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;">';
+    htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.76rem; font-weight: 700; color: #64748b; font-family: monospace;">' + (r.dt || '-') + '</td>';
+    htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.82rem; font-weight: 700; color: #0f172a;">' + (r.ue || 'Diretoria / Outros') + '</td>';
+    htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.82rem; font-weight: 600; color: #1e293b;">' + (r.doc || '-') + '</td>';
+    htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.82rem; color: #334155;"><strong>' + (r.nome || '-') + '</strong>' + (r.rg ? ('<div style="font-size: 0.72rem; color: #64748b; font-family: monospace;">RG: ' + r.rg + '</div>') : '') + '</td>';
+    htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.76rem; color: #0369a1; font-family: monospace;">' + (r.sei || '-') + '</td>';
+    htmlRows += '<td style="padding: 0.75rem 0.85rem;">' + catBadge + '</td>';
+    htmlRows += '<td style="padding: 0.75rem 0.85rem; text-align: center;">' + statusBadge + '</td>';
+    htmlRows += '</tr>';
+  });
+
+  containerTabela.innerHTML = htmlRows;
+}
+
+function renderizarDashboardSefrep() {
+  const container = document.getElementById('setor-conteudo-dinamico');
+  if (!container) return;
+
+  if (DADOS_SEFREP && DADOS_SEFREP.registros && DADOS_SEFREP.registros.length <= 50) {
+    setTimeout(function() { sincronizarBasePublicaSefrep(false); }, 150);
+  }
+
+  const kpis = (DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis : {
+    totalExpedientes2026: 1383,
+    totalDevolucoes: 333,
+    taxaDevolucaoPct: 24.1,
+    totalF17Extincoes: 631,
+    totalF17: 402,
+    totalExtincoes: 229,
+    totalEmTramitacao: 678,
+    totalConcluidos: 323
+  };
+
+  const topEscolas = (DADOS_SEFREP && Array.isArray(DADOS_SEFREP.topEscolasDevolucoes)) ? DADOS_SEFREP.topEscolasDevolucoes : [];
+  const topEscolasUes = topEscolas.filter(function(e) { return e.escola.indexOf('Diretoria') === -1; }).slice(0, 5);
+
+  const pilar = estadoSefrep.filtroPilar;
+  const spLink = (typeof URLS_OFICIAIS_SEFREP !== 'undefined' && URLS_OFICIAIS_SEFREP.sharepoint) ? URLS_OFICIAIS_SEFREP.sharepoint : '#';
+
+  var htmlTopEscolas = '';
+  topEscolasUes.forEach(function(e) {
+    htmlTopEscolas += '<span style="background: #ffffff; border: 1px solid #fcd34d; color: #92400e; font-size: 0.74rem; font-weight: 700; padding: 3px 9px; border-radius: 6px;">' + e.escola + ': <strong>' + e.total + ' devoluções</strong></span>';
+  });
+
+  var html = '';
+  html += '<div class="sefrep-dash-executive" style="padding: 0.5rem 0.2rem; font-family: inherit;">';
+
+  /* BANNER TOPO EXECUTIVO SEFREP */
+  html += '<div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 50%, #0369a1 100%); border: 2px solid #38bdf8; border-radius: 16px; padding: 1.35rem 1.6rem; margin-bottom: 1.3rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">';
+  html += '<div>';
+  html += '<div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.4rem; flex-wrap: wrap;">';
+  html += '<span style="font-size: 1.6rem;">💳</span>';
+  html += '<h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">SEFREP — Seção de Frequência e Pagamento</h2>';
+  html += '<span style="background: #e0f2fe; color: #0369a1; border: 1.5px solid #38bdf8; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">SEPES • URE ITAPEVI</span>';
+  html += '<span style="background: rgba(255,255,255,0.15); color: #ffffff; font-size: 0.72rem; font-weight: 700; padding: 3px 9px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.3);">1.383 TRAMITAÇÕES 2026</span>';
+  html += '</div>';
+  html += '<p style="font-size: 0.86rem; color: #e0e7ff; margin: 0; max-width: 860px; line-height: 1.45; font-weight: 500;">';
+  html += 'Monitoramento executivo da folha de pagamento, devoluções/erros de preenchimento das unidades escolares, regularidade de vínculos (F17 e Extinções Contratuais) e celeridade processual.';
+  html += '</p>';
+  html += '<div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.65rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">';
+  html += '<span>🎯 <strong>Pilar 1:</strong> Prevenção de Devoluções & Erros</span>';
+  html += '<span>🛡️ <strong>Pilar 2:</strong> Vínculos (F17 / Extinções)</span>';
+  html += '<span>⚡ <strong>Pilar 3:</strong> Celeridade & Estoque 2026</span>';
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">';
+  html += '<a href="' + spLink + '" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4);">';
+  html += '<span>📊</span><span>Abrir no Excel 365 ↗</span>';
+  html += '</a>';
+  html += '<button type="button" onclick="sincronizarBasePublicaSefrep(true)" style="background: rgba(255,255,255,0.18); color: #ffffff; border: 1.5px solid rgba(255,255,255,0.35); padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">';
+  html += '<span>🔄</span><span>Sincronizar SEFREP</span>';
+  html += '</button>';
+  html += '</div>';
+  html += '</div>';
+
+  /* CARDS DE INDICADORES EXECUTIVOS (REGRA 8: CURSOR DEFAULT, NUNCA FILTROS) */
+  html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.3rem;">';
+
+  /* CARD 1: TOTAL */
+  html += '<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.15rem; cursor: default; user-select: text; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">';
+  html += '<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">';
+  html += '<span style="font-size: 0.72rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.05em;">TOTAL TRAMITAÇÕES 2026</span>';
+  html += '<span style="font-size: 1.3rem;">📊</span>';
+  html += '</div>';
+  html += '<div style="font-size: 1.75rem; font-weight: 800; color: #0b2351; line-height: 1.1;">' + (kpis.totalExpedientes2026 || 1383) + '</div>';
+  html += '<div style="font-size: 0.73rem; color: #64748b; margin-top: 0.35rem;">Expedientes nas 16 abas ativas</div>';
+  html += '</div>';
+
+  /* CARD 2: DEVOLUÇÕES (PILAR 1) */
+  html += '<div style="background: #ffffff; border: 1px solid #fee2e2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 1.15rem; cursor: default; user-select: text; box-shadow: 0 2px 8px rgba(239,68,68,0.05);">';
+  html += '<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">';
+  html += '<span style="font-size: 0.72rem; font-weight: 800; color: #b91c1c; text-transform: uppercase; letter-spacing: 0.05em;">PILAR 1 • DEVOLUÇÕES</span>';
+  html += '<span style="font-size: 1.3rem;">⚠️</span>';
+  html += '</div>';
+  html += '<div style="display: flex; align-items: baseline; gap: 0.5rem;">';
+  html += '<span style="font-size: 1.75rem; font-weight: 800; color: #b91c1c; line-height: 1.1;">' + (kpis.totalDevolucoes || 333) + '</span>';
+  html += '<span style="font-size: 0.78rem; font-weight: 800; color: #ef4444; background: #fee2e2; padding: 2px 6px; border-radius: 4px;">' + (kpis.taxaDevolucaoPct || 24.1) + '%</span>';
+  html += '</div>';
+  html += '<div style="font-size: 0.73rem; color: #64748b; margin-top: 0.35rem;">Erros de preenchimento / correção</div>';
+  html += '</div>';
+
+  /* CARD 3: F17 (PILAR 2) */
+  html += '<div style="background: #ffffff; border: 1px solid #fef3c7; border-left: 4px solid #f59e0b; border-radius: 12px; padding: 1.15rem; cursor: default; user-select: text; box-shadow: 0 2px 8px rgba(245,158,11,0.05);">';
+  html += '<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">';
+  html += '<span style="font-size: 0.72rem; font-weight: 800; color: #b45309; text-transform: uppercase; letter-spacing: 0.05em;">PILAR 2 • F17 CHEFIA</span>';
+  html += '<span style="font-size: 1.3rem;">📋</span>';
+  html += '</div>';
+  html += '<div style="font-size: 1.75rem; font-weight: 800; color: #b45309; line-height: 1.1;">' + (kpis.totalF17 || 402) + '</div>';
+  html += '<div style="font-size: 0.73rem; color: #64748b; margin-top: 0.35rem;">Afastamentos e chefias escolares</div>';
+  html += '</div>';
+
+  /* CARD 4: EXTINÇÕES (PILAR 2) */
+  html += '<div style="background: #ffffff; border: 1px solid #e0e7ff; border-left: 4px solid #6366f1; border-radius: 12px; padding: 1.15rem; cursor: default; user-select: text; box-shadow: 0 2px 8px rgba(99,102,241,0.05);">';
+  html += '<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">';
+  html += '<span style="font-size: 0.72rem; font-weight: 800; color: #4338ca; text-transform: uppercase; letter-spacing: 0.05em;">PILAR 2 • EXTINÇÕES</span>';
+  html += '<span style="font-size: 1.3rem;">⚖️</span>';
+  html += '</div>';
+  html += '<div style="font-size: 1.75rem; font-weight: 800; color: #4338ca; line-height: 1.1;">' + (kpis.totalExtincoes || 229) + '</div>';
+  html += '<div style="font-size: 0.73rem; color: #64748b; margin-top: 0.35rem;">Docentes e AOEs (Controle TCE)</div>';
+  html += '</div>';
+
+  /* CARD 5: CELERIDADE (PILAR 3) */
+  html += '<div style="background: #ffffff; border: 1px solid #dcfce7; border-left: 4px solid #10b981; border-radius: 12px; padding: 1.15rem; cursor: default; user-select: text; box-shadow: 0 2px 8px rgba(16,185,129,0.05);">';
+  html += '<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">';
+  html += '<span style="font-size: 0.72rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.05em;">PILAR 3 • STATUS</span>';
+  html += '<span style="font-size: 1.3rem;">⚡</span>';
+  html += '</div>';
+  html += '<div style="display: flex; align-items: baseline; gap: 0.4rem;">';
+  html += '<span style="font-size: 1.35rem; font-weight: 800; color: #0284c7;">' + (kpis.totalEmTramitacao || 678) + '</span>';
+  html += '<span style="font-size: 0.72rem; color: #64748b;">em andamento</span>';
+  html += '<span style="font-size: 1.1rem; color: #cbd5e1;">•</span>';
+  html += '<span style="font-size: 1.35rem; font-weight: 800; color: #047857;">' + (kpis.totalConcluidos || 323) + '</span>';
+  html += '<span style="font-size: 0.72rem; color: #64748b;">concluídos</span>';
+  html += '</div>';
+  html += '<div style="font-size: 0.73rem; color: #64748b; margin-top: 0.35rem;">Celeridade e fluxo contínuo</div>';
+  html += '</div>';
+
+  html += '</div>';
+
+  /* INSIGHT EXECUTIVO PILAR 1: TOP ESCOLAS COM DEVOLUÇÃO */
+  html += '<div style="background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 12px; padding: 1rem 1.35rem; margin-bottom: 1.3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.85rem;">';
+  html += '<div style="display: flex; align-items: center; gap: 0.85rem;">';
+  html += '<span style="font-size: 1.6rem;">💡</span>';
+  html += '<div>';
+  html += '<h4 style="margin: 0 0 0.2rem 0; font-size: 0.95rem; font-weight: 800; color: #92400e;">';
+  html += 'Insight Executivo (Pilar 1): Ranking de Unidades com Devoluções de Folha';
+  html += '</h4>';
+  html += '<p style="margin: 0; font-size: 0.78rem; color: #78350f; line-height: 1.35;">';
+  html += 'Apoio formativo e suporte pontual do SEPES a estas escolas reduz retrabalho e previne atrasos salariais:';
+  html += '</p>';
+  html += '</div>';
+  html += '</div>';
+  html += '<div style="display: flex; gap: 0.45rem; flex-wrap: wrap;">';
+  html += htmlTopEscolas;
+  html += '</div>';
+  html += '</div>';
+
+  /* BARRA DE CONTROLE DEDICADA DE FILTROS & BUSCA (REGRA 8) */
+  html += '<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.9rem 1.15rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.85rem;">';
+
+  /* PILLS DE PILAR EXECUTIVO */
+  html += '<div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">';
+
+  var bgDev = (pilar === 'devolucoes') ? '#b91c1c' : '#f8fafc';
+  var colDev = (pilar === 'devolucoes') ? '#ffffff' : '#475569';
+  var brdDev = (pilar === 'devolucoes') ? '#b91c1c' : '#cbd5e1';
+  html += '<button type="button" onclick="mudarPilarSefrep(\'devolucoes\')" style="background: ' + bgDev + '; color: ' + colDev + '; border: 1px solid ' + brdDev + '; font-size: 0.78rem; font-weight: 800; padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s;">';
+  html += '⚠️ Devoluções / Correção (' + (kpis.totalDevolucoes || 333) + ')';
+  html += '</button>';
+
+  var bgF17 = (pilar === 'f17') ? '#0b2351' : '#f8fafc';
+  var colF17 = (pilar === 'f17') ? '#ffffff' : '#475569';
+  var brdF17 = (pilar === 'f17') ? '#0b2351' : '#cbd5e1';
+  html += '<button type="button" onclick="mudarPilarSefrep(\'f17\')" style="background: ' + bgF17 + '; color: ' + colF17 + '; border: 1px solid ' + brdF17 + '; font-size: 0.78rem; font-weight: 800; padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s;">';
+  html += '📋 F17 & Extinções (' + (kpis.totalF17Extincoes || 631) + ')';
+  html += '</button>';
+
+  var bgTod = (pilar === 'todos') ? '#0369a1' : '#f8fafc';
+  var colTod = (pilar === 'todos') ? '#ffffff' : '#475569';
+  var brdTod = (pilar === 'todos') ? '#0369a1' : '#cbd5e1';
+  html += '<button type="button" onclick="mudarPilarSefrep(\'todos\')" style="background: ' + bgTod + '; color: ' + colTod + '; border: 1px solid ' + brdTod + '; font-size: 0.78rem; font-weight: 800; padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s;">';
+  html += '📊 Todas as Tramitações 2026 (' + (kpis.totalExpedientes2026 || 1383) + ')';
+  html += '</button>';
+  html += '</div>';
+
+  /* CAMPO DE BUSCA RÁPIDA */
+  html += '<div style="position: relative; min-width: 280px; flex: 1; max-width: 420px;">';
+  html += '<input type="text" value="' + (estadoSefrep.busca || '') + '" oninput="filtrarBuscaSefrep(this.value)" placeholder="Buscar por Servidor, Escola, RG ou SEI..." style="width: 100%; box-sizing: border-box; padding: 0.55rem 0.85rem 0.55rem 2.2rem; font-size: 0.82rem; border: 1.5px solid #cbd5e1; border-radius: 8px; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor=\'#0b2351\'" onblur="this.style.borderColor=\'#cbd5e1\'">';
+  html += '<span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 0.92rem; color: #94a3b8; pointer-events: none;">🔍</span>';
+  html += '</div>';
+  html += '</div>';
+
+  /* TABELA DE TRAMITAÇÕES 2026 */
+  html += '<div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.03); margin-bottom: 1rem;">';
+  html += '<div style="overflow-x: auto;">';
+  html += '<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.82rem;">';
+  html += '<thead>';
+  html += '<tr style="background: #0b2351; color: #ffffff; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">';
+  html += '<th style="padding: 0.8rem 0.85rem; font-weight: 800;">Data</th>';
+  html += '<th style="padding: 0.8rem 0.85rem; font-weight: 800;">Unidade Escolar</th>';
+  html += '<th style="padding: 0.8rem 0.85rem; font-weight: 800;">Documento / Assunto</th>';
+  html += '<th style="padding: 0.8rem 0.85rem; font-weight: 800;">Servidor / RG</th>';
+  html += '<th style="padding: 0.8rem 0.85rem; font-weight: 800;">Processo SEI</th>';
+  html += '<th style="padding: 0.8rem 0.85rem; font-weight: 800;">Categoria</th>';
+  html += '<th style="padding: 0.8rem 0.85rem; font-weight: 800; text-align: center;">Situação</th>';
+  html += '</tr>';
+  html += '</thead>';
+  html += '<tbody id="sefrep-tbody-registros">';
+  html += '</tbody>';
+  html += '</table>';
+  html += '</div>';
+
+  /* RODAPÉ DA TABELA COM PAGINAÇÃO */
+  html += '<div style="padding: 0.85rem 1.15rem; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">';
+  html += '<div id="sefrep-paginacao-info" style="font-size: 0.78rem; color: #64748b;">Carregando registros...</div>';
+  html += '<div style="display: flex; gap: 0.45rem;">';
+  html += '<button type="button" id="sefrep-btn-ant" onclick="mudarPaginaSefrep(-1)" style="background: #ffffff; border: 1px solid #cbd5e1; color: #475569; font-size: 0.76rem; font-weight: 700; padding: 4px 12px; border-radius: 6px; cursor: pointer;">← Anterior</button>';
+  html += '<button type="button" id="sefrep-btn-prox" onclick="mudarPaginaSefrep(1)" style="background: #ffffff; border: 1px solid #cbd5e1; color: #475569; font-size: 0.76rem; font-weight: 700; padding: 4px 12px; border-radius: 6px; cursor: pointer;">Próxima →</button>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+
+  html += '</div>';
+
+  container.innerHTML = html;
+  renderizarTabelaRegistrosSefrep();
+}
+
+function sincronizarBasePublicaSefrep(isManual) {
+  if (typeof mostrarNotificacaoFlutuante === 'function') {
+    mostrarNotificacaoFlutuante('Sincronizando SEFREP (Pagamento & Frequência 2026)...', 'info');
+  }
+
+  var fallbackMirror = function() {
+    fetch(URLS_OFICIAIS_SEFREP.mirrorData + '?t=' + Date.now())
+      .then(function(r) { return r.json(); })
+      .then(function(dados) {
+        if (dados && dados.sucesso) {
+          DADOS_SEFREP = dados;
+          renderizarDashboardSefrep();
+          if (typeof mostrarNotificacaoFlutuante === 'function') {
+            mostrarNotificacaoFlutuante('SEFREP 2026 sincronizado com sucesso!', 'sucesso');
+          }
         }
-
-        /* Filtro de Busca Textual */
-        if (busca) {
-          const matchNome = (r.nome || '').toLowerCase().indexOf(busca) !== -1;
-          const matchUe = (r.ue || '').toLowerCase().indexOf(busca) !== -1;
-          const matchRg = (r.rg || '').toLowerCase().indexOf(busca) !== -1;
-          const matchSei = (r.sei || '').toLowerCase().indexOf(busca) !== -1;
-          const matchDoc = (r.doc || '').toLowerCase().indexOf(busca) !== -1;
-          if (!matchNome && !matchUe && !matchRg && !matchSei && !matchDoc) return false;
-        }
-
-        return true;
+      })
+      .catch(function(err) {
+        console.error('Falha no fallback SEFREP:', err);
+        renderizarDashboardSefrep();
       });
-    }
+  };
 
-    function renderizarTabelaRegistrosSefrep() {
-      const containerTabela = document.getElementById('sefrep-tbody-registros');
-      const containerPaginacao = document.getElementById('sefrep-paginacao-info');
-      const btnAnt = document.getElementById('sefrep-btn-ant');
-      const btnProx = document.getElementById('sefrep-btn-prox');
-      if (!containerTabela) return;
-
-      const filtrados = obterRegistrosFiltradosSefrep();
-      const total = filtrados.length;
-      const porPag = estadoSefrep.porPagina;
-      const totalPaginas = Math.ceil(total / porPag) || 1;
-      estadoSefrep.paginaAtual = Math.min(Math.max(1, estadoSefrep.paginaAtual), totalPaginas);
-
-      const inicio = (estadoSefrep.paginaAtual - 1) * porPag;
-      const fim = Math.min(inicio + porPag, total);
-      const paginaItens = filtrados.slice(inicio, fim);
-
-      if (containerPaginacao) {
-        containerPaginacao.innerHTML = 'Exibindo <strong>' + (total > 0 ? (inicio + 1) : 0) + '–' + fim + '</strong> de <strong>' + total + '</strong> tramitações (Pág ' + estadoSefrep.paginaAtual + ' de ' + totalPaginas + ')';
-      }
-      if (btnAnt) btnAnt.disabled = (estadoSefrep.paginaAtual <= 1);
-      if (btnProx) btnProx.disabled = (estadoSefrep.paginaAtual >= totalPaginas);
-
-      if (paginaItens.length === 0) {
-        containerTabela.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2.5rem; color: #64748b; font-size: 0.88rem;">Nenhum expediente encontrado para os filtros selecionados.</td></tr>';
-        return;
-      }
-
-      var htmlRows = '';
-      paginaItens.forEach(function(r) {
-        var statusBadge = '';
-        if (r.dev) {
-          statusBadge = '<span style="background: rgba(239, 68, 68, 0.12); color: #b91c1c; border: 1px solid rgba(239, 68, 68, 0.3); font-size: 0.72rem; font-weight: 800; padding: 3px 9px; border-radius: 999px;">⚠️ Devolvido / Correção</span>';
-        } else if (r.ok) {
-          statusBadge = '<span style="background: rgba(16, 185, 129, 0.12); color: #047857; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.72rem; font-weight: 800; padding: 3px 9px; border-radius: 999px;">✓ Concluído</span>';
+  if (typeof google !== 'undefined' && google.script && google.script.run) {
+    google.script.run
+      .withSuccessHandler(function(res) {
+        if (res && res.sucesso && res.dadosBase64) {
+          fallbackMirror();
+        } else if (res && res.sucesso) {
+          DADOS_SEFREP = res;
+          renderizarDashboardSefrep();
+          if (typeof mostrarNotificacaoFlutuante === 'function') {
+            mostrarNotificacaoFlutuante('SEFREP 2026 atualizado via nuvem!', 'sucesso');
+          }
         } else {
-          statusBadge = '<span style="background: rgba(2, 132, 199, 0.12); color: #0369a1; border: 1px solid rgba(2, 132, 199, 0.3); font-size: 0.72rem; font-weight: 800; padding: 3px 9px; border-radius: 999px;">⏳ Em Tramitação</span>';
+          fallbackMirror();
         }
-
-        var catBadge = '<span style="background: #f1f5f9; color: #475569; font-size: 0.71rem; font-weight: 700; padding: 2px 8px; border-radius: 6px;">' + (r.cat || 'Geral') + '</span>';
-
-        htmlRows += '<tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background=\\'#f8fafc\\'" onmouseout="this.style.background=\\'transparent\\'">';
-        htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.76rem; font-weight: 700; color: #64748b; font-family: monospace;">' + (r.dt || '-') + '</td>';
-        htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.82rem; font-weight: 700; color: #0f172a;">' + (r.ue || 'Diretoria / Outros') + '</td>';
-        htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.82rem; font-weight: 600; color: #1e293b;">' + (r.doc || '-') + '</td>';
-        htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.82rem; color: #334155;"><strong>' + (r.nome || '-') + '</strong>' + (r.rg ? ('<div style="font-size: 0.72rem; color: #64748b; font-family: monospace;">RG: ' + r.rg + '</div>') : '') + '</td>';
-        htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.76rem; color: #0369a1; font-family: monospace;">' + (r.sei || '-') + '</td>';
-        htmlRows += '<td style="padding: 0.75rem 0.85rem;">' + catBadge + '</td>';
-        htmlRows += '<td style="padding: 0.75rem 0.85rem; text-align: center;">' + statusBadge + '</td>';
-        htmlRows += '</tr>';
-      });
-
-      containerTabela.innerHTML = htmlRows;
-    }
-
-    function renderizarDashboardSefrep() {
-      const container = document.getElementById('setor-conteudo-dinamico');
-      if (!container) return;
-
-      if (DADOS_SEFREP && DADOS_SEFREP.registros && DADOS_SEFREP.registros.length <= 50) {
-        setTimeout(function() { sincronizarBasePublicaSefrep(false); }, 150);
-      }
-
-      const kpis = (DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis : {
-        totalExpedientes2026: 1383,
-        totalDevolucoes: 333,
-        taxaDevolucaoPct: 24.1,
-        totalF17Extincoes: 631,
-        totalF17: 402,
-        totalExtincoes: 229,
-        totalEmTramitacao: 678,
-        totalConcluidos: 323
-      };
-
-      const topEscolas = (DADOS_SEFREP && Array.isArray(DADOS_SEFREP.topEscolasDevolucoes)) ? DADOS_SEFREP.topEscolasDevolucoes : [];
-      const topEscolasUes = topEscolas.filter(function(e) { return e.escola.indexOf('Diretoria') === -1; }).slice(0, 5);
-
-      const pilar = estadoSefrep.filtroPilar;
-
-      container.innerHTML = \`
-        <div class="sefrep-dash-executive" style="padding: 0.5rem 0.2rem; font-family: inherit;">
-          
-          <!-- BANNER TOPO EXECUTIVO SEFREP -->
-          <div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 50%, #0369a1 100%); border: 2px solid #38bdf8; border-radius: 16px; padding: 1.35rem 1.6rem; margin-bottom: 1.3rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
-            <div>
-              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.4rem; flex-wrap: wrap;">
-                <span style="font-size: 1.6rem;">💳</span>
-                <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">SEFREP — Seção de Frequência e Pagamento</h2>
-                <span style="background: #e0f2fe; color: #0369a1; border: 1.5px solid #38bdf8; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">SEPES • URE ITAPEVI</span>
-                <span style="background: rgba(255,255,255,0.15); color: #ffffff; font-size: 0.72rem; font-weight: 700; padding: 3px 9px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.3);">1.383 TRAMITAÇÕES 2026</span>
-              </div>
-              <p style="font-size: 0.86rem; color: #e0e7ff; margin: 0; max-width: 860px; line-height: 1.45; font-weight: 500;">
-                Monitoramento executivo da folha de pagamento, devoluções/erros de preenchimento das unidades escolares, regularidade de vínculos (F17 e Extinções Contratuais) e celeridade processual.
-              </p>
-              <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 0.65rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">
-                <span>🎯 <strong>Pilar 1:</strong> Prevenção de Devoluções & Erros</span>
-                <span>🛡️ <strong>Pilar 2:</strong> Vínculos (F17 / Extinções)</span>
-                <span>⚡ <strong>Pilar 3:</strong> Celeridade & Estoque 2026</span>
-              </div>
-            </div>
-            <div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">
-              <a href="\${URLS_OFICIAIS_SEFREP.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                <span>📊</span>
-                <span>Abrir no Excel 365 ↗</span>
-              </a>
-              <button onclick="sincronizarBasePublicaSefrep(true)" style="background: rgba(255,255,255,0.18); color: #ffffff; border: 1.5px solid rgba(255,255,255,0.35); padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.18)'">
-                <span>🔄</span>
-                <span>Sincronizar SEFREP</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- CARDS DE INDICADORES EXECUTIVOS (REGRA 8: CURSOR DEFAULT, NUNCA FILTROS) -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.3rem;">
-            
-            <!-- CARD 1: TOTAL -->
-            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.15rem; cursor: default; user-select: text; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-                <span style="font-size: 0.72rem; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.05em;">TOTAL TRAMITAÇÕES 2026</span>
-                <span style="font-size: 1.3rem;">📊</span>
-              </div>
-              <div style="font-size: 1.75rem; font-weight: 800; color: #0b2351; line-height: 1.1;">\${kpis.totalExpedientes2026.toLocaleString('pt-BR')}</div>
-              <div style="font-size: 0.73rem; color: #64748b; margin-top: 0.35rem;">Expedientes nas 16 abas ativas</div>
-            </div>
-
-            <!-- CARD 2: DEVOLUÇÕES (PILAR 1) -->
-            <div style="background: #ffffff; border: 1px solid #fee2e2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 1.15rem; cursor: default; user-select: text; box-shadow: 0 2px 8px rgba(239,68,68,0.05);">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-                <span style="font-size: 0.72rem; font-weight: 800; color: #b91c1c; text-transform: uppercase; letter-spacing: 0.05em;">PILAR 1 • DEVOLUÇÕES</span>
-                <span style="font-size: 1.3rem;">⚠️</span>
-              </div>
-              <div style="display: flex; align-items: baseline; gap: 0.5rem;">
-                <span style="font-size: 1.75rem; font-weight: 800; color: #b91c1c; line-height: 1.1;">\${kpis.totalDevolucoes}</span>
-                <span style="font-size: 0.78rem; font-weight: 800; color: #ef4444; background: #fee2e2; padding: 2px 6px; border-radius: 4px;">\${kpis.taxaDevolucaoPct}%</span>
-              </div>
-              <div style="font-size: 0.73rem; color: #64748b; margin-top: 0.35rem;">Erros de preenchimento / correção</div>
-            </div>
-
-            <!-- CARD 3: F17 (PILAR 2) -->
-            <div style="background: #ffffff; border: 1px solid #fef3c7; border-left: 4px solid #f59e0b; border-radius: 12px; padding: 1.15rem; cursor: default; user-select: text; box-shadow: 0 2px 8px rgba(245,158,11,0.05);">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-                <span style="font-size: 0.72rem; font-weight: 800; color: #b45309; text-transform: uppercase; letter-spacing: 0.05em;">PILAR 2 • F17 CHEFIA</span>
-                <span style="font-size: 1.3rem;">📋</span>
-              </div>
-              <div style="font-size: 1.75rem; font-weight: 800; color: #b45309; line-height: 1.1;">\${kpis.totalF17}</div>
-              <div style="font-size: 0.73rem; color: #64748b; margin-top: 0.35rem;">Afastamentos e chefias escolares</div>
-            </div>
-
-            <!-- CARD 4: EXTINÇÕES (PILAR 2) -->
-            <div style="background: #ffffff; border: 1px solid #e0e7ff; border-left: 4px solid #6366f1; border-radius: 12px; padding: 1.15rem; cursor: default; user-select: text; box-shadow: 0 2px 8px rgba(99,102,241,0.05);">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-                <span style="font-size: 0.72rem; font-weight: 800; color: #4338ca; text-transform: uppercase; letter-spacing: 0.05em;">PILAR 2 • EXTINÇÕES</span>
-                <span style="font-size: 1.3rem;">⚖️</span>
-              </div>
-              <div style="font-size: 1.75rem; font-weight: 800; color: #4338ca; line-height: 1.1;">\${kpis.totalExtincoes}</div>
-              <div style="font-size: 0.73rem; color: #64748b; margin-top: 0.35rem;">Docentes e AOEs (Controle TCE)</div>
-            </div>
-
-            <!-- CARD 5: CELERIDADE (PILAR 3) -->
-            <div style="background: #ffffff; border: 1px solid #dcfce7; border-left: 4px solid #10b981; border-radius: 12px; padding: 1.15rem; cursor: default; user-select: text; box-shadow: 0 2px 8px rgba(16,185,129,0.05);">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-                <span style="font-size: 0.72rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.05em;">PILAR 3 • STATUS</span>
-                <span style="font-size: 1.3rem;">⚡</span>
-              </div>
-              <div style="display: flex; align-items: baseline; gap: 0.4rem;">
-                <span style="font-size: 1.35rem; font-weight: 800; color: #0284c7;">\${kpis.totalEmTramitacao}</span>
-                <span style="font-size: 0.72rem; color: #64748b;">em andamento</span>
-                <span style="font-size: 1.1rem; color: #cbd5e1;">•</span>
-                <span style="font-size: 1.35rem; font-weight: 800; color: #047857;">\${kpis.totalConcluidos}</span>
-                <span style="font-size: 0.72rem; color: #64748b;">concluídos</span>
-              </div>
-              <div style="font-size: 0.73rem; color: #64748b; margin-top: 0.35rem;">Celeridade e fluxo contínuo</div>
-            </div>
-
-          </div>
-
-          <!-- INSIGHT EXECUTIVO PILAR 1: TOP ESCOLAS COM DEVOLUÇÃO -->
-          <div style="background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 12px; padding: 1rem 1.35rem; margin-bottom: 1.3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.85rem;">
-            <div style="display: flex; align-items: center; gap: 0.85rem;">
-              <span style="font-size: 1.6rem;">💡</span>
-              <div>
-                <h4 style="margin: 0 0 0.2rem 0; font-size: 0.95rem; font-weight: 800; color: #92400e;">
-                  Insight Executivo (Pilar 1): Ranking de Unidades com Devoluções de Folha
-                </h4>
-                <p style="margin: 0; font-size: 0.78rem; color: #78350f; line-height: 1.35;">
-                  Apoio formativo e suporte pontual do SEPES a estas escolas reduz retrabalho e previne atrasos salariais:
-                </p>
-              </div>
-            </div>
-            <div style="display: flex; gap: 0.45rem; flex-wrap: wrap;">
-              \${topEscolasUes.map(function(e) {
-                return '<span style="background: #ffffff; border: 1px solid #fcd34d; color: #92400e; font-size: 0.74rem; font-weight: 700; padding: 3px 9px; border-radius: 6px;">' + e.escola + ': <strong>' + e.total + ' devoluções</strong></span>';
-              }).join('')}
-            </div>
-          </div>
-
-          <!-- BARRA DE CONTROLE DEDICADA DE FILTROS & BUSCA (REGRA 8) -->
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.9rem 1.15rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.85rem;">
-            
-            <!-- PILLS DE PILAR EXECUTIVO -->
-            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
-              <button type="button" onclick="mudarPilarSefrep('devolucoes')" style="background: \${pilar === 'devolucoes' ? '#b91c1c' : '#f8fafc'}; color: \${pilar === 'devolucoes' ? '#ffffff' : '#475569'}; border: 1px solid \${pilar === 'devolucoes' ? '#b91c1c' : '#cbd5e1'}; font-size: 0.78rem; font-weight: 800; padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s;">
-                ⚠️ Devoluções / Correção (\${kpis.totalDevolucoes})
-              </button>
-              <button type="button" onclick="mudarPilarSefrep('f17')" style="background: \${pilar === 'f17' ? '#0b2351' : '#f8fafc'}; color: \${pilar === 'f17' ? '#ffffff' : '#475569'}; border: 1px solid \${pilar === 'f17' ? '#0b2351' : '#cbd5e1'}; font-size: 0.78rem; font-weight: 800; padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s;">
-                📋 F17 & Extinções (\${kpis.totalF17Extincoes})
-              </button>
-              <button type="button" onclick="mudarPilarSefrep('todos')" style="background: \${pilar === 'todos' ? '#0369a1' : '#f8fafc'}; color: \${pilar === 'todos' ? '#ffffff' : '#475569'}; border: 1px solid \${pilar === 'todos' ? '#0369a1' : '#cbd5e1'}; font-size: 0.78rem; font-weight: 800; padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s;">
-                📊 Todas as Tramitações 2026 (\${kpis.totalExpedientes2026})
-              </button>
-            </div>
-
-            <!-- CAMPO DE BUSCA RÁPIDA -->
-            <div style="position: relative; min-width: 280px; flex: 1; max-width: 420px;">
-              <input type="text" value="\${estadoSefrep.busca}" oninput="filtrarBuscaSefrep(this.value)" placeholder="Buscar por Servidor, Escola, RG ou SEI..." style="width: 100%; box-sizing: border-box; padding: 0.55rem 0.85rem 0.55rem 2.2rem; font-size: 0.82rem; border: 1.5px solid #cbd5e1; border-radius: 8px; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#0b2351'" onblur="this.style.borderColor='#cbd5e1'">
-              <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 0.92rem; color: #94a3b8; pointer-events: none;">🔍</span>
-            </div>
-
-          </div>
-
-          <!-- TABELA DE TRAMITAÇÕES 2026 -->
-          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.03); margin-bottom: 1rem;">
-            <div style="overflow-x: auto;">
-              <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.82rem;">
-                <thead>
-                  <tr style="background: #0b2351; color: #ffffff; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
-                    <th style="padding: 0.8rem 0.85rem; font-weight: 800;">Data</th>
-                    <th style="padding: 0.8rem 0.85rem; font-weight: 800;">Unidade Escolar</th>
-                    <th style="padding: 0.8rem 0.85rem; font-weight: 800;">Documento / Assunto</th>
-                    <th style="padding: 0.8rem 0.85rem; font-weight: 800;">Servidor / RG</th>
-                    <th style="padding: 0.8rem 0.85rem; font-weight: 800;">Processo SEI</th>
-                    <th style="padding: 0.8rem 0.85rem; font-weight: 800;">Categoria</th>
-                    <th style="padding: 0.8rem 0.85rem; font-weight: 800; text-align: center;">Situação</th>
-                  </tr>
-                </thead>
-                <tbody id="sefrep-tbody-registros">
-                  <!-- Preenchido dinamicamente por renderizarTabelaRegistrosSefrep() -->
-                </tbody>
-              </table>
-            </div>
-
-            <!-- RODAPÉ DA TABELA COM PAGINAÇÃO -->
-            <div style="padding: 0.85rem 1.15rem; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
-              <div id="sefrep-paginacao-info" style="font-size: 0.78rem; color: #64748b;">
-                Carregando registros...
-              </div>
-              <div style="display: flex; gap: 0.45rem;">
-                <button type="button" id="sefrep-btn-ant" onclick="mudarPaginaSefrep(-1)" style="background: #ffffff; border: 1px solid #cbd5e1; color: #475569; font-size: 0.76rem; font-weight: 700; padding: 4px 12px; border-radius: 6px; cursor: pointer;">
-                  ← Anterior
-                </button>
-                <button type="button" id="sefrep-btn-prox" onclick="mudarPaginaSefrep(1)" style="background: #ffffff; border: 1px solid #cbd5e1; color: #475569; font-size: 0.76rem; font-weight: 700; padding: 4px 12px; border-radius: 6px; cursor: pointer;">
-                  Próxima →
-                </button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      \`;
-
-      renderizarTabelaRegistrosSefrep();
-    }
-
-    function sincronizarBasePublicaSefrep(isManual) {
-      if (typeof mostrarNotificacaoFlutuante === 'function') {
-        mostrarNotificacaoFlutuante('Sincronizando SEFREP (Pagamento & Frequência 2026)...', 'info');
-      }
-
-      var fallbackMirror = function() {
-        fetch(URLS_OFICIAIS_SEFREP.mirrorData + '?t=' + Date.now())
-          .then(function(r) { return r.json(); })
-          .then(function(dados) {
-            if (dados && dados.sucesso) {
-              DADOS_SEFREP = dados;
-              renderizarDashboardSefrep();
-              if (typeof mostrarNotificacaoFlutuante === 'function') {
-                mostrarNotificacaoFlutuante('SEFREP 2026 sincronizado com sucesso!', 'sucesso');
-              }
-            }
-          })
-          .catch(function(err) {
-            console.error('Falha no fallback SEFREP:', err);
-            renderizarDashboardSefrep();
-          });
-      };
-
-      if (typeof google !== 'undefined' && google.script && google.script.run) {
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.sucesso && res.dadosBase64) {
-              /* Caso venha o binário bruto do SharePoint, mantemos os dados curados ativos */
-              fallbackMirror();
-            } else if (res && res.sucesso) {
-              DADOS_SEFREP = res;
-              renderizarDashboardSefrep();
-              if (typeof mostrarNotificacaoFlutuante === 'function') {
-                mostrarNotificacaoFlutuante('SEFREP 2026 atualizado via nuvem!', 'sucesso');
-              }
-            } else {
-              fallbackMirror();
-            }
-          })
-          .withFailureHandler(function() {
-            fallbackMirror();
-          })
-          .sincronizarPlanilhaSefrep(isManual);
-      } else {
+      })
+      .withFailureHandler(function() {
         fallbackMirror();
-      }
-    }
-`
+      })
+      .sincronizarPlanilhaSefrep(isManual);
+  } else {
+    fallbackMirror();
+  }
+}
+
+window.renderizarDashboardSefrep = renderizarDashboardSefrep;
+window.mudarPilarSefrep = mudarPilarSefrep;
+window.filtrarBuscaSefrep = filtrarBuscaSefrep;
+window.mudarPaginaSefrep = mudarPaginaSefrep;
+window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
+
 
     /* MÓDULO EXECUTIVO EEC: APLICAÇÕES PEDAGÓGICAS APPS SCRIPT */
     /* ======================================================= */
