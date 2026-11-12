@@ -30552,6 +30552,7 @@ function renderizarTabelaRegistrosSefrep() {
 }
 
 function renderizarDashboardSefrep() {
+  try {
   const container = document.getElementById('setor-conteudo-dinamico');
   if (!container) return;
 
@@ -30697,12 +30698,28 @@ function renderizarDashboardSefrep() {
   /* Grid com os 5 Micro-Cards */
   html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.85rem; margin-top: 1rem;">';
 
-  var baseEscolasRef = (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas) && listaEscolas.length > 0)
-    ? listaEscolas
-    : ((typeof BASE_ESCOLAS_PADRAO !== 'undefined' && Array.isArray(BASE_ESCOLAS_PADRAO)) ? BASE_ESCOLAS_PADRAO : []);
+  function resolverEscolaSefrep(nomeBruto) {
+    var nb = String(nomeBruto || '').toUpperCase();
+    var base = (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas) && listaEscolas.length > 0)
+      ? listaEscolas
+      : ((typeof BASE_ESCOLAS_PADRAO !== 'undefined' && Array.isArray(BASE_ESCOLAS_PADRAO)) ? BASE_ESCOLAS_PADRAO : []);
+
+    for (var bIdx = 0; bIdx < base.length; bIdx++) {
+      var esc = base[bIdx];
+      var n1 = String(esc.nome || '').toUpperCase();
+      var n2 = String(esc.nomeOficialBruto || '').toUpperCase();
+      if (nb.indexOf('ELIZA') !== -1 && (n1.indexOf('ELIZA') !== -1 || n2.indexOf('ELIZA') !== -1)) return esc;
+      if (nb.indexOf('ALFERES') !== -1 && (n1.indexOf('ALFERES') !== -1 || n2.indexOf('ALFERES') !== -1)) return esc;
+      if (nb.indexOf('DIMAR') !== -1 && (n1.indexOf('DIMAR') !== -1 || n2.indexOf('DIMAR') !== -1)) return esc;
+      if (nb.indexOf('AMADOR') !== -1 && (n1.indexOf('AMADOR') !== -1 || n2.indexOf('AMADOR') !== -1)) return esc;
+      if (nb.indexOf('IGN') !== -1 && (n1.indexOf('IGN') !== -1 || n2.indexOf('IGN') !== -1)) return esc;
+      if (n1.indexOf(nb) !== -1 || nb.indexOf(n1) !== -1) return esc;
+    }
+    return { nome: nomeBruto, cie: '---', cidade: 'Itapevi' };
+  }
 
   topEscolasUes.forEach(function(e, idx) {
-    var match = baseEscolasRef.find(function(b) { return matchNomeEscola(e.escola, b.nome) || matchNomeEscola(e.escola, b.nomeOficialBruto); });
+    var match = resolverEscolaSefrep(e.escola);
     var nomeExib = match ? match.nome : e.escola;
     var cieExib = match ? match.cie : '---';
     var cidadeExib = match ? match.cidade : 'Itapevi';
@@ -30814,6 +30831,9 @@ html += '<div style="display: flex; align-items: center; justify-content: space-
 
   container.innerHTML = html;
   renderizarTabelaRegistrosSefrep();
+  } catch(errSefrep) {
+    console.error('Erro em renderizarDashboardSefrep:', errSefrep);
+  }
 }
 
 function sincronizarBasePublicaSefrep(isManual) {
@@ -37948,6 +37968,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         }
         return matches >= Math.min(2, Math.min(tokensA.length, tokensB.length));
       }
+      window.matchNomeEscola = matchNomeEscola;
 
       function parseDataBrMs(str) {
         if (!str) return 0;
