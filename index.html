@@ -40108,7 +40108,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       function gerarMastheadEditorial(tituloDoc, subtituloDoc, badgeDoc, codigoRef, cieAlvo) {
         var agora = new Date().toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
         var hashChancelaria = gerarHashChancelaria((codigoRef || "URE-ITP-2026") + "-" + agora + "-" + (cieAlvo || ""));
-        var urlValidacao = "https:" + String.fromCharCode(47, 47) + "thuginspirion-cell.github.io/BIDirigente/" + (cieAlvo ? ("?cie=" + encodeURIComponent(cieAlvo)) : "?relatorio=geral");
+        var urlValidacao = "https:" + String.fromCharCode(47, 47) + "sites.google.com/view/bi-dirigente" + (cieAlvo && cieAlvo !== "geral" ? ("?cie=" + encodeURIComponent(cieAlvo)) : "");
         var qrSvg = gerarQrCodeSvgOuFallback(urlValidacao, 44);
         var logoHtml = (typeof window !== "undefined" && window.BRASAO_SP_DATA_URI)
           ? '<img src="' + window.BRASAO_SP_DATA_URI + '" alt="Brasão Oficial SP" class="doc-masthead-logo" />'
