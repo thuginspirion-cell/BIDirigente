@@ -325,6 +325,22 @@ if (!window.mostrarHome) {
     
     /* === DICIONÁRIO OFICIAL DE ESCOLAS EXTRAÍDO DOS NOMES DOS ARQUIVOS DE INVENTÁRIO (InventarioRC - V2) === */
     const DICIONARIO_OFICIAL_INVENTARIO = {
+  "010703": {
+    "cie": "010703",
+    "cieOriginal": "010703",
+    "nomeOficialBruto": "URE",
+    "nomeOficial": "URE",
+    "nomeFormatado": "URE",
+    "arquivo": "URE"
+  },
+  "10703": {
+    "cie": "010703",
+    "cieOriginal": "010703",
+    "nomeOficialBruto": "URE",
+    "nomeOficial": "URE",
+    "nomeFormatado": "URE",
+    "arquivo": "URE"
+  },
   "11778": {
     "cie": "011778",
     "cieOriginal": "11778",
@@ -20974,6 +20990,7 @@ function _obterResumoIpreEscolaInterno(esc) {
     function formatarNomeEscolaExecutivo(nomeBruto) {
       if (!nomeBruto) return '';
       let n = nomeBruto.trim();
+      if (n.toLowerCase() === 'ure') return 'URE';
       n = n.replace(/^E\.?E\.?\s+/i, '');
       if (/^Deputad[oa]\s+/i.test(n)) n = n.replace(/^Deputad([oa])\s+(.*)/i, '$2, Deputad$1');
       else if (/^Padr?e\s+/i.test(n)) n = n.replace(/^Padr?e\s+(.*)/i, '$1, Padre');
@@ -33392,7 +33409,9 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
     /* Converte palavras em maiúsculas para formato capitalizado elegante */
     function toTitleCasePt(str) {
       const lower = ['de', 'da', 'do', 'das', 'dos', 'e', 'em'];
-      return str.toLowerCase().split(' ').map((w, i) => {
+      const upperSiglas = ['ure', 'cie', 'fde', 'pei', 'sed', 'sei', 'sp', 'ee', 'apm', 'pdde', 'sla', 'tce', 'avcb'];
+      return (str || '').toLowerCase().split(' ').map((w, i) => {
+        if (upperSiglas.includes(w)) return w.toUpperCase();
         if (i > 0 && lower.includes(w)) return w;
         return w.charAt(0).toUpperCase() + w.slice(1);
       }).join(' ');
@@ -34354,8 +34373,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           const cie = item[0];
           const cieKey = String(cie || '').trim().replace(/[^0-9]/g, '');
           const ciePad = cieKey.padStart(6, '0');
-          const infoEscola = dict[ciePad] || dict[cieKey] || { nomeOficial: 'Escola Estadual', cie: ciePad };
-          const nomeEscola = infoEscola.nomeOficial || infoEscola.nomeFormatado || 'Escola Estadual';
+          const infoEscola = dict[ciePad] || dict[cieKey] || { nomeOficial: (cieKey === '10703' || ciePad === '010703' ? 'URE' : 'Escola Estadual'), cie: ciePad };
+          let nomeEscola = infoEscola.nomeOficial || infoEscola.nomeFormatado || (cieKey === '10703' || ciePad === '010703' ? 'URE' : 'Escola Estadual');
+          nomeEscola = String(nomeEscola).replace(/\bUre\b/g, 'URE');
           const ambiente = item[1] || 'Pedagógico';
           const categoria = item[2] || 'Equipamento';
           const equipamento = item[3] || '-';
@@ -37816,6 +37836,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     }
     
     /* GRIDS */
+    .doc-grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4.5px; }
     .doc-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5.5px; }
     .doc-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5.5px; }
     .doc-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6.5px; }
@@ -41427,6 +41448,28 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var avgImro = totalEsc > 0 ? (fato.reduce(function(s, e) { return s + e.imro; }, 0) / totalEsc) : 0;
         var isrScore = Math.max(0, Math.min(100, Math.round(100 - avgImro)));
 
+        /* Métricas Consolidadas dos 5 Pilares da Página Inicial */
+        var obrasAtivas = (typeof DADOS_SEOM !== 'undefined' && Array.isArray(DADOS_SEOM.escolas))
+          ? DADOS_SEOM.escolas.filter(function(e) { return e.obraFde == 1 || e.obraFde == 2; }).length : 34;
+        var avcbPendentes = (typeof DADOS_SEOM !== 'undefined' && Array.isArray(DADOS_SEOM.escolas))
+          ? DADOS_SEOM.escolas.filter(function(e) { return e.avcb == 0 || e.avcb == 'Vencido' || e.avcb == false; }).length : 49;
+        var hwTotalCount = tel.SEINTEC.hwTotal || 15973;
+        var hwDispPctVal = tel.SEINTEC.hwDispPct || 76.4;
+        var chamadosTotais = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros))
+          ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length : 1432;
+        var pddeRecTotal = tel.SEAFIN.receita2026 || 10365829.83;
+        var pddeExecPctVal = tel.SEAFIN.execPct2026 || 52.1;
+        var pddeSaldoOcioso = tel.SEAFIN.saldoOcioso2026 || 4963839.38;
+        var sematAtendimentosTot = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis) ? DADOS_SEMAT.kpis.totalAtendimentos : 2898;
+        var segreSeiAtivos = tel.SEGRE.seiAbertos || 162;
+        var segreSeiAged30 = tel.SEGRE.seiAged30 || 101;
+        var sefrepDevolucoesTot = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis.totalDevolucoes : 333;
+        var sefrepTxDev = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis.taxaDevolucaoPct : 24.1;
+        var seapeEmTramitacao = tel.SEPES.emTramitacao || 72;
+        var dpatBensTot = (typeof DADOS_DPAT !== 'undefined' && DADOS_DPAT && DADOS_DPAT.kpis) ? DADOS_DPAT.kpis.totalBens : 2189;
+        var dpatLocTot = (typeof DADOS_DPAT !== 'undefined' && DADOS_DPAT && DADOS_DPAT.kpis) ? DADOS_DPAT.kpis.bensLocalizados : 513;
+
+        /* Agrupamento por Município */
         var porMun = {};
         fato.forEach(function(e) {
           var cid = e.cidade || 'Itapevi';
@@ -41442,52 +41485,66 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         });
         var listaMun = Object.keys(porMun).map(function(k) { return porMun[k]; }).sort(function(a, b) { return b.qtd - a.qtd; });
 
+        /* Matriz Executiva dos 7 Núcleos Regionais */
         var linhasNucleos = [
-          { 'Núcleo / Centro': 'SEINTEC — Informações & Tecnologia', 'Saúde': tel.SEINTEC.health + '%', 'Entrega': tel.SEINTEC.hwDispPct.toFixed(1).replace('.', ',') + '% hardware disponível', 'Gargalos SLA': tel.SEINTEC.slaMain + ' — ' + tel.SEINTEC.slaSub },
-          { 'Núcleo / Centro': 'ASURE — Gabinete & Assessoria', 'Saúde': tel.ASURE.isReal ? (tel.ASURE.health + '%') : 'Adaptador Ativo', 'Entrega': tel.ASURE.bulletCaption, 'Gargalos SLA': tel.ASURE.slaMain },
-          { 'Núcleo / Centro': 'SEAFIN & SECOMSE — Finanças, Contratos & Compras', 'Saúde': tel.SEAFIN.health + '%', 'Entrega': tel.SEAFIN.execPct2026.toFixed(1).replace('.', ',') + '% PDDE executado | R$ 7,86M contratos monitorados', 'Gargalos SLA': tel.SEAFIN.slaMain + ' — SECOMSE: ' + tel.SEAFIN.vencendo60d + ' contrato(s) a vencer em ≤60d' },
-          { 'Núcleo / Centro': 'SEOM — Obras, Fiscalização & Patrimônio', 'Saúde': tel.SEOM.health + '%', 'Entrega': tel.SEOM.bulletCaption, 'Gargalos SLA': tel.SEOM.slaMain + ' — ' + tel.SEOM.slaSub },
-          { 'Núcleo / Centro': 'SEGRE — Serviço de Gestão da Rede Escolar', 'Saúde': tel.SEGRE.health + '%', 'Entrega': tel.SEGRE.bulletCaption, 'Gargalos SLA': tel.SEGRE.slaMain + ' — ' + tel.SEGRE.slaSub },
-          { 'Núcleo / Centro': 'SEPES — Serviço de Pessoas', 'Saúde': tel.SEPES.health + '%', 'Entrega': tel.SEPES.bulletCaption, 'Gargalos SLA': tel.SEPES.slaMain + ' — ' + tel.SEPES.slaSub },
-          { 'Núcleo / Centro': 'EEC — Currículo & Formação Pedagógica', 'Saúde': tel.EEC.isReal ? (tel.EEC.health + '%') : '12 Módulos Ativos', 'Entrega': tel.EEC.bulletCaption, 'Gargalos SLA': tel.EEC.slaMain }
+          { 'Núcleo': 'SEINTEC — Informações & Tecnologia', 'Saúde': tel.SEINTEC.health + '%', 'Entrega': hwDispPctVal.toFixed(1).replace('.', ',') + '% disp. (' + hwTotalCount.toLocaleString('pt-BR') + ' itens)', 'Gargalos SLA': chamadosTotais.toLocaleString('pt-BR') + ' chamados • SLA ' + tel.SEINTEC.slaMain },
+          { 'Núcleo': 'SEOM — Obras, Fiscalização & Patrimônio', 'Saúde': tel.SEOM.health + '%', 'Entrega': '34 Obras FDE | ' + dpatBensTot.toLocaleString('pt-BR') + ' bens DPAT', 'Gargalos SLA': avcbPendentes + ' escolas s/ AVCB • 18 alertas estruturais' },
+          { 'Núcleo': 'SEAFIN & SECOMSE — Finanças & Contratos', 'Saúde': tel.SEAFIN.health + '%', 'Entrega': pddeExecPctVal.toFixed(1).replace('.', ',') + '% PDDE (' + formatarMoedaCurta(pddeRecTotal) + ') | R$ 7,86M contratos', 'Gargalos SLA': 'Saldo APM ' + formatarMoedaCurta(pddeSaldoOcioso) + ' • ' + tel.SEAFIN.vencendo60d + ' contratos ≤60d' },
+          { 'Núcleo': 'SEGRE — Gestão da Rede, Matrícula & Vida Escolar', 'Saúde': tel.SEGRE.health + '%', 'Entrega': sematAtendimentosTot.toLocaleString('pt-BR') + ' atend. SEMAT | 9.025 e-mails SEVESC', 'Gargalos SLA': segreSeiAtivos + ' processos SEI (' + segreSeiAged30 + ' c/ >30 dias)' },
+          { 'Núcleo': 'SEPES — Gestão de Pessoas (SEFREP & SEAPE)', 'Saúde': tel.SEPES.health + '%', 'Entrega': '1.383 tramitações | 402 F17 | 229 extinções TCE', 'Gargalos SLA': sefrepDevolucoesTot.toLocaleString('pt-BR') + ' devoluções (' + sefrepTxDev + '%) • ' + seapeEmTramitacao + ' processos SEAPE' },
+          { 'Núcleo': 'ASURE — Gabinete & Supervisão Regional', 'Saúde': tel.ASURE.isReal ? (tel.ASURE.health + '%') : 'Ativo', 'Entrega': '60 escolas monitoradas territorialmente', 'Gargalos SLA': 'Foco nas 10 unidades prioritárias de alto risco' },
+          { 'Núcleo': 'EEC — Currículo & Especialistas Pedagógicos', 'Saúde': tel.EEC.isReal ? (tel.EEC.health + '%') : '12 Módulos', 'Entrega': '12 Módulos Web Apps (SARESP, SAEB, Tutoria)', 'Gargalos SLA': 'Devolutivas pedagógicas e consulta docente ativas' }
         ];
 
         /* ========================================================================= */
-        /* FOLHA 1 DE 3 • SÍNTESE REGIONAL, TELEMETRIA 7 NÚCLEOS & IPRE            */
+        /* FOLHA 1 DE 5 • TELEMETRIA OPERACIONAL DOS 5 NÚCLEOS & GOVERNANÇA REGIONAL*/
         /* ========================================================================= */
         var folha1 = '' +
           '<div class="exec-doc-page">' +
             '<div class="exec-doc-page-body">' +
               gerarMastheadEditorial(
-                'Relatório Consolidado | URE - Itapevi',
-                'Panorama Multissetorial das ' + totalEsc + ' Escolas Estaduais e 7 Núcleos • Metodologia IPRE (0–100)',
-                'RELATÓRIO GERAL | FOLHA 1/4',
-                'URE-ITP-' + new Date().toISOString().slice(0, 10)
+                'Relatório Consolidado de Gestão | URE Itapevi',
+                'Telemetria Operacional dos 5 Núcleos & Governança das ' + totalEsc + ' Escolas Estaduais • Metodologia IPRE',
+                'RELATÓRIO GERAL | FOLHA 1/5',
+                'URE-ITP-2026-CONSOLIDADO'
               ) +
+              '<div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); color: #ffffff; padding: 4.5px 10px; border-radius: 6px; margin-bottom: 7px; display: flex; justify-content: space-between; align-items: center; font-size: 6.8pt; box-shadow: 0 2px 6px rgba(11,35,81,0.12);">' +
+                '<div style="display:flex; align-items:center; gap:8px;">' +
+                  '<span style="font-weight:800; background:rgba(255,255,255,0.18); padding:2px 6px; border-radius:4px;">🏫 60 Escolas Estaduais</span>' +
+                  '<span style="color:#cbd5e1;">' + critCount + ' Críticas • ' + altoCount + ' Alto Risco • ' + okCount + ' Regulares</span>' +
+                '</div>' +
+                '<div style="display:flex; align-items:center; gap:10px;">' +
+                  '<span style="background:rgba(255,255,255,0.18); padding:2px 6px; border-radius:4px; font-weight:800;">ISR Regional: ' + isrScore + '/100</span>' +
+                  '<span style="color:#93c5fd;">IPRE Médio: ' + avgImro.toFixed(1).replace('.', ',') + ' pts</span>' +
+                  '<span style="background:rgba(255,255,255,0.15); padding:1.5px 5px; border-radius:3px; font-weight:700;">5 Núcleos Conectados</span>' +
+                '</div>' +
+              '</div>' +
               '<section class="doc-section">' +
-                '<h2 class="doc-sec-heading"><span><span class="doc-sec-num">01</span>Síntese Executiva &amp; Indicadores Regionais</span><span>Exercício 2026</span></h2>' +
-                '<div class="doc-grid-4">' +
-                  '<div class="doc-kpi" style="--kpi-accent:#0b2351;"><div class="doc-kpi-lbl">ISR Regional (0–100)</div><div class="doc-kpi-val" style="color:#0b2351;">' + isrScore + ' / 100</div><div class="doc-kpi-sub">IMRO médio: ' + avgImro.toFixed(1).replace('.', ',') + ' pts • Saúde da Rede</div></div>' +
-                  '<div class="doc-kpi" style="--kpi-accent:#1e40af;"><div class="doc-kpi-lbl">Rede Escolar</div><div class="doc-kpi-val">' + totalEsc + ' UEs</div><div class="doc-kpi-sub">' + peiCount + ' PEI • ' + regCount + ' Regulares • ' + (critCount + altoCount) + ' priorit.</div></div>' +
-                  '<div class="doc-kpi" style="--kpi-accent:#0284c7;"><div class="doc-kpi-lbl">Hardware & Equipamentos (SEINTEC)</div><div class="doc-kpi-val" style="color:#0369a1;">' + tel.SEINTEC.hwTotal.toLocaleString('pt-BR') + '</div><div class="doc-kpi-sub">' + tel.SEINTEC.hwDispPct.toFixed(1).replace('.', ',') + '% disp. • ' + tel.SEINTEC.callsAbertos + ' em aberto</div></div>' +
-                  '<div class="doc-kpi" style="--kpi-accent:#059669;"><div class="doc-kpi-lbl">PDDE 2026 (SEAFIN)</div><div class="doc-kpi-val" style="color:#059669;">' + formatarMoedaCurta(tel.SEAFIN.receita2026) + '</div><div class="doc-kpi-sub">' + tel.SEAFIN.execPct2026.toFixed(1).replace('.', ',') + '% exec. | Saldo ' + formatarMoedaCurta(tel.SEAFIN.saldoOcioso2026) + '</div></div>' +
-                  '<div class="doc-kpi" style="--kpi-accent:#d97706;"><div class="doc-kpi-lbl">Infraestrutura (SEOM)</div><div class="doc-kpi-val" style="color:#b45309;">' + tel.SEOM.avcbSem + ' Pendentes</div><div class="doc-kpi-sub">34 obras FDE • ' + tel.SEOM.avcbOk + ' AVCBs regulares</div></div>' +
-                  '<div class="doc-kpi" style="--kpi-accent:#ea580c;"><div class="doc-kpi-lbl">Processos SEI (SEGRE)</div><div class="doc-kpi-val" style="color:#c2410c;">' + tel.SEGRE.seiAbertos + ' Ativos</div><div class="doc-kpi-sub">' + tel.SEGRE.seiAged30 + ' c/ &gt;30d • ' + tel.SEGRE.emailsTot.toLocaleString('pt-BR') + ' e-mails</div></div>' +
-                  '<div class="doc-kpi" style="--kpi-accent:#6366f1;"><div class="doc-kpi-lbl">Pessoas (SEPES)</div><div class="doc-kpi-val" style="color:#4f46e5;">' + tel.SEPES.emTramitacao + ' Demandas</div><div class="doc-kpi-sub">' + tel.SEPES.aged30 + ' em análise há &gt;30d</div></div>' +
-                  '<div class="doc-kpi" style="--kpi-accent:#b45309;"><div class="doc-kpi-lbl">Contratos SECOMSE (Serviços)</div><div class="doc-kpi-val" style="color:#b45309;">' + tel.SEAFIN.vencendo60d + ' a Vencer (≤60d)</div><div class="doc-kpi-sub">R$ 7,86M em serviços essenciais | Gestão SECOMSE</div></div>' +
+                '<h2 class="doc-sec-heading"><span><span class="doc-sec-num">01</span>Telemetria Operacional por Núcleo da URE Itapevi (2 Indicadores por Setor)</span><span>Dados Vivos 2026</span></h2>' +
+                '<div class="doc-grid-5">' +
+                  '<div class="doc-kpi" style="--kpi-accent:#b45309; text-align:center;"><div class="doc-kpi-lbl">SEOM • Obras FDE</div><div class="doc-kpi-val" style="color:#b45309;">' + obrasAtivas + '</div><div class="doc-kpi-sub">14 ativas • 20 prev. • 26 s/ obra</div></div>' +
+                  '<div class="doc-kpi" style="--kpi-accent:#ea580c; text-align:center;"><div class="doc-kpi-lbl">SEOM • Alerta AVCB</div><div class="doc-kpi-val" style="color:#c2410c;">' + avcbPendentes + '</div><div class="doc-kpi-sub">49 pendentes • 11 regulares</div></div>' +
+                  '<div class="doc-kpi" style="--kpi-accent:#0284c7; text-align:center;"><div class="doc-kpi-lbl">SEINTEC • Equipamentos</div><div class="doc-kpi-val" style="color:#0369a1;">' + hwTotalCount.toLocaleString('pt-BR') + '</div><div class="doc-kpi-sub">' + hwDispPctVal.toFixed(1).replace('.', ',') + '% disp. • 3.768 reparo</div></div>' +
+                  '<div class="doc-kpi" style="--kpi-accent:#0369a1; text-align:center;"><div class="doc-kpi-lbl">SEINTEC • Chamados</div><div class="doc-kpi-val" style="color:#0284c7;">' + chamadosTotais.toLocaleString('pt-BR') + '</div><div class="doc-kpi-sub">22 abertos • SLA 98,5% conc.</div></div>' +
+                  '<div class="doc-kpi" style="--kpi-accent:#059669; text-align:center;"><div class="doc-kpi-lbl">SEAFIN • PDDE 2026</div><div class="doc-kpi-val" style="color:#059669;">' + formatarMoedaCurta(pddeRecTotal) + '</div><div class="doc-kpi-sub">Saldo APMs: ' + formatarMoedaCurta(pddeSaldoOcioso) + '</div></div>' +
+                  '<div class="doc-kpi" style="--kpi-accent:#10b981; text-align:center;"><div class="doc-kpi-lbl">SEAFIN • Execução</div><div class="doc-kpi-val" style="color:#047857;">' + pddeExecPctVal.toFixed(1).replace('.', ',') + '%</div><div class="doc-kpi-sub">R$ 5,4M gastos • 5 contr. ≤60d</div></div>' +
+                  '<div class="doc-kpi" style="--kpi-accent:#6366f1; text-align:center;"><div class="doc-kpi-lbl">SEGRE • Demanda SEMAT</div><div class="doc-kpi-val" style="color:#4f46e5;">' + sematAtendimentosTot.toLocaleString('pt-BR') + '</div><div class="doc-kpi-sub">2.331 manuais • 4.062 transf.</div></div>' +
+                  '<div class="doc-kpi" style="--kpi-accent:#4338ca; text-align:center;"><div class="doc-kpi-lbl">SEGRE • Processos SEI</div><div class="doc-kpi-val" style="color:#3730a3;">' + segreSeiAtivos + '</div><div class="doc-kpi-sub">' + segreSeiAged30 + ' >30d • 9.025 e-mails</div></div>' +
+                  '<div class="doc-kpi" style="--kpi-accent:#b91c1c; text-align:center;"><div class="doc-kpi-lbl">SEPES • Folha SEFREP</div><div class="doc-kpi-val" style="color:#b91c1c;">' + sefrepDevolucoesTot.toLocaleString('pt-BR') + '</div><div class="doc-kpi-sub">' + sefrepTxDev + '% dev. • 1.383 tramit.</div></div>' +
+                  '<div class="doc-kpi" style="--kpi-accent:#7c3aed; text-align:center;"><div class="doc-kpi-lbl">SEPES • Vida Funcional</div><div class="doc-kpi-val" style="color:#7c3aed;">' + seapeEmTramitacao + '</div><div class="doc-kpi-sub">Aposentadorias, Design., Abonos</div></div>' +
                 '</div>' +
               '</section>' +
-              '<section class="doc-section">' +
+              '<section class="doc-section" style="margin-bottom:0;">' +
                 '<div class="doc-grid-2">' +
                   '<div class="doc-card">' +
                     '<div class="doc-card-head"><span>🎯 Distribuição do Índice IPRE (60 Escolas)</span><span>0–100 pts (Risco)</span></div>' +
                     renderSvgDistribuicaoImro(critCount, altoCount, atencCount, okCount, totalEsc) +
-                    '<div style="font-size:6.7pt;color:#64748b;margin-top:4px;">Faixas: Crítico (≥62) • Alto Risco (50–61) • Atenção (40–49) • Regular (&lt;40)</div>' +
+                    '<div style="font-size:6.6pt;color:#64748b;margin-top:4px;">Faixas: Crítico (≥62) • Alto Risco (50–61) • Atenção (40–49) • Regular (&lt;40)</div>' +
                   '</div>' +
                   '<div class="doc-card">' +
-                    '<div class="doc-card-head"><span>🗺️ Consolidado por Município</span><span>4 Municípios URE</span></div>' +
+                    '<div class="doc-card-head"><span>🗺️ Panorama Territorial por Município</span><span>4 Municípios URE</span></div>' +
                     '<table class="doc-table" style="font-size:6.8pt;">' +
-                      '<thead><tr><th>Município</th><th>UEs (PEI)</th><th>IPRE Médio</th><th>Priorit. (IPRE ≥50)</th><th>% Comprometido</th></tr></thead>' +
+                      '<thead><tr><th>Município</th><th>UEs (PEI)</th><th>IPRE Médio</th><th>Priorit. (≥50)</th><th>% Comprometido</th></tr></thead>' +
                       '<tbody>' +
                         listaMun.map(function(m) {
                           var avgM = (m.sumImro / m.qtd).toFixed(1).replace('.', ',');
@@ -41499,10 +41556,26 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                   '</div>' +
                 '</div>' +
               '</section>' +
-              '<section class="doc-section" style="margin-bottom:0;">' +
-                '<h2 class="doc-sec-heading"><span><span class="doc-sec-num">02</span>Matriz Executiva dos 7 Núcleos Regionais</span><span>Monitoramento Integrado</span></h2>' +
-                '<table class="doc-table">' +
-                  '<thead><tr><th>Núcleo / Centro</th><th>Saúde Operacional</th><th>Indicador de Entrega</th><th>Gargalos &amp; SLA Monitorados</th></tr></thead>' +
+            '</div>' +
+            gerarRodapeEditorial(1, 5) +
+          '</div>';
+
+        /* ========================================================================= */
+        /* FOLHA 2 DE 5 • ENGENHARIA DE DADOS, MATRIZ 7 NÚCLEOS & NÍVEL DE SERVIÇO  */
+        /* ========================================================================= */
+        var folha2 = '' +
+          '<div class="exec-doc-page">' +
+            '<div class="exec-doc-page-body">' +
+              gerarMastheadEditorial(
+                'Painel Estratégico de Gestão & Nível de Serviço | URE Itapevi',
+                'Matriz Integrada dos 7 Núcleos, Observabilidade de Dados, SLA e Celeridade de Fluxos',
+                'RELATÓRIO GERAL | FOLHA 2/5',
+                'URE-ITP-ENG-DADOS'
+              ) +
+              '<section class="doc-section">' +
+                '<h2 class="doc-sec-heading"><span><span class="doc-sec-num">02</span>Matriz Executiva dos 7 Núcleos Regionais</span><span>Nível de Serviço (SLA) &amp; Entregas</span></h2>' +
+                '<table class="doc-table" style="font-size:6.8pt;">' +
+                  '<thead><tr><th>Núcleo / Centro</th><th>Saúde Operacional</th><th>Indicador Chave de Entrega</th><th>Gargalos &amp; Monitoramento de SLA</th></tr></thead>' +
                   '<tbody>' +
                     linhasNucleos.map(function(n) {
                       var rawH = parseInt(n['Saúde'], 10);
@@ -41515,17 +41588,45 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                         badgeBg = '#e0f2fe'; badgeTxt = '#0369a1'; badgeBrd = '#bae6fd';
                       }
                       return '<tr>' +
-                        '<td style="font-weight:700;color:#0b2351;">' + escHtml(n['Núcleo / Centro']) + '</td>' +
+                        '<td style="font-weight:700;color:#0b2351;">' + escHtml(n['Núcleo']) + '</td>' +
                         '<td><span style="display:inline-block;padding:1.5px 5.5px;border-radius:999px;font-size:6.2pt;font-weight:800;background:' + badgeBg + ';color:' + badgeTxt + ';border:1px solid ' + badgeBrd + ';">' + escHtml(n['Saúde']) + '</span></td>' +
-                        '<td style="color:#1e293b;font-weight:500;">' + escHtml(n['Entrega']) + '</td>' +
+                        '<td style="color:#1e293b;font-weight:600;">' + escHtml(n['Entrega']) + '</td>' +
                         '<td style="color:#475569;">' + escHtml(n['Gargalos SLA']) + '</td>' +
                       '</tr>';
                     }).join('') +
                   '</tbody>' +
                 '</table>' +
               '</section>' +
+              '<section class="doc-section">' +
+                '<h2 class="doc-sec-heading"><span><span class="doc-sec-num">03</span>Engenharia de Dados &amp; Indicadores Inéditos da Rede</span><span>Observabilidade Direta</span></h2>' +
+                '<div class="doc-grid-3">' +
+                  '<div class="doc-card" style="border-left:3.5px solid #b45309;">' +
+                    '<div class="doc-card-head"><span>🏛️ Patrimônio Regional (DPAT)</span><span style="font-weight:800;color:#b45309;">' + dpatBensTot.toLocaleString('pt-BR') + ' Bens</span></div>' +
+                    '<div style="font-size:6.7pt;color:#334155;line-height:1.4;"><strong>24 ambientes mapeados</strong> na sede URE. 513 itens com localização física conferida e 412 avaliados em estado Bom/Ótimo (taxa de conservação de 80,3%). Mapeamento ativo de equipamentos de rede e estações.</div>' +
+                  '</div>' +
+                  '<div class="doc-card" style="border-left:3.5px solid #dc2626;">' +
+                    '<div class="doc-card-head"><span>⏳ Celeridade &amp; Aging (>30 dias)</span><span style="font-weight:800;color:#dc2626;">' + (segreSeiAged30 + tel.SEPES.aged30) + ' Processos</span></div>' +
+                    '<div style="font-size:6.7pt;color:#334155;line-height:1.4;">Gargalos de tramitação: <strong>' + segreSeiAged30 + ' processos SEI</strong> no SEGRE e <strong>' + tel.SEPES.aged30 + ' demandas funcionais</strong> no SEPES acima de 30 dias. 7 chamados SEINTEC >15d e 5 contratos SECOMSE vencendo em ≤60d.</div>' +
+                  '</div>' +
+                  '<div class="doc-card" style="border-left:3.5px solid #2563eb;">' +
+                    '<div class="doc-card-head"><span>📚 Plataforma Pedagógica (EEC)</span><span style="font-weight:800;color:#2563eb;">12 Módulos</span></div>' +
+                    '<div style="font-size:6.7pt;color:#334155;line-height:1.4;">Sistemas Web Apps integrados: <strong>Acompanhamento Pedagógico, Devolutivas, SAEB 2025, SARESP 2026, Consulta Docente e Professor Tutor</strong>, assegurando suporte pedagógico contínuo às 60 unidades escolares.</div>' +
+                  '</div>' +
+                '</div>' +
+              '</section>' +
+              '<section class="doc-section" style="margin-bottom:0;">' +
+                '<h2 class="doc-sec-heading"><span><span class="doc-sec-num">04</span>Diretrizes Prescritivas &amp; Ações Prioritárias da Dirigente</span><span>Intervenção Imediata</span></h2>' +
+                '<div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">' +
+                  '<div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:6px 8px; font-size:6.6pt; line-height:1.4;">' +
+                    '<strong style="color:#0b2351;">1. Saneamento de Folha &amp; SEI:</strong> Força-tarefa no SEFREP para reduzir taxa de devolução de 24,1% para menos de 10% e protocolo especial para os 101 processos SEI parados há mais de 30 dias.' +
+                  '</div>' +
+                  '<div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:6px 8px; font-size:6.6pt; line-height:1.4;">' +
+                    '<strong style="color:#0b2351;">2. Execução PDDE &amp; Regularidade:</strong> Acelerar aplicação do saldo ocioso de R$ 4,96M nas APMs e notificação técnica às 49 escolas pendentes de renovação de AVCB junto à FDE.' +
+                  '</div>' +
+                '</div>' +
+              '</section>' +
             '</div>' +
-            gerarRodapeEditorial(1, 4) +
+            gerarRodapeEditorial(2, 5) +
           '</div>';
 
         /* Função auxiliar para renderizar bloco da tabela do ranking com cabeçalho rígido */
@@ -41547,6 +41648,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               fatiaEscolas.map(function(e, idx) {
                 var stE = estiloTierPdf(e.tier);
                 var nomeLimpo = (typeof formatarNomeEscolaExecutivo === 'function') ? formatarNomeEscolaExecutivo(e.nome) : e.nome;
+                nomeLimpo = String(nomeLimpo).replace(/\bUre\b/g, 'URE');
                 var avcbTxt = e.seomObj ? (e.seomObj.avcb === 1 ? 'AVCB OK' : 'Sem AVCB') : '---';
                 var obraTxt = (e.seomObj && (e.seomObj.obraFde === 2 || e.seomObj.obraFde === 1)) ? ', Obra' : '';
                 var pddeCell = e.rec2026 > 0 ? (e.execPct2026.toFixed(0) + '% exec.') : 'S/ repasse';
@@ -41567,57 +41669,57 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         }
 
         /* ========================================================================= */
-        /* FOLHA 2 DE 3 • RANKING DA REDE ESTADUAL (ESCOLAS 1 A 30)                 */
-        /* ========================================================================= */
-        var folha2 = '' +
-          '<div class="exec-doc-page">' +
-            '<div class="exec-doc-page-body">' +
-              gerarMastheadEditorial(
-                'Ranking da Rede Estadual — IPRE (Parte 1/3)',
-                'Classificação Decrescente de Risco Multissetorial — Unidades 1 a 20',
-                'ANEXO TÉCNICO | FOLHA 2/4',
-                'URE-ITP-RANK-1'
-              ) +
-              renderTabelaRanking(fato.slice(0, 20), 0) +
-            '</div>' +
-            gerarRodapeEditorial(2, 4) +
-          '</div>';
-
-        /* ========================================================================= */
-        /* FOLHA 3 DE 4 • RANKING DA REDE ESTADUAL (ESCOLAS 21 A 40)                */
+        /* FOLHA 3 DE 5 • RANKING DA REDE ESTADUAL (ESCOLAS 1 A 20)                 */
         /* ========================================================================= */
         var folha3 = '' +
           '<div class="exec-doc-page">' +
             '<div class="exec-doc-page-body">' +
               gerarMastheadEditorial(
-                'Ranking da Rede Estadual — IPRE (Parte 2/3)',
-                'Classificação Decrescente de Risco Multissetorial — Unidades 21 a 40',
-                'ANEXO TÉCNICO | FOLHA 3/4',
-                'URE-ITP-RANK-2'
+                'Ranking da Rede Estadual — IPRE (Parte 1/3)',
+                'Classificação Decrescente de Risco Multissetorial — Unidades 1 a 20 (Prioridade Imediata)',
+                'ANEXO TÉCNICO | FOLHA 3/5',
+                'URE-ITP-RANK-1'
               ) +
-              renderTabelaRanking(fato.slice(20, 40), 20) +
+              renderTabelaRanking(fato.slice(0, 20), 0) +
             '</div>' +
-            gerarRodapeEditorial(3, 4) +
+            gerarRodapeEditorial(3, 5) +
           '</div>';
 
         /* ========================================================================= */
-        /* FOLHA 4 DE 4 • RANKING DA REDE ESTADUAL (ESCOLAS 41 A 60)                */
+        /* FOLHA 4 DE 5 • RANKING DA REDE ESTADUAL (ESCOLAS 21 A 40)                */
         /* ========================================================================= */
         var folha4 = '' +
           '<div class="exec-doc-page">' +
             '<div class="exec-doc-page-body">' +
               gerarMastheadEditorial(
+                'Ranking da Rede Estadual — IPRE (Parte 2/3)',
+                'Classificação Decrescente de Risco Multissetorial — Unidades 21 a 40 (Monitoramento Regular)',
+                'ANEXO TÉCNICO | FOLHA 4/5',
+                'URE-ITP-RANK-2'
+              ) +
+              renderTabelaRanking(fato.slice(20, 40), 20) +
+            '</div>' +
+            gerarRodapeEditorial(4, 5) +
+          '</div>';
+
+        /* ========================================================================= */
+        /* FOLHA 5 DE 5 • RANKING DA REDE ESTADUAL (ESCOLAS 41 A 60)                */
+        /* ========================================================================= */
+        var folha5 = '' +
+          '<div class="exec-doc-page">' +
+            '<div class="exec-doc-page-body">' +
+              gerarMastheadEditorial(
                 'Ranking da Rede Estadual — IPRE (Parte 3/3)',
-                'Classificação Decrescente de Risco Multissetorial — Unidades 41 a 60',
-                'ANEXO TÉCNICO | FOLHA 4/4',
+                'Classificação Decrescente de Risco Multissetorial — Unidades 41 a 60 (Estabilidade & Regularidade)',
+                'ANEXO TÉCNICO | FOLHA 5/5',
                 'URE-ITP-RANK-3'
               ) +
               renderTabelaRanking(fato.slice(40, 60), 40) +
             '</div>' +
-            gerarRodapeEditorial(4, 4) +
+            gerarRodapeEditorial(5, 5) +
           '</div>';
 
-        var html = folha1 + folha2 + folha3 + folha4;
+        var html = folha1 + folha2 + folha3 + folha4 + folha5;
 
         abrirModalRelatorioExecutivo({
           tipo: 'ure',
@@ -41629,6 +41731,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           totalEsc: totalEsc,
           peiCount: peiCount,
           regCount: regCount,
+          critCount: critCount,
+          altoCount: altoCount,
+          atencCount: atencCount,
+          okCount: okCount,
           avgImro: avgImro,
           isrScore: isrScore,
           listaMun: listaMun,
