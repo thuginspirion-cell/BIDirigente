@@ -1,0 +1,792 @@
+\documentclass[11pt,a4paper]{article}
+
+% ============================================================================
+% PACOTES FUNDAMENTAIS E TIPOGRAFIA EXECUTIVA
+% ============================================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,top=24mm,bottom=24mm,left=20mm,right=20mm,headheight=22pt,footskip=14mm]{geometry}
+
+% Matemática e Tabelas
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{colortbl}
+
+% Gráficos, Cores e Caixas
+\usepackage{graphicx}
+\usepackage[table,dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, backgrounds, fit, patterns}
+\usepackage[most]{tcolorbox}
+
+% Layout, Cabeçalhos, Rodapés e Links
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{hyperref}
+
+% ============================================================================
+% PALETA DE CORES INSTITUCIONAL (BI DIRIGENTE / URE ITAPEVI)
+% ============================================================================
+\definecolor{ureNavy}{HTML}{0B2351}
+\definecolor{ureBlue}{HTML}{1E40AF}
+\definecolor{ureSky}{HTML}{0284C7}
+\definecolor{ureSlate}{HTML}{334155}
+\definecolor{ureMuted}{HTML}{64748B}
+\definecolor{ureLight}{HTML}{F8FAFC}
+\definecolor{ureBorder}{HTML}{CBD5E1}
+
+% Cores Semafóricas de Risco
+\definecolor{riskCrit}{HTML}{DC2626}
+\definecolor{riskCritBg}{HTML}{FEE2E2}
+\definecolor{riskHigh}{HTML}{EA580C}
+\definecolor{riskHighBg}{HTML}{FFEDD5}
+\definecolor{riskWarn}{HTML}{D97706}
+\definecolor{riskWarnBg}{HTML}{FEF3C7}
+\definecolor{riskOk}{HTML}{059669}
+\definecolor{riskOkBg}{HTML}{DCFCE7}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=ureNavy,
+    citecolor=ureBlue,
+    urlcolor=ureSky,
+    pdftitle={Nota Técnica e Científica - Metodologia IMRO 360 - URE Itapevi},
+    pdfauthor={Unidade Regional de Ensino de Itapevi - BI Dirigente},
+    pdfsubject={Engenharia de Dados, Análise Multicritério (MCDA) e Governança Pública Educacional}
+}
+
+% ============================================================================
+% CABEÇALHO E RODAPÉ OFICIAL (EM TODAS AS PÁGINAS)
+% Rodapé estritamente padronizado:
+% Esquerda: URE - Itapevi | Centro: Página X de Y | Direita: Apenas Logo URE
+% ============================================================================
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.8pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{ureBorder}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{ureNavy}\leaders\hrule height \footrulewidth\hfill}}
+
+\fancyhead[L]{\fontsize{8}{10}\selectfont\textcolor{ureMuted}{\textbf{NOTA TÉCNICA E CIENTÍFICA} $\bullet$ METODOLOGIA IMRO 360°}}
+\fancyhead[R]{\fontsize{8}{10}\selectfont\textcolor{ureMuted}{BI DIRIGENTE $\bullet$ URE ITAPEVI 2026}}
+
+\fancyfoot[L]{\fontsize{9.5}{11}\selectfont\textbf{\textcolor{ureNavy}{URE - Itapevi}}}
+\fancyfoot[C]{\fontsize{9}{11}\selectfont\textbf{\textcolor{ureSlate}{Página \thepage\ de \pageref*{LastPage}}}}
+\fancyfoot[R]{\raisebox{-0.28\height}{\includegraphics[height=0.68cm]{logo_ure_itapevi.png}}}
+
+% Garante que até a página de título (se usar plain) tenha o mesmo rodapé
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0.8pt}
+  \fancyfoot[L]{\fontsize{9.5}{11}\selectfont\textbf{\textcolor{ureNavy}{URE - Itapevi}}}
+  \fancyfoot[C]{\fontsize{9}{11}\selectfont\textbf{\textcolor{ureSlate}{Página \thepage\ de \pageref*{LastPage}}}}
+  \fancyfoot[R]{\raisebox{-0.28\height}{\includegraphics[height=0.68cm]{logo_ure_itapevi.png}}}
+}
+
+% ============================================================================
+% ESTILIZAÇÃO DE SEÇÕES E CAIXAS TEÓRICAS
+% ============================================================================
+\titleformat{\section}
+  {\Large\bfseries\color{ureNavy}}
+  {\colorbox{ureNavy}{\textcolor{white}{\hspace{4pt}\thesection\hspace{4pt}}}\hspace{8pt}}
+  {0pt}
+  {}
+  [\vspace{3pt}{\color{ureBorder}\titlerule[0.8pt]}]
+
+\titleformat{\subsection}
+  {\large\bfseries\color{ureBlue}}
+  {\thesubsection\hspace{6pt}}
+  {0pt}
+  {}
+
+\titleformat{\subsubsection}
+  {\normalsize\bfseries\color{ureSlate}}
+  {\thesubsubsection\hspace{6pt}}
+  {0pt}
+  {}
+
+\newtcolorbox{execbox}[2][]{
+  enhanced,
+  colback=ureLight,
+  colframe=ureNavy,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  title={#2},
+  arc=3pt,
+  boxrule=0.8pt,
+  left=10pt, right=10pt, top=8pt, bottom=8pt,
+  #1
+}
+
+\newtcolorbox{mathbox}[2][]{
+  enhanced,
+  colback=white,
+  colframe=ureBlue,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  title={#2},
+  arc=3pt,
+  boxrule=0.8pt,
+  left=10pt, right=10pt, top=8pt, bottom=8pt,
+  #1
+}
+
+\newtcolorbox{alertbox}[2][]{
+  enhanced,
+  colback=riskCritBg!35!white,
+  colframe=riskCrit,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  title={#2},
+  arc=3pt,
+  boxrule=0.9pt,
+  left=10pt, right=10pt, top=8pt, bottom=8pt,
+  #1
+}
+
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+% ============================================================================
+% PÁGINA 1: CAPA EXECUTIVA E SUMÁRIO DE GOVERNANÇA
+% ============================================================================
+\thispagestyle{plain}
+
+\begin{tcolorbox}[enhanced, colback=ureNavy, colframe=ureNavy, arc=4pt, boxrule=0pt, left=14pt, right=14pt, top=14pt, bottom=14pt]
+  \begin{minipage}[c]{0.14\textwidth}
+    \centering
+    \includegraphics[height=1.65cm]{brasao_sp_oficial.png}
+  \end{minipage}%
+  \begin{minipage}[c]{0.68\textwidth}
+    \centering
+    {\color{white!80!ureSky}\fontsize{8.5}{10}\selectfont\textbf{GOVERNO DO ESTADO DE SÃO PAULO $\bullet$ SECRETARIA DA EDUCAÇÃO (SEDUC-SP)}}\\[3pt]
+    {\color{white}\fontsize{13}{16}\selectfont\textbf{UNIDADE REGIONAL DE ENSINO --- URE ITAPEVI}}\\[2pt]
+    {\color{white!85}\fontsize{9}{11}\selectfont Gabinete do Dirigente Regional $\bullet$ Inteligência de Dados e Gestão Operacional (BI Dirigente)}
+  \end{minipage}%
+  \begin{minipage}[c]{0.18\textwidth}
+    \centering
+    \begin{tcolorbox}[enhanced, colback=white, colframe=white, arc=3pt, boxrule=0pt, left=3pt, right=3pt, top=3pt, bottom=3pt, width=2.4cm, halign=center]
+      \includegraphics[height=1.15cm]{logo_ure_itapevi.png}
+    \end{tcolorbox}
+  \end{minipage}
+\end{tcolorbox}
+
+\vspace{0.3cm}
+
+\begin{center}
+  {\fontsize{8.5}{10}\selectfont\textcolor{ureBlue}{\textbf{DOCUMENTO DE REFERÊNCIA METODOLÓGICA E CIENTÍFICA $\bullet$ VERSÃO OFICIAL 2026}}}\\[6pt]
+  {\fontsize{17}{21}\selectfont\textbf{\textcolor{ureNavy}{ÍNDICE MULTISSETORIAL DE RISCO OPERACIONAL (IMRO 360°)\\NA GESTÃO PÚBLICA EDUCACIONAL}}}\\[6pt]
+  {\fontsize{11}{14}\selectfont\textcolor{ureSlate}{Fundamentação Matemática, Engenharia de Dados (\emph{Star Schema}), Análise de Decisão Multicritério (\emph{MCDA})\\e Alocação Equitativa de Suporte Técnico para as 60 Escolas Estaduais da URE Itapevi}}
+\end{center}
+
+\vspace{0.2cm}
+
+\begin{execbox}{1. Propósito Institucional: Mensagem ao Corpo Técnico da URE Itapevi (100 Servidores)}
+Este documento apresenta, com rigor científico e clareza didática, a fundamentação teórica, estatística e computacional do \textbf{Índice Multissetorial de Risco Operacional (IMRO 360°)}, motor analítico central da plataforma \textbf{BI Dirigente}.
+
+\textbf{Princípio Fundamental de Governança:} O IMRO 360° \textbf{não é um índice punitivo} nem uma avaliação de mérito pessoal de diretores ou servidores. Trata-se de um \textbf{instrumento técnico de triagem e priorização de suporte regional} --- análogo ao \emph{Protocolo de Triagem de Manchester} na saúde pública e aos \emph{Composite Risk Indicators} da OCDE. Seu objetivo exclusivo é garantir que a força de trabalho dos aproximadamente \textbf{100 servidores da URE Itapevi}, distribuídos em \textbf{7 Núcleos e Serviços Regionais}, seja alocada com precisão científica nas unidades escolares que apresentam maior vulnerabilidade operacional acumulada.
+\end{execbox}
+
+\vspace{0.15cm}
+\tableofcontents
+
+\newpage
+
+\begin{table}[htbp]
+\centering
+\small
+\renewcommand{\arraystretch}{1.24}
+\caption{Síntese Executiva da Arquitetura Metodológica do IMRO 360° (Padrão BI Dirigente v364)}
+\begin{tabularx}{\textwidth}{>{\bfseries\color{ureNavy}}p{4.3cm} X}
+\toprule
+\rowcolor{ureNavy} \textcolor{white}{Dimensão Arquitetural} & \textcolor{white}{\textbf{Especificação Técnica e Científica Adotada na URE Itapevi}} \\
+\midrule
+Classe do Modelo na Literatura & \emph{Composite Risk Indicator} (OCDE/JRC) combinado com \emph{Multi-Criteria Decision Analysis} (MCDA Híbrido Compensatório/Não-Compensatório). \\
+\rowcolor{ureLight} Modelagem de Engenharia de Dados & Arquitetura \emph{Entity-Centric Star Schema}: Tabela Fato centralizada no código \texttt{CIE} das 60 escolas estaduais, integrando 7 dimensões setoriais em tempo real na nuvem. \\
+Escala Interna de Cada Setor & Normalização padronizada $\mathbf{S_k \in [0, 100]}$ em todos os 5 núcleos avaliados, utilizando múltiplos inteiros de $5$ e $10$ pontos (eliminação de tetos arbitrários e números quebrados). \\
+\rowcolor{ureLight} Vetor de Pesos Estratégicos ($\mathbf{w}$) & Soma exata de $100\%$: \textbf{SEOM ($25\%$)}, \textbf{SEINTEC ($20\%$)}, \textbf{SEGRE ($20\%$)}, \textbf{SEPES ($20\%$)} e \textbf{SEAFIN ($15\%$)}, calibrada pela matriz de severidade ISO 31000. \\
+Trava Anti-Mascaramento (Veto) & \textbf{Alerta Crítico Setorial ($\mathbf{S_k \ge 80/100}$):} Regra não-compensatória inspirada no método \emph{ELECTRE III} (Roy, 1991), impedindo que a média esconda um colapso isolado. \\
+\rowcolor{ureLight} Indicador Espelho da Rede & \textbf{ISR Regional ($\text{ISR} = 100 - \overline{\text{IMRO}}$):} Índice de Saúde da Rede Estadual nos 4 municípios (Itapevi, Barueri, Jandira e Pirapora do Bom Jesus). \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ============================================================================
+% SEÇÃO 1: MOTIVAÇÃO E ORIGEM CONCEITUAL NA CIÊNCIA DE DADOS
+% ============================================================================
+\section{Origem Conceitual e Motivação na Engenharia e Ciência de Dados}
+
+Uma pergunta legítima de qualquer servidor público, especialista em currículo, engenheiro, analista administrativo ou supervisor de ensino ao observar o painel executivo da URE Itapevi é: \emph{``De onde surgiu o conceito do IMRO 360°? Trata-se de uma convenção arbitrária ou de uma metodologia reconhecida na Engenharia e Análise de Dados?''}
+
+A resposta técnica divide-se em duas partes complementares:
+\begin{enumerate}[leftmargin=1.5em, itemsep=3pt]
+    \item \textbf{A nomenclatura ``IMRO 360°'' (\emph{Índice Multissetorial de Risco Operacional})} foi cunhada especificamente para a realidade institucional da \textbf{URE Itapevi (SEDUC-SP)}, batizando em língua portuguesa a integração dos cinco núcleos operacionais que incidem diretamente sobre o funcionamento diário das 60 escolas estaduais (\texttt{SEOM}, \texttt{SEINTEC}, \texttt{SEGRE}, \texttt{SEPES} e \texttt{SEAFIN}).
+    \item \textbf{O arcabouço matemático, estatístico e computacional do IMRO 360°}, por sua vez, implementa diretamente quatro dos paradigmas mais consolidados na literatura mundial de \textbf{Ciência de Dados}, \textbf{Pesquisa Operacional}, \textbf{Engenharia de Dados (\emph{Analytics Engineering})} e \textbf{Governança Pública}.
+\end{enumerate}
+
+\subsection{Os Três Problemas Clássicos da Gestão Pública em Silos}
+
+Antes da implementação de uma arquitetura orientada a dados, uma Diretoria/Unidade Regional de Ensino enfrenta três obstáculos estruturais amplamente descritos na literatura de administração pública (\cite{oecd2008, tcu2018}):
+
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item \textbf{1. Fragmentação em Silos Setoriais (\emph{Data Silos}):} O setor de obras (\texttt{SEOM}) conhece os problemas de telhado e AVCB; a tecnologia (\texttt{SEINTEC}) conhece os laboratórios inoperantes e chamados de rede; o financeiro (\texttt{SEAFIN}) conhece o saldo parado do PDDE; o RH (\texttt{SEPES}) conhece as aposentadorias e designações pendentes; e a gestão da rede (\texttt{SEGRE}) conhece os processos SEI atrasados. Contudo, \textbf{o estudante e o diretor da escola vivenciam todos esses problemas simultaneamente no mesmo prédio escolar}.
+    \item \textbf{2. Incomensurabilidade de Unidades Físicas (\emph{Scale Incommensurability}):} Como comparar matematicamente \emph{``R\$ 110.000,00 de saldo PDDE não executado''} com \emph{``38\% de notebooks danificados''}, \emph{``ausência de AVCB''} ou \emph{``4 processos SEI abertos há mais de 30 dias''}? Sem uma transformação matemática de normalização, variáveis com grandezas distintas não podem ser somadas nem comparadas.
+    \item \textbf{3. Viés de Alocação por Demanda Vocal (\emph{Squeaky Wheel Bias}):} Na ausência de um índice objetivo de risco, o suporte técnico regional tende a ser capturado pelas unidades que acionam informalmente a regional com maior frequência, em detrimento de escolas periféricas ou sobrecarregadas que acumulam passivos graves em silêncio.
+\end{itemize}
+
+\subsection{Equivalência entre o IMRO 360° e os Padrões da Literatura Internacional}
+
+A Tabela~\ref{tab:equivalencia_literatura} demonstra como cada componente do IMRO 360° corresponde exatamente a um método formal da Engenharia de Dados e da Ciência de Decisão.
+
+\begin{table}[htbp]
+\centering
+\small
+\renewcommand{\arraystretch}{1.26}
+\caption{Correspondência entre a Arquitetura do IMRO 360° e a Literatura Científica}
+\label{tab:equivalencia_literatura}
+\begin{tabularx}{\textwidth}{>{\bfseries\color{ureNavy}}p{3.6cm} >{\bfseries\color{ureBlue}}p{4.4cm} X}
+\toprule
+\rowcolor{ureNavy} \textcolor{white}{Componente no BI Dirigente} & \textcolor{white}{Conceito na Engenharia / Ciência de Dados} & \textcolor{white}{\textbf{Referência Científica e Aplicação Clássica}} \\
+\midrule
+Cruzamento das bases por \texttt{CIE} (60 escolas) & \emph{Entity-Centric Star Schema} (\emph{Fact Table} + \emph{Conformed Key}) & \textbf{Kimball \& Ross (2013):} Modelagem dimensional em Data Warehouses corporativos, unificando múltiplas fontes transacionais em uma única visão 360° da entidade. \\
+\rowcolor{ureLight} Conversão de dados brutos em indicadores escolares & \emph{Automated Feature Engineering} (Engenharia de Atributos) & Transformação de linhas transacionais (chamados TI, lançamentos PDDE, protocolos SEI) em variáveis numéricas estruturadas por unidade. \\
+Escala padronizada $0$ a $100$ em cada setor ($S_k$) & \emph{Min-Max Feature Normalization} ($\phi: \mathbb{R}^n \to [0,100]$) & \textbf{OCDE \& JRC (2008):} Padronização adimensional obrigatória antes de agregar indicadores de naturezas físicas distintas. \\
+\rowcolor{ureLight} Pesos Estratégicos ($25/20/20/20/15\%$) & \emph{Weighted Linear Combination} (WLC) / \emph{MAUT} & \textbf{Keeney \& Raiffa (1976); Saaty (1980):} Ponderação multicritério proporcional à criticidade de impacto e risco à vida/continuidade. \\
+Trava de Alerta Crítico Setorial ($S_k \ge 80$) & \emph{Non-Compensatory Veto Rule} (Limiar de Veto Multicritério) & \textbf{Roy (1991 --- Método ELECTRE III):} Impede que um desempenho catastrófico em um critério essencial seja mascarado pela média dos demais. \\
+\rowcolor{ureLight} Faixas Semafóricas (\emph{Crítico, Alto, Atenção, Regular}) & \emph{Risk Stratification \& Triage Protocol} & \textbf{ABNT ISO 31000:2018; TCU (2018):} Estratificação de risco para priorização objetiva de auditoria, intervenção e suporte técnico. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ============================================================================
+% SEÇÃO 2: ARQUITETURA DE ENGENHARIA DE DADOS (STAR SCHEMA 360°)
+% ============================================================================
+\section{Engenharia de Dados: Do Dado Bruto na Nuvem à Tabela Fato 360°}
+
+Na Engenharia de Dados moderna (\emph{Analytics Engineering}), um indicador executivo só é confiável se for alimentado por um pipeline determinístico, auditável e isento de manipulação manual. No \textbf{BI Dirigente}, vigora a diretriz de \textbf{Política de Nuvem Exclusiva e Espelhamento Fiel}: nenhuma informação fica retida localmente em computadores individuais; todas as leituras provêm diretamente das planilhas oficiais dos setores no SharePoint institucional e da camada de persistência em nuvem.
+
+\subsection{Diagrama do Pipeline Dimensional (\emph{Star Schema} Centrado no CIE)}
+
+A Figura~\ref{fig:pipeline_star_schema} ilustra a arquitetura de engenharia de dados implementada na função \texttt{calcularTabelaFatoEscolas()}. O código \textbf{CIE} (\emph{Código de Identificação da Escola}) atua como chave primária conformada (\emph{Conformed Primary Key}), realizando o \emph{Left Join} determinístico das 60 unidades escolares com os 7 núcleos da URE Itapevi.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    font=\sffamily\footnotesize,
+    source/.style={rectangle, rounded corners=3pt, draw=ureBlue, fill=ureLight, thick, minimum width=3.4cm, minimum height=0.82cm, align=center},
+    hub/.style={rectangle, rounded corners=5pt, draw=ureNavy, fill=ureNavy, text=white, very thick, minimum width=4.4cm, minimum height=2.2cm, align=center},
+    engine/.style={rectangle, rounded corners=4pt, draw=ureSky, fill=white, very thick, minimum width=4.2cm, minimum height=1.5cm, align=center},
+    outbox/.style={rectangle, rounded corners=3pt, draw=riskOk!80!black, fill=riskOkBg!50!white, thick, minimum width=3.6cm, minimum height=0.85cm, align=center},
+    arrow/.style={-Latex, thick, draw=ureSlate}
+]
+
+% Fontes à esquerda (Silos Setoriais no SharePoint)
+\node[source] (s1) at (0, 3.0) {\textbf{SEOM \& SEFISC}\\Obras FDE, AVCB, Predial};
+\node[source] (s2) at (0, 1.8) {\textbf{SEINTEC}\\Inventário TI \& 1.404 Chamados};
+\node[source] (s3) at (0, 0.6) {\textbf{SEGRE (SEMAT/SEVESC)}\\Livros SEI \& Vida Escolar};
+\node[source] (s4) at (0, -0.6) {\textbf{SEPES (SEAPE/SEFREP)}\\Aposent., Designações, Folha};
+\node[source] (s5) at (0, -1.8) {\textbf{SEAFIN \& SECOMSE}\\PDDE 2026 \& Contratos};
+\node[source] (s6) at (0, -3.0) {\textbf{ASURE \& EEC}\\Visitas Técnicas \& Pedagógico};
+
+% Hub Central (Tabela Fato Star Schema)
+\node[hub] (fact) at (5.3, 0.0) {
+    \textbf{\normalsize TABELA FATO 360°}\\
+    \texttt{calcularTabelaFatoEscolas()}\\[4pt]
+    \footnotesize Chave Primária: \textbf{CIE}\\
+    \footnotesize $N = 60$ Escolas Estaduais\\
+    \footnotesize \emph{Feature Engineering}
+};
+
+% Motor Matemático MCDA
+\node[engine] (mcda) at (10.5, 0.9) {
+    \textbf{\color{ureNavy}Motor Matemático MCDA}\\
+    1. Normalização $S_k \in [0,100]$\\
+    2. Média Ponderada ($\sum w_k S_k$)\\
+    3. Trava de Veto ($S_{\max} \ge 80$)
+};
+
+% Saídas Executivas
+\node[outbox] (out1) at (10.5, -1.1) {\textbf{\color{ureNavy}Ranking IMRO 360° \& ISR}\\Priorização de Visitas ASURE/ESE};
+\node[outbox] (out2) at (10.5, -2.3) {\textbf{\color{ureNavy}Dossiês PDF 300 DPI \& Excel}\\Relatórios Geral e Individual};
+
+% Setas
+\draw[arrow] (s1.east) -- (fact.west);
+\draw[arrow] (s2.east) -- (fact.west);
+\draw[arrow] (s3.east) -- (fact.west);
+\draw[arrow] (s4.east) -- (fact.west);
+\draw[arrow] (s5.east) -- (fact.west);
+\draw[arrow] (s6.east) -- (fact.west);
+
+\draw[arrow, very thick, draw=ureBlue] (fact.east) -- (mcda.west);
+\draw[arrow, very thick, draw=ureNavy] (mcda.south) -- (out1.north);
+\draw[arrow, thick, draw=ureSlate] (out1.south) -- (out2.north);
+
+\end{tikzpicture}
+\caption{Arquitetura de Engenharia de Dados (\emph{Star Schema}) e Pipeline de Decisão do IMRO 360°.}
+\label{fig:pipeline_star_schema}
+\end{figure}
+
+% ============================================================================
+% SEÇÃO 3: POR QUE ESCALA 0 A 100 EM TODOS OS SETORES?
+% ============================================================================
+\section{Justificativa Matemática: Por que Escala Padronizada de 0 a 100 por Setor?}
+
+Em versões embrionárias de índices compostos, é comum encontrar o chamado \emph{modelo de tetos heterogêneos} (por exemplo: atribuir no máximo $35$ pontos para infraestrutura, $25$ pontos para tecnologia, $15$ para finanças e $10$ para gestão da rede, além de pontuações internas quebradas como $8, 7, 6$ ou $9$). Embora pareça simples à primeira vista, esse desenho viola dois princípios fundamentais da psicometria e da análise de decisão (\cite{nardo2005, oecd2008}):
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt]
+    \item \textbf{Confusão entre Gravidade Intrassetorial e Peso Intersetorial:} Quando um setor tem teto $10$ e outro tem teto $35$, uma nota ``$9$'' significa \textbf{colapso quase total ($90\%$)} no primeiro setor, mas significa \textbf{risco baixo ($25{,}7\%$)} no segundo setor. Isso induz ao erro cognitivo conhecido como \emph{viés de ancoragem numérica} (\cite{kahneman2011}): o gestor olha para o número ``$9$'' e subestima uma crise severa na secretaria escolar (\texttt{SEGRE}).
+    \item \textbf{Opacidade dos Incrementos Quebrados ($8, 7, 6$):} Na gestão pública transparente, os servidores precisam compreender imediatamente a regra de negócio. Múltiplos canônicos de base decimal ($\mathbf{5, 10, 15, 20, 25, 30, 35, 50, 60}$) sobre uma base centesimal ($\mathbf{0\text{ a }100}$) possuem interpretação percentual direta: $+25$ pontos equivalem exatamente a um quarto ($25\%$) da criticidade máxima daquele setor.
+\end{enumerate}
+
+\begin{mathbox}{Teorema da Decomposição Ortogonal (Normalização Homogênea $\times$ Ponderação)}
+Seja $E = \{e_1, e_2, \dots, e_{60}\}$ o conjunto das $60$ unidades escolares da URE Itapevi e $K = \{\text{SEOM}, \text{SEINTEC}, \text{SEGRE}, \text{SEPES}, \text{SEAFIN}\}$ o conjunto dos $5$ núcleos operacionais avaliados. Para cada escola $e_i \in E$ e cada setor $k \in K$:
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Subíndice Setorial Normalizado ($S_{i,k}$):} Mede exclusivamente a \textbf{gravidade interna} da escola $e_i$ no setor $k$, mapeada em uma escala fechada e homogênea de $0$ a $100$:
+    \begin{equation}
+        S_{i,k} \in [0, 100], \quad \forall k \in K
+    \end{equation}
+    onde $S_{i,k} = 0$ representa conformidade plena no setor $k$ e $S_{i,k} = 100$ representa saturação crítica máxima dos indicadores daquele setor.
+    \item \textbf{Vetor de Pesos Estratégicos ($w_k$):} Define a \textbf{importância relativa} de cada setor $k$ na composição do risco global da unidade escolar, satisfazendo a condição de convexidade:
+    \begin{equation}
+        w_k > 0 \quad \text{e} \quad \sum_{k=1}^{5} w_k = 0{,}25 + 0{,}20 + 0{,}20 + 0{,}20 + 0{,}15 = 1{,}00 \;\; (100\%)
+    \end{equation}
+\end{enumerate}
+Dessa forma, qualquer servidor da URE sabe que \textbf{$\mathbf{80/100}$ em qualquer setor significa exatamente $\mathbf{80\%}$ de criticidade naquele setor}, independentemente de qual núcleo esteja sendo analisado.
+\end{mathbox}
+
+% ============================================================================
+% SEÇÃO 4: FORMULAÇÃO MATEMÁTICA DOS 5 SUBÍNDICES SETORIAIS (0 A 100)
+% ============================================================================
+\section{Modelagem Matemática dos 5 Subíndices Setoriais ($S_k \in [0, 100]$)}
+
+A seguir, documenta-se a equação exata de cada um dos cinco núcleos avaliados, conforme implementado no código-fonte de produção do \textbf{BI Dirigente}. Todos os parâmetros internos utilizam exclusivamente múltiplos redondos de $5$ e $10$, garantindo soma máxima exata de $100$ pontos por setor.
+
+\subsection{Subíndice 1: SEOM --- Obras, Manutenção e Zeladoria ($S_{\text{SEOM}} \in [0, 100]$)}
+
+O Serviço de Obras e Manutenção (\texttt{SEOM}) monitora a habitabilidade predial, a segurança contra incêndio e pânico (AVCB) e o saneamento básico. A pontuação $S_{\text{SEOM}}$ é dada pela soma de sete indicadores binários de patologia predial, cuja soma máxima é exatamente $100$:
+
+\begin{equation}
+S_{\text{SEOM}} = \min\Big(100, \; 25\cdot I_{\text{avcb}} + 25\cdot I_{\text{esgoto}} + 20\cdot I_{\text{telhado}} + 15\cdot I_{\text{elétrica}} + 5\cdot I_{\text{fde}} + 5\cdot I_{\text{zel}} + 5\cdot I_{\text{cuid}}\Big)
+\end{equation}
+
+\begin{table}[h!]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.22}
+\caption{Parametrização Interna do Subíndice $S_{\text{SEOM}}$ (Escala $0$ a $100$ --- Peso Global $25\%$)}
+\begin{tabularx}{\textwidth}{p{4.2cm} c c X}
+\toprule
+\rowcolor{ureNavy} \textcolor{white}{\textbf{Fator de Risco Predial (SEOM)}} & \textcolor{white}{\textbf{Condição Lógica}} & \textcolor{white}{\textbf{Pontos}} & \textcolor{white}{\textbf{Justificativa Técnica de Engenharia e Segurança}} \\
+\midrule
+1. Ausência de AVCB Regular ($I_{\text{avcb}}$) & $\texttt{avcb} \neq 1$ & \textbf{+25} & Exigência legal do Corpo de Bombeiros; risco jurídico e à proteção da vida. \\
+\rowcolor{ureLight} 2. Saneamento / Esgoto Crítico ($I_{\text{esgoto}}$) & $\texttt{esgoto} = 2$ & \textbf{+25} & Risco sanitário imediato; potencial de suspensão das aulas presenciais. \\
+3. Cobertura / Telhado Crítico ($I_{\text{telhado}}$) & $\texttt{telhado} = 2$ & \textbf{+20} & Infiltrações graves comprometem salas de aula, laboratórios e rede elétrica. \\
+\rowcolor{ureLight} 4. Rede Elétrica Sobrecarregada ($I_{\text{elétrica}}$) & $\texttt{eletrica} = 2$ & \textbf{+15} & Impede climatização e uso pleno de equipamentos pedagógicos/Educatrons. \\
+5. Obra FDE em Execução ($I_{\text{fde}}$) & $\texttt{obraFde} = 2$ & \textbf{+5} & Interdição parcial de áreas escolares e necessidade de fiscalização ativa. \\
+\rowcolor{ureLight} 6. Unidade sem Zeladoria ($I_{\text{zel}}$) & $\texttt{zeladoria} = 0$ & \textbf{+5} & Maior vulnerabilidade patrimonial fora do horário letivo. \\
+7. Alerta de Limpeza / Cuidador ($I_{\text{cuid}}$) & $\texttt{cuidador} = 2$ & \textbf{+5} & Demanda de acompanhamento contratual de terceirizados (\texttt{SEFISC}). \\
+\midrule
+\rowcolor{ureLight} \textbf{Soma Máxima Teórica do Setor} & --- & \textbf{100 pts} & \textbf{Escala fechada exata: $25+25+20+15+5+5+5 = 100$.} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Subíndice 2: SEINTEC --- Tecnologia e Conectividade ($S_{\text{SEINTEC}} \in [0, 100]$)}
+
+O subíndice do \texttt{SEINTEC} combina o estado físico do parque de hardware da escola (computadores, notebooks e tablets) com a pressão de chamados técnicos registrados em 2026. Seja $H_{\text{tot}}$ o total de equipamentos da escola e $H_{\text{bad}}$ o total de equipamentos indisponíveis (\emph{danificados, em manutenção, inservíveis ou aguardando peça}). A taxa de indisponibilidade é $r_{\text{bad}} = H_{\text{bad}} / H_{\text{tot}} \in [0, 1]$.
+
+\begin{equation}
+S_{\text{SEINTEC}} = \min\Big(100, \; \underbrace{\text{round}(50 \cdot r_{\text{bad}})}_{\text{Comprometimento de Hardware (0--50)}} + \underbrace{P_{\text{vol}}(C_{\text{tot}})}_{\text{Volume Anual (0--35)}} + \underbrace{P_{\text{fila}}(C_{\text{abertos}})}_{\text{Fila Ativa (0--15)}}\Big)
+\end{equation}
+onde as funções de degrau para o volume total de chamados no ano ($C_{\text{tot}}$) e chamados em aberto ($C_{\text{abertos}}$) são:
+\begin{equation}
+P_{\text{vol}}(C_{\text{tot}}) = \begin{cases} 35, & \text{se } C_{\text{tot}} \ge 30 \\ 20, & \text{se } 20 \le C_{\text{tot}} \le 29 \\ 10, & \text{se } 10 \le C_{\text{tot}} \le 19 \\ 0, & \text{se } C_{\text{tot}} < 10 \end{cases}
+\qquad \text{e} \qquad
+P_{\text{fila}}(C_{\text{abertos}}) = \begin{cases} 15, & \text{se } C_{\text{abertos}} \ge 3 \\ 5, & \text{se } 1 \le C_{\text{abertos}} \le 2 \\ 0, & \text{se } C_{\text{abertos}} = 0 \end{cases}
+\end{equation}
+Note-se que a soma máxima é exatamente $50 + 35 + 15 = \mathbf{100\text{ pontos}}$.
+
+\subsection{Subíndice 3: SEGRE --- Gestão da Rede, Matrícula e Vida Escolar ($S_{\text{SEGRE}} \in [0, 100]$)}
+
+O Serviço de Gestão da Rede Escolar (\texttt{SEGRE}, integrando \texttt{SEMAT} e \texttt{SEVESC}) monitora a tramitação de processos administrativos e pedagógicos no sistema \textbf{SEI} vinculados à unidade escolar sem baixa/conclusão ($N_{\text{SEI}}$). Cada processo SEI pendente adiciona exatamente $20$ pontos na escala setorial:
+
+\begin{equation}
+S_{\text{SEGRE}} = \min\big(100, \; 20 \cdot N_{\text{SEI}}\big)
+\end{equation}
+Assim, $1$ processo SEI em aberto $= 20/100$; $3$ processos $= 60/100$; $4$ processos $= 80/100$ (acionando o Alerta Crítico Setorial); e $5$ ou mais processos atingem o teto de $100/100$.
+
+\subsection{Subíndice 4: SEPES --- Serviço de Pessoas e Folha de Pagamento ($S_{\text{SEPES}} \in [0, 100]$)}
+
+O subíndice do \texttt{SEPES} integra duas dimensões críticas de recursos humanos na escola:
+\begin{enumerate}[leftmargin=1.5em, itemsep=1pt]
+    \item \textbf{Passivo Funcional SEAPE ($N_{\text{SEAPE}}$ --- até $50$ pts):} Processos de aposentadoria, abono de permanência e designações em tramitação sem conclusão.
+    \item \textbf{Inconsistências/Devoluções de Folha SEFREP ($N_{\text{SEFREP}}$ --- até $50$ pts):} Retrabalho em formulários de frequência e pagamento (17, 26, 29, etc.) que impactam a remuneração de servidores.
+\end{enumerate}
+
+\begin{equation}
+S_{\text{SEPES}} = \min\Big(100, \; P_{\text{SEAPE}}(N_{\text{SEAPE}}) + P_{\text{SEFREP}}(N_{\text{SEFREP}})\Big)
+\end{equation}
+onde:
+\begin{equation}
+P_{\text{SEAPE}}(N_{\text{SEAPE}}) = \begin{cases} 50, & \text{se } N_{\text{SEAPE}} \ge 3 \\ 35, & \text{se } N_{\text{SEAPE}} = 2 \\ 20, & \text{se } N_{\text{SEAPE}} = 1 \\ 0, & \text{se } N_{\text{SEAPE}} = 0 \end{cases}
+\qquad \text{e} \qquad
+P_{\text{SEFREP}}(N_{\text{SEFREP}}) = \begin{cases} 50, & \text{se } N_{\text{SEFREP}} \ge 4 \\ 30, & \text{se } 2 \le N_{\text{SEFREP}} \le 3 \\ 15, & \text{se } N_{\text{SEFREP}} = 1 \\ 0, & \text{se } N_{\text{SEFREP}} = 0 \end{cases}
+\end{equation}
+Soma máxima exata: $50 + 50 = \mathbf{100\text{ pontos}}$.
+
+\subsection{Subíndice 5: SEAFIN --- Execução Financeira PDDE 2026 ($S_{\text{SEAFIN}} \in [0, 100]$)}
+
+Na administração pública, tanto a falta de recursos quanto a \textbf{baixa execução de recursos já disponibilizados} (especialmente quando a escola possui demandas físicas ou tecnológicas abertas) configuram risco operacional. Seja $E_{\%}$ o percentual de execução financeira dos repasses PDDE Paulista 2026 e $V_{\text{ocioso}}$ o saldo parado em conta na presença de demandas operacionais ativas ($D_{\text{ativa}} = 1$ se $S_{\text{SEOM}} > 0$ ou $S_{\text{SEINTEC}} > 0$):
+
+\begin{equation}
+S_{\text{SEAFIN}} = \min\Big(100, \; P_{\text{exec}}(E_{\%}) + D_{\text{ativa}} \cdot P_{\text{saldo}}(V_{\text{ocioso}})\Big)
+\end{equation}
+onde:
+\begin{equation}
+P_{\text{exec}}(E_{\%}) = \begin{cases} 60, & \text{se } E_{\%} < 35\% \\ 35, & \text{se } 35\% \le E_{\%} < 50\% \\ 15, & \text{se } 50\% \le E_{\%} < 65\% \\ 0, & \text{se } E_{\%} \ge 65\% \end{cases}
+\quad \text{e} \quad
+P_{\text{saldo}}(V_{\text{ocioso}}) = \begin{cases} 40, & \text{se } V_{\text{ocioso}} \ge \text{R\$ } 100\text{ mil} \\ 20, & \text{se } \text{R\$ } 50\text{ mil} \le V_{\text{ocioso}} < \text{R\$ } 100\text{ mil} \\ 0, & \text{se } V_{\text{ocioso}} < \text{R\$ } 50\text{ mil} \end{cases}
+\end{equation}
+Soma máxima exata: $60 + 40 = \mathbf{100\text{ pontos}}$.
+
+% ============================================================================
+% SEÇÃO 5: JUSTIFICATIVA CIENTÍFICA DOS PESOS E TRAVA DE VETO
+% ============================================================================
+\section{Ponderação Estratégica (ISO 31000) e Trava Não-Compensatória}
+
+\subsection{Por que os Pesos são 25\% / 20\% / 20\% / 20\% / 15\%?}
+
+Na metodologia de Gestão de Riscos do Setor Público (\textbf{ABNT NBR ISO 31000:2018} e \textbf{Referencial de Riscos do TCU}), os riscos não possuem todos a mesma natureza jurídica ou humana. Eles são hierarquizados pelo critério de \textbf{Severidade de Consequência e Irreversibilidade}:
+
+\begin{enumerate}[leftmargin=1.5em, itemsep=4pt]
+    \item \textbf{Nível 1 --- Segurança da Vida, Habitabilidade e Interdição Predial ($\mathbf{w_{\text{SEOM}} = 25\%}$):}
+    Uma falha grave em cobertura, esgoto ou ausência de AVCB coloca em risco imediato a integridade física de centenas de alunos e servidores, podendo interditar o prédio escolar por completo. Por essa razão, \texttt{SEOM} recebe o maior peso individual ($25\%$).
+    \item \textbf{Nível 2 --- Continuidade Pedagógica, Funcional e Legalidade Administrativa ($\mathbf{20\%}$ cada = $\mathbf{60\%}$ somados):}
+    Com o prédio seguro e aberto, o tripé que sustenta a operação diária da escola possui pesos idênticos e simétricos:
+    \begin{itemize}[nosep, leftmargin=1.5em]
+        \item \textbf{\texttt{SEINTEC} ($20\%$):} Conectividade, equipamentos para avaliações digitais, plataformas e secretaria informatizada;
+        \item \textbf{\texttt{SEGRE} ($20\%$):} Regularidade de matrícula, vida escolar, históricos e tramitação legal no SEI;
+        \item \textbf{\texttt{SEPES} ($20\%$):} Quadro humano (designação de gestores/docentes, direitos funcionais e regularidade de pagamento).
+    \end{itemize}
+    \item \textbf{Nível 3 --- Eficiência de Execução Orçamentária ($\mathbf{w_{\text{SEAFIN}} = 15\%}$):}
+    A baixa execução do PDDE é um indicador fundamental de gestão, mas configura um risco \emph{meio} (custo de oportunidade), razão pela qual recebe $15\%$, fechando exatamente $25\% + 20\% + 20\% + 20\% + 15\% = \mathbf{100\%}$.
+\end{enumerate}
+
+\subsection{O Paradoxo da Compensação Linear e a Trava de Alerta Crítico Setorial ($\ge 80/100$)}
+
+Todo índice baseado exclusivamente em média ponderada sofre de uma vulnerabilidade matemática conhecida na Pesquisa Operacional como \textbf{Efeito de Mascaramento por Compensação Linear} (\cite{roy1991, munda2008}).
+
+\begin{alertbox}{Demonstração do Problema de Mascaramento (Por que a Média Pura Não Basta)}
+Suponha uma escola estadual que esteja exemplar em quatro setores ($S_{\text{SEOM}} = 0$, $S_{\text{SEINTEC}} = 10$, $S_{\text{SEPES}} = 0$, $S_{\text{SEAFIN}} = 0$), mas que esteja em \textbf{colapso agudo na secretaria escolar}, acumulando $5$ processos SEI abertos sem resposta ($\mathbf{S_{\text{SEGRE}} = 100/100}$).
+
+Se utilizássemos \textbf{apenas} a média ponderada pura:
+\[
+\text{IMRO}_{\text{base}} = 0{,}25(0) + 0{,}20(10) + 0{,}20(100) + 0{,}20(0) + 0{,}15(0) = 2 + 20 = \mathbf{22\text{ pontos}}
+\]
+Com $22$ pontos, a escola seria classificada como \textbf{``Regular / Estável'' ($< 40$)}, e o colapso de $100/100$ no \texttt{SEGRE} ficaria invisível no painel executivo!
+\end{alertbox}
+
+Para eliminar esse ponto cego, o \textbf{IMRO 360°} implementa a \textbf{Regra Híbrida Não-Compensatória (Trava de Alerta Crítico Setorial)}, inspirada no limiar de veto ($v_k$) do método \emph{ELECTRE III} de Bernard Roy (\cite{roy1991}):
+
+\begin{mathbox}{Equação Geral do IMRO 360° (Média Ponderada + Trava Não-Compensatória)}
+Dados os subíndices setoriais $S_k \in [0, 100]$, define-se primeiramente a média ponderada base e o máximo setorial:
+\begin{equation}
+\text{IMRO}_{\text{base}} = \text{round}\Big(0{,}25\cdot S_{\text{SEOM}} + 0{,}20\cdot S_{\text{SEINTEC}} + 0{,}20\cdot S_{\text{SEGRE}} + 0{,}20\cdot S_{\text{SEPES}} + 0{,}15\cdot S_{\text{SEAFIN}}\Big)
+\end{equation}
+\begin{equation}
+S_{\max} = \max\big\{S_{\text{SEOM}}, \, S_{\text{SEINTEC}}, \, S_{\text{SEGRE}}, \, S_{\text{SEPES}}, \, S_{\text{SEAFIN}}\big\}
+\end{equation}
+
+O escore final $\text{IMRO}_{360} \in [0, 100]$ é determinado pela função de agregação híbrida:
+\begin{equation}
+\mathbf{\text{IMRO}_{360}} = \begin{cases}
+\min\Big(100, \; \max\big(\text{IMRO}_{\text{base}} + 8, \, 42\big)\Big), & \text{se } S_{\max} \ge 80 \;\; \textbf{(Trava Setorial Ativa)} \\[6pt]
+\text{IMRO}_{\text{base}}, & \text{se } S_{\max} < 80 \;\; \textbf{(Regime Normal)}
+\end{cases}
+\end{equation}
+\end{mathbox}
+
+\textbf{Efeito Prático da Trava ($S_{\max} \ge 80$):}
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt]
+    \item \textbf{Piso Automático de Atenção ($\ge 42$ pts):} Nenhuma escola com um setor em colapso ($\ge 80/100$) pode permanecer na faixa verde (``Regular $< 40$''). Ela é automaticamente promovida, no mínimo, para a faixa de \textbf{Atenção ($42$ pts)}.
+    \item \textbf{Impulso de Agravamento ($+8$ pts):} Se a escola já possuía média moderada ou alta (ex.: $\text{IMRO}_{\text{base}} = 45$), a presença de um setor em colapso ($\ge 80$) adiciona $+8$ pontos ($45 + 8 = 53$), elevando-a para \textbf{Alto Risco}.
+    \item \textbf{Sinalização Visual Explícita:} O sistema acende a insígnia \textbf{\textcolor{riskCrit}{ALERTA SETORIAL: [NOME DO SETOR]}} nos cards, no painel lateral da escola, no PDF e na planilha Excel.
+\end{enumerate}
+
+% ============================================================================
+% SEÇÃO 6: VISUALIZAÇÕES GRÁFICAS E ESTUDOS DE CASO MATEMÁTICOS
+% ============================================================================
+\section{Visualizações Analíticas e Simulações Passo a Passo}
+
+Para facilitar a apresentação institucional aos servidores da URE Itapevi, esta seção apresenta gráficos vetoriais e três estudos de caso resolvidos passo a passo.
+
+\subsection{Gráfico 1: Arquitetura de Pesos e Faixas Semafóricas de Decisão}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    xbar,
+    width=12.4cm,
+    height=6.0cm,
+    bar width=14pt,
+    xmin=0, xmax=35,
+    xlabel={\textbf{Peso Estratégico na Composição do IMRO 360° (\%)}},
+    symbolic y coords={SEAFIN, SEPES, SEGRE, SEINTEC, SEOM},
+    ytick=data,
+    yticklabels={
+        {SEAFIN (Finanças PDDE)},
+        {SEPES (Pessoas / Folha)},
+        {SEGRE (Rede / SEI)},
+        {SEINTEC (Tecnologia / TI)},
+        {SEOM (Infraestrutura / AVCB)}
+    },
+    nodes near coords={\pgfmathprintnumber\pgfplotspointmeta\% (Escala 0--100)},
+    nodes near coords align={horizontal},
+    every node near coord/.append style={font=\footnotesize\bfseries, color=ureNavy, xshift=3pt},
+    axis line style={draw=ureBorder},
+    tick style={draw=none},
+    major grid style={dashed, draw=ureBorder!70},
+    xmajorgrids=true,
+    yticklabel style={font=\footnotesize\bfseries, color=ureSlate},
+    xlabel style={font=\footnotesize\bfseries, color=ureNavy},
+    enlarge y limits=0.18
+]
+\addplot[fill=ureBlue!85, draw=ureNavy, thick] coordinates {
+    (15,SEAFIN)
+    (20,SEPES)
+    (20,SEGRE)
+    (20,SEINTEC)
+    (25,SEOM)
+};
+\end{axis}
+\end{tikzpicture}
+\caption{Distribuição dos Pesos Estratégicos ($w_k$) aplicados sobre os Subíndices Normalizados ($0\text{--}100$).}
+\label{fig:pesos_setoriais}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\caption{Régua de Estratificação Semafórica do IMRO 360° e Protocolo de Ação Regional}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.8cm} c p{3.6cm} X}
+\toprule
+\rowcolor{ureNavy} \textcolor{white}{Faixa Semafórica} & \textcolor{white}{\textbf{Intervalo IMRO}} & \textcolor{white}{\textbf{Nível de Intervenção}} & \textcolor{white}{\textbf{Protocolo Prescritivo para os Núcleos da URE Itapevi}} \\
+\midrule
+\rowcolor{riskCritBg} \textcolor{riskCrit}{1. CRÍTICO} & $\mathbf{62\text{ a }100\text{ pts}}$ & Força-Tarefa Multissetorial Imediata & Prioridade máxima de visita conjunta (\texttt{ASURE} + \texttt{ESE} + núcleos críticos), plano de contingência predial/TI e despacho direto com o Dirigente. \\
+\rowcolor{riskHighBg} \textcolor{riskHigh}{2. ALTO RISCO} & $\mathbf{50\text{ a }61\text{ pts}}$ & Acompanhamento Prioritário Dirigido & Inclusão prioritária no cronograma mensal de visitas técnicas e mutirão setorial para desobstrução de processos SEI/SEPES/PDDE. \\
+\rowcolor{riskWarnBg} \textcolor{riskWarn}{3. ATENÇÃO} & $\mathbf{40\text{ a }49\text{ pts}}$ & Monitoramento Preventivo Focalizado & Inclui escolas com risco moderado ou com \textbf{Trava de Alerta Setorial ($\ge 80$)} em um único setor. Atuação direta do núcleo específico. \\
+\rowcolor{riskOkBg} \textcolor{riskOk}{4. REGULAR} & $\mathbf{0\text{ a }39\text{ pts}}$ & Governança de Rotina e Manutenção & Operação estável nos 5 núcleos e nenhum setor em colapso ($\forall k, S_k < 80$). Acompanhamento ordinário de supervisão e suporte preventivo. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Gráfico 2 e Cálculos Passo a Passo: Três Estudos de Caso Didáticos}
+
+Para demonstrar o funcionamento exato da fórmula em diferentes perfis de escolas da rede, analisemos três arquétipos representativos:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+    \item \textbf{Caso A (Escola Estável --- ``EE Perfil Regular''):} Prédio com AVCB regular, apenas $1$ chamado de TI aberto ($S_{\text{SEOM}}=10, S_{\text{SEINTEC}}=15, S_{\text{SEGRE}}=20, S_{\text{SEPES}}=15, S_{\text{SEAFIN}}=15$).
+    \item \textbf{Caso B (Colapso Isolado --- ``EE Alerta Setorial''):} Escola predialmente perfeita ($S_{\text{SEOM}}=5$), TI excelente ($S_{\text{SEINTEC}}=10$), RH em dia ($S_{\text{SEPES}}=0$) e PDDE executado ($S_{\text{SEAFIN}}=15$), mas com \textbf{$4$ processos SEI travados no SEGRE} ($\mathbf{S_{\text{SEGRE}} = 80/100}$).
+    \item \textbf{Caso C (Vulnerabilidade Multissetorial --- ``EE Prioridade Crítica''):} Sem AVCB, esgoto crítico e telhado crítico ($S_{\text{SEOM}}=75$), alta taxa de hardware danificado ($S_{\text{SEINTEC}}=70$), $3$ processos SEI abertos ($S_{\text{SEGRE}}=60$), demandas de RH ($S_{\text{SEPES}}=65$) e baixa execução PDDE com saldo parado ($S_{\text{SEAFIN}}=80$).
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    ybar,
+    width=14.4cm,
+    height=6.4cm,
+    bar width=10.5pt,
+    ymin=0, ymax=105,
+    ylabel={\textbf{Pontuação na Escala 0 a 100}},
+    symbolic x coords={SEOM, SEINTEC, SEGRE, SEPES, SEAFIN, IMRO360},
+    xtick=data,
+    xticklabels={
+        {SEOM\\(Peso 25\%)},
+        {SEINTEC\\(Peso 20\%)},
+        {SEGRE\\(Peso 20\%)},
+        {SEPES\\(Peso 20\%)},
+        {SEAFIN\\(Peso 15\%)},
+        {IMRO 360°\\(Escore Final)}
+    },
+    xticklabel style={font=\scriptsize\bfseries, color=ureNavy, align=center, text width=2.0cm},
+    ylabel style={font=\footnotesize\bfseries, color=ureNavy},
+    legend style={at={(0.5,1.15)}, anchor=south, legend columns=3, font=\scriptsize, draw=ureBorder, column sep=6pt},
+    ymajorgrids=true,
+    major grid style={dashed, draw=ureBorder!70},
+    nodes near coords,
+    every node near coord/.append style={font=\tiny\bfseries},
+    enlarge x limits=0.11
+]
+\addplot[fill=riskOk!80, draw=riskOk!90!black] coordinates {
+    (SEOM, 10) (SEINTEC, 15) (SEGRE, 20) (SEPES, 15) (SEAFIN, 15) (IMRO360, 15)
+};
+\addplot[fill=riskWarn!85, draw=riskWarn!90!black] coordinates {
+    (SEOM, 5) (SEINTEC, 10) (SEGRE, 80) (SEPES, 0) (SEAFIN, 15) (IMRO360, 42)
+};
+\addplot[fill=riskCrit!85, draw=riskCrit!90!black] coordinates {
+    (SEOM, 75) (SEINTEC, 70) (SEGRE, 60) (SEPES, 65) (SEAFIN, 80) (IMRO360, 78)
+};
+\legend{{Caso A: Regular [15 pts]}, {Caso B: Trava Setorial [22 para 42 pts]}, {Caso C: Crítico [70 + 8 = 78 pts]}}
+\end{axis}
+\end{tikzpicture}
+\caption{Comparativo dos Subíndices Setoriais ($0\text{--}100$) e do Escore Final $\text{IMRO}_{360}$ nos Três Estudos de Caso.}
+\label{fig:comparativo_casos}
+\end{figure}
+
+\subsubsection*{Resolução Algébrica Detalhada dos Três Casos:}
+
+\begin{mathbox}{Memória de Cálculo Auditável (Exemplos Didáticos para Apresentação)}
+\textbf{1. Cálculo do Caso A (Escola Regular):}
+\begin{align*}
+\text{IMRO}_{\text{base}} &= 0{,}25(10) + 0{,}20(15) + 0{,}20(20) + 0{,}20(15) + 0{,}15(15) \\
+&= 2{,}5 + 3{,}0 + 4{,}0 + 3{,}0 + 2{,}25 = 14{,}75 \approx \mathbf{15\text{ pts}}
+\end{align*}
+Como $S_{\max} = 20 < 80$, nenhuma trava é acionada. Resultado final: $\mathbf{\text{IMRO}_{360} = 15/100}$ (\textcolor{riskOk}{\textbf{Faixa Regular}}).
+
+\vspace{6pt}
+\textbf{2. Cálculo do Caso B (Escola com Colapso Isolado no SEGRE --- Ativação do Piso de Veto):}
+\begin{align*}
+\text{IMRO}_{\text{base}} &= 0{,}25(5) + 0{,}20(10) + 0{,}20(80) + 0{,}20(0) + 0{,}15(15) \\
+&= 1{,}25 + 2{,}0 + 16{,}0 + 0 + 2{,}25 = 21{,}5 \approx \mathbf{22\text{ pts}}
+\end{align*}
+Entretanto, verifica-se que $S_{\max} = S_{\text{SEGRE}} = \mathbf{80 \ge 80}$ (\textbf{Alerta Crítico Setorial Ativo!}). Aplicando a equação não-compensatória:
+\[
+\text{IMRO}_{360} = \min\big(100, \; \max(22 + 8, \, 42)\big) = \max(30, \, 42) = \mathbf{42\text{ pts}}
+\]
+Resultado final: $\mathbf{\text{IMRO}_{360} = 42/100}$ (\textcolor{riskWarn}{\textbf{Faixa de Atenção + Flag ALERTA SETORIAL: SEGRE}}). A escola não fica oculta na faixa verde, e a equipe do \texttt{SEGRE} é imediatamente notificada.
+
+\vspace{6pt}
+\textbf{3. Cálculo do Caso C (Escola com Risco Multissetorial Severo):}
+\begin{align*}
+\text{IMRO}_{\text{base}} &= 0{,}25(75) + 0{,}20(70) + 0{,}20(60) + 0{,}20(65) + 0{,}15(80) \\
+&= 18{,}75 + 14{,}0 + 12{,}0 + 13{,}0 + 12{,}0 = 69{,}75 \approx \mathbf{70\text{ pts}}
+\end{align*}
+Como $S_{\text{SEAFIN}} = 80 \ge 80$, aplica-se o agravamento de $+8$ pontos:
+\[
+\text{IMRO}_{360} = \min\big(100, \; \max(70 + 8, \, 42)\big) = \mathbf{78\text{ pts}}
+\]
+Resultado final: $\mathbf{\text{IMRO}_{360} = 78/100}$ (\textcolor{riskCrit}{\textbf{Faixa Crítica --- Prioridade Máxima de Intervenção Conjunta}}).
+\end{mathbox}
+
+\subsection{Gráfico 3: Curva de Resposta Não-Linear sob Colapso de um Único Setor}
+
+A Figura~\ref{fig:curva_veto} ilustra matematicamente o comportamento do escore final $\text{IMRO}_{360}$ quando uma escola possui quatro setores plenamente regulares ($S_2=S_3=S_4=S_5=0$) e um único setor $S_1$ (com peso $w_1 = 20\%$) varia de $0$ a $100$. Observa-se como, exatamente no limiar crítico $S_1 = 80$, a função abandona o regime linear compensatório (linha tracejada azul) e salta para o patamar de proteção não-compensatória ($\ge 42$ pontos, curva contínua vermelha), garantindo intervenção imediata da URE.
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=12.8cm,
+    height=5.6cm,
+    xmin=0, xmax=100,
+    ymin=0, ymax=60,
+    xlabel={\textbf{Pontuação do Setor Isolado em Crise $S_1 \in [0, 100]$ (demais 4 setores $= 0$)}},
+    ylabel={\textbf{Escore Global Resultante}},
+    xtick={0,20,40,60,80,100},
+    ytick={0,10,20,30,40,50,60},
+    grid=both,
+    major grid style={dashed, draw=ureBorder!70},
+    xlabel style={font=\footnotesize\bfseries, color=ureNavy},
+    ylabel style={font=\footnotesize\bfseries, color=ureNavy},
+    ticklabel style={font=\scriptsize, color=ureSlate},
+    legend style={at={(0.03,0.95)}, anchor=north west, font=\scriptsize, draw=ureBorder, fill=white}
+]
+% Média linear pura (0.20 * S1)
+\addplot[domain=0:100, samples=50, dashed, very thick, color=ureBlue] {0.20*x};
+% Curva IMRO 360 com Trava em S1 >= 80
+\addplot[ very thick, color=riskCrit, mark=*, mark options={scale=0.8}] coordinates {
+    (0,0) (20,4) (40,8) (60,12) (79,16) (80,42) (90,42) (100,42)
+};
+% Linha horizontal da Faixa de Atenção (40 pts)
+\addplot[domain=0:100, dotted, thick, color=riskWarn] {40};
+\legend{{Média Ponderada Pura ($0{,}20 \cdot S_1$ --- Mascara a crise)}, {IMRO 360° com Trava Não-Compensatória ($S_{\max} \ge 80 \Rightarrow \ge 42$)}, {Limiar da Faixa de Atenção ($40$ pts)}}
+\end{axis}
+\end{tikzpicture}
+\caption{Efeito de proteção da Trava de Alerta Crítico Setorial ($S_{\max} \ge 80$) contra o mascaramento pela média.}
+\label{fig:curva_veto}
+\end{figure}
+
+% ============================================================================
+% SEÇÃO 7: CONEXÃO COM O ISR REGIONAL E OS 7 NÚCLEOS DA URE
+% ============================================================================
+\section{Integração com o ISR Regional e os 7 Núcleos da URE Itapevi}
+
+Enquanto o \textbf{IMRO 360°} mede o \textbf{risco operacional de cada unidade escolar} (onde \emph{menor é melhor}), o painel executivo do Dirigente Regional apresenta também o seu indicador complementar de governança macro: o \textbf{Índice de Saúde da Rede (ISR Regional)}, onde \emph{maior é melhor}:
+
+\begin{equation}
+\mathbf{\text{ISR}_{\text{URE}}} = \text{round}\left(100 - \frac{1}{60}\sum_{i=1}^{60} \text{IMRO}_{360}(e_i)\right) \in [0, 100]
+\end{equation}
+
+Além dos $5$ núcleos que compõem a matriz de risco direto de cada escola (\texttt{SEOM}, \texttt{SEINTEC}, \texttt{SEGRE}, \texttt{SEPES} e \texttt{SEAFIN/SECOMSE}), a arquitetura do \textbf{BI Dirigente} fecha o ciclo completo de gestão com os outros dois pilares estratégicos da URE Itapevi:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+    \item \textbf{6. ASURE \& Equipe de Supervisão de Ensino (ESE):} Consome diretamente o ranking do IMRO 360° para planejar a agenda de visitas presenciais e o uso da frota oficial, cruzando a pontuação de risco da escola com a data da última visita técnica realizada (\emph{Prioridade de Visita ASURE/ESE}).
+    \item \textbf{7. EEC (Equipe de Especialistas em Currículo --- 12 Módulos Pedagógicos):} Conecta a estabilidade operacional da escola (infraestrutura, conectividade e quadro docente) às plataformas pedagógicas de aprendizagem, Simulados SARESP, Consulta SAEB, Plano de Ação 2.0 e Devolutiva Pedagógica.
+\end{itemize}
+
+\begin{execbox}{Conclusão Institucional: Transparência, Equidade e Gestão Pública de Excelência}
+Com a adoção da \textbf{Escala Padronizada $0\text{ a }100$ por Setor}, da \textbf{Média Ponderada Estratégica ($25/20/20/20/15\%$)} e da \textbf{Trava Não-Compensatória de Alerta Crítico Setorial ($\ge 80/100$)}, a \textbf{Unidade Regional de Ensino de Itapevi} passa a operar com um sistema de Inteligência de Decisão (\emph{Decision Intelligence}) alinhado às melhores práticas internacionais da OCDE, da ISO 31000 e da Engenharia de Dados moderna:
+\begin{enumerate}[nosep, leftmargin=1.5em]
+    \item \textbf{Compreensão Imediata para os 100 Servidores:} Qualquer nota setorial é lida diretamente como percentual de $0$ a $100\%$, com critérios abertos, números redondos e auditáveis.
+    \item \textbf{Proteção contra Pontos Cegos:} Nenhuma crise setorial aguda é diluída pela média.
+    \item \textbf{Equidade para as 60 Escolas Estaduais:} O apoio técnico e gerencial da URE chega primeiro a quem mais precisa, com base em dados reais sincronizados em tempo real na nuvem.
+\end{enumerate}
+\end{execbox}
+
+% ============================================================================
+% REFERÊNCIAS BIBLIOGRÁFICAS
+% ============================================================================
+\begin{thebibliography}{99}
+\footnotesize
+
+\bibitem{oecd2008}
+\textbf{OECD \& European Commission --- Joint Research Centre (JRC).} (2008). \emph{Handbook on Constructing Composite Indicators: Methodology and User Guide}. Paris: OECD Publishing. ISBN 978-92-64-04345-9.
+
+\bibitem{nardo2005}
+\textbf{Nardo, M., Saisana, M., Saltelli, A., Tarantola, S., Hoffman, A., \& Giovannini, E.} (2005). \emph{Tools for Composite Indicators Building}. European Commission, Joint Research Centre, EUR 21682 EN. Ispra, Italy.
+
+\bibitem{roy1991}
+\textbf{Roy, B.} (1991). The Outranking Approach and the Foundations of ELECTRE Methods. \emph{Theory and Decision}, 31(1), 49--73. Springer. (Fundamentação matemática dos limiares de veto e regras não-compensatórias em análise multicritério).
+
+\bibitem{keeney1976}
+\textbf{Keeney, R. L., \& Raiffa, H.} (1976). \emph{Decisions with Multiple Objectives: Preferences and Value Tradeoffs}. New York: John Wiley \& Sons; Cambridge University Press (1993).
+
+\bibitem{saaty1980}
+\textbf{Saaty, T. L.} (1980). \emph{The Analytic Hierarchy Process: Planning, Priority Setting, Resource Allocation}. New York: McGraw-Hill International Book Co.
+
+\bibitem{munda2008}
+\textbf{Munda, G.} (2008). \emph{Social Multi-Criteria Evaluation for a Sustainable Economy}. Berlin, Heidelberg: Springer-Verlag. (Análise sobre compensabilidade, pesos como coeficientes de importância e agregação multicritério em políticas públicas).
+
+\bibitem{kimball2013}
+\textbf{Kimball, R., \& Ross, M.} (2013). \emph{The Data Warehouse Toolkit: The Definitive Guide to Dimensional Modeling} (3rd ed.). Indianapolis: John Wiley \& Sons. (Arquitetura \emph{Star Schema}, \emph{Fact Tables} e dimensões conformadas).
+
+\bibitem{iso31000}
+\textbf{ABNT --- Associação Brasileira de Normas Técnicas.} (2018). \emph{ABNT NBR ISO 31000:2018 --- Gestão de Riscos: Diretrizes}. Rio de Janeiro: ABNT.
+
+\bibitem{tcu2018}
+\textbf{Brasil. Tribunal de Contas da União (TCU).} (2018). \emph{Referencial Básico de Gestão de Riscos}. Brasília: TCU, Secretaria Geral de Controle Externo (Segecex).
+
+\bibitem{kahneman2011}
+\textbf{Kahneman, D.} (2011). \emph{Thinking, Fast and Slow}. New York: Farrar, Straus and Giroux. (Fundamentação cognitiva sobre vieses de ancoragem numérica em escalas heterogêneas e tomada de decisão sob múltiplos atributos).
+
+\end{thebibliography}
+
+\end{document}
