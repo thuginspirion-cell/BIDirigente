@@ -10,7 +10,7 @@
 \usepackage{lmodern}
 \usepackage{fouriernc}
 \usepackage{microtype}
-\usepackage[a4paper,top=24mm,bottom=24mm,left=20mm,right=20mm,headheight=22pt,footskip=14mm]{geometry}
+\usepackage[a4paper,top=24mm,bottom=24mm,left=10mm,right=10mm,headheight=22pt,footskip=14mm]{geometry}
 
 % Tabelas
 \usepackage{booktabs}
@@ -63,7 +63,7 @@
     linkcolor=ureNavy,
     citecolor=ureBlue,
     urlcolor=ureSky,
-    pdftitle={Nota Técnica e Científica - Metodologia IMRO 360 - URE Itapevi},
+    pdftitle={Nota Técnica e Científica - Metodologia IPRE - URE Itapevi},
     pdfauthor={Unidade Regional de Ensino de Itapevi - BI Dirigente},
     pdfsubject={Engenharia de Dados, Análise Multicritério (MCDA) e Governança Pública Educacional}
 }
@@ -80,7 +80,7 @@
 \renewcommand{\headrule}{\hbox to\headwidth{\color{ureBorder}\leaders\hrule height \headrulewidth\hfill}}
 \renewcommand{\footrule}{\hbox to\headwidth{\color{ureNavy}\leaders\hrule height \footrulewidth\hfill}}
 
-\fancyhead[L]{\fontsize{6.8}{8.5}\selectfont\textcolor{ureMuted}{\textbf{NOTA TÉCNICA E CIENTÍFICA} $\bullet$ METODOLOGIA IMRO 360°}}
+\fancyhead[L]{\fontsize{6.8}{8.5}\selectfont\textcolor{ureMuted}{\textbf{NOTA TÉCNICA E CIENTÍFICA} $\bullet$ METODOLOGIA IPRE}}
 \fancyhead[R]{\fontsize{6.8}{8.5}\selectfont\textcolor{ureMuted}{BI DIRIGENTE $\bullet$ URE ITAPEVI 2026}}
 
 \fancyfoot[L]{\fontsize{7.5}{9}\selectfont\textbf{\textcolor{ureNavy}{URE - Itapevi}}}
@@ -191,16 +191,16 @@
 
 \begin{center}
   {\fontsize{6.8}{8.8}\selectfont\textcolor{ureBlue}{\textbf{DOCUMENTO DE REFERÊNCIA METODOLÓGICA E CIENTÍFICA $\bullet$ VERSÃO OFICIAL 2026}}}\\[6pt]
-  {\fontsize{15}{19}\selectfont\textbf{\textcolor{ureNavy}{ÍNDICE MULTISSETORIAL DE RISCO OPERACIONAL (IMRO 360°)\\NA GESTÃO PÚBLICA EDUCACIONAL}}}\\[6pt]
+  {\fontsize{15}{19}\selectfont\textbf{\textcolor{ureNavy}{ÍNDICE DE PRIORIDADE DA REDE ESCOLAR (IPRE)\\NA GESTÃO PÚBLICA EDUCACIONAL}}}\\[6pt]
   {\fontsize{9}{12}\selectfont\textcolor{ureSlate}{Fundamentação Matemática, Engenharia de Dados (\emph{Star Schema}), Análise de Decisão Multicritério (\emph{MCDA})\\e Alocação Equitativa de Suporte Técnico para as 60 Escolas Estaduais da URE Itapevi}}
 \end{center}
 
 \vspace{0.2cm}
 
 \begin{execbox}{1. Propósito Institucional: Mensagem ao Corpo Técnico da URE Itapevi (100 Servidores)}
-Este documento apresenta, com rigor científico e clareza didática, a fundamentação teórica, estatística e computacional do \textbf{Índice Multissetorial de Risco Operacional (IMRO 360°)}, motor analítico central da plataforma \textbf{BI Dirigente}.
+Este documento apresenta, com rigor científico e clareza didática, a fundamentação teórica, estatística e computacional do \textbf{Índice de Prioridade da Rede Escolar (IPRE)}, motor analítico central da plataforma \textbf{BI Dirigente}.
 
-\textbf{Princípio Fundamental de Governança:} O IMRO 360° \textbf{não é um índice punitivo} nem uma avaliação de mérito pessoal de diretores ou servidores. Trata-se de um \textbf{instrumento técnico de triagem e priorização de suporte regional} --- análogo ao \emph{Protocolo de Triagem de Manchester} na saúde pública e aos \emph{Composite Risk Indicators} da OCDE. Seu objetivo exclusivo é garantir que a força de trabalho dos aproximadamente \textbf{100 servidores da URE Itapevi}, distribuídos em \textbf{7 Núcleos e Serviços Regionais}, seja alocada com precisão científica nas unidades escolares que apresentam maior vulnerabilidade operacional acumulada.
+\textbf{Princípio Fundamental de Governança:} O IPRE \textbf{não é um índice punitivo} nem uma avaliação de mérito pessoal de diretores ou servidores. Trata-se de um \textbf{instrumento técnico de triagem e priorização de suporte regional} --- análogo ao \emph{Protocolo de Triagem de Manchester} na saúde pública e aos \emph{Composite Risk Indicators} da OCDE. Seu objetivo exclusivo é garantir que a força de trabalho dos aproximadamente \textbf{100 servidores da URE Itapevi}, distribuídos em \textbf{7 Núcleos e Serviços Regionais}, seja alocada com precisão científica nas unidades escolares que apresentam maior vulnerabilidade operacional acumulada.
 \end{execbox}
 
 \vspace{0.15cm}
@@ -212,7 +212,7 @@ Este documento apresenta, com rigor científico e clareza didática, a fundament
 \centering
 \small
 \renewcommand{\arraystretch}{1.24}
-\caption{Síntese Executiva da Arquitetura Metodológica do IMRO 360° (Padrão BI Dirigente v364)}
+\caption{Síntese Executiva da Arquitetura Metodológica do IPRE (Padrão BI Dirigente v364)}
 \begin{tabularx}{\textwidth}{>{\bfseries\color{ureNavy}}p{4.3cm} X}
 \toprule
 \rowcolor{ureNavy} \textcolor{white}{Dimensão Arquitetural} & \textcolor{white}{\textbf{Especificação Técnica e Científica Adotada na URE Itapevi}} \\
@@ -222,7 +222,7 @@ Classe do Modelo na Literatura & \emph{Composite Risk Indicator} (OCDE/JRC) comb
 Escala Interna de Cada Setor & Normalização padronizada $\mathbf{S_k \in [0, 100]}$ em todos os 5 núcleos avaliados, utilizando múltiplos inteiros de $5$ e $10$ pontos (eliminação de tetos arbitrários e números quebrados). \\
 \rowcolor{ureLight} Vetor de Pesos Estratégicos ($\mathbf{w}$) & Soma exata de $100\%$: \textbf{SEOM ($25\%$)}, \textbf{SEINTEC ($20\%$)}, \textbf{SEGRE ($20\%$)}, \textbf{SEPES ($20\%$)} e \textbf{SEAFIN ($15\%$)}, calibrada pela matriz de severidade ISO 31000. \\
 Trava Anti-Mascaramento (Veto) & \textbf{Alerta Crítico Setorial ($\mathbf{S_k \ge 80/100}$):} Regra não-compensatória inspirada no método \emph{ELECTRE III} (Roy, 1991), impedindo que a média esconda um colapso isolado. \\
-\rowcolor{ureLight} Indicador Espelho da Rede & \textbf{ISR Regional ($\text{ISR} = 100 - \overline{\text{IMRO}}$):} Índice de Saúde da Rede Estadual nos 4 municípios (Itapevi, Barueri, Jandira e Pirapora do Bom Jesus). \\
+\rowcolor{ureLight} Indicador Espelho da Rede & \textbf{ISR Regional ($\text{ISR} = 100 - \overline{\text{IPRE}}$):} Índice de Saúde da Rede Estadual nos 4 municípios (Itapevi, Barueri, Jandira e Pirapora do Bom Jesus). \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -232,12 +232,12 @@ Trava Anti-Mascaramento (Veto) & \textbf{Alerta Crítico Setorial ($\mathbf{S_k 
 % ============================================================================
 \section{Origem Conceitual e Motivação na Engenharia e Ciência de Dados}
 
-Uma pergunta legítima de qualquer servidor público, especialista em currículo, engenheiro, analista administrativo ou supervisor de ensino ao observar o painel executivo da URE Itapevi é: \emph{``De onde surgiu o conceito do IMRO 360°? Trata-se de uma convenção arbitrária ou de uma metodologia reconhecida na Engenharia e Análise de Dados?''}
+Uma pergunta legítima de qualquer servidor público, especialista em currículo, engenheiro, analista administrativo ou supervisor de ensino ao observar o painel executivo da URE Itapevi é: \emph{``De onde surgiu o conceito do IPRE? Trata-se de uma convenção arbitrária ou de uma metodologia reconhecida na Engenharia e Análise de Dados?''}
 
 A resposta técnica divide-se em duas partes complementares:
 \begin{enumerate}[leftmargin=1.5em, itemsep=3pt]
-    \item \textbf{A nomenclatura ``IMRO 360°'' (\emph{Índice Multissetorial de Risco Operacional})} foi cunhada especificamente para a realidade institucional da \textbf{URE Itapevi (SEDUC-SP)}, batizando em língua portuguesa a integração dos cinco núcleos operacionais que incidem diretamente sobre o funcionamento diário das 60 escolas estaduais (\texttt{SEOM}, \texttt{SEINTEC}, \texttt{SEGRE}, \texttt{SEPES} e \texttt{SEAFIN}).
-    \item \textbf{O arcabouço matemático, estatístico e computacional do IMRO 360°}, por sua vez, implementa diretamente quatro dos paradigmas mais consolidados na literatura mundial de \textbf{Ciência de Dados}, \textbf{Pesquisa Operacional}, \textbf{Engenharia de Dados (\emph{Analytics Engineering})} e \textbf{Governança Pública}.
+    \item \textbf{A nomenclatura ``IPRE'' (\emph{Índice de Prioridade da Rede Escolar})} foi cunhada especificamente para a realidade institucional da \textbf{URE Itapevi (SEDUC-SP)}, batizando em língua portuguesa a integração dos cinco núcleos operacionais que incidem diretamente sobre o funcionamento diário das 60 escolas estaduais (\texttt{SEOM}, \texttt{SEINTEC}, \texttt{SEGRE}, \texttt{SEPES} e \texttt{SEAFIN}).
+    \item \textbf{O arcabouço matemático, estatístico e computacional do IPRE}, por sua vez, implementa diretamente quatro dos paradigmas mais consolidados na literatura mundial de \textbf{Ciência de Dados}, \textbf{Pesquisa Operacional}, \textbf{Engenharia de Dados (\emph{Analytics Engineering})} e \textbf{Governança Pública}.
 \end{enumerate}
 
 \subsection{Os Três Problemas Clássicos da Gestão Pública em Silos}
@@ -250,15 +250,15 @@ Antes da implementação de uma arquitetura orientada a dados, uma Diretoria/Uni
     \item \textbf{3. Viés de Alocação por Demanda Vocal (\emph{Squeaky Wheel Bias}):} Na ausência de um índice objetivo de risco, o suporte técnico regional tende a ser capturado pelas unidades que acionam informalmente a regional com maior frequência, em detrimento de escolas periféricas ou sobrecarregadas que acumulam passivos graves em silêncio.
 \end{itemize}
 
-\subsection{Equivalência entre o IMRO 360° e os Padrões da Literatura Internacional}
+\subsection{Equivalência entre o IPRE e os Padrões da Literatura Internacional}
 
-A Tabela~\ref{tab:equivalencia_literatura} demonstra como cada componente do IMRO 360° corresponde exatamente a um método formal da Engenharia de Dados e da Ciência de Decisão.
+A Tabela~\ref{tab:equivalencia_literatura} demonstra como cada componente do IPRE corresponde exatamente a um método formal da Engenharia de Dados e da Ciência de Decisão.
 
 \begin{table}[htbp]
 \centering
 \small
 \renewcommand{\arraystretch}{1.26}
-\caption{Correspondência entre a Arquitetura do IMRO 360° e a Literatura Científica}
+\caption{Correspondência entre a Arquitetura do IPRE e a Literatura Científica}
 \label{tab:equivalencia_literatura}
 \begin{tabularx}{\textwidth}{>{\bfseries\color{ureNavy}}p{3.6cm} >{\bfseries\color{ureBlue}}p{4.4cm} X}
 \toprule
@@ -322,7 +322,7 @@ A Figura~\ref{fig:pipeline_star_schema} ilustra a arquitetura de engenharia de d
 };
 
 % Saídas Executivas
-\node[outbox] (out1) at (10.5, -1.1) {\textbf{\color{ureNavy}Ranking IMRO 360° \& ISR}\\Priorização de Visitas ASURE/ESE};
+\node[outbox] (out1) at (10.5, -1.1) {\textbf{\color{ureNavy}Ranking IPRE \& ISR}\\Priorização de Visitas ASURE/ESE};
 \node[outbox] (out2) at (10.5, -2.3) {\textbf{\color{ureNavy}Dossiês PDF 300 DPI \& Excel}\\Relatórios Geral e Individual};
 
 % Setas
@@ -338,7 +338,7 @@ A Figura~\ref{fig:pipeline_star_schema} ilustra a arquitetura de engenharia de d
 \draw[arrow, thick, draw=ureSlate] (out1.south) -- (out2.north);
 
 \end{tikzpicture}
-\caption{Arquitetura de Engenharia de Dados (\emph{Star Schema}) e Pipeline de Decisão do IMRO 360°.}
+\caption{Arquitetura de Engenharia de Dados (\emph{Star Schema}) e Pipeline de Decisão do IPRE.}
 \label{fig:pipeline_star_schema}
 \end{figure}
 
@@ -498,27 +498,27 @@ Suponha uma escola estadual que esteja exemplar em quatro setores ($S_{\text{SEO
 
 Se utilizássemos \textbf{apenas} a média ponderada pura:
 \[
-\text{IMRO}_{\text{base}} = 0{,}25(0) + 0{,}20(10) + 0{,}20(100) + 0{,}20(0) + 0{,}15(0) = 2 + 20 = \mathbf{22\text{ pontos}}
+\text{IPRE}_{\text{base}} = 0{,}25(0) + 0{,}20(10) + 0{,}20(100) + 0{,}20(0) + 0{,}15(0) = 2 + 20 = \mathbf{22\text{ pontos}}
 \]
 Com $22$ pontos, a escola seria classificada como \textbf{``Regular / Estável'' ($< 40$)}, e o colapso de $100/100$ no \texttt{SEGRE} ficaria invisível no painel executivo!
 \end{alertbox}
 
-Para eliminar esse ponto cego, o \textbf{IMRO 360°} implementa a \textbf{Regra Híbrida Não-Compensatória (Trava de Alerta Crítico Setorial)}, inspirada no limiar de veto ($v_k$) do método \emph{ELECTRE III} de Bernard Roy (\cite{roy1991}):
+Para eliminar esse ponto cego, o \textbf{IPRE} implementa a \textbf{Regra Híbrida Não-Compensatória (Trava de Alerta Crítico Setorial)}, inspirada no limiar de veto ($v_k$) do método \emph{ELECTRE III} de Bernard Roy (\cite{roy1991}):
 
-\begin{mathbox}{Equação Geral do IMRO 360° (Média Ponderada + Trava Não-Compensatória)}
+\begin{mathbox}{Equação Geral do IPRE (Média Ponderada + Trava Não-Compensatória)}
 Dados os subíndices setoriais $S_k \in [0, 100]$, define-se primeiramente a média ponderada base e o máximo setorial:
 \begin{equation}
-\text{IMRO}_{\text{base}} = \text{round}\Big(0{,}25\cdot S_{\text{SEOM}} + 0{,}20\cdot S_{\text{SEINTEC}} + 0{,}20\cdot S_{\text{SEGRE}} + 0{,}20\cdot S_{\text{SEPES}} + 0{,}15\cdot S_{\text{SEAFIN}}\Big)
+\text{IPRE}_{\text{base}} = \text{round}\Big(0{,}25\cdot S_{\text{SEOM}} + 0{,}20\cdot S_{\text{SEINTEC}} + 0{,}20\cdot S_{\text{SEGRE}} + 0{,}20\cdot S_{\text{SEPES}} + 0{,}15\cdot S_{\text{SEAFIN}}\Big)
 \end{equation}
 \begin{equation}
 S_{\max} = \max\big\{S_{\text{SEOM}}, \, S_{\text{SEINTEC}}, \, S_{\text{SEGRE}}, \, S_{\text{SEPES}}, \, S_{\text{SEAFIN}}\big\}
 \end{equation}
 
-O escore final $\text{IMRO}_{360} \in [0, 100]$ é determinado pela função de agregação híbrida:
+O escore final $\text{IPRE} \in [0, 100]$ é determinado pela função de agregação híbrida:
 \begin{equation}
-\mathbf{\text{IMRO}_{360}} = \begin{cases}
-\min\Big(100, \; \max\big(\text{IMRO}_{\text{base}} + 8, \, 42\big)\Big), & \text{se } S_{\max} \ge 80 \;\; \textbf{(Trava Setorial Ativa)} \\[6pt]
-\text{IMRO}_{\text{base}}, & \text{se } S_{\max} < 80 \;\; \textbf{(Regime Normal)}
+\mathbf{\text{IPRE}} = \begin{cases}
+\min\Big(100, \; \max\big(\text{IPRE}_{\text{base}} + 8, \, 42\big)\Big), & \text{se } S_{\max} \ge 80 \;\; \textbf{(Trava Setorial Ativa)} \\[6pt]
+\text{IPRE}_{\text{base}}, & \text{se } S_{\max} < 80 \;\; \textbf{(Regime Normal)}
 \end{cases}
 \end{equation}
 \end{mathbox}
@@ -526,7 +526,7 @@ O escore final $\text{IMRO}_{360} \in [0, 100]$ é determinado pela função de 
 \textbf{Efeito Prático da Trava ($S_{\max} \ge 80$):}
 \begin{enumerate}[leftmargin=1.5em, itemsep=2pt]
     \item \textbf{Piso Automático de Atenção ($\ge 42$ pts):} Nenhuma escola com um setor em colapso ($\ge 80/100$) pode permanecer na faixa verde (``Regular $< 40$''). Ela é automaticamente promovida, no mínimo, para a faixa de \textbf{Atenção ($42$ pts)}.
-    \item \textbf{Impulso de Agravamento ($+8$ pts):} Se a escola já possuía média moderada ou alta (ex.: $\text{IMRO}_{\text{base}} = 45$), a presença de um setor em colapso ($\ge 80$) adiciona $+8$ pontos ($45 + 8 = 53$), elevando-a para \textbf{Alto Risco}.
+    \item \textbf{Impulso de Agravamento ($+8$ pts):} Se a escola já possuía média moderada ou alta (ex.: $\text{IPRE}_{\text{base}} = 45$), a presença de um setor em colapso ($\ge 80$) adiciona $+8$ pontos ($45 + 8 = 53$), elevando-a para \textbf{Alto Risco}.
     \item \textbf{Sinalização Visual Explícita:} O sistema acende a insígnia \textbf{\textcolor{riskCrit}{ALERTA SETORIAL: [NOME DO SETOR]}} nos cards, no painel lateral da escola, no PDF e na planilha Excel.
 \end{enumerate}
 
@@ -548,7 +548,7 @@ Para facilitar a apresentação institucional aos servidores da URE Itapevi, est
     height=6.0cm,
     bar width=14pt,
     xmin=0, xmax=35,
-    xlabel={\textbf{Peso Estratégico na Composição do IMRO 360° (\%)}},
+    xlabel={\textbf{Peso Estratégico na Composição do IPRE (\%)}},
     symbolic y coords={SEAFIN, SEPES, SEGRE, SEINTEC, SEOM},
     ytick=data,
     yticklabels={
@@ -586,10 +586,10 @@ Para facilitar a apresentação institucional aos servidores da URE Itapevi, est
 \centering
 \footnotesize
 \renewcommand{\arraystretch}{1.25}
-\caption{Régua de Estratificação Semafórica do IMRO 360° e Protocolo de Ação Regional}
+\caption{Régua de Estratificação Semafórica do IPRE e Protocolo de Ação Regional}
 \begin{tabularx}{\textwidth}{>{\bfseries}p{2.8cm} c p{3.6cm} X}
 \toprule
-\rowcolor{ureNavy} \textcolor{white}{Faixa Semafórica} & \textcolor{white}{\textbf{Intervalo IMRO}} & \textcolor{white}{\textbf{Nível de Intervenção}} & \textcolor{white}{\textbf{Protocolo Prescritivo para os Núcleos da URE Itapevi}} \\
+\rowcolor{ureNavy} \textcolor{white}{Faixa Semafórica} & \textcolor{white}{\textbf{Intervalo IPRE}} & \textcolor{white}{\textbf{Nível de Intervenção}} & \textcolor{white}{\textbf{Protocolo Prescritivo para os Núcleos da URE Itapevi}} \\
 \midrule
 \rowcolor{riskCritBg} \textcolor{riskCrit}{1. CRÍTICO} & $\mathbf{62\text{ a }100\text{ pts}}$ & Força-Tarefa Multissetorial Imediata & Prioridade máxima de visita conjunta (\texttt{ASURE} + \texttt{ESE} + núcleos críticos), plano de contingência predial/TI e despacho direto com o Dirigente. \\
 \rowcolor{riskHighBg} \textcolor{riskHigh}{2. ALTO RISCO} & $\mathbf{50\text{ a }61\text{ pts}}$ & Acompanhamento Prioritário Dirigido & Inclusão prioritária no cronograma mensal de visitas técnicas e mutirão setorial para desobstrução de processos SEI/SEPES/PDDE. \\
@@ -618,7 +618,7 @@ Para demonstrar o funcionamento exato da fórmula em diferentes perfis de escola
     bar width=10.5pt,
     ymin=0, ymax=105,
     ylabel={\textbf{Pontuação na Escala 0 a 100}},
-    symbolic x coords={SEOM, SEINTEC, SEGRE, SEPES, SEAFIN, IMRO360},
+    symbolic x coords={SEOM, SEINTEC, SEGRE, SEPES, SEAFIN, IPRE},
     xtick=data,
     xticklabels={
         {SEOM\\(Peso 25\%)},
@@ -626,7 +626,7 @@ Para demonstrar o funcionamento exato da fórmula em diferentes perfis de escola
         {SEGRE\\(Peso 20\%)},
         {SEPES\\(Peso 20\%)},
         {SEAFIN\\(Peso 15\%)},
-        {IMRO 360°\\(Escore Final)}
+        {IPRE\\(Escore Final)}
     },
     xticklabel style={font=\scriptsize\bfseries, color=ureNavy, align=center, text width=2.0cm},
     ylabel style={font=\footnotesize\bfseries, color=ureNavy},
@@ -638,18 +638,18 @@ Para demonstrar o funcionamento exato da fórmula em diferentes perfis de escola
     enlarge x limits=0.11
 ]
 \addplot[fill=riskOk!80, draw=riskOk!90!black] coordinates {
-    (SEOM, 10) (SEINTEC, 15) (SEGRE, 20) (SEPES, 15) (SEAFIN, 15) (IMRO360, 15)
+    (SEOM, 10) (SEINTEC, 15) (SEGRE, 20) (SEPES, 15) (SEAFIN, 15) (IPRE, 15)
 };
 \addplot[fill=riskWarn!85, draw=riskWarn!90!black] coordinates {
-    (SEOM, 5) (SEINTEC, 10) (SEGRE, 80) (SEPES, 0) (SEAFIN, 15) (IMRO360, 42)
+    (SEOM, 5) (SEINTEC, 10) (SEGRE, 80) (SEPES, 0) (SEAFIN, 15) (IPRE, 42)
 };
 \addplot[fill=riskCrit!85, draw=riskCrit!90!black] coordinates {
-    (SEOM, 75) (SEINTEC, 70) (SEGRE, 60) (SEPES, 65) (SEAFIN, 80) (IMRO360, 78)
+    (SEOM, 75) (SEINTEC, 70) (SEGRE, 60) (SEPES, 65) (SEAFIN, 80) (IPRE, 78)
 };
 \legend{{Caso A: Regular [15 pts]}, {Caso B: Trava Setorial [22 para 42 pts]}, {Caso C: Crítico [70 + 8 = 78 pts]}}
 \end{axis}
 \end{tikzpicture}
-\caption{Comparativo dos Subíndices Setoriais ($0\text{--}100$) e do Escore Final $\text{IMRO}_{360}$ nos Três Estudos de Caso.}
+\caption{Comparativo dos Subíndices Setoriais ($0\text{--}100$) e do Escore Final $\text{IPRE}$ nos Três Estudos de Caso.}
 \label{fig:comparativo_casos}
 \end{figure}
 
@@ -658,39 +658,39 @@ Para demonstrar o funcionamento exato da fórmula em diferentes perfis de escola
 \begin{mathbox}{Memória de Cálculo Auditável (Exemplos Didáticos para Apresentação)}
 \textbf{1. Cálculo do Caso A (Escola Regular):}
 \begin{align*}
-\text{IMRO}_{\text{base}} &= 0{,}25(10) + 0{,}20(15) + 0{,}20(20) + 0{,}20(15) + 0{,}15(15) \\
+\text{IPRE}_{\text{base}} &= 0{,}25(10) + 0{,}20(15) + 0{,}20(20) + 0{,}20(15) + 0{,}15(15) \\
 &= 2{,}5 + 3{,}0 + 4{,}0 + 3{,}0 + 2{,}25 = 14{,}75 \approx \mathbf{15\text{ pts}}
 \end{align*}
-Como $S_{\max} = 20 < 80$, nenhuma trava é acionada. Resultado final: $\mathbf{\text{IMRO}_{360} = 15/100}$ (\textcolor{riskOk}{\textbf{Faixa Regular}}).
+Como $S_{\max} = 20 < 80$, nenhuma trava é acionada. Resultado final: $\mathbf{\text{IPRE} = 15/100}$ (\textcolor{riskOk}{\textbf{Faixa Regular}}).
 
 \vspace{6pt}
 \textbf{2. Cálculo do Caso B (Escola com Colapso Isolado no SEGRE --- Ativação do Piso de Veto):}
 \begin{align*}
-\text{IMRO}_{\text{base}} &= 0{,}25(5) + 0{,}20(10) + 0{,}20(80) + 0{,}20(0) + 0{,}15(15) \\
+\text{IPRE}_{\text{base}} &= 0{,}25(5) + 0{,}20(10) + 0{,}20(80) + 0{,}20(0) + 0{,}15(15) \\
 &= 1{,}25 + 2{,}0 + 16{,}0 + 0 + 2{,}25 = 21{,}5 \approx \mathbf{22\text{ pts}}
 \end{align*}
 Entretanto, verifica-se que $S_{\max} = S_{\text{SEGRE}} = \mathbf{80 \ge 80}$ (\textbf{Alerta Crítico Setorial Ativo!}). Aplicando a equação não-compensatória:
 \[
-\text{IMRO}_{360} = \min\big(100, \; \max(22 + 8, \, 42)\big) = \max(30, \, 42) = \mathbf{42\text{ pts}}
+\text{IPRE} = \min\big(100, \; \max(22 + 8, \, 42)\big) = \max(30, \, 42) = \mathbf{42\text{ pts}}
 \]
-Resultado final: $\mathbf{\text{IMRO}_{360} = 42/100}$ (\textcolor{riskWarn}{\textbf{Faixa de Atenção + Flag ALERTA SETORIAL: SEGRE}}). A escola não fica oculta na faixa verde, e a equipe do \texttt{SEGRE} é imediatamente notificada.
+Resultado final: $\mathbf{\text{IPRE} = 42/100}$ (\textcolor{riskWarn}{\textbf{Faixa de Atenção + Flag ALERTA SETORIAL: SEGRE}}). A escola não fica oculta na faixa verde, e a equipe do \texttt{SEGRE} é imediatamente notificada.
 
 \vspace{6pt}
 \textbf{3. Cálculo do Caso C (Escola com Risco Multissetorial Severo):}
 \begin{align*}
-\text{IMRO}_{\text{base}} &= 0{,}25(75) + 0{,}20(70) + 0{,}20(60) + 0{,}20(65) + 0{,}15(80) \\
+\text{IPRE}_{\text{base}} &= 0{,}25(75) + 0{,}20(70) + 0{,}20(60) + 0{,}20(65) + 0{,}15(80) \\
 &= 18{,}75 + 14{,}0 + 12{,}0 + 13{,}0 + 12{,}0 = 69{,}75 \approx \mathbf{70\text{ pts}}
 \end{align*}
 Como $S_{\text{SEAFIN}} = 80 \ge 80$, aplica-se o agravamento de $+8$ pontos:
 \[
-\text{IMRO}_{360} = \min\big(100, \; \max(70 + 8, \, 42)\big) = \mathbf{78\text{ pts}}
+\text{IPRE} = \min\big(100, \; \max(70 + 8, \, 42)\big) = \mathbf{78\text{ pts}}
 \]
-Resultado final: $\mathbf{\text{IMRO}_{360} = 78/100}$ (\textcolor{riskCrit}{\textbf{Faixa Crítica --- Prioridade Máxima de Intervenção Conjunta}}).
+Resultado final: $\mathbf{\text{IPRE} = 78/100}$ (\textcolor{riskCrit}{\textbf{Faixa Crítica --- Prioridade Máxima de Intervenção Conjunta}}).
 \end{mathbox}
 
 \subsection{Gráfico 3: Curva de Resposta Não-Linear sob Colapso de um Único Setor}
 
-A Figura~\ref{fig:curva_veto} ilustra matematicamente o comportamento do escore final $\text{IMRO}_{360}$ quando uma escola possui quatro setores plenamente regulares ($S_2=S_3=S_4=S_5=0$) e um único setor $S_1$ (com peso $w_1 = 20\%$) varia de $0$ a $100$. Observa-se como, exatamente no limiar crítico $S_1 = 80$, a função abandona o regime linear compensatório (linha tracejada azul) e salta para o patamar de proteção não-compensatória ($\ge 42$ pontos, curva contínua vermelha), garantindo intervenção imediata da URE.
+A Figura~\ref{fig:curva_veto} ilustra matematicamente o comportamento do escore final $\text{IPRE}$ quando uma escola possui quatro setores plenamente regulares ($S_2=S_3=S_4=S_5=0$) e um único setor $S_1$ (com peso $w_1 = 20\%$) varia de $0$ a $100$. Observa-se como, exatamente no limiar crítico $S_1 = 80$, a função abandona o regime linear compensatório (linha tracejada azul) e salta para o patamar de proteção não-compensatória ($\ge 42$ pontos, curva contínua vermelha), garantindo intervenção imediata da URE.
 
 \begin{figure}[h!]
 \centering
@@ -713,13 +713,13 @@ A Figura~\ref{fig:curva_veto} ilustra matematicamente o comportamento do escore 
 ]
 % Média linear pura (0.20 * S1)
 \addplot[domain=0:100, samples=50, dashed, very thick, color=ureBlue] {0.20*x};
-% Curva IMRO 360 com Trava em S1 >= 80
+% Curva IPRE com Trava em S1 >= 80
 \addplot[ very thick, color=riskCrit, mark=*, mark options={scale=0.8}] coordinates {
     (0,0) (20,4) (40,8) (60,12) (79,16) (80,42) (90,42) (100,42)
 };
 % Linha horizontal da Faixa de Atenção (40 pts)
 \addplot[domain=0:100, dotted, thick, color=riskWarn] {40};
-\legend{{Média Ponderada Pura ($0{,}20 \cdot S_1$ --- Mascara a crise)}, {IMRO 360° com Trava Não-Compensatória ($S_{\max} \ge 80 \Rightarrow \ge 42$)}, {Limiar da Faixa de Atenção ($40$ pts)}}
+\legend{{Média Ponderada Pura ($0{,}20 \cdot S_1$ --- Mascara a crise)}, {IPRE com Trava Não-Compensatória ($S_{\max} \ge 80 \Rightarrow \ge 42$)}, {Limiar da Faixa de Atenção ($40$ pts)}}
 \end{axis}
 \end{tikzpicture}
 \caption{Efeito de proteção da Trava de Alerta Crítico Setorial ($S_{\max} \ge 80$) contra o mascaramento pela média.}
@@ -731,15 +731,15 @@ A Figura~\ref{fig:curva_veto} ilustra matematicamente o comportamento do escore 
 % ============================================================================
 \section{Integração com o ISR Regional e os 7 Núcleos da URE Itapevi}
 
-Enquanto o \textbf{IMRO 360°} mede o \textbf{risco operacional de cada unidade escolar} (onde \emph{menor é melhor}), o painel executivo do Dirigente Regional apresenta também o seu indicador complementar de governança macro: o \textbf{Índice de Saúde da Rede (ISR Regional)}, onde \emph{maior é melhor}:
+Enquanto o \textbf{IPRE} mede o \textbf{nível de prioridade de atendimento de cada unidade escolar} (onde \emph{menor é regular/estável e maior indica maior urgência de suporte regional}), o painel executivo do Dirigente Regional apresenta também o seu indicador complementar de governança macro: o \textbf{Índice de Saúde da Rede (ISR Regional)}, onde \emph{maior é melhor}:
 
 \begin{equation}
-\mathbf{\text{ISR}_{\text{URE}}} = \text{round}\left(100 - \frac{1}{60}\sum_{i=1}^{60} \text{IMRO}_{360}(e_i)\right) \in [0, 100]
+\mathbf{\text{ISR}_{\text{URE}}} = \text{round}\left(100 - \frac{1}{60}\sum_{i=1}^{60} \text{IPRE}(e_i)\right) \in [0, 100]
 \end{equation}
 
 Além dos $5$ núcleos que compõem a matriz de risco direto de cada escola (\texttt{SEOM}, \texttt{SEINTEC}, \texttt{SEGRE}, \texttt{SEPES} e \texttt{SEAFIN/SECOMSE}), a arquitetura do \textbf{BI Dirigente} fecha o ciclo completo de gestão com os outros dois pilares estratégicos da URE Itapevi:
 \begin{itemize}[leftmargin=1.5em, itemsep=3pt]
-    \item \textbf{6. ASURE \& Equipe de Supervisão de Ensino (ESE):} Consome diretamente o ranking do IMRO 360° para planejar a agenda de visitas presenciais e o uso da frota oficial, cruzando a pontuação de risco da escola com a data da última visita técnica realizada (\emph{Prioridade de Visita ASURE/ESE}).
+    \item \textbf{6. ASURE \& Equipe de Supervisão de Ensino (ESE):} Consome diretamente o ranking do IPRE para planejar a agenda de visitas presenciais e o uso da frota oficial, cruzando a pontuação de risco da escola com a data da última visita técnica realizada (\emph{Prioridade de Visita ASURE/ESE}).
     \item \textbf{7. EEC (Equipe de Especialistas em Currículo --- 12 Módulos Pedagógicos):} Conecta a estabilidade operacional da escola (infraestrutura, conectividade e quadro docente) às plataformas pedagógicas de aprendizagem, Simulados SARESP, Consulta SAEB, Plano de Ação 2.0 e Devolutiva Pedagógica.
 \end{itemize}
 
