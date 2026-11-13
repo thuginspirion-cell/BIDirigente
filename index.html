@@ -13921,7 +13921,7 @@ function imprimirAgendaCarro() {
         <div class="filter-card">
           <div class="search-input-wrap">
             <span class="search-icon-abs">🔍</span>
-            <input type="text" id="home-search-input" placeholder="Busca geral: Escola, CIE, responsável, assunto..." onkeydown="if(event.key==='Enter') aplicarFiltrosHome()">
+            <input type="text" id="home-search-input" placeholder="Busca geral: Escola, CIE, responsável, assunto..." oninput="aplicarFiltrosHome()" onkeydown="if(event.key==='Enter') aplicarFiltrosHome()">
           </div>
           <select id="home-filter-escola" class="filter-select" style="max-width: 280px; text-overflow: ellipsis;" onchange="aoMudarFiltroEscolaHome(this.value)">
             <option value="">🏫 Escola: Todas (60 Escolas)</option>
@@ -13997,9 +13997,6 @@ function imprimirAgendaCarro() {
             <option value="EEC">EEC</option>
             <option value="ESE">ESE</option>
           </select>
-          <button class="btn-apply-filters" onclick="aplicarFiltrosHome()" style="display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer;">
-            <span>🔍</span> Filtrar
-          </button>
           <button type="button" class="btn-apply-filters" onclick="limparFiltrosHome()" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); cursor: pointer;" title="Limpar filtros da Home">
             <span>↺</span> Limpar
           </button>
