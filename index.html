@@ -42008,6 +42008,36 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var dpatBensTot = (typeof DADOS_DPAT !== 'undefined' && DADOS_DPAT && DADOS_DPAT.kpis) ? DADOS_DPAT.kpis.totalBens : 2189;
         var dpatLocTot = (typeof DADOS_DPAT !== 'undefined' && DADOS_DPAT && DADOS_DPAT.kpis) ? DADOS_DPAT.kpis.bensLocalizados : 513;
 
+        /* Inteligência Executiva Adicional para Folha 1 (Top 5, Pareto, Dimensões & PEI vs Regular) */
+        var top5Escolas = fato.slice().sort(function(a, b) { return b.imro - a.imro; }).slice(0, 5);
+        var sumDim = { SEOM: 0, SEINTEC: 0, SEGRE: 0, SEPES: 0, SEAFIN: 0 };
+        var sumImroTotal = 0, sumImroPriorit = 0, sumImroPei = 0, sumImroReg = 0, hwBadTot = 0, alertasSetCount = 0;
+        fato.forEach(function(e) {
+          sumImroTotal += e.imro;
+          if (e.imro >= 50) sumImroPriorit += e.imro;
+          if ((e.tipo || '').indexOf('PEI') !== -1) sumImroPei += e.imro;
+          else sumImroReg += e.imro;
+          hwBadTot += (e.hwBad || 0);
+          if (e.alertaSetorial) alertasSetCount++;
+          if (e.pts) {
+            sumDim.SEOM += (e.pts.SEOM || 0);
+            sumDim.SEINTEC += (e.pts.SEINTEC || 0);
+            sumDim.SEGRE += (e.pts.SEGRE || 0);
+            sumDim.SEPES += (e.pts.SEPES || 0);
+            sumDim.SEAFIN += (e.pts.SEAFIN || 0);
+          }
+        });
+        var paretoPct = sumImroTotal > 0 ? Math.round((sumImroPriorit / sumImroTotal) * 100) : 0;
+        var avgPeiImro = peiCount > 0 ? (sumImroPei / peiCount).toFixed(1).replace('.', ',') : '0,0';
+        var avgRegImro = regCount > 0 ? (sumImroReg / regCount).toFixed(1).replace('.', ',') : '0,0';
+        var dimsResumo = [
+          { nome: 'SEOM (Infra & AVCB)', peso: '25%', media: totalEsc > 0 ? (sumDim.SEOM / totalEsc) : 0, cor: '#b45309' },
+          { nome: 'SEINTEC (TI & Chamados)', peso: '20%', media: totalEsc > 0 ? (sumDim.SEINTEC / totalEsc) : 0, cor: '#0284c7' },
+          { nome: 'SEGRE (Rede & SEI)', peso: '20%', media: totalEsc > 0 ? (sumDim.SEGRE / totalEsc) : 0, cor: '#4f46e5' },
+          { nome: 'SEPES (Pessoas & Folha)', peso: '20%', media: totalEsc > 0 ? (sumDim.SEPES / totalEsc) : 0, cor: '#b91c1c' },
+          { nome: 'SEAFIN (PDDE & Contratos)', peso: '15%', media: totalEsc > 0 ? (sumDim.SEAFIN / totalEsc) : 0, cor: '#059669' }
+        ];
+
         /* Agrupamento por Município */
         var porMun = {};
         fato.forEach(function(e) {
@@ -42073,7 +42103,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                   '<div class="doc-kpi" style="--kpi-accent:#7c3aed; text-align:center;"><div class="doc-kpi-lbl">SEPES • Vida Funcional</div><div class="doc-kpi-val" style="color:#7c3aed;">' + seapeEmTramitacao + '</div><div class="doc-kpi-sub">Aposentadorias, Design., Abonos</div></div>' +
                 '</div>' +
               '</section>' +
-              '<section class="doc-section" style="margin-bottom:0;">' +
+              '<section class="doc-section" style="margin-bottom:8px;">' +
                 '<div class="doc-grid-2">' +
                   '<div class="doc-card">' +
                     '<div class="doc-card-head"><span>🎯 Distribuição do Índice IPRE (60 Escolas)</span><span>0–100 pts (Risco)</span></div>' +
@@ -42092,6 +42122,63 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                         }).join('') +
                       '</tbody>' +
                     '</table>' +
+                  '</div>' +
+                '</div>' +
+              '</section>' +
+              '<section class="doc-section" style="margin-bottom:8px;">' +
+                '<h2 class="doc-sec-heading"><span><span class="doc-sec-num">02</span>Diagnóstico Prescritivo de Risco, Pareto &amp; Top 5 Prioritárias</span><span>' + alertasSetCount + ' UEs c/ Alerta Setorial (≥80)</span></h2>' +
+                '<div class="doc-grid-2">' +
+                  '<div class="doc-card">' +
+                    '<div class="doc-card-head"><span>🚨 Top 5 Unidades Prioritárias (Maior IPRE)</span><span>Intervenção Imediata</span></div>' +
+                    '<table class="doc-table" style="font-size:6.4pt;">' +
+                      '<thead><tr><th>#</th><th>Unidade Escolar</th><th>Município</th><th>IPRE</th><th>Vetor Principal</th></tr></thead>' +
+                      '<tbody>' +
+                        top5Escolas.map(function(es, idx) {
+                          var pObj = es.pts || {};
+                          var topSetor = 'SEOM', topVal = -1;
+                          ['SEOM', 'SEINTEC', 'SEGRE', 'SEPES', 'SEAFIN'].forEach(function(k) {
+                            if ((pObj[k] || 0) > topVal) { topVal = (pObj[k] || 0); topSetor = k; }
+                          });
+                          var corBadge = es.imro >= 62 ? '#b91c1c' : (es.imro >= 50 ? '#c2410c' : '#b45309');
+                          var nomeCurto = String(es.nome || '').replace(/^E\.E\.?\s*/i, '').slice(0, 26);
+                          var cidCurto = String(es.cidade || '').indexOf('Pirapora') !== -1 ? 'Pirapora' : es.cidade;
+                          return '<tr><td><strong>' + (idx + 1) + 'º</strong></td><td><strong>' + escHtml(nomeCurto) + '</strong></td><td>' + escHtml(cidCurto) + '</td><td><strong style="color:' + corBadge + ';">' + es.imro + ' pts</strong></td><td>' + topSetor + ' (' + topVal + ')</td></tr>';
+                        }).join('') +
+                      '</tbody>' +
+                    '</table>' +
+                  '</div>' +
+                  '<div class="doc-card">' +
+                    '<div class="doc-card-head"><span>📊 Decomposição por Dimensão &amp; Pareto</span><span>Concentração de Risco</span></div>' +
+                    '<div style="display:flex;flex-direction:column;gap:4px;margin-top:2px;">' +
+                      dimsResumo.map(function(d) {
+                        var wBar = Math.max(4, Math.min(100, Math.round(d.media)));
+                        return '<div style="font-size:6.4pt;">' +
+                          '<div style="display:flex;justify-content:space-between;margin-bottom:1.5px;"><span style="font-weight:700;color:#1e293b;">' + d.nome + ' <span style="color:#64748b;font-weight:500;">(' + d.peso + ')</span></span><strong style="color:' + d.cor + ';">' + d.media.toFixed(1).replace('.', ',') + ' pts</strong></div>' +
+                          '<div style="height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;"><div style="height:100%;width:' + wBar + '%;background:' + d.cor + ';border-radius:3px;"></div></div>' +
+                        '</div>';
+                      }).join('') +
+                    '</div>' +
+                    '<div style="margin-top:6px;padding-top:5px;border-top:1px dashed #cbd5e1;display:flex;justify-content:space-between;font-size:6.3pt;color:#334155;">' +
+                      '<span><strong>Pareto:</strong> ' + (critCount + altoCount) + ' UEs (' + Math.round(((critCount + altoCount) / totalEsc) * 100) + '%) somam <strong>' + paretoPct + '%</strong> do risco</span>' +
+                      '<span><strong>PEI:</strong> ' + avgPeiImro + ' pts vs <strong>Reg.:</strong> ' + avgRegImro + ' pts</span>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
+              '</section>' +
+              '<section class="doc-section" style="margin-bottom:0;">' +
+                '<h2 class="doc-sec-heading"><span><span class="doc-sec-num">03</span>Plano de Ação Prescritivo da Diretoria (Horizonte 30 / 60 / 90 Dias)</span><span>Alavancas de Gestão</span></h2>' +
+                '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">' +
+                  '<div class="doc-card" style="border-top:2.5px solid #b91c1c;padding:6px 8px;">' +
+                    '<div style="font-size:6.8pt;font-weight:800;color:#b91c1c;margin-bottom:3px;">⚡ 0–30 DIAS • CONTENÇÃO CRÍTICA</div>' +
+                    '<div style="font-size:6.3pt;color:#334155;line-height:1.35;">• Atuação imediata nas <strong>' + critCount + ' UEs Críticas</strong> (IPRE ≥ 62).<br>• Força-tarefa <strong>AVCB (' + avcbPendentes + ' pendentes)</strong>.<br>• Desbloqueio de <strong>' + segreSeiAged30 + ' SEI &gt;30d</strong> no SEGRE.</div>' +
+                  '</div>' +
+                  '<div class="doc-card" style="border-top:2.5px solid #0369a1;padding:6px 8px;">' +
+                    '<div style="font-size:6.8pt;font-weight:800;color:#0369a1;margin-bottom:3px;">💎 31–60 DIAS • LIQUIDEZ &amp; FLUXO</div>' +
+                    '<div style="font-size:6.3pt;color:#334155;line-height:1.35;">• Destravar <strong>' + formatarMoedaCurta(pddeSaldoOcioso) + '</strong> parados em APMs (PDDE).<br>• Reduzir devolução SEFREP (<strong>' + sefrepTxDev + '%</strong>) c/ checklist.<br>• Renovar <strong>' + tel.SEAFIN.vencendo60d + ' contratos ≤60d</strong> sem ruptura.</div>' +
+                  '</div>' +
+                  '<div class="doc-card" style="border-top:2.5px solid #047857;padding:6px 8px;">' +
+                    '<div style="font-size:6.8pt;font-weight:800;color:#047857;margin-bottom:3px;">🛡️ 61–90 DIAS • PREVENÇÃO CONTÍNUA</div>' +
+                    '<div style="font-size:6.3pt;color:#334155;line-height:1.35;">• Triagem dos <strong>' + hwBadTot.toLocaleString('pt-BR') + ' itens TI</strong> em reparo/inativos.<br>• Roteiro <strong>ASURE</strong> nas ' + (critCount + altoCount) + ' UEs prioritárias.<br>• Monitorar <strong>' + dpatBensTot.toLocaleString('pt-BR') + ' bens DPAT</strong> &amp; 12 módulos EEC.</div>' +
                   '</div>' +
                 '</div>' +
               '</section>' +
