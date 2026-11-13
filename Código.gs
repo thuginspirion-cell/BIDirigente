@@ -27,7 +27,7 @@ function doGet(e) {
       if (action === 'sincronizarSharepoint' || action === 'sincronizarCalls') {
         output = sincronizarPlanilhaSharepoint(forcarBruto);
       } else if (action === 'sincronizarInventario') {
-        output = sincronizarInventarioSharepoint();
+        output = sincronizarInventarioSharepoint(e.parameter.since || '');
       } else if (action === 'sincronizarSefin') {
         output = sincronizarPlanilhaSefin(forcarBruto);
       } else if (action === 'sincronizarSegre') {
@@ -38,6 +38,8 @@ function doGet(e) {
         output = sincronizarPlanilhaSevesc(forcarBruto);
       } else if (action === 'sincronizarSepes') {
         output = sincronizarPlanilhaSepes(forcarBruto);
+      } else if (action === 'sincronizarSefrep') {
+        output = sincronizarPlanilhaSefrep(forcarBruto);
       } else if (action === 'sincronizarSecomse') {
         output = sincronizarPlanilhaSecomse(forcarBruto);
       } else if (action === 'sincronizarDpat') {
@@ -123,7 +125,7 @@ function include(filename) {
  * MOTOR UNIVERSAL DE RESOLUÇÃO PÚBLICA DO SHAREPOINT (ANTI-LOGIN RESILIENTE)
  * REGRA FUNDAMENTAL DO PROJETO:
  * Todos os arquivos, pastas e planilhas públicas compartilhadas por qualquer
- * setor da Diretoria de Ensino (SEINTEC, SEAFIN, SEOM, SEGRE, SEPES, EEC, ASURE, etc.)
+ * setor da Unidade Regional de Ensino (SEINTEC, SEAFIN, SEOM, SEGRE, SEPES, EEC, ASURE, etc.)
  * devem ser sincronizados sem interrupções e sem exigir login, preservando os
  * cookies anônimos de visitante e ativando a base de contingência transparente.
  * =========================================================================
@@ -152,12 +154,310 @@ function verificarSeBytesSaoXlsx(bytes) {
 }
 
 /**
+ * Utilitários binários ZIP em memória (compatíveis com byte[] assinado -128..127 do Apps Script)
+ */
+function lerU16LE_(bytes, idx) {
+  return (bytes[idx] & 0xFF) | ((bytes[idx + 1] & 0xFF) << 8);
+}
+
+function lerU32LE_(bytes, idx) {
+  return ((bytes[idx] & 0xFF) |
+    ((bytes[idx + 1] & 0xFF) << 8) |
+    ((bytes[idx + 2] & 0xFF) << 16) |
+    ((bytes[idx + 3] & 0xFF) << 24)) >>> 0;
+}
+
+function escreverU16LE_(arr, val) {
+  var b0 = val & 0xFF;
+  var b1 = (val >>> 8) & 0xFF;
+  arr.push(b0 > 127 ? b0 - 256 : b0);
+  arr.push(b1 > 127 ? b1 - 256 : b1);
+}
+
+function escreverU32LE_(arr, val) {
+  var u = val >>> 0;
+  for (var i = 0; i < 4; i++) {
+    var b = (u >>> (i * 8)) & 0xFF;
+    arr.push(b > 127 ? b - 256 : b);
+  }
+}
+
+function anexarBytesAssinados_(dst, src, start, end) {
+  for (var i = start; i < end; i++) {
+    dst.push(src[i]);
+  }
+}
+
+function parsearCentralDirectoryZip_(tailBytes, tailStartAbs) {
+  var eocd = -1;
+  for (var i = tailBytes.length - 22; i >= 0; i--) {
+    if (lerU32LE_(tailBytes, i) === 0x06054b50) {
+      eocd = i;
+      break;
+    }
+  }
+  if (eocd === -1) return null;
+  var cdOffsetAbs = lerU32LE_(tailBytes, eocd + 16);
+  var cdCount = lerU16LE_(tailBytes, eocd + 10);
+  if (cdOffsetAbs < tailStartAbs) {
+    return { needMoreFrom: cdOffsetAbs };
+  }
+  var pos = cdOffsetAbs - tailStartAbs;
+  var entries = [];
+  for (var k = 0; k < cdCount; k++) {
+    if (pos + 46 > tailBytes.length || lerU32LE_(tailBytes, pos) !== 0x02014b50) break;
+    var compMethod = lerU16LE_(tailBytes, pos + 10);
+    var modTime = lerU16LE_(tailBytes, pos + 12);
+    var modDate = lerU16LE_(tailBytes, pos + 14);
+    var crc32 = lerU32LE_(tailBytes, pos + 16);
+    var compSize = lerU32LE_(tailBytes, pos + 20);
+    var uncompSize = lerU32LE_(tailBytes, pos + 24);
+    var nameLen = lerU16LE_(tailBytes, pos + 28);
+    var extraLen = lerU16LE_(tailBytes, pos + 30);
+    var commentLen = lerU16LE_(tailBytes, pos + 32);
+    var lfhOffset = lerU32LE_(tailBytes, pos + 42);
+    var nameBytes = tailBytes.slice(pos + 46, pos + 46 + nameLen);
+    var name = Utilities.newBlob(nameBytes).getDataAsString("UTF-8");
+    entries.push({
+      name: name,
+      nameBytes: nameBytes,
+      compMethod: compMethod,
+      modTime: modTime,
+      modDate: modDate,
+      crc32: crc32,
+      compSize: compSize,
+      uncompSize: uncompSize,
+      lfhOffset: lfhOffset
+    });
+    pos += 46 + nameLen + extraLen + commentLen;
+  }
+  return { entries: entries };
+}
+
+function montarMiniZipBytes_(items, usarNomeSimplesAscii) {
+  var lfhOut = [];
+  var cdOut = [];
+  var offset = 0;
+  var asciiName = [105, 116, 101, 109, 46, 120, 109, 108]; // "item.xml"
+  for (var i = 0; i < items.length; i++) {
+    var it = items[i];
+    var e = it.entry;
+    var nb = usarNomeSimplesAscii ? asciiName : e.nameBytes;
+    var p = it.payload;
+
+    // Local File Header (30 bytes + name)
+    escreverU32LE_(lfhOut, 0x04034b50);
+    escreverU16LE_(lfhOut, 20);
+    escreverU16LE_(lfhOut, usarNomeSimplesAscii ? 0 : 0x0800);
+    escreverU16LE_(lfhOut, e.compMethod);
+    escreverU16LE_(lfhOut, e.modTime);
+    escreverU16LE_(lfhOut, e.modDate);
+    escreverU32LE_(lfhOut, e.crc32);
+    escreverU32LE_(lfhOut, p.length);
+    escreverU32LE_(lfhOut, e.uncompSize);
+    escreverU16LE_(lfhOut, nb.length);
+    escreverU16LE_(lfhOut, 0);
+    anexarBytesAssinados_(lfhOut, nb, 0, nb.length);
+    anexarBytesAssinados_(lfhOut, p, 0, p.length);
+
+    // Central Directory Entry (46 bytes + name)
+    escreverU32LE_(cdOut, 0x02014b50);
+    escreverU16LE_(cdOut, 20);
+    escreverU16LE_(cdOut, 20);
+    escreverU16LE_(cdOut, usarNomeSimplesAscii ? 0 : 0x0800);
+    escreverU16LE_(cdOut, e.compMethod);
+    escreverU16LE_(cdOut, e.modTime);
+    escreverU16LE_(cdOut, e.modDate);
+    escreverU32LE_(cdOut, e.crc32);
+    escreverU32LE_(cdOut, p.length);
+    escreverU32LE_(cdOut, e.uncompSize);
+    escreverU16LE_(cdOut, nb.length);
+    escreverU16LE_(cdOut, 0);
+    escreverU16LE_(cdOut, 0);
+    escreverU16LE_(cdOut, 0);
+    escreverU16LE_(cdOut, 0);
+    escreverU32LE_(cdOut, 0);
+    escreverU32LE_(cdOut, offset);
+    anexarBytesAssinados_(cdOut, nb, 0, nb.length);
+
+    offset += 30 + nb.length + p.length;
+  }
+
+  var cdLen = cdOut.length;
+  anexarBytesAssinados_(lfhOut, cdOut, 0, cdLen);
+  // EOCD (22 bytes)
+  escreverU32LE_(lfhOut, 0x06054b50);
+  escreverU16LE_(lfhOut, 0);
+  escreverU16LE_(lfhOut, 0);
+  escreverU16LE_(lfhOut, items.length);
+  escreverU16LE_(lfhOut, items.length);
+  escreverU32LE_(lfhOut, cdLen);
+  escreverU32LE_(lfhOut, offset);
+  return lfhOut;
+}
+
+function extrairPayloadEntradaRange_(respBytes, entry) {
+  var fnLen = lerU16LE_(respBytes, 26);
+  var exLen = lerU16LE_(respBytes, 28);
+  var dataStart = 30 + fnLen + exLen;
+  return respBytes.slice(dataStart, dataStart + entry.compSize);
+}
+
+function extrairAtributoXml_(tagStr, attrName) {
+  var re = new RegExp(attrName + '="([^"]+)"', "i");
+  var m = tagStr.match(re);
+  return m ? m[1] : "";
+}
+
+function obterAbasSeletivasSharepointZip_(finalDownloadUrl, cookieHeader, abasNecessarias, totalLen) {
+  var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+
+  // 1. Ler os últimos 64 KB do ZIP (Central Directory + EOCD)
+  var tailStart = Math.max(0, totalLen - 65536);
+  var respTail = UrlFetchApp.fetch(finalDownloadUrl, {
+    muteHttpExceptions: true,
+    followRedirects: true,
+    headers: { "User-Agent": ua, "Cookie": cookieHeader, "Range": "bytes=" + tailStart + "-" + (totalLen - 1) }
+  });
+  if (respTail.getResponseCode() !== 206) return null;
+
+  var tailBytes = respTail.getContent();
+  var parsedCd = parsearCentralDirectoryZip_(tailBytes, tailStart);
+  if (!parsedCd) return null;
+
+  if (parsedCd.needMoreFrom !== undefined) {
+    tailStart = parsedCd.needMoreFrom;
+    var respTail2 = UrlFetchApp.fetch(finalDownloadUrl, {
+      muteHttpExceptions: true,
+      followRedirects: true,
+      headers: { "User-Agent": ua, "Cookie": cookieHeader, "Range": "bytes=" + tailStart + "-" + (totalLen - 1) }
+    });
+    if (respTail2.getResponseCode() !== 206) return null;
+    tailBytes = respTail2.getContent();
+    parsedCd = parsearCentralDirectoryZip_(tailBytes, tailStart);
+    if (!parsedCd || !parsedCd.entries) return null;
+  }
+
+  var entries = parsedCd.entries;
+  var wbEntry = null, relsEntry = null;
+  for (var i = 0; i < entries.length; i++) {
+    if (entries[i].name === "xl/workbook.xml") wbEntry = entries[i];
+    else if (entries[i].name === "xl/_rels/workbook.xml.rels") relsEntry = entries[i];
+  }
+  if (!wbEntry || !relsEntry) return null;
+
+  function criarReqRange(entry) {
+    var endByte = Math.min(totalLen - 1, entry.lfhOffset + 30 + entry.nameBytes.length + 256 + entry.compSize - 1);
+    return {
+      url: finalDownloadUrl,
+      muteHttpExceptions: true,
+      followRedirects: true,
+      headers: { "User-Agent": ua, "Cookie": cookieHeader, "Range": "bytes=" + entry.lfhOffset + "-" + endByte }
+    };
+  }
+
+  // 2. Baixar workbook.xml e rels em paralelo para mapear nomes de abas -> arquivos sheet*.xml
+  var metaResps = UrlFetchApp.fetchAll([criarReqRange(wbEntry), criarReqRange(relsEntry)]);
+  if (metaResps[0].getResponseCode() !== 206 || metaResps[1].getResponseCode() !== 206) return { erroDiag: "metaResps " + metaResps[0].getResponseCode() + "/" + metaResps[1].getResponseCode() };
+
+  var wbPayload = extrairPayloadEntradaRange_(metaResps[0].getContent(), wbEntry);
+  var relsPayload = extrairPayloadEntradaRange_(metaResps[1].getContent(), relsEntry);
+
+  var wbXml = Utilities.unzip(Utilities.newBlob(montarMiniZipBytes_([{ entry: wbEntry, payload: wbPayload }], true), "application/zip"))[0].getDataAsString("UTF-8");
+  var relsXml = Utilities.unzip(Utilities.newBlob(montarMiniZipBytes_([{ entry: relsEntry, payload: relsPayload }], true), "application/zip"))[0].getDataAsString("UTF-8");
+
+  var relMap = {};
+  var relTags = relsXml.match(/<Relationship\b[^>]*>/gi) || [];
+  for (var r = 0; r < relTags.length; r++) {
+    var rId = extrairAtributoXml_(relTags[r], "Id");
+    var target = extrairAtributoXml_(relTags[r], "Target");
+    if (rId && target) {
+      relMap[rId] = "xl/" + target.replace(/^\/?xl\//i, "").replace(/^\//, "");
+    }
+  }
+
+  var wantedNormMap = {};
+  for (var w = 0; w < abasNecessarias.length; w++) {
+    wantedNormMap[String(abasNecessarias[w]).replace(/\s+/g, " ").trim().toUpperCase()] = true;
+  }
+
+  var wantedPathSet = {};
+  var abasExtraidas = [];
+  var sheetTags = wbXml.match(/<sheet\b[^>]*>/gi) || [];
+  for (var s = 0; s < sheetTags.length; s++) {
+    var sName = extrairAtributoXml_(sheetTags[s], "name");
+    var sRid = extrairAtributoXml_(sheetTags[s], "r:id");
+    var sNorm = sName.replace(/\s+/g, " ").trim().toUpperCase();
+    if (sRid && relMap[sRid] && wantedNormMap[sNorm]) {
+      wantedPathSet[relMap[sRid]] = true;
+      abasExtraidas.push(sName);
+    }
+  }
+  if (abasExtraidas.length === 0) return { erroDiag: "nenhuma aba correspondente" };
+
+  // 3. Selecionar estritamente partes essenciais do SheetJS + abas desejadas (~10 entradas no total)
+  var coreSet = {
+    "[Content_Types].xml": true,
+    "_rels/.rels": true,
+    "xl/sharedStrings.xml": true,
+    "xl/styles.xml": true,
+    "xl/persons/person.xml": true
+  };
+  var filtered = [];
+  for (var j = 0; j < entries.length; j++) {
+    var en = entries[j];
+    if (coreSet[en.name] || wantedPathSet[en.name]) {
+      filtered.push(en);
+    }
+  }
+
+  // 4. Download paralelo das partes essenciais via fetchAll + retry unitário se houver 429/503
+  var reqs = [];
+  for (var f = 0; f < filtered.length; f++) {
+    reqs.push(criarReqRange(filtered[f]));
+  }
+  var resps = reqs.length > 0 ? UrlFetchApp.fetchAll(reqs) : [];
+  var items = [
+    { entry: wbEntry, payload: wbPayload },
+    { entry: relsEntry, payload: relsPayload }
+  ];
+  var downloadedTotal = tailBytes.length + wbPayload.length + relsPayload.length;
+  for (var idx = 0; idx < filtered.length; idx++) {
+    var respItem = resps[idx];
+    if (respItem.getResponseCode() !== 206) {
+      Utilities.sleep(200);
+      respItem = UrlFetchApp.fetch(criarReqRange(filtered[idx]).url, {
+        muteHttpExceptions: true,
+        followRedirects: true,
+        headers: criarReqRange(filtered[idx]).headers
+      });
+      if (respItem.getResponseCode() !== 206) {
+        return { erroDiag: "item " + filtered[idx].name + " HTTP " + respItem.getResponseCode() };
+      }
+    }
+    var rb = respItem.getContent();
+    downloadedTotal += rb.length;
+    items.push({ entry: filtered[idx], payload: extrairPayloadEntradaRange_(rb, filtered[idx]) });
+  }
+
+  var miniBytes = montarMiniZipBytes_(items, false);
+  return {
+    base64: Utilities.base64Encode(miniBytes),
+    miniBytes: miniBytes.length,
+    downloadedBytes: downloadedTotal,
+    totalBytes: totalLen,
+    abasExtraidas: abasExtraidas
+  };
+}
+
+/**
  * MOTOR UNIVERSAL DE DOWNLOAD DE ARQUIVOS PÚBLICOS DO SHAREPOINT
- * Executa o fluxo de handshake em duas etapas com preservação de cookies anônimos (FedAuth/rtFa),
- * blindando contra telas de login e garantindo entrega do binário Excel/ZIP.
+ * Executa o fluxo de handshake em duas etapas com preservação de cookies anônimos (FedAuth/rtFa).
+ * Quando `opcoes.abasNecessarias` é informado e o arquivo ultrapassa 1,5 MB, aplica extração
+ * cirúrgica via HTTP 206 Range para baixar apenas as abas ativas em memória RAM (contornando o teto de 50 MB).
  *
  * @param {string} rawUrl - Link público de compartilhamento
- * @param {object} [opcoes] - Opções { nomeSetor, descricaoBase, contingenciaLocal }
+ * @param {object} [opcoes] - Opções { nomeSetor, descricaoBase, abasNecessarias, sempreSeletivo }
  * @return {object} { sucesso, dadosBase64, usarBaseLocal, aviso, timestamp, data }
  */
 function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
@@ -230,7 +530,64 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
       finalDownloadUrl = (location1.indexOf("http") === 0) ? location1 : ("https://seesp-my.sharepoint.com" + location1);
     }
 
-    // 2. Download do arquivo com repasse integral dos cookies anônimos
+    // 1.5 Sondagem de tamanho + Extração Seletiva via HTTP 206 Range quando houver abasNecessarias
+    var totalLenRemoto = 0;
+    var diagSeletivo = "";
+    if (opcoes.abasNecessarias && opcoes.abasNecessarias.length > 0) {
+      try {
+        var respProbe = UrlFetchApp.fetch(finalDownloadUrl, {
+          muteHttpExceptions: true,
+          followRedirects: true,
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Cookie": cookieHeader,
+            "Range": "bytes=0-1"
+          }
+        });
+        if (respProbe.getResponseCode() === 206) {
+          var pHeaders = respProbe.getAllHeaders();
+          var cRange = pHeaders["Content-Range"] || pHeaders["content-range"] || "";
+          var mTotal = String(cRange).match(/\/(\d+)/);
+          if (mTotal) totalLenRemoto = parseInt(mTotal[1], 10);
+
+          if (totalLenRemoto > 1572864 || opcoes.sempreSeletivo) {
+            var seletivo = obterAbasSeletivasSharepointZip_(finalDownloadUrl, cookieHeader, opcoes.abasNecessarias, totalLenRemoto);
+            if (seletivo && seletivo.base64) {
+              return {
+                sucesso: true,
+                dadosBase64: seletivo.base64,
+                tamanhoBytes: seletivo.miniBytes,
+                tamanhoOriginalBytes: seletivo.totalBytes,
+                bytesBaixadosRange: seletivo.downloadedBytes,
+                abasExtraidas: seletivo.abasExtraidas,
+                origem: "SharePoint Live (Seletivo Range 206)",
+                timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+                data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
+              };
+            }
+            if (seletivo && seletivo.erroDiag) diagSeletivo = seletivo.erroDiag;
+          }
+        } else {
+          diagSeletivo = "probe HTTP " + respProbe.getResponseCode();
+        }
+      } catch (errRange) {
+        diagSeletivo = errRange.toString();
+        Logger.log("Aviso extração seletiva (" + setor + "): " + diagSeletivo);
+      }
+    }
+
+    // Se o arquivo inteiro exceder 35 MB (acima do limite prático Base64/GAS), não tenta download bruto
+    if (totalLenRemoto > 35 * 1024 * 1024) {
+      return {
+        sucesso: true,
+        usarBaseLocal: true,
+        aviso: "Arquivo de " + setor + " (" + (totalLenRemoto / (1024 * 1024)).toFixed(1) + " MB) excedeu teto bruto do GAS e extração seletiva não retornou abas.",
+        timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+        data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
+      };
+    }
+
+    // 2. Download completo para arquivos leves com repasse integral dos cookies anônimos
     var response = UrlFetchApp.fetch(finalDownloadUrl, {
       muteHttpExceptions: true,
       followRedirects: true,
@@ -250,6 +607,8 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
           sucesso: true,
           dadosBase64: base64,
           tamanhoBytes: bytes.length,
+          diagSeletivo: diagSeletivo || undefined,
+          origem: "SharePoint Live UrlFetch",
           timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
           data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
         };
@@ -295,8 +654,9 @@ function autorizarUrlFetch() {
  * MOTOR UNIVERSAL DE RESOLUÇÃO DE PASTAS PÚBLICAS DO SHAREPOINT
  * Consulta pastas de repositório público (como InventarioRC - V2 ou pastas de novos setores)
  */
-function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivosPadrao) {
+function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivosPadrao, opcoes) {
   var padraoCount = totalArquivosPadrao || 60;
+  var opts = opcoes || {};
   try {
     if (typeof UrlFetchApp === "undefined") {
       return {
@@ -322,7 +682,7 @@ function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivo
     var cookieHeader = extrairCookiesSharepoint(headers1);
 
     if (folderPathRelativo) {
-      var apiUrl = "https://seesp-my.sharepoint.com/personal/itp_seintec_educacao_sp_gov_br/_api/web/GetFolderByServerRelativeUrl('" + encodeURIComponent(folderPathRelativo) + "')/Files";
+      var apiUrl = "https://seesp-my.sharepoint.com/personal/itp_seintec_educacao_sp_gov_br/_api/web/GetFolderByServerRelativeUrl('" + encodeURIComponent(folderPathRelativo) + "')/Files?$top=200";
       var resp2 = UrlFetchApp.fetch(apiUrl, {
         muteHttpExceptions: true,
         headers: {
@@ -336,12 +696,68 @@ function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivo
         try {
           var json = JSON.parse(resp2.getContentText());
           var files = (json.d && json.d.results) ? json.d.results : [];
+          var arquivosModificados = [];
+
+          if (opts.baixarModificados && opts.sinceIso && files.length > 0) {
+            var sinceStr = String(opts.sinceIso);
+            var pendentes = [];
+            for (var fi = 0; fi < files.length; fi++) {
+              var fObj = files[fi];
+              var fNome = String(fObj.Name || "");
+              var fMod = String(fObj.TimeLastModified || "");
+              if (/\.xlsx$/i.test(fNome) && fMod && fMod > sinceStr && fObj.ServerRelativeUrl) {
+                pendentes.push(fObj);
+              }
+            }
+            // Mais recentes primeiro, limitado a 15 arquivos por ciclo para respeitar teto do GAS
+            pendentes.sort(function(a, b) {
+              return String(b.TimeLastModified || "").localeCompare(String(a.TimeLastModified || ""));
+            });
+            if (pendentes.length > 15) pendentes = pendentes.slice(0, 15);
+
+            if (pendentes.length > 0) {
+              var reqs = [];
+              for (var pi = 0; pi < pendentes.length; pi++) {
+                reqs.push({
+                  url: "https://seesp-my.sharepoint.com/personal/itp_seintec_educacao_sp_gov_br/_api/web/GetFileByServerRelativeUrl('" + encodeURIComponent(pendentes[pi].ServerRelativeUrl) + "')/$value",
+                  muteHttpExceptions: true,
+                  headers: {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                    "Cookie": cookieHeader,
+                    "Accept": "*/*"
+                  }
+                });
+              }
+              var resps = UrlFetchApp.fetchAll(reqs);
+              for (var ri = 0; ri < resps.length; ri++) {
+                if (resps[ri].getResponseCode() === 200) {
+                  var bytes = resps[ri].getBlob().getBytes();
+                  if (verificarSeBytesSaoXlsx(bytes)) {
+                    var mCie = String(pendentes[ri].Name || "").match(/^0*(\d+)/);
+                    var cieStr = mCie ? mCie[1] : "";
+                    while (cieStr.length > 0 && cieStr.length < 6) cieStr = "0" + cieStr;
+                    arquivosModificados.push({
+                      cie: cieStr,
+                      nome: pendentes[ri].Name,
+                      modified: pendentes[ri].TimeLastModified,
+                      dadosBase64: Utilities.base64Encode(bytes)
+                    });
+                  }
+                }
+              }
+            }
+          }
+
           return {
             sucesso: true,
             totalArquivos: files.length > 0 ? files.length : padraoCount,
+            sinceIso: opts.sinceIso || null,
+            arquivosModificados: arquivosModificados,
             timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
             data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy"),
-            mensagem: "Repositório público sincronizado com sucesso diretamente do SharePoint."
+            mensagem: arquivosModificados.length > 0
+              ? (arquivosModificados.length + " planilha(s) atualizada(s) baixada(s) ao vivo do SharePoint.")
+              : "Repositório público sincronizado com sucesso diretamente do SharePoint."
           };
         } catch (je) {}
       }
@@ -388,34 +804,31 @@ function obterPastaPublicaSharepoint(folderUrl, folderPathRelativo, totalArquivo
  * @param {boolean} [forcarBruto=false] - Se true, reverte para a tentativa de download bruto da planilha inteira.
  */
 function sincronizarPlanilhaSemat(forcarBruto) {
-  if (!forcarBruto) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/semat_livro_2026.json?_t=" + new Date().getTime();
-      var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (resMirror.getResponseCode() === 200) {
-        var dados = JSON.parse(resMirror.getContentText());
-        dados.modoFallback = false;
-        dados.modoOtimizado = true;
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-        return dados;
-      }
-    } catch (errMirror) {
-      Logger.log("Erro ao buscar mirror SEMAT: " + errMirror.toString());
-    }
-  }
-
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_semat_educacao_sp_gov_br/cQrYEXIt2H-VQ7J7y23DGOFPEgUCfXXr5h6IlHmqWJZMJFuU5Q?download=1";
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEMAT / SEGRE",
-      descricaoBase: "Livro Entrada 2026 SEMAT"
+      descricaoBase: "Livro Entrada 2026 SEMAT",
+      abasNecessarias: ["ATENDIMENTO EXTERNO", "MATRÍCULA MANUAL", "ENTRADA SEI", "E-MAIL", "TROCAS DE ESCOLA"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
     Logger.log("Aviso SEMAT live: " + e.toString());
+  }
+
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/semat_livro_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.origem = "Espelho Automático Nuvem (Fallback)";
+      return dados;
+    }
+  } catch (errMirror) {
+    Logger.log("Erro ao buscar mirror SEMAT: " + errMirror.toString());
   }
 
   return { sucesso: true, usarBaseLocal: true, aviso: "Base SEMAT mantida ativa." };
@@ -443,10 +856,11 @@ function sincronizarPlanilhaSepes(forcarBruto) {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEPES",
-      descricaoBase: "Demandas SEAPE (Aposentadoria, Designações e Abono)"
+      descricaoBase: "Demandas SEAPE (Aposentadoria, Designações e Abono)",
+      abasNecessarias: ["APOSENTADORIA", "DESIGNAÇÕES", "ABONO DE PERMANÊNCIA"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
+      res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
@@ -469,38 +883,90 @@ function sincronizarPlanilhaSepes(forcarBruto) {
   return { sucesso: true, usarBaseLocal: true, aviso: "Base SEPES mantida ativa." };
 }
 
-function sincronizarPlanilhaSevesc(forcarBruto) {
-  if (!forcarBruto) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sevesc_livro_2026.json?_t=" + new Date().getTime();
-      var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (resMirror.getResponseCode() === 200) {
-        var dados = JSON.parse(resMirror.getContentText());
-        dados.modoFallback = false;
-        dados.modoOtimizado = true;
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-        return dados;
-      }
-    } catch (errMirror) {
-      Logger.log("Erro ao buscar mirror SEVESC: " + errMirror.toString());
+/**
+ * Sincroniza a planilha oficial pública do SEFREP (Pagamento e Frequência 2026 - SEPES).
+ * Link Oficial: https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefrep_educacao_sp_gov_br/cQrO53ta2ztgRYD5y6ke2QD2EgUC5Wx8sWTg9fgjf0asi90zMg?rtime=72HhmMNA30g
+ */
+function sincronizarPlanilhaSefrep(forcarBruto) {
+  var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefrep_curated_2026.json?_t=" + new Date().getTime();
+  var tsAtual = Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy, HH:mm:ss");
+
+  var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefrep_educacao_sp_gov_br/cQrO53ta2ztgRYD5y6ke2QD2EgUC5Wx8sWTg9fgjf0asi90zMg?download=1";
+  try {
+    var res = obterArquivoPublicoSharepoint(url, {
+      nomeSetor: "SEFREP",
+      descricaoBase: "Pagamento e Frequência 2026 (Devoluções, F17 e Tramitações)",
+      abasNecessarias: ["01-2026", "DEVOLUÇÃO 01-2026"]
+    });
+    if (res && res.sucesso) {
+      try {
+        var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+        if (resMirror.getResponseCode() === 200) {
+          var dados = JSON.parse(resMirror.getContentText());
+          dados.sucesso = true;
+          dados.origem = "SharePoint Live UrlFetch (Oficial)";
+          if (!dados.meta) dados.meta = {};
+          dados.meta.atualizadoFormatado = tsAtual;
+          dados.meta.origemSync = "SharePoint Live Oficial";
+          return dados;
+        }
+      } catch (errM) {}
+      res.origem = res.origem || "SharePoint Live UrlFetch";
+      return res;
     }
+  } catch (e) {
+    Logger.log("Aviso SEFREP live: " + e.toString());
   }
 
+  try {
+    var resMirror2 = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror2.getResponseCode() === 200) {
+      var dados2 = JSON.parse(resMirror2.getContentText());
+      dados2.sucesso = true;
+      dados2.modoFallback = true;
+      dados2.origem = "Mirror GitHub Curado Oficial 2026";
+      if (!dados2.meta) dados2.meta = {};
+      dados2.meta.atualizadoFormatado = tsAtual;
+      dados2.meta.origemSync = "Espelho Nuvem Curado 2026";
+      return dados2;
+    }
+  } catch (errMirror) {
+    Logger.log("Erro ao buscar mirror SEFREP: " + errMirror.toString());
+  }
+
+  return { sucesso: true, usarBaseLocal: true, aviso: "Base SEFREP mantida ativa." };
+}
+
+function sincronizarPlanilhaSevesc(forcarBruto) {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sevesc_educacao_sp_gov_br/cQroeBSCMXZCQbbGQSCaAqMaEgUCxrdIuNVbs_RPejCEfptcng?download=1";
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEVESC / SEGRE",
-      descricaoBase: "Livro Entrada 2026 SEVESC"
+      descricaoBase: "Livro Entrada 2026 SEVESC",
+      abasNecessarias: ["ATENDIMENTO ", "ENTRADA SEI", "E-MAIL"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
+      res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
     Logger.log("Aviso SEVESC live: " + e.toString());
   }
 
-  return { sucesso: true, usarBaseLocal: true, aviso: "Base SEVESC mantida ativa." };
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sevesc_livro_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.origem = "Espelho Automático Nuvem (Fallback)";
+      return dados;
+    }
+  } catch (errMirror) {
+    Logger.log("Erro ao buscar mirror SEVESC: " + errMirror.toString());
+  }
+
+  return { sucesso: false, usarBaseLocal: true, aviso: "SharePoint e espelho SEVESC indisponíveis no momento." };
 }
 
 /**
@@ -530,10 +996,11 @@ function sincronizarPlanilhaDpat() {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "DPAT",
-      descricaoBase: "Inventário Patrimonial URE"
+      descricaoBase: "Inventário Patrimonial URE",
+      abasNecessarias: ["Inventário Físico"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
+      res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
@@ -561,10 +1028,11 @@ function sincronizarPlanilhaSeom() {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEOM",
-      descricaoBase: "Mapa de Obras e Manutenção 2026"
+      descricaoBase: "Mapa de Obras e Manutenção 2026",
+      abasNecessarias: ["MAPA "]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
+      res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
@@ -592,10 +1060,11 @@ function sincronizarPlanilhaSefisc() {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEFISC",
-      descricaoBase: "Controle de Zeladorias"
+      descricaoBase: "Controle de Zeladorias",
+      abasNecessarias: ["SEFISC"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
+      res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
@@ -623,7 +1092,8 @@ function sincronizarPlanilhaSecomse() {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SECOMSE / SEAFIN",
-      descricaoBase: "Controle de Contratos"
+      descricaoBase: "Controle de Contratos",
+      abasNecessarias: ["2026", "2025"]
     });
     if (res && res.sucesso && res.dadosBase64) {
       res.origem = "SharePoint Live UrlFetch";
@@ -661,34 +1131,31 @@ function sincronizarPlanilhaSecomse() {
  * @param {boolean} [forcarBruto=false] - Se true, reverte para a tentativa de download bruto da planilha inteira.
  */
 function sincronizarPlanilhaSegre(forcarBruto) {
-  if (!forcarBruto) {
-    try {
-      var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/segre_livro_2026.json?_t=" + new Date().getTime();
-      var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-      if (resMirror.getResponseCode() === 200) {
-        var dados = JSON.parse(resMirror.getContentText());
-        dados.modoFallback = false;
-        dados.modoOtimizado = true;
-        dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-        return dados;
-      }
-    } catch (errOpt) {
-      Logger.log("Aviso SEGRE otimizado: " + errOpt.toString());
-    }
-  }
-
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_segre_educacao_sp_gov_br/cQouoXOHq3vgRIXANB5q2uJjEgUCzXuNPLJKVLwuVFU2EtFcnw?download=1";
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEGRE",
-      descricaoBase: "Livro Entrada 2026 SEGRE"
+      descricaoBase: "Livro Entrada 2026 SEGRE",
+      abasNecessarias: ["ENTRADA SEI", "ATENDIMENTO VAGA", "OUVIDORIA", "CONCLUINTES", "E-MAIL"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
       return res;
     }
   } catch (e) {
     Logger.log("Aviso SEGRE live: " + e.toString());
+  }
+
+  try {
+    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/segre_livro_2026.json?_t=" + new Date().getTime();
+    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror.getResponseCode() === 200) {
+      var dados = JSON.parse(resMirror.getContentText());
+      dados.modoFallback = true;
+      dados.origem = "Espelho Automático Nuvem (Fallback)";
+      return dados;
+    }
+  } catch (errOpt) {
+    Logger.log("Aviso SEGRE contingência: " + errOpt.toString());
   }
 
   return { sucesso: true, usarBaseLocal: true, aviso: "Base SEGRE mantida ativa." };
@@ -705,7 +1172,8 @@ function sincronizarPlanilhaSefin(forcarBruto) {
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefin_educacao_sp_gov_br/IQBr3bmOIqpcRYIpOol6pEnAAe_BVRv5jGg9PVCkSBZU6rU?e=KukMi4&download=1";
   var res = obterArquivoPublicoSharepoint(url, {
     nomeSetor: "SEFIN / CAF",
-    descricaoBase: "Controle de Prestação de Contas PDDE"
+    descricaoBase: "Controle de Prestação de Contas PDDE",
+    abasNecessarias: ["Prestação de Contas U E"]
   });
   if (res && res.sucesso) {
     res.modoOtimizado = modoOtimizado;
@@ -729,10 +1197,11 @@ function sincronizarPlanilhaSharepoint() {
   try {
     var res = obterArquivoPublicoSharepoint(url, {
       nomeSetor: "SEINTEC",
-      descricaoBase: "Planilha de Chamados Técnicos 2026"
+      descricaoBase: "Planilha de Chamados Técnicos 2026",
+      abasNecessarias: ["Calls"]
     });
     if (res && res.sucesso && res.dadosBase64) {
-      res.origem = "SharePoint Live UrlFetch";
+      res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
   } catch (errLive) {
@@ -764,11 +1233,14 @@ function sincronizarPlanilhaSharepoint() {
  * Sincronização Dinâmica da Pasta de Inventário do SharePoint (60 Escolas)
  * Herda o motor universal de resolução pública anti-login
  */
-function sincronizarInventarioSharepoint() {
+function sincronizarInventarioSharepoint(sinceIso) {
   var folderUrl = "https://seesp-my.sharepoint.com/:f:/g/personal/itp_seintec_educacao_sp_gov_br/IgB8vpIGfSrASqjEmj6GOt1qAQkde-of1KFn02Exzl6miyc?e=UWcBhS";
   var folderPath = "/personal/itp_seintec_educacao_sp_gov_br/Documents/INVENTARIO 2026/InventarioRC - V2";
-  var res = obterPastaPublicaSharepoint(folderUrl, folderPath, 60);
-  res.totalEquipamentos = 15873;
+  var res = obterPastaPublicaSharepoint(folderUrl, folderPath, 60, {
+    sinceIso: sinceIso || "",
+    baixarModificados: !!sinceIso
+  });
+  res.totalEquipamentos = 15973;
   return res;
 }
 
@@ -821,13 +1293,13 @@ function getConsolidatedData() {
           id: "car-001",
           data: "2026-10-17",
           periodo: "2026-10-17 a 2026-10-17",
-          titulo: "Visita Técnica Regional: Polo Itapevi e EE Lenio Vieira de Moraes Professor",
+          titulo: "Visita Técnica Regional: Itapevi e Lenio Vieira de Moraes Professor",
           veiculo: "Chevrolet Spin 1.8 7L (Oficial)",
           placa: "EDE-9842",
           motorista: "Carlos Alberto da Silva",
           solicitante: "Dirigente Regional de Ensino",
           setor: "Gabinete / Supervisão",
-          destino: "EE Lenio Vieira de Moraes Professor e Região Central de Itapevi",
+          destino: "Lenio Vieira de Moraes Professor e Região de Itapevi",
           horarioSaida: "08:30",
           horarioRetorno: "16:30",
           origemFonte: "SEFISC - Agenda",
@@ -845,7 +1317,7 @@ function getConsolidatedData() {
           motorista: "Carlos Alberto da Silva",
           solicitante: "Assessoria Técnica do Gabinete",
           setor: "Gabinete",
-          destino: "SEDUC Central - Praça da República, 53 - São Paulo",
+          destino: "SEDUC - Praça da República, 53 - São Paulo",
           horarioSaida: "07:30",
           horarioRetorno: "17:00",
           origemFonte: "SEFISC - Agenda",
@@ -863,7 +1335,7 @@ function getConsolidatedData() {
           motorista: "Marcos Paulo Ribeiro",
           solicitante: "Supervisão de Ensino / SEINTEC",
           setor: "SEINTEC",
-          destino: "Escolas Polo Itapevi e Jandira",
+          destino: "Escolas de Itapevi e Jandira",
           horarioSaida: "08:00",
           horarioRetorno: "17:00",
           origemFonte: "SEFISC - Controle de uso",
@@ -1303,7 +1775,8 @@ function executarAuditoriaCompletaBases() {
     { nome: "SEGRE Gestão Escolar", arquivo: "Livro Entrada 2026 SEGRE.xlsx", fn: function() { return sincronizarPlanilhaSegre(); } },
     { nome: "SEMAT Matrícula", arquivo: "Livro Entrada 2026 SEMAT.xlsx", fn: function() { return sincronizarPlanilhaSemat(); } },
     { nome: "SEVESC Vida Escolar", arquivo: "Livro Entrada 2026 SEVESC.xlsx", fn: function() { return sincronizarPlanilhaSevesc(); } },
-    { nome: "SEPES Recursos Humanos", arquivo: "DEMANDAS SEAPE.xlsx", fn: function() { return sincronizarPlanilhaSepes(); } },
+    { nome: "SEPES Serviço de Pessoas", arquivo: "DEMANDAS SEAPE.xlsx", fn: function() { return sincronizarPlanilhaSepes(); } },
+    { nome: "SEFREP Frequência & Pagto", arquivo: "Planilha SEFREP 2026.xlsx", fn: function() { return sincronizarPlanilhaSefrep(); } },
     { nome: "SECOMSE Contratos", arquivo: "Controle de contratos.xlsx", fn: function() { return sincronizarPlanilhaSecomse(); } },
     { nome: "DPAT Patrimônio", arquivo: "Patrimônio Escolar", fn: function() { return sincronizarPlanilhaDpat(); } },
     { nome: "SEOM Obras", arquivo: "Aba MAPA - Obras 2026", fn: function() { return sincronizarPlanilhaSeom(); } },
@@ -1394,7 +1867,7 @@ function testarDisparoEmailAlerta(emailDestino) {
   var html = 
     "<div style='font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;'>" +
     "<div style='background: #0f172a; padding: 20px 24px; color: #ffffff;'>" +
-    "<div style='font-size: 13px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;'>Diretoria Regional de Ensino • URE Itapevi</div>" +
+    "<div style='font-size: 13px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;'>Unidade Regional de Ensino • URE Itapevi</div>" +
     "<h2 style='margin: 6px 0 0 0; font-size: 20px; color: #ffffff;'>Canal de Alertas do BI Dirigente</h2>" +
     "</div>" +
     "<div style='padding: 24px; color: #334155; line-height: 1.6;'>" +
@@ -1411,7 +1884,7 @@ function testarDisparoEmailAlerta(emailDestino) {
     "</table>" +
     "</div>" +
     "<div style='background: #f8fafc; padding: 14px 24px; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; text-align: center;'>" +
-    "BI Dirigente • Diretoria de Ensino de Itapevi • Sistema de Alertas Automatizado" +
+    "BI Dirigente • Unidade Regional de Ensino de Itapevi • Sistema de Alertas Automatizado" +
     "</div>" +
     "</div>";
 
@@ -1472,7 +1945,7 @@ function dispararEmailFalhaDetectada(resultado) {
     "<p style='font-size: 13px; color: #64748b; margin-top: 15px;'>Horário da detecção: <strong>" + agoraStr + "</strong>. As contingências locais foram preservadas para manter a navegação dos usuários, mas a sincronização ao vivo requer verificação do link ou das credenciais.</p>" +
     "</div>" +
     "<div style='background: #f8fafc; padding: 14px 24px; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; text-align: center;'>" +
-    "BI Dirigente • Diretoria de Ensino de Itapevi • Monitoramento Automatizado 24/7" +
+    "BI Dirigente • Unidade Regional de Ensino de Itapevi • Monitoramento Automatizado 24/7" +
     "</div>" +
     "</div>";
 
