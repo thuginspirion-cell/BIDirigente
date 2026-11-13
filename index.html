@@ -13656,7 +13656,7 @@ function imprimirAgendaCarro() {
 
             <div class="kpi-cards-inner">
               <!-- 1. Escolas na Rede -->
-              <div class="kpi-mini-box" style="cursor: default;" title="Total de 60 escolas estaduais monitoradas no IMRO 360°">
+              <div class="kpi-mini-box" style="cursor: default;" title="Total de 60 escolas estaduais monitoradas no IPRE">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: var(--brand-gold);"></span>
                   <span class="kpi-big-number" id="kpi-escolas">60</span>
@@ -13726,7 +13726,7 @@ function imprimirAgendaCarro() {
               </div>
 
               <!-- 8. Gestão de Pessoas & Folha (SEPES: SEFREP + SEAPE) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEPES: Monitoramento de Folha de Pagamento (SEFREP) e Processos de Pessoal (SEAPE) integrados ao IMRO 360°">
+              <div class="kpi-mini-box" style="cursor: default;" title="SEPES: Monitoramento de Folha de Pagamento (SEFREP) e Processos de Pessoal (SEAPE) integrados ao IPRE">
                 <div class="kpi-mini-val-row">
                   <span class="kpi-color-dot" style="background: #8b5cf6;"></span>
                   <span class="kpi-big-number" id="kpi-repasses-sefin" style="color: #7c3aed;">333</span>
@@ -13758,7 +13758,7 @@ function imprimirAgendaCarro() {
             </div>
 
             <div class="gauge-risk-cov" id="home-gauge-risk-cov">
-              <span>🎯 Top 10 IMRO visitadas: <strong style="color: #ffffff;">calculando...</strong></span>
+              <span>🎯 Top 10 IPRE visitadas: <strong style="color: #ffffff;">calculando...</strong></span>
             </div>
 
             <div style="text-align: right; margin-top: 0.45rem;">
@@ -13865,7 +13865,7 @@ function imprimirAgendaCarro() {
                 <h3 id="spotlight-school-name" style="font-size: 1.25rem; font-weight: 800; color: #0b2351; margin: 0; letter-spacing: -0.01em;">Nome da Escola</h3>
                 <span id="spotlight-school-cie" style="font-size: 0.74rem; background: #eff6ff; color: #1d4ed8; font-weight: 800; padding: 3px 9px; border-radius: 6px; border: 1px solid #bfdbfe;">CIE: 000000</span>
                 <span id="spotlight-school-city" style="font-size: 0.74rem; background: #f1f5f9; color: #475569; font-weight: 700; padding: 3px 9px; border-radius: 6px;">Município</span>
-                <span id="spotlight-school-status" style="font-size: 0.74rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1;">IMRO 360°</span>
+                <span id="spotlight-school-status" style="font-size: 0.74rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1;">IPRE</span>
               </div>
               <div id="spotlight-school-details" style="font-size: 0.82rem; color: #475569; margin-top: 0.45rem; line-height: 1.45;">
                 Direção, contatos e dados cadastrais da unidade
@@ -13891,13 +13891,13 @@ function imprimirAgendaCarro() {
         </div>
 
 
-        <!-- 4. SEÇÃO: ESCOLAS EM ATENÇÃO (IMRO 360° MULTISSETORIAL) -->
+        <!-- 4. SEÇÃO: ESCOLAS PRIORITÁRIAS (IPRE MULTISSETORIAL) -->
         <div class="section-title-row" style="margin-top: 1.5rem; margin-bottom: 0.95rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.85rem;">
           <div>
             <div class="section-main-heading" style="display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap;">
               <span style="color: #ef4444; font-size: 1.25rem;">⚠️</span>
               <span style="font-size: 1.15rem; font-weight: 800; color: #0f172a; letter-spacing: -0.01em;">Em foco: escolas que exigem atenção</span>
-              <span id="atencao-counter-badge" style="background: rgba(239,68,68,0.12); color: #b91c1c; font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(239,68,68,0.25);">Top 5 Vulnerabilidades (IMRO 360°)</span>
+              <span id="atencao-counter-badge" style="background: rgba(239,68,68,0.12); color: #b91c1c; font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(239,68,68,0.25);">Top 5 Prioridades da Rede (IPRE)</span>
             </div>
             <div style="font-size: 0.76rem; color: #64748b; margin-top: 3px;">
               Gestão por exceção multissetorial: ranking em escala 0–100 calculado dinamicamente cruzando Obras (SEOM), SEINTEC, Execução PDDE (SEAFIN), Pessoas (SEPES) e Demandas (SEGRE) — extensível para ASURE e EEC.
@@ -13905,15 +13905,15 @@ function imprimirAgendaCarro() {
           </div>
           <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
             <button type="button" onclick="rolarParaNotaMetodologica()" style="background: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.74rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.15s;" title="Ver critérios técnicos, fórmula de cálculo e adaptadores de novos setores">
-              <span>📌 Ver Legenda &amp; Metodologia IMRO 360° ↓</span>
+              <span>📌 Ver Legenda &amp; Metodologia IPRE ↓</span>
             </button>
           </div>
         </div>
 
         <div class="atencao-grid" id="home-atencao-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-          <!-- Preenchido dinamicamente pelo motor BI_DECISION_ENGINE com IMRO 360° das 60 escolas -->
+          <!-- Preenchido dinamicamente pelo motor BI_DECISION_ENGINE com IPRE das 60 escolas -->
           <div class="atencao-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; color: #64748b; font-size: 0.82rem;">
-            Calculando Índice Multissetorial de Risco Operacional (IMRO 360°) das 60 escolas...
+            Calculando Índice de Prioridade da Rede Escolar (IPRE) das 60 escolas...
           </div>
         </div>
 
@@ -14118,7 +14118,7 @@ function imprimirAgendaCarro() {
                   <span>🎯</span> Quadrante Executivo das 60 Escolas (Cruzamento Multissetorial)
                 </div>
                 <div style="font-size: 0.71rem; color: #64748b; margin-top: 2px;" id="di-quad-subtitle">
-                  Eixo X: Risco Operacional (IMRO 360°) × Eixo Y: Execução PDDE 2026 (%) — clique em qualquer ponto para abrir a unidade
+                  Eixo X: Prioridade da Rede (IPRE) × Eixo Y: Execução PDDE 2026 (%) — clique em qualquer ponto para abrir a unidade
                 </div>
               </div>
               <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
@@ -14164,7 +14164,7 @@ function imprimirAgendaCarro() {
             <div style="display: flex; align-items: center; gap: 0.6rem;">
               <span style="font-size: 1.4rem;">📌</span>
               <div>
-                <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">NOTA METODOLÓGICA &amp; MATRIZ DE RISCO OPERACIONAL (IMRO 360°)</h4>
+                <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.01em;">NOTA METODOLÓGICA &amp; MATRIZ DE PRIORIDADE DA REDE ESCOLAR (IPRE)</h4>
                 <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Metodologia oficial de Gestão por Exceção e Decision Intelligence para a liderança regional</div>
               </div>
             </div>
@@ -14172,7 +14172,7 @@ function imprimirAgendaCarro() {
           </div>
 
           <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 1.25rem;">
-            O <strong>Índice Multissetorial de Risco Operacional (IMRO 360°)</strong> mede <strong>cada setor na mesma régua natural de 0 a 100 pontos</strong> e consolida o risco da escola por <strong>média ponderada exata (soma dos pesos = 100%)</strong> combinada com a <strong>Trava de Alerta Crítico Setorial (≥ 80/100)</strong>, impedindo que um colapso isolado em qualquer núcleo seja mascarado pela média dos demais.
+            O <strong>Índice de Prioridade da Rede Escolar (IPRE)</strong> mede <strong>cada setor na mesma régua natural de 0 a 100 pontos</strong> e consolida o risco da escola por <strong>média ponderada exata (soma dos pesos = 100%)</strong> combinada com a <strong>Trava de Alerta Crítico Setorial (≥ 80/100)</strong>, impedindo que um colapso isolado em qualquer núcleo seja mascarado pela média dos demais.
           </p>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
@@ -15895,11 +15895,11 @@ function imprimirAgendaCarro() {
 
           <div class="escola-kpi-card" id="kpi-card-atencao" >
             <div class="escola-kpi-label">
-              <span>ACOMPANHAMENTO PRIORITÁRIO (IMRO)</span>
+              <span>ACOMPANHAMENTO PRIORITÁRIO (IPRE)</span>
               <span>🎯</span>
             </div>
             <div class="escola-kpi-number" id="escolas-count-atencao" style="color: #dc2626;">0</div>
-            <div class="escola-kpi-sub">Escolas em Crítico ou Alto Risco (IMRO ≥ 50)</div>
+            <div class="escola-kpi-sub">Escolas em Crítico ou Alto Risco (IPRE ≥ 50)</div>
           </div>
         </div>
 
@@ -15930,8 +15930,8 @@ function imprimirAgendaCarro() {
           </select>
 
           <select id="escolas-filter-status" class="escolas-select-filter" onchange="filtrarEscolas()">
-            <option value="">Todos os Níveis (IMRO 360°)</option>
-            <option value="ALTO_RISCO_OU_CRITICO">🔴🟠 Prioritárias (IMRO ≥ 50)</option>
+            <option value="">Todos os Níveis (IPRE)</option>
+            <option value="ALTO_RISCO_OU_CRITICO">🔴🟠 Prioritárias (IPRE ≥ 50)</option>
             <option value="Crítico">🔴 Crítico (≥ 62 pts)</option>
             <option value="Alto Risco">🟠 Alto Risco (50–61 pts)</option>
             <option value="Atenção">🟡 Atenção (40–49 pts)</option>
@@ -15983,9 +15983,9 @@ function imprimirAgendaCarro() {
                       <span class="sort-arrow" id="sort-arrow-esc-diretor">↕</span>
                     </div>
                   </th>
-                  <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('imro')" style="width: 180px;" title="Classificar por Índice IMRO 360° (Risco Multissetorial)">
+                  <th class="th-sortable" onclick="alternarOrdenacaoThEscolas('imro')" style="width: 180px;" title="Classificar por Índice de Prioridade da Rede Escolar (IPRE)">
                     <div class="th-sort-wrapper">
-                      <span class="th-title-text">IMRO 360°</span>
+                      <span class="th-title-text">IPRE</span>
                       <span class="sort-arrow" id="sort-arrow-esc-imro">↕</span>
                     </div>
                   </th>
@@ -16017,7 +16017,7 @@ function imprimirAgendaCarro() {
             <!-- Coluna 1: IMRO 360° -->
             <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 1rem;">
               <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; margin-bottom: 0.55rem; display: flex; align-items: center; gap: 0.4rem;">
-                <span>🎯</span> <span>Faixas da Coluna IMRO 360°</span>
+                <span>🎯</span> <span>Faixas da Coluna IPRE</span>
               </div>
               <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
                 <li><strong style="color: #ef4444;">🔴 Crítico (≥ 62 pts):</strong> Acúmulo severo de gargalos multissetoriais na escala 0–100 (obras FDE, falta de AVCB, TI, PDDE ocioso ou pendências de Rede/Pessoas).</li>
@@ -16035,7 +16035,7 @@ function imprimirAgendaCarro() {
               <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
                 <li><strong style="color: #60a5fa;">👁️ Detalhes 360°:</strong> Abre o Raio-X completo da escola, unificando em uma única tela os dados de Infraestrutura (SEOM), Tecnologia (SEINTEC), Finanças APM (SEAFIN), Rede (SEGRE) e Gabinete.</li>
                 <li><strong style="color: #94a3b8;">✏️ Editar:</strong> Abre o formulário cadastral para atualização de equipe gestora, telefone institucional, endereço e modelo de jornada.</li>
-                <li><strong style="color: #2dd4bf;">📄 PDF:</strong> Emite o relatório executivo individual da escola em formato A4 (com IMRO 360°, parque de TI em quartos, SEOM, SEAFIN, SEPES, SEGRE e parecer prescritivo). O botão <strong>Relatório PDF Geral (URE)</strong> no topo consolida todas as 60 unidades.</li>
+                <li><strong style="color: #2dd4bf;">📄 PDF:</strong> Emite o relatório executivo individual da escola em formato A4 (com IPRE, parque de TI em quartos, SEOM, SEAFIN, SEPES, SEGRE e parecer prescritivo). O botão <strong>Relatório PDF Geral (URE)</strong> no topo consolida todas as 60 unidades.</li>
               </ul>
             </div>
 
@@ -17547,7 +17547,12 @@ function imprimirAgendaCarro() {
       rolarAoTopoSuave();
     }
 
-    function obterResumoImroEscola(esc) {
+    function obterResumoIpreEscola(esc) {
+  var _res = _obterResumoIpreEscolaInterno(esc);
+  return _res;
+}
+var obterResumoImroEscola = obterResumoIpreEscola;
+function _obterResumoIpreEscolaInterno(esc) {
       var fato = (esc && window.BI_DECISION_ENGINE && typeof window.BI_DECISION_ENGINE.obterFatoEscola === 'function')
         ? window.BI_DECISION_ENGINE.obterFatoEscola(esc.cie)
         : null;
@@ -17631,7 +17636,7 @@ function imprimirAgendaCarro() {
           ordenacaoEscolasAtual.ordem = ordenacaoEscolasAtual.ordem === 'asc' ? 'desc' : 'asc';
         } else {
           ordenacaoEscolasAtual.campo = campo;
-          ordenacaoEscolasAtual.ordem = (campo === 'imro' || campo === 'status') ? 'desc' : 'asc';
+          ordenacaoEscolasAtual.ordem = (campo === 'ipre' || campo === 'imro' || campo === 'status') ? 'desc' : 'asc';
         }
       }
       atualizarIndicadoresOrdenacaoEscolas();
@@ -17659,7 +17664,7 @@ function imprimirAgendaCarro() {
       }
 
       /* Atualizar ícones nos cabeçalhos <th> (apenas setinha ↕, ▲ ou ▼) */
-      var campos = ['cie', 'nome', 'cidade', 'segmento', 'diretor', 'imro'];
+      var campos = ['cie', 'nome', 'cidade', 'segmento', 'diretor', 'imro', 'ipre'];
       campos.forEach(function(c) {
         var arrowEl = document.getElementById('sort-arrow-esc-' + c) ||
                       document.getElementById('sort-icon-esc-' + c) ||
@@ -17719,7 +17724,7 @@ function imprimirAgendaCarro() {
 
       /* Aplica ordenação ativa aos registros filtrados */
       filtradas.sort(function(a, b) {
-        if (ordenacaoEscolasAtual.campo === 'imro' || ordenacaoEscolasAtual.campo === 'status') {
+        if (ordenacaoEscolasAtual.campo === 'ipre' || ordenacaoEscolasAtual.campo === 'imro' || ordenacaoEscolasAtual.campo === 'status') {
           var sA = obterResumoImroEscola(a).imro;
           var sB = obterResumoImroEscola(b).imro;
           var diff = sA - sB;
@@ -17814,7 +17819,7 @@ function imprimirAgendaCarro() {
       /* Status Badge (IMRO 360°) */
       const elStatus = document.getElementById('det-modal-status-badge');
       if (elStatus) {
-        const imroDet = obterResumoImroEscola(esc);
+        const imroDet = (typeof obterResumoIpreEscola === 'function') ? obterResumoIpreEscola(esc) : obterResumoImroEscola(esc);
         if (imroDet.tier === 'Crítico') {
           elStatus.style.background = 'rgba(239, 68, 68, 0.2)';
           elStatus.style.color = '#f87171';
@@ -18001,7 +18006,7 @@ function imprimirAgendaCarro() {
           : `<span class="badge-regular">${e.tipo || 'Regular'}</span>`;
 
         const imroInfo = obterResumoImroEscola(e);
-        const badgeStatus = `<span class="${imroInfo.badgeClass}" title="${imroInfo.resumoCompleto ? ('Ofensores IMRO 360°: ' + imroInfo.resumoCompleto) : 'Operação regular no IMRO 360°'}">${imroInfo.badgeLabel}</span>`;
+        const badgeStatus = `<span class="${imroInfo.badgeClass}" title="${imroInfo.resumoCompleto ? ('Ofensores IPRE: ' + imroInfo.resumoCompleto) : 'Operação regular no IPRE'}">${imroInfo.badgeLabel}</span>`;
         const subImro = imroInfo.resumoPilares
           ? `<div style="font-size: 0.69rem; color: #64748b; font-weight: 600; margin-top: 3px; line-height: 1.3;">${imroInfo.resumoPilares}</div>`
           : '';
@@ -18161,9 +18166,9 @@ function imprimirAgendaCarro() {
             'Diretor(a)': e.diretor || '',
             'Telefone': e.telefone || '',
             'Educatrons': e.educatrons || 0,
-            'Faixa IMRO 360°': imroInfo.tier,
-            'Pontuação IMRO (pts)': imroInfo.imro,
-            'Pilares Ofensores IMRO': imroInfo.resumoCompleto || 'Conforme',
+            'Faixa IPRE': imroInfo.tier,
+            'Pontuação IPRE (pts)': imroInfo.imro,
+            'Pilares Ofensores IPRE': imroInfo.resumoCompleto || 'Conforme',
             'Observações': e.motivo || ''
           };
         });
@@ -20588,7 +20593,7 @@ function imprimirAgendaCarro() {
         : null;
 
       if (kpiEscolas) kpiEscolas.textContent = fatoEsc ? (fatoEsc.imro + ' pts') : '1';
-      if (lblEscolas) lblEscolas.textContent = fatoEsc ? ('IMRO 360° (' + fatoEsc.tier + ')') : ('Escola: CIE ' + (dados.cie || '---'));
+      if (lblEscolas) lblEscolas.textContent = fatoEsc ? ('IPRE (' + fatoEsc.tier + ')') : ('Escola: CIE ' + (dados.cie || '---'));
 
       if (kpiHw) kpiHw.textContent = (dados.hwTotal || 0).toLocaleString('pt-BR');
       if (lblHw) lblHw.textContent = 'Equipamentos (' + (dados.hwPctDisp || '0') + '% disp.)';
@@ -37982,7 +37987,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                 <div>
                   <h4 style="margin: 0 0 0.15rem 0; font-size: 1.02rem; font-weight: 800; color: #0b2351;">Relatório Geral da Rede</h4>
                   <p style="margin: 0; font-size: 0.77rem; color: #475569; line-height: 1.35;">
-                    Consolidado das <strong>60 Escolas Estaduais</strong> e 7 Núcleos • Metodologia IMRO 360° e ranking regional.
+                    Consolidado das <strong>60 Escolas Estaduais</strong> e 7 Núcleos • Metodologia IPRE e ranking regional.
                   </p>
                 </div>
               </div>
@@ -37992,7 +37997,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             <!-- RESUMO INFORMATIVO DO RELATÓRIO GERAL -->
             <div id="painel-relatorio-geral" style="margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px solid rgba(11, 35, 81, 0.12); display: flex; gap: 0.45rem; flex-wrap: wrap; font-size: 0.72rem; font-weight: 700;">
               <span style="background: #e0f2fe; color: #0369a1; padding: 3px 9px; border-radius: 6px;">60 Escolas Estaduais</span>
-              <span style="background: #dcfce7; color: #15803d; padding: 3px 9px; border-radius: 6px;">Metodologia IMRO 360°</span>
+              <span style="background: #dcfce7; color: #15803d; padding: 3px 9px; border-radius: 6px;">Metodologia IPRE</span>
               <span style="background: #ffffff; color: #334155; border: 1px solid #cbd5e1; padding: 3px 9px; border-radius: 6px;">PDF / Excel / Impressão</span>
             </div>
           </div>
@@ -38833,7 +38838,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               break;
             }
           }
-          /* 1. SEOM (Escala 0–100 pts • Peso 25% no IMRO) */
+          /* 1. SEOM (Escala 0–100 pts • Peso 25% no IPRE) */
           var ptsSeom = 0;
           var flagsSeom = [];
           if (seom) {
@@ -38847,7 +38852,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             ptsSeom = Math.min(100, ptsSeom);
           }
 
-          /* 2. SEINTEC (Escala 0–100 pts • Peso 20% no IMRO) */
+          /* 2. SEINTEC (Escala 0–100 pts • Peso 20% no IPRE) */
           var hwInfo = hwPorCie[cie] || { total: 0, disp: 0, bad: 0 };
           var callInfo = callsPorCie[cie] || { total: 0, abertos: 0 };
           var hwPctBad = hwInfo.total >= 20 ? (hwInfo.bad / hwInfo.total) * 100 : 0;
@@ -38865,7 +38870,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           else if (callInfo.abertos >= 1) { ptsSeintec += 5; flagsSeintec.push(callInfo.abertos + ' em aberto'); }
           ptsSeintec = Math.min(100, ptsSeintec);
 
-          /* 3. SEAFIN (Escala 0–100 pts • Peso 15% no IMRO) */
+          /* 3. SEAFIN (Escala 0–100 pts • Peso 15% no IPRE) */
           var finInfo = sefinPorCie[cie] || { rec: 0, desp: 0, repasses: 0, emAndamento: 0 };
           var saldoOcioso = Math.max(0, finInfo.rec - finInfo.desp);
           var execPct = finInfo.rec > 0 ? Math.min(100, (finInfo.desp / finInfo.rec) * 100) : 0;
@@ -38885,7 +38890,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             ptsSeafin = Math.min(100, ptsSeafin);
           }
 
-          /* 4. SEPES (Escala 0–100 pts • Peso 20% no IMRO) */
+          /* 4. SEPES (Escala 0–100 pts • Peso 20% no IPRE) */
           var sepesPend = 0;
           var sepesDesigPend = 0;
           for (var pIdx = 0; pIdx < todosSepes.length; pIdx++) {
@@ -38927,7 +38932,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           }
           ptsSepes = Math.min(100, ptsSepes);
 
-          /* 5. SEGRE (Escala 0–100 pts • Peso 20% no IMRO • 20 pts por SEI em aberto) */
+          /* 5. SEGRE (Escala 0–100 pts • Peso 20% no IPRE • 20 pts por SEI em aberto) */
           var segreAbertos = 0;
           for (var gIdx = 0; gIdx < todosSei.length; gIdx++) {
             var sei = todosSei[gIdx];
@@ -39283,10 +39288,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             targetPct: 100,
             bulletCaption: asureReal
               ? 'Cobertura oficial ASURE'
-              : (top10Visitadas + ' de 10 escolas Top IMRO c/ visita registrada'),
+              : (top10Visitadas + ' de 10 escolas Top IPRE c/ visita registrada'),
             slaMain: asureReal ? (Number(window.DADOS_ASURE.kpis.ouvidoriasAbertas || 0) + ' ouvidorias abertas') : 'Aguardando planilha ASURE',
             slaSub: asureReal ? (Number(window.DADOS_ASURE.kpis.despachosPrazoPct || 100) + '% despachos no prazo') : 'Plug-and-play via registrarDadosAsure()',
-            pareto: 'Top 10 IMRO: ' + (10 - top10Visitadas) + ' sem visita recente',
+            pareto: 'Top 10 IPRE: ' + (10 - top10Visitadas) + ' sem visita recente',
             zObj: asureReal ? calcZScore(window.DADOS_ASURE.serieSemanal || []) : { label: 'Aguardando série ASURE', status: 'neutral' },
             top10Visitadas: top10Visitadas,
             totalVisitasReg: totalVisitasReg
@@ -39366,7 +39371,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             targetPct: 80,
             bulletCaption: eecReal ? 'Aderência aos planos pedagógicos' : 'Adaptador pronto via registrarDadosEec()',
             slaMain: eecReal ? (Number(window.DADOS_EEC.escolasAlerta || 0) + ' escolas em nivelamento') : (modulosEecCount + ' sistemas externos ativos'),
-            slaSub: eecReal ? 'SARESP & Prova Paulista integrados' : 'Pronto para cruzar com IMRO 360°',
+            slaSub: eecReal ? 'SARESP & Prova Paulista integrados' : 'Pronto para cruzar com IPRE',
             pareto: eecReal ? (window.DADOS_EEC.paretoTxt || 'Foco Anos Finais/EM') : 'Aguardando dataset por CIE',
             zObj: eecReal ? calcZScore(window.DADOS_EEC.serie || []) : { label: 'Aguardando série EEC', status: 'neutral' }
           }
@@ -39434,7 +39439,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           if (tagAsure) {
             tagAsure.textContent = tel.ASURE.isReal ? 'SharePoint ASURE' : 'Base Interna (Aguardando ASURE)';
           }
-          covEl.innerHTML = '<span>🎯 Top 10 IMRO c/ visita registrada: <strong style="color: ' + (tel.ASURE.top10Visitadas >= 7 ? '#6ee7b7' : '#fbbf24') + ';">' + tel.ASURE.top10Visitadas + ' de 10</strong></span>' +
+          covEl.innerHTML = '<span>🎯 Top 10 IPRE c/ visita registrada: <strong style="color: ' + (tel.ASURE.top10Visitadas >= 7 ? '#6ee7b7' : '#fbbf24') + ';">' + tel.ASURE.top10Visitadas + ' de 10</strong></span>' +
             '<span style="color: #94a3b8;">' + (10 - tel.ASURE.top10Visitadas) + ' prioritárias p/ agenda</span>';
         }
 
@@ -39640,8 +39645,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
         if (subEl) {
           subEl.textContent = modoQuadranteAtual === 'eec'
-            ? 'Eixo X: Risco Operacional (IMRO 360°) × Eixo Y: Índice Pedagógico (EEC) — clique em qualquer ponto'
-            : 'Eixo X: Risco Operacional (IMRO 360°) × Eixo Y: Execução PDDE 2026 (%) — clique em qualquer ponto';
+            ? 'Eixo X: Prioridade da Rede (IPRE) × Eixo Y: Índice Pedagógico (EEC) — clique em qualquer ponto'
+            : 'Eixo X: Prioridade da Rede (IPRE) × Eixo Y: Execução PDDE 2026 (%) — clique em qualquer ponto';
         }
 
         var w = 600, h = 265, padL = 44, padR = 18, padT = 16, padB = 34;
@@ -39737,7 +39742,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var segreCrit = tel.SEGRE.seiAged30;
         var contCrit = tel.SEAFIN.vencendo60d;
 
-        /* Decisao 3: Priorizacao ASURE (Top IMRO sem visita registrada) */
+        /* Decisao 3: Priorizacao ASURE (Top IPRE sem visita registrada) */
         var semVisitaTop = fato.filter(function(e) { return e.imro >= 50 && !e.visitada; });
         var nomesSemVisita = semVisitaTop.slice(0, 3).map(function(e) { return e.nome.split(',')[0] + ' (' + e.imro + ' pts)'; });
 
@@ -39764,7 +39769,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           },
           {
             cls: semVisitaTop.length > 0 ? 'nba-warn' : 'nba-info',
-            tag: '3. ASURE × IMRO 360° • Roteiro de Visitas por Risco',
+            tag: '3. ASURE × IPRE • Roteiro de Visitas por Risco',
             titulo: semVisitaTop.length > 0
               ? (semVisitaTop.length + ' escolas de Risco Alto/Crítico sem visita registrada na base atual')
               : 'Cobertura de visitas alinhada às escolas críticas',
@@ -39806,7 +39811,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var grid = document.getElementById('spotlight-dossie-grid');
         if (!esc) {
           if (elStatus) {
-            elStatus.textContent = 'CIE sem cruzamento no IMRO';
+            elStatus.textContent = 'CIE sem cruzamento no IPRE';
             elStatus.style.background = '#f1f5f9';
             elStatus.style.color = '#475569';
             elStatus.style.borderColor = '#cbd5e1';
@@ -39823,7 +39828,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           elStatus.style.background = bg;
           elStatus.style.color = fg;
           elStatus.style.borderColor = bd;
-          elStatus.textContent = ico + ' ' + labelTier + ' • ' + esc.imro + ' pts IMRO 360° (#' + rankIdx + '/60)';
+          elStatus.textContent = ico + ' ' + labelTier + ' • ' + esc.imro + ' pts IPRE (#' + rankIdx + '/60)';
         }
 
         if (!grid) return;
@@ -39964,7 +39969,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           tip.innerHTML = '' +
             '<div style="font-weight:800;color:#38bdf8;margin-bottom:2px;">' + escHtml(esc.nome) + '</div>' +
             '<div style="color:#cbd5e1;font-size:0.68rem;margin-bottom:4px;">CIE: ' + escHtml(esc.cie) + ' • ' + escHtml(esc.cidade) + ' • ' + escHtml(esc.tipo) + '</div>' +
-            '<div>• <strong>IMRO 360°:</strong> ' + esc.imro + ' pts (' + escHtml(esc.tier) + ')</div>' +
+            '<div>• <strong>IPRE:</strong> ' + esc.imro + ' pts (' + escHtml(esc.tier) + ')</div>' +
             '<div>• <strong>PDDE 2026:</strong> ' + esc.execPct2026.toFixed(1).replace('.', ',') + '% exec. (Saldo: ' + formatarMoedaCurta(esc.saldoOcioso2026) + ')</div>' +
             '<div>• <strong>TI / Obras / SEPES:</strong> ' + esc.hwBad + '/' + esc.hwTotal + ' TI (' + (esc.hwBadPct || 0).toFixed(1).replace('.', ',') + '% • ' + (esc.quartoTi || '1/4') + ') • ' + esc.callsTotal + ' cham. • ' + esc.sepesPend + ' SEPES</div>' +
             (esc.eecScore != null ? ('<div>• <strong>EEC Pedagógico:</strong> ' + esc.eecScore.toFixed(1).replace('.', ',') + '%</div>') : '') +
@@ -40167,7 +40172,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       function renderSvgBenchmarkEscola(fato, bench) {
         var dispEsc = fato.hwTotal > 0 ? (fato.hwDisp / fato.hwTotal) * 100 : 0;
         var items = [
-          { lbl: 'IMRO 360° (Risco Multissetorial)', escVal: fato.imro, medVal: bench.mediaImro, unit: ' pts', escCol: fato.imro >= 50 ? '#dc2626' : '#0b2351', menorMelhor: true },
+          { lbl: 'IPRE (Prioridade da Unidade)', escVal: fato.imro, medVal: bench.mediaImro, unit: ' pts', escCol: fato.imro >= 50 ? '#dc2626' : '#0b2351', menorMelhor: true },
           { lbl: 'TI Comprometida (Hardware)', escVal: fato.hwBadPct || 0, medVal: bench.mediaTiPct, unit: '%', escCol: (fato.hwBadPct || 0) >= 25 ? '#ea580c' : '#0284c7', menorMelhor: true },
           { lbl: 'Hardware TI Disponível', escVal: dispEsc, medVal: bench.mediaDispPct, unit: '%', escCol: dispEsc >= 75 ? '#059669' : '#d97706', menorMelhor: false },
           { lbl: 'Execução PDDE 2026', escVal: fato.execPct2026 || 0, medVal: bench.mediaExecPct, unit: '%', escCol: (fato.execPct2026 || 0) >= 50 ? '#059669' : '#d97706', menorMelhor: false }
@@ -40413,7 +40418,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             { 'Dimensão / Indicador': 'Unidade Escolar', 'Valor da Escola': escCad.nome, 'Média URE (60 Escolas)': '---', 'Pontuação IMRO': fato.imro + ' / 100' },
             { 'Dimensão / Indicador': 'Código CIE', 'Valor da Escola': fato.cie, 'Média URE (60 Escolas)': '---', 'Pontuação IMRO': 'Faixa: ' + fato.tier },
             { 'Dimensão / Indicador': 'Município / Distância Sede', 'Valor da Escola': (escCad.cidade || '') + ' (' + det.distSedeKm + ' km)', 'Média URE (60 Escolas)': '---', 'Pontuação IMRO': 'Posição #' + relatorioAtualEstado.rankIdx + '/60' },
-            { 'Dimensão / Indicador': 'IMRO 360° (0–100)', 'Valor da Escola': fato.imro, 'Média URE (60 Escolas)': Number(det.benchmarks.mediaImro.toFixed(1)), 'Pontuação IMRO': fato.tier },
+            { 'Dimensão / Indicador': 'IPRE (0–100)', 'Valor da Escola': fato.imro, 'Média URE (60 Escolas)': Number(det.benchmarks.mediaImro.toFixed(1)), 'Pontuação IMRO': fato.tier },
             { 'Dimensão / Indicador': 'SEOM Infraestrutura (0–100 | Peso 25%)', 'Valor da Escola': (fato.flags.SEOM || []).join('; ') || 'Conforme', 'Média URE (60 Escolas)': '---', 'Pontuação IMRO': fato.pts.SEOM + ' / 100' },
             { 'Dimensão / Indicador': 'SEINTEC Tecnologia (0–100 | Peso 20%)', 'Valor da Escola': (fato.quartoTi || '1/4') + ' (' + (fato.hwBadPct || 0).toFixed(1) + '% comp.)', 'Média URE (60 Escolas)': det.benchmarks.mediaTiPct.toFixed(1) + '%', 'Pontuação IMRO': fato.pts.SEINTEC + ' / 100' },
             { 'Dimensão / Indicador': 'SEGRE Gestão da Rede (0–100 | Peso 20%)', 'Valor da Escola': fato.segreAbertos + ' SEI em aberto', 'Média URE (60 Escolas)': '---', 'Pontuação IMRO': fato.pts.SEGRE + ' / 100' },
@@ -40422,7 +40427,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             { 'Dimensão / Indicador': 'Alerta Crítico Setorial (≥ 80/100)', 'Valor da Escola': (fato.alertasSetoriais && fato.alertasSetoriais.length > 0) ? fato.alertasSetoriais.join(', ') : 'Sem colapso isolado', 'Média URE (60 Escolas)': '---', 'Pontuação IMRO': fato.alertaSetorial ? 'ATIVO' : 'Normal' },
             { 'Dimensão / Indicador': 'Recomendação Prescritiva', 'Valor da Escola': relatorioAtualEstado.prescricao, 'Média URE (60 Escolas)': 'Data: ' + dataHoje, 'Pontuação IMRO': 'BI Dirigente' }
           ];
-          XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(abaResumo), 'Resumo_IMRO_360');
+          XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(abaResumo), 'Resumo_IPRE');
 
           /* Aba 2: Infraestrutura SEOM & SEFISC */
           var abaInfra = [
@@ -40475,7 +40480,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           var telAll = relatorioAtualEstado.tel;
           var abaSum = [
             { 'Indicador URE Itapevi': 'ISR Regional (0–100)', 'Valor': relatorioAtualEstado.isrScore },
-            { 'Indicador URE Itapevi': 'IMRO Médio da Rede (0–100)', 'Valor': Number(relatorioAtualEstado.avgImro.toFixed(1)) },
+            { 'Indicador URE Itapevi': 'IPRE Médio da Rede (0–100)', 'Valor': Number(relatorioAtualEstado.avgImro.toFixed(1)) },
             { 'Indicador URE Itapevi': 'Total de Escolas (PEI / Regular)', 'Valor': relatorioAtualEstado.totalEsc + ' (' + relatorioAtualEstado.peiCount + ' PEI / ' + relatorioAtualEstado.regCount + ' Regular)' },
             { 'Indicador URE Itapevi': 'Hardware SEINTEC (Total / % Disponível)', 'Valor': telAll.SEINTEC.hwTotal + ' (' + telAll.SEINTEC.hwDispPct.toFixed(1) + '%)' },
             { 'Indicador URE Itapevi': 'Chamados TI 2026 (Abertos / Total)', 'Valor': telAll.SEINTEC.callsAbertos + ' / ' + telAll.SEINTEC.callsTotal },
@@ -40493,7 +40498,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               'Unidade Escolar': e.nome,
               'Município': e.cidade,
               'Modelo': e.tipo,
-              'IMRO 360° (0-100)': e.imro,
+              'IPRE (0-100)': e.imro,
               'Faixa de Risco': e.tier,
               'Alerta Setorial (≥80)': (e.alertasSetoriais && e.alertasSetoriais.length > 0) ? e.alertasSetoriais.join(', ') : 'Normal',
               'SEOM (0-100 | 25%)': e.pts.SEOM,
@@ -40517,8 +40522,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               'Município': m.nome,
               'Total Escolas': m.qtd,
               'Escolas PEI': m.pei,
-              'IMRO Médio': Number((m.sumImro / m.qtd).toFixed(1)),
-              'Prioritárias (IMRO ≥50)': m.critAlto,
+              'IPRE Médio': Number((m.sumImro / m.qtd).toFixed(1)),
+              'Prioritárias (IPRE ≥50)': m.critAlto,
               'AVCBs Regulares': m.avcbOk,
               '% Equipamentos Comprometidos': m.hwTot > 0 ? Number(((m.hwBad / m.hwTot) * 100).toFixed(1)) : 0
             };
@@ -40890,7 +40895,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                 '<div class="doc-kv"><span class="doc-kv-k">Visita Regional (ASURE)</span><span class="doc-kv-v">' + (fato.visitada ? ('Registrada em ' + escHtml(fato.dataVisita || '2026')) : 'Sem registro recente') + '</span></div>' +
               '</div>' +
               '<div class="doc-card" style="border-color:' + st.brd + ';background:' + st.bg + '33;">' +
-                '<div class="doc-card-head"><span>🎯 Termômetro IMRO 360° &amp; Saúde</span><span class="doc-pill" style="background:' + st.bg + ';color:' + st.txt + ';border:1px solid ' + st.brd + ';">' + escHtml(fato.tier) + '</span></div>' +
+                '<div class="doc-card-head"><span>🎯 Termômetro IPRE &amp; Saúde</span><span class="doc-pill" style="background:' + st.bg + ';color:' + st.txt + ';border:1px solid ' + st.brd + ';">' + escHtml(fato.tier) + '</span></div>' +
                 '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;">' +
                   '<div><span style="font-family:inherit;font-size:18pt;font-weight:800;letter-spacing:-0.03em;color:' + st.txt + ';">' + fato.imro + '</span> <span style="font-size:8pt;color:#64748b;font-weight:700;">/ 100 pts (Saúde: ' + isrUnidade + '/100)</span></div>' +
                   '<div style="font-size:8pt;font-weight:800;color:#0b2351;">Posição #' + rankIdx + ' / ' + listaFato.length + '</div>' +
@@ -41010,14 +41015,14 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         ];
 
         /* ========================================================================= */
-        /* FOLHA 1 DE 3 • SÍNTESE REGIONAL, TELEMETRIA 7 NÚCLEOS & IMRO 360°        */
+        /* FOLHA 1 DE 3 • SÍNTESE REGIONAL, TELEMETRIA 7 NÚCLEOS & IPRE            */
         /* ========================================================================= */
         var folha1 = '' +
           '<div class="exec-doc-page">' +
             '<div class="exec-doc-page-body">' +
               gerarMastheadEditorial(
                 'Relatório Consolidado | URE - Itapevi',
-                'Panorama Multissetorial das ' + totalEsc + ' Escolas Estaduais e 7 Núcleos • Metodologia IMRO 360° (0–100)',
+                'Panorama Multissetorial das ' + totalEsc + ' Escolas Estaduais e 7 Núcleos • Metodologia IPRE (0–100)',
                 'RELATÓRIO GERAL | FOLHA 1/4',
                 'URE-ITP-' + new Date().toISOString().slice(0, 10)
               ) +
@@ -41037,14 +41042,14 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               '<section class="doc-section">' +
                 '<div class="doc-grid-2">' +
                   '<div class="doc-card">' +
-                    '<div class="doc-card-head"><span>🎯 Termômetro IMRO 360° (60 Escolas)</span><span>0–100 pts (Risco)</span></div>' +
+                    '<div class="doc-card-head"><span>🎯 Termômetro IPRE (60 Escolas)</span><span>0–100 pts (Risco)</span></div>' +
                     renderSvgDistribuicaoImro(critCount, altoCount, atencCount, okCount, totalEsc) +
                     '<div style="font-size:6.7pt;color:#64748b;margin-top:4px;">Faixas: Crítico (≥62) • Alto Risco (50–61) • Atenção (40–49) • Regular (&lt;40)</div>' +
                   '</div>' +
                   '<div class="doc-card">' +
                     '<div class="doc-card-head"><span>🗺️ Consolidado por Município</span><span>4 Municípios URE</span></div>' +
                     '<table class="doc-table" style="font-size:6.8pt;">' +
-                      '<thead><tr><th>Município</th><th>UEs (PEI)</th><th>IMRO Médio</th><th>Priorit. (≥50)</th><th>% Comprometido</th></tr></thead>' +
+                      '<thead><tr><th>Município</th><th>UEs (PEI)</th><th>IPRE Médio</th><th>Priorit. (IPRE ≥50)</th><th>% Comprometido</th></tr></thead>' +
                       '<tbody>' +
                         listaMun.map(function(m) {
                           var avgM = (m.sumImro / m.qtd).toFixed(1).replace('.', ',');
@@ -41093,7 +41098,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                 '<th style="width:24px;">#</th>' +
                 '<th style="width:46px;">CIE</th>' +
                 '<th>Unidade Escolar • Município • Modelo</th>' +
-                '<th style="width:96px;">IMRO 360°</th>' +
+                '<th style="width:96px;">IPRE</th>' +
                 '<th style="width:90px;">SEINTEC (Quarto / %)</th>' +
                 '<th style="width:84px;">Infra (SEOM)</th>' +
                 '<th style="width:74px;">PDDE 2026</th>' +
@@ -41130,7 +41135,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           '<div class="exec-doc-page">' +
             '<div class="exec-doc-page-body">' +
               gerarMastheadEditorial(
-                'Ranking da Rede Estadual — IMRO 360° (Parte 1/3)',
+                'Ranking da Rede Estadual — IPRE (Parte 1/3)',
                 'Classificação Decrescente de Risco Multissetorial — Unidades 1 a 20',
                 'ANEXO TÉCNICO | FOLHA 2/4',
                 'URE-ITP-RANK-1'
@@ -41147,7 +41152,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           '<div class="exec-doc-page">' +
             '<div class="exec-doc-page-body">' +
               gerarMastheadEditorial(
-                'Ranking da Rede Estadual — IMRO 360° (Parte 2/3)',
+                'Ranking da Rede Estadual — IPRE (Parte 2/3)',
                 'Classificação Decrescente de Risco Multissetorial — Unidades 21 a 40',
                 'ANEXO TÉCNICO | FOLHA 3/4',
                 'URE-ITP-RANK-2'
@@ -41164,7 +41169,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           '<div class="exec-doc-page">' +
             '<div class="exec-doc-page-body">' +
               gerarMastheadEditorial(
-                'Ranking da Rede Estadual — IMRO 360° (Parte 3/3)',
+                'Ranking da Rede Estadual — IPRE (Parte 3/3)',
                 'Classificação Decrescente de Risco Multissetorial — Unidades 41 a 60',
                 'ANEXO TÉCNICO | FOLHA 4/4',
                 'URE-ITP-RANK-3'
