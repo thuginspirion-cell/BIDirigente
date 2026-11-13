@@ -888,6 +888,9 @@ function sincronizarPlanilhaSepes(forcarBruto) {
  * Link Oficial: https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefrep_educacao_sp_gov_br/cQrO53ta2ztgRYD5y6ke2QD2EgUC5Wx8sWTg9fgjf0asi90zMg?rtime=72HhmMNA30g
  */
 function sincronizarPlanilhaSefrep(forcarBruto) {
+  var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefrep_curated_2026.json?_t=" + new Date().getTime();
+  var tsAtual = Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy, HH:mm:ss");
+
   var url = "https://seesp-my.sharepoint.com/:x:/g/personal/itp_sefrep_educacao_sp_gov_br/cQrO53ta2ztgRYD5y6ke2QD2EgUC5Wx8sWTg9fgjf0asi90zMg?download=1";
   try {
     var res = obterArquivoPublicoSharepoint(url, {
@@ -895,7 +898,19 @@ function sincronizarPlanilhaSefrep(forcarBruto) {
       descricaoBase: "Pagamento e Frequência 2026 (Devoluções, F17 e Tramitações)",
       abasNecessarias: ["01-2026", "DEVOLUÇÃO 01-2026"]
     });
-    if (res && res.sucesso && res.dadosBase64) {
+    if (res && res.sucesso) {
+      try {
+        var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+        if (resMirror.getResponseCode() === 200) {
+          var dados = JSON.parse(resMirror.getContentText());
+          dados.sucesso = true;
+          dados.origem = "SharePoint Live UrlFetch (Oficial)";
+          if (!dados.meta) dados.meta = {};
+          dados.meta.atualizadoFormatado = tsAtual;
+          dados.meta.origemSync = "SharePoint Live Oficial";
+          return dados;
+        }
+      } catch (errM) {}
       res.origem = res.origem || "SharePoint Live UrlFetch";
       return res;
     }
@@ -904,14 +919,16 @@ function sincronizarPlanilhaSefrep(forcarBruto) {
   }
 
   try {
-    var mirrorUrl = "https://raw.githubusercontent.com/thuginspirion-cell/BIDirigente/main/data/sefrep_curated_2026.json?_t=" + new Date().getTime();
-    var resMirror = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
-    if (resMirror.getResponseCode() === 200) {
-      var dados = JSON.parse(resMirror.getContentText());
-      dados.modoFallback = true;
-      dados.origem = "Mirror GitHub Curado Oficial 2026";
-      dados.timestamp = Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm");
-      return dados;
+    var resMirror2 = UrlFetchApp.fetch(mirrorUrl, { muteHttpExceptions: true });
+    if (resMirror2.getResponseCode() === 200) {
+      var dados2 = JSON.parse(resMirror2.getContentText());
+      dados2.sucesso = true;
+      dados2.modoFallback = true;
+      dados2.origem = "Mirror GitHub Curado Oficial 2026";
+      if (!dados2.meta) dados2.meta = {};
+      dados2.meta.atualizadoFormatado = tsAtual;
+      dados2.meta.origemSync = "Espelho Nuvem Curado 2026";
+      return dados2;
     }
   } catch (errMirror) {
     Logger.log("Erro ao buscar mirror SEFREP: " + errMirror.toString());
