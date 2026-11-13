@@ -15066,6 +15066,9 @@ function imprimirAgendaCarro() {
                   <p id="seintec-calls-banner-subtitle" style="font-size: 0.8rem; color: #94a3b8; margin: 0.2rem 0 0 0;">
                     Acompanhamento consolidado de demandas técnicas, conectividade e equipamentos (1.404 chamados oficiais em 2026).
                   </p>
+                  <div style="margin-top: 0.35rem; font-size: 0.76rem; color: #93c5fd; font-weight: 600;">
+                    <span>🕒 <strong>Dados de:</strong> <span id="seintec-banner-timestamp" style="color: #ffffff;">13/11/2026, 20:00:00</span></span>
+                  </div>
                 </div>
               </div>
               
@@ -23375,9 +23378,15 @@ function _obterResumoIpreEscolaInterno(esc) {
       });
       if (bens.length === 0) return null;
       var ambientes = Object.keys(ambSet).sort();
+      var agoraDpat = new Date();
+      var agoraDpatFormatado = agoraDpat.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ', ' + agoraDpat.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
       return Object.assign({}, DADOS_DPAT, {
         sucesso: true,
-        dataExtracao: new Date().toISOString(),
+        dataExtracao: agoraDpat.toISOString(),
+        meta: Object.assign({}, (DADOS_DPAT && DADOS_DPAT.meta) || {}, {
+          atualizadoEm: agoraDpat.toISOString(),
+          atualizadoFormatado: agoraDpatFormatado
+        }),
         kpis: {
           totalBens: bens.length,
           totalAmbientes: ambientes.length,
@@ -23387,6 +23396,24 @@ function _obterResumoIpreEscolaInterno(esc) {
         ambientes: ambientes,
         bens: bens
       });
+    }
+
+    function formatarTimestampDadosBrasil(obj, fallback) {
+      if (obj && obj.meta && obj.meta.atualizadoFormatado) return obj.meta.atualizadoFormatado;
+      var raw = (obj && obj.meta && obj.meta.atualizadoEm) || (obj && obj.dataExtracao) || '';
+      if (raw) {
+        if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+          var p = raw.split('-');
+          return p[2] + '/' + p[1] + '/' + p[0] + ', 10:00:00';
+        }
+        var dt = new Date(raw);
+        if (!isNaN(dt.getTime())) {
+          return dt.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ', ' + dt.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+        }
+      }
+      if (fallback) return fallback;
+      var agora = new Date();
+      return agora.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ', ' + agora.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
     }
 
     function sincronizarDashboardDpat(isManual) {
@@ -23616,7 +23643,7 @@ function _obterResumoIpreEscolaInterno(esc) {
                 Inventário físico oficial de bens móveis permanentes, tombamento patrimonial (chapas ITP), localização por ambiente da Unidade Regional de Ensino e conservação de materiais.
               </p>
               <div style="margin-top: 0.35rem; font-size: 0.76rem; color: #c7d2fe; font-weight: 600;">
-                <span>🕒 <strong>Dados de:</strong> <span id="dpat-banner-timestamp" style="color: #ffffff;">${(DADOS_DPAT && DADOS_DPAT.meta && DADOS_DPAT.meta.atualizadoFormatado) || (DADOS_DPAT && DADOS_DPAT.dataExtracao ? DADOS_DPAT.dataExtracao + ', 10:00:00' : '04/11/2026, 10:00:00')}</span></span>
+                <span>🕒 <strong>Dados de:</strong> <span id="dpat-banner-timestamp" style="color: #ffffff;">${formatarTimestampDadosBrasil(DADOS_DPAT, '04/11/2026, 10:00:00')}</span></span>
               </div>
             </div>
 
@@ -35658,6 +35685,17 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         });
       }
 
+      function atualizarTimestampBannerSeintec(ts) {
+        var elTs = document.getElementById('seintec-banner-timestamp');
+        if (!elTs) return;
+        var val = ts ? String(ts).trim() : '';
+        if (!val || /^\d{2}:\d{2}(:\d{2})?$/.test(val)) {
+          var dtNow = new Date();
+          val = dtNow.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ', ' + dtNow.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+        }
+        elTs.textContent = val;
+      }
+
       function aplicarNovosRegistros(registrosNovos, timestampStr, fonteNome) {
         if (!Array.isArray(registrosNovos) || registrosNovos.length === 0) return false;
         if (btn && isManual) {
@@ -35666,6 +35704,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         }
         var agora = timestampStr || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         if (statusText) statusText.innerText = 'Sincronizado às ' + agora + ' • Automático a cada 1h';
+        atualizarTimestampBannerSeintec(timestampStr);
+        atualizarTimestampBannerSeintec(timestampStr);
 
         var consolidado = consolidarChamadosComHistorico(registrosNovos, registrosNovos.length >= 1000);
 
@@ -35706,6 +35746,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         }
         var agora = timestampStr || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         if (statusText) statusText.innerText = 'Sincronizado às ' + agora + ' • Automático a cada 1h';
+        atualizarTimestampBannerSeintec(timestampStr);
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -35725,6 +35766,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           if (icon) icon.innerText = '🔄';
         }
         var baseAtual = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && SEINTEC_BASES_CONFIG['Atendimentos'].registros) ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length : 1404;
+        atualizarTimestampBannerSeintec();
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -41321,7 +41363,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             (function(pageIndex, pageEl) {
               chain = chain.then(function() {
                 if (btn) {
-                  btn.innerHTML = pdfSpinnerHtml + '<span>Gerando PDF (' + (pageIndex + 1) + '/' + pages.length + ')...</span>';
+                  btn.innerHTML = pdfSpinnerHtml + '<span>Gerando PDF...</span>';
                 }
                 return html2pdf().set(opt300).from(pageEl).outputImg('datauristring').then(function(imgDataUri) {
                   pdfDoc.addPage('a4', 'portrait');
