@@ -22696,7 +22696,7 @@ function _obterResumoIpreEscolaInterno(esc) {
           var val = numVal(r['Valor do contrato'] !== undefined ? r['Valor do contrato'] : r['VALOR']);
           var objeto = String(r['Objeto'] || r['OBJETO'] || '').trim();
           var ol = objeto.toLowerCase();
-          var cat = 'Merenda/Insumos';
+          var cat = 'Outros Serviços';
           if (ol.indexOf('transporte') >= 0 || ol.indexOf('veículo') >= 0 || ol.indexOf('ônibus') >= 0) cat = 'Transporte Escolar';
           else if (ol.indexOf('elevador') >= 0 || ol.indexOf('manutenção') >= 0 || ol.indexOf('reforma') >= 0 || ol.indexOf('obra') >= 0) cat = 'Manutenção e Conservação';
           else if (ol.indexOf('merenda') >= 0 || ol.indexOf('lanche') >= 0 || ol.indexOf('gênero') >= 0 || ol.indexOf('alimentação') >= 0 || ol.indexOf('água') >= 0 || ol.indexOf('gás') >= 0 || ol.indexOf('café') >= 0 || ol.indexOf('óleo') >= 0 || ol.indexOf('biscoito') >= 0) cat = 'Merenda/Insumos';
@@ -22955,7 +22955,11 @@ function _obterResumoIpreEscolaInterno(esc) {
       /* Filtragem */
       let filtrados = contratos.filter(item => {
         /* Categoria */
-        if (estadoSecomse.categoria !== 'TODOS' && item.categoria !== estadoSecomse.categoria) {
+        if (estadoSecomse.categoria === 'Outros Serviços') {
+          if (item.categoria === 'Transporte Escolar' || item.categoria === 'Manutenção e Conservação' || item.categoria === 'Vigilância e Limpeza') {
+            return false;
+          }
+        } else if (estadoSecomse.categoria !== 'TODOS' && item.categoria !== estadoSecomse.categoria) {
           return false;
         }
         /* Filtro publicação */
@@ -23025,7 +23029,7 @@ function _obterResumoIpreEscolaInterno(esc) {
         if (c.categoria === 'Transporte Escolar') { badgeCatCor = '#0284c7'; badgeCatBg = '#e0f2fe'; }
         else if (c.categoria === 'Manutenção e Conservação') { badgeCatCor = '#b45309'; badgeCatBg = '#fef3c7'; }
         else if (c.categoria === 'Vigilância e Limpeza') { badgeCatCor = '#7c3aed'; badgeCatBg = '#f5f3ff'; }
-        else if (c.categoria === 'Merenda/Insumos' || c.categoria === 'Alimentação e Insumos') { badgeCatCor = '#059669'; badgeCatBg = '#ecfdf5'; }
+        else if (c.categoria === 'Outros Serviços' || c.categoria === 'Merenda/Insumos' || c.categoria === 'Alimentação e Insumos') { badgeCatCor = '#059669'; badgeCatBg = '#ecfdf5'; }
 
         return `
           <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
@@ -23204,7 +23208,7 @@ function _obterResumoIpreEscolaInterno(esc) {
                 <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Transporte Escolar' ? 'active' : ''}" data-cat="Transporte Escolar" onclick="mudarCategoriaSecomse('Transporte Escolar', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Transporte Escolar' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Transporte Escolar' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Transporte Escolar' ? '#0b2351' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Transporte Escolar' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Transporte Escolar' ? '0 2px 6px rgba(11, 35, 81, 0.25)' : 'none'}; transition: all 0.15s ease;">🚌 Transporte</button>
                 <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Manutenção e Conservação' ? 'active' : ''}" data-cat="Manutenção e Conservação" onclick="mudarCategoriaSecomse('Manutenção e Conservação', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#0b2351' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Manutenção e Conservação' ? '0 2px 6px rgba(11, 35, 81, 0.25)' : 'none'}; transition: all 0.15s ease;">🔧 Manutenção</button>
                 <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? 'active' : ''}" data-cat="Vigilância e Limpeza" onclick="mudarCategoriaSecomse('Vigilância e Limpeza', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#0b2351' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Vigilância e Limpeza' ? '0 2px 6px rgba(11, 35, 81, 0.25)' : 'none'}; transition: all 0.15s ease;">🛡️ Vigilância/Limpeza</button>
-                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Merenda/Insumos' ? 'active' : ''}" data-cat="Merenda/Insumos" onclick="mudarCategoriaSecomse('Merenda/Insumos', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Merenda/Insumos' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Merenda/Insumos' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Merenda/Insumos' ? '#0b2351' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Merenda/Insumos' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Merenda/Insumos' ? '0 2px 6px rgba(11, 35, 81, 0.25)' : 'none'}; transition: all 0.15s ease;">🍎 Merenda/Insumos</button>
+                <button type="button" class="btn-secomse-cat ${estadoSecomse.categoria === 'Outros Serviços' ? 'active' : ''}" data-cat="Outros Serviços" onclick="mudarCategoriaSecomse('Outros Serviços', this)" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: ${estadoSecomse.categoria === 'Outros Serviços' ? '800' : '700'}; cursor: pointer; border-radius: 6px; border: 1px solid ${estadoSecomse.categoria === 'Outros Serviços' ? '#0b2351' : '#cbd5e1'}; background: ${estadoSecomse.categoria === 'Outros Serviços' ? '#0b2351' : '#ffffff'}; color: ${estadoSecomse.categoria === 'Outros Serviços' ? '#ffffff' : '#475569'}; box-shadow: ${estadoSecomse.categoria === 'Outros Serviços' ? '0 2px 6px rgba(11, 35, 81, 0.25)' : 'none'}; transition: all 0.15s ease;">📦 Outros Serviços</button>
               </div>
 
               <!-- Busca rápida -->
