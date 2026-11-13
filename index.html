@@ -33546,7 +33546,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: #1e3a8a; font-weight: 700; white-space: nowrap;">
                 📅 ${reg.data}
               </span>
-              ${(reg.dataVisita && reg.dataVisita !== reg.data) ? ('<div style="font-size: 0.74rem; color: #64748b; font-weight: 500; margin-top: 0.15rem;">Visita: ' + reg.dataVisita + '</div>') : ''}
+              ${(reg.dataVisita || reg.dataAtendimento) ? ('<div style="font-size: 0.74rem; color: #64748b; font-weight: 500; margin-top: 0.15rem;">Visita: ' + (reg.dataVisita || reg.dataAtendimento) + '</div>') : ''}
             </td>
             <td>
               <strong style="color: var(--text-main); font-size: 0.88rem;">${escolaNomeFormatado}</strong>
@@ -33635,7 +33635,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       document.getElementById('modal-call-id').innerText = '#' + chamado.id;
       document.getElementById('modal-call-escola').innerText = escolaNomeFormatado;
       document.getElementById('modal-call-cie').innerText = chamado.cie ? ('CIE: ' + chamado.cie) : 'CIE Oficial';
-      document.getElementById('modal-call-data').innerText = chamado.dataAtendimento ? (chamado.data + ' (Atendimento / Visita: ' + chamado.dataAtendimento + ')') : (chamado.data || 'Recente');
+      var dtVisMod = chamado.dataVisita || chamado.dataAtendimento || ''; document.getElementById('modal-call-data').innerText = dtVisMod ? (chamado.data + ' (Atendimento / Visita: ' + dtVisMod + ')') : (chamado.data || 'Recente');
       document.getElementById('modal-call-tipo').innerText = chamado.tipo || 'Demanda Técnica';
       document.getElementById('modal-call-relato').innerText = chamado.relato || chamado.equip;
       document.getElementById('modal-call-solicitante').innerText = chamado.solicitante || 'Gestão da Unidade Escolar';
@@ -35266,7 +35266,17 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var bestDateAbertura = parsearDataXlsx(timestampOficial);
 
         /* 2. Visita técnica */
-        var visitaOficial = r['Data Visita'] || r['Data de Atendimento'] || r['Data Atendimento'];
+        var visitaOficial = r['Data Visita'] || r['Data da Visita'] || r['Data de Atendimento'] || r['Data Atendimento'] || r['Data Visita '] || r['Data Atendimento '] || '';
+        if (!visitaOficial) {
+          var rKeys = Object.keys(r);
+          for (var ki = 0; ki < rKeys.length; ki++) {
+            var kLow = rKeys[ki].trim().toLowerCase();
+            if ((kLow.includes('visita') || kLow.includes('atendimento')) && r[rKeys[ki]] !== undefined && r[rKeys[ki]] !== null && String(r[rKeys[ki]]).trim() !== '') {
+              visitaOficial = r[rKeys[ki]];
+              break;
+            }
+          }
+        }
         var bestDateVisita = parsearDataXlsx(visitaOficial);
 
         if (!bestDateAbertura && !bestDateVisita) {
