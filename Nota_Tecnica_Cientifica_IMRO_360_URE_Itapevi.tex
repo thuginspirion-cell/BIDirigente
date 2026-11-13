@@ -264,8 +264,8 @@ A Tabela~\ref{tab:equivalencia_literatura} demonstra como cada componente do IPR
 \toprule
 \rowcolor{ureNavy} \textcolor{white}{Componente no BI Dirigente} & \textcolor{white}{Conceito na Engenharia / Ciência de Dados} & \textcolor{white}{\textbf{Referência Científica e Aplicação Clássica}} \\
 \midrule
-Cruzamento das bases por \texttt{CIE} (60 escolas) & \emph{Entity-Centric Star Schema} (\emph{Fact Table} + \emph{Conformed Key}) & \textbf{Kimball \& Ross (2013):} Modelagem dimensional em Data Warehouses corporativos, unificando múltiplas fontes transacionais em uma única visão 360° da entidade. \\
-\rowcolor{ureLight} Conversão de dados brutos em indicadores escolares & \emph{Automated Feature Engineering} (Engenharia de Atributos) & Transformação de linhas transacionais (chamados TI, lançamentos PDDE, protocolos SEI) em variáveis numéricas estruturadas por unidade. \\
+Cruzamento das bases por \texttt{CIE} (60 escolas) & \emph{Entity-Centric Star Schema} (\emph{Fact Table} + \emph{Conformed Key}) & \textbf{Kimball \& Ross (2013):} Modelagem dimensional em Data Warehouses corporativos, unificando múltiplas fontes transacionais em uma única visão holística unificada da entidade. \\
+\rowcolor{ureLight} Conversão de dados brutos em indicadores escolares & \emph{Automated Feature Engineering} (Engenharia de Atributos) & Transformação de linhas transacionais (chamados SEINTEC, lançamentos PDDE, protocolos SEI) em variáveis numéricas estruturadas por unidade. \\
 Escala padronizada $0$ a $100$ em cada setor ($S_k$) & \emph{Min-Max Feature Normalization} ($\phi: \mathbb{R}^n \to [0,100]$) & \textbf{OCDE \& JRC (2008):} Padronização adimensional obrigatória antes de agregar indicadores de naturezas físicas distintas. \\
 \rowcolor{ureLight} Pesos Estratégicos ($25/20/20/20/15\%$) & \emph{Weighted Linear Combination} (WLC) / \emph{MAUT} & \textbf{Keeney \& Raiffa (1976); Saaty (1980):} Ponderação multicritério proporcional à criticidade de impacto e risco à vida/continuidade. \\
 Trava de Alerta Crítico Setorial ($S_k \ge 80$) & \emph{Non-Compensatory Veto Rule} (Limiar de Veto Multicritério) & \textbf{Roy (1991 --- Método ELECTRE III):} Impede que um desempenho catastrófico em um critério essencial seja mascarado pela média dos demais. \\
@@ -275,9 +275,9 @@ Trava de Alerta Crítico Setorial ($S_k \ge 80$) & \emph{Non-Compensatory Veto R
 \end{table}
 
 % ============================================================================
-% SEÇÃO 2: ARQUITETURA DE ENGENHARIA DE DADOS (STAR SCHEMA 360°)
+% SEÇÃO 2: ARQUITETURA DE ENGENHARIA DE DADOS (STAR SCHEMA MULTISSETORIAL)
 % ============================================================================
-\section{Engenharia de Dados: Do Dado Bruto na Nuvem à Tabela Fato 360°}
+\section{Engenharia de Dados: Do Dado Bruto na Nuvem à Tabela Fato Unificada}
 
 Na Engenharia de Dados moderna (\emph{Analytics Engineering}), um indicador executivo só é confiável se for alimentado por um pipeline determinístico, auditável e isento de manipulação manual. No \textbf{BI Dirigente}, vigora a diretriz de \textbf{Política de Nuvem Exclusiva e Espelhamento Fiel}: nenhuma informação fica retida localmente em computadores individuais; todas as leituras provêm diretamente das planilhas oficiais dos setores no SharePoint institucional e da camada de persistência em nuvem.
 
@@ -298,7 +298,7 @@ A Figura~\ref{fig:pipeline_star_schema} ilustra a arquitetura de engenharia de d
 
 % Fontes à esquerda (Silos Setoriais no SharePoint)
 \node[source] (s1) at (0, 3.0) {\textbf{SEOM \& SEFISC}\\Obras FDE, AVCB, Predial};
-\node[source] (s2) at (0, 1.8) {\textbf{SEINTEC}\\Inventário TI \& 1.404 Chamados};
+\node[source] (s2) at (0, 1.8) {\textbf{SEINTEC}\\Inventário Tecnológico \& 1.404 Chamados};
 \node[source] (s3) at (0, 0.6) {\textbf{SEGRE (SEMAT/SEVESC)}\\Livros SEI \& Vida Escolar};
 \node[source] (s4) at (0, -0.6) {\textbf{SEPES (SEAPE/SEFREP)}\\Aposent., Designações, Folha};
 \node[source] (s5) at (0, -1.8) {\textbf{SEAFIN \& SECOMSE}\\PDDE 2026 \& Contratos};
@@ -306,7 +306,7 @@ A Figura~\ref{fig:pipeline_star_schema} ilustra a arquitetura de engenharia de d
 
 % Hub Central (Tabela Fato Star Schema)
 \node[hub] (fact) at (5.3, 0.0) {
-    \textbf{\normalsize TABELA FATO 360°}\\
+    \textbf{\normalsize TABELA FATO UNIFICADA}\\
     \texttt{calcularTabelaFatoEscolas()}\\[4pt]
     \footnotesize Chave Primária: \textbf{CIE}\\
     \footnotesize $N = 60$ Escolas Estaduais\\
@@ -555,7 +555,7 @@ Para facilitar a apresentação institucional aos servidores da URE Itapevi, est
         {SEAFIN (Finanças PDDE)},
         {SEPES (Pessoas / Folha)},
         {SEGRE (Rede / SEI)},
-        {SEINTEC (Tecnologia / TI)},
+        {SEINTEC (Tecnologia e Informações Educacionais)},
         {SEOM (Infraestrutura / AVCB)}
     },
     nodes near coords={\pgfmathprintnumber\pgfplotspointmeta\% (Escala 0--100)},
@@ -591,7 +591,7 @@ Para facilitar a apresentação institucional aos servidores da URE Itapevi, est
 \toprule
 \rowcolor{ureNavy} \textcolor{white}{Faixa Semafórica} & \textcolor{white}{\textbf{Intervalo IPRE}} & \textcolor{white}{\textbf{Nível de Intervenção}} & \textcolor{white}{\textbf{Protocolo Prescritivo para os Núcleos da URE Itapevi}} \\
 \midrule
-\rowcolor{riskCritBg} \textcolor{riskCrit}{1. CRÍTICO} & $\mathbf{62\text{ a }100\text{ pts}}$ & Força-Tarefa Multissetorial Imediata & Prioridade máxima de visita conjunta (\texttt{ASURE} + \texttt{ESE} + núcleos críticos), plano de contingência predial/TI e despacho direto com o Dirigente. \\
+\rowcolor{riskCritBg} \textcolor{riskCrit}{1. CRÍTICO} & $\mathbf{62\text{ a }100\text{ pts}}$ & Força-Tarefa Multissetorial Imediata & Prioridade máxima de visita conjunta (\texttt{ASURE} + \texttt{ESE} + núcleos críticos), plano de contingência predial e tecnológico e despacho direto com o Dirigente. \\
 \rowcolor{riskHighBg} \textcolor{riskHigh}{2. ALTO RISCO} & $\mathbf{50\text{ a }61\text{ pts}}$ & Acompanhamento Prioritário Dirigido & Inclusão prioritária no cronograma mensal de visitas técnicas e mutirão setorial para desobstrução de processos SEI/SEPES/PDDE. \\
 \rowcolor{riskWarnBg} \textcolor{riskWarn}{3. ATENÇÃO} & $\mathbf{40\text{ a }49\text{ pts}}$ & Monitoramento Preventivo Focalizado & Inclui escolas com risco moderado ou com \textbf{Trava de Alerta Setorial ($\ge 80$)} em um único setor. Atuação direta do núcleo específico. \\
 \rowcolor{riskOkBg} \textcolor{riskOk}{4. REGULAR} & $\mathbf{0\text{ a }39\text{ pts}}$ & Governança de Rotina e Manutenção & Operação estável nos 5 núcleos e nenhum setor em colapso ($\forall k, S_k < 80$). Acompanhamento ordinário de supervisão e suporte preventivo. \\
@@ -603,8 +603,8 @@ Para facilitar a apresentação institucional aos servidores da URE Itapevi, est
 
 Para demonstrar o funcionamento exato da fórmula em diferentes perfis de escolas da rede, analisemos três arquétipos representativos:
 \begin{itemize}[leftmargin=1.5em, itemsep=2pt]
-    \item \textbf{Caso A (Escola Estável --- ``EE Perfil Regular''):} Prédio com AVCB regular, apenas $1$ chamado de TI aberto ($S_{\text{SEOM}}=10, S_{\text{SEINTEC}}=15, S_{\text{SEGRE}}=20, S_{\text{SEPES}}=15, S_{\text{SEAFIN}}=15$).
-    \item \textbf{Caso B (Colapso Isolado --- ``EE Alerta Setorial''):} Escola predialmente perfeita ($S_{\text{SEOM}}=5$), TI excelente ($S_{\text{SEINTEC}}=10$), RH em dia ($S_{\text{SEPES}}=0$) e PDDE executado ($S_{\text{SEAFIN}}=15$), mas com \textbf{$4$ processos SEI travados no SEGRE} ($\mathbf{S_{\text{SEGRE}} = 80/100}$).
+    \item \textbf{Caso A (Escola Estável --- ``EE Perfil Regular''):} Prédio com AVCB regular, apenas $1$ chamado técnico aberto ($S_{\text{SEOM}}=10, S_{\text{SEINTEC}}=15, S_{\text{SEGRE}}=20, S_{\text{SEPES}}=15, S_{\text{SEAFIN}}=15$).
+    \item \textbf{Caso B (Colapso Isolado --- ``EE Alerta Setorial''):} Escola predialmente perfeita ($S_{\text{SEOM}}=5$), parque tecnológico excelente ($S_{\text{SEINTEC}}=10$), RH em dia ($S_{\text{SEPES}}=0$) e PDDE executado ($S_{\text{SEAFIN}}=15$), mas com \textbf{$4$ processos SEI travados no SEGRE} ($\mathbf{S_{\text{SEGRE}} = 80/100}$).
     \item \textbf{Caso C (Vulnerabilidade Multissetorial --- ``EE Prioridade Crítica''):} Sem AVCB, esgoto crítico e telhado crítico ($S_{\text{SEOM}}=75$), alta taxa de hardware danificado ($S_{\text{SEINTEC}}=70$), $3$ processos SEI abertos ($S_{\text{SEGRE}}=60$), demandas de RH ($S_{\text{SEPES}}=65$) e baixa execução PDDE com saldo parado ($S_{\text{SEAFIN}}=80$).
 \end{itemize}
 
