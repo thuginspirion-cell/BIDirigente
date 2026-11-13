@@ -37882,10 +37882,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       text-transform: uppercase;
     }
     .doc-footer-logo {
-      height: 20px;
-      max-height: 20px;
+      height: 26px;
+      max-height: 26px;
       width: auto;
-      max-width: 28px;
+      max-width: 36px;
       object-fit: contain;
       display: inline-block;
       vertical-align: middle;
@@ -39952,7 +39952,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         return { bg: '#dcfce7', txt: '#166534', brd: '#86efac', bar: '#16a34a', dot: '' };
       }
 
-      function gerarRodapeEditorial(folhaAtual, totalFolhas, subDesc) {
+      function gerarRodapeEditorial(folhaAtual, totalFolhas) {
         var logoUreSrc = (typeof window !== 'undefined' && window.LOGO_URE_DATA_URI)
           ? window.LOGO_URE_DATA_URI
           : ((typeof window !== 'undefined' && window.BRASAO_SP_DATA_URI) ? window.BRASAO_SP_DATA_URI : 'logo_ure_itapevi_480.png');
@@ -39961,17 +39961,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           '<footer class="doc-footer">' +
             '<div class="doc-footer-col doc-footer-left">' +
               '<span class="doc-footer-title">URE - Itapevi</span>' +
-              '<span class="doc-footer-sub">Governo do Estado de São Paulo • SEDUC</span>' +
             '</div>' +
             '<div class="doc-footer-col doc-footer-center">' +
               '<span class="doc-footer-badge">Página ' + folhaAtual + ' de ' + totalFolhas + '</span>' +
-              (subDesc ? '<span class="doc-footer-center-sub">' + escHtml(subDesc) + '</span>' : '') +
             '</div>' +
             '<div class="doc-footer-col doc-footer-right">' +
-              '<div class="doc-footer-right-text">' +
-                '<span class="doc-footer-brand">URE Itapevi</span>' +
-                '<span class="doc-footer-unit">Diretoria Regional</span>' +
-              '</div>' +
               '<img src="' + logoUreSrc + '" alt="Logo URE Itapevi" class="doc-footer-logo" />' +
             '</div>' +
           '</footer>';
@@ -40286,7 +40280,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           image: { type: 'jpeg', quality: 0.99 },
           html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollY: 0, logging: false },
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak: { mode: ['css', 'legacy'], avoid: ['.doc-section', '.doc-card', 'tr'] }
+          pagebreak: { mode: ['css', 'legacy'], after: '.exec-doc-page', avoid: ['.doc-section', '.doc-card', 'tr'] }
         }).from(canvas).save().then(function() {
           pages.forEach(function(p, i) {
             p.style.margin = oldMargins[i] || '';
@@ -40869,7 +40863,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             '</div>' +
           '</section>' +
           '</div>' +
-          gerarRodapeEditorial(1, 1, 'Saúde da Unidade ISR = ' + isrUnidade + '/100 • Exercício 2026') +
+          gerarRodapeEditorial(1, 1) +
         '</div>';
 
         abrirModalRelatorioExecutivo({
@@ -40934,7 +40928,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               gerarMastheadEditorial(
                 'Relatório Consolidado | URE - Itapevi',
                 'Panorama Multissetorial das ' + totalEsc + ' Escolas Estaduais e 7 Núcleos • Metodologia IMRO 360° (0–100)',
-                'RELATÓRIO GERAL | FOLHA 1/3',
+                'RELATÓRIO GERAL | FOLHA 1/4',
                 'URE-ITP-' + new Date().toISOString().slice(0, 10)
               ) +
               '<section class="doc-section">' +
@@ -40998,7 +40992,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                 '</table>' +
               '</section>' +
             '</div>' +
-            gerarRodapeEditorial(1, 3, 'Síntese Executiva & Indicadores Regionais • IMRO 360°') +
+            gerarRodapeEditorial(1, 4) +
           '</div>';
 
         /* Função auxiliar para renderizar bloco da tabela do ranking com cabeçalho rígido */
@@ -41046,34 +41040,51 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           '<div class="exec-doc-page">' +
             '<div class="exec-doc-page-body">' +
               gerarMastheadEditorial(
-                'Ranking da Rede Estadual — IMRO 360° (Parte 1/2)',
-                'Classificação Decrescente de Risco Multissetorial — Unidades 1 a 30',
-                'ANEXO TÉCNICO | FOLHA 2/3',
+                'Ranking da Rede Estadual — IMRO 360° (Parte 1/3)',
+                'Classificação Decrescente de Risco Multissetorial — Unidades 1 a 20',
+                'ANEXO TÉCNICO | FOLHA 2/4',
                 'URE-ITP-RANK-1'
               ) +
-              renderTabelaRanking(fato.slice(0, 30), 0) +
+              renderTabelaRanking(fato.slice(0, 20), 0) +
             '</div>' +
-            gerarRodapeEditorial(2, 3, 'Ranking Completo da Rede Estadual • Escolas 1 a 30') +
+            gerarRodapeEditorial(2, 4) +
           '</div>';
 
         /* ========================================================================= */
-        /* FOLHA 3 DE 3 • RANKING DA REDE ESTADUAL (ESCOLAS 31 A 60)                */
+        /* FOLHA 3 DE 4 • RANKING DA REDE ESTADUAL (ESCOLAS 21 A 40)                */
         /* ========================================================================= */
         var folha3 = '' +
           '<div class="exec-doc-page">' +
             '<div class="exec-doc-page-body">' +
               gerarMastheadEditorial(
-                'Ranking da Rede Estadual — IMRO 360° (Parte 2/2)',
-                'Classificação Decrescente de Risco Multissetorial — Unidades 31 a 60',
-                'ANEXO TÉCNICO | FOLHA 3/3',
+                'Ranking da Rede Estadual — IMRO 360° (Parte 2/3)',
+                'Classificação Decrescente de Risco Multissetorial — Unidades 21 a 40',
+                'ANEXO TÉCNICO | FOLHA 3/4',
                 'URE-ITP-RANK-2'
               ) +
-              renderTabelaRanking(fato.slice(30, 60), 30) +
+              renderTabelaRanking(fato.slice(20, 40), 20) +
             '</div>' +
-            gerarRodapeEditorial(3, 3, 'Ranking Completo da Rede Estadual • Escolas 31 a 60') +
+            gerarRodapeEditorial(3, 4) +
           '</div>';
 
-        var html = folha1 + folha2 + folha3;
+        /* ========================================================================= */
+        /* FOLHA 4 DE 4 • RANKING DA REDE ESTADUAL (ESCOLAS 41 A 60)                */
+        /* ========================================================================= */
+        var folha4 = '' +
+          '<div class="exec-doc-page">' +
+            '<div class="exec-doc-page-body">' +
+              gerarMastheadEditorial(
+                'Ranking da Rede Estadual — IMRO 360° (Parte 3/3)',
+                'Classificação Decrescente de Risco Multissetorial — Unidades 41 a 60',
+                'ANEXO TÉCNICO | FOLHA 4/4',
+                'URE-ITP-RANK-3'
+              ) +
+              renderTabelaRanking(fato.slice(40, 60), 40) +
+            '</div>' +
+            gerarRodapeEditorial(4, 4) +
+          '</div>';
+
+        var html = folha1 + folha2 + folha3 + folha4;
 
         abrirModalRelatorioExecutivo({
           tipo: 'ure',
