@@ -530,10 +530,10 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
       finalDownloadUrl = (location1.indexOf("http") === 0) ? location1 : ("https://seesp-my.sharepoint.com" + location1);
     }
 
-    // 1.5 Sondagem de tamanho + Extração Seletiva via HTTP 206 Range quando houver abasNecessarias
-    var totalLenRemoto = 0;
+    // 1.5 Helper sob demanda: Extração Seletiva via HTTP 206 Range (ativada APENAS se exceder limite ou sempreSeletivo)
     var diagSeletivo = "";
-    if (opcoes.abasNecessarias && opcoes.abasNecessarias.length > 0) {
+    function tentarExtracaoSeletiva206_() {
+      if (!opcoes.abasNecessarias || opcoes.abasNecessarias.length === 0) return null;
       try {
         var respProbe = UrlFetchApp.fetch(finalDownloadUrl, {
           muteHttpExceptions: true,
@@ -548,9 +548,8 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
           var pHeaders = respProbe.getAllHeaders();
           var cRange = pHeaders["Content-Range"] || pHeaders["content-range"] || "";
           var mTotal = String(cRange).match(/\/(\d+)/);
-          if (mTotal) totalLenRemoto = parseInt(mTotal[1], 10);
-
-          if (totalLenRemoto > 1572864 || opcoes.sempreSeletivo) {
+          var totalLenRemoto = mTotal ? parseInt(mTotal[1], 10) : 0;
+          if (totalLenRemoto > 0) {
             var seletivo = obterAbasSeletivasSharepointZip_(finalDownloadUrl, cookieHeader, opcoes.abasNecessarias, totalLenRemoto);
             if (seletivo && seletivo.base64) {
               return {
@@ -560,7 +559,7 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
                 tamanhoOriginalBytes: seletivo.totalBytes,
                 bytesBaixadosRange: seletivo.downloadedBytes,
                 abasExtraidas: seletivo.abasExtraidas,
-                origem: "SharePoint Live (Seletivo Range 206)",
+                origem: "SharePoint Live (Seletivo Range 206 - Auto-Fallback)",
                 timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
                 data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
               };
@@ -574,32 +573,50 @@ function obterArquivoPublicoSharepoint(rawUrl, opcoes) {
         diagSeletivo = errRange.toString();
         Logger.log("Aviso extração seletiva (" + setor + "): " + diagSeletivo);
       }
+      return null;
     }
 
-    // Se o arquivo inteiro exceder 35 MB (acima do limite prático Base64/GAS), não tenta download bruto
-    if (totalLenRemoto > 35 * 1024 * 1024) {
-      return {
-        sucesso: true,
-        usarBaseLocal: true,
-        aviso: "Arquivo de " + setor + " (" + (totalLenRemoto / (1024 * 1024)).toFixed(1) + " MB) excedeu teto bruto do GAS e extração seletiva não retornou abas.",
-        timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
-        data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
-      };
+    if (opcoes.sempreSeletivo) {
+      var resSeletivoForcado = tentarExtracaoSeletiva206_();
+      if (resSeletivoForcado) return resSeletivoForcado;
     }
 
-    // 2. Download completo para arquivos leves com repasse integral dos cookies anônimos
-    var response = UrlFetchApp.fetch(finalDownloadUrl, {
-      muteHttpExceptions: true,
-      followRedirects: true,
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Cookie": cookieHeader,
-        "Accept": "*/*"
-      }
-    });
+    // 2. Caminho Rápido Padrão: Download direto em requisição única (sem sondagem 206 prévia)
+    var response = null;
+    try {
+      response = UrlFetchApp.fetch(finalDownloadUrl, {
+        muteHttpExceptions: true,
+        followRedirects: true,
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+          "Cookie": cookieHeader,
+          "Accept": "*/*"
+        }
+      });
+    } catch (errFetchFull) {
+      // Se o arquivo exceder o teto de 50 MB do UrlFetchApp (ex.: planilha formatada até a última linha), reativa HTTP 206 automaticamente
+      Logger.log("Download direto excedeu limite (" + setor + "), reativando HTTP 206 Range: " + errFetchFull);
+      var resSeletivoErro = tentarExtracaoSeletiva206_();
+      if (resSeletivoErro) return resSeletivoErro;
+      throw errFetchFull;
+    }
 
-    if (response.getResponseCode() === 200) {
+    if (response && response.getResponseCode() === 200) {
       var bytes = response.getBlob().getBytes();
+      // Se ultrapassar 25 MB (próximo ao teto Base64/JSON do GAS), reativa HTTP 206 para enviar apenas as abas úteis
+      if (bytes.length > 25 * 1024 * 1024) {
+        var resSeletivoGrande = tentarExtracaoSeletiva206_();
+        if (resSeletivoGrande) return resSeletivoGrande;
+        if (bytes.length > 35 * 1024 * 1024) {
+          return {
+            sucesso: true,
+            usarBaseLocal: true,
+            aviso: "Arquivo de " + setor + " (" + (bytes.length / (1024 * 1024)).toFixed(1) + " MB) excedeu teto bruto do GAS e extração seletiva não retornou abas.",
+            timestamp: Utilities.formatDate(new Date(), "America/Sao_Paulo", "HH:mm"),
+            data: Utilities.formatDate(new Date(), "America/Sao_Paulo", "dd/MM/yyyy")
+          };
+        }
+      }
       // Valida assinatura binária do XLSX para evitar HTML de login disfarçado de 200
       if (verificarSeBytesSaoXlsx(bytes)) {
         var base64 = Utilities.base64Encode(bytes);
