@@ -14199,7 +14199,7 @@ function imprimirAgendaCarro() {
                 <span>💻</span> <span>SEINTEC • Tecnologia (0–100 | Peso 20%)</span>
               </div>
               <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.75rem; color: #94a3b8; line-height: 1.55;">
-                <li><strong style="color: #38bdf8;">Parque Comprometido (0–50/100):</strong> Proporcional à taxa real <code style="color: #bae6fd;">danificados / total</code> em quartos <strong>1/4 a 4/4</strong>.</li>
+                <li><strong style="color: #38bdf8;">Parque Comprometido (0–50/100):</strong> Proporcional à taxa real <code style="color: #bae6fd;">danificados / total</code> do inventário.</li>
                 <li><strong style="color: #ef4444;">Volume de Chamados (0–35/100):</strong> ≥30 chamados (+35), 20–29 (+20) ou 10–19 (+10).</li>
                 <li><strong style="color: #f97316;">Chamados em Aberto (0–15/100):</strong> ≥3 abertos (+15) ou 1–2 abertos (+5). Soma até 100/100.</li>
               </ul>
@@ -16037,7 +16037,7 @@ function imprimirAgendaCarro() {
               <ul style="margin: 0; padding-left: 1.1rem; font-size: 0.76rem; color: #cbd5e1; line-height: 1.65;">
                 <li><strong style="color: #60a5fa;">👁️ Detalhes da Unidade:</strong> Abre o Raio-X completo da escola, unificando em uma única tela os dados de Infraestrutura (SEOM), Tecnologia (SEINTEC), Finanças APM (SEAFIN), Rede (SEGRE) e Gabinete.</li>
                 <li><strong style="color: #94a3b8;">✏️ Editar:</strong> Abre o formulário cadastral para atualização de equipe gestora, telefone institucional, endereço e modelo de jornada.</li>
-                <li><strong style="color: #2dd4bf;">📄 PDF:</strong> Emite o relatório executivo individual da escola em formato A4 (com IPRE, parque tecnológico em quartos, SEOM, SEAFIN, SEPES, SEGRE e parecer prescritivo). O botão <strong>Relatório PDF Geral (URE)</strong> no topo consolida todas as 60 unidades.</li>
+                <li><strong style="color: #2dd4bf;">📄 PDF:</strong> Emite o relatório executivo individual da escola em formato A4 (com IPRE, telemetria tecnológica SEINTEC, SEOM, SEAFIN, SEPES, SEGRE e parecer prescritivo). O botão <strong>Relatório PDF Geral (URE)</strong> no topo consolida todas as 60 unidades.</li>
               </ul>
             </div>
 
@@ -38899,7 +38899,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           var ptsSeintec = ptsHwRatio;
           var flagsSeintec = [];
           if (hwInfo.total >= 20 && hwPctBad >= 15) {
-            flagsSeintec.push(quartoTi + ' • ' + hwPctBad.toFixed(1).replace('.', ',') + '% comprometido (' + hwInfo.bad + '/' + hwInfo.total + ')');
+            flagsSeintec.push(hwPctBad.toFixed(1).replace('.', ',') + '% comprometido (' + hwInfo.bad + '/' + hwInfo.total + ')');
           }
           if (callInfo.total >= 30) { ptsSeintec += 35; flagsSeintec.push(callInfo.total + ' chamados'); }
           else if (callInfo.total >= 20) { ptsSeintec += 20; flagsSeintec.push(callInfo.total + ' chamados'); }
@@ -40009,7 +40009,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             '<div style="color:#cbd5e1;font-size:0.68rem;margin-bottom:4px;">CIE: ' + escHtml(esc.cie) + ' • ' + escHtml(esc.cidade) + ' • ' + escHtml(esc.tipo) + '</div>' +
             '<div>• <strong>IPRE:</strong> ' + esc.imro + ' pts (' + escHtml(esc.tier) + ')</div>' +
             '<div>• <strong>PDDE 2026:</strong> ' + esc.execPct2026.toFixed(1).replace('.', ',') + '% exec. (Saldo: ' + formatarMoedaCurta(esc.saldoOcioso2026) + ')</div>' +
-            '<div>• <strong>Tecnologia / Obras / SEPES:</strong> ' + esc.hwBad + '/' + esc.hwTotal + ' TI (' + (esc.hwBadPct || 0).toFixed(1).replace('.', ',') + '% • ' + (esc.quartoTi || '1/4') + ') • ' + esc.callsTotal + ' cham. • ' + esc.sepesPend + ' SEPES</div>' +
+            '<div>• <strong>Tecnologia / Obras / SEPES:</strong> ' + esc.hwBad + '/' + esc.hwTotal + ' equipamentos (' + (esc.hwBadPct || 0).toFixed(1).replace('.', ',') + '% comp.) • ' + esc.callsTotal + ' cham. • ' + esc.sepesPend + ' SEPES</div>' +
             (esc.eecScore != null ? ('<div>• <strong>EEC Pedagógico:</strong> ' + esc.eecScore.toFixed(1).replace('.', ',') + '%</div>') : '') +
             '<div style="margin-top:4px;color:#fbbf24;font-weight:700;">Clique para abrir Diagnóstico da Escola</div>';
           tip.style.display = 'block';
@@ -40696,7 +40696,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             { 'Dimensão / Indicador': 'Município / Distância Sede', 'Valor da Escola': (escCad.cidade || '') + ' (' + det.distSedeKm + ' km)', 'Média URE (60 Escolas)': '---', 'Pontuação IMRO': 'Posição #' + relatorioAtualEstado.rankIdx + '/60' },
             { 'Dimensão / Indicador': 'IPRE (0–100)', 'Valor da Escola': fato.imro, 'Média URE (60 Escolas)': Number(det.benchmarks.mediaImro.toFixed(1)), 'Pontuação IMRO': fato.tier },
             { 'Dimensão / Indicador': 'SEOM Infraestrutura (0–100 | Peso 25%)', 'Valor da Escola': (fato.flags.SEOM || []).join('; ') || 'Conforme', 'Média URE (60 Escolas)': '---', 'Pontuação IMRO': fato.pts.SEOM + ' / 100' },
-            { 'Dimensão / Indicador': 'SEINTEC Tecnologia (0–100 | Peso 20%)', 'Valor da Escola': (fato.quartoTi || '1/4') + ' (' + (fato.hwBadPct || 0).toFixed(1) + '% comp.)', 'Média URE (60 Escolas)': det.benchmarks.mediaTiPct.toFixed(1) + '%', 'Pontuação IMRO': fato.pts.SEINTEC + ' / 100' },
+            { 'Dimensão / Indicador': 'SEINTEC Tecnologia (0–100 | Peso 20%)', 'Valor da Escola': (fato.hwBadPct || 0).toFixed(1) + '% comp. (' + fato.hwBad + '/' + fato.hwTotal + ')', 'Média URE (60 Escolas)': det.benchmarks.mediaTiPct.toFixed(1) + '%', 'Pontuação IMRO': fato.pts.SEINTEC + ' / 100' },
             { 'Dimensão / Indicador': 'SEGRE Gestão da Rede (0–100 | Peso 20%)', 'Valor da Escola': fato.segreAbertos + ' SEI em aberto', 'Média URE (60 Escolas)': '---', 'Pontuação IMRO': fato.pts.SEGRE + ' / 100' },
             { 'Dimensão / Indicador': 'SEPES Serviço de Pessoas (0–100 | Peso 20%)', 'Valor da Escola': fato.sepesPend + ' em fila', 'Média URE (60 Escolas)': '---', 'Pontuação IMRO': fato.pts.SEPES + ' / 100' },
             { 'Dimensão / Indicador': 'SEAFIN PDDE 2026 (0–100 | Peso 15%)', 'Valor da Escola': (fato.execPct2026 || 0).toFixed(1) + '% exec.', 'Média URE (60 Escolas)': det.benchmarks.mediaExecPct.toFixed(1) + '%', 'Pontuação IMRO': fato.pts.SEAFIN + ' / 100' },
@@ -40779,7 +40779,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
               'Alerta Setorial (≥80)': (e.alertasSetoriais && e.alertasSetoriais.length > 0) ? e.alertasSetoriais.join(', ') : 'Normal',
               'SEOM (0-100 | 25%)': e.pts.SEOM,
               'SEINTEC (0-100 | 20%)': e.pts.SEINTEC,
-              'Quartil SEINTEC': e.quartoTi || '1/4',
+              'Comprometimento SEINTEC (%)': (e.hwBadPct || 0).toFixed(1) + '%',
               '% Equipamentos Comprometidos': e.hwBadPct || 0,
               'Defeito / Total': e.hwBad + '/' + e.hwTotal,
               'SEGRE (0-100 | 20%)': e.pts.SEGRE + ' (' + e.segreAbertos + ' SEI)',
@@ -41219,7 +41219,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             '<h2 class="doc-sec-heading"><span><span class="doc-sec-num">02</span>Tecnologia (SEINTEC) &amp; Finanças APM (SEAFIN PDDE 2026)</span><span>Dados Vivos</span></h2>' +
             '<div class="doc-grid-2">' +
               '<div class="doc-card" style="border-left:4px solid #0284c7;">' +
-                '<div class="doc-card-head"><span>💻 Parque Tecnológico &amp; Chamados (SEINTEC)</span><span>' + escHtml(fato.quartoTi || '1/4') + ' • ' + hwBadPctTxt + '%</span></div>' +
+                '<div class="doc-card-head"><span>💻 Parque Tecnológico &amp; Chamados (SEINTEC)</span><span>' + hwBadPctTxt + '% Comprometido • ' + fato.hwBad + '/' + fato.hwTotal + ' unid.</span></div>' +
                 '<div class="doc-kv"><span class="doc-kv-k">Hardware Total / Disponível</span><span class="doc-kv-v">' + fato.hwTotal + ' unid. (' + det.statusHw.Disponivel + ' disp. • ' + hwDispPct + '%)</span></div>' +
                 '<div class="doc-kv"><span class="doc-kv-k">Danificado / Manutenção / Inservível</span><span class="doc-kv-v">' + det.statusHw.Danificado + ' danif. • ' + det.statusHw.Manutencao + ' manut. • ' + det.statusHw.Inservivel + ' inserv.</span></div>' +
                 '<div class="doc-kv"><span class="doc-kv-k">Educatrons / Rede / Recarga</span><span class="doc-kv-v">' + det.eduQtd + ' Educatrons • ' + det.redeQtd + ' Rede • ' + det.recQtd + ' Recarga</span></div>' +
@@ -41384,7 +41384,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                 '<th style="width:46px;">CIE</th>' +
                 '<th>Unidade Escolar • Município • Modelo</th>' +
                 '<th style="width:96px;">IPRE</th>' +
-                '<th style="width:90px;">SEINTEC (Quarto / %)</th>' +
+                '<th style="width:95px;">SEINTEC (Comprometimento)</th>' +
                 '<th style="width:84px;">Infra (SEOM)</th>' +
                 '<th style="width:74px;">PDDE 2026</th>' +
                 '<th style="width:58px;">SEPES/SEI</th>' +
@@ -41403,7 +41403,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
                     '<td class="doc-mono">' + escHtml(e.cie) + '</td>' +
                     '<td><strong>' + escHtml(nomeLimpo) + '</strong><br><span style="color:#64748b;font-size:6.4pt;">' + escHtml(e.cidade) + ' • ' + escHtml(e.tipo) + '</span></td>' +
                     '<td><span class="doc-pill" style="background:' + stE.bg + ';color:' + stE.txt + ';border:1px solid ' + stE.brd + ';">' + e.imro + ' pts — ' + escHtml(e.tier) + '</span></td>' +
-                    '<td><strong>' + escHtml(e.quartoTi || '1/4') + '</strong> (' + (e.hwBadPct || 0).toFixed(1).replace('.', ',') + '%)<br><span style="color:#64748b;font-size:6.3pt;">' + e.hwBad + '/' + e.hwTotal + ' • ' + e.callsTotal + ' ch.</span></td>' +
+                    '<td><strong>' + (e.hwBadPct || 0).toFixed(1).replace('.', ',') + '%</strong> <span style="font-size:6.1pt;color:#64748b;">(' + e.hwBad + '/' + e.hwTotal + ')</span><br><span style="color:#64748b;font-size:6.3pt;">' + e.callsTotal + ' chamados</span></td>' +
                     '<td>' + avcbTxt + obraTxt + '<br><span style="color:#64748b;font-size:6.3pt;">SEOM: ' + e.pts.SEOM + '/100</span></td>' +
                     '<td>' + pddeCell + '<br><span style="color:#64748b;font-size:6.3pt;">' + formatarMoedaCurta(e.saldoOcioso2026) + '</span></td>' +
                     '<td>' + e.sepesPend + ' / ' + e.segreAbertos + '</td>' +
