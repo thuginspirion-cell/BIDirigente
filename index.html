@@ -40599,6 +40599,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         return mMatch && tMatch;
       });
 
+      filtradas.sort(function(a, b) {
+        return String(a.nome || '').localeCompare(String(b.nome || ''), 'pt-BR', { sensitivity: 'base' });
+      });
+
       var sel = document.getElementById('select-relatorio-escola');
       var countEl = document.getElementById('contagem-escolas-relatorio');
       if (countEl) countEl.innerText = filtradas.length + ' escola(s) encontrada(s)';
@@ -40621,7 +40625,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           var opt = document.createElement('option');
           opt.value = e.id || e.cie;
           var cidExib = String(e.cidade || '').toLowerCase().indexOf('pirapora') !== -1 ? 'Pirapora do Bom Jesus' : (e.cidade || '');
-          opt.innerText = '[' + (e.cie || 'CIE') + '] ' + (e.nome || 'Escola') + ' — ' + cidExib;
+          opt.innerText = (e.nome || 'Escola') + ' [' + (e.cie || 'CIE') + '] — ' + cidExib;
           sel.appendChild(opt);
         });
 
