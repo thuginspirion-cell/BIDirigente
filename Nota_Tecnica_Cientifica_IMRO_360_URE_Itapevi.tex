@@ -1,17 +1,17 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[10pt,a4paper]{article}
 
 % ============================================================================
-% PACOTES FUNDAMENTAIS E TIPOGRAFIA EXECUTIVA
+% PACOTES FUNDAMENTAIS E TIPOGRAFIA EXECUTIVA (FOURIERNC 10PT)
 % ============================================================================
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[brazilian]{babel}
-\usepackage{lmodern}
+\usepackage{amsmath,mathtools}
+\usepackage{fouriernc}
 \usepackage{microtype}
 \usepackage[a4paper,top=24mm,bottom=24mm,left=20mm,right=20mm,headheight=22pt,footskip=14mm]{geometry}
 
-% Matemática e Tabelas
-\usepackage{amsmath,amssymb,amsfonts,mathtools}
+% Tabelas
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{tabularx}
@@ -79,11 +79,11 @@
 \renewcommand{\headrule}{\hbox to\headwidth{\color{ureBorder}\leaders\hrule height \headrulewidth\hfill}}
 \renewcommand{\footrule}{\hbox to\headwidth{\color{ureNavy}\leaders\hrule height \footrulewidth\hfill}}
 
-\fancyhead[L]{\fontsize{8}{10}\selectfont\textcolor{ureMuted}{\textbf{NOTA TÉCNICA E CIENTÍFICA} $\bullet$ METODOLOGIA IMRO 360°}}
-\fancyhead[R]{\fontsize{8}{10}\selectfont\textcolor{ureMuted}{BI DIRIGENTE $\bullet$ URE ITAPEVI 2026}}
+\fancyhead[L]{\fontsize{7.5}{9.5}\selectfont\textcolor{ureMuted}{\textbf{NOTA TÉCNICA E CIENTÍFICA} $\bullet$ METODOLOGIA IMRO 360°}}
+\fancyhead[R]{\fontsize{7.5}{9.5}\selectfont\textcolor{ureMuted}{BI DIRIGENTE $\bullet$ URE ITAPEVI 2026}}
 
-\fancyfoot[L]{\fontsize{9.5}{11}\selectfont\textbf{\textcolor{ureNavy}{URE - Itapevi}}}
-\fancyfoot[C]{\fontsize{9}{11}\selectfont\textbf{\textcolor{ureSlate}{Página \thepage\ de \pageref*{LastPage}}}}
+\fancyfoot[L]{\fontsize{8.5}{10}\selectfont\textbf{\textcolor{ureNavy}{URE - Itapevi}}}
+\fancyfoot[C]{\fontsize{8}{10}\selectfont\textbf{\textcolor{ureSlate}{Página \thepage\ de \pageref*{LastPage}}}}
 \fancyfoot[R]{\raisebox{-0.28\height}{\includegraphics[height=0.68cm]{logo_ure_itapevi.png}}}
 
 % Garante que até a página de título (se usar plain) tenha o mesmo rodapé
@@ -91,8 +91,8 @@
   \fancyhf{}
   \renewcommand{\headrulewidth}{0pt}
   \renewcommand{\footrulewidth}{0.8pt}
-  \fancyfoot[L]{\fontsize{9.5}{11}\selectfont\textbf{\textcolor{ureNavy}{URE - Itapevi}}}
-  \fancyfoot[C]{\fontsize{9}{11}\selectfont\textbf{\textcolor{ureSlate}{Página \thepage\ de \pageref*{LastPage}}}}
+  \fancyfoot[L]{\fontsize{8.5}{10}\selectfont\textbf{\textcolor{ureNavy}{URE - Itapevi}}}
+  \fancyfoot[C]{\fontsize{8}{10}\selectfont\textbf{\textcolor{ureSlate}{Página \thepage\ de \pageref*{LastPage}}}}
   \fancyfoot[R]{\raisebox{-0.28\height}{\includegraphics[height=0.68cm]{logo_ure_itapevi.png}}}
 }
 
@@ -174,9 +174,9 @@
   \end{minipage}%
   \begin{minipage}[c]{0.68\textwidth}
     \centering
-    {\color{white!80!ureSky}\fontsize{8.5}{10}\selectfont\textbf{GOVERNO DO ESTADO DE SÃO PAULO $\bullet$ SECRETARIA DA EDUCAÇÃO (SEDUC-SP)}}\\[3pt]
-    {\color{white}\fontsize{13}{16}\selectfont\textbf{UNIDADE REGIONAL DE ENSINO --- URE ITAPEVI}}\\[2pt]
-    {\color{white!85}\fontsize{9}{11}\selectfont Gabinete do Dirigente Regional $\bullet$ Inteligência de Dados e Gestão Operacional (BI Dirigente)}
+    {\color{white!80!ureSky}\fontsize{7.5}{9.5}\selectfont\textbf{GOVERNO DO ESTADO DE SÃO PAULO $\bullet$ SECRETARIA DA EDUCAÇÃO (SEDUC-SP)}}\\[3pt]
+    {\color{white}\fontsize{12}{15}\selectfont\textbf{UNIDADE REGIONAL DE ENSINO --- URE ITAPEVI}}\\[2pt]
+    {\color{white!85}\fontsize{8}{10}\selectfont Gabinete do Dirigente Regional $\bullet$ Inteligência de Dados e Gestão Operacional (BI Dirigente)}
   \end{minipage}%
   \begin{minipage}[c]{0.18\textwidth}
     \centering
@@ -189,9 +189,9 @@
 \vspace{0.3cm}
 
 \begin{center}
-  {\fontsize{8.5}{10}\selectfont\textcolor{ureBlue}{\textbf{DOCUMENTO DE REFERÊNCIA METODOLÓGICA E CIENTÍFICA $\bullet$ VERSÃO OFICIAL 2026}}}\\[6pt]
-  {\fontsize{17}{21}\selectfont\textbf{\textcolor{ureNavy}{ÍNDICE MULTISSETORIAL DE RISCO OPERACIONAL (IMRO 360°)\\NA GESTÃO PÚBLICA EDUCACIONAL}}}\\[6pt]
-  {\fontsize{11}{14}\selectfont\textcolor{ureSlate}{Fundamentação Matemática, Engenharia de Dados (\emph{Star Schema}), Análise de Decisão Multicritério (\emph{MCDA})\\e Alocação Equitativa de Suporte Técnico para as 60 Escolas Estaduais da URE Itapevi}}
+  {\fontsize{7.5}{9.5}\selectfont\textcolor{ureBlue}{\textbf{DOCUMENTO DE REFERÊNCIA METODOLÓGICA E CIENTÍFICA $\bullet$ VERSÃO OFICIAL 2026}}}\\[6pt]
+  {\fontsize{16}{20}\selectfont\textbf{\textcolor{ureNavy}{ÍNDICE MULTISSETORIAL DE RISCO OPERACIONAL (IMRO 360°)\\NA GESTÃO PÚBLICA EDUCACIONAL}}}\\[6pt]
+  {\fontsize{10}{13}\selectfont\textcolor{ureSlate}{Fundamentação Matemática, Engenharia de Dados (\emph{Star Schema}), Análise de Decisão Multicritério (\emph{MCDA})\\e Alocação Equitativa de Suporte Técnico para as 60 Escolas Estaduais da URE Itapevi}}
 \end{center}
 
 \vspace{0.2cm}
