@@ -40270,11 +40270,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
         if (btn) {
           btn.disabled = true;
-          btn.innerHTML = '<span>⏳</span><span>Gerando PDF...</span>';
+          btn.innerHTML = '<span>⏳</span><span>Gerando PDF 300 DPI...</span>';
         }
         var oldShadow = canvas.style.boxShadow;
         canvas.style.boxShadow = 'none';
-        var pages = canvas.querySelectorAll('.exec-doc-page');
+        var pages = Array.prototype.slice.call(canvas.querySelectorAll('.exec-doc-page'));
         var oldMargins = [];
         var oldBoxShadows = [];
         pages.forEach(function(p, i) {
@@ -40284,37 +40284,76 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           p.style.boxShadow = 'none';
         });
 
-        html2pdf().set({
+        function restaurarEstilos() {
+          pages.forEach(function(p, i) {
+            p.style.margin = oldMargins[i] || '';
+            p.style.boxShadow = oldBoxShadows[i] || '';
+          });
+          canvas.style.boxShadow = oldShadow;
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<span>⬇️</span><span>Baixar PDF</span>';
+          }
+        }
+
+        /* 300 DPI Real: base CSS 96 DPI * 3.125 = 300 DPI, imagem PNG sem perdas */
+        var opt300 = {
           margin: 0,
           filename: baseName + '.pdf',
-          image: { type: 'jpeg', quality: 0.99 },
-          html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollY: 0, logging: false },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak: { mode: ['css', 'legacy'], after: '.exec-doc-page', avoid: ['.doc-section', '.doc-card', 'tr'] }
-        }).from(canvas).save().then(function() {
-          pages.forEach(function(p, i) {
-            p.style.margin = oldMargins[i] || '';
-            p.style.boxShadow = oldBoxShadows[i] || '';
+          image: { type: 'png', quality: 1 },
+          html2canvas: {
+            scale: 3.125,
+            dpi: 300,
+            letterRendering: true,
+            useCORS: true,
+            backgroundColor: '#ffffff',
+            scrollY: 0,
+            logging: false
+          },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
+        };
+
+        if (pages.length === 0) {
+          html2pdf().set(opt300).from(canvas).save().then(function() {
+            restaurarEstilos();
+            if (typeof mostrarToastAgenda === 'function') {
+              mostrarToastAgenda('PDF 300 DPI baixado com sucesso!', '📄');
+            }
+          }).catch(function(err) {
+            console.warn('Fallback PDF print:', err);
+            restaurarEstilos();
+            window.imprimirRelatorioAtual();
           });
-          canvas.style.boxShadow = oldShadow;
-          if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = '<span>⬇️</span><span>Baixar PDF</span>';
+          return;
+        }
+
+        /* Renderização página a página em 300 DPI (zero distorção, zero corte, mapeamento A4 exato 210x297mm) */
+        html2pdf().set(opt300).from(pages[0]).toPdf().get('pdf').then(function(pdfDoc) {
+          var chain = Promise.resolve();
+          for (var pi = 1; pi < pages.length; pi++) {
+            (function(pageIndex, pageEl) {
+              chain = chain.then(function() {
+                if (btn) {
+                  btn.innerHTML = '<span>⏳</span><span>PDF 300 DPI (' + (pageIndex + 1) + '/' + pages.length + ')...</span>';
+                }
+                return html2pdf().set(opt300).from(pageEl).outputImg('datauristring').then(function(imgDataUri) {
+                  pdfDoc.addPage('a4', 'portrait');
+                  pdfDoc.addImage(imgDataUri, 'PNG', 0, 0, 210, 297, undefined, 'FAST');
+                });
+              });
+            })(pi, pages[pi]);
           }
+          return chain.then(function() {
+            pdfDoc.save(baseName + '.pdf');
+          });
+        }).then(function() {
+          restaurarEstilos();
           if (typeof mostrarToastAgenda === 'function') {
-            mostrarToastAgenda('PDF baixado com sucesso!', '📄');
+            mostrarToastAgenda('PDF em alta resolução (300 DPI) baixado com sucesso!', '📄');
           }
         }).catch(function(err) {
-          pages.forEach(function(p, i) {
-            p.style.margin = oldMargins[i] || '';
-            p.style.boxShadow = oldBoxShadows[i] || '';
-          });
           console.warn('Fallback PDF print:', err);
-          canvas.style.boxShadow = oldShadow;
-          if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = '<span>⬇️</span><span>Baixar PDF</span>';
-          }
+          restaurarEstilos();
           window.imprimirRelatorioAtual();
         });
       };
