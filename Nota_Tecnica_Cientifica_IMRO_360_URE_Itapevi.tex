@@ -212,7 +212,7 @@ Este documento apresenta, com rigor científico e clareza didática, a fundament
 \centering
 \small
 \renewcommand{\arraystretch}{1.24}
-\caption{Síntese Executiva da Arquitetura Metodológica do IPRE (Padrão BI Dirigente v364)}
+\caption{Síntese Executiva da Arquitetura Metodológica do IPRE (Padrão BI Dirigente v368)}
 \begin{tabularx}{\textwidth}{>{\bfseries\color{ureNavy}}p{4.3cm} X}
 \toprule
 \rowcolor{ureNavy} \textcolor{white}{Dimensão Arquitetural} & \textcolor{white}{\textbf{Especificação Técnica e Científica Adotada na URE Itapevi}} \\
@@ -743,6 +743,43 @@ Além dos $5$ núcleos que compõem a matriz de risco direto de cada escola (\te
     \item \textbf{7. EEC (Equipe de Especialistas em Currículo --- 12 Módulos Pedagógicos):} Conecta a estabilidade operacional da escola (infraestrutura, conectividade e quadro docente) às plataformas pedagógicas de aprendizagem, Simulados SARESP, Consulta SAEB, Plano de Ação 2.0 e Devolutiva Pedagógica.
 \end{itemize}
 
+% ============================================================================
+% SEÇÃO 8: ENGENHARIA DE VISUALIZAÇÃO (TUFTE), CHANCELARIA E PRESCRIÇÃO EXECUTIVA
+% ============================================================================
+\section{Engenharia de Visualização de Dados, Chancelaria Oficial e Gestão Prescritiva}
+
+Para além do rigor algébrico na consolidação das variáveis no \emph{Star Schema}, a utilidade do \textbf{IPRE} depende criticamente de como a informação é comunicada e traduzida em ação decisória pelo Dirigente Regional e diretores de núcleo. Na versão \textbf{v368}, o sistema incorporou quatro inovações metodológicas de visualização e governança:
+
+\subsection{Bullet Graphs de Edward Tufte: Maximização do Data-Ink Ratio no Benchmarking}
+Gráficos de medidores circulares (\emph{gauges}) e velocímetros convencionais ocupam área excessiva com baixa densidade de informação (\emph{chartjunk}, conforme Tufte, 2001). O \textbf{BI Dirigente} substituiu esses elementos por \textbf{Bullet Graphs} lineares de alta densidade (Few, 2006):
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+    \item \textbf{Três Faixas Qualitativas Neutras de Fundo:} Representam os limiares de risco da URE: Regular ($0\text{--}40\%$), Atenção ($40\text{--}60\%$) e Crítico ($60\text{--}100\%$).
+    \item \textbf{Barra de Desempenho Real da Unidade:} Faixa sólida centralizada com a pontuação efetiva da escola na métrica avaliada.
+    \item \textbf{Marcador Vertical Perpendicular de Meta/Benchmark:} Linha nítida em cinza escuro indicando a média exata das $60$ escolas estaduais da URE Itapevi, permitindo comparação visual imediata sem poluição cognitiva.
+\end{itemize}
+
+\subsection{Balanço Multissetorial em Coordenadas Polares (Radar Pentagonal)}
+Para representar a simetria ou discrepância entre os $5$ pilares da escola, o dossiê executivo projeta as notas normalizadas $S_k \in [0, 100]$ em coordenadas polares $(\rho_k, \theta_k)$:
+\begin{equation}
+\theta_k = -\frac{\pi}{2} + \frac{2\pi k}{5}, \quad \rho_k = R_{\max} \cdot \frac{S_k}{100}, \quad k \in \{0, 1, 2, 3, 4\}
+\end{equation}
+Essa geometria pentagonal evidencia instantaneamente o assimetrias críticas quando um setor específico entra em crise aguda enquanto os demais permanecem estáveis.
+
+\subsection{Chancelaria Oficial Auditável: Hash Criptográfico e QR Code Vetorial}
+Para assegurar a autenticidade jurídica e operacional dos relatórios impressos ou digitais:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+    \item \textbf{Hash Criptográfico Determinístico:} Gerado com base no código CIE, timestamp segundo a segundo e identificador do lote (ex: \texttt{AUTH-URE-2026-F9A2-83C1}).
+    \item \textbf{QR Code Vetorial em SVG Direto:} Aponta em tempo real para a página oficial do \textbf{Google Sites (GS)} da Dirigente (\url{https://sites.google.com/view/bi-dirigente}), permitindo que diretores, supervisores e órgãos de controle auditem a integridade das informações diretamente pelo celular.
+\end{itemize}
+
+\subsection{Matriz de Intervenção Prescritiva de Gestão: Ordem de Missão Executiva}
+O salto qualitativo fundamental da versão \textbf{v368} é a passagem do \emph{Descriptive Analytics} (diagnosticar a situação) para o \emph{Prescriptive Analytics} (determinar a ação imediata). Cada relatório emitido gera dinamicamente uma \textbf{Ordem de Missão Executiva} composta por:
+\begin{enumerate}[leftmargin=1.5em, itemsep=2pt]
+    \item \textbf{Núcleo Técnico Responsável:} Designação direta do setor com competência regimental (ex: \texttt{SEAFIN}, \texttt{SEOM}, \texttt{SEINTEC}, \texttt{ASURE}, \texttt{SEPES}).
+    \item \textbf{Diagnóstico e Diretiva Imediata:} Plano de ação operacional calibrado pelo dado real (ex: convocação de APM para destravamento de saldo ocioso, vistoria emergencial de telhado/AVCB ou substituição de equipamentos com chamado aberto).
+    \item \textbf{SLA de Execução:} Prazos formais fixados em dias úteis (\emph{Imediato}, $5$, $7$, $10$ ou $15$ dias) para prestação de contas no gabinete.
+\end{enumerate}
+
 \begin{execbox}{Conclusão Institucional: Transparência, Equidade e Gestão Pública de Excelência}
 Com a adoção da \textbf{Escala Padronizada $0\text{ a }100$ por Setor}, da \textbf{Média Ponderada Estratégica ($25/20/20/20/15\%$)} e da \textbf{Trava Não-Compensatória de Alerta Crítico Setorial ($\ge 80/100$)}, a \textbf{Unidade Regional de Ensino de Itapevi} passa a operar com um sistema de Inteligência de Decisão (\emph{Decision Intelligence}) alinhado às melhores práticas internacionais da OCDE, da ISO 31000 e da Engenharia de Dados moderna:
 \begin{enumerate}[nosep, leftmargin=1.5em]
@@ -784,6 +821,12 @@ Com a adoção da \textbf{Escala Padronizada $0\text{ a }100$ por Setor}, da \te
 
 \bibitem{tcu2018}
 \textbf{Brasil. Tribunal de Contas da União (TCU).} (2018). \emph{Referencial Básico de Gestão de Riscos}. Brasília: TCU, Secretaria Geral de Controle Externo (Segecex).
+
+\bibitem{tufte2001}
+\textbf{Tufte, E. R.} (2001). \emph{The Visual Display of Quantitative Information} (2nd ed.). Cheshire, CT: Graphics Press. (Fundamentos sobre densidade gráfica, razão dado-tinta e eliminação de ruídos visuais decorativos).
+
+\bibitem{few2006}
+\textbf{Few, S.} (2006). \emph{Information Dashboard Design: The Effective Visual Communication of Data}. Sebastopol, CA: O'Reilly Media. (Especificação formal dos \emph{Bullet Graphs} para comparação com médias e metas em painéis de tomada de decisão).
 
 \bibitem{kahneman2011}
 \textbf{Kahneman, D.} (2011). \emph{Thinking, Fast and Slow}. New York: Farrar, Straus and Giroux. (Fundamentação cognitiva sobre vieses de ancoragem numérica em escalas heterogêneas e tomada de decisão sob múltiplos atributos).
