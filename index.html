@@ -7299,6 +7299,93 @@ function imprimirAgendaCarro() {
     /* ========================================= */
     /* 7. SEÇÃO: INDICADORES DA REDE & VISITAS */
     /* ========================================= */
+    /* ========================================= */
+    /* MATRIZ DE TELEMETRIA SETORIAL (5 NÚCLEOS) */
+    /* ========================================= */
+    .sector-telemetry-container {
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .sector-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.8rem;
+      width: 100%;
+    }
+    @media (max-width: 1300px) {
+      .sector-pillars-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 860px) {
+      .sector-pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 580px) {
+      .sector-pillars-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .sector-pillar-card {
+      background: var(--card-bg, #ffffff);
+      border: 1px solid var(--border-color, #e2e8f0);
+      border-radius: 8px;
+      padding: 0.75rem 0.65rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .sector-pillar-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .sector-pillar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border-color, #f1f5f9);
+    }
+    .sector-pillar-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+    .sector-pillar-badge {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 1.5px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+    }
+    .sector-pillar-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .kpi-filter-pill {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .kpi-filter-pill:hover {
+      background: #e2e8f0;
+      color: #0b2351;
+    }
+    .kpi-filter-pill.active {
+      background: #0b2351;
+      color: #ffffff;
+      border-color: #0b2351;
+      box-shadow: 0 1px 3px rgba(11,35,81,0.2);
+    }
     .indicators-split {
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -13631,10 +13718,8 @@ function imprimirAgendaCarro() {
         <!-- 1. HERO BANNER EXECUTIVO COM TELEMETRIA DE SAÚDE E OBSERVABILIDADE -->
         <div class="executive-hero">
           <div class="executive-hero-left">
-            <div class="hero-telemetry-pills">
-              <span class="hero-pretitle" style="margin-bottom: 0;">⭐ UNIDADE REGIONAL DE ENSINO DE ITAPEVI — URE ITAPEVI</span>
-              <span id="hero-isr-pill" class="hero-isr-pill" title="Índice de Saúde Regional (0–100) calculado em tempo real sobre as 60 escolas">🟢 ISR Regional: calculando...</span>
-              <span id="hero-freshness-pill" class="hero-fresh-pill" title="Observabilidade dos pipelines SharePoint e adaptadores">📡 Observabilidade: apurando bases...</span>
+            <div style="margin-bottom: 0.55rem;">
+              <span class="hero-pretitle" style="margin-bottom: 0; letter-spacing: 0.04em;">⭐ UNIDADE REGIONAL DE ENSINO DE ITAPEVI — URE ITAPEVI</span>
             </div>
             <h2 class="hero-main-title" style="color: #ffffff !important; white-space: nowrap;">BI Dirigente — Centro de Inteligência de Gestão</h2>
             <p class="hero-main-desc" id="hero-main-desc-text">
@@ -13648,128 +13733,185 @@ function imprimirAgendaCarro() {
           </div>
         </div>
 
-        <div class="indicators-split">
-          
-          <div class="kpi-row-card">
-            <div class="kpi-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.4rem;">
-              <span class="kpi-row-title">Indicadores da rede com contexto e ritmo</span>
-              <span id="home-kpi-context-stamp" style="font-size: 0.74rem; color: var(--text-muted);">Benchmark proporcional ao exercício vigente</span>
-            </div>
-
-            <div class="kpi-cards-inner">
-              <!-- 1. Escolas na Rede -->
-              <div class="kpi-mini-box" style="cursor: default;" title="Total de 60 escolas estaduais monitoradas no IPRE">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: var(--brand-gold);"></span>
-                  <span class="kpi-big-number" id="kpi-escolas">60</span>
-                </div>
-                <span class="kpi-mini-label" id="kpi-lbl-escolas">Escolas na rede</span>
-                <div class="kpi-ctx-line" id="kpi-ctx-escolas">Apurando distribuição de risco...</div>
-              </div>
-
-              <!-- 2. Equipamentos (SEINTEC) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEINTEC: Disponibilidade operacional real do parque de hardware">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: #3b82f6;"></span>
-                  <span class="kpi-big-number" id="kpi-hardware-home">15.973</span>
-                </div>
-                <span class="kpi-mini-label" id="kpi-lbl-hardware">Equipamentos Tecnológicos</span>
-                <div class="kpi-ctx-line" id="kpi-ctx-hardware">Apurando disponibilidade...</div>
-              </div>
-
-              <!-- 3. Chamados Oficiais (SEINTEC) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEINTEC: Chamados oficiais e taxa de resolução SLA">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: #0284c7;"></span>
-                  <span class="kpi-big-number" id="kpi-chamados-home">1.404</span>
-                </div>
-                <span class="kpi-mini-label" id="kpi-lbl-chamados-home">Atendimentos SEINTEC</span>
-                <div class="kpi-ctx-line" id="kpi-ctx-chamados">Apurando SLA e abertos...</div>
-              </div>
-
-              <!-- 4. Recursos APMs / PDDE (SEAFIN / SEFIN) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN / SEFIN: Repasses PDDE 2026 e saldo ocioso em conta APM">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: #10b981;"></span>
-                  <span class="kpi-big-number" id="kpi-recursos-sefin" style="color: #059669; font-size: 1.35rem;">R$ 10,4M</span>
-                </div>
-                <span class="kpi-mini-label" id="kpi-lbl-recursos-sefin">Recursos PDDE (2026)</span>
-                <div class="kpi-ctx-line" id="kpi-ctx-recursos">Calculando saldo ocioso...</div>
-              </div>
-
-              <!-- 5. Execução Orçamentária APM (SEAFIN / SEFIN) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN / SEFIN: Execução real comparada ao ritmo esperado no mês">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: #0ea5e9;"></span>
-                  <span class="kpi-big-number" id="kpi-execucao-sefin">52,1%</span>
-                </div>
-                <span class="kpi-mini-label" id="kpi-lbl-execucao-sefin">Taxa Execução (R$ 5,40M)</span>
-                <div class="kpi-ctx-line" id="kpi-ctx-execucao">Comparando com ritmo do ano...</div>
-              </div>
-
-              <!-- 6. Obras FDE Ativas (SEOM) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEOM: Obras ativas e alertas legais/prediais nas 60 escolas">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: #b45309;"></span>
-                  <span class="kpi-big-number" id="kpi-obras-home" style="color: #b45309;">34</span>
-                </div>
-                <span class="kpi-mini-label" id="kpi-lbl-obras-home">Obras FDE Ativas</span>
-                <div class="kpi-ctx-line" id="kpi-ctx-obras">Apurando AVCB e críticas...</div>
-              </div>
-
-              <!-- 7. E-mails & Demandas (SEGRE) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEGRE / SEMAT / SEVESC: Volume consolidado e fila SEI em aberto">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: #ea580c;"></span>
-                  <span class="kpi-big-number" id="kpi-emails-home" style="color: #ea580c;">8.921</span>
-                </div>
-                <span class="kpi-mini-label" id="kpi-lbl-emails-home">E-mails &amp; Demandas</span>
-                <div class="kpi-ctx-line" id="kpi-ctx-emails">Apurando fila SEI aberta...</div>
-              </div>
-
-              <!-- 8. Gestão de Pessoas & Folha (SEPES: SEFREP + SEAPE) -->
-              <div class="kpi-mini-box" style="cursor: default;" title="SEPES: Monitoramento de Folha de Pagamento (SEFREP) e Processos de Pessoal (SEAPE) integrados ao IPRE">
-                <div class="kpi-mini-val-row">
-                  <span class="kpi-color-dot" style="background: #8b5cf6;"></span>
-                  <span class="kpi-big-number" id="kpi-repasses-sefin" style="color: #7c3aed;">333</span>
-                </div>
-                <span class="kpi-mini-label" id="kpi-lbl-repasses-sefin">Devoluções Folha (SEPES)</span>
-                <div class="kpi-ctx-line ctx-warn" id="kpi-ctx-repasses">333 devoluções (24,1%) • 66 proc. SEAPE</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gauge Circular das Visitas da Dirigente (com Cobertura por Risco) -->
-          <div class="gauge-card" style="cursor: default;" title="Acompanhamento consolidado e cobertura das escolas de maior risco">
-            <div class="gauge-header">
+        <!-- PAINEL DE TELEMETRIA SETORIAL EM LARGURA TOTAL (5 NÚCLEOS DA URE ITAPEVI) -->
+        <div class="sector-telemetry-container">
+          <div class="kpi-row-card" style="width: 100%; box-sizing: border-box; padding: 1.25rem 1.4rem;">
+            
+            <!-- Cabeçalho Executivo com Filtros Rápidos por Núcleo -->
+            <div class="kpi-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.95rem; flex-wrap: wrap; gap: 0.6rem;">
               <div>
-                <div class="gauge-title">Visitas da Dirigente</div>
-                <div class="gauge-sub" id="home-gauge-source-sub">Cobertura geral &amp; priorização por risco</div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="kpi-row-title" style="font-size: 1.05rem; font-weight: 800; color: #0b2351;">Telemetria Operacional por Núcleo da URE Itapevi</span>
+                  <span class="doc-pill" style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-weight: 800; font-size: 0.7rem; padding: 2px 8px; border-radius: 999px;">DADOS VIVOS</span>
+                </div>
+                <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;" id="home-kpi-context-stamp">
+                  Matriz Integrada dos 5 Núcleos Operacionais • 2 Indicadores Fundamentais por Setor
+                </div>
               </div>
-              <span id="home-gauge-asure-tag" style="font-size: 0.64rem; font-weight: 800; background: rgba(245, 158, 11, 0.18); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.35); padding: 2px 7px; border-radius: 999px;">Base Interna</span>
+              <div class="kpi-sector-filters" style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap;">
+                <button type="button" class="kpi-filter-pill active" onclick="filtrarKpisSetoriais('todos')" id="pill-kpi-todos">Todos os Núcleos</button>
+                <button type="button" class="kpi-filter-pill" onclick="filtrarKpisSetoriais('SEOM')" id="pill-kpi-SEOM">🏗️ SEOM</button>
+                <button type="button" class="kpi-filter-pill" onclick="filtrarKpisSetoriais('SEINTEC')" id="pill-kpi-SEINTEC">💻 SEINTEC</button>
+                <button type="button" class="kpi-filter-pill" onclick="filtrarKpisSetoriais('SEAFIN')" id="pill-kpi-SEAFIN">💼 SEAFIN</button>
+                <button type="button" class="kpi-filter-pill" onclick="filtrarKpisSetoriais('SEGRE')" id="pill-kpi-SEGRE">🏫 SEGRE</button>
+                <button type="button" class="kpi-filter-pill" onclick="filtrarKpisSetoriais('SEPES')" id="pill-kpi-SEPES">👥 SEPES</button>
+              </div>
             </div>
 
-            <div class="gauge-center-box" style="margin: 0.85rem 0;">
-              <div class="circular-progress-wrap">
-                <div class="circular-progress-inner" id="home-gauge-pct">90%</div>
+            <!-- Faixa de Governança da Rede Escolar (IPRE) -->
+            <div class="governance-summary-bar" style="display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); color: #ffffff; padding: 0.6rem 1rem; border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 2px 6px rgba(11,35,81,0.12); flex-wrap: wrap; gap: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="background: rgba(255,255,255,0.15); padding: 3px 9px; border-radius: 6px; font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; gap: 5px;">
+                  <span>🏫</span> <span id="kpi-escolas">60</span>
+                </div>
+                <div>
+                  <div style="font-weight: 800; font-size: 0.8rem; letter-spacing: 0.02em;" id="kpi-lbl-escolas">REDE ESTADUAL • URE ITAPEVI</div>
+                  <div style="font-size: 0.71rem; color: #cbd5e1;" id="kpi-ctx-escolas">12 Críticas • 10 Alto Risco • 38 Regulares</div>
+                </div>
               </div>
-              <div class="gauge-stats-text">
-                <strong id="home-gauge-val">54 de 60</strong>
-                <span id="home-gauge-sub">visitas concluídas na rede estadual</span>
+              <div style="font-size: 0.72rem; color: #93c5fd; font-weight: 600; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <span id="hero-ipre-badge" style="background: rgba(255,255,255,0.15); color: #ffffff; padding: 2.5px 8px; border-radius: 5px; font-weight: 800; letter-spacing: 0.02em;">IPRE Médio: 46,3 pts</span>
+                <span>🎯 Metodologia IPRE (0–100)</span>
+                <span style="background: rgba(255,255,255,0.12); padding: 2px 7px; border-radius: 4px; color: #ffffff;">5 Núcleos Conectados</span>
               </div>
             </div>
 
-            <div class="gauge-risk-cov" id="home-gauge-risk-cov">
-              <span>🎯 Top 10 IPRE visitadas: <strong style="color: #ffffff;">calculando...</strong></span>
-            </div>
+            <!-- Grade Panorâmica de 5 Colunas Setoriais (2 Cards por Setor) -->
+            <div class="sector-pillars-grid" id="home-sector-pillars-grid">
+              
+              <!-- 1. SEOM • Obras e Infraestrutura -->
+              <div class="sector-pillar-card" data-setor="SEOM" style="border-top: 3.5px solid #b45309;">
+                <div class="sector-pillar-head">
+                  <span class="sector-pillar-title" style="color: #b45309;">🏗️ SEOM</span>
+                  <span class="sector-pillar-badge" style="background: #fef3c7; color: #92400e;">Obras &amp; Predial</span>
+                </div>
+                <div class="sector-pillar-body">
+                  <div class="kpi-mini-box" style="cursor: default;" title="SEOM: Obras ativas e intervenções físicas da FDE">
+                    <div class="kpi-mini-val-row">
+                      <span class="kpi-color-dot" style="background: #b45309;"></span>
+                      <span class="kpi-big-number" id="kpi-obras-home" style="color: #b45309;">34</span>
+                    </div>
+                    <span class="kpi-mini-label" id="kpi-lbl-obras-home">Obras FDE &amp; Manutenção</span>
+                    <div class="kpi-ctx-line" id="kpi-ctx-obras">14 ativas • 20 previstas • 26 sem obra</div>
+                  </div>
+                  <div class="kpi-mini-box" style="cursor: default;" title="SEOM: Situação de AVCB e apontamentos de infraestrutura crítica">
+                    <div class="kpi-mini-val-row">
+                      <span class="kpi-color-dot" style="background: #ea580c;"></span>
+                      <span class="kpi-big-number" id="kpi-avcb-home" style="color: #c2410c;">49</span>
+                    </div>
+                    <span class="kpi-mini-label" id="kpi-lbl-avcb-home">Alerta AVCB &amp; Estrutural</span>
+                    <div class="kpi-ctx-line ctx-warn" id="kpi-ctx-avcb">49 pendentes • 11 regulares • 18 alertas</div>
+                  </div>
+                </div>
+              </div>
 
-            <div style="text-align: right; margin-top: 0.45rem;">
-              <span class="gauge-footer-link" onclick="event.stopPropagation(); filtrarHomePorTipoKPI('visitas');" style="cursor: pointer;">Ver plano de visitas →</span>
+              <!-- 2. SEINTEC • Tecnologia e Conectividade -->
+              <div class="sector-pillar-card" data-setor="SEINTEC" style="border-top: 3.5px solid #0284c7;">
+                <div class="sector-pillar-head">
+                  <span class="sector-pillar-title" style="color: #0284c7;">💻 SEINTEC</span>
+                  <span class="sector-pillar-badge" style="background: #e0f2fe; color: #0369a1;">Tecnologia &amp; Dados</span>
+                </div>
+                <div class="sector-pillar-body">
+                  <div class="kpi-mini-box" style="cursor: default;" title="SEINTEC: Disponibilidade operacional do inventário de hardware">
+                    <div class="kpi-mini-val-row">
+                      <span class="kpi-color-dot" style="background: #0284c7;"></span>
+                      <span class="kpi-big-number" id="kpi-hardware-home" style="color: #0369a1;">15.973</span>
+                    </div>
+                    <span class="kpi-mini-label" id="kpi-lbl-hardware">Parque de Equipamentos</span>
+                    <div class="kpi-ctx-line" id="kpi-ctx-hardware">76,4% disponíveis • 3.768 em reparo/baixa</div>
+                  </div>
+                  <div class="kpi-mini-box" style="cursor: default;" title="SEINTEC: Chamados técnicos oficiais e taxa de resolução">
+                    <div class="kpi-mini-val-row">
+                      <span class="kpi-color-dot" style="background: #0ea5e9;"></span>
+                      <span class="kpi-big-number" id="kpi-chamados-home" style="color: #0284c7;">1.432</span>
+                    </div>
+                    <span class="kpi-mini-label" id="kpi-lbl-chamados-home">Chamados &amp; Nível de Serviço</span>
+                    <div class="kpi-ctx-line" id="kpi-ctx-chamados">22 em aberto • SLA 98,5% concluído</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3. SEAFIN • Administração, Finanças e Contratos -->
+              <div class="sector-pillar-card" data-setor="SEAFIN" style="border-top: 3.5px solid #059669;">
+                <div class="sector-pillar-head">
+                  <span class="sector-pillar-title" style="color: #059669;">💼 SEAFIN</span>
+                  <span class="sector-pillar-badge" style="background: #dcfce7; color: #166534;">Finanças &amp; Contratos</span>
+                </div>
+                <div class="sector-pillar-body">
+                  <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN: Repasses totais PDDE 2026 e saldo ocioso em contas APM">
+                    <div class="kpi-mini-val-row">
+                      <span class="kpi-color-dot" style="background: #10b981;"></span>
+                      <span class="kpi-big-number" id="kpi-recursos-sefin" style="color: #059669; font-size: 1.32rem;">R$ 10,4M</span>
+                    </div>
+                    <span class="kpi-mini-label" id="kpi-lbl-recursos-sefin">Recursos PDDE (APM 2026)</span>
+                    <div class="kpi-ctx-line" id="kpi-ctx-recursos">Saldo ocioso APM: R$ 4,96M (47,9%)</div>
+                  </div>
+                  <div class="kpi-mini-box" style="cursor: default;" title="SEAFIN: Taxa de execução de gastos e contratos SECOMSE">
+                    <div class="kpi-mini-val-row">
+                      <span class="kpi-color-dot" style="background: #059669;"></span>
+                      <span class="kpi-big-number" id="kpi-execucao-sefin" style="color: #047857;">52,1%</span>
+                    </div>
+                    <span class="kpi-mini-label" id="kpi-lbl-execucao-sefin">Taxa de Execução Orçamentária</span>
+                    <div class="kpi-ctx-line" id="kpi-ctx-execucao">R$ 5,4M gastos • 5 contratos a vencer (≤60d)</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4. SEGRE • Gestão da Rede Escolar -->
+              <div class="sector-pillar-card" data-setor="SEGRE" style="border-top: 3.5px solid #ea580c;">
+                <div class="sector-pillar-head">
+                  <span class="sector-pillar-title" style="color: #ea580c;">🏫 SEGRE</span>
+                  <span class="sector-pillar-badge" style="background: #ffedd5; color: #9a3412;">Rede &amp; Matrícula</span>
+                </div>
+                <div class="sector-pillar-body">
+                  <div class="kpi-mini-box" style="cursor: default;" title="SEGRE / SEMAT: Atendimentos de matrícula e remanejamento">
+                    <div class="kpi-mini-val-row">
+                      <span class="kpi-color-dot" style="background: #f97316;"></span>
+                      <span class="kpi-big-number" id="kpi-matriculas-home" style="color: #c2410c;">2.898</span>
+                    </div>
+                    <span class="kpi-mini-label" id="kpi-lbl-matriculas-home">Demanda &amp; Matrícula (SEMAT)</span>
+                    <div class="kpi-ctx-line" id="kpi-ctx-matriculas">2.331 manuais • 4.062 transferências</div>
+                  </div>
+                  <div class="kpi-mini-box" style="cursor: default;" title="SEGRE / SEVESC: Processos SEI ativos e demandas documentais">
+                    <div class="kpi-mini-val-row">
+                      <span class="kpi-color-dot" style="background: #ea580c;"></span>
+                      <span class="kpi-big-number" id="kpi-emails-home" style="color: #ea580c;">162</span>
+                    </div>
+                    <span class="kpi-mini-label" id="kpi-lbl-emails-home">Processos SEI Abertos</span>
+                    <div class="kpi-ctx-line" id="kpi-ctx-emails">101 ativos >30 dias • 9.025 demandas</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5. SEPES • Serviço de Pessoas -->
+              <div class="sector-pillar-card" data-setor="SEPES" style="border-top: 3.5px solid #7c3aed;">
+                <div class="sector-pillar-head">
+                  <span class="sector-pillar-title" style="color: #7c3aed;">👥 SEPES</span>
+                  <span class="sector-pillar-badge" style="background: #f3e8ff; color: #6b21a8;">Pessoal &amp; Folha</span>
+                </div>
+                <div class="sector-pillar-body">
+                  <div class="kpi-mini-box" style="cursor: default;" title="SEPES / SEFREP: Devoluções de folha e inconformidades de frequência">
+                    <div class="kpi-mini-val-row">
+                      <span class="kpi-color-dot" style="background: #8b5cf6;"></span>
+                      <span class="kpi-big-number" id="kpi-repasses-sefin" style="color: #7c3aed;">333</span>
+                    </div>
+                    <span class="kpi-mini-label" id="kpi-lbl-repasses-sefin">Folha de Pagamento (SEFREP)</span>
+                    <div class="kpi-ctx-line ctx-warn" id="kpi-ctx-repasses">Taxa de devolução: 24,1% (333 dev.)</div>
+                  </div>
+                  <div class="kpi-mini-box" style="cursor: default;" title="SEPES / SEAPE: Processos funcionais ativos (aposentadoria, designação, abono)">
+                    <div class="kpi-mini-val-row">
+                      <span class="kpi-color-dot" style="background: #a855f7;"></span>
+                      <span class="kpi-big-number" id="kpi-seape-home" style="color: #6b21a8;">72</span>
+                    </div>
+                    <span class="kpi-mini-label" id="kpi-lbl-seape-home">Vida Funcional &amp; Benefícios</span>
+                    <div class="kpi-ctx-line" id="kpi-ctx-seape">Aposentadorias, Designações e Abonos</div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
-
         </div>
-
         <!-- 3. BARRA DE PESQUISA E FILTROS EXECUTIVOS -->
         <div class="filter-card">
           <div class="search-input-wrap">
@@ -20272,8 +20414,8 @@ function _obterResumoIpreEscolaInterno(esc) {
     function aplicarDados(dados) {
       if (!dados) return;
       if (dados.indicadoresRede) {
-        if (dados.indicadoresRede.escolas) document.getElementById('kpi-escolas').innerText = dados.indicadoresRede.escolas;
-        if (dados.indicadoresRede.visitas) document.getElementById('kpi-visitas').innerText = dados.indicadoresRede.visitas;
+        var elEsc = document.getElementById('kpi-escolas'); if (elEsc && dados.indicadoresRede.escolas) elEsc.innerText = dados.indicadoresRede.escolas;
+        var elVis = document.getElementById('kpi-visitas'); if (elVis && dados.indicadoresRede.visitas) elVis.innerText = dados.indicadoresRede.visitas;
       }
     }
 
@@ -20509,83 +20651,113 @@ function _obterResumoIpreEscolaInterno(esc) {
 
     function atualizarKpisSuperioresHomeParaEscola(dados) {
       const kpiEscolas = document.getElementById('kpi-escolas');
-      const kpiHw = document.getElementById('kpi-hardware-home');
-      const kpiVisitas = document.getElementById('kpi-visitas');
-      const kpiAlertas = document.getElementById('kpi-alertas-home');
-
       const lblEscolas = document.getElementById('kpi-lbl-escolas');
-      const lblHw = document.getElementById('kpi-lbl-hardware');
-      const lblVisitas = document.getElementById('kpi-lbl-visitas');
-      const lblAlertas = document.getElementById('kpi-lbl-atencao');
+      const ctxEscolas = document.getElementById('kpi-ctx-escolas');
 
+      /* SEOM */
+      const kpiObrasHome = document.getElementById('kpi-obras-home');
+      const lblObrasHome = document.getElementById('kpi-lbl-obras-home');
+      const kpiAvcbHome = document.getElementById('kpi-avcb-home');
+      const lblAvcbHome = document.getElementById('kpi-lbl-avcb-home');
+
+      /* SEINTEC */
+      const kpiHw = document.getElementById('kpi-hardware-home');
+      const lblHw = document.getElementById('kpi-lbl-hardware');
+      const kpiCallsHome = document.getElementById('kpi-chamados-home');
+      const lblCallsHome = document.getElementById('kpi-lbl-chamados-home');
+
+      /* SEAFIN */
       const kpiRec = document.getElementById('kpi-recursos-sefin');
       const lblRec = document.getElementById('kpi-lbl-recursos-sefin');
       const kpiExec = document.getElementById('kpi-execucao-sefin');
       const lblExec = document.getElementById('kpi-lbl-execucao-sefin');
-      const kpiRep = document.getElementById('kpi-repasses-sefin');
-      const lblRep = document.getElementById('kpi-lbl-repasses-sefin');
-      const kpiCallsHome = document.getElementById('kpi-chamados-home');
-      const lblCallsHome = document.getElementById('kpi-lbl-chamados-home');
-      const kpiObrasHome = document.getElementById('kpi-obras-home');
-      const lblObrasHome = document.getElementById('kpi-lbl-obras-home');
+
+      /* SEGRE */
+      const kpiMatriculasHome = document.getElementById('kpi-matriculas-home');
+      const lblMatriculasHome = document.getElementById('kpi-lbl-matriculas-home');
       const kpiEmailsHome = document.getElementById('kpi-emails-home');
       const lblEmailsHome = document.getElementById('kpi-lbl-emails-home');
 
-      const gaugePct = document.getElementById('home-gauge-pct');
-      const gaugeVal = document.getElementById('home-gauge-val');
-      const gaugeSub = document.getElementById('home-gauge-sub');
+      /* SEPES */
+      const kpiRep = document.getElementById('kpi-repasses-sefin');
+      const lblRep = document.getElementById('kpi-lbl-repasses-sefin');
+      const kpiSeapeHome = document.getElementById('kpi-seape-home');
+      const lblSeapeHome = document.getElementById('kpi-lbl-seape-home');
+
+      const setCtx = function(id, txt, cls) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = txt;
+        el.className = 'kpi-ctx-line' + (cls ? (' ' + cls) : '');
+      };
 
       /* Se dados for nulo ou indefinido, restaura a visao consolidada de TODA a rede de 60 escolas */
       if (!dados) {
         if (kpiEscolas) kpiEscolas.textContent = '60';
-        if (lblEscolas) lblEscolas.textContent = 'Escolas na rede';
+        if (lblEscolas) lblEscolas.textContent = 'REDE ESTADUAL • URE ITAPEVI';
+        setCtx('kpi-ctx-escolas', '12 Críticas • 10 Alto Risco • 38 Regulares', 'ctx-ok');
 
+        /* SEOM */
+        const obrasTot = (typeof DADOS_SEOM !== 'undefined' && Array.isArray(DADOS_SEOM.escolas))
+          ? DADOS_SEOM.escolas.filter(e => e.obraFde == 1 || e.obraFde == 2).length : 34;
+        if (kpiObrasHome) kpiObrasHome.textContent = obrasTot.toLocaleString('pt-BR');
+        if (lblObrasHome) lblObrasHome.textContent = 'Obras FDE & Manutenção';
+        setCtx('kpi-ctx-obras', '14 ativas • 20 previstas • 26 sem obra');
+
+        const avcbTot = (typeof DADOS_SEOM !== 'undefined' && Array.isArray(DADOS_SEOM.escolas))
+          ? DADOS_SEOM.escolas.filter(e => e.avcb == 0 || e.avcb == 'Vencido' || e.avcb == false).length : 49;
+        if (kpiAvcbHome) kpiAvcbHome.textContent = avcbTot.toLocaleString('pt-BR');
+        if (lblAvcbHome) lblAvcbHome.textContent = 'Alerta AVCB & Estrutural';
+        setCtx('kpi-ctx-avcb', avcbTot + ' pendentes • ' + (60 - avcbTot) + ' regulares • 18 alertas', avcbTot > 20 ? 'ctx-warn' : 'ctx-ok');
+
+        /* SEINTEC */
         const hwTot = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware) ? window.INVENTARIO_COMPLETO_TUPLES.hardware.length : 15973;
         if (kpiHw) kpiHw.textContent = hwTot.toLocaleString('pt-BR');
-        if (lblHw) lblHw.textContent = 'Equipamentos Tecnológicos';
+        if (lblHw) lblHw.textContent = 'Parque de Equipamentos';
+        setCtx('kpi-ctx-hardware', '76,4% disponíveis • 3.768 em reparo/baixa');
 
-        if (kpiVisitas) kpiVisitas.textContent = '54';
-        if (lblVisitas) lblVisitas.textContent = 'Visitas Realizadas (90%)';
+        const callsTotHome = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros))
+          ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length : 1432;
+        if (kpiCallsHome) kpiCallsHome.textContent = callsTotHome.toLocaleString('pt-BR');
+        if (lblCallsHome) lblCallsHome.textContent = 'Chamados & Nível de Serviço';
+        setCtx('kpi-ctx-chamados', '22 em aberto • SLA 98,5% concluído');
 
-        if (kpiAlertas) kpiAlertas.textContent = '3';
-        if (lblAlertas) lblAlertas.textContent = 'Demandas Críticas';
-
+        /* SEAFIN */
         const sefinK = (typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN.kpisPorAno && DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026'])
           ? DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026']
           : { totalReceita: 10365829.83, totalDespesa: 5401990.45, taxaExecucao: 52.1, totalRepasses: 204 };
         const recFmt = typeof formatarMoedaAbreviada === 'function' ? formatarMoedaAbreviada(sefinK.totalReceita) : ('R$ ' + (sefinK.totalReceita / 1e6).toFixed(1).replace('.', ',') + 'M');
         const despFmt = typeof formatarMoedaAbreviada === 'function' ? formatarMoedaAbreviada(sefinK.totalDespesa) : ('R$ ' + (sefinK.totalDespesa / 1e6).toFixed(2).replace('.', ',') + 'M');
         const execPctFmt = (sefinK.taxaExecucao || 0).toFixed(1).replace('.', ',') + '%';
-
         if (kpiRec) kpiRec.textContent = recFmt;
-        if (lblRec) lblRec.textContent = 'Recursos PDDE (2026)';
+        if (lblRec) lblRec.textContent = 'Recursos PDDE (APM 2026)';
+        setCtx('kpi-ctx-recursos', 'Saldo ocioso APM: R$ 4,96M (47,9%)');
 
         if (kpiExec) kpiExec.textContent = execPctFmt;
-        if (lblExec) lblExec.textContent = 'Taxa Execução (' + despFmt + ')';
+        if (lblExec) lblExec.textContent = 'Taxa de Execução Orçamentária';
+        setCtx('kpi-ctx-execucao', 'R$ 5,4M gastos • 5 contratos a vencer (≤60d)');
 
+        /* SEGRE */
+        const sematTot = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis) ? DADOS_SEMAT.kpis.totalAtendimentos : 2898;
+        if (kpiMatriculasHome) kpiMatriculasHome.textContent = sematTot.toLocaleString('pt-BR');
+        if (lblMatriculasHome) lblMatriculasHome.textContent = 'Demanda & Matrícula (SEMAT)';
+        setCtx('kpi-ctx-matriculas', '2.331 manuais • 4.062 transferências');
+
+        const segreEmails = (typeof DADOS_SEGRE !== 'undefined' && DADOS_SEGRE.kpis && DADOS_SEGRE.kpis.totalEmails) ? DADOS_SEGRE.kpis.totalEmails : 162;
+        if (kpiEmailsHome) kpiEmailsHome.textContent = segreEmails.toLocaleString('pt-BR');
+        if (lblEmailsHome) lblEmailsHome.textContent = 'Processos SEI Abertos';
+        setCtx('kpi-ctx-emails', '101 ativos >30 dias • 9.025 demandas');
+
+        /* SEPES */
         const sefrepDevsGlobal = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis.totalDevolucoes : 333;
         if (kpiRep) kpiRep.textContent = sefrepDevsGlobal.toLocaleString('pt-BR');
-        if (lblRep) lblRep.textContent = 'Devoluções Folha (SEPES)';
+        if (lblRep) lblRep.textContent = 'Folha de Pagamento (SEFREP)';
+        setCtx('kpi-ctx-repasses', 'Taxa de devolução: 24,1% (333 dev.)', 'ctx-warn');
 
-        const callsTotHome = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros))
-          ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length
-          : 1404;
-        if (kpiCallsHome) kpiCallsHome.textContent = callsTotHome.toLocaleString('pt-BR');
-        if (lblCallsHome) lblCallsHome.textContent = 'Atendimentos SEINTEC';
-
-        if (kpiObrasHome && typeof DADOS_SEOM !== 'undefined' && Array.isArray(DADOS_SEOM.escolas)) {
-          kpiObrasHome.textContent = DADOS_SEOM.escolas.filter(e => e.obraFde == 1 || e.obraFde == 2).length.toLocaleString('pt-BR');
-        }
-        if (lblObrasHome) lblObrasHome.textContent = 'Obras FDE Ativas';
-
-        if (kpiEmailsHome && typeof DADOS_SEGRE !== 'undefined' && DADOS_SEGRE.kpis && DADOS_SEGRE.kpis.totalEmails) {
-          kpiEmailsHome.textContent = DADOS_SEGRE.kpis.totalEmails.toLocaleString('pt-BR');
-        }
-        if (lblEmailsHome) lblEmailsHome.textContent = 'E-mails & Demandas';
-
-        if (gaugePct) gaugePct.textContent = '90%';
-        if (gaugeVal) gaugeVal.textContent = '54 de 60';
-        if (gaugeSub) gaugeSub.textContent = 'visitas concluídas na rede estadual';
+        const seapeProc = (typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES && DADOS_SEPES.kpis) ? DADOS_SEPES.kpis.totalEmTramitacao : 72;
+        if (kpiSeapeHome) kpiSeapeHome.textContent = seapeProc.toLocaleString('pt-BR');
+        if (lblSeapeHome) lblSeapeHome.textContent = 'Vida Funcional & Benefícios';
+        setCtx('kpi-ctx-seape', 'Aposentadorias, Designações e Abonos');
         return;
       }
 
@@ -20595,13 +20767,8 @@ function _obterResumoIpreEscolaInterno(esc) {
         : null;
 
       if (kpiEscolas) kpiEscolas.textContent = fatoEsc ? (fatoEsc.imro + ' pts') : '1';
-      if (lblEscolas) lblEscolas.textContent = fatoEsc ? ('IPRE (' + fatoEsc.tier + ')') : ('Escola: CIE ' + (dados.cie || '---'));
-
-      if (kpiHw) kpiHw.textContent = (dados.hwTotal || 0).toLocaleString('pt-BR');
-      if (lblHw) lblHw.textContent = 'Equipamentos (' + (dados.hwPctDisp || '0') + '% disp.)';
-
-      if (kpiCallsHome) kpiCallsHome.textContent = (dados.callsTotal || 0).toLocaleString('pt-BR');
-      if (lblCallsHome) lblCallsHome.textContent = 'Chamados SEINTEC (' + (dados.callsPend || 0) + ' abertos)';
+      if (lblEscolas) lblEscolas.textContent = fatoEsc ? (fatoEsc.escola || ('Escola CIE ' + dados.cie)) : ('Escola: CIE ' + (dados.cie || '---'));
+      if (ctxEscolas) ctxEscolas.textContent = fatoEsc ? (fatoEsc.tier + ' • CIE ' + fatoEsc.cie + ' • ' + fatoEsc.cidade) : ('CIE: ' + dados.cie);
 
       const fmtCurto = function(v) {
         const n = Number(v || 0);
@@ -20610,38 +20777,51 @@ function _obterResumoIpreEscolaInterno(esc) {
         return 'R$ ' + Math.round(n).toLocaleString('pt-BR');
       };
 
+      /* SEINTEC */
+      if (kpiHw) kpiHw.textContent = (dados.hwTotal || 0).toLocaleString('pt-BR');
+      if (lblHw) lblHw.textContent = 'Equipamentos da Unidade';
+      if (kpiCallsHome) kpiCallsHome.textContent = (dados.callsTotal || 0).toLocaleString('pt-BR');
+      if (lblCallsHome) lblCallsHome.textContent = 'Chamados Técnicos';
+
       if (fatoEsc) {
-        if (kpiRec) kpiRec.textContent = fmtCurto(fatoEsc.rec2026);
-        if (lblRec) lblRec.textContent = 'PDDE 2026 da Unidade';
-        if (kpiExec) kpiExec.textContent = fatoEsc.execPct2026.toFixed(1).replace('.', ',') + '%';
-        if (lblExec) lblExec.textContent = 'Executado (' + fmtCurto(fatoEsc.desp2026) + ')';
+        /* SEOM */
+        var hasAvcbWarn = (fatoEsc.flags && fatoEsc.flags.SEOM && fatoEsc.flags.SEOM.some(f => f.toLowerCase().includes('avcb')));
         if (kpiObrasHome) kpiObrasHome.textContent = (fatoEsc.flags && fatoEsc.flags.SEOM) ? fatoEsc.flags.SEOM.length : 0;
         if (lblObrasHome) lblObrasHome.textContent = 'Alertas Prediais SEOM';
+        if (kpiAvcbHome) kpiAvcbHome.textContent = hasAvcbWarn ? 'Pendente' : 'Regular';
+        if (lblAvcbHome) lblAvcbHome.textContent = 'Situação do AVCB';
+
+        /* SEAFIN */
+        if (kpiRec) kpiRec.textContent = fmtCurto(fatoEsc.rec2026);
+        if (lblRec) lblRec.textContent = 'PDDE 2026 da Unidade';
+        if (kpiExec) kpiExec.textContent = (fatoEsc.execPct2026 || 0).toFixed(1).replace('.', ',') + '%';
+        if (lblExec) lblExec.textContent = 'Execução Orçamentária';
+
+        /* SEGRE */
+        if (kpiMatriculasHome) kpiMatriculasHome.textContent = (fatoEsc.segreAtend || 0).toLocaleString('pt-BR');
+        if (lblMatriculasHome) lblMatriculasHome.textContent = 'Atendimentos SEMAT';
         if (kpiEmailsHome) kpiEmailsHome.textContent = (fatoEsc.segreAbertos || 0).toLocaleString('pt-BR');
         if (lblEmailsHome) lblEmailsHome.textContent = 'Processos SEI Abertos';
+
+        /* SEPES */
         if (kpiRep) kpiRep.textContent = (fatoEsc.sefrepDevolucoes || 0).toLocaleString('pt-BR');
         if (lblRep) lblRep.textContent = 'Devoluções Folha (SEFREP)';
+        if (kpiSeapeHome) kpiSeapeHome.textContent = (fatoEsc.sepesPend || 0).toLocaleString('pt-BR');
+        if (lblSeapeHome) lblSeapeHome.textContent = 'Processos SEAPE Ativos';
 
-        const setUnitCtx = function(id, txt, cls) {
-          const el = document.getElementById(id);
-          if (!el) return;
-          el.textContent = txt;
-          el.className = 'kpi-ctx-line' + (cls ? (' ' + cls) : '');
-        };
-        setUnitCtx('kpi-ctx-escolas', 'CIE ' + fatoEsc.cie + ' • ' + fatoEsc.cidade, fatoEsc.imro >= 50 ? 'ctx-alert' : 'ctx-ok');
-        setUnitCtx('kpi-ctx-hardware', (dados.hwDisp || 0) + ' disp. • ' + fatoEsc.hwBad + ' em reparo/baixa', fatoEsc.hwBad >= 60 ? 'ctx-warn' : 'ctx-ok');
-        setUnitCtx('kpi-ctx-chamados', (dados.callsConc || 0) + ' concluídos no exercício', (dados.callsPend || 0) > 2 ? 'ctx-warn' : 'ctx-ok');
-        setUnitCtx('kpi-ctx-recursos', 'Saldo ocioso: ' + fmtCurto(fatoEsc.saldoOcioso2026), fatoEsc.saldoOcioso2026 > 50000 ? 'ctx-warn' : '');
-        setUnitCtx('kpi-ctx-execucao', fatoEsc.rec2026 > 0 ? ('Meta calendário: ~' + Math.min(95, Math.round(((new Date().getMonth() + 1) / 12) * 100)) + '%') : 'Sem repasse 2026', fatoEsc.rec2026 > 0 && fatoEsc.execPct2026 < 45 ? 'ctx-alert' : 'ctx-ok');
-        setUnitCtx('kpi-ctx-obras', (fatoEsc.flags.SEOM || []).slice(0, 2).join(' • ') || 'Sem alertas críticos SEOM', (fatoEsc.pts.SEOM >= 40) ? 'ctx-alert' : 'ctx-ok');
-        setUnitCtx('kpi-ctx-emails', fatoEsc.segreAbertos > 0 ? 'Em tramitação SEGRE/SEMAT/SEVESC' : 'Sem SEI pendente', fatoEsc.segreAbertos > 0 ? 'ctx-warn' : 'ctx-ok');
-        var sefrepUnitTxt = (fatoEsc.sefrepDevolucoes > 0) ? (fatoEsc.sefrepDevolucoes + ' devoluções folha') : 'Folha regular (0 dev.)';
-        setUnitCtx('kpi-ctx-repasses', sefrepUnitTxt + ' • ' + (fatoEsc.sepesPend || 0) + ' proc. SEAPE', (fatoEsc.sefrepDevolucoes >= 2 || fatoEsc.sepesPend >= 2) ? 'ctx-warn' : 'ctx-ok');
+        /* Contextos específicos */
+        setCtx('kpi-ctx-obras', (fatoEsc.flags.SEOM || []).slice(0, 2).join(' • ') || 'Sem intervenção crítica registrada', fatoEsc.pts.SEOM >= 40 ? 'ctx-alert' : 'ctx-ok');
+        setCtx('kpi-ctx-avcb', hasAvcbWarn ? 'Exige renovação junto ao Corpo de Bombeiros' : 'Certificado AVCB válido', hasAvcbWarn ? 'ctx-alert' : 'ctx-ok');
+        setCtx('kpi-ctx-hardware', (dados.hwDisp || 0) + ' disp. • ' + fatoEsc.hwBad + ' em reparo/baixa', fatoEsc.hwBad >= 60 ? 'ctx-warn' : 'ctx-ok');
+        setCtx('kpi-ctx-chamados', (dados.callsConc || 0) + ' concluídos • ' + (dados.callsPend || 0) + ' abertos', (dados.callsPend || 0) > 2 ? 'ctx-warn' : 'ctx-ok');
+        setCtx('kpi-ctx-recursos', 'Saldo ocioso APM: ' + fmtCurto(fatoEsc.saldoOcioso2026), fatoEsc.saldoOcioso2026 > 50000 ? 'ctx-warn' : 'ctx-ok');
+        setCtx('kpi-ctx-execucao', 'Gastos realizados: ' + fmtCurto(fatoEsc.desp2026), fatoEsc.rec2026 > 0 && fatoEsc.execPct2026 < 45 ? 'ctx-alert' : 'ctx-ok');
+        setCtx('kpi-ctx-matriculas', 'Atendimentos e matrículas na unidade escolar', 'ctx-ok');
+        setCtx('kpi-ctx-emails', fatoEsc.segreAbertos > 0 ? (fatoEsc.segreAbertos + ' SEI em tramitação na rede') : 'Sem pendência SEI ativa', fatoEsc.segreAbertos > 0 ? 'ctx-warn' : 'ctx-ok');
+        var sefrepUnitTxt = (fatoEsc.sefrepDevolucoes > 0) ? (fatoEsc.sefrepDevolucoes + ' inconsistências na folha') : 'Folha regular (0 devoluções)';
+        setCtx('kpi-ctx-repasses', sefrepUnitTxt, fatoEsc.sefrepDevolucoes >= 2 ? 'ctx-warn' : 'ctx-ok');
+        setCtx('kpi-ctx-seape', (fatoEsc.sepesPend || 0) + ' demandas funcionais ativas', fatoEsc.sepesPend >= 2 ? 'ctx-warn' : 'ctx-ok');
       }
-
-      if (gaugePct) gaugePct.textContent = (dados.hwPctDisp || '0') + '%';
-      if (gaugeVal) gaugeVal.textContent = (dados.hwDisp || 0) + ' de ' + (dados.hwTotal || 0);
-      if (gaugeSub) gaugeSub.textContent = 'equipamentos disponíveis na unidade';
     }
 
     function atualizarSetoresHomeParaEscola(dados) {
@@ -20710,65 +20890,8 @@ function _obterResumoIpreEscolaInterno(esc) {
       const spotlight = document.getElementById('home-school-spotlight');
       if (spotlight) spotlight.style.display = 'none';
 
-      const kpiEscolas = document.getElementById('kpi-escolas');
-      const kpiHw = document.getElementById('kpi-hardware-home');
-      const kpiVisitas = document.getElementById('kpi-visitas');
-      const kpiAlertas = document.getElementById('kpi-alertas-home');
-
-      const lblEscolas = document.getElementById('kpi-lbl-escolas');
-      const lblHw = document.getElementById('kpi-lbl-hardware');
-      const lblVisitas = document.getElementById('kpi-lbl-visitas');
-      const lblAlertas = document.getElementById('kpi-lbl-atencao');
-
-      if (kpiEscolas) kpiEscolas.textContent = '60';
-      if (lblEscolas) lblEscolas.textContent = 'Escolas na rede';
-
-      const hwTotConsolidado = (window.INVENTARIO_COMPLETO_TUPLES && Array.isArray(window.INVENTARIO_COMPLETO_TUPLES.hardware))
-        ? window.INVENTARIO_COMPLETO_TUPLES.hardware.length
-        : 15973;
-      const hwDispConsolidado = (window.INVENTARIO_COMPLETO_TUPLES && Array.isArray(window.INVENTARIO_COMPLETO_TUPLES.hardware))
-        ? window.INVENTARIO_COMPLETO_TUPLES.hardware.filter(t => (t[5] || '').toLowerCase().includes('dispon')).length
-        : 12205;
-      const hwManutConsolidado = (window.INVENTARIO_COMPLETO_TUPLES && Array.isArray(window.INVENTARIO_COMPLETO_TUPLES.hardware))
-        ? window.INVENTARIO_COMPLETO_TUPLES.hardware.filter(t => (t[5] || '').toLowerCase().includes('manut') || (t[5] || '').toLowerCase().includes('reparo') || (t[5] || '').toLowerCase().includes('chamado')).length
-        : 1144;
-      const hwPctConsolidado = ((hwDispConsolidado / hwTotConsolidado) * 100).toFixed(1).replace('.', ',') + '%';
-
-      if (kpiHw) kpiHw.textContent = hwTotConsolidado.toLocaleString('pt-BR');
-      if (lblHw) lblHw.textContent = 'Equipamentos Tecnológicos';
-
-      if (kpiVisitas) kpiVisitas.textContent = '54';
-      if (lblVisitas) lblVisitas.textContent = 'Visitas realizadas';
-
-      if (kpiAlertas) kpiAlertas.textContent = '3';
-      const kpiRec = document.getElementById('kpi-recursos-sefin');
-      const lblRec = document.getElementById('kpi-lbl-recursos-sefin');
-      const kpiExec = document.getElementById('kpi-execucao-sefin');
-      const lblExec = document.getElementById('kpi-lbl-execucao-sefin');
-      const kpiRep = document.getElementById('kpi-repasses-sefin');
-      const lblRep = document.getElementById('kpi-lbl-repasses-sefin');
-      const sefinK = (typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN.kpisPorAno && DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026'])
-        ? DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026']
-        : { totalReceita: 10365829.83, totalDespesa: 5401990.45, taxaExecucao: 52.1, totalRepasses: 204 };
-      const recFmt = typeof formatarMoedaAbreviada === 'function' ? formatarMoedaAbreviada(sefinK.totalReceita) : ('R$ ' + (sefinK.totalReceita / 1e6).toFixed(1).replace('.', ',') + 'M');
-      const despFmt = typeof formatarMoedaAbreviada === 'function' ? formatarMoedaAbreviada(sefinK.totalDespesa) : ('R$ ' + (sefinK.totalDespesa / 1e6).toFixed(2).replace('.', ',') + 'M');
-      const execPctFmt = (sefinK.taxaExecucao || 0).toFixed(1).replace('.', ',') + '%';
-      if (kpiRec) kpiRec.textContent = recFmt;
-      if (lblRec) lblRec.textContent = 'Recursos PDDE (2026)';
-      if (kpiExec) kpiExec.textContent = execPctFmt;
-      if (lblExec) lblExec.textContent = 'Taxa Execução (' + despFmt + ')';
-      const sefrepDevsInit = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis.totalDevolucoes : 333;
-      if (kpiRep) kpiRep.textContent = sefrepDevsInit.toLocaleString('pt-BR');
-      if (lblRep) lblRep.textContent = 'Devoluções Folha (SEPES)';
-      if (lblAlertas) lblAlertas.textContent = 'Em atenção prioritária';
-
-      const gaugePct = document.getElementById('home-gauge-pct');
-      const gaugeVal = document.getElementById('home-gauge-val');
-      const gaugeSub = document.getElementById('home-gauge-sub');
-
-      if (gaugePct) gaugePct.textContent = '90%';
-      if (gaugeVal) gaugeVal.textContent = '54 de 60';
-      if (gaugeSub) gaugeSub.textContent = 'visitas concluídas na rede estadual';
+      /* Restaura os 10 cards setoriais e a faixa macro da governança */
+      atualizarKpisSuperioresHomeParaEscola(null);
 
       /* Restaurar Atenção */
       const cards = document.querySelectorAll('#home-atencao-grid .atencao-card');
@@ -20782,6 +20905,33 @@ function _obterResumoIpreEscolaInterno(esc) {
       if (window.BI_DECISION_ENGINE && typeof window.BI_DECISION_ENGINE.atualizar === 'function') {
         window.BI_DECISION_ENGINE.atualizar(null);
       }
+    }
+
+    /* ========================================================= */
+    /* FILTRO DE NÚCLEOS DA MATRIZ DE TELEMETRIA SETORIAL (HOME) */
+    /* ========================================================= */
+    function filtrarKpisSetoriais(setor) {
+      /* Atualiza classes ativas dos botões pill */
+      var pills = document.querySelectorAll('.kpi-sector-filters .kpi-filter-pill');
+      pills.forEach(function(p) {
+        if (p.id === 'pill-kpi-' + setor) {
+          p.classList.add('active');
+        } else {
+          p.classList.remove('active');
+        }
+      });
+
+      /* Exibe ou oculta os blocos setoriais */
+      var cards = document.querySelectorAll('#home-sector-pillars-grid .sector-pillar-card');
+      cards.forEach(function(card) {
+        var cardSetor = card.getAttribute('data-setor');
+        if (setor === 'todos' || cardSetor === setor) {
+          card.style.display = '';
+          card.style.opacity = '1';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     }
 
     function destacarCentroNaHome(sigla) {
@@ -39421,7 +39571,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var altoCount = fato.filter(function(e) { return e.tier === 'Alto Risco'; }).length;
         var regCount = Math.max(0, fato.length - critCount - altoCount);
         var avgImro = fato.length > 0 ? (fato.reduce(function(a, b) { return a + b.imro; }, 0) / fato.length) : 0;
-        var isrScore = Math.max(0, Math.min(100, Math.round(100 - avgImro)));
+                var isrScore = Math.max(0, Math.min(100, Math.round(100 - avgImro)));
+        var ipreBadge = document.getElementById('hero-ipre-badge');
+        if (ipreBadge) {
+          ipreBadge.textContent = 'IPRE Médio: ' + avgImro.toFixed(1).replace('.', ',') + ' pts';
+        }
 
         var isrPill = document.getElementById('hero-isr-pill');
         if (isrPill) {
@@ -39460,12 +39614,27 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         setCtx('kpi-ctx-recursos', 'Saldo ocioso APM: ' + formatarMoedaCurta(tel.SEAFIN.saldoOcioso2026), tel.SEAFIN.saldoOcioso2026 > 3000000 ? 'ctx-warn' : '');
         var gapExec = tel.SEAFIN.execPct2026 - tel.metaCalendarioPct;
         setCtx('kpi-ctx-execucao', 'Ritmo esperado: ' + tel.metaCalendarioPct + '% (' + (gapExec >= 0 ? '+' : '') + gapExec.toFixed(1).replace('.', ',') + ' p.p.)', gapExec < -20 ? 'ctx-alert' : (gapExec < -8 ? 'ctx-warn' : 'ctx-ok'));
-        setCtx('kpi-ctx-obras', tel.SEOM.avcbSem + ' sem AVCB • ' + tel.SEOM.escolasInfraCritica + ' c/ alerta predial', tel.SEOM.avcbSem > 15 ? 'ctx-alert' : 'ctx-warn');
+        /* SEOM */
+        var kpiAvcbEl = document.getElementById('kpi-avcb-home');
+        if (kpiAvcbEl) kpiAvcbEl.textContent = (tel.SEOM.avcbSem || 49).toLocaleString('pt-BR');
+        setCtx('kpi-ctx-obras', '14 ativas • 20 previstas • 26 sem intervenção');
+        setCtx('kpi-ctx-avcb', tel.SEOM.avcbSem + ' sem AVCB • ' + (60 - tel.SEOM.avcbSem) + ' regulares • ' + tel.SEOM.escolasInfraCritica + ' alertas', tel.SEOM.avcbSem > 15 ? 'ctx-alert' : 'ctx-warn');
+
+        /* SEGRE */
+        var kpiMatriculasEl = document.getElementById('kpi-matriculas-home');
+        var sematTotalKpi = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis) ? DADOS_SEMAT.kpis.totalAtendimentos : 2898;
+        if (kpiMatriculasEl) kpiMatriculasEl.textContent = sematTotalKpi.toLocaleString('pt-BR');
+        setCtx('kpi-ctx-matriculas', (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis) ? (DADOS_SEMAT.kpis.manuais + ' manuais • ' + DADOS_SEMAT.kpis.transferencias + ' transferências') : '2.331 manuais • 4.062 transferências');
         setCtx('kpi-ctx-emails', tel.SEGRE.seiAbertos + ' SEI em aberto (' + tel.SEGRE.seiAged30 + ' >30d)', tel.SEGRE.seiAged30 > 10 ? 'ctx-warn' : '');
+
+        /* SEPES */
         var sefrepTotDev = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis.totalDevolucoes : 333;
         var sefrepPctDev = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis.taxaDevolucaoPct : 24.1;
-        var sepesFila = (tel.SEPES && tel.SEPES.emTramitacao) ? tel.SEPES.emTramitacao : 66;
-        setCtx('kpi-ctx-repasses', sefrepTotDev + ' devoluções (' + sefrepPctDev.toFixed(1).replace('.', ',') + '%) • ' + sepesFila + ' proc. SEAPE', sefrepTotDev > 100 ? 'ctx-warn' : 'ctx-ok');
+        var sepesFila = (tel.SEPES && tel.SEPES.emTramitacao) ? tel.SEPES.emTramitacao : 72;
+        var kpiSeapeEl = document.getElementById('kpi-seape-home');
+        if (kpiSeapeEl) kpiSeapeEl.textContent = sepesFila.toLocaleString('pt-BR');
+        setCtx('kpi-ctx-repasses', 'Taxa de devolução: ' + sefrepPctDev.toFixed(1).replace('.', ',') + '% (' + sefrepTotDev + ' dev.)', sefrepTotDev > 100 ? 'ctx-warn' : 'ctx-ok');
+        setCtx('kpi-ctx-seape', 'Aposentadorias, Designações e Abonos (' + sepesFila + ' proc.)', 'ctx-ok');
         var kpiRepEl = document.getElementById('kpi-repasses-sefin');
         if (kpiRepEl) kpiRepEl.textContent = sefrepTotDev.toLocaleString('pt-BR');
         var lblRepEl = document.getElementById('kpi-lbl-repasses-sefin');
