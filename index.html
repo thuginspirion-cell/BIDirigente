@@ -40736,9 +40736,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           return;
         }
 
+        var pdfSpinnerHtml = '<span style="display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,0.35);border-top-color:#ffffff;border-radius:50%;animation:spinSync 0.75s linear infinite;vertical-align:-2px;margin-right:5px;"></span>';
         if (btn) {
           btn.disabled = true;
-          btn.innerHTML = '<span>⏳</span><span>Gerando PDF 300 DPI...</span>';
+          btn.innerHTML = pdfSpinnerHtml + '<span>Gerando PDF...</span>';
         }
         var oldShadow = canvas.style.boxShadow;
         canvas.style.boxShadow = 'none';
@@ -40785,7 +40786,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           html2pdf().set(opt300).from(canvas).save().then(function() {
             restaurarEstilos();
             if (typeof mostrarToastAgenda === 'function') {
-              mostrarToastAgenda('PDF 300 DPI baixado com sucesso!', '📄');
+              mostrarToastAgenda('PDF baixado com sucesso!', '📄');
             }
           }).catch(function(err) {
             console.warn('Fallback PDF print:', err);
@@ -40802,7 +40803,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             (function(pageIndex, pageEl) {
               chain = chain.then(function() {
                 if (btn) {
-                  btn.innerHTML = '<span>⏳</span><span>PDF 300 DPI (' + (pageIndex + 1) + '/' + pages.length + ')...</span>';
+                  btn.innerHTML = pdfSpinnerHtml + '<span>Gerando PDF (' + (pageIndex + 1) + '/' + pages.length + ')...</span>';
                 }
                 return html2pdf().set(opt300).from(pageEl).outputImg('datauristring').then(function(imgDataUri) {
                   pdfDoc.addPage('a4', 'portrait');
@@ -40817,7 +40818,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         }).then(function() {
           restaurarEstilos();
           if (typeof mostrarToastAgenda === 'function') {
-            mostrarToastAgenda('PDF em alta resolução (300 DPI) baixado com sucesso!', '📄');
+            mostrarToastAgenda('PDF baixado com sucesso!', '📄');
           }
         }).catch(function(err) {
           console.warn('Fallback PDF print:', err);
