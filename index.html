@@ -13268,6 +13268,21 @@ function imprimirAgendaCarro() {
     color: #bae6fd;
     border: 1px solid rgba(56, 189, 248, 0.35);
   }
+  
+  #kpi-ctx-escolas {
+    color: #64748b !important;
+    border-top: none !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    font-size: 0.74rem !important;
+    font-weight: 500 !important;
+  }
+  #hero-ipre-badge {
+    background: transparent !important;
+    padding: 0 !important;
+    color: #64748b !important;
+  }
+
   .kpi-ctx-line {
     font-size: 0.67rem;
     font-weight: 700;
@@ -13750,8 +13765,8 @@ function imprimirAgendaCarro() {
         <div class="sector-telemetry-container">
           <div class="kpi-row-card" style="width: 100%; box-sizing: border-box; padding: 1.25rem 1.4rem;">
             
-            <!-- Cabeçalho Executivo com Filtros Rápidos por Núcleo -->
-            <div class="kpi-row-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.95rem; flex-wrap: wrap; gap: 0.6rem;">
+            <!-- Cabeçalho Executivo com Informações em Cinza Fraquinho Embaixo da Telemetria -->
+            <div class="kpi-row-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">
               <div>
                 <div style="display: flex; align-items: center; gap: 8px;">
                   <span class="kpi-row-title" style="font-size: 1.05rem; font-weight: 800; color: #0b2351;">Telemetria Operacional por Núcleo da URE Itapevi</span>
@@ -13760,24 +13775,16 @@ function imprimirAgendaCarro() {
                 <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;" id="home-kpi-context-stamp">
                   Matriz Integrada dos 5 Núcleos Operacionais • 2 Indicadores Fundamentais por Setor
                 </div>
-              </div>
-            </div>
-
-            <!-- Faixa de Governança da Rede Escolar (IPRE) -->
-            <div class="governance-summary-bar" style="display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); color: #ffffff; padding: 0.6rem 1rem; border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 2px 6px rgba(11,35,81,0.12); flex-wrap: wrap; gap: 0.5rem;">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="background: rgba(255,255,255,0.15); padding: 3px 9px; border-radius: 6px; font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; gap: 5px;">
-                  <span>🏫</span> <span id="kpi-escolas">60</span>
+                <!-- Informações IPRE Médio, Total e Status das Escolas em Cinza Fraquinho -->
+                <div style="font-size: 0.74rem; color: #64748b; margin-top: 5px; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; line-height: 1.4;">
+                  <span>🏫 <strong id="kpi-lbl-escolas" style="font-weight: 600; color: #64748b;">Rede Estadual • URE Itapevi</strong>: <span id="kpi-escolas" style="font-weight: 700;">60</span> escolas</span>
+                  <span style="color: #cbd5e1;">•</span>
+                  <span id="hero-ipre-badge" style="font-weight: 700; color: #64748b;">IPRE Médio: 45,8 pts</span>
+                  <span style="color: #cbd5e1;">•</span>
+                  <span id="kpi-ctx-escolas" style="color: #64748b !important;">12 Críticas • 10 Alto Risco • 38 Regulares</span>
+                  <span style="color: #cbd5e1;">•</span>
+                  <span style="color: #94a3b8;">5 Núcleos Conectados</span>
                 </div>
-                <div>
-                  <div style="font-weight: 800; font-size: 0.8rem; letter-spacing: 0.02em;" id="kpi-lbl-escolas">REDE ESTADUAL • URE ITAPEVI</div>
-                  <div style="font-size: 0.71rem; color: #cbd5e1;" id="kpi-ctx-escolas">12 Críticas • 10 Alto Risco • 38 Regulares</div>
-                </div>
-              </div>
-              <div style="font-size: 0.72rem; color: #93c5fd; font-weight: 600; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                <span id="hero-ipre-badge" style="background: rgba(255,255,255,0.15); color: #ffffff; padding: 2.5px 8px; border-radius: 5px; font-weight: 800; letter-spacing: 0.02em;">IPRE Médio: 46,3 pts</span>
-                <span>🎯 Metodologia IPRE (0–100)</span>
-                <span style="background: rgba(255,255,255,0.12); padding: 2px 7px; border-radius: 4px; color: #ffffff;">5 Núcleos Conectados</span>
               </div>
             </div>
 
@@ -40099,9 +40106,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
         /* SEGRE */
         var kpiMatriculasEl = document.getElementById('kpi-matriculas-home');
-        var sematTotalKpi = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis) ? DADOS_SEMAT.kpis.totalAtendimentos : 2898;
+        var sematTotalKpi = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis) ? (DADOS_SEMAT.kpis.totalAtendimentos || 2898) : 2898;
         if (kpiMatriculasEl) kpiMatriculasEl.textContent = sematTotalKpi.toLocaleString('pt-BR');
-        setCtx('kpi-ctx-matriculas', (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis) ? (DADOS_SEMAT.kpis.manuais + ' manuais • ' + DADOS_SEMAT.kpis.transferencias + ' transferências') : '2.331 manuais • 4.062 transferências');
+        var sematManuais = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis) ? (DADOS_SEMAT.kpis.totalMatriculasManuais || DADOS_SEMAT.kpis.manuais || 2331) : 2331;
+        var sematTransf = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis) ? (DADOS_SEMAT.kpis.totalTrocasEscola || DADOS_SEMAT.kpis.transferencias || 4062) : 4062;
+        setCtx('kpi-ctx-matriculas', sematManuais.toLocaleString('pt-BR') + ' manuais • ' + sematTransf.toLocaleString('pt-BR') + ' transferências');
         setCtx('kpi-ctx-emails', tel.SEGRE.seiAbertos + ' SEI em aberto (' + tel.SEGRE.seiAged30 + ' >30d)', tel.SEGRE.seiAged30 > 10 ? 'ctx-warn' : '');
 
         /* SEPES */
