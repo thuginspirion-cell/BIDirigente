@@ -13729,61 +13729,19 @@ function imprimirAgendaCarro() {
 <body>
   <!-- Modal Executivo de Carregamento Real em Nuvem (Fecha somente após conclusão real das bases) -->
   <div id="modal-boot-sync-ure" class="boot-sync-overlay" role="dialog" aria-modal="true" aria-labelledby="boot-sync-title-el">
-    <div class="boot-sync-card">
-      <div class="boot-sync-glow"></div>
-      <div class="boot-sync-header">
+    <div class="boot-sync-card" style="max-width:460px;padding:1.5rem 1.6rem 1.4rem;">
+      <div class="boot-sync-header" style="margin-bottom:1.1rem;">
         <div class="boot-sync-crest-wrap">
-          <div class="boot-sync-pulse-ring"></div>
           <img id="boot-modal-logo" class="brand-logo-img" src="logo_ure_itapevi_480.png" alt="Brasão URE Itapevi" onerror="if(typeof LOGO_URE_DATA_URI!=='undefined'&&this.src!==LOGO_URE_DATA_URI){this.src=LOGO_URE_DATA_URI;}else if(this.src!=='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png'){this.src='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png';}">
         </div>
         <div>
-          <div class="boot-sync-kicker">
-            <span class="boot-sync-live-dot"></span>
-            <span>GOVERNO DO ESTADO DE SÃO PAULO • SEDUC-SP</span>
-          </div>
+          <div class="boot-sync-kicker"><span>GOVERNO DO ESTADO DE SÃO PAULO • SEDUC-SP</span></div>
           <h2 id="boot-sync-title-el" class="boot-sync-title">BI Dirigente — URE Itapevi</h2>
-          <p class="boot-sync-subtitle">Aguardando atualização ao vivo de todas as bases oficiais</p>
+          <p class="boot-sync-subtitle">Carregando painel e bases oficiais...</p>
         </div>
-      </div>
-
-      <div class="boot-sync-status-row">
-        <span id="boot-sync-status-msg" class="boot-sync-status-msg">Conectando às fontes do SharePoint e Apps Script...</span>
-        <span id="boot-sync-pct" class="boot-sync-pct">0%</span>
       </div>
       <div class="boot-sync-track">
         <div id="boot-sync-progress-fill" class="boot-sync-fill"></div>
-      </div>
-
-      <div class="boot-sync-grid">
-        <div class="boot-sync-chip is-active" id="boot-chip-seintec">
-          <span>💻 SEINTEC &amp; Inventário</span>
-          <span class="boot-sync-chip-badge" id="boot-chip-badge-seintec">Aguardando</span>
-        </div>
-        <div class="boot-sync-chip is-active" id="boot-chip-sefin">
-          <span>💰 SEFIN &amp; SECOMSE</span>
-          <span class="boot-sync-chip-badge" id="boot-chip-badge-sefin">Aguardando</span>
-        </div>
-        <div class="boot-sync-chip is-active" id="boot-chip-seom">
-          <span>🏗️ SEOM, DPAT &amp; SEFISC</span>
-          <span class="boot-sync-chip-badge" id="boot-chip-badge-seom">Aguardando</span>
-        </div>
-        <div class="boot-sync-chip is-active" id="boot-chip-segre">
-          <span>📋 SEGRE, SEMAT &amp; SEVESC</span>
-          <span class="boot-sync-chip-badge" id="boot-chip-badge-segre">Aguardando</span>
-        </div>
-        <div class="boot-sync-chip is-active" id="boot-chip-sepes">
-          <span>👥 SEPES &amp; SEFREP</span>
-          <span class="boot-sync-chip-badge" id="boot-chip-badge-sepes">Aguardando</span>
-        </div>
-        <div class="boot-sync-chip is-active" id="boot-chip-painel">
-          <span>🏫 Painel Executivo &amp; KPIs</span>
-          <span class="boot-sync-chip-badge" id="boot-chip-badge-painel">Aguardando</span>
-        </div>
-      </div>
-
-      <div class="boot-sync-footer">
-        <span id="boot-sync-counter-text">🔒 Aguardando resposta real do SharePoint...</span>
-        <button type="button" class="boot-sync-skip-btn" onclick="fecharBootModalComSuavidade()">Abrir em 2º plano</button>
       </div>
     </div>
   </div>
