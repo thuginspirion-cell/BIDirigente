@@ -1318,7 +1318,7 @@
         }).join('');
 
         celulasHtml += `
-          <div class="carro-cal-day ${isOtherMonth ? 'is-other-month' : ''} ${isToday ? 'is-today' : ''}" onclick="selecionarDiaCalendario('${dataIso}')">
+          <div class="carro-cal-day ${isOtherMonth ? 'is-other-month' : ''} ${isToday ? 'is-today' : ''} ${eventosDia.length > 0 ? 'has-events' : ''}" onclick="selecionarDiaCalendario('${dataIso}')">
             <div class="carro-cal-day-head">
               <span class="carro-cal-day-num">${diaNum}${isToday ? ' • HOJE' : ''}</span>
               ${!isOtherMonth ? `<button type="button" class="carro-cal-day-add" onclick="event.stopPropagation(); abrirModalNovoCompromissoNaData('${dataIso}')" title="Agendar compromisso em ${formatarDataExtensoPtBr(dataIso)}">+</button>` : ''}
