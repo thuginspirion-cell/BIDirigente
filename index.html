@@ -18701,12 +18701,50 @@ function _obterResumoIpreEscolaInterno(esc) {
       }
     }
 
+    function fecharModalConfirmarLimparVisitas() {
+      const m = document.getElementById('modal-confirmar-limpar-visitas');
+      if (m) m.style.display = 'none';
+    }
+
+    function executarLimpezaMarcacoesVisitas() {
+      fecharModalConfirmarLimparVisitas();
+      visitasRegistro = {};
+      salvarVisitasLocalStorage();
+      atualizarPainelVisitas();
+      mostrarToastAgenda('Todas as marcações foram redefinidas.', '🗑️');
+    }
+
     function limparMarcacoesVisitas() {
-      if (confirm('Tem certeza de que deseja limpar TODAS as marcações de visitas da rede? As escolas retornarão ao estado pendente.')) {
-        visitasRegistro = {};
-        salvarVisitasLocalStorage();
-        atualizarPainelVisitas();
-        mostrarToastAgenda('Todas as marcações foram redefinidas.', '🗑️');
+      let modal = document.getElementById('modal-confirmar-limpar-visitas');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'modal-confirmar-limpar-visitas';
+        modal.style.cssText = 'position:fixed;inset:0;background:rgba(7,21,47,0.72);backdrop-filter:blur(4px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:1rem;';
+        modal.onclick = function(e) { if (e.target === modal) fecharModalConfirmarLimparVisitas(); };
+        modal.innerHTML =
+          '<div style="background:#ffffff;width:100%;max-width:440px;border-radius:16px;box-shadow:0 24px 48px -12px rgba(7,21,47,0.45);overflow:hidden;border:1px solid #e2e8f0;font-family:\'Plus Jakarta Sans\',Inter,sans-serif;">' +
+            '<div style="background:linear-gradient(135deg,#07152f 0%,#0b2351 100%);padding:1.15rem 1.4rem;border-bottom:3px solid #d48208;display:flex;align-items:center;justify-content:space-between;color:#ffffff;">' +
+              '<div style="display:flex;align-items:center;gap:0.65rem;">' +
+                '<span style="font-size:1.3rem;">⚠️</span>' +
+                '<div>' +
+                  '<div style="font-size:0.68rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#fbbf24;">CONFIRMAÇÃO EXECUTIVA</div>' +
+                  '<h3 style="margin:0;font-size:1.05rem;font-weight:700;color:#ffffff;">Limpar Marcações de Visitas</h3>' +
+                '</div>' +
+              '</div>' +
+              '<button type="button" onclick="fecharModalConfirmarLimparVisitas()" style="background:rgba(255,255,255,0.14);border:none;color:#ffffff;width:30px;height:30px;border-radius:50%;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>' +
+            '</div>' +
+            '<div style="padding:1.35rem 1.4rem;color:#334155;font-size:0.92rem;line-height:1.55;">' +
+              '<p style="margin:0 0 0.5rem;font-weight:600;color:#0f172a;">Tem certeza de que deseja limpar TODAS as marcações de visitas da rede?</p>' +
+              '<p style="margin:0;color:#64748b;font-size:0.84rem;">Todas as escolas retornarão imediatamente ao estado pendente.</p>' +
+            '</div>' +
+            '<div style="padding:0.95rem 1.4rem;background:#f8fafc;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:0.65rem;">' +
+              '<button type="button" onclick="fecharModalConfirmarLimparVisitas()" style="background:#ffffff;color:#334155;border:1px solid #cbd5e1;padding:0.55rem 1.1rem;border-radius:8px;font-weight:600;font-size:0.86rem;cursor:pointer;">Cancelar</button>' +
+              '<button type="button" onclick="executarLimpezaMarcacoesVisitas()" style="background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);color:#ffffff;border:none;padding:0.55rem 1.2rem;border-radius:8px;font-weight:700;font-size:0.86rem;cursor:pointer;box-shadow:0 4px 12px rgba(220,38,38,0.28);">Sim, limpar tudo</button>' +
+            '</div>' +
+          '</div>';
+        document.body.appendChild(modal);
+      } else {
+        modal.style.display = 'flex';
       }
     }
 
