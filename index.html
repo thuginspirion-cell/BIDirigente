@@ -36076,7 +36076,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         if (typeof hidratarTodosModulosNuvem === 'function') hidratarTodosModulosNuvem();
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         atualizarBadgeStatusSincronismo();
-      }, 50);
+      }, 100);
 
       /* Sincronização Real em Tempo Real na Inicialização (aguarda Promises antes de fechar o modal) */
       setTimeout(function() {
@@ -36087,7 +36087,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           window.__bootSyncTracker.disparado = true;
           atualizarUIBootSyncReal();
         }
-      }, 150);
+      }, 1200);
 
       /* Failsafe máximo caso alguma requisição externa de rede fique presa */
       setTimeout(fecharBootModalComSuavidade, 25000);
