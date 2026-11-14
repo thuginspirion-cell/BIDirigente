@@ -74,6 +74,12 @@ function doGet(e) {
         output = salvarCarroCalendarConfig(e.parameter.url || '');
       } else if (action === 'obterCacheDrive') {
         output = lerCacheSetorDrive_(e.parameter.setor || '');
+      } else if (action === 'obterAgendaCalendar') {
+        output = obterSetorComCacheDrive_('agenda_calendar', usarCacheDrive, function() {
+          return { sucesso: true, eventos: getGoogleCalendarEvents(e.parameter.data || '') };
+        });
+      } else if (action === 'obterCarroCalendarHistorico') {
+        output = obterCarroComHistoricoDrive_(usarCacheDrive);
       } else if (action === 'executarSyncSegundoPlano') {
         output = sincronizarTodasBasesEmSegundoPlano();
       } else if (action === 'instalarGatilhoSegundoPlano') {
@@ -1431,8 +1437,8 @@ function getGoogleCalendarEvents(dataIsoOpcional) {
       fim = new Date(dataIsoOpcional + "T23:59:59");
     } else {
       var hoje = new Date();
-      inicio = new Date(hoje.getTime() - 7 * 24 * 60 * 60 * 1000);
-      fim = new Date(hoje.getTime() + 60 * 24 * 60 * 60 * 1000);
+      inicio = new Date(hoje.getTime() - 3 * 365 * 24 * 60 * 60 * 1000);
+      fim = new Date(hoje.getTime() + 365 * 24 * 60 * 60 * 1000);
     }
     
     var eventos = cal.getEvents(inicio, fim);
@@ -2212,6 +2218,36 @@ function obterSetorComCacheDrive_(setor, usarCache, fnLive) {
   return res;
 }
 
+function obterCarroComHistoricoDrive_(usarCache) {
+  var cached = lerCacheSetorDrive_('carro_calendar');
+  var historico = (cached && cached.sucesso && cached.dados && Array.isArray(cached.dados.eventos)) ? cached.dados.eventos : [];
+  if (usarCache && historico.length > 0) {
+    return cached.dados;
+  }
+  var live = sincronizarCarroIcal(getCarroCalendarConfig());
+  if (!live || !live.sucesso || !Array.isArray(live.eventos)) {
+    return historico.length > 0 ? { sucesso: true, eventos: historico, origemHistoricoDrive: true } : live;
+  }
+  var mapa = {};
+  for (var i = 0; i < historico.length; i++) {
+    var h = historico[i];
+    var kh = (h.id || '') + '|' + (h.data || '') + '|' + (h.inicio || '') + '|' + (h.titulo || '');
+    mapa[kh] = h;
+  }
+  for (var j = 0; j < live.eventos.length; j++) {
+    var ev = live.eventos[j];
+    var ke = (ev.id || '') + '|' + (ev.data || '') + '|' + (ev.inicio || '') + '|' + (ev.titulo || '');
+    mapa[ke] = ev;
+  }
+  var merged = [];
+  for (var k in mapa) {
+    if (mapa.hasOwnProperty(k)) merged.push(mapa[k]);
+  }
+  var res = { sucesso: true, eventos: merged, total: merged.length };
+  salvarCacheSetorDrive_('carro_calendar', res);
+  return res;
+}
+
 function sincronizarTodasBasesEmSegundoPlano() {
   var mapa = [
     { setor: 'seintec', fn: function() { return sincronizarPlanilhaSharepoint(true); } },
@@ -2225,7 +2261,9 @@ function sincronizarTodasBasesEmSegundoPlano() {
     { setor: 'semat', fn: function() { return sincronizarPlanilhaSemat(true); } },
     { setor: 'sevesc', fn: function() { return sincronizarPlanilhaSevesc(true); } },
     { setor: 'sepes', fn: function() { return sincronizarPlanilhaSepes(true); } },
-    { setor: 'sefrep', fn: function() { return sincronizarPlanilhaSefrep(true); } }
+    { setor: 'sefrep', fn: function() { return sincronizarPlanilhaSefrep(true); } },
+    { setor: 'agenda_calendar', fn: function() { return { sucesso: true, eventos: getGoogleCalendarEvents('') }; } },
+    { setor: 'carro_calendar', fn: function() { return obterCarroComHistoricoDrive_(false); } }
   ];
 
   var resultados = {};
