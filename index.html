@@ -13678,7 +13678,7 @@ function imprimirAgendaCarro() {
 </head>
 
 <body>
-  <div id="modal-boot-sync-ure" class="boot-sync-overlay" role="dialog" aria-modal="true" aria-labelledby="boot-sync-title-el">
+  <div id="modal-boot-sync-ure" class="boot-sync-overlay boot-hidden" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="boot-sync-title-el">
     <div class="boot-sync-card">
       <div class="boot-sync-header">
         <div class="boot-sync-crest-wrap">
@@ -33121,6 +33121,16 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
       }
       atualizarPillStatusGlobal('Sincronizando 12 Módulos e Bases...', 'loading');
 
+      if (!isSilencioso && typeof abrirBootModalSincronizacao === 'function') {
+        abrirBootModalSincronizacao();
+        setTimeout(function() {
+          if (window.__bootSyncTracker) {
+            window.__bootSyncTracker.disparado = true;
+            atualizarUIBootSyncReal();
+          }
+        }, 400);
+      }
+
       if (!isSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -36038,33 +36048,30 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     }
     window.fecharBootModalComSuavidade = fecharBootModalComSuavidade;
 
+    function abrirBootModalSincronizacao() {
+      window.__bootModalFechado = false;
+      window.__bootModalFechando = false;
+      window.__bootSyncTracker = { ativo: true, disparado: false, tasks: {} };
+      var modal = document.getElementById('modal-boot-sync-ure');
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.classList.remove('boot-hidden');
+      }
+      atualizarUIBootSyncReal();
+      setTimeout(fecharBootModalComSuavidade, 45000);
+    }
+    window.abrirBootModalSincronizacao = abrirBootModalSincronizacao;
+
     function iniciarTimerSincronizacao() {
       if (timerSincronizacaoSharepoint) clearInterval(timerSincronizacaoSharepoint);
       atualizarBadgeStatusSincronismo();
 
-      window.__bootSyncTracker = { ativo: true, disparado: false, tasks: {} };
-      atualizarUIBootSyncReal();
-
-      /* ABERTURA INSTANTÂNEA E HIDRATAÇÃO UNIVERSAL EM NUVEM */
+      /* ABERTURA INSTANTÂNEA E HIDRATAÇÃO EXCLUSIVA DA NUVEM (SEM BLOQUEAR COM SYNC SHAREPOINT) */
       setTimeout(function() {
         if (typeof hidratarTodosModulosNuvem === 'function') hidratarTodosModulosNuvem();
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         atualizarBadgeStatusSincronismo();
       }, 100);
-
-      /* Sincronização Real em Tempo Real na Inicialização (aguarda Promises antes de fechar o modal) */
-      setTimeout(function() {
-        if (typeof sincronizarTudoGlobalmente === 'function') {
-          sincronizarTudoGlobalmente(true);
-        }
-        if (window.__bootSyncTracker) {
-          window.__bootSyncTracker.disparado = true;
-          atualizarUIBootSyncReal();
-        }
-      }, 1200);
-
-      /* Failsafe máximo caso alguma requisição externa de rede fique presa */
-      setTimeout(fecharBootModalComSuavidade, 45000);
 
       /* Intervalo recorrente de 60 minutos (1 hora = 3.600.000 ms) */
       timerSincronizacaoSharepoint = setInterval(function() {
