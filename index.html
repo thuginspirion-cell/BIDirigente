@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="UTF-8">
-  <style>html{background:#07152f;}</style>
   <base target="_top">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -23,9 +22,9 @@
   <!-- SheetJS para Leitura e Exportação Excel (.xlsx, .xls, .csv) -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <!-- html2pdf.js para Geração Direta de Arquivos PDF Executivos -->
-  <script defer src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
   <!-- qrcode-generator para Chancelaria e QR Code Vetorial em Relatórios Executivos -->
-  <script defer src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 
   <!-- Leaflet.js para Mapa Geográfico da Rede Escolar com Integração Google Maps -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
@@ -13475,259 +13474,10 @@ function imprimirAgendaCarro() {
     color: #ffffff;
     border-color: #0b2351;
   }
-  /* ========================================================================= */
-  /* MODAL EXECUTIVO DE CARREGAMENTO REAL EM NUVEM (PROMISE-TRACKED)           */
-  /* ========================================================================= */
-  .boot-sync-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.25rem;
-    background: radial-gradient(circle at 50% 35%, #0b1b3b 0%, #040916 100%);
-    opacity: 1;
-    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.45s ease;
-  }
-  .boot-sync-overlay.boot-hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-  .boot-sync-card {
-    position: relative;
-    width: 100%;
-    max-width: 550px;
-    background: linear-gradient(155deg, #0b1b3b 0%, #0f295c 52%, #081329 100%);
-    border: 1px solid rgba(148, 163, 184, 0.24);
-    border-top: 3px solid #f59e0b;
-    border-radius: 22px;
-    padding: 2rem 2.1rem 1.6rem;
-    color: #f8fafc;
-    box-shadow:
-      0 28px 65px -12px rgba(2, 6, 23, 0.8),
-      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-      0 0 44px rgba(56, 189, 248, 0.14);
-    transform: translateY(0) scale(1);
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    overflow: hidden;
-  }
-  .boot-sync-overlay.boot-hidden .boot-sync-card {
-    transform: translateY(10px) scale(0.97);
-  }
-  .boot-sync-glow {
-    position: absolute;
-    top: -90px;
-    right: -70px;
-    width: 240px;
-    height: 240px;
-    background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, rgba(56, 189, 248, 0) 70%);
-    pointer-events: none;
-  }
-  .boot-sync-header {
-    display: flex;
-    align-items: center;
-    gap: 1.05rem;
-    margin-bottom: 1.45rem;
-  }
-  .boot-sync-crest-wrap {
-    position: relative;
-    width: 64px;
-    height: 64px;
-    flex-shrink: 0;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.96);
-    padding: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 24px rgba(2, 6, 23, 0.4), 0 0 0 2px rgba(245, 158, 11, 0.45);
-  }
-  .boot-sync-crest-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-  }
-  .boot-sync-pulse-ring {
-    position: absolute;
-    inset: -5px;
-    border-radius: 20px;
-    border: 2px solid rgba(56, 189, 248, 0.55);
-    animation: bootPulseRing 2.1s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-    pointer-events: none;
-  }
-  @keyframes bootPulseRing {
-    0% { transform: scale(0.96); opacity: 0.85; }
-    70% { transform: scale(1.1); opacity: 0; }
-    100% { transform: scale(1.1); opacity: 0; }
-  }
-  .boot-sync-kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #fbbf24;
-    margin-bottom: 0.28rem;
-  }
-  .boot-sync-live-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #38bdf8;
-    box-shadow: 0 0 8px #38bdf8;
-    animation: bootDotBlink 1.2s ease-in-out infinite;
-  }
-  @keyframes bootDotBlink {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.45; transform: scale(0.78); }
-  }
-  .boot-sync-title {
-    margin: 0;
-    font-size: 1.32rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-    line-height: 1.2;
-  }
-  .boot-sync-subtitle {
-    margin: 0.22rem 0 0;
-    font-size: 0.82rem;
-    color: #cbd5e1;
-    font-weight: 500;
-  }
-  .boot-sync-status-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    margin-bottom: 0.55rem;
-  }
-  .boot-sync-status-msg {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: #e2e8f0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .boot-sync-pct {
-    font-size: 0.88rem;
-    font-weight: 800;
-    color: #38bdf8;
-    font-variant-numeric: tabular-nums;
-    flex-shrink: 0;
-  }
-  .boot-sync-track {
-    width: 100%;
-    height: 10px;
-    border-radius: 999px;
-    background: rgba(15, 23, 42, 0.78);
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    overflow: hidden;
-    margin-bottom: 1.25rem;
-  }
-  .boot-sync-fill {
-    height: 100%;
-    width: 6%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #0284c7 0%, #38bdf8 50%, #34d399 100%);
-    background-size: 200% 100%;
-    box-shadow: 0 0 14px rgba(56, 189, 248, 0.55);
-    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    animation: bootShimmer 1.8s linear infinite;
-  }
-  @keyframes bootShimmer {
-    0% { background-position: 100% 0; }
-    100% { background-position: -100% 0; }
-  }
-  .boot-sync-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.55rem;
-    margin-bottom: 1.35rem;
-  }
-  .boot-sync-chip {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    padding: 0.55rem 0.75rem;
-    border-radius: 11px;
-    background: rgba(15, 23, 42, 0.54);
-    border: 1px solid rgba(148, 163, 184, 0.16);
-    font-size: 0.74rem;
-    font-weight: 600;
-    color: #94a3b8;
-    transition: all 0.25s ease;
-  }
-  .boot-sync-chip.is-active {
-    background: rgba(14, 165, 233, 0.14);
-    border-color: rgba(56, 189, 248, 0.45);
-    color: #f0f9ff;
-  }
-  .boot-sync-chip.is-done {
-    background: rgba(16, 185, 129, 0.15);
-    border-color: rgba(52, 211, 153, 0.44);
-    color: #ecfdf5;
-  }
-  .boot-sync-chip-badge {
-    font-size: 0.66rem;
-    font-weight: 700;
-    padding: 0.14rem 0.44rem;
-    border-radius: 999px;
-    background: rgba(148, 163, 184, 0.14);
-    color: #94a3b8;
-    flex-shrink: 0;
-  }
-  .boot-sync-chip.is-active .boot-sync-chip-badge {
-    background: rgba(56, 189, 248, 0.22);
-    color: #7dd3fc;
-  }
-  .boot-sync-chip.is-done .boot-sync-chip-badge {
-    background: rgba(16, 185, 129, 0.25);
-    color: #6ee7b7;
-  }
-  .boot-sync-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding-top: 0.9rem;
-    border-top: 1px solid rgba(148, 163, 184, 0.16);
-    font-size: 0.71rem;
-    color: #94a3b8;
-  }
-  .boot-sync-skip-btn {
-    border: 1px solid rgba(148, 163, 184, 0.28);
-    background: rgba(255, 255, 255, 0.06);
-    color: #e2e8f0;
-    font-size: 0.71rem;
-    font-weight: 600;
-    padding: 0.34rem 0.72rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.18s ease;
-    flex-shrink: 0;
-  }
-  .boot-sync-skip-btn:hover {
-    background: rgba(255, 255, 255, 0.14);
-    border-color: rgba(255, 255, 255, 0.42);
-    color: #ffffff;
-  }
-  @media (max-width: 520px) {
-    .boot-sync-card { padding: 1.4rem 1.25rem 1.2rem; }
-    .boot-sync-grid { grid-template-columns: 1fr; }
-  }
   </style>
 </head>
 
 <body>
-  <!-- Modal Executivo de Carregamento Real em Nuvem (Fecha somente após conclusão real das bases) -->
 
   <!-- ============================================== -->
   <!-- 1. SIDEBAR LATERAL ESCURA -->
@@ -22064,25 +21814,12 @@ function _obterResumoIpreEscolaInterno(esc) {
     /* Usado por TODOS os setores presentes e futuros ao acionar "Sincronizar"  */
     /* ========================================================================= */
     function consultarSharepointGasLive(opts) {
-      var o = opts || {};
-      var bootTrackId = (window.__bootSyncTracker && window.__bootSyncTracker.ativo)
-        ? ('gas_' + String(o.action || o.fnGas || 'req') + '_' + Math.floor(Math.random() * 100000))
-        : null;
-      if (bootTrackId && typeof window.registrarTarefaBootSync === 'function') {
-        window.registrarTarefaBootSync(bootTrackId, String(o.action || o.fnGas || 'Base'));
-      }
-      var finalizarTrackBoot = function() {
-        if (bootTrackId && typeof window.concluirTarefaBootSync === 'function') {
-          setTimeout(function() { window.concluirTarefaBootSync(bootTrackId); }, 180);
-        }
-      };
       return new Promise(function(resolve, reject) {
+        var o = opts || {};
         var timeoutMs = o.timeoutMs || 35000;
         var fnGas = o.fnGas;
         var argsGas = Array.isArray(o.argsGas) ? o.argsGas : [];
         var extra = o.urlExtraParams || '';
-        var resolveTracked = function(res) { resolve(res); finalizarTrackBoot(); };
-        var rejectTracked = function(err) { reject(err); finalizarTrackBoot(); };
 
         function rodarTier2Jsonp() {
           try {
@@ -22093,7 +21830,7 @@ function _obterResumoIpreEscolaInterno(esc) {
               delete window[cbId];
               var el = document.getElementById(cbId);
               if (el && el.parentNode) el.parentNode.removeChild(el);
-              resolveTracked(res);
+              resolve(res);
             };
             var sc = document.createElement('script');
             sc.id = cbId;
@@ -22102,25 +21839,25 @@ function _obterResumoIpreEscolaInterno(esc) {
               if (timerId) clearTimeout(timerId);
               delete window[cbId];
               if (sc.parentNode) sc.parentNode.removeChild(sc);
-              rejectTracked(new Error('Falha de rede/JSONP ao consultar ' + (o.action || 'GAS')));
+              reject(new Error('Falha de rede/JSONP ao consultar ' + (o.action || 'GAS')));
             };
             timerId = setTimeout(function() {
               if (window[cbId]) {
                 delete window[cbId];
                 if (sc.parentNode) sc.parentNode.removeChild(sc);
-                rejectTracked(new Error('Timeout ao consultar fonte ao vivo (' + (o.action || 'GAS') + ')'));
+                reject(new Error('Timeout ao consultar fonte ao vivo (' + (o.action || 'GAS') + ')'));
               }
             }, timeoutMs);
             document.head.appendChild(sc);
           } catch (eJsonp) {
-            rejectTracked(eJsonp);
+            reject(eJsonp);
           }
         }
 
         if (typeof google !== 'undefined' && google.script && google.script.run && fnGas && typeof google.script.run[fnGas] === 'function') {
           try {
             var runner = google.script.run
-              .withSuccessHandler(function(res) { resolveTracked(res); })
+              .withSuccessHandler(function(res) { resolve(res); })
               .withFailureHandler(function() { rodarTier2Jsonp(); });
             runner[fnGas].apply(runner, argsGas);
             return;
@@ -32085,13 +31822,6 @@ function sincronizarBasePublicaSefrep(isManual) {
         });
       }
     }
-    if (typeof window.concluirTarefaBootSync === 'function') {
-      window.concluirTarefaBootSync('sefrep');
-    }
-  }
-
-  if (typeof window.registrarTarefaBootSync === 'function' && window.__bootSyncTracker && window.__bootSyncTracker.ativo) {
-    window.registrarTarefaBootSync('sefrep', 'SEFREP');
   }
 
   if (typeof google !== 'undefined' && google.script && google.script.run) {
@@ -35851,164 +35581,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       }
     }
 
-    window.__bootSyncTracker = { ativo: false, disparado: false, tasks: {} };
-
-    function mapearGrupoChipBoot(idOuNome) {
-      var s = String(idOuNome || '').toLowerCase();
-      if (s.indexOf('seintec') !== -1 || s.indexOf('inventario') !== -1) return 'seintec';
-      if (s.indexOf('sefin') !== -1 || s.indexOf('secomse') !== -1) return 'sefin';
-      if (s.indexOf('seom') !== -1 || s.indexOf('dpat') !== -1 || s.indexOf('sefisc') !== -1) return 'seom';
-      if (s.indexOf('segre') !== -1 || s.indexOf('semat') !== -1 || s.indexOf('sevesc') !== -1) return 'segre';
-      if (s.indexOf('sepes') !== -1 || s.indexOf('sefrep') !== -1) return 'sepes';
-      return 'painel';
-    }
-
-    function atualizarUIBootSyncReal() {
-      if (window.__bootModalFechado) return;
-      try {
-        var elLogo = document.getElementById('boot-modal-logo');
-        if (elLogo && typeof LOGO_URE_DATA_URI !== 'undefined' && LOGO_URE_DATA_URI && elLogo.getAttribute('data-b64-set') !== '1') {
-          elLogo.src = LOGO_URE_DATA_URI;
-          elLogo.setAttribute('data-b64-set', '1');
-        }
-        var tasks = window.__bootSyncTracker ? window.__bootSyncTracker.tasks : {};
-        var keys = Object.keys(tasks);
-        var total = keys.length;
-        var concluidas = 0;
-        var grupos = {
-          seintec: { total: 0, done: 0 },
-          sefin: { total: 0, done: 0 },
-          seom: { total: 0, done: 0 },
-          segre: { total: 0, done: 0 },
-          sepes: { total: 0, done: 0 },
-          painel: { total: 0, done: 0 }
-        };
-        var pendenteLabel = '';
-
-        for (var i = 0; i < keys.length; i++) {
-          var t = tasks[keys[i]];
-          var g = t.grupo || 'painel';
-          if (!grupos[g]) grupos[g] = { total: 0, done: 0 };
-          grupos[g].total++;
-          if (t.done) {
-            concluidas++;
-            grupos[g].done++;
-          } else if (!pendenteLabel) {
-            pendenteLabel = t.label || keys[i];
-          }
-        }
-
-        var pct = total > 0 ? Math.round((concluidas / total) * 100) : 5;
-        if (pct < 5) pct = 5;
-
-        var elFill = document.getElementById('boot-sync-progress-fill');
-        var elPct = document.getElementById('boot-sync-pct');
-        var elMsg = document.getElementById('boot-sync-status-msg');
-        var elCounter = document.getElementById('boot-sync-counter-text');
-        if (elFill) elFill.style.width = pct + '%';
-        if (elPct) elPct.innerText = pct + '%';
-
-        var todosConcluidos = window.__bootSyncTracker && window.__bootSyncTracker.disparado && total > 0 && concluidas === total;
-        if (elMsg) {
-          if (todosConcluidos) {
-            elMsg.innerText = 'Todas as bases atualizadas ao vivo! Consolidando painel...';
-          } else if (pendenteLabel) {
-            elMsg.innerText = 'Aguardando resposta ao vivo: ' + pendenteLabel + '...';
-          } else {
-            elMsg.innerText = 'Conectando às fontes do SharePoint e Apps Script...';
-          }
-        }
-        if (elCounter) {
-          elCounter.innerText = total > 0
-            ? ('🔒 ' + concluidas + ' de ' + total + ' bases concluídas ao vivo')
-            : '🔒 Iniciando coleta real nas planilhas...';
-        }
-
-        var gKeys = ['seintec', 'sefin', 'seom', 'segre', 'sepes', 'painel'];
-        for (var j = 0; j < gKeys.length; j++) {
-          var gk = gKeys[j];
-          var chip = document.getElementById('boot-chip-' + gk);
-          var badge = document.getElementById('boot-chip-badge-' + gk);
-          if (!chip || !badge) continue;
-          chip.classList.remove('is-active', 'is-done');
-          if (gk === 'painel') {
-            if (todosConcluidos) {
-              chip.classList.add('is-done');
-              badge.innerText = '✓ Atualizado';
-            } else {
-              chip.classList.add('is-active');
-              badge.innerText = 'Consolidando';
-            }
-            continue;
-          }
-          var info = grupos[gk];
-          if (info && info.total > 0 && info.done === info.total) {
-            chip.classList.add('is-done');
-            badge.innerText = '✓ Atualizado';
-          } else if (info && info.total > 0) {
-            chip.classList.add('is-active');
-            badge.innerText = info.done + '/' + info.total + ' ao vivo';
-          } else {
-            chip.classList.add('is-active');
-            badge.innerText = 'Aguardando';
-          }
-        }
-
-        if (todosConcluidos && !window.__bootModalFechando) {
-          window.__bootModalFechando = true;
-          window.__bootSyncTracker.ativo = false;
-          try {
-            if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
-            if (typeof renderizarMiniCalendarioHome === 'function') renderizarMiniCalendarioHome();
-            var horaReal = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            if (typeof atualizarPillStatusGlobal === 'function') atualizarPillStatusGlobal('Sincronizado às ' + horaReal, 'success');
-            if (typeof atualizarBadgeStatusSincronismo === 'function') atualizarBadgeStatusSincronismo(horaReal);
-          } catch (eKpiFinal) {}
-          setTimeout(fecharBootModalComSuavidade, 420);
-        }
-      } catch (eBootUi) {
-        console.warn('Boot sync UI:', eBootUi);
-      }
-    }
-
-    function registrarTarefaBootSync(id, label) {
-      if (!window.__bootSyncTracker || !window.__bootSyncTracker.ativo) return;
-      window.__bootSyncTracker.tasks[id] = {
-        label: label || id,
-        grupo: mapearGrupoChipBoot(id + ' ' + label),
-        done: false
-      };
-      atualizarUIBootSyncReal();
-    }
-    window.registrarTarefaBootSync = registrarTarefaBootSync;
-
-    function concluirTarefaBootSync(id) {
-      if (!window.__bootSyncTracker || !window.__bootSyncTracker.tasks[id]) return;
-      if (window.__bootSyncTracker.tasks[id].done) return;
-      window.__bootSyncTracker.tasks[id].done = true;
-      atualizarUIBootSyncReal();
-    }
-    window.concluirTarefaBootSync = concluirTarefaBootSync;
-
-    function fecharBootModalComSuavidade() {
-      if (window.__bootModalFechado) return;
-      window.__bootModalFechado = true;
-      if (window.__bootSyncTracker) window.__bootSyncTracker.ativo = false;
-      var modal = document.getElementById('modal-boot-sync-ure');
-      if (!modal) return;
-      modal.classList.add('boot-hidden');
-      setTimeout(function() {
-        modal.style.display = 'none';
-      }, 480);
-    }
-    window.fecharBootModalComSuavidade = fecharBootModalComSuavidade;
-
     function iniciarTimerSincronizacao() {
       if (timerSincronizacaoSharepoint) clearInterval(timerSincronizacaoSharepoint);
       atualizarBadgeStatusSincronismo();
-
-      window.__bootSyncTracker = { ativo: false, disparado: false, tasks: {} };
-      atualizarUIBootSyncReal();
 
       /* ABERTURA INSTANTÂNEA E HIDRATAÇÃO UNIVERSAL EM NUVEM */
       setTimeout(function() {
@@ -36017,19 +35592,12 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         atualizarBadgeStatusSincronismo();
       }, 100);
 
-      /* Sincronização Real em Tempo Real na Inicialização (aguarda Promises antes de fechar o modal) */
+      /* Sincronização Silenciosa em Segundo Plano na Inicialização (Regra 7 - Dados Reais Mais Recentes ao Vivo) */
       setTimeout(function() {
         if (typeof sincronizarTudoGlobalmente === 'function') {
           sincronizarTudoGlobalmente(true);
         }
-        if (window.__bootSyncTracker) {
-          window.__bootSyncTracker.disparado = true;
-          atualizarUIBootSyncReal();
-        }
       }, 1200);
-
-      /* Failsafe máximo caso alguma requisição externa de rede fique presa */
-      setTimeout(fecharBootModalComSuavidade, 25000);
 
       /* Intervalo recorrente de 60 minutos (1 hora = 3.600.000 ms) */
       timerSincronizacaoSharepoint = setInterval(function() {
@@ -36175,14 +35743,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         return true;
       }
 
-      if (typeof window.registrarTarefaBootSync === 'function' && window.__bootSyncTracker && window.__bootSyncTracker.ativo) {
-        window.registrarTarefaBootSync('seintec_chamados', 'SEINTEC Chamados');
-      }
-
       function finalizarComSucesso(qtd, timestampStr, fonteNome) {
-        if (typeof window.concluirTarefaBootSync === 'function') {
-          window.concluirTarefaBootSync('seintec_chamados');
-        }
         if (btn && isManual) {
           btn.disabled = false;
           if (icon) icon.innerText = '🔄';
@@ -36204,9 +35765,6 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       }
 
       function concluirFallback(agora, motivo) {
-        if (typeof window.concluirTarefaBootSync === 'function') {
-          window.concluirTarefaBootSync('seintec_chamados');
-        }
         if (btn && isManual) {
           btn.disabled = false;
           if (icon) icon.innerText = '🔄';
