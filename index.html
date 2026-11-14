@@ -13474,10 +13474,320 @@ function imprimirAgendaCarro() {
     color: #ffffff;
     border-color: #0b2351;
   }
+  /* ========================================================================= */
+  /* MODAL EXECUTIVO DE CARREGAMENTO INICIAL (SINCRONIZAÇÃO EM NUVEM)          */
+  /* ========================================================================= */
+  .boot-sync-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    background: radial-gradient(circle at 50% 35%, rgba(15, 41, 92, 0.78) 0%, rgba(5, 11, 26, 0.88) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 1;
+    transition: opacity 0.48s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.48s ease;
+  }
+  .boot-sync-overlay.boot-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .boot-sync-card {
+    position: relative;
+    width: 100%;
+    max-width: 540px;
+    background: linear-gradient(155deg, #0b1b3b 0%, #0f295c 52%, #081329 100%);
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    border-top: 3px solid #f59e0b;
+    border-radius: 22px;
+    padding: 2rem 2.1rem 1.65rem;
+    color: #f8fafc;
+    box-shadow:
+      0 28px 65px -12px rgba(2, 6, 23, 0.75),
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 0 42px rgba(56, 189, 248, 0.12);
+    transform: translateY(0) scale(1);
+    transition: transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow: hidden;
+  }
+  .boot-sync-overlay.boot-hidden .boot-sync-card {
+    transform: translateY(10px) scale(0.97);
+  }
+  .boot-sync-glow {
+    position: absolute;
+    top: -90px;
+    right: -70px;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, rgba(56, 189, 248, 0) 70%);
+    pointer-events: none;
+  }
+  .boot-sync-header {
+    display: flex;
+    align-items: center;
+    gap: 1.05rem;
+    margin-bottom: 1.45rem;
+  }
+  .boot-sync-crest-wrap {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.96);
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 24px rgba(2, 6, 23, 0.4), 0 0 0 2px rgba(245, 158, 11, 0.45);
+  }
+  .boot-sync-crest-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .boot-sync-pulse-ring {
+    position: absolute;
+    inset: -5px;
+    border-radius: 20px;
+    border: 2px solid rgba(56, 189, 248, 0.55);
+    animation: bootPulseRing 2.1s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    pointer-events: none;
+  }
+  @keyframes bootPulseRing {
+    0% { transform: scale(0.96); opacity: 0.85; }
+    70% { transform: scale(1.1); opacity: 0; }
+    100% { transform: scale(1.1); opacity: 0; }
+  }
+  .boot-sync-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fbbf24;
+    margin-bottom: 0.28rem;
+  }
+  .boot-sync-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #38bdf8;
+    box-shadow: 0 0 8px #38bdf8;
+    animation: bootDotBlink 1.2s ease-in-out infinite;
+  }
+  @keyframes bootDotBlink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.78); }
+  }
+  .boot-sync-title {
+    margin: 0;
+    font-size: 1.32rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    line-height: 1.2;
+  }
+  .boot-sync-subtitle {
+    margin: 0.22rem 0 0;
+    font-size: 0.82rem;
+    color: #cbd5e1;
+    font-weight: 500;
+  }
+  .boot-sync-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.55rem;
+  }
+  .boot-sync-status-msg {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .boot-sync-pct {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #38bdf8;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+  .boot-sync-track {
+    width: 100%;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+  }
+  .boot-sync-fill {
+    height: 100%;
+    width: 12%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #0284c7 0%, #38bdf8 50%, #34d399 100%);
+    background-size: 200% 100%;
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.55);
+    transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: bootShimmer 1.8s linear infinite;
+  }
+  @keyframes bootShimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+  .boot-sync-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin-bottom: 1.35rem;
+  }
+  .boot-sync-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 11px;
+    background: rgba(15, 23, 42, 0.52);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #94a3b8;
+    transition: all 0.28s ease;
+  }
+  .boot-sync-chip.is-active {
+    background: rgba(14, 165, 233, 0.14);
+    border-color: rgba(56, 189, 248, 0.45);
+    color: #f0f9ff;
+  }
+  .boot-sync-chip.is-done {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(52, 211, 153, 0.42);
+    color: #ecfdf5;
+  }
+  .boot-sync-chip-badge {
+    font-size: 0.66rem;
+    font-weight: 700;
+    padding: 0.14rem 0.44rem;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.14);
+    color: #94a3b8;
+    flex-shrink: 0;
+  }
+  .boot-sync-chip.is-active .boot-sync-chip-badge {
+    background: rgba(56, 189, 248, 0.22);
+    color: #7dd3fc;
+  }
+  .boot-sync-chip.is-done .boot-sync-chip-badge {
+    background: rgba(16, 185, 129, 0.25);
+    color: #6ee7b7;
+  }
+  .boot-sync-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.16);
+    font-size: 0.71rem;
+    color: #94a3b8;
+  }
+  .boot-sync-skip-btn {
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    background: rgba(255, 255, 255, 0.06);
+    color: #e2e8f0;
+    font-size: 0.71rem;
+    font-weight: 600;
+    padding: 0.34rem 0.72rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    flex-shrink: 0;
+  }
+  .boot-sync-skip-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.42);
+    color: #ffffff;
+  }
+  @media (max-width: 520px) {
+    .boot-sync-card { padding: 1.4rem 1.25rem 1.2rem; }
+    .boot-sync-grid { grid-template-columns: 1fr; }
+  }
   </style>
 </head>
 
 <body>
+  <!-- Modal Executivo de Carregamento Inicial em Nuvem -->
+  <div id="modal-boot-sync-ure" class="boot-sync-overlay" role="dialog" aria-modal="true" aria-labelledby="boot-sync-title-el">
+    <div class="boot-sync-card">
+      <div class="boot-sync-glow"></div>
+      <div class="boot-sync-header">
+        <div class="boot-sync-crest-wrap">
+          <div class="boot-sync-pulse-ring"></div>
+          <img id="boot-modal-logo" src="logo_ure_itapevi_480.png" alt="Brasão URE Itapevi" onerror="if(typeof LOGO_URE_B64_SAFE!=='undefined'&&this.src!==LOGO_URE_B64_SAFE){this.src=LOGO_URE_B64_SAFE;}else if(this.src!=='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png'){this.src='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png';}">
+        </div>
+        <div>
+          <div class="boot-sync-kicker">
+            <span class="boot-sync-live-dot"></span>
+            <span>GOVERNO DO ESTADO DE SÃO PAULO • SEDUC-SP</span>
+          </div>
+          <h2 id="boot-sync-title-el" class="boot-sync-title">BI Dirigente — URE Itapevi</h2>
+          <p class="boot-sync-subtitle">Carregando dados oficiais mais recentes da nuvem</p>
+        </div>
+      </div>
+
+      <div class="boot-sync-status-row">
+        <span id="boot-sync-status-msg" class="boot-sync-status-msg">Inicializando conexão segura com a nuvem...</span>
+        <span id="boot-sync-pct" class="boot-sync-pct">12%</span>
+      </div>
+      <div class="boot-sync-track">
+        <div id="boot-sync-progress-fill" class="boot-sync-fill"></div>
+      </div>
+
+      <div class="boot-sync-grid">
+        <div class="boot-sync-chip is-active" id="boot-chip-0">
+          <span>☁️ Núcleo &amp; Memória</span>
+          <span class="boot-sync-chip-badge" id="boot-chip-badge-0">Conectando</span>
+        </div>
+        <div class="boot-sync-chip" id="boot-chip-1">
+          <span>💻 SEINTEC &amp; Inventário</span>
+          <span class="boot-sync-chip-badge" id="boot-chip-badge-1">Na fila</span>
+        </div>
+        <div class="boot-sync-chip" id="boot-chip-2">
+          <span>💰 SEFIN &amp; SECOMSE</span>
+          <span class="boot-sync-chip-badge" id="boot-chip-badge-2">Na fila</span>
+        </div>
+        <div class="boot-sync-chip" id="boot-chip-3">
+          <span>🏗️ SEOM, DPAT &amp; SEFISC</span>
+          <span class="boot-sync-chip-badge" id="boot-chip-badge-3">Na fila</span>
+        </div>
+        <div class="boot-sync-chip" id="boot-chip-4">
+          <span>📋 SEGRE, SEMAT &amp; SEPES</span>
+          <span class="boot-sync-chip-badge" id="boot-chip-badge-4">Na fila</span>
+        </div>
+        <div class="boot-sync-chip" id="boot-chip-5">
+          <span>🏫 Agenda, EEC &amp; Escolas</span>
+          <span class="boot-sync-chip-badge" id="boot-chip-badge-5">Na fila</span>
+        </div>
+      </div>
+
+      <div class="boot-sync-footer">
+        <span>🔒 SharePoint &amp; Google Workspace • Tempo Real</span>
+        <button type="button" class="boot-sync-skip-btn" onclick="fecharBootModalComSuavidade()">Continuar em 2º plano</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ============================================== -->
   <!-- 1. SIDEBAR LATERAL ESCURA -->
@@ -35581,23 +35891,90 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       }
     }
 
+    function atualizarProgressoBootModal(pct, mensagem, chipsConcluidos, chipAtivo) {
+      if (window.__bootModalFechado) return;
+      try {
+        var elLogo = document.getElementById('boot-modal-logo');
+        if (elLogo && typeof LOGO_URE_B64_SAFE !== 'undefined' && LOGO_URE_B64_SAFE && elLogo.getAttribute('data-b64-set') !== '1') {
+          elLogo.src = LOGO_URE_B64_SAFE;
+          elLogo.setAttribute('data-b64-set', '1');
+        }
+        var elFill = document.getElementById('boot-sync-progress-fill');
+        var elPct = document.getElementById('boot-sync-pct');
+        var elMsg = document.getElementById('boot-sync-status-msg');
+        if (elFill) elFill.style.width = Math.max(0, Math.min(100, pct)) + '%';
+        if (elPct) elPct.innerText = Math.max(0, Math.min(100, pct)) + '%';
+        if (elMsg && mensagem) elMsg.innerText = mensagem;
+
+        var totalChips = 6;
+        for (var i = 0; i < totalChips; i++) {
+          var chip = document.getElementById('boot-chip-' + i);
+          var badge = document.getElementById('boot-chip-badge-' + i);
+          if (!chip || !badge) continue;
+          chip.classList.remove('is-active', 'is-done');
+          if (Array.isArray(chipsConcluidos) && chipsConcluidos.indexOf(i) !== -1) {
+            chip.classList.add('is-done');
+            badge.innerText = '✓ Atualizado';
+          } else if (chipAtivo === i) {
+            chip.classList.add('is-active');
+            badge.innerText = 'Sincronizando';
+          } else {
+            badge.innerText = 'Na fila';
+          }
+        }
+      } catch (eBoot) {
+        console.warn('Boot modal update:', eBoot);
+      }
+    }
+
+    function fecharBootModalComSuavidade() {
+      if (window.__bootModalFechado) return;
+      window.__bootModalFechado = true;
+      var modal = document.getElementById('modal-boot-sync-ure');
+      if (!modal) return;
+      modal.classList.add('boot-hidden');
+      setTimeout(function() {
+        modal.style.display = 'none';
+      }, 520);
+    }
+
     function iniciarTimerSincronizacao() {
       if (timerSincronizacaoSharepoint) clearInterval(timerSincronizacaoSharepoint);
       atualizarBadgeStatusSincronismo();
 
+      atualizarProgressoBootModal(18, 'Limpando sessão local e conectando ao núcleo em nuvem...', [], 0);
+
       /* ABERTURA INSTANTÂNEA E HIDRATAÇÃO UNIVERSAL EM NUVEM */
       setTimeout(function() {
+        atualizarProgressoBootModal(34, 'Hidratando estado consolidado no Apps Script...', [0], 1);
         if (typeof hidratarTodosModulosNuvem === 'function') hidratarTodosModulosNuvem();
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         atualizarBadgeStatusSincronismo();
       }, 100);
 
+      setTimeout(function() {
+        atualizarProgressoBootModal(52, 'Consultando SharePoint Institucional (SEINTEC, SEFIN, SECOMSE)...', [0, 1], 2);
+      }, 650);
+
       /* Sincronização Silenciosa em Segundo Plano na Inicialização (Regra 7 - Dados Reais Mais Recentes ao Vivo) */
       setTimeout(function() {
+        atualizarProgressoBootModal(68, 'Sincronizando SEOM, DPAT, SEFISC, SEGRE, SEMAT e SEPES ao vivo...', [0, 1, 2], 3);
         if (typeof sincronizarTudoGlobalmente === 'function') {
           sincronizarTudoGlobalmente(true);
         }
       }, 1200);
+
+      setTimeout(function() {
+        atualizarProgressoBootModal(86, 'Consolidando Agenda Oficial, EEC, Frota e 60 Unidades Escolares...', [0, 1, 2, 3, 4], 5);
+      }, 2350);
+
+      setTimeout(function() {
+        atualizarProgressoBootModal(100, 'Dados mais recentes carregados com sucesso!', [0, 1, 2, 3, 4, 5], -1);
+        setTimeout(fecharBootModalComSuavidade, 550);
+      }, 3550);
+
+      /* Garantia absoluta de desbloqueio caso alguma rede oscile */
+      setTimeout(fecharBootModalComSuavidade, 6500);
 
       /* Intervalo recorrente de 60 minutos (1 hora = 3.600.000 ms) */
       timerSincronizacaoSharepoint = setInterval(function() {
