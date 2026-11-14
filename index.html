@@ -21961,9 +21961,9 @@ function _obterResumoIpreEscolaInterno(esc) {
 
       DADOS_FINANCEIROS_SEFIN.kpisPorAno = kpisPorAno;
       DADOS_FINANCEIROS_SEFIN.repassesCompactos = compactos;
-      if (DADOS_FINANCEIROS_SEFIN.meta) {
-        DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR') + ' ' + (timestampStr || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
-      }
+      if (!DADOS_FINANCEIROS_SEFIN.meta) DADOS_FINANCEIROS_SEFIN.meta = {};
+      DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ' ' + (timestampStr || new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit' }));
+      DADOS_FINANCEIROS_SEFIN.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ', ' + new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
       return true;
     }
 
@@ -21981,9 +21981,11 @@ function _obterResumoIpreEscolaInterno(esc) {
       }
 
       function concluirSefin(agora, veioLive) {
-        const timestampFormatado = agora || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        if (veioLive && DADOS_FINANCEIROS_SEFIN.meta) {
-          DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR') + ' ' + timestampFormatado;
+        const timestampFormatado = agora || new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit' });
+        if (!DADOS_FINANCEIROS_SEFIN.meta) DADOS_FINANCEIROS_SEFIN.meta = {};
+        if (veioLive) {
+          DADOS_FINANCEIROS_SEFIN.meta.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ' ' + timestampFormatado;
+          DADOS_FINANCEIROS_SEFIN.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ', ' + new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
         }
         renderizarDashboardFinanceiroSefin();
         if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
@@ -22775,7 +22777,10 @@ function _obterResumoIpreEscolaInterno(esc) {
           DADOS_SECOMSE = novos;
         }
         if (veioLive) {
-          DADOS_SECOMSE.ultimaAtualizacao = new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR');
+          var tsSecomseBr = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ', ' + new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+          DADOS_SECOMSE.ultimaAtualizacao = tsSecomseBr.replace(', ', ' ');
+          if (!DADOS_SECOMSE.meta) DADOS_SECOMSE.meta = {};
+          DADOS_SECOMSE.meta.atualizadoFormatado = tsSecomseBr;
         }
         renderizarDashboardSecomse();
         if (typeof window.gravarEstadoNuvem === 'function' && typeof DADOS_SECOMSE !== 'undefined' && DADOS_SECOMSE) {
@@ -24174,6 +24179,12 @@ function _obterResumoIpreEscolaInterno(esc) {
           btn.disabled = false;
           btn.innerHTML = '🔄 Sincronizar SEOM';
         }
+        if (veioLive && typeof DADOS_SEOM !== 'undefined' && DADOS_SEOM) {
+          if (!DADOS_SEOM.meta) DADOS_SEOM.meta = {};
+          DADOS_SEOM.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ', ' + new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+          var elSeomTs = document.getElementById('seom-banner-timestamp');
+          if (elSeomTs) elSeomTs.textContent = DADOS_SEOM.meta.atualizadoFormatado;
+        }
         if (document.getElementById('tabela-seom-tbody')) {
           atualizarTabelaMapaSeom();
         }
@@ -24398,6 +24409,10 @@ function _obterResumoIpreEscolaInterno(esc) {
         if (btn && manual) {
           btn.disabled = false;
           btn.innerHTML = '🔄 Sincronizar SEFISC';
+        }
+        if (veioLive && typeof DADOS_SEFISC !== 'undefined' && DADOS_SEFISC) {
+          if (!DADOS_SEFISC.meta) DADOS_SEFISC.meta = {};
+          DADOS_SEFISC.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ', ' + new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
         }
         var container = document.getElementById('setor-conteudo-dinamico');
         if (container && document.getElementById('tabela-sefisc-tbody')) {
