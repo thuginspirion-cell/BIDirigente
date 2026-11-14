@@ -20,25 +20,33 @@
   </div>
 
 
-  <!-- MODAL: NOVO / EDITAR COMPROMISSO NA AGENDA -->
-  <div class="agenda-modal-overlay" id="modal-agenda-compromisso" onclick="fecharModalAgenda(event)">
-    <div class="agenda-modal-card" onclick="event.stopPropagation()">
-      <div class="agenda-modal-header">
-        <div class="agenda-modal-title">
-          <span>📅</span>
-          <span id="modal-agenda-titulo-modo">Novo Compromisso Executivo</span>
+  <!-- MODAL: NOVO / EDITAR COMPROMISSO NA AGENDA (SOMENTE FECHA PELO BOTAO X) -->
+  <div class="agenda-modal-overlay" id="modal-agenda-compromisso">
+    <div class="agenda-modal-card agenda-modal-card-pro">
+      <div class="agenda-modal-header agenda-modal-header-pro">
+        <div class="agenda-modal-title-wrap">
+          <div class="agenda-modal-icon-badge">📅</div>
+          <div>
+            <span class="agenda-modal-pretitle">GABINETE DA DIRIGENTE • URE ITAPEVI</span>
+            <div class="agenda-modal-title" id="modal-agenda-titulo-modo">Novo Compromisso Executivo</div>
+          </div>
         </div>
-        <button class="btn-close-panel" onclick="fecharModalAgenda()">✕</button>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalAgenda()" title="Fechar janela" aria-label="Fechar janela">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
       </div>
 
-      <form id="form-agenda-compromisso" onsubmit="salvarCompromissoForm(event)" novalidate>
+      <form id="form-agenda-compromisso" onsubmit="salvarCompromissoForm(event)" novalidate style="display: flex; flex-direction: column; min-height: 0; flex: 1;">
         <div class="agenda-modal-body">
           <input type="hidden" id="form-agenda-id" value="">
 
           <div class="agenda-form-grid">
             <div class="agenda-form-group agenda-form-full">
               <label class="agenda-form-label">Título do Compromisso *</label>
-              <input type="text" id="form-agenda-titulo" class="agenda-form-input" required placeholder="Ex: Live Reunião">
+              <input type="text" id="form-agenda-titulo" class="agenda-form-input" required placeholder="Ex: Reunião de Alinhamento com Diretores da Rede">
             </div>
 
             <div class="agenda-form-group">
@@ -101,36 +109,40 @@
               <input type="text" id="form-agenda-link" class="agenda-form-input" placeholder="Opcional (link do Teams, Meet ou observação)">
             </div>
 
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Setor / Centro Envolvido</label>
-              <select id="form-agenda-setor" class="agenda-form-select">
-                <option value="ASURE">ASURE</option>
-                <option value="SEINTEC">SEINTEC</option>
-                <option value="SEAFIN">SEAFIN</option>
-                <option value="SEOM">SEOM</option>
-                <option value="SEGRE">SEGRE</option>
-                <option value="SEPES">SEPES</option>
-                <option value="EEC">EEC</option>
-                <option value="ESE">ESE</option>
-              </select>
-            </div>
+            <div class="agenda-form-triple agenda-form-full">
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Setor / Centro Envolvido</label>
+                <select id="form-agenda-setor" class="agenda-form-select">
+                  <option value="Gabinete / URE" selected>Gabinete / URE (Dirigente)</option>
+                  <option value="ASURE">ASURE</option>
+                  <option value="SEINTEC">SEINTEC</option>
+                  <option value="SEAFIN">SEAFIN</option>
+                  <option value="SEOM">SEOM</option>
+                  <option value="SEGRE">SEGRE</option>
+                  <option value="SEPES">SEPES</option>
+                  <option value="EEC">EEC</option>
+                  <option value="ESE">ESE</option>
+                  <option value="SEDUC-SP / Órgão Central">SEDUC-SP / Órgão Central</option>
+                </select>
+              </div>
 
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Status</label>
-              <select id="form-agenda-status" class="agenda-form-select">
-                <option value="Agendado">Agendado</option>
-                <option value="Concluído">Concluído</option>
-                <option value="Cancelado">Cancelado</option>
-              </select>
-            </div>
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Status</label>
+                <select id="form-agenda-status" class="agenda-form-select">
+                  <option value="Agendado">Agendado</option>
+                  <option value="Concluído">Concluído</option>
+                  <option value="Cancelado">Cancelado</option>
+                </select>
+              </div>
 
-            <div class="agenda-form-group">
-              <label class="agenda-form-label">Prioridade</label>
-              <select id="form-agenda-prioridade" class="agenda-form-select">
-                <option value="Alta">⚡ Alta</option>
-                <option value="Normal" selected>Normal</option>
-                <option value="Baixa">🌱 Baixa</option>
-              </select>
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Prioridade</label>
+                <select id="form-agenda-prioridade" class="agenda-form-select">
+                  <option value="Alta">⚡ Alta</option>
+                  <option value="Normal" selected>Normal</option>
+                  <option value="Baixa">🌱 Baixa</option>
+                </select>
+              </div>
             </div>
 
             <div class="agenda-form-group agenda-form-full">
@@ -140,10 +152,10 @@
           </div>
         </div>
 
-        <div class="agenda-modal-footer">
-          <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1;" onclick="fecharModalAgenda()">Cancelar</button>
-          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1px solid #f09b0c; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.25);">
-            <span>Salvar na Agenda</span>
+        <div class="agenda-modal-footer agenda-modal-footer-pro">
+          <span class="agenda-modal-hint">* Campos obrigatórios · Feche pelo botão ✕ acima</span>
+          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); color: #ffffff; border: 1.5px solid #f09b0c; padding: 0.65rem 1.45rem; border-radius: 10px; font-weight: 800; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.25);">
+            <span>💾 Salvar na Agenda</span>
           </button>
         </div>
       </form>

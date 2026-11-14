@@ -1657,10 +1657,7 @@
       if (modal) modal.classList.add('active');
     }
 
-    function fecharModalAgenda(event) {
-      if (event && event.target && event.target !== event.currentTarget && !event.target.classList.contains('btn-close-panel') && event.target.tagName !== 'BUTTON') {
-        return;
-      }
+    function fecharModalAgenda() {
       const modal = document.getElementById('modal-agenda-compromisso');
       if (modal) modal.classList.remove('active');
     }
