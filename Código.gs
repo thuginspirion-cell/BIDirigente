@@ -102,42 +102,10 @@ function doGet(e) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 
-  /* Modo completo legado (10 MB servido pelo GAS): ?modo=gas */
-  if (e && e.parameter && e.parameter.modo === 'gas') {
-    return HtmlService.createHtmlOutputFromFile('index')
-      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-      .addMetaTag('viewport', 'width=device-width, initial-scale=1')
-      .setTitle('BI Dirigente');
-  }
-
-  /* Shell leve: exibe a tela de carregamento instantaneamente e carrega o
-     mesmo app publicado no GHP (CDN estática, cache) sem tela branca. */
-  return HtmlService.createHtmlOutput(gerarShellCarregamentoRapido_())
+  return HtmlService.createHtmlOutputFromFile('index')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
     .addMetaTag('viewport', 'width=device-width, initial-scale=1')
     .setTitle('BI Dirigente');
-}
-
-function gerarShellCarregamentoRapido_() {
-  var base = 'https:' + String.fromCharCode(47, 47) + 'thuginspirion-cell.github.io/BIDirigente/';
-  var app = base + 'index.html?v=' + Date.now();
-  var logo = base + 'logo_ure_itapevi_480.png';
-  return '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">' +
-    '<style>html,body{margin:0;height:100%;background:#07152f;overflow:hidden;font-family:"Plus Jakarta Sans",Inter,Arial,sans-serif}' +
-    '#app{position:fixed;inset:0;width:100%;height:100%;border:0;opacity:0;transition:opacity .4s}' +
-    '#sp{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 35%,#0b1b3b 0%,#040916 100%);transition:opacity .45s;z-index:2}' +
-    '.c{width:min(92vw,520px);background:linear-gradient(160deg,#0d2a5c,#081a3a);border:1px solid rgba(255,255,255,.12);border-top:3px solid #f0a020;border-radius:20px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.5);color:#fff}' +
-    '.h{display:flex;gap:16px;align-items:center}.h img{width:64px;height:64px;border-radius:14px;background:#fff;padding:4px;object-fit:contain}' +
-    '.k{color:#f0b429;font-size:11px;font-weight:800;letter-spacing:.08em}.t{font-size:22px;font-weight:800;margin:4px 0}.s{color:#b9c6dd;font-size:13px}' +
-    '.tr{height:8px;background:rgba(255,255,255,.1);border-radius:9px;margin-top:22px;overflow:hidden}' +
-    '.f{height:100%;width:35%;background:linear-gradient(90deg,#2dd4bf,#3b82f6);border-radius:9px;animation:a 1.2s ease-in-out infinite}' +
-    '@keyframes a{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}</style></head><body>' +
-    '<div id="sp"><div class="c"><div class="h"><img src="' + logo + '" alt="URE Itapevi">' +
-    '<div><div class="k">GOVERNO DO ESTADO DE SÃO PAULO • SEDUC-SP</div><div class="t">BI Dirigente — URE Itapevi</div>' +
-    '<div class="s">Carregando painel e bases oficiais em nuvem…</div></div></div><div class="tr"><div class="f"></div></div></div></div>' +
-    '<iframe id="app" src="' + app + '" allow="clipboard-write; fullscreen" allowfullscreen></iframe>' +
-    '<script>document.getElementById("app").addEventListener("load",function(){var a=document.getElementById("app"),s=document.getElementById("sp");a.style.opacity=1;s.style.opacity=0;setTimeout(function(){s.style.display="none"},500);});</script>' +
-    '</body></html>';
 }
 
 function include(filename) {
