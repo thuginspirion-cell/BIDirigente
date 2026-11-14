@@ -16293,6 +16293,7 @@ function renderizarCarroOficial() {
 
   const kpiHoje = document.getElementById('carro-kpi-hoje');
   if (kpiHoje) kpiHoje.innerText = regHoje;
+  if (typeof atualizarBriefingMatinalHome === 'function') atualizarBriefingMatinalHome();
 
   const kpiAmanha = document.getElementById('carro-kpi-amanha');
   if (kpiAmanha) kpiAmanha.innerText = regAmanha;
