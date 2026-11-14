@@ -1,0 +1,1901 @@
+</script>
+
+  <!-- Modal de Pré-Visualização de PDF -->
+  <div class="pdf-modal-overlay" id="pdf-modal-overlay" onclick="fecharModalPdf(event)">
+    <div class="pdf-modal-container" onclick="event.stopPropagation()">
+      <div class="pdf-modal-header">
+        <div class="pdf-modal-title">
+          <span>📕</span>
+          <span id="pdf-modal-title-text">Visualização de Documento PDF</span>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <a id="pdf-modal-open-new-tab" href="#" target="_blank" class="btn-file-action" style="color: white; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.1);">Abrir em Nova Aba ↗</a>
+          <button class="btn-close-panel" onclick="fecharModalPdf()">✕</button>
+        </div>
+      </div>
+      <div class="pdf-modal-body">
+        <iframe id="pdf-modal-iframe" src="" title="Visualizador de PDF"></iframe>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL: NOVO / EDITAR COMPROMISSO NA AGENDA -->
+  <div class="agenda-modal-overlay" id="modal-agenda-compromisso" onclick="fecharModalAgenda(event)">
+    <div class="agenda-modal-card" onclick="event.stopPropagation()">
+      <div class="agenda-modal-header">
+        <div class="agenda-modal-title">
+          <span>📅</span>
+          <span id="modal-agenda-titulo-modo">Novo Compromisso Executivo</span>
+        </div>
+        <button class="btn-close-panel" onclick="fecharModalAgenda()">✕</button>
+      </div>
+
+      <form id="form-agenda-compromisso" onsubmit="salvarCompromissoForm(event)" novalidate>
+        <div class="agenda-modal-body">
+          <input type="hidden" id="form-agenda-id" value="">
+
+          <div class="agenda-form-grid">
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Título do Compromisso *</label>
+              <input type="text" id="form-agenda-titulo" class="agenda-form-input" required placeholder="Ex: Live Reunião">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Data *</label>
+              <input type="date" id="form-agenda-data" class="agenda-form-input" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Categoria *</label>
+              <select id="form-agenda-tipo" class="agenda-form-select" required>
+                <option value="Reunião">Reunião</option>
+                <option value="Visita Técnica">Visita Técnica</option>
+                <option value="Despacho Gabinete">Despacho Gabinete</option>
+                <option value="Videoconferência Teams">Videoconferência Teams</option>
+                <option value="Audiência Oficial">Audiência Oficial</option>
+                <option value="Evento Oficial">Evento Oficial</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Horário de Início *</label>
+              <select id="form-agenda-inicio" class="agenda-form-select" required>
+                <option value="07:00">07:00</option>
+                <option value="08:00" selected>08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Horário de Término *</label>
+              <select id="form-agenda-fim" class="agenda-form-select" required>
+                <option value="08:00">08:00</option>
+                <option value="09:00" selected>09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Local / Sala / Plataforma</label>
+              <input type="text" id="form-agenda-local" class="agenda-form-input" placeholder="Ex: Teams / Gabinete / EE Prof. José Barreto">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Link Virtual (opcional)</label>
+              <input type="text" id="form-agenda-link" class="agenda-form-input" placeholder="Opcional (link do Teams, Meet ou observação)">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Setor / Centro Envolvido</label>
+              <select id="form-agenda-setor" class="agenda-form-select">
+                <option value="ASURE">ASURE</option>
+                <option value="SEINTEC">SEINTEC</option>
+                <option value="SEAFIN">SEAFIN</option>
+                <option value="SEOM">SEOM</option>
+                <option value="SEGRE">SEGRE</option>
+                <option value="SEPES">SEPES</option>
+                <option value="EEC">EEC</option>
+                <option value="ESE">ESE</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Status</label>
+              <select id="form-agenda-status" class="agenda-form-select">
+                <option value="Agendado">Agendado</option>
+                <option value="Concluído">Concluído</option>
+                <option value="Cancelado">Cancelado</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Prioridade</label>
+              <select id="form-agenda-prioridade" class="agenda-form-select">
+                <option value="Alta">⚡ Alta</option>
+                <option value="Normal" selected>Normal</option>
+                <option value="Baixa">🌱 Baixa</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Pauta / Descrição / Observações</label>
+              <textarea id="form-agenda-desc" class="agenda-form-textarea" rows="3" placeholder="Informações adicionais, participantes, deliberações..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="agenda-modal-footer">
+          <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1;" onclick="fecharModalAgenda()">Cancelar</button>
+          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1px solid #f09b0c; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.25);">
+            <span>Salvar na Agenda</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast de Notificação -->
+    
+  <!-- ============================================================== -->
+  <!-- MODAL UX/UI CENTRALIZADO DE AVISOS, CONFLITOS E CONFIRMAÇÕES (CARRO OFICIAL) -->
+  <!-- ============================================================== -->
+  <div id="modal-aviso-carro-ux" class="agenda-modal-overlay" style="display: none; z-index: 10095; background: rgba(7, 21, 47, 0.74); backdrop-filter: blur(6px);">
+    <div class="agenda-modal-card carro-ux-modal-card" style="max-width: 500px; width: 92%; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,0.18); box-shadow: 0 28px 70px rgba(7, 21, 47, 0.5);">
+      <div id="ux-carro-modal-header" class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 75%, #133979 100%); border-bottom: 3px solid #ef4444; padding: 1.2rem 1.4rem; display: flex; align-items: center; gap: 0.9rem;">
+        <div id="ux-carro-modal-icon" style="width: 46px; height: 46px; min-width: 46px; border-radius: 50%; background: rgba(239,68,68,0.2); border: 1.5px solid #ef4444; display: flex; align-items: center; justify-content: center; font-size: 1.35rem;">⚠️</div>
+        <div>
+          <span id="ux-carro-modal-eyebrow" style="font-size: 0.7rem; font-weight: 800; color: #fca5a5; letter-spacing: 0.06em; text-transform: uppercase; display: block;">CONFLITO DE AGENDA • FROTA OFICIAL</span>
+          <h3 id="ux-carro-modal-title" style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin: 0.15rem 0 0 0; line-height: 1.25;">Atenção</h3>
+        </div>
+      </div>
+
+      <div id="ux-carro-modal-body" class="agenda-modal-body" style="background: #ffffff; padding: 1.3rem 1.4rem;"></div>
+
+      <div class="agenda-modal-footer" style="background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 0.9rem 1.4rem; display: flex; justify-content: flex-end; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+        <button type="button" id="ux-carro-modal-btn-primary" class="btn-gestao-open-agenda" style="display: none; background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1.5px solid #f09b0c; padding: 0.58rem 1.15rem; font-size: 0.84rem; font-weight: 800;" onclick="executarAcaoPrimariaAvisoCarroUX()"></button>
+        <button type="button" class="btn-modal-fechar-destaque" style="padding: 0.55rem 1.2rem;" onclick="fecharModalAvisoCarroUX()"><span>✖</span><span id="ux-carro-modal-btn-close-text">Fechar</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: CONFERÊNCIA RÁPIDA DE AGENDAMENTO DO CARRO OFICIAL      -->
+  <!-- ============================================================== -->
+  <div id="modal-detalhes-agendamento-carro" class="agenda-modal-overlay" style="display: none; z-index: 10050;">
+    <div class="agenda-modal-card" style="max-width: 780px; max-height: 92vh; overflow-y: auto; border-radius: 16px; border: 1px solid #cbd5e1; box-shadow: 0 25px 60px rgba(7,21,47,0.35);">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 75%, #133979 100%); border-bottom: 3px solid #f09b0c; padding: 1.25rem 1.5rem;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.35rem;">
+            <span style="font-size: 0.72rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">CONFERÊNCIA RÁPIDA • CARRO OFICIAL</span>
+            <span id="det-carro-ct" style="background: rgba(255,255,255,0.18); color: #ffffff; font-family: monospace; font-size: 0.76rem; font-weight: 800; padding: 0.16rem 0.55rem; border-radius: 5px;">CT-2026</span>
+            <span id="det-carro-status">Agendado</span>
+            <span id="det-carro-prioridade" style="background: rgba(240,155,12,0.2); color: #fde047; font-size: 0.72rem; font-weight: 700; padding: 0.16rem 0.55rem; border-radius: 9999px;">Oficial</span>
+          </div>
+          <h3 id="det-carro-titulo" style="font-size: 1.22rem; font-weight: 800; color: #ffffff; margin: 0; line-height: 1.3;">Detalhes do Agendamento</h3>
+        </div>
+        
+      </div>
+
+      <div id="carro-detalhes-modal-body" class="agenda-modal-body" style="background: #f8fafc; padding: 1.35rem 1.5rem;"></div>
+
+      <div id="carro-detalhes-modal-footer" class="agenda-modal-footer" style="background: #ffffff; border-top: 1px solid #e2e8f0; padding: 0.9rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; gap: 0.5rem; overflow-x: auto;"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: NOVA SOLICITAÇÃO / RESERVA MEGA-PREMIUM DE CARRO OFICIAL-->
+  <!-- ============================================================== -->
+  <div id="modal-solicitar-carro" class="agenda-modal-overlay" style="display: none; z-index: 10040;">
+    <div class="agenda-modal-card" style="max-width: 820px; max-height: 92vh; overflow-y: auto; border-radius: 16px; border: 1px solid #cbd5e1; box-shadow: 0 25px 60px rgba(7,21,47,0.35);">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 75%, #133979 100%); border-bottom: 3px solid #f09b0c; padding: 1.25rem 1.5rem;">
+        <div>
+          <span style="font-size: 0.75rem; font-weight: 800; color: #fde047; letter-spacing: 0.06em; text-transform: uppercase;">FROTA OFICIAL • CENTRAL DE AGENDAMENTO URE - ITP</span>
+          <h3 style="font-size: 1.28rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Solicitar Reserva de Carro Oficial</h3>
+        </div>
+        
+      </div>
+
+      <form id="form-nova-solicitacao-carro" onsubmit="salvarSolicitacaoCarro(event)">
+        <input type="hidden" id="form-carro-veiculo" value="Chevrolet Spin 1.8 7L (Oficial Gabinete)">
+        <datalist id="carro-destinos-escolas-list"></datalist>
+
+        <div class="agenda-modal-body" style="background: #f8fafc; padding: 1.35rem 1.5rem;">
+
+          <!-- BLOCO 1: DATA, HORÁRIOS E VALIDAÇÃO DE CONFLITO -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.15rem; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
+              <span style="font-size: 0.76rem; font-weight: 800; color: #0b2351; text-transform: uppercase; letter-spacing: 0.05em;">📅 1. Data & Janela de Horário</span>
+              <span id="form-carro-duracao-badge" style="font-size: 0.76rem; font-weight: 800; color: #1e40af; background: #eff6ff; border: 1px solid #bfdbfe; padding: 0.2rem 0.65rem; border-radius: 9999px;">⏱️ Duração: 9h00</span>
+            </div>
+
+            <div class="agenda-form-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Data de Ida (Saída) *</label>
+                <input type="date" id="form-carro-data" class="agenda-form-input" required onchange="aoMudarDataIdaSolicitacaoCarro()">
+              </div>
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Horário de Saída *</label>
+                <input type="time" id="form-carro-saida" class="agenda-form-input" value="08:00" required onchange="verificarDisponibilidadeModalSolicitacao()">
+              </div>
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Data de Retorno *</label>
+                <input type="date" id="form-carro-data-retorno" class="agenda-form-input" required onchange="this.dataset.editadoManual='1'; verificarDisponibilidadeModalSolicitacao()">
+              </div>
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Previsão de Horário de Retorno *</label>
+                <input type="time" id="form-carro-retorno" class="agenda-form-input" value="17:00" required onchange="verificarDisponibilidadeModalSolicitacao()">
+              </div>
+            </div>
+
+            <div class="carro-req-presets">
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; align-self: center;">Turnos rápidos:</span>
+              <button type="button" class="carro-req-chip" onclick="aplicarPeriodoRapidoCarro('08:00', '12:00')">🌅 Manhã (08:00–12:00)</button>
+              <button type="button" class="carro-req-chip" onclick="aplicarPeriodoRapidoCarro('13:00', '17:00')">☀️ Tarde (13:00–17:00)</button>
+              <button type="button" class="carro-req-chip" onclick="aplicarPeriodoRapidoCarro('08:00', '17:00')">📅 Integral (08:00–17:00)</button>
+            </div>
+          </div>
+
+          <!-- BLOCO 2: SELETOR VISUAL DA FROTA OFICIAL -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.15rem; margin-bottom: 1rem;">
+            <div style="font-size: 0.76rem; font-weight: 800; color: #0b2351; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+              🚗 2. Escolha do Veículo Oficial (Disponibilidade em Tempo Real)
+            </div>
+
+            <div class="carro-req-fleet-grid">
+              <button type="button" id="req-card-veiculo-spin" class="carro-req-fleet-card selected" onclick="selecionarVeiculoSolicitacaoCarro('Chevrolet Spin 1.8 7L (Oficial Gabinete)')">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                  <span style="background: #0b2351; color: #fde047; font-family: monospace; font-size: 0.82rem; font-weight: 800; padding: 0.16rem 0.55rem; border-radius: 5px;">TLH 1B63</span>
+                  <span id="req-status-veiculo-spin" style="font-size: 0.74rem;">🟢 Livre no horário</span>
+                </div>
+                <strong style="display: block; font-size: 0.98rem; color: #0f172a;">Chevrolet Spin 1.8 7L</strong>
+                <span style="display: block; font-size: 0.76rem; color: #475569; margin-top: 0.15rem;">Oficial Gabinete • 7 lugares • Condutor: Steve Rogers</span>
+              </button>
+
+              <button type="button" id="req-card-veiculo-hb20" class="carro-req-fleet-card" onclick="selecionarVeiculoSolicitacaoCarro('Hyundai HB20 1.0 (Oficial Apoio)')">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                  <span style="background: #065f46; color: #ffffff; font-family: monospace; font-size: 0.82rem; font-weight: 800; padding: 0.16rem 0.55rem; border-radius: 5px;">FZG 0H22</span>
+                  <span id="req-status-veiculo-hb20" style="font-size: 0.74rem;">🟢 Livre no horário</span>
+                </div>
+                <strong style="display: block; font-size: 0.98rem; color: #0f172a;">Hyundai HB20 1.0</strong>
+                <span style="display: block; font-size: 0.76rem; color: #475569; margin-top: 0.15rem;">Oficial Apoio • 5 lugares • Condutor: Barry Allen</span>
+              </button>
+            </div>
+
+            <div id="form-carro-disponibilidade-box" style="margin-top: 0.75rem; padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid #a7f3d0; background: #ecfdf5;"></div>
+          </div>
+
+          <!-- BLOCO 3: PASSAGEIRO, SETOR E CONTATO -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.15rem; margin-bottom: 1rem;">
+            <div style="font-size: 0.76rem; font-weight: 800; color: #0b2351; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+              👤 3. Solicitante, Setor & Equipe
+            </div>
+
+            <div class="agenda-form-grid">
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Nome do Solicitante / Passageiro *</label>
+                <input type="text" id="form-carro-solicitante" class="agenda-form-input" placeholder="Ex: Peter Parker / Diana Prince / Tony Stark" required>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Setor / Núcleo Solicitante *</label>
+                <select id="form-carro-setor" class="agenda-form-select">
+                  <option value="Gabinete da Dirigente / URE Itapevi">Gabinete</option>
+                  <option value="ASURE">ASURE</option>
+                  <option value="SEINTEC">SEINTEC</option>
+                  <option value="SEAFIN">SEAFIN</option>
+                  <option value="SEOM">SEOM</option>
+                  <option value="SEGRE">SEGRE</option>
+                  <option value="SEPES">SEPES</option>
+                  <option value="EEC">EEC</option>
+                  <option value="ESE">ESE</option>
+                </select>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Função / Cargo</label>
+                <input type="text" id="form-carro-funcao" class="agenda-form-input" placeholder="Ex: Diretor Técnico / Supervisor de Ensino / Assessor">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Condutor Designado</label>
+                <input type="text" id="form-carro-motorista" class="agenda-form-input" placeholder="Ex: Steve Rogers / Barry Allen / Clark Kent" oninput="this.dataset.editadoManual='1'">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Qtd. de Passageiros</label>
+                <input type="number" id="form-carro-passageiros" class="agenda-form-input" min="1" max="7" value="2">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Ramal / Telefone / Prioridade</label>
+                <div style="display: flex; gap: 0.45rem;">
+                  <input type="text" id="form-carro-contato" class="agenda-form-input" placeholder="Ramal ou Celular" style="flex: 1;">
+                  <select id="form-carro-prioridade" class="agenda-form-select" style="width: 145px;">
+                    <option value="Normal">Normal</option>
+                    <option value="Alta / Prioritária">⚡ Alta</option>
+                    <option value="Gabinete Dirigente">🏛️ Gabinete</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BLOCO 4: DESTINO, ROTA E TELEMETRIA -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.15rem;">
+            <div style="font-size: 0.76rem; font-weight: 800; color: #0b2351; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+              📍 4. Destino, Itinerário & Finalidade
+            </div>
+
+            <div class="agenda-form-grid">
+              <div class="agenda-form-group agenda-form-full">
+                <label class="agenda-form-label">Destino Principal * (Digite para buscar escolas da rede)</label>
+                <input type="text" id="form-carro-destino" list="carro-destinos-escolas-list" class="agenda-form-input" placeholder="Ex: SEDUC / Prof. Lênio Vieira de Moraes / Jandira" required oninput="atualizarItinerarioAutomaticoCarro()">
+                <div class="carro-req-presets">
+                  <span style="font-size: 0.72rem; color: #64748b; font-weight: 700; align-self: center;">Destinos frequentes:</span>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('SEDUC - Praça da República, 53 - São Paulo')">SEDUC</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Escolas de Itapevi')">Itapevi</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Escolas de Barueri')">Barueri</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Escolas de Jandira')">Jandira</button>
+                  <button type="button" class="carro-req-chip" onclick="aplicarDestinoRapidoCarro('Pirapora do Bom Jesus')">Pirapora</button>
+                </div>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Apresentar-se em (Local de Embarque)</label>
+                <input type="text" id="form-carro-apresentar" class="agenda-form-input" value="URE - ITP - Rua Dimarães Antônio Sandei, 75">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Rota / Itinerário Previsto</label>
+                <input type="text" id="form-carro-itinerario" class="agenda-form-input" placeholder="URE - ITP -> Destino -> Retorno URE - ITP" oninput="this.dataset.editadoManual='1'">
+              </div>
+
+              <div class="agenda-form-group agenda-form-full">
+                <label class="agenda-form-label">Objetivo da Viagem / Observações</label>
+                <textarea id="form-carro-obs" class="agenda-form-textarea" rows="2" placeholder="Descreva a pauta, reuniões, materiais transportados ou recomendações ao motorista..."></textarea>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Hodômetro Inicial (km)</label>
+                <input type="number" id="form-carro-km-partida" class="agenda-form-input" value="42850">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Combustível & Tanque Cheio</label>
+                <div style="display: flex; gap: 0.45rem;">
+                  <input type="text" id="form-carro-tanque" class="agenda-form-input" value="85%" style="flex: 1;">
+                  <select id="form-carro-tanque-cheio" class="agenda-form-select" style="width: 115px;">
+                    <option value="S">Cheio (S)</option>
+                    <option value="N">Parcial (N)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="agenda-modal-footer" style="background: #ffffff; border-top: 1px solid #e2e8f0; padding: 0.95rem 1.5rem;">
+          <button type="button" class="btn-modal-fechar-destaque" onclick="fecharModalCarro()"><span>✖</span><span>Fechar</span></button>
+          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1.5px solid #f09b0c; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.28); font-weight: 800;">
+            <span>✅ Confirmar</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: EDIÇÃO COMPLETA DE AGENDAMENTO (HODÔMETRO, TANQUE, CARRO)-->
+  <!-- ============================================================== -->
+  <div id="modal-editar-solicitacao-carro" class="agenda-modal-overlay" style="display: none;">
+    <div class="agenda-modal-card" style="max-width: 760px; max-height: 90vh; overflow-y: auto;">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 0.78rem; font-weight: 800; color: #fde047; text-transform: uppercase;">EDIÇÃO DE AGENDAMENTO</span>
+            <span id="edit-carro-ct-badge" style="background: rgba(255,255,255,0.2); color: #fff; padding: 0.15rem 0.5rem; border-radius: 4px; font-family: monospace; font-size: 0.8rem; font-weight: 700;">CT-2026/042</span>
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Editar Hodômetro, Tanque & Dados do Carro</h3>
+        </div>
+        
+      </div>
+
+      <form onsubmit="salvarEdicaoSolicitacaoCarro(event)">
+        <input type="hidden" id="edit-carro-id">
+
+        <div class="agenda-modal-body">
+          
+          <!-- SEÇÃO 1: VEÍCULO E CONDUTOR -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.9rem; margin-bottom: 1rem;">
+            <div style="font-size: 0.78rem; font-weight: 800; color: #0b2351; text-transform: uppercase; margin-bottom: 0.6rem; letter-spacing: 0.05em;">
+              🚗 Veículo Oficial & Condutor
+            </div>
+            <div class="agenda-form-grid">
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Carro Designado *</label>
+                <select id="edit-carro-veiculo" class="agenda-form-select">
+                  <option value="TLH 1B63">Chevrolet Spin 1.8 7L (Placa: TLH 1B63 - Oficial Gabinete)</option>
+                  <option value="FZG 0H22">Hyundai HB20 1.0 (Placa: FZG 0H22 - Oficial Apoio / Adm)</option>
+                </select>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Condutor Oficial *</label>
+                <input type="text" id="edit-carro-motorista" class="agenda-form-input" required>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Data de Ida *</label>
+                <input type="date" id="edit-carro-data" class="agenda-form-input" required>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Data de Retorno *</label>
+                <input type="date" id="edit-carro-data-retorno" class="agenda-form-input" required>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Status do Agendamento *</label>
+                <select id="edit-carro-status" class="agenda-form-select">
+                  <option value="Agendado">Agendado</option>
+                  <option value="Em Trânsito">Em Trânsito</option>
+                  <option value="Concluído">Concluído</option>
+                  <option value="Cancelado">Cancelado</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- SEÇÃO 2: HODÔMETRO & COMBUSTÍVEL -->
+          <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 0.9rem; margin-bottom: 1rem;">
+            <div style="font-size: 0.78rem; font-weight: 800; color: #1e40af; text-transform: uppercase; margin-bottom: 0.6rem; letter-spacing: 0.05em;">
+              📊 Hodômetro (Quilometragem) & Tanque de Combustível
+            </div>
+            <div class="agenda-form-grid">
+              
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Hodômetro de Partida (km)</label>
+                <input type="number" id="edit-carro-km-partida" class="agenda-form-input" oninput="recalcularKmEdicaoCarro()" required>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Hodômetro de Retorno (km)</label>
+                <input type="number" id="edit-carro-km-retorno" class="agenda-form-input" oninput="recalcularKmEdicaoCarro()">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Diferença / Km Percorrido</label>
+                <input type="number" id="edit-carro-km-diferenca" class="agenda-form-input" readonly style="background: #dbeafe; font-weight: 800; color: #1e3a8a;">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Tanque Cheio?</label>
+                <select id="edit-carro-tanque-cheio" class="agenda-form-select">
+                  <option value="S">Sim (S)</option>
+                  <option value="N">Não (N)</option>
+                </select>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Nível de Combustível (%)</label>
+                <input type="text" id="edit-carro-tanque-nivel" class="agenda-form-input" placeholder="Ex: 85%">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Apresentar-se Em (Local)</label>
+                <input type="text" id="edit-carro-apresentar" class="agenda-form-input">
+              </div>
+
+            </div>
+          </div>
+
+          <!-- SEÇÃO 3: SOLICITANTE, HORÁRIOS & ITINERÁRIO -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.9rem; margin-bottom: 1rem;">
+            <div style="font-size: 0.78rem; font-weight: 800; color: #0b2351; text-transform: uppercase; margin-bottom: 0.6rem; letter-spacing: 0.05em;">
+              👤 Solicitante, Horários & Itinerário
+            </div>
+            <div class="agenda-form-grid">
+              
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Passageiro / Solicitante *</label>
+                <input type="text" id="edit-carro-solicitante" class="agenda-form-input" required>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Função *</label>
+                <input type="text" id="edit-carro-funcao" class="agenda-form-input" placeholder="Ex: Dirigente Regional / Supervisor">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Unidade / Setor *</label>
+                <input type="text" id="edit-carro-unidade" class="agenda-form-input">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Horário de Saída</label>
+                <input type="time" id="edit-carro-saida" class="agenda-form-input">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Horário de Retorno</label>
+                <input type="time" id="edit-carro-retorno" class="agenda-form-input">
+              </div>
+
+              <div class="agenda-form-group agenda-form-full">
+                <label class="agenda-form-label">Destino do Deslocamento *</label>
+                <input type="text" id="edit-carro-destino" class="agenda-form-input" required>
+              </div>
+
+              <div class="agenda-form-group agenda-form-full">
+                <label class="agenda-form-label">Detalhamento do Itinerário (Destinos intermediários)</label>
+                <input type="text" id="edit-carro-itinerario" class="agenda-form-input" placeholder="Ex: URE - ITP -> Prof. Lênio Vieira de Moraes -> Itapevi -> Retorno URE - ITP">
+              </div>
+
+            </div>
+          </div>
+
+          <!-- SEÇÃO 4: ABASTECIMENTO (SE HOUVER) -->
+          <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 0.9rem; margin-bottom: 1rem;">
+            <div style="font-size: 0.78rem; font-weight: 800; color: #b45309; text-transform: uppercase; margin-bottom: 0.6rem; letter-spacing: 0.05em;">
+              ⛽ Registro de Abastecimento (Opcional)
+            </div>
+            <div class="agenda-form-grid">
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Combustível</label>
+                <select id="edit-carro-abast-natureza" class="agenda-form-select">
+                  <option value="Gasolina">Gasolina</option>
+                  <option value="Álcool">Álcool</option>
+                  <option value="Diesel">Diesel</option>
+                  <option value="Aditivo">Aditivo</option>
+                  <option value="Óleo">Óleo</option>
+                </select>
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Quantidade</label>
+                <input type="text" id="edit-carro-abast-quant" class="agenda-form-input" placeholder="Ex: 35L">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Nº Requisição</label>
+                <input type="text" id="edit-carro-abast-req" class="agenda-form-input" placeholder="Ex: REQ-1042">
+              </div>
+
+              <div class="agenda-form-group">
+                <label class="agenda-form-label">Nº Nota Fiscal</label>
+                <input type="text" id="edit-carro-abast-nf" class="agenda-form-input" placeholder="Ex: NF-8921">
+              </div>
+
+              <div class="agenda-form-group agenda-form-full">
+                <label class="agenda-form-label">Expedidor Responsável</label>
+                <input type="text" id="edit-carro-abast-expedidor" class="agenda-form-input" placeholder="Ex: SEOM / Logística URE Itapevi">
+              </div>
+            </div>
+          </div>
+
+          <!-- SEÇÃO 5: RETORNO DO CONDUTOR (DEFEITOS E MULTAS / OCORRÊNCIAS - VERSO MODELO 30) -->
+          <div style="background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 8px; padding: 0.9rem; margin-bottom: 1rem;">
+            <div style="font-size: 0.78rem; font-weight: 800; color: #9d174d; text-transform: uppercase; margin-bottom: 0.6rem; letter-spacing: 0.05em;">
+              🛠️ Retorno do Condutor - Defeitos e Multas / Irregularidades (Verso Modelo 30)
+            </div>
+            <div class="agenda-form-grid">
+              <div class="agenda-form-group agenda-form-full">
+                <label class="agenda-form-label">Defeitos Verificados pelo Condutor</label>
+                <textarea id="edit-carro-defeitos" class="agenda-form-textarea" rows="2" placeholder="Ex: Nenhum defeito ou avaria identificado durante o percurso."></textarea>
+                <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">Será impresso no campo \"O condutor anotará os defeitos verificados\" na Página 2 (Verso).</div>
+              </div>
+
+              <div class="agenda-form-group agenda-form-full">
+                <label class="agenda-form-label">Observações sobre Multas, Irregularidades e Acidentes</label>
+                <textarea id="edit-carro-multas" class="agenda-form-textarea" rows="2" placeholder="Ex: Sem ocorrências de trânsito, multas ou sinistros."></textarea>
+                <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">Será impresso no campo \"O condutor fará observações sobre multas, irregularidades e acidentes\" na Página 2 (Verso).</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SEÇÃO 6: OBSERVAÇÕES -->
+          <div class="agenda-form-group agenda-form-full">
+            <label class="agenda-form-label">Observações Gerais</label>
+            <textarea id="edit-carro-obs" class="agenda-form-textarea" rows="2" placeholder="Informações de suporte, ocorrências ou anotações..."></textarea>
+          </div>
+
+        </div>
+
+        <div class="agenda-modal-footer">
+          <button type="button" class="btn-modal-fechar-destaque" onclick="fecharModalEditarCarro()"><span>✖</span><span>Fechar</span></button>
+          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); border: 1px solid #f09b0c; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.25);">
+            <span>💾 Salvar</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: ATUALIZAR FROTA (HODÔMETRO E TANQUE DIRETO NO PÁTIO)    -->
+  <!-- ============================================================== -->
+  <div id="modal-atualizar-frota" class="agenda-modal-overlay" style="display: none;">
+    <div class="agenda-modal-card" style="max-width: 500px;">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%);">
+        <div>
+          <span style="font-size: 0.78rem; font-weight: 800; color: #fde047; text-transform: uppercase;">CONTROLE DE PÁTIO</span>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;" id="frota-edit-modelo-nome">Atualizar Veículo Oficial</h3>
+        </div>
+        
+      </div>
+
+      <form onsubmit="salvarAtualizacaoFrotaCarro(event)">
+        <input type="hidden" id="frota-edit-placa">
+
+        <div class="agenda-modal-body">
+          <div class="agenda-form-grid">
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Hodômetro Atual (km) *</label>
+              <input type="number" id="frota-edit-km" class="agenda-form-input" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Nível do Tanque (%) *</label>
+              <input type="text" id="frota-edit-tanque" class="agenda-form-input" placeholder="Ex: 85%" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Tanque Cheio?</label>
+              <select id="frota-edit-tanque-cheio" class="agenda-form-select">
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Status Operacional</label>
+              <select id="frota-edit-status" class="agenda-form-select">
+                <option value="Disponível no Pátio">Disponível no Pátio</option>
+                <option value="Em Uso Oficial">Em Uso Oficial</option>
+                <option value="Em Manutenção">Em Manutenção</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Motorista Titular</label>
+              <input type="text" id="frota-edit-motorista" class="agenda-form-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="agenda-modal-footer">
+          <button type="button" class="btn-modal-fechar-destaque" onclick="fecharModalAtualizarFrota()"><span>✖</span><span>Fechar</span></button>
+          <button type="submit" class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%);">
+            <span>💾 Salvar</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: PREVIEW E IMPRESSÃO DO DOCUMENTO MODELO OFICIAL 30      -->
+  <!-- ============================================================== -->
+  <div id="modal-pdf-controle-trafego" class="agenda-modal-overlay" style="display: none; background: rgba(15, 23, 42, 0.88); z-index: 99999;">
+    <div style="background: #1e293b; width: 95%; max-width: 980px; max-height: 96vh; border-radius: 14px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15);">
+      
+      <!-- HEADER DO MODAL -->
+      <div style="background: #0b2351; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #d48208;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span style="font-size: 1.5rem;">📄</span>
+          <div>
+            <div style="font-size: 0.75rem; font-weight: 800; color: #fde047; letter-spacing: 0.05em; text-transform: uppercase;">IMPRENSA OFICIAL DO ESTADO S.A. - IMESP</div>
+            <h3 style="font-size: 1.12rem; font-weight: 800; color: #ffffff; margin: 0;">Controle de Tráfego • Modelo Oficial 30</h3>
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 0.6rem; align-items: center;">
+          <button type="button" class="btn-carro-card-action" onclick="imprimirDocumentoControleTrafego()" title="Imprimir ou Salvar em PDF (Modelo Oficial 30)" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border-color: #047857; font-size: 0.88rem; padding: 0.55rem 1.35rem; font-weight: 800; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35); white-space: nowrap; flex-shrink: 0;">
+            <span>🖨️ Imprimir</span>
+          </button>
+          
+        </div>
+      </div>
+
+      <!-- BARRA DE SELEÇÃO AO VIVO DO SOLICITANTE / VIAGEM -->
+      <div id="modelo30-seletor-bar" style="background: #0f172a; padding: 0.72rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.14); display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+        <span style="font-size: 0.78rem; font-weight: 800; color: #fde047; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.35rem;">
+          <span>👤</span>
+          <span>Solicitante / Viagem:</span>
+        </span>
+        <input type="text" id="modelo30-filtro-solicitante" placeholder="🔍 Filtrar por nome..." oninput="filtrarSeletorModelo30(this.value)" style="background: #1e293b; color: #ffffff; border: 1px solid #475569; border-radius: 8px; padding: 0.45rem 0.75rem; font-size: 0.82rem; width: 190px; outline: none;">
+        <select id="modelo30-select-agendamento" onchange="trocarAgendamentoModelo30(this.value)" style="flex: 1; min-width: 260px; background: #ffffff; color: #0f172a; border: 1.5px solid #f09b0c; border-radius: 8px; padding: 0.48rem 0.75rem; font-size: 0.84rem; font-weight: 700; cursor: pointer; outline: none;"></select>
+      </div>
+
+      <!-- CORPO COM AS FOLHAS A4 (FRENTE E VERSO) -->
+      <div style="flex: 1; overflow-y: auto; padding: 1.5rem; background: #334155; display: flex; flex-direction: column; align-items: center;">
+        <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem; text-align: center;">
+          💡 <em>Pré-visualização fiel do formulário estadual oficial de tráfego. Clique no botão acima para imprimir ou salvar em arquivo PDF.</em>
+        </div>
+
+        <div id="documento-impressao-modelo30">
+          <!-- Preenchido dinamicamente via abrirModalPdfControleTrafego() -->
+        </div>
+      </div>
+
+      <!-- FOOTER DO MODAL -->
+      <div style="background: #0f172a; padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1);">
+        <span style="font-size: 0.75rem; color: #94a3b8;">Secretaria da Educação do Estado de São Paulo • URE Itapevi</span>
+        <button type="button" class="btn-modal-fechar-destaque" onclick="fecharModalPdfControleTrafego()"><span>✖</span><span>Fechar</span></button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- MODAL: CONFIGURAÇÃO DO LINK DO CALENDÁRIO DO CARRO OFICIAL -->
+  <div id="modal-config-calendar-carro" class="agenda-modal-overlay" style="display: none;">
+    <div class="agenda-modal-card" style="max-width: 580px;">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%);">
+        <div>
+          <span style="font-size: 0.78rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">CARRO OFICIAL • SOMENTE LEITURA</span>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Configurar Calendário de Agendamento</h3>
+        </div>
+        
+      </div>
+
+      <div class="agenda-modal-body" style="padding: 1.5rem;">
+        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 1rem; margin-bottom: 1.25rem; display: flex; gap: 0.75rem; align-items: flex-start;">
+          <span style="font-size: 1.5rem;">📅</span>
+          <div>
+            <strong style="color: #14532d; font-size: 0.95rem; display: block; margin-bottom: 0.2rem;">Integração por Link Direto (Sem Upload de Arquivos)</strong>
+            <p style="font-size: 0.82rem; color: #166534; margin: 0;">Cole o link compartilhado da agenda dos carros (Google Agenda, Outlook Web ou feed iCal). O sistema exibirá a visualização e sincronizará os dados automaticamente em modo somente leitura.</p>
+          </div>
+        </div>
+
+        <div class="agenda-form-group agenda-form-full" style="margin-bottom: 1.2rem;">
+          <label class="agenda-form-label" style="font-weight: 700; color: #1e293b; margin-bottom: 0.4rem; display: block;">Link / URL do Calendário Compartilhado:</label>
+          <input type="url" id="input-url-calendario-carro" class="agenda-form-input" placeholder="Ex: https://calendar.google.com/calendar/embed?src=... ou link de compartilhamento" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem;">
+          <small style="color: #64748b; font-size: 0.75rem; display: block; margin-top: 0.35rem;">
+            Aceita: Link público do Google Calendar, link de incorporação (embed), Outlook Web Calendar ou endereço de e-mail da agenda institucional.
+          </small>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.85rem; margin-bottom: 1.25rem; font-size: 0.82rem; color: #475569;">
+          <strong>💡 Como obter o link:</strong> No Google Calendar da conta responsável, clique nos 3 pontinhos ao lado da agenda > <em>Configurações e Compartilhamento</em> > copie o <strong>URL público para esta agenda</strong> ou a <strong>URL pública para incorporar</strong>.
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button type="button" class="btn-modal-fechar-destaque" onclick="fecharModalConfigCalendarCarro()"><span>✖</span><span>Fechar</span></button>
+          <button type="button" class="btn-carro-action" onclick="salvarConfigCalendarioCarro()" style="padding: 0.6rem 1.2rem;">
+            <span>💾 Salvar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DETALHES DO CALENDÁRIO (COMPATIBILIDADE) -->
+  <div id="modal-origem-drive" class="agenda-modal-overlay" style="display: none;"></div>
+
+<!-- CONTAINER DE ALERTAS EXECUTIVOS DE SINCRONIZAÇÃO EM TEMPO REAL -->
+  <div id="sync-alert-toast-container" class="sync-alert-container" aria-live="polite"></div>
+
+  <div id="agenda-toast" class="agenda-toast">
+    <span id="agenda-toast-icon">✅</span>
+    <span id="agenda-toast-msg">Operação realizada com sucesso!</span>
+  </div>
+
+
+  <!-- MODAL: CADASTRAR OU EDITAR ESCOLA -->
+  <!-- ======================================================== -->
+  <!-- ESTILOS EDITORIAIS & MODAL ESTÚDIO: RELATÓRIOS EXECUTIVOS -->
+  <!-- ======================================================== -->
+  <style id="exec-doc-print-styles">
+    /* ========================================================================= */
+    /* DESIGN EDITORIAL DE ALTA CHANCELARIA • FOLHAS A4 FÍSICAS REAIS (210x297mm) */
+    /* Padrão Internacional de Relatórios Executivos (Visual Premium & Print-Ready)*/
+    /* ========================================================================= */
+
+    /* CONTAINER TRANSPARENTE DA PRANCHETA DE DESIGN */
+    #relatorio-executivo-canvas {
+      width: 100% !important;
+      background: transparent !important;
+      padding: 0 !important;
+      margin: 0 auto !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    /* FOLHA A4 FÍSICA INDIVIDUAL */
+    .exec-doc-page {
+      width: 210mm;
+      max-width: 100%;
+      height: 296.5mm;
+      min-height: 296.5mm;
+      max-height: 296.5mm;
+      box-sizing: border-box;
+      margin: 0 auto 30px auto;
+      background: #ffffff;
+      color: #0f172a;
+      padding: 6mm 10mm 5mm 10mm;
+      border-radius: 4px;
+      box-shadow: 0 6px 24px rgba(11, 35, 81, 0.16), 0 2px 6px rgba(0, 0, 0, 0.08);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 7.3pt;
+      line-height: 1.35;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      page-break-after: always;
+      break-after: page;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    .exec-doc-page:last-child {
+      margin-bottom: 0;
+      page-break-after: auto;
+      break-after: auto;
+    }
+    .exec-doc-page-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .exec-doc-page .sort-arrow,
+    table.doc-table .sort-arrow {
+      display: none !important;
+    }
+    .exec-doc-page * {
+      box-sizing: border-box;
+    }
+
+    /* MASTHEAD / CABEÇALHO DE CHANCELARIA GOVERNAMENTAL */
+    .doc-masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 5px;
+      margin-bottom: 3px;
+      position: relative;
+    }
+    .doc-masthead-divider {
+      height: 2.5px;
+      width: 100%;
+      background: linear-gradient(90deg, #0b2351 0%, #0284c7 55%, #d97706 100%);
+      border-radius: 2px;
+      margin-top: 3px;
+      margin-bottom: 7px;
+      border: none;
+    }
+    .doc-masthead-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+    .doc-masthead-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-right: 12px;
+      border-right: 1.5px solid #e2e8f0;
+      flex-shrink: 0;
+    }
+    .doc-masthead-logo {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+    .doc-masthead-logo-fallback {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      background: #0b2351;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 11pt;
+      letter-spacing: 0.05em;
+    }
+    .doc-masthead-text {
+      min-width: 0;
+      flex: 1;
+    }
+    .doc-masthead-gov {
+      font-size: 6.2pt;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .doc-title {
+      font-size: 12.2pt;
+      font-weight: 800;
+      color: #0b2351;
+      margin: 0;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      word-break: break-word;
+    }
+    .doc-subtitle {
+      font-size: 6.9pt;
+      color: #475569;
+      margin-top: 2px;
+      font-weight: 500;
+      line-height: 1.3;
+      letter-spacing: 0.01em;
+      word-break: break-word;
+    }
+    .doc-masthead-chancelaria {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      border-left: 1.5px solid #cbd5e1;
+      padding-left: 9px;
+      flex-shrink: 0;
+    }
+    .doc-qr-wrap {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      background: #ffffff;
+      padding: 2px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+    .doc-qr-wrap svg {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+    .doc-radar-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 5px;
+      padding: 2px;
+    }
+    .doc-meta-box {
+      text-align: right;
+      flex-shrink: 0;
+      min-width: 140px;
+    }
+    .doc-type-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%);
+      color: #ffffff;
+      font-size: 6.4pt;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      padding: 3px 9px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      box-shadow: 0 1px 2px rgba(11, 35, 81, 0.15);
+    }
+    .doc-meta-line {
+      font-size: 6.4pt;
+      font-weight: 600;
+      color: #64748b;
+      margin-top: 2px;
+      letter-spacing: 0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* SEÇÕES E HEADINGS */
+    .doc-section {
+      margin-bottom: 7px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .doc-sec-heading {
+      font-size: 7.5pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #0b2351;
+      border-bottom: 1.5px solid #cbd5e1;
+      padding-bottom: 2px;
+      margin: 0 0 5px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .doc-sec-heading span.doc-sec-num {
+      color: #0284c7;
+      font-weight: 800;
+      margin-right: 5px;
+      background: #e0f2fe;
+      padding: 1px 4.5px;
+      border-radius: 3px;
+      font-size: 6.7pt;
+    }
+    
+    /* GRIDS */
+    .doc-grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4.5px; }
+    .doc-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5.5px; }
+    .doc-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5.5px; }
+    .doc-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6.5px; }
+
+    /* CARDS DE KPI EDITORIAIS */
+    .doc-kpi {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 5.5px 7.5px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+    .doc-kpi::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--kpi-accent, #0b2351);
+    }
+    .doc-kpi-lbl {
+      font-size: 6.2pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #64748b;
+      line-height: 1.2;
+    }
+    .doc-kpi-val {
+      font-size: 11.2pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin-top: 1px;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .doc-kpi-sub {
+      font-size: 6.2pt;
+      color: #475569;
+      margin-top: 1.5px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    /* CARDS GERAIS */
+    .doc-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 6.5px 8.5px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .doc-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      font-size: 7.3pt;
+      font-weight: 800;
+      color: #0b2351;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 3px;
+      margin-bottom: 4px;
+    }
+    .doc-kv {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      padding: 2px 0;
+      border-bottom: 1px dotted #e2e8f0;
+      font-size: 7.1pt;
+    }
+    .doc-kv:last-child { border-bottom: none; }
+    .doc-kv-k { color: #64748b; font-weight: 600; }
+    .doc-kv-v { color: #0f172a; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+    
+    .doc-mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 6.7pt;
+    }
+    .doc-pill {
+      display: inline-block;
+      padding: 2px 5.5px;
+      border-radius: 999px;
+      font-size: 6.2pt;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .doc-bar-track {
+      width: 100%;
+      height: 5px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+    .doc-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    /* CHIPS DE INFRAESTRUTURA SEOM */
+    .doc-chip-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      margin-top: 3px;
+    }
+    .doc-chip-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 2.5px 4.5px;
+      font-size: 6.5pt;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* TABELAS EXECUTIVAS */
+    table.doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 6.7pt;
+      background: #ffffff;
+    }
+    table.doc-table thead { display: table-header-group; }
+    table.doc-table tr { break-inside: avoid; page-break-inside: avoid; }
+    table.doc-table th {
+      background: #0b2351;
+      color: #ffffff;
+      text-align: left;
+      padding: 3.8px 5.5px;
+      font-weight: 700;
+      font-size: 6.3pt;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    table.doc-table td {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 3.5px 5.5px;
+      vertical-align: middle;
+      font-variant-numeric: tabular-nums;
+      color: #1e293b;
+    }
+    table.doc-table tbody tr:nth-child(even) { background: #f8fafc; }
+    
+    .doc-callout {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 3px solid #0b2351;
+      border-radius: 5px;
+      padding: 5.5px 7.5px;
+    }
+    .doc-footer {
+      margin-top: auto;
+      padding-top: 4px;
+      padding-bottom: 1.5mm;
+      border-top: 1.5px solid #0b2351;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      min-height: 26px;
+    }
+    .doc-footer-col {
+      display: flex;
+      box-sizing: border-box;
+    }
+    .doc-footer-left {
+      flex: 1;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      text-align: left;
+    }
+    .doc-footer-title {
+      font-size: 7.8pt;
+      font-weight: 800;
+      color: #0b2351;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+    .doc-footer-sub {
+      font-size: 5.7pt;
+      font-weight: 600;
+      color: #64748b;
+      line-height: 1.15;
+    }
+    .doc-footer-center {
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .doc-footer-badge {
+      background: #0b2351;
+      color: #ffffff;
+      font-size: 6.8pt;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      padding: 1.5px 10px;
+      border-radius: 999px;
+      line-height: 1.2;
+      display: inline-block;
+      box-shadow: 0 1px 3px rgba(11, 35, 81, 0.2);
+    }
+    .doc-footer-center-sub {
+      font-size: 5.5pt;
+      color: #475569;
+      font-weight: 600;
+      margin-top: 1px;
+      line-height: 1.1;
+    }
+    .doc-footer-right {
+      flex: 1;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 7px;
+      text-align: right;
+    }
+    .doc-footer-right-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      line-height: 1.1;
+    }
+    .doc-footer-brand {
+      font-size: 7.2pt;
+      font-weight: 800;
+      color: #0b2351;
+      letter-spacing: 0.02em;
+    }
+    .doc-footer-unit {
+      font-size: 5.5pt;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+    .doc-footer-logo {
+      height: 26px;
+      max-height: 26px;
+      width: auto;
+      max-width: 36px;
+      object-fit: contain;
+      display: inline-block;
+      vertical-align: middle;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      #relatorio-executivo-canvas,
+      .exec-doc-sheet {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        background: transparent !important;
+      }
+      .exec-doc-page {
+        width: 210mm !important;
+        max-width: 210mm !important;
+        height: 297mm !important;
+        min-height: 297mm !important;
+        max-height: 297mm !important;
+        margin: 0 !important;
+        padding: 6mm 10mm 5mm 10mm !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        box-sizing: border-box !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+      }
+      .exec-doc-page:last-child {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+      }
+      .doc-footer {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        flex-shrink: 0 !important;
+      }
+    }
+  </style>
+
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- MODAL: CENTRAL DE RELATÓRIOS EXECUTIVOS (GERAL / ESCOLA) -->
+  <!-- ======================================================== -->
+  <div id="modal-central-relatorios" class="agenda-modal-overlay" style="display: none; z-index: 10450; backdrop-filter: blur(4px); background: rgba(7, 21, 47, 0.72);">
+    <div class="agenda-modal-card" style="max-width: 660px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45); border: 1px solid rgba(240, 155, 12, 0.35);">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border-bottom: 2px solid #f09b0c; padding: 1.15rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <span style="font-size: 0.74rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.08em; text-transform: uppercase;">CENTRAL DE RELATÓRIOS • URE ITAPEVI</span>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.15rem 0 0 0; letter-spacing: -0.01em;">Relatórios Executivos da Rede</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalCentralRelatorios()" title="Fechar" aria-label="Fechar">✕</button>
+      </div>
+
+      <div class="agenda-modal-body" style="padding: 1.5rem; background: #ffffff;">
+        <label class="agenda-form-label" style="font-size: 0.82rem; font-weight: 800; color: #0b2351; margin-bottom: 0.65rem; display: block; text-transform: uppercase; letter-spacing: 0.04em;">
+          Selecione o Escopo do Relatório:
+        </label>
+        
+        <div style="display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 1.25rem;">
+          <!-- OPÇÃO 1: RELATÓRIO GERAL (SEM FILTRO) -->
+          <div id="card-relatorio-tipo-geral" onclick="selecionarTipoRelatorioCentral('geral')" style="border: 2px solid #0b2351; background: #f0f7ff; border-radius: 12px; padding: 1.1rem 1.25rem; cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); position: relative; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.08);">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <span style="font-size: 1.6rem;">🏛️</span>
+                <div>
+                  <h4 style="margin: 0 0 0.15rem 0; font-size: 1.02rem; font-weight: 800; color: #0b2351;">Relatório Geral da Rede</h4>
+                  <p style="margin: 0; font-size: 0.77rem; color: #475569; line-height: 1.35;">
+                    Consolidado das <strong>60 Escolas Estaduais</strong> e 7 Núcleos • Metodologia IPRE e ranking regional.
+                  </p>
+                </div>
+              </div>
+              <span id="badge-tipo-geral" style="background: #0b2351; color: #ffffff; font-size: 0.7rem; font-weight: 800; padding: 4px 10px; border-radius: 999px; white-space: nowrap;">✓ Selecionado</span>
+            </div>
+
+            <!-- RESUMO INFORMATIVO DO RELATÓRIO GERAL -->
+            <div id="painel-relatorio-geral" style="margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px solid rgba(11, 35, 81, 0.12); display: flex; gap: 0.45rem; flex-wrap: wrap; font-size: 0.72rem; font-weight: 700;">
+              <span style="background: #e0f2fe; color: #0369a1; padding: 3px 9px; border-radius: 6px;">60 Escolas Estaduais</span>
+              <span style="background: #dcfce7; color: #15803d; padding: 3px 9px; border-radius: 6px;">Metodologia IPRE</span>
+              <span style="background: #ffffff; color: #334155; border: 1px solid #cbd5e1; padding: 3px 9px; border-radius: 6px;">PDF / Excel / Impressão</span>
+            </div>
+          </div>
+
+          <!-- OPÇÃO 2: RELATÓRIO POR ESCOLA (O FILTRO ESTÁ EMBUTIDO AQUI DENTRO! ANTES NÃO APARECE!) -->
+          <div id="card-relatorio-tipo-escola" onclick="selecionarTipoRelatorioCentral('escola')" style="border: 1.5px solid #e2e8f0; background: #ffffff; border-radius: 12px; padding: 1.1rem 1.25rem; cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); position: relative;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <span style="font-size: 1.6rem;">🏫</span>
+                <div>
+                  <h4 style="margin: 0 0 0.15rem 0; font-size: 1.02rem; font-weight: 800; color: #0f172a;">Relatório por Escola</h4>
+                  <p style="margin: 0; font-size: 0.77rem; color: #475569; line-height: 1.35;">
+                    Dossiê Executivo individual de uma unidade específica (Infraestrutura, TI, PDDE, Pessoas e ASURE).
+                  </p>
+                </div>
+              </div>
+              <span id="badge-tipo-escola" style="background: #f1f5f9; color: #64748b; font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; white-space: nowrap;">Dossiê Individual</span>
+            </div>
+
+            <!-- FILTRO EMBUTIDO EXCLUSIVAMENTE DENTRO DO BOTÃO DA ESCOLA (display: none quando em Geral!) -->
+            <div id="painel-relatorio-escola" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1.5px dashed rgba(11, 35, 81, 0.2); cursor: default;" onclick="event.stopPropagation()">
+              <div style="margin-bottom: 0.85rem;">
+                <label class="agenda-form-label" style="font-size: 0.78rem; font-weight: 800; color: #0b2351; margin-bottom: 0.4rem; display: block;">
+                  Filtrar por Município:
+                </label>
+                <div id="container-pills-mun-relatorio" style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                  <!-- Preenchido dinamicamente -->
+                </div>
+              </div>
+
+              <div style="margin-bottom: 0.85rem;">
+                <label class="agenda-form-label" style="font-size: 0.78rem; font-weight: 800; color: #0b2351; margin-bottom: 0.4rem; display: block;">
+                  Buscar Escola (Nome ou CIE):
+                </label>
+                <div style="position: relative;">
+                  <input type="text" id="input-busca-relatorio-escola" oninput="filtrarEscolasRelatorioModal()" placeholder="Digite o nome da escola ou CIE (ex: Raul Benedito ou 009921)..." style="width: 100%; box-sizing: border-box; padding: 0.55rem 0.85rem 0.55rem 2.2rem; font-size: 0.84rem; border: 1.5px solid #cbd5e1; border-radius: 8px; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#0b2351'" onblur="this.style.borderColor='#cbd5e1'">
+                  <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 0.95rem; color: #94a3b8; pointer-events: none;">🔍</span>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 0.85rem;">
+                <label class="agenda-form-label" style="font-size: 0.78rem; font-weight: 800; color: #0b2351; margin-bottom: 0.4rem; display: flex; justify-content: space-between;">
+                  <span>Selecione a Unidade Escolar:</span>
+                  <span id="contagem-escolas-relatorio" style="font-size: 0.72rem; color: #64748b; font-weight: 600;">60 escolas disponíveis</span>
+                </label>
+                <select id="select-relatorio-escola" onchange="atualizarPreviaEscolaRelatorio()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.85rem; font-size: 0.85rem; font-weight: 600; border: 1.5px solid #0b2351; border-radius: 8px; background: #ffffff; color: #0f172a; outline: none; cursor: pointer;">
+                  <!-- Preenchido dinamicamente -->
+                </select>
+              </div>
+
+              <!-- PRÉVIA DA ESCOLA SELECIONADA -->
+              <div id="previa-escola-relatorio" style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 0.75rem 1rem; display: none; justify-content: space-between; align-items: center; gap: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                <div>
+                  <span id="previa-esc-mun" style="font-size: 0.68rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Município</span>
+                  <h5 id="previa-esc-nome" style="margin: 0.1rem 0; font-size: 0.95rem; font-weight: 800; color: #0b2351;">Nome da Escola</h5>
+                  <span id="previa-esc-cie" style="font-size: 0.72rem; color: #475569; font-weight: 600; font-family: monospace;">CIE: 000000</span>
+                </div>
+                <div id="previa-esc-badge" style="text-align: right;">
+                  <!-- Badge IMRO da escola -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="agenda-modal-footer" style="padding: 1rem 1.5rem; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.74rem; color: #64748b; display: flex; align-items: center; gap: 0.35rem;">
+          <span>⚡</span> Pronto para PDF, impressão e análise
+        </span>
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1; padding: 0.55rem 1.15rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px;" onclick="fecharModalCentralRelatorios()">Cancelar</button>
+          <button type="button" class="btn-visitas-mapa" onclick="executarGeracaoRelatorioCentral()" style="background: linear-gradient(135deg, #0b2351 0%, #1e40af 100%); color: #ffffff; border: none; padding: 0.55rem 1.35rem; font-size: 0.85rem; font-weight: 800; border-radius: 8px; box-shadow: 0 4px 14px rgba(11, 35, 81, 0.35); cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem;">
+            <span>📄</span> <span id="btn-texto-gerar-relatorio">Gerar Relatório Geral</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ESTÚDIO: PRÉ-VISUALIZAÇÃO & EXPORTAÇÃO PDF / EXCEL -->
+  <!-- ======================================================== -->
+  <div id="modal-relatorio-executivo" class="agenda-modal-overlay" style="display: none; z-index: 10500; backdrop-filter: blur(4px); background: rgba(7, 21, 47, 0.76);" onclick="if(event.target === this) fecharModalRelatorioExecutivo()">
+    <div class="agenda-modal-card" style="max-width: 1040px; width: 95vw; max-height: 94vh; display: flex; flex-direction: column; padding: 0; border-radius: 14px; border: 1px solid #334155; box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45); overflow: hidden;">
+      <div style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); padding: 0.9rem 1.35rem; color: #ffffff; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; border-bottom: 2px solid #f09b0c;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span id="rel-exec-badge" style="font-size: 0.68rem; font-weight: 800; background: rgba(240, 155, 12, 0.2); color: #fbbf24; border: 1px solid rgba(240, 155, 12, 0.45); padding: 2px 8px; border-radius: 999px; letter-spacing: 0.05em; text-transform: uppercase;">RELATÓRIO EXECUTIVO</span>
+            <span style="font-size: 0.72rem; color: #94a3b8;">Pré-visualização A4 em Tempo Real</span>
+          </div>
+          <h3 id="rel-exec-titulo" style="margin: 3px 0 0 0; font-size: 1.05rem; font-weight: 800; color: #ffffff;">Relatório Executivo</h3>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+          <button type="button" id="btn-rel-baixar-pdf" onclick="baixarPdfRelatorioAtual()" style="background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%); color: #ffffff; border: 1px solid #2dd4bf; padding: 0.48rem 0.95rem; border-radius: 8px; font-size: 0.78rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 3px 10px rgba(15, 118, 110, 0.35);">
+            <span>⬇️</span><span>Baixar PDF</span>
+          </button>
+          <button type="button" id="btn-rel-baixar-excel" onclick="baixarExcelRelatorioAtual()" style="background: #15803d; color: #ffffff; border: 1px solid #4ade80; padding: 0.48rem 0.95rem; border-radius: 8px; font-size: 0.78rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <span>📊</span><span>Baixar Excel</span>
+          </button>
+          <button type="button" id="btn-rel-imprimir" onclick="imprimirRelatorioAtual()" style="background: rgba(255, 255, 255, 0.12); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3); padding: 0.48rem 0.9rem; border-radius: 8px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <span>🖨️</span><span>Imprimir</span>
+          </button>
+          <button type="button" onclick="fecharModalRelatorioExecutivo()" title="Fechar pré-visualização" style="background: rgba(239, 68, 68, 0.18); color: #fecaca; border: 1px solid rgba(239, 68, 68, 0.4); width: 32px; height: 32px; border-radius: 8px; font-size: 0.95rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
+        </div>
+      </div>
+      <div style="flex: 1; overflow-y: auto; background: #cbd5e1; padding: 1.45rem 1rem;">
+        <div id="relatorio-executivo-canvas" class="exec-doc-sheet">
+          <!-- Renderizado dinamicamente em alta resolução -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: DIAGNÓSTICO EXECUTIVO & DETALHES DA ESCOLA -->
+  <!-- ======================================================== -->
+  <div id="modal-escola-detalhes" class="agenda-modal-overlay" style="display: none; z-index: 10000;" onclick="if(event.target === this) fecharModalDetalhesEscola()">
+    <div class="agenda-modal-card" style="max-width: 860px; max-height: 92vh; overflow-y: auto; padding: 0; border-radius: 16px; border: 1px solid #cbd5e1; box-shadow: 0 25px 60px rgba(0,0,0,0.25);">
+      
+      <!-- HEADER DO RAIO-X -->
+      <div style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); padding: 1.5rem 1.85rem; color: #ffffff; display: flex; justify-content: space-between; align-items: flex-start; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+            <span style="font-size: 0.74rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">FICHA EXECUTIVA MULTISSETORIAL • DIAGNÓSTICO DA UNIDADE</span>
+            <span id="det-modal-status-badge" style="background: rgba(16,185,129,0.2); color: #34d399; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(16,185,129,0.3);">● Regular</span>
+            <span id="det-modal-tipo-badge" style="background: rgba(245,158,11,0.2); color: #fbbf24; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">PEI 9h</span>
+          </div>
+          <h3 id="det-modal-nome" style="font-size: 1.35rem; font-weight: 800; color: #ffffff; margin: 0; line-height: 1.25;">Nome da Unidade Escolar</h3>
+          <div style="font-size: 0.82rem; color: #94a3b8; margin-top: 4px; display: flex; gap: 0.85rem; flex-wrap: wrap;">
+            <span id="det-modal-cie">CIE: 000000</span>
+            <span>•</span>
+            <span id="det-modal-cidade">Município: Itapevi</span>
+            <span>•</span>
+            <span id="det-modal-segmento">Ensino Fundamental e Médio</span>
+          </div>
+        </div>
+        <button type="button" onclick="fecharModalDetalhesEscola()" style="background: rgba(255,255,255,0.1); border: none; color: #ffffff; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.8)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">✕</button>
+      </div>
+
+      <!-- CORPO DO RAIO-X COM DIAGNÓSTICO INTEGRADO -->
+      <div style="padding: 1.5rem 1.85rem; background: #f8fafc; display: flex; flex-direction: column; gap: 1.25rem;">
+        
+        <!-- Bloco 1: Identificação & Gestão -->
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.15rem; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+          <div style="font-size: 0.8rem; font-weight: 800; color: #0b2351; text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+            <span>📍</span> <span>Dados Cadastrais &amp; Equipe Gestora</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; font-size: 0.82rem;">
+            <div>
+              <span style="color: #64748b; font-size: 0.75rem; display: block;">Endereço / Logradouro:</span>
+              <strong id="det-modal-endereco" style="color: #0f172a;">---</strong>
+            </div>
+            <div>
+              <span style="color: #64748b; font-size: 0.75rem; display: block;">Direção Escolar:</span>
+              <strong id="det-modal-diretor" style="color: #0f172a;">---</strong>
+            </div>
+            <div>
+              <span style="color: #64748b; font-size: 0.75rem; display: block;">Telefone Institucional:</span>
+              <strong id="det-modal-telefone" style="color: #0f172a;">---</strong>
+            </div>
+            <div>
+              <span style="color: #64748b; font-size: 0.75rem; display: block;">Modelo Pedagógico:</span>
+              <strong id="det-modal-modelo" style="color: #0f172a;">---</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bloco 2: Cruzamento Multissetorial (Grid 2 Colunas) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.15rem;">
+          
+          <!-- SEOM: Infraestrutura Predial -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #b45309; border-radius: 12px; padding: 1.15rem; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+            <div style="font-size: 0.8rem; font-weight: 800; color: #b45309; text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>🏗️</span> <span>Infraestrutura &amp; Segurança (SEOM)</span>
+            </div>
+            <div id="det-modal-seom-content" style="font-size: 0.8rem; color: #334155; line-height: 1.6;">
+              <!-- Preenchido dinamicamente via JS -->
+            </div>
+          </div>
+
+          <!-- SEINTEC: Parque de Tecnologia & Chamados -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 5px solid #0284c7; border-radius: 12px; padding: 1.15rem; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+            <div style="font-size: 0.8rem; font-weight: 800; color: #0284c7; text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>💻</span> <span>Tecnologia &amp; Conectividade (SEINTEC)</span>
+            </div>
+            <div id="det-modal-seintec-content" style="font-size: 0.8rem; color: #334155; line-height: 1.6;">
+              <!-- Preenchido dinamicamente via JS -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bloco 3: Finanças (SEAFIN) & Rede (SEGRE) & Gabinete -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+          
+          <!-- SEAFIN -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: #047857; text-transform: uppercase; margin-bottom: 0.4rem;">💼 Finanças da APM (SEAFIN)</div>
+            <div id="det-modal-seafin-content" style="font-size: 0.78rem; color: #334155; line-height: 1.5;">
+              Monitoramento dos repasses PDDE Paulista / Federal e prestação de contas dos saldos em conta da APM.
+            </div>
+          </div>
+
+          <!-- SEGRE -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: #ea580c; text-transform: uppercase; margin-bottom: 0.4rem;">🏫 Gestão da Rede (SEGRE)</div>
+            <div id="det-modal-segre-content" style="font-size: 0.78rem; color: #334155; line-height: 1.5;">
+              Fluxo de matrículas compatibilizadas (SEMAT) e regularidade de prontuários de concluintes (SEVESC).
+            </div>
+          </div>
+
+          <!-- GABINETE / ASURE -->
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.95rem;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: #1e293b; text-transform: uppercase; margin-bottom: 0.4rem;">📅 Visitas &amp; Gabinete (ASURE)</div>
+            <div id="det-modal-gabinete-content" style="font-size: 0.78rem; color: #334155; line-height: 1.5;">
+              Acompanhamento in loco da Dirigente Regional e supervisores de ensino da jurisdição.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- FOOTER DE AÇÕES RÁPIDAS -->
+      <div style="background: #ffffff; border-top: 1px solid #e2e8f0; padding: 1rem 1.85rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+        <div style="font-size: 0.76rem; color: #64748b;">
+          * Indicadores sincronizados com as bases oficiais dos setores no exercício vigente.
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+          <button type="button" onclick="gerarRelatorioPdfEscolaAtualDetalhes()" style="background: #0f766e; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.15s; display: inline-flex; align-items: center; gap: 0.35rem;" title="Gerar Relatório Executivo Individual em PDF desta escola">
+            <span>📄</span><span>Relatório PDF</span>
+          </button>
+          <button type="button" id="btn-det-modal-editar" onclick="editarEscolaDoDetalhes()" style="background: #f1f5f9; color: #0b2351; border: 1px solid #cbd5e1; padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.15s;">
+            ✏️ Editar Cadastro
+          </button>
+          <button type="button" onclick="fecharModalDetalhesEscola()" style="background: #0b2351; color: #ffffff; border: none; padding: 0.45rem 1.25rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: 0.15s;">
+            Fechar
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="modal-escola" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalEscola()">
+    <div class="agenda-modal-card" style="max-width: 620px;">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%);">
+        <div>
+          <span style="font-size: 0.78rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">CADASTRO DE ESCOLAS • URE ITAPEVI</span>
+          <h3 id="modal-escola-titulo" style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Acrescentar Nova Escola</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalEscola()">✕</button>
+      </div>
+
+      <form id="form-escola" onsubmit="salvarEscolaForm(event)">
+        <input type="hidden" id="form-escola-id">
+        <div class="agenda-modal-body" style="padding: 1.5rem; max-height: 70vh; overflow-y: auto;">
+          <div class="agenda-form-grid">
+            
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Código CIE *</label>
+              <input type="text" id="form-escola-cie" class="agenda-form-input" placeholder="Ex: 042918" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Município *</label>
+              <select id="form-escola-cidade" class="agenda-form-select" required>
+                <option value="Itapevi">Itapevi</option>
+                <option value="Jandira">Jandira</option>
+                <option value="Pirapora do Bom Jesus">Pirapora do Bom Jesus</option>
+                <option value="Barueri">Barueri</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Nome Completo da Escola *</label>
+              <input type="text" id="form-escola-nome" class="agenda-form-input" placeholder="Ex: EE Prof. José Barreto" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Modelo / Tipo de Ensino *</label>
+              <select id="form-escola-tipo" class="agenda-form-select" required>
+                <option value="PEI 9h">PEI (Integral 9 horas)</option>
+                <option value="PEI 7h">PEI (Integral 7 horas)</option>
+                <option value="Regular Parcial">Regular (Parcial)</option>
+                <option value="Regular e Técnico">Regular + Novotec / Técnico</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Segmento Atendido *</label>
+              <select id="form-escola-segmento" class="agenda-form-select" required>
+                <option value="Anos Finais e Ensino Médio">Anos Finais e Ensino Médio</option>
+                <option value="Anos Iniciais e Anos Finais">Anos Iniciais e Anos Finais</option>
+                <option value="Ensino Médio">Ensino Médio</option>
+                <option value="Anos Iniciais">Anos Iniciais</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Diretor(a) Responsável</label>
+              <input type="text" id="form-escola-diretor" class="agenda-form-input" placeholder="Ex: Maria Cristina de Andrade">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Telefone / Contato</label>
+              <input type="text" id="form-escola-telefone" class="agenda-form-input" placeholder="Ex: (11) 4141-2345">
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Bairro / Localidade</label>
+              <input type="text" id="form-escola-bairro" class="agenda-form-input" placeholder="Ex: Centro, Cohab, Jardim Briquet...">
+            </div>
+
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Situação / Status da Unidade *</label>
+              <select id="form-escola-status" class="agenda-form-select" required>
+                <option value="Regular">Regular (Funcionamento Normal)</option>
+                <option value="Alta prioridade">Alta Prioridade / Exige Atenção</option>
+                <option value="Em Reforma">Em Reforma / Obras Estruturais</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Observações da Unidade Escolar (opcional)</label>
+              <textarea id="form-escola-obs" class="agenda-form-textarea" rows="2" placeholder="Anotações internas e observações cadastrais gerais da unidade..."></textarea>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="agenda-modal-footer">
+          <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1;" onclick="fecharModalEscola()">Cancelar</button>
+          <button type="submit" class="btn-escola-primary">
+            <span>Salvar Escola</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL: REGISTRAR / ALTERAR VISITA -->
+  <div id="modal-registro-visita" class="agenda-modal-overlay" style="display: none;">
+    <div class="agenda-modal-card" style="max-width: 520px;">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); border-bottom: 2px solid #f09b0c;">
+        <div>
+          <span style="font-size: 0.78rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">ACOMPANHAMENTO DA DIRIGENTE</span>
+          <h3 id="modal-visita-titulo" style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Registrar Visita à Escola</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalRegistroVisita()" title="Fechar" aria-label="Fechar modal">✕</button>
+      </div>
+
+      <form id="form-registro-visita" onsubmit="salvarRegistroVisita(event)">
+        <input type="hidden" id="form-visita-escola-id">
+        <div class="agenda-modal-body" style="padding: 1.5rem;">
+          <div class="agenda-form-grid">
+            
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Unidade Escolar</label>
+              <div id="form-visita-escola-nome" style="font-weight: 800; font-size: 1.05rem; color: #0f172a; background: #f8fafc; padding: 0.65rem 0.85rem; border: 1px solid #e2e8f0; border-radius: 8px;"></div>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Data da Visita *</label>
+              <input type="date" id="form-visita-data" class="agenda-form-input" required>
+            </div>
+
+            <div class="agenda-form-group">
+              <label class="agenda-form-label">Foco / Objetivo Principal *</label>
+              <select id="form-visita-tipo" class="agenda-form-select" required>
+                <option value="Acompanhamento Pedagógico">Acompanhamento Pedagógico</option>
+                <option value="Vistoria de Infraestrutura">Vistoria de Infraestrutura / Obras</option>
+                <option value="Reunião com Equipe Gestora">Reunião com Equipe Gestora</option>
+                <option value="SARESP e Fluência Leitora">SARESP e Fluência Leitora</option>
+                <option value="Acompanhamento ESE">Acompanhamento ESE</option>
+              </select>
+            </div>
+
+            <div class="agenda-form-group agenda-form-full">
+              <label class="agenda-form-label">Termo de Visita / Observações da Dirigente</label>
+              <textarea id="form-visita-obs" class="agenda-form-textarea" rows="3" placeholder="Ex: Acompanhamento da formação docente, verificação das salas com Educatrons e diálogo com grêmio estudantil..."></textarea>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="agenda-modal-footer">
+          <button type="button" class="btn-mudar-data" style="color: #64748b; border-color: #cbd5e1;" onclick="fecharModalRegistroVisita()">Cancelar</button>
+          <button type="submit" class="btn-visitas-mapa" style="box-shadow: 0 4px 14px rgba(240, 155, 12, 0.35);">
+            <span>Confirmar Visita</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: MAPA DE VISITAS (VISÃO GEOGRÁFICA) -->
+  <div id="modal-mapa-visitas" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalMapaVisitas()">
+    <div class="agenda-modal-card" style="max-width: 840px;">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%);">
+        <div>
+          <span style="font-size: 0.78rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">MAPA DA REDE • URE ITAPEVI</span>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0;">Mapa de Visitas da Dirigente</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalMapaVisitas()">✕</button>
+      </div>
+
+      <div class="agenda-modal-body" style="padding: 1.5rem; max-height: 75vh; overflow-y: auto;">
+        
+        <!-- LEGENDA E STATUS -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.85rem 1.25rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; gap: 1.25rem; font-size: 0.84rem; font-weight: 700;">
+            <span style="display: flex; align-items: center; gap: 0.4rem; color: #059669;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
+              Visitadas: <span id="mapa-count-visitadas">54</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 0.4rem; color: #d97706;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #f59e0b; display: inline-block;"></span>
+              Pendentes: <span id="mapa-count-pendentes">33</span>
+            </span>
+          </div>
+          <div style="font-size: 0.82rem; color: #64748b; font-weight: 600;">
+            Taxa de Cobertura: <strong id="mapa-cobertura-taxa" style="color: #059669;">62%</strong>
+          </div>
+        </div>
+
+        <!-- GRID DE MUNICÍPIOS -->
+        <div id="mapa-visitas-grid" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <!-- Preenchido via JS agrupando escolas por município -->
+        </div>
+
+      </div>
+
+      <div class="agenda-modal-footer">
+        <button type="button" class="btn-visitas-limpar" onclick="fecharModalMapaVisitas()">Fechar Mapa</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL EXECUTIVO: DETALHES COMPLETOS DO CHAMADO (SEINTEC CALLS) -->
+  <div id="modal-detalhe-call" class="agenda-modal-overlay" style="display: none;" onclick="if(event.target === this) fecharModalDetalheCall()">
+    <div class="agenda-modal-card" style="max-width: 650px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+      <div class="agenda-modal-header" style="background: linear-gradient(135deg, #07152f 0%, #0b2351 100%); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <span style="font-size: 0.78rem; font-weight: 800; color: #f09b0c; letter-spacing: 0.05em; text-transform: uppercase;">SEINTEC • DETALHAMENTO DO CHAMADO</span>
+          <h3 id="modal-call-id" style="font-size: 1.35rem; font-weight: 800; color: #ffffff; margin: 0.2rem 0 0 0; font-family: monospace;">#CALL-000</h3>
+        </div>
+        <button type="button" class="agenda-modal-close" onclick="fecharModalDetalheCall()" style="background: none; border: none; color: #ffffff; font-size: 1.4rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div class="agenda-modal-body" style="padding: 1.5rem; max-height: 70vh; overflow-y: auto; background: #ffffff;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+            <div>
+              <span style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Unidade Escolar</span>
+              <h4 id="modal-call-escola" style="margin: 0.15rem 0 0 0; font-size: 1.05rem; font-weight: 800; color: #0b2351;">Escola Estadual</h4>
+              <span id="modal-call-cie" style="font-size: 0.75rem; color: #64748b; font-weight: 600;">CIE: 000000</span>
+            </div>
+            <div style="text-align: right;">
+              <span style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Situação</span>
+              <div id="modal-call-status" style="font-size: 0.82rem; font-weight: 800; color: #2563eb; margin-top: 0.15rem;">Pendente</div>
+              <span id="modal-call-data" style="font-size: 0.75rem; color: #64748b;">📅 15/10/2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="background: #f1f5f9; padding: 0.85rem; border-radius: 8px;">
+            <span style="font-size: 0.7rem; font-weight: 700; color: #475569; text-transform: uppercase; display: block;">Tipo de Ocorrência</span>
+            <strong id="modal-call-tipo" style="font-size: 0.88rem; color: #0f172a;">Equipamentos e Tablets</strong>
+          </div>
+          <div style="background: #f1f5f9; padding: 0.85rem; border-radius: 8px;">
+            <span style="font-size: 0.7rem; font-weight: 700; color: #475569; text-transform: uppercase; display: block;">Solicitante na Escola</span>
+            <strong id="modal-call-solicitante" style="font-size: 0.88rem; color: #0f172a;">Gestão Escolar</strong>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <span style="font-size: 0.78rem; font-weight: 800; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 0.4rem;">Relato Completo da Demanda Técnica:</span>
+          <div id="modal-call-relato" style="background: #fff8f8; border: 1.5px solid #fecaca; border-radius: 8px; padding: 1rem; font-size: 0.88rem; color: #1e293b; line-height: 1.5;">
+            Descrição do problema
+          </div>
+        </div>
+
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 0.85rem; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <span style="font-size: 0.7rem; font-weight: 700; color: #1e40af; text-transform: uppercase; display: block;">Telefones / Contato na UE</span>
+            <strong id="modal-call-telefone" style="font-size: 0.88rem; color: #1e3a8a;">(11) 2658-8000</strong>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="agenda-modal-footer" style="padding: 1rem 1.5rem; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button type="button" class="btn-mudar-data" onclick="fecharModalDetalheCall()" style="padding: 0.5rem 1.25rem; font-size: 0.82rem; font-weight: 700; border-radius: 8px;">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
+<script>

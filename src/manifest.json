@@ -1,0 +1,106 @@
+{
+  "eol": "crlf",
+  "output": "index.html",
+  "parts": [
+    {
+      "type": "html",
+      "file": "src/html/00-head.html"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/01-core-router-agenda.js"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/02-mapa-geografico.js"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/03-carro-oficial.js"
+    },
+    {
+      "type": "html",
+      "file": "src/html/00b-head-between-script-style.html"
+    },
+    {
+      "type": "css-inline",
+      "file": "src/css/01-base-sidebar.css"
+    },
+    {
+      "type": "css-inline",
+      "file": "src/css/02-home-centros-seintec.css"
+    },
+    {
+      "type": "css-inline",
+      "file": "src/css/03-agenda-carro-escolas-visitas.css"
+    },
+    {
+      "type": "css-inline",
+      "file": "src/css/04-responsive-imro.css"
+    },
+    {
+      "type": "html",
+      "file": "src/html/01-views-layout.html"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/04-escolas-visitas-urls.js"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/05-home-org-kpis.js"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/06-sector-seafin.js"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/07-sector-seom.js"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/08-sector-segre.js"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/09-sector-sepes-eec-gab.js"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/10-sector-seintec-files.js"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/11-cloud-sync-tables.js"
+    },
+    {
+      "type": "html",
+      "file": "src/html/02-modals-print.html"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/12-mobile-sidebar.js"
+    },
+    {
+      "type": "literal",
+      "text": "</script>\r\n<script>"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/13-scroll-proximity.js"
+    },
+    {
+      "type": "literal",
+      "text": "</script>\r\n\r\n<script>"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/14-imro-engine-relatorios.js"
+    },
+    {
+      "type": "html",
+      "file": "src/html/03-footer.html"
+    }
+  ]
+}
