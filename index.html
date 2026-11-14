@@ -22123,6 +22123,9 @@ function _obterResumoIpreEscolaInterno(esc) {
         var fnGas = o.fnGas;
         var argsGas = Array.isArray(o.argsGas) ? o.argsGas : [];
         var extra = o.urlExtraParams || '';
+        if (window.__syncSilenciosoAtivo === true && extra.indexOf('cache=') === -1 && extra.indexOf('bruto=true') === -1) {
+          extra += '&cache=1';
+        }
         var resolveTracked = function(res) { resolve(res); finalizarTrackBoot(); };
         var rejectTracked = function(err) { reject(err); finalizarTrackBoot(); };
 

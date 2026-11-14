@@ -24,30 +24,31 @@ function doGet(e) {
       }
 
       var forcarBruto = (e.parameter.bruto === 'true' || e.parameter.completo === 'true');
+      var usarCacheDrive = (e.parameter.cache === '1' && !forcarBruto);
       if (action === 'sincronizarSharepoint' || action === 'sincronizarCalls') {
-        output = sincronizarPlanilhaSharepoint(forcarBruto);
+        output = obterSetorComCacheDrive_('seintec', usarCacheDrive, function() { return sincronizarPlanilhaSharepoint(forcarBruto); });
       } else if (action === 'sincronizarInventario') {
-        output = sincronizarInventarioSharepoint(e.parameter.since || '');
+        output = obterSetorComCacheDrive_('inventario', usarCacheDrive, function() { return sincronizarInventarioSharepoint(e.parameter.since || ''); });
       } else if (action === 'sincronizarSefin') {
-        output = sincronizarPlanilhaSefin(forcarBruto);
+        output = obterSetorComCacheDrive_('sefin', usarCacheDrive, function() { return sincronizarPlanilhaSefin(forcarBruto); });
       } else if (action === 'sincronizarSegre') {
-        output = sincronizarPlanilhaSegre(forcarBruto);
+        output = obterSetorComCacheDrive_('segre', usarCacheDrive, function() { return sincronizarPlanilhaSegre(forcarBruto); });
       } else if (action === 'sincronizarSemat') {
-        output = sincronizarPlanilhaSemat(forcarBruto);
+        output = obterSetorComCacheDrive_('semat', usarCacheDrive, function() { return sincronizarPlanilhaSemat(forcarBruto); });
       } else if (action === 'sincronizarSevesc') {
-        output = sincronizarPlanilhaSevesc(forcarBruto);
+        output = obterSetorComCacheDrive_('sevesc', usarCacheDrive, function() { return sincronizarPlanilhaSevesc(forcarBruto); });
       } else if (action === 'sincronizarSepes') {
-        output = sincronizarPlanilhaSepes(forcarBruto);
+        output = obterSetorComCacheDrive_('sepes', usarCacheDrive, function() { return sincronizarPlanilhaSepes(forcarBruto); });
       } else if (action === 'sincronizarSefrep') {
-        output = sincronizarPlanilhaSefrep(forcarBruto);
+        output = obterSetorComCacheDrive_('sefrep', usarCacheDrive, function() { return sincronizarPlanilhaSefrep(forcarBruto); });
       } else if (action === 'sincronizarSecomse') {
-        output = sincronizarPlanilhaSecomse(forcarBruto);
+        output = obterSetorComCacheDrive_('secomse', usarCacheDrive, function() { return sincronizarPlanilhaSecomse(forcarBruto); });
       } else if (action === 'sincronizarDpat') {
-        output = sincronizarPlanilhaDpat(forcarBruto);
+        output = obterSetorComCacheDrive_('dpat', usarCacheDrive, function() { return sincronizarPlanilhaDpat(forcarBruto); });
       } else if (action === 'sincronizarSeom') {
-        output = sincronizarPlanilhaSeom(forcarBruto);
+        output = obterSetorComCacheDrive_('seom', usarCacheDrive, function() { return sincronizarPlanilhaSeom(forcarBruto); });
       } else if (action === 'sincronizarSefisc') {
-        output = sincronizarPlanilhaSefisc(forcarBruto);
+        output = obterSetorComCacheDrive_('sefisc', usarCacheDrive, function() { return sincronizarPlanilhaSefisc(forcarBruto); });
       } else if (action === 'sincronizarGenerico' || action === 'obterArquivoPublico') {
         output = obterArquivoPublicoSharepoint(e.parameter.url, {
           nomeSetor: e.parameter.setor,
@@ -71,6 +72,12 @@ function doGet(e) {
         output = { sucesso: true, url: getCarroCalendarConfig() };
       } else if (action === 'salvarCarroCalendarConfig') {
         output = salvarCarroCalendarConfig(e.parameter.url || '');
+      } else if (action === 'obterCacheDrive') {
+        output = lerCacheSetorDrive_(e.parameter.setor || '');
+      } else if (action === 'executarSyncSegundoPlano') {
+        output = sincronizarTodasBasesEmSegundoPlano();
+      } else if (action === 'instalarGatilhoSegundoPlano') {
+        output = instalarGatilhoSyncSegundoPlano();
       } else if (action === 'ping') {
         // Diagnóstico rápido: verifica se o GAS está online e com permissões corretas
         output = {
@@ -2081,5 +2088,147 @@ function obterEstadoNuvem(chave) {
     return { sucesso: true, chave: chaveLimpa, dados: JSON.parse(fullJson) };
   } catch (err) {
     return { sucesso: false, erro: err.toString(), dados: null };
+  }
+}
+
+/* ========================================================================= */
+/* CACHE EM NUVEM 24/7 NO GOOGLE DRIVE (BI_DIRIGENTE / Cache_Nuvem)          */
+/* ========================================================================= */
+function obterOuCriarPastaCacheBI_() {
+  var props = PropertiesService.getScriptProperties();
+  var cachedId = props.getProperty('BI_DRIVE_CACHE_FOLDER_ID');
+  if (cachedId) {
+    try {
+      var f = DriveApp.getFolderById(cachedId);
+      if (f && !f.isTrashed()) return f;
+    } catch (e) {}
+  }
+
+  var rootFolders = DriveApp.getFoldersByName('BI_DIRIGENTE');
+  var pastaRaiz = rootFolders.hasNext() ? rootFolders.next() : DriveApp.createFolder('BI_DIRIGENTE');
+
+  var subFolders = pastaRaiz.getFoldersByName('Cache_Nuvem');
+  var pastaCache = subFolders.hasNext() ? subFolders.next() : pastaRaiz.createFolder('Cache_Nuvem');
+
+  props.setProperty('BI_DRIVE_CACHE_FOLDER_ID', pastaCache.getId());
+  return pastaCache;
+}
+
+function salvarCacheSetorDrive_(setor, obj) {
+  if (!setor || !obj) return { sucesso: false, erro: 'Parâmetros inválidos' };
+  try {
+    var pasta = obterOuCriarPastaCacheBI_();
+    var nomeArquivo = 'cache_' + String(setor).toLowerCase().replace(/[^a-z0-9_]/g, '') + '.json';
+    var payload = JSON.stringify({
+      atualizadoEm: new Date().toISOString(),
+      atualizadoBr: Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM/yyyy HH:mm:ss'),
+      setor: setor,
+      dados: obj
+    });
+    var files = pasta.getFilesByName(nomeArquivo);
+    if (files.hasNext()) {
+      var file = files.next();
+      file.setContent(payload);
+      while (files.hasNext()) {
+        files.next().setTrashed(true);
+      }
+    } else {
+      pasta.createFile(nomeArquivo, payload, MimeType.PLAIN_TEXT);
+    }
+    return { sucesso: true, arquivo: nomeArquivo };
+  } catch (err) {
+    return { sucesso: false, erro: err.toString() };
+  }
+}
+
+function lerCacheSetorDrive_(setor) {
+  if (!setor) return { sucesso: false, erro: 'Setor não informado' };
+  try {
+    var pasta = obterOuCriarPastaCacheBI_();
+    var nomeArquivo = 'cache_' + String(setor).toLowerCase().replace(/[^a-z0-9_]/g, '') + '.json';
+    var files = pasta.getFilesByName(nomeArquivo);
+    if (!files.hasNext()) {
+      return { sucesso: false, erro: 'Cache ainda não gerado para ' + setor };
+    }
+    var content = files.next().getBlob().getDataAsString('UTF-8');
+    var parsed = JSON.parse(content);
+    return {
+      sucesso: true,
+      origemCacheDrive: true,
+      atualizadoEm: parsed.atualizadoEm || '',
+      atualizadoBr: parsed.atualizadoBr || '',
+      dados: parsed.dados || null
+    };
+  } catch (err) {
+    return { sucesso: false, erro: err.toString() };
+  }
+}
+
+function obterSetorComCacheDrive_(setor, usarCache, fnLive) {
+  if (usarCache) {
+    var cached = lerCacheSetorDrive_(setor);
+    if (cached && cached.sucesso && cached.dados && cached.dados.sucesso) {
+      return cached.dados;
+    }
+  }
+  var res = fnLive();
+  if (res && res.sucesso) {
+    salvarCacheSetorDrive_(setor, res);
+  }
+  return res;
+}
+
+function sincronizarTodasBasesEmSegundoPlano() {
+  var mapa = [
+    { setor: 'seintec', fn: function() { return sincronizarPlanilhaSharepoint(true); } },
+    { setor: 'inventario', fn: function() { return sincronizarInventarioSharepoint(''); } },
+    { setor: 'sefin', fn: function() { return sincronizarPlanilhaSefin(true); } },
+    { setor: 'secomse', fn: function() { return sincronizarPlanilhaSecomse(true); } },
+    { setor: 'seom', fn: function() { return sincronizarPlanilhaSeom(true); } },
+    { setor: 'dpat', fn: function() { return sincronizarPlanilhaDpat(true); } },
+    { setor: 'sefisc', fn: function() { return sincronizarPlanilhaSefisc(true); } },
+    { setor: 'segre', fn: function() { return sincronizarPlanilhaSegre(true); } },
+    { setor: 'semat', fn: function() { return sincronizarPlanilhaSemat(true); } },
+    { setor: 'sevesc', fn: function() { return sincronizarPlanilhaSevesc(true); } },
+    { setor: 'sepes', fn: function() { return sincronizarPlanilhaSepes(true); } },
+    { setor: 'sefrep', fn: function() { return sincronizarPlanilhaSefrep(true); } }
+  ];
+
+  var resultados = {};
+  for (var i = 0; i < mapa.length; i++) {
+    var item = mapa[i];
+    try {
+      var res = item.fn();
+      if (res && res.sucesso) {
+        salvarCacheSetorDrive_(item.setor, res);
+        resultados[item.setor] = 'OK';
+      } else {
+        resultados[item.setor] = 'FALHA: ' + (res && res.erro ? res.erro : 'sem sucesso');
+      }
+    } catch (e) {
+      resultados[item.setor] = 'ERRO: ' + e.toString();
+    }
+  }
+
+  var carimbo = Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM/yyyy HH:mm:ss');
+  PropertiesService.getScriptProperties().setProperty('BI_CACHE_DRIVE_LAST_SYNC', carimbo);
+  return { sucesso: true, atualizadoBr: carimbo, resultados: resultados };
+}
+
+function instalarGatilhoSyncSegundoPlano() {
+  try {
+    var triggers = ScriptApp.getProjectTriggers();
+    for (var i = 0; i < triggers.length; i++) {
+      if (triggers[i].getHandlerFunction() === 'sincronizarTodasBasesEmSegundoPlano') {
+        ScriptApp.deleteTrigger(triggers[i]);
+      }
+    }
+    ScriptApp.newTrigger('sincronizarTodasBasesEmSegundoPlano')
+      .timeBased()
+      .everyHours(1)
+      .create();
+    return { sucesso: true, mensagem: 'Gatilho horário (24/7) instalado com sucesso!' };
+  } catch (err) {
+    return { sucesso: false, erro: err.toString() };
   }
 }
