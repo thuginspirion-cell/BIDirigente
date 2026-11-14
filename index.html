@@ -24316,11 +24316,9 @@ function _obterResumoIpreEscolaInterno(esc) {
 
       var htmlRows = filtradas.map(function(e, idx) {
         return '<tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'transparent\'">' +
-          '<td style="padding: 0.75rem 0.85rem; font-weight: 700; color: #1e293b; font-size: 0.82rem; text-align: center;">' +
-            '<div style="display: flex; align-items: center; justify-content: center; gap: 0.4rem;">' +
-              '<span style="background: #e0e7ff; color: #3730a3; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">' + (idx + 1) + '</span>' +
-              '<span>' + e.escola + '</span>' +
-            '</div>' +
+          '<td style="padding: 0.75rem 0.85rem; font-weight: 700; color: #1e293b; font-size: 0.82rem; text-align: center; position: relative;">' +
+            '<span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); background: #e0e7ff; color: #3730a3; padding: 0.15rem 0.42rem; border-radius: 4px; font-size: 0.7rem; font-weight: 800; min-width: 1.5rem; text-align: center;">' + (idx + 1) + '</span>' +
+            '<span style="display: inline-block; padding: 0 1.8rem;">' + e.escola + '</span>' +
           '</td>' +
           '<td style="padding: 0.65rem 0.6rem; text-align: center;">' + formatarStatusIconeSeom(e.obraFde) + '</td>' +
           '<td style="padding: 0.65rem 0.6rem; text-align: center;">' + formatarStatusIconeSeom(e.avcb) + '</td>' +
