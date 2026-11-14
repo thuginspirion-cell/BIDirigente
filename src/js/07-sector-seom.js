@@ -84,6 +84,9 @@
 
     function sincronizarDashboardDpat(isManual) {
       var manual = (isManual === true || (typeof isManual === 'undefined'));
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_dpat', 'DPAT • Inventário Físico');
+      }
       var btn = document.getElementById('btn-sync-dpat');
       if (btn && manual) {
         btn.disabled = true;
@@ -108,6 +111,9 @@
         }
         var agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         renderizarDashboardDpat();
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_dpat');
+        }
         if (manual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: veioLive ? 'success' : 'info',
@@ -826,6 +832,9 @@
 
     function sincronizarDashboardSeom(isManual) {
       var manual = (isManual === true || (typeof isManual === 'undefined'));
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_seom', 'SEOM • Obras e Infraestrutura');
+      }
       var btn = document.getElementById('btn-sync-seom');
       if (btn && manual) {
         btn.disabled = true;
@@ -858,6 +867,9 @@
           atualizarTabelaMapaSeom();
         }
         if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_seom');
+        }
         var agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         if (manual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -898,9 +910,6 @@
               DADOS_SEOM = parsed;
               if (document.getElementById('tabela-seom-tbody')) renderizarDashboardSeom();
               concluirSucesso('SharePoint Live (Aba MAPA)', true);
-              if (typeof window.gravarEstadoNuvem === 'function' && typeof DADOS_SEOM !== 'undefined' && DADOS_SEOM) {
-                window.gravarEstadoNuvem('SEOM_DATA', DADOS_SEOM);
-              }
             } else {
               buscarMirrorSeom();
             }
@@ -1054,6 +1063,9 @@
 
     function sincronizarDashboardSefisc(isManual) {
       var manual = (isManual === true || (typeof isManual === 'undefined'));
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_sefisc', 'SEFISC • Zeladorias Escolares');
+      }
       var btn = document.getElementById('btn-sync-sefisc');
       if (btn && manual) {
         btn.disabled = true;
@@ -1083,6 +1095,9 @@
         var container = document.getElementById('setor-conteudo-dinamico');
         if (container && document.getElementById('tabela-sefisc-tbody')) {
           renderizarDashboardSefisc();
+        }
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_sefisc');
         }
         var agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         if (manual && typeof mostrarAlertaSincronizacao === 'function') {

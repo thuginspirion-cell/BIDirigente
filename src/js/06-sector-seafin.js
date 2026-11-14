@@ -434,17 +434,6 @@
     /* ========================================================================= */
     function consultarSharepointGasLive(opts) {
       var o = opts || {};
-      var bootTrackId = (window.__bootSyncTracker && window.__bootSyncTracker.ativo)
-        ? ('gas_' + String(o.action || o.fnGas || 'req') + '_' + Math.floor(Math.random() * 100000))
-        : null;
-      if (bootTrackId && typeof window.registrarTarefaBootSync === 'function') {
-        window.registrarTarefaBootSync(bootTrackId, String(o.action || o.fnGas || 'Base'));
-      }
-      var finalizarTrackBoot = function() {
-        if (bootTrackId && typeof window.concluirTarefaBootSync === 'function') {
-          setTimeout(function() { window.concluirTarefaBootSync(bootTrackId); }, 180);
-        }
-      };
       return new Promise(function(resolve, reject) {
         var timeoutMs = o.timeoutMs || 35000;
         var fnGas = o.fnGas;
@@ -453,8 +442,8 @@
         if (window.__syncSilenciosoAtivo === true && extra.indexOf('cache=') === -1 && extra.indexOf('bruto=true') === -1) {
           extra += '&cache=1';
         }
-        var resolveTracked = function(res) { resolve(res); finalizarTrackBoot(); };
-        var rejectTracked = function(err) { reject(err); finalizarTrackBoot(); };
+        var resolveTracked = function(res) { resolve(res); };
+        var rejectTracked = function(err) { reject(err); };
 
         function rodarTier2Jsonp() {
           try {
@@ -489,23 +478,6 @@
           }
         }
 
-        var mapaSetorCache = {
-          sincronizarSharepoint: 'seintec',
-          sincronizarCalls: 'seintec',
-          sincronizarInventario: 'inventario',
-          sincronizarSefin: 'sefin',
-          sincronizarSegre: 'segre',
-          sincronizarSemat: 'semat',
-          sincronizarSevesc: 'sevesc',
-          sincronizarSepes: 'sepes',
-          sincronizarSefrep: 'sefrep',
-          sincronizarSecomse: 'secomse',
-          sincronizarDpat: 'dpat',
-          sincronizarSeom: 'seom',
-          sincronizarSefisc: 'sefisc'
-        };
-        var setorCacheKey = mapaSetorCache[String(o.action || '')] || '';
-
         if (typeof google !== 'undefined' && google.script && google.script.run) {
           var emModoSilencioso = (window.__syncSilenciosoAtivo === true && extra.indexOf('bruto=true') === -1);
           var invocarRpcGas = function() {
@@ -538,18 +510,6 @@
             }
             rodarTier2Jsonp();
           };
-
-          if (emModoSilencioso && setorCacheKey && typeof window.__iniciarBootstrapGas === 'function') {
-            window.__iniciarBootstrapGas().then(function(boot) {
-              var cached = boot && boot.caches && boot.caches[setorCacheKey];
-              if (cached && cached.sucesso) {
-                resolveTracked(cached);
-                return;
-              }
-              invocarRpcGas();
-            });
-            return;
-          }
           invocarRpcGas();
           return;
         }
@@ -659,6 +619,9 @@
 
     function sincronizarDashboardSefin(silencioso) {
       const isSil = (silencioso === true);
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_sefin', 'SEFIN • Prestação de Contas PDDE');
+      }
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -679,8 +642,8 @@
         }
         renderizarDashboardFinanceiroSefin();
         if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
-        if (typeof window.gravarEstadoNuvem === 'function' && typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN) {
-          window.gravarEstadoNuvem('SEFIN_DATA', DADOS_FINANCEIROS_SEFIN);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_sefin');
         }
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -1445,6 +1408,9 @@
 
     function sincronizarDashboardSecomse(silencioso) {
       const isSil = (silencioso === true);
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_secomse', 'SECOMSE • Controle de Contratos');
+      }
       const btnSync = document.getElementById('btn-secomse-sync-base');
       if (btnSync && !isSil) {
         btnSync.disabled = true;
@@ -1473,8 +1439,8 @@
           DADOS_SECOMSE.meta.atualizadoFormatado = tsSecomseBr;
         }
         renderizarDashboardSecomse();
-        if (typeof window.gravarEstadoNuvem === 'function' && typeof DADOS_SECOMSE !== 'undefined' && DADOS_SECOMSE) {
-          window.gravarEstadoNuvem('SECOMSE_DATA', DADOS_SECOMSE);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_secomse');
         }
 
         if (btnSync) {

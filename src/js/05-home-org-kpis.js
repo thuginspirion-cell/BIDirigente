@@ -485,19 +485,19 @@
         setCtx('kpi-ctx-avcb', avcbTot + ' pendentes • ' + (60 - avcbTot) + ' regulares • 18 alertas', avcbTot > 20 ? 'ctx-warn' : 'ctx-ok');
 
         /* SEINTEC */
-        const hwTot = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware) ? window.INVENTARIO_COMPLETO_TUPLES.hardware.length : 15973;
+        const hwTot = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware && window.INVENTARIO_COMPLETO_TUPLES.hardware.length > 0) ? window.INVENTARIO_COMPLETO_TUPLES.hardware.length : 15973;
         if (kpiHw) kpiHw.textContent = hwTot.toLocaleString('pt-BR');
         if (lblHw) lblHw.textContent = 'Parque de Equipamentos';
         setCtx('kpi-ctx-hardware', '76,4% disponíveis • 3.768 em reparo/baixa');
 
-        const callsTotHome = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros))
+        const callsTotHome = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros) && SEINTEC_BASES_CONFIG['Atendimentos'].registros.length > 0)
           ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length : 1432;
         if (kpiCallsHome) kpiCallsHome.textContent = callsTotHome.toLocaleString('pt-BR');
         if (lblCallsHome) lblCallsHome.textContent = 'Chamados & Nível de Serviço';
         setCtx('kpi-ctx-chamados', '22 em aberto • SLA 98,5% concluído');
 
         /* SEAFIN */
-        const sefinK = (typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN.kpisPorAno && DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026'])
+        const sefinK = (typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN.kpisPorAno && DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026'] && DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026'].totalReceita > 0)
           ? DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026']
           : { totalReceita: 10365829.83, totalDespesa: 5401990.45, taxaExecucao: 52.1, totalRepasses: 204 };
         const recFmt = typeof formatarMoedaAbreviada === 'function' ? formatarMoedaAbreviada(sefinK.totalReceita) : ('R$ ' + (sefinK.totalReceita / 1e6).toFixed(1).replace('.', ',') + 'M');
@@ -512,23 +512,23 @@
         setCtx('kpi-ctx-execucao', 'R$ 5,4M gastos • 5 contratos a vencer (≤60d)');
 
         /* SEGRE */
-        const sematTot = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis) ? DADOS_SEMAT.kpis.totalAtendimentos : 2898;
+        const sematTot = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis && DADOS_SEMAT.kpis.totalAtendimentos > 0) ? DADOS_SEMAT.kpis.totalAtendimentos : 2898;
         if (kpiMatriculasHome) kpiMatriculasHome.textContent = sematTot.toLocaleString('pt-BR');
         if (lblMatriculasHome) lblMatriculasHome.textContent = 'Demanda & Matrícula (SEMAT)';
         setCtx('kpi-ctx-matriculas', '2.331 manuais • 4.062 transferências');
 
-        const segreEmails = (typeof DADOS_SEGRE !== 'undefined' && DADOS_SEGRE.kpis && DADOS_SEGRE.kpis.totalEmails) ? DADOS_SEGRE.kpis.totalEmails : 162;
+        const segreEmails = (typeof DADOS_SEGRE !== 'undefined' && DADOS_SEGRE.kpis && DADOS_SEGRE.kpis.totalEmails > 0) ? DADOS_SEGRE.kpis.totalEmails : 162;
         if (kpiEmailsHome) kpiEmailsHome.textContent = segreEmails.toLocaleString('pt-BR');
         if (lblEmailsHome) lblEmailsHome.textContent = 'Processos SEI Abertos';
         setCtx('kpi-ctx-emails', '101 ativos >30 dias • 9.025 demandas');
 
         /* SEPES */
-        const sefrepDevsGlobal = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis.totalDevolucoes : 333;
+        const sefrepDevsGlobal = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis && DADOS_SEFREP.kpis.totalDevolucoes > 0) ? DADOS_SEFREP.kpis.totalDevolucoes : 333;
         if (kpiRep) kpiRep.textContent = sefrepDevsGlobal.toLocaleString('pt-BR');
         if (lblRep) lblRep.textContent = 'Folha de Pagamento (SEFREP)';
         setCtx('kpi-ctx-repasses', 'Taxa de devolução: 24,1% (333 dev.)', 'ctx-warn');
 
-        const seapeProc = (typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES && DADOS_SEPES.kpis) ? DADOS_SEPES.kpis.totalEmTramitacao : 72;
+        const seapeProc = (typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES && DADOS_SEPES.kpis && DADOS_SEPES.kpis.totalEmTramitacao > 0) ? DADOS_SEPES.kpis.totalEmTramitacao : 72;
         if (kpiSeapeHome) kpiSeapeHome.textContent = seapeProc.toLocaleString('pt-BR');
         if (lblSeapeHome) lblSeapeHome.textContent = 'Vida Funcional & Benefícios';
         setCtx('kpi-ctx-seape', 'Aposentadorias, Designações e Abonos');

@@ -2127,7 +2127,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         if (elFill) elFill.style.width = pct + '%';
         if (elPct) elPct.innerText = pct + '%';
 
-        var todosConcluidos = window.__bootSyncTracker && window.__bootSyncTracker.disparado && total > 0 && concluidas === total;
+        var todosConcluidos = window.__bootSyncTracker && window.__bootSyncTracker.disparado && total >= 12 && concluidas === total;
         if (elMsg) {
           if (todosConcluidos) {
             elMsg.innerText = 'Todas as bases atualizadas ao vivo! Consolidando painel...';
@@ -2177,13 +2177,19 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           window.__bootModalFechando = true;
           window.__bootSyncTracker.ativo = false;
           try {
+            if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
             if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
             if (typeof renderizarMiniCalendarioHome === 'function') renderizarMiniCalendarioHome();
+            if (typeof atualizarPainelVisitas === 'function') atualizarPainelVisitas();
+            if (typeof renderizarEscolas === 'function') renderizarEscolas();
+            if (window.BI_DECISION_ENGINE && typeof window.BI_DECISION_ENGINE.atualizar === 'function') {
+              window.BI_DECISION_ENGINE.atualizar();
+            }
             var horaReal = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
             if (typeof atualizarPillStatusGlobal === 'function') atualizarPillStatusGlobal('Sincronizado às ' + horaReal, 'success');
             if (typeof atualizarBadgeStatusSincronismo === 'function') atualizarBadgeStatusSincronismo(horaReal);
           } catch (eKpiFinal) {}
-          setTimeout(fecharBootModalComSuavidade, 420);
+          setTimeout(fecharBootModalComSuavidade, 350);
         }
       } catch (eBootUi) {
         console.warn('Boot sync UI:', eBootUi);
@@ -2232,7 +2238,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         modal.classList.remove('boot-hidden');
       }
       atualizarUIBootSyncReal();
-      setTimeout(fecharBootModalComSuavidade, 12000);
+      setTimeout(fecharBootModalComSuavidade, 45000);
     }
     window.abrirBootModalSincronizacao = abrirBootModalSincronizacao;
 
@@ -2243,15 +2249,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       window.__bootSyncTracker = { ativo: true, disparado: false, tasks: {} };
       atualizarUIBootSyncReal();
 
-      /* ABERTURA INSTANTÂNEA E HIDRATAÇÃO UNIVERSAL EM NUVEM */
+      /* ABERTURA INSTANTÂNEA E SINCRONIZAÇÃO REAL NA INICIALIZAÇÃO (aguarda 100% das bases antes de liberar o painel) */
       setTimeout(function() {
         if (typeof hidratarTodosModulosNuvem === 'function') hidratarTodosModulosNuvem();
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
-        atualizarBadgeStatusSincronismo();
-      }, 100);
-
-      /* Sincronização Real em Tempo Real na Inicialização (aguarda Promises antes de fechar o modal) */
-      setTimeout(function() {
         if (typeof sincronizarTudoGlobalmente === 'function') {
           sincronizarTudoGlobalmente(true);
         }
@@ -2259,10 +2260,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           window.__bootSyncTracker.disparado = true;
           atualizarUIBootSyncReal();
         }
-      }, 1200);
+        atualizarBadgeStatusSincronismo();
+      }, 120);
 
-      /* Failsafe rápido (10s) para liberar o painel mesmo se a nuvem oscilar */
-      setTimeout(fecharBootModalComSuavidade, 10000);
+      /* Failsafe de emergência (45s) apenas caso alguma conexão trave completamente */
+      setTimeout(fecharBootModalComSuavidade, 45000);
 
       /* Intervalo recorrente de 60 minutos (1 hora = 3.600.000 ms) */
       timerSincronizacaoSharepoint = setInterval(function() {
@@ -2333,6 +2335,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     window.ehRegistroChamadoValido = ehRegistroChamadoValido;
 
     function sincronizarSharepointCalls(isManual) {
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_seintec_calls', 'SEINTEC • Chamados 2026');
+      }
       const btn = document.getElementById('btn-sync-sharepoint-now');
       const icon = document.getElementById('sync-btn-icon');
       const statusText = document.getElementById('sync-status-text');
@@ -2374,7 +2379,6 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var agora = timestampStr || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         if (statusText) statusText.innerText = 'Sincronizado às ' + agora + ' • Automático a cada 1h';
         atualizarTimestampBannerSeintec(timestampStr);
-        atualizarTimestampBannerSeintec(timestampStr);
 
         var consolidado = consolidarChamadosComHistorico(registrosNovos, registrosNovos.length >= 1000);
 
@@ -2388,12 +2392,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         if (typeof atualizarMetricasSuperioresSeintec === 'function') atualizarMetricasSuperioresSeintec();
         if (typeof atualizarMetricasInventario === 'function') atualizarMetricasInventario(baseAtivaSeintec || 'Hardware');
-        if (typeof window.gravarEstadoNuvem === 'function' && typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos']) {
-          window.gravarEstadoNuvem('SEINTEC_CALLS', {
-            desc: SEINTEC_BASES_CONFIG['Atendimentos'].desc,
-            registros: (SEINTEC_BASES_CONFIG['Atendimentos'].registros || []).slice(0, 300)
-          });
-        }
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
 
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -2417,6 +2416,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         if (statusText) statusText.innerText = 'Sincronizado às ' + agora + ' • Automático a cada 1h';
         atualizarTimestampBannerSeintec(timestampStr);
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_seintec_calls');
+        }
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
@@ -2437,6 +2440,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var baseAtual = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && SEINTEC_BASES_CONFIG['Atendimentos'].registros) ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length : 1404;
         atualizarTimestampBannerSeintec();
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_seintec_calls');
+        }
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'info',
@@ -2460,7 +2467,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             purificarPromise.then(function(cleanB64) {
               try {
                 var qtd = processarPlanilhaSharepointBase64(cleanB64, res.timestamp);
-                finalizarComSucesso(qtd, res.timestamp, 'SharePoint via Google Apps Script');
+                if (qtd > 0) {
+                  finalizarComSucesso(qtd, res.timestamp, 'SharePoint via Google Apps Script');
+                } else {
+                  executarTier2Jsonp();
+                }
               } catch (e) {
                 executarTier2Jsonp();
               }
@@ -2492,18 +2503,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             })
             .sincronizarPlanilhaSharepoint();
         };
-        if (!isManual && window.__syncSilenciosoAtivo === true && typeof window.__iniciarBootstrapGas === 'function') {
-          window.__iniciarBootstrapGas().then(function(boot) {
-            var cached = boot && boot.caches && boot.caches.seintec;
-            if (cached && cached.sucesso && (cached.dadosBase64 || (Array.isArray(cached.registros) && cached.registros.length > 0))) {
-              tratarRespostaSeintecGas(cached);
-              return;
-            }
-            dispararSeintecGas();
-          });
-        } else {
-          dispararSeintecGas();
-        }
+        dispararSeintecGas();
         return;
       }
 
@@ -2528,7 +2528,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             purificarPromiseJsonp.then(function(cleanB64) {
               try {
                 var qtd = processarPlanilhaSharepointBase64(cleanB64, res.timestamp);
-                finalizarComSucesso(qtd, res.timestamp, 'SharePoint Live (JSONP)');
+                if (qtd > 0) {
+                  finalizarComSucesso(qtd, res.timestamp, 'SharePoint Live (JSONP)');
+                } else {
+                  executarTier4Git();
+                }
               } catch(e) {
                 console.warn('Erro ao processar XLSX JSONP:', e);
                 executarTier4Git();
@@ -2544,7 +2548,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
         var sc = document.createElement('script');
         sc.id = cbId;
-        sc.src = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSharepoint&callback=' + cbId + '&_t=' + Date.now();
+        var extraCache = (!isManual && window.__syncSilenciosoAtivo === true) ? '&cache=1' : '';
+        sc.src = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSharepoint' + extraCache + '&callback=' + cbId + '&_t=' + Date.now();
 
         sc.onerror = function() {
           if (timerId) clearTimeout(timerId);
@@ -2898,6 +2903,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     }
 
     async function sincronizarInventarioSharepoint(isManual) {
+      if (typeof window.registrarTarefaBootSync === "function") {
+        window.registrarTarefaBootSync("boot_seintec_inv", "SEINTEC • Parque de Equipamentos");
+      }
       const btn = document.getElementById("btn-sync-inventario-now");
       const icon = document.getElementById("sync-inv-icon");
       const statusText = document.getElementById("sync-inv-status-text");
@@ -2934,6 +2942,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         if (typeof atualizarMetricasSuperioresSeintec === "function") {
           atualizarMetricasSuperioresSeintec();
         }
+        if (typeof atualizarKpisSuperioresHomeParaEscola === "function" && !window.escolaFiltroHomeAtivo) {
+          try { atualizarKpisSuperioresHomeParaEscola(null); } catch(eh) {}
+        }
         if (typeof restaurarVisaoConsolidadaHome === "function" && !window.escolaFiltroHomeAtivo) {
           try { restaurarVisaoConsolidadaHome(); } catch(eh) {}
         }
@@ -2941,6 +2952,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           if (typeof renderizarTabelaInventario === "function") {
             renderizarTabelaInventario(baseAtivaSeintec);
           }
+        }
+        if (typeof window.concluirTarefaBootSync === "function") {
+          window.concluirTarefaBootSync("boot_seintec_inv");
         }
 
         const hwCount = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware) ? window.INVENTARIO_COMPLETO_TUPLES.hardware.length : 15973;

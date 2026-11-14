@@ -2272,42 +2272,17 @@ function obterBootstrapCompletoGas() {
   var estados = {};
   var caches = {};
   var cachesOmitidos = [];
-  var orcamentoBytes = 2500000;
-  var usadoBytes = 0;
+  var chavesGestao = ['AGENDA_DATA', 'CARRO_DATA', 'VISITAS_DATA', 'ESCOLAS_DATA'];
 
-  try {
-    var pasta = obterOuCriarPastaCacheBI_();
-    var files = pasta.getFiles();
-    while (files.hasNext()) {
-      var file = files.next();
-      var nome = String(file.getName() || '');
-      try {
-        if (nome.indexOf('estado_') === 0 && nome.slice(-5) === '.json') {
-          var chave = nome.slice(7, -5).toUpperCase();
-          var rawEst = file.getBlob().getDataAsString('UTF-8');
-          if (rawEst) {
-            var parsedEst = JSON.parse(rawEst);
-            estados[chave] = (parsedEst && parsedEst.dados !== undefined) ? parsedEst.dados : parsedEst;
-          }
-        } else if (nome.indexOf('cache_') === 0 && nome.slice(-5) === '.json') {
-          var setor = nome.slice(6, -5).toLowerCase();
-          var sz = file.getSize();
-          if (usadoBytes + sz <= orcamentoBytes) {
-            var rawCache = file.getBlob().getDataAsString('UTF-8');
-            if (rawCache) {
-              var parsedCache = JSON.parse(rawCache);
-              if (parsedCache && parsedCache.dados && parsedCache.dados.sucesso) {
-                caches[setor] = parsedCache.dados;
-                usadoBytes += rawCache.length;
-              }
-            }
-          } else {
-            cachesOmitidos.push(setor);
-          }
-        }
-      } catch (errFile) {}
-    }
-  } catch (errPasta) {}
+  for (var i = 0; i < chavesGestao.length; i++) {
+    var chave = chavesGestao[i];
+    try {
+      var resEst = obterEstadoNuvem(chave);
+      if (resEst && resEst.sucesso && resEst.dados !== null && resEst.dados !== undefined) {
+        estados[chave] = resEst.dados;
+      }
+    } catch (errEst) {}
+  }
 
   var emailAlerta = '';
   try {

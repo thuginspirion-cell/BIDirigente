@@ -586,14 +586,17 @@
     }
 
 
-    function processarPlanilhaSematBase64(base64Data, timestamp, jaPurificado) {
+    function processarPlanilhaSematBase64(base64Data, timestamp, jaPurificado, onFallback) {
       if (typeof XLSX === 'undefined') {
         console.warn('SheetJS (XLSX) não disponível para SEMAT.');
+        if (typeof onFallback === 'function') onFallback();
         return;
       }
       if (!jaPurificado && typeof window.purificarXlsxStreamingSeNecessario === 'function') {
         window.purificarXlsxStreamingSeNecessario(base64Data).then(function(cleanB64) {
-          processarPlanilhaSematBase64(cleanB64, timestamp, true);
+          processarPlanilhaSematBase64(cleanB64, timestamp, true, onFallback);
+        }).catch(function() {
+          if (typeof onFallback === 'function') onFallback();
         });
         return;
       }
@@ -762,8 +765,9 @@
         }
 
         renderizarDashboardSemat();
-        if (typeof window.gravarEstadoNuvem === 'function') {
-          window.gravarEstadoNuvem('SEMAT_DATA', DADOS_SEMAT);
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_semat');
         }
 
         if (!window.__sematSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
@@ -778,12 +782,16 @@
         }
       } catch (errXlsx) {
         console.error('Erro ao ler base64 SEMAT com SheetJS:', errXlsx);
+        if (typeof onFallback === 'function') onFallback();
       }
     }
 
     function sincronizarDashboardSemat(silencioso) {
       const isSil = (silencioso === true);
       window.__sematSyncSilencioso = isSil;
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_semat', 'SEMAT • Matrículas e Demanda');
+      }
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -801,12 +809,13 @@
           if (DADOS_SEMAT.meta) {
             DADOS_SEMAT.meta.origemSync = novos.origem || 'Espelho Automático Nuvem (GitHub)';
           }
-          if (typeof window.gravarEstadoNuvem === 'function') {
-            window.gravarEstadoNuvem('SEMAT_DATA', DADOS_SEMAT);
-          }
         }
         const tsReal = (DADOS_SEMAT.meta && DADOS_SEMAT.meta.atualizadoFormatado) ? DADOS_SEMAT.meta.atualizadoFormatado : 'Data não informada';
         renderizarDashboardSemat();
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_semat');
+        }
 
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           if (falhaRede) {
@@ -855,7 +864,7 @@
         urlExtraParams: (ehOtimizado ? '' : '&bruto=true')
       }).then(function(res) {
         if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSematBase64 === 'function') {
-          processarPlanilhaSematBase64(res.dadosBase64, res.timestamp);
+          processarPlanilhaSematBase64(res.dadosBase64, res.timestamp, false, buscarMirror);
         } else if (res && res.kpis) {
           aplicarDadosSemat(res, false);
         } else {
@@ -1357,14 +1366,17 @@
       renderizarCorpoTabelaSevesc();
     }
 
-    function processarPlanilhaSevescBase64(base64Data, timestamp, jaPurificado) {
+    function processarPlanilhaSevescBase64(base64Data, timestamp, jaPurificado, onFallback) {
       if (typeof XLSX === 'undefined') {
         console.warn('SheetJS (XLSX) não disponível para SEVESC.');
+        if (typeof onFallback === 'function') onFallback();
         return;
       }
       if (!jaPurificado && typeof window.purificarXlsxStreamingSeNecessario === 'function') {
         window.purificarXlsxStreamingSeNecessario(base64Data).then(function(cleanB64) {
-          processarPlanilhaSevescBase64(cleanB64, timestamp, true);
+          processarPlanilhaSevescBase64(cleanB64, timestamp, true, onFallback);
+        }).catch(function() {
+          if (typeof onFallback === 'function') onFallback();
         });
         return;
       }
@@ -1519,8 +1531,8 @@
         }
 
         renderizarDashboardSevesc();
-        if (typeof window.gravarEstadoNuvem === 'function') {
-          window.gravarEstadoNuvem('SEVESC_DATA', DADOS_SEVESC);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_sevesc');
         }
 
         if (!window.__sevescSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
@@ -1535,12 +1547,16 @@
         }
       } catch (errXlsx) {
         console.error('Erro ao ler base64 SEVESC com SheetJS:', errXlsx);
+        if (typeof onFallback === 'function') onFallback();
       }
     }
 
     function sincronizarDashboardSevesc(silencioso) {
       const isSil = (silencioso === true);
       window.__sevescSyncSilencioso = isSil;
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_sevesc', 'SEVESC • Vida Escolar');
+      }
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -1558,12 +1574,12 @@
           if (DADOS_SEVESC.meta) {
             DADOS_SEVESC.meta.origemSync = novos.origem || 'Espelho Automático Nuvem (Fallback)';
           }
-          if (typeof window.gravarEstadoNuvem === 'function') {
-            window.gravarEstadoNuvem('SEVESC_DATA', DADOS_SEVESC);
-          }
         }
         const tsReal = (DADOS_SEVESC.meta && DADOS_SEVESC.meta.atualizadoFormatado) ? DADOS_SEVESC.meta.atualizadoFormatado : 'Data não informada';
         renderizarDashboardSevesc();
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_sevesc');
+        }
 
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           if (falhaRede) {
@@ -1610,7 +1626,7 @@
         argsGas: [false]
       }).then(function(res) {
         if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSevescBase64 === 'function') {
-          processarPlanilhaSevescBase64(res.dadosBase64, res.timestamp);
+          processarPlanilhaSevescBase64(res.dadosBase64, res.timestamp, false, buscarMirror);
         } else if (res && res.kpis) {
           aplicarDadosSevesc(res, false);
         } else {
@@ -2210,14 +2226,17 @@
       renderizarCorpoTabelaSegre();
     }
 
-    function processarPlanilhaSegreBase64(base64Data, timestamp, jaPurificado) {
+    function processarPlanilhaSegreBase64(base64Data, timestamp, jaPurificado, onFallback) {
       if (typeof XLSX === 'undefined') {
         console.warn('SheetJS (XLSX) não disponível para SEGRE.');
+        if (typeof onFallback === 'function') onFallback();
         return;
       }
       if (!jaPurificado && typeof window.purificarXlsxStreamingSeNecessario === 'function') {
         window.purificarXlsxStreamingSeNecessario(base64Data).then(function(cleanB64) {
-          processarPlanilhaSegreBase64(cleanB64, timestamp, true);
+          processarPlanilhaSegreBase64(cleanB64, timestamp, true, onFallback);
+        }).catch(function() {
+          if (typeof onFallback === 'function') onFallback();
         });
         return;
       }
@@ -2395,15 +2414,9 @@
         }
 
         renderizarDashboardSegre();
-        if (typeof window.gravarEstadoNuvem === 'function') {
-          window.gravarEstadoNuvem('SEGRE_DATA', {
-            meta: DADOS_SEGRE.meta,
-            kpis: DADOS_SEGRE.kpis,
-            processosSei: (DADOS_SEGRE.processosSei || []).slice(0, 300),
-            atendimentosVaga: DADOS_SEGRE.atendimentosVaga,
-            ouvidorias: DADOS_SEGRE.ouvidorias,
-            concluintesRecentes: DADOS_SEGRE.concluintesRecentes
-          });
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_segre');
         }
 
         if (!window.__segreSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
@@ -2418,12 +2431,16 @@
         }
       } catch (errXlsx) {
         console.error('Erro ao ler base64 SEGRE com SheetJS:', errXlsx);
+        if (typeof onFallback === 'function') onFallback();
       }
     }
 
     function sincronizarDashboardSegre(silencioso) {
       const isSil = (silencioso === true);
       window.__segreSyncSilencioso = isSil;
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_segre', 'SEGRE • Processos SEI e Vagas');
+      }
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -2441,19 +2458,13 @@
           if (DADOS_SEGRE.meta) {
             DADOS_SEGRE.meta.origemSync = novos.origem || 'Espelho Automático Nuvem (GitHub)';
           }
-          if (typeof window.gravarEstadoNuvem === 'function') {
-            window.gravarEstadoNuvem('SEGRE_DATA', {
-              meta: DADOS_SEGRE.meta,
-              kpis: DADOS_SEGRE.kpis,
-              processosSei: (DADOS_SEGRE.processosSei || []).slice(0, 300),
-              atendimentosVaga: DADOS_SEGRE.atendimentosVaga,
-              ouvidorias: DADOS_SEGRE.ouvidorias,
-              concluintesRecentes: DADOS_SEGRE.concluintesRecentes
-            });
-          }
         }
         const tsReal = (DADOS_SEGRE.meta && DADOS_SEGRE.meta.atualizadoFormatado) ? DADOS_SEGRE.meta.atualizadoFormatado : 'Data não informada';
         renderizarDashboardSegre();
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_segre');
+        }
 
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           if (falhaRede) {
@@ -2502,7 +2513,7 @@
         urlExtraParams: (ehOtimSegre ? '' : '&bruto=true')
       }).then(function(res) {
         if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSegreBase64 === 'function') {
-          processarPlanilhaSegreBase64(res.dadosBase64, res.timestamp);
+          processarPlanilhaSegreBase64(res.dadosBase64, res.timestamp, false, buscarMirrorSegre);
         } else if (res && (res.kpis || res.processosSei)) {
           aplicarDadosSegre(res, false);
         } else {

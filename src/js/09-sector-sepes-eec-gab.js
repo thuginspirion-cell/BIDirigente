@@ -833,6 +833,9 @@ html += '<div style="display: flex; align-items: center; justify-content: space-
 
 function sincronizarBasePublicaSefrep(isManual) {
   const manual = (isManual === true || typeof isManual === 'undefined');
+  if (typeof window.registrarTarefaBootSync === 'function') {
+    window.registrarTarefaBootSync('boot_sefrep', 'SEFREP • Frequência e Pagamento');
+  }
   const btnSync = document.getElementById('btn-sefrep-sync-base');
   if (btnSync && manual) {
     btnSync.disabled = true;
@@ -861,14 +864,14 @@ function sincronizarBasePublicaSefrep(isManual) {
       if (!DADOS_SEFREP.meta) DADOS_SEFREP.meta = {};
       DADOS_SEFREP.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
       DADOS_SEFREP.meta.origemSync = novos.origem || 'SharePoint Oficial Live';
-
-      if (typeof window.gravarEstadoNuvem === 'function') {
-        window.gravarEstadoNuvem('SEFREP_DATA', DADOS_SEFREP);
-      }
     }
 
     const tsReal = (DADOS_SEFREP.meta && DADOS_SEFREP.meta.atualizadoFormatado) ? DADOS_SEFREP.meta.atualizadoFormatado : '12/11/2026, 10:59:13';
     renderizarDashboardSefrep();
+    if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+    if (typeof window.concluirTarefaBootSync === 'function') {
+      window.concluirTarefaBootSync('boot_sefrep');
+    }
 
     const syncInfoCentro = document.getElementById('centro-drive-sync-info');
     if (syncInfoCentro) {
@@ -930,18 +933,7 @@ function sincronizarBasePublicaSefrep(isManual) {
         .withFailureHandler(tentarMirrorSefrep)
         .sincronizarPlanilhaSefrep(manual);
     };
-    if (!manual && window.__syncSilenciosoAtivo === true && typeof window.__iniciarBootstrapGas === 'function') {
-      window.__iniciarBootstrapGas().then(function(boot) {
-        var cached = boot && boot.caches && boot.caches.sefrep;
-        if (cached && cached.sucesso && (cached.registros || cached.kpis)) {
-          aplicarDadosSefrep(cached, false);
-          return;
-        }
-        invocarRpcSefrep();
-      });
-    } else {
-      invocarRpcSefrep();
-    }
+    invocarRpcSefrep();
   } else {
     fetch(URLS_OFICIAIS_SEFREP.mirrorData + '?t=' + Date.now())
       .then(function(r) { return r.json(); })
@@ -1519,14 +1511,17 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
       renderizarCorpoTabelaSepes();
     }
 
-    function processarPlanilhaSepesBase64(base64Data, timestamp, jaPurificado) {
+    function processarPlanilhaSepesBase64(base64Data, timestamp, jaPurificado, onFallback) {
       if (typeof XLSX === 'undefined') {
         console.warn('SheetJS (XLSX) não disponível para SEPES.');
+        if (typeof onFallback === 'function') onFallback();
         return;
       }
       if (!jaPurificado && typeof window.purificarXlsxStreamingSeNecessario === 'function') {
         window.purificarXlsxStreamingSeNecessario(base64Data).then(function(cleanB64) {
-          processarPlanilhaSepesBase64(cleanB64, timestamp, true);
+          processarPlanilhaSepesBase64(cleanB64, timestamp, true, onFallback);
+        }).catch(function() {
+          if (typeof onFallback === 'function') onFallback();
         });
         return;
       }
@@ -1665,8 +1660,9 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
         }
 
         renderizarDashboardSepes();
-        if (typeof window.gravarEstadoNuvem === 'function') {
-          window.gravarEstadoNuvem('SEPES_DATA', DADOS_SEPES);
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_sepes');
         }
 
         if (!window.__sepesSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
@@ -1681,12 +1677,16 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
         }
       } catch (errXlsx) {
         console.error('Erro ao ler base64 SEPES com SheetJS:', errXlsx);
+        if (typeof onFallback === 'function') onFallback();
       }
     }
 
     function sincronizarDashboardSepes(silencioso) {
       const isSil = (silencioso === true);
       window.__sepesSyncSilencioso = isSil;
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_sepes', 'SEPES • Demandas SEAPE');
+      }
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -1704,12 +1704,13 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
           if (DADOS_SEPES.meta) {
             DADOS_SEPES.meta.origemSync = novos.origem || 'Espelho Nuvem (Fallback)';
           }
-          if (typeof window.gravarEstadoNuvem === 'function') {
-            window.gravarEstadoNuvem('SEPES_DATA', DADOS_SEPES);
-          }
         }
         const tsReal = (DADOS_SEPES.meta && DADOS_SEPES.meta.atualizadoFormatado) ? DADOS_SEPES.meta.atualizadoFormatado : 'Data não informada';
         renderizarDashboardSepes();
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_sepes');
+        }
 
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           if (falhaRede) {
@@ -1758,7 +1759,7 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
         urlExtraParams: (ehOtimSepes ? '' : '&bruto=true')
       }).then(function(res) {
         if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSepesBase64 === 'function') {
-          processarPlanilhaSepesBase64(res.dadosBase64, res.timestamp);
+          processarPlanilhaSepesBase64(res.dadosBase64, res.timestamp, false, buscarMirrorSepes);
         } else if (res && (res.kpis || res.aposentadorias)) {
           aplicarDadosSepes(res, false);
         } else {
