@@ -83,42 +83,7 @@
       overflow-x: hidden;
       z-index: 100;
       transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-      scrollbar-width: thin;
-      scrollbar-color: transparent transparent;
-    }
-
-    /* Barra de rolagem invisível por padrão na sidebar */
-    .sidebar::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .sidebar::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .sidebar::-webkit-scrollbar-thumb {
-      background: transparent;
-      border-radius: 8px;
-      transition: background-color 0.25s ease;
-    }
-
-    .sidebar::-webkit-scrollbar-button {
-      display: none;
-      width: 0;
-      height: 0;
-    }
-
-    /* Revela suavemente quando o mouse passa por perto (hover) */
-    .sidebar:hover {
-      scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
-    }
-
-    .sidebar:hover::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.28);
-    }
-
-    .sidebar::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.48);
+      scrollbar-gutter: stable;
     }
 
     .sidebar-header {
@@ -507,7 +472,9 @@
     /* ========================================= */
     /* ========================================================= */
     /* PADRÃO GLOBAL DE BARRAS DE ROLAGEM (PROJETO BI DIRIGENTE)  */
-    /* OCULTAS POR PADRÃO • REVELAM APENAS NA PROXIMIDADE DO MOUSE */
+    /* ========================================================= */
+    /* BARRAS DE ROLAGEM ZERO LAYOUT SHIFT (ANTI-DESLOCAMENTO)   */
+    /* Ocultas por padrão, sem setas e com largura sempre fixa   */
     /* ========================================================= */
     html, body {
       margin: 0;
@@ -523,11 +490,13 @@
       overflow: hidden;
     }
 
-    *, html, body, .main-content, .sidebar, .content-area {
-      scrollbar-width: none !important; /* Firefox: oculta completamente por padrão */
+    /* Reserva a calha da barra nos containers principais para evitar salto entre abas curtas e longas */
+    .main-content,
+    .sidebar {
+      scrollbar-gutter: stable;
     }
 
-    /* Webkit (Chrome, Edge, Safari): barra 100% invisível por padrão e sem botões de seta */
+    /* Webkit (Chrome, Edge, Safari): largura fixa de 6px SEMPRE (0px de deslocamento ao revelar) */
     ::-webkit-scrollbar,
     *::-webkit-scrollbar {
       width: 6px !important;
@@ -553,12 +522,7 @@
       height: 0 !important;
     }
 
-    /* Revela APENAS quando a classe .scrollbar-active estiver presente (ativada na proximidade do mouse) */
-    .scrollbar-active {
-      scrollbar-width: thin !important;
-      scrollbar-color: rgba(100, 116, 139, 0.45) transparent !important;
-    }
-
+    /* Revela APENAS a cor do thumb quando .scrollbar-active está presente (sem alterar largura!) */
     .scrollbar-active::-webkit-scrollbar-thumb,
     .scrollbar-active *::-webkit-scrollbar-thumb {
       background: rgba(100, 116, 139, 0.45) !important;
@@ -570,17 +534,28 @@
     }
 
     /* Sidebar escura: thumb translúcido branco */
-    .sidebar.scrollbar-active {
-      scrollbar-width: thin !important;
-      scrollbar-color: rgba(255, 255, 255, 0.35) transparent !important;
-    }
-
     .sidebar.scrollbar-active::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.35) !important;
     }
 
     .sidebar.scrollbar-active::-webkit-scrollbar-thumb:hover {
       background: rgba(255, 255, 255, 0.55) !important;
+    }
+
+    /* Firefox fallback (isolado para não desativar ::-webkit-scrollbar no Chrome/Edge) */
+    @supports not selector(::-webkit-scrollbar) {
+      *, html, body, .main-content, .sidebar, .content-area {
+        scrollbar-width: thin !important;
+        scrollbar-color: transparent transparent !important;
+      }
+
+      .scrollbar-active {
+        scrollbar-color: rgba(100, 116, 139, 0.45) transparent !important;
+      }
+
+      .sidebar.scrollbar-active {
+        scrollbar-color: rgba(255, 255, 255, 0.35) transparent !important;
+      }
     }
 
     .main-content {
@@ -591,6 +566,7 @@
       max-height: 100vh;
       overflow-y: auto;
       overflow-x: hidden;
+      scrollbar-gutter: stable;
     }
 
     /* TOPBAR SUPERIOR (COM IDENTIDADE OFICIAL & STATUS DRIVE) */
