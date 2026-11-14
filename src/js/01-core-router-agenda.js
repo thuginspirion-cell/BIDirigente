@@ -411,8 +411,10 @@ if (!window.mostrarHome) {
 
     let dataAtivaGestaoHoje = obterDataHojeIso();
     let dataAtivaAgenda = obterDataHojeIso();
-    let filtroPeriodoAgenda = 'hoje';
+    let filtroPeriodoAgenda = 'todos';
     let mesAtivoCalendario = new Date();
+    let subTabAtivaAgenda = 'calendario';
+    let filtroCategoriaCalAgenda = 'TODOS';
 
     /* Base de Dados Centralizada dos Compromissos (Persistida em localStorage + Sincronização) */
     
@@ -1168,15 +1170,108 @@ if (!window.mostrarHome) {
 
     /* === COMPROMISSOS & AGENDA (100% NUVEM - GOOGLE CALENDAR + APPS SCRIPT) === */
     function inicializarCompromissosPadrao() {
-      return [];
+      const hoje = obterDataHojeIso();
+      const dObj = new Date(hoje + 'T12:00:00');
+      const dAmanha = new Date(dObj.getTime() + 86400000);
+      const amanha = dAmanha.getFullYear() + '-' + String(dAmanha.getMonth() + 1).padStart(2, '0') + '-' + String(dAmanha.getDate()).padStart(2, '0');
+      const dMais2 = new Date(dObj.getTime() + 2 * 86400000);
+      const mais2 = dMais2.getFullYear() + '-' + String(dMais2.getMonth() + 1).padStart(2, '0') + '-' + String(dMais2.getDate()).padStart(2, '0');
+      const dMais4 = new Date(dObj.getTime() + 4 * 86400000);
+      const mais4 = dMais4.getFullYear() + '-' + String(dMais4.getMonth() + 1).padStart(2, '0') + '-' + String(dMais4.getDate()).padStart(2, '0');
+      return [
+        {
+          id: 'evt-padrao-1',
+          titulo: 'Alinhamento Executivo do Gabinete e Chefias URE Itapevi',
+          data: hoje,
+          horaInicio: '08:00',
+          horaFim: '09:00',
+          tipo: 'Reunião',
+          local: 'Gabinete da Dirigente - URE Itapevi',
+          link: '',
+          setor: 'Gabinete / URE',
+          prioridade: 'Alta',
+          status: 'Agendado',
+          descricao: 'Pauta prioritária da semana: indicadores pedagógicos, demandas de infraestrutura escolar (SEOM), vida funcional (SEPES) e suporte tecnológico (SEINTEC).'
+        },
+        {
+          id: 'evt-padrao-2',
+          titulo: 'Despacho Técnico de Processos SEI e Expedientes Prioritários',
+          data: hoje,
+          horaInicio: '10:00',
+          horaFim: '11:00',
+          tipo: 'Despacho Gabinete',
+          local: 'Gabinete da Dirigente',
+          link: '',
+          setor: 'ASURE / SEAFIN',
+          prioridade: 'Normal',
+          status: 'Agendado',
+          descricao: 'Análise e assinatura de despachos oficiais, homologações e encaminhamentos às unidades escolares.'
+        },
+        {
+          id: 'evt-padrao-3',
+          titulo: 'Reunião de Monitoramento Pedagógico e Avaliações (EEC / Supervisão)',
+          data: hoje,
+          horaInicio: '14:00',
+          horaFim: '15:00',
+          tipo: 'Videoconferência Teams',
+          local: 'Microsoft Teams',
+          link: '',
+          setor: 'EEC / Supervisão',
+          prioridade: 'Alta',
+          status: 'Agendado',
+          descricao: 'Acompanhamento das metas de aprendizagem, frequência escolar e apoio às equipes gestoras das 63 escolas estaduais.'
+        },
+        {
+          id: 'evt-padrao-4',
+          titulo: 'Visita Técnica de Acompanhamento Escolar na Rede URE Itapevi',
+          data: amanha,
+          horaInicio: '09:00',
+          horaFim: '12:00',
+          tipo: 'Visita Técnica',
+          local: 'Unidades Escolares - URE Itapevi',
+          link: '',
+          setor: 'Gabinete / Supervisão',
+          prioridade: 'Alta',
+          status: 'Agendado',
+          descricao: 'Vistoria in loco das condições prediais, parque tecnológico e diálogo com a equipe gestora escolar.'
+        },
+        {
+          id: 'evt-padrao-5',
+          titulo: 'Videoconferência Institucional SEDUC-SP com Dirigentes Regionais',
+          data: mais2,
+          horaInicio: '10:00',
+          horaFim: '11:30',
+          tipo: 'Videoconferência Teams',
+          local: 'Microsoft Teams - Canal SEDUC-SP',
+          link: '',
+          setor: 'SEDUC-SP / Gabinete',
+          prioridade: 'Alta',
+          status: 'Agendado',
+          descricao: 'Pauta estadual com a Subsecretaria de Articulação Regional e orientações estratégicas para as regionais de ensino.'
+        },
+        {
+          id: 'evt-padrao-6',
+          titulo: 'Encontro Formativo com Diretores de Escola da URE Itapevi',
+          data: mais4,
+          horaInicio: '09:00',
+          horaFim: '12:00',
+          tipo: 'Evento Oficial',
+          local: 'Auditório URE Itapevi',
+          link: '',
+          setor: 'Gabinete / EEC / SEGRE',
+          prioridade: 'Alta',
+          status: 'Agendado',
+          descricao: 'Socialização de boas práticas de gestão, fluxo de matrículas (SEGRE) e execução do Plano de Ação 2026.'
+        }
+      ];
     }
 
-    let AGENDA_COMPROMISSOS = [];
+    let AGENDA_COMPROMISSOS = inicializarCompromissosPadrao();
 
     function carregarAgendaCloud(callback) {
       if (typeof window.lerEstadoNuvem === 'function') {
         window.lerEstadoNuvem('AGENDA_DATA', function(dados) {
-          if (Array.isArray(dados) && dados.length > 0 && AGENDA_COMPROMISSOS.length === 0) {
+          if (Array.isArray(dados) && dados.length > 0) {
             AGENDA_COMPROMISSOS = dados;
             if (typeof renderizarAgenda === 'function') renderizarAgenda();
             if (typeof renderizarMinhaGestao === 'function') renderizarMinhaGestao();

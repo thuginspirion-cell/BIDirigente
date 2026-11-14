@@ -98,7 +98,7 @@
               </div>
             </button>
           </li>
-          <li>
+          <li style="display: none;">
             <button class="nav-item-btn" id="side-btn-gestao" onclick="abrirMinhaGestao()" title="Minha Gestão - Rotina Executiva">
               <span class="nav-item-icon">⏱️</span>
               <div class="sidebar-item-text">
@@ -108,11 +108,11 @@
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-agenda" onclick="abrirAgenda()" title="Agenda - Rotina da Dirigente">
+            <button class="nav-item-btn" id="side-btn-agenda" onclick="abrirAgenda()" title="Agenda & Rotina da Dirigente - Compromissos e Expediente">
               <span class="nav-item-icon">📅</span>
               <div class="sidebar-item-text">
-                <span class="sidebar-item-main">Agenda</span>
-                <span class="sidebar-item-sub">Rotina da Dirigente</span>
+                <span class="sidebar-item-main">Agenda &amp; Rotina</span>
+                <span class="sidebar-item-sub">Compromissos &amp; Expediente</span>
               </div>
             </button>
           </li>
@@ -2177,207 +2177,313 @@
 </section>
 
       <!-- ============================================== -->
-      <!-- VIEW 5: MINHA GESTÃO (ROTEIRO & COMPROMISSOS)   -->
+      <!-- VIEW 5: MINHA GESTÃO (UNIFICADA NA AGENDA)      -->
       <!-- ============================================== -->
-      <section id="pane-gestao-hoje" class="view-pane">
-
-        <!-- HEADER DA GESTÃO (ESTILO EXECUTIVO) -->
-        <div class="gestao-header-card">
-          <div class="gestao-header-inner">
-            <div class="gestao-header-left">
-              <span class="gestao-pretitle">ROTINA EXECUTIVA • GABINETE DA DIRIGENTE</span>
-              <h2 class="gestao-main-title">Minha Gestão</h2>
-              <p class="gestao-main-desc">
-                Sua linha do tempo executiva, das 7h às 17h, sincronizada automaticamente com o Google Calendar.
-              </p>
-              <div class="gestao-date-row">
-                <div class="gestao-date-badge">
-                  <span>📅</span>
-                  <span id="gestao-hoje-data-texto">sábado 17 de outubro de 2026</span>
-                </div>
-                <input type="date" id="gestao-date-hidden-picker" style="display: none;" onchange="aoMudarDataGestao(this.value)">
-              </div>
-            </div>
-
-            <div class="gestao-header-actions">
-              <button class="btn-gestao-refresh btn-pane-sync" onclick="sincronizarModulo('gestao', this)" title="Sincronizar agenda executiva e compromissos do dia">
-                <span class="sync-spin-icon">🔄</span>
-                <span>Sincronizar Gestão</span>
-              </button>
-              <button class="btn-gestao-open-agenda" onclick="abrirAgenda()" title="Abrir gestão completa de compromissos">
-                <span>Abrir Agenda completa</span>
-                <span>→</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- 3 CARDS DE KPI (COMPROMISSOS, TEMPO LIVRE, CONCLUÍDOS) -->
-        <div class="gestao-kpi-grid">
-          
-          <!-- Card 1: Compromissos do Dia -->
-          <div class="gestao-kpi-card">
-            <div class="gestao-kpi-header">COMPROMISSOS DO DIA</div>
-            <div class="gestao-kpi-body">
-              <div class="gestao-kpi-icon-badge badge-blue-kpi">
-                <span>📅</span>
-              </div>
-              <span class="gestao-kpi-number" id="kpi-gestao-compromissos">1</span>
-            </div>
-            <div class="gestao-kpi-sub" id="kpi-gestao-compromissos-sub">1 agendado(s) · 0 cancelados</div>
-          </div>
-
-          <!-- Card 2: Tempo Livre (7h às 17h) -->
-          <div class="gestao-kpi-card">
-            <div class="gestao-kpi-header">TEMPO LIVRE · 7H ÀS 17H</div>
-            <div class="gestao-kpi-body">
-              <div class="gestao-kpi-icon-badge badge-green-kpi">
-                <span>⏱️</span>
-              </div>
-              <span class="gestao-kpi-number" id="kpi-gestao-tempo-livre">9h</span>
-            </div>
-            <div class="gestao-kpi-sub" id="kpi-gestao-tempo-livre-sub">Sem compromissos registrados neste período</div>
-          </div>
-
-          <!-- Card 3: Concluídos -->
-          <div class="gestao-kpi-card">
-            <div class="gestao-kpi-header">CONCLUÍDOS</div>
-            <div class="gestao-kpi-body">
-              <div class="gestao-kpi-icon-badge badge-pink-kpi">
-                <span>✔️</span>
-              </div>
-              <span class="gestao-kpi-number" id="kpi-gestao-concluidos">0</span>
-            </div>
-            <div class="gestao-kpi-sub" id="kpi-gestao-concluidos-sub">Compromissos realizados</div>
-          </div>
-
-        </div>
-
-        <!-- LINHA DO TEMPO DE HOJE (EXPEDIENTE 07:00 ÀS 17:00) -->
-        <div class="gestao-timeline-card">
-          <div class="timeline-card-header">
-            <div class="timeline-header-left">
-              <span class="timeline-expediente-badge">EXPEDIENTE · 07:00 ÀS 17:00</span>
-              <h3 class="timeline-title">Linha do tempo de hoje</h3>
-            </div>
-            <div class="timeline-updated-text" id="gestao-timeline-timestamp">Atualizada às 17:21</div>
-          </div>
-
-          <!-- Container Dinâmico dos Slots das 07:00 às 17:00 -->
-          <div class="timeline-slots-container" id="timeline-slots-container">
-            <!-- Renderizado dinamicamente via JavaScript -->
-          </div>
-
-          <!-- Legenda e Disclaimer -->
-          <div class="timeline-footer-row">
-            <div class="timeline-legend-row">
-              <div class="timeline-legend-item">
-                <span class="slot-dot livre" style="display:inline-block;"></span>
-                <span>Livre na Agenda</span>
-              </div>
-              <div class="timeline-legend-item">
-                <span class="slot-dot ocupado" style="display:inline-block;"></span>
-                <span>Compromisso</span>
-              </div>
-              <div class="timeline-legend-item">
-                <span class="slot-dot concluido" style="display:inline-block;"></span>
-                <span>Concluído</span>
-              </div>
-            </div>
-            <div class="timeline-disclaimer-text">
-              As faixas em verde indicam ausência de compromisso registrado na Agenda naquele horário; não confirmam disponibilidade fora do sistema. Cancelados não bloqueiam horários. Fonte: Agenda Executiva da Dirigente • Sincronização em Nuvem.
-            </div>
-          </div>
-        </div>
-
-      </section>
+      <section id="pane-gestao-hoje" class="view-pane" style="display: none;"></section>
 
       <!-- ============================================== -->
-      <!-- VIEW 6: AGENDA COMPLETA DA DIRIGENTE           -->
+      <!-- VIEW 6: CENTRAL UNIFICADA AGENDA & ROTINA      -->
       <!-- ============================================== -->
       <section id="pane-agenda" class="view-pane">
 
-        <!-- HEADER DA AGENDA -->
-        <div class="agenda-view-header">
-          <div class="agenda-header-inner">
-            <div>
-              <span class="gestao-pretitle" style="color: #f09b0c;">GESTÃO DA REDE • GABINETE DA DIRIGENTE</span>
-              <h2 class="gestao-main-title">Agenda da Dirigente & Gestão de Compromissos</h2>
-              <p class="gestao-main-desc">
-                Planejamento e controle de audiências, reuniões com a rede, visitas escolares, videoconferências e despachos oficiais.
+        <!-- HEADER EXECUTIVO DA AGENDA & ROTINA (PADRÃO CARRO OFICIAL) -->
+        <div class="carro-header-card">
+          <div class="carro-header-inner" style="align-items: center;">
+            <div class="carro-header-left">
+              <span class="gestao-pretitle" style="color: #f09b0c;">GABINETE DA DIRIGENTE REGIONAL • URE ITAPEVI</span>
+              <h2 class="gestao-main-title" style="margin-bottom: 0.35rem;">Agenda &amp; Rotina da Dirigente • Central de Compromissos</h2>
+              <p class="gestao-main-desc" style="margin: 0;">
+                Planejamento integrado do expediente executivo (07h às 17h), calendário mensal de audiências, reuniões com a rede, visitas técnicas, videoconferências Teams e despachos oficiais sincronizados em nuvem.
               </p>
             </div>
-            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-              <button class="btn-pane-sync" onclick="sincronizarModulo('agenda', this)" title="Sincronizar agenda oficial da Dirigente com o Google Calendar">
-                <span class="sync-spin-icon">🔄</span>
-                <span>Sincronizar Agenda</span>
-              </button>
-              <button class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);" onclick="abrirModalNovoCompromisso()">
+
+            <div class="carro-header-actions">
+              <button class="btn-carro-action" onclick="abrirModalNovoCompromisso()" title="Registrar novo compromisso oficial na agenda da Dirigente" style="background: linear-gradient(135deg, #d48208 0%, #f09b0c 100%); color: #07152f; border: 1.5px solid #fde047; padding: 0.7rem 1.4rem; font-size: 0.88rem; font-weight: 800; box-shadow: 0 4px 14px rgba(240, 155, 12, 0.32);">
                 <span>+ Novo Compromisso</span>
-              </button>
-              <button class="btn-gestao-refresh" onclick="abrirMinhaGestao()">
-                <span>⏱️</span>
-                <span>Ver Linha do Tempo</span>
               </button>
             </div>
           </div>
         </div>
 
-        <!-- TOOLBAR & FILTROS DA AGENDA -->
-        <div class="agenda-toolbar-card">
-          <div class="agenda-filter-group">
-            <button class="agenda-quick-pill active" id="agenda-pill-hoje" onclick="filtrarAgendaPeriodo('hoje')">Hoje</button>
-            <button class="agenda-quick-pill" id="agenda-pill-amanha" onclick="filtrarAgendaPeriodo('amanha')">Amanhã</button>
-            <button class="agenda-quick-pill" id="agenda-pill-semana" onclick="filtrarAgendaPeriodo('semana')">Esta Semana</button>
-            <button class="agenda-quick-pill" id="agenda-pill-todos" onclick="filtrarAgendaPeriodo('todos')">Todos</button>
-            
-            <input type="date" class="agenda-date-input" id="agenda-input-data" onchange="aoMudarDataAgenda(this.value)" >
-          </div>
-
-          <div class="agenda-filter-group">
-            <select class="agenda-select-filter" id="agenda-filtro-categoria" onchange="aoFiltrarAgenda()">
-              <option value="">Todas as Categorias</option>
-              <option value="Reunião">Reunião</option>
-              <option value="Visita Técnica">Visita Técnica</option>
-              <option value="Despacho Gabinete">Despacho Gabinete</option>
-              <option value="Videoconferência Teams">Videoconferência Teams</option>
-              <option value="Evento Oficial">Evento Oficial</option>
-            </select>
-
-            <select class="agenda-select-filter" id="agenda-filtro-status" onchange="aoFiltrarAgenda()">
-              <option value="">Todos os Status</option>
-              <option value="Agendado">Agendado</option>
-              <option value="Concluído">Concluído</option>
-              <option value="Cancelado">Cancelado</option>
-            </select>
-
-            <input type="text" class="agenda-search-input" id="agenda-filtro-busca" placeholder="🔍 Buscar compromisso..." oninput="aoFiltrarAgenda()">
-          </div>
-        </div>
-
-        <!-- ABAS DE VISUALIZAÇÃO: LISTA vs CALENDÁRIO MENSAL -->
-        <div class="agenda-view-tabs">
-          <button class="agenda-tab-btn active" id="tab-btn-lista" onclick="alternarTabAgenda('lista')">
-            <span>📋</span>
-            <span>Lista de Compromissos</span>
-          </button>
-          <button class="agenda-tab-btn" id="tab-btn-calendario" onclick="alternarTabAgenda('calendario')">
+        <!-- BANNER DE SINCRONIZAÇÃO EM NUVEM & GOOGLE CALENDAR -->
+        <div class="carro-sync-alert">
+          <div class="carro-sync-alert-text">
             <span>📅</span>
-            <span>Visão Calendário Mensal</span>
+            <span>
+              <strong id="agenda-alert-calendar-title">Agenda Executiva &amp; Google Calendar</strong> • <span id="agenda-alert-calendar-status">Expediente Oficial URE Itapevi (07:00 às 17:00)</span> • <strong id="agenda-qtd-registros-alert">0</strong> compromisso(s) mapeado(s) • Sincronização em nuvem ativa.
+            </span>
+          </div>
+
+          <div class="carro-sync-alert-actions">
+            <button class="btn-carro-action secondary" onclick="sincronizarModulo('agenda', this)" title="Recarregar Google Calendar e sincronizar compromissos na nuvem">
+              <span class="sync-spin-icon">🔄</span>
+              <span>Atualizar</span>
+            </button>
+            <button class="btn-carro-action secondary" onclick="imprimirPautaAgenda()" title="Imprimir Pauta Executiva do Dia / Compromissos da Dirigente">
+              <span>🖨️ Imprimir Pauta</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 CARDS EXECUTIVOS DE KPI (REGRA 8: SOMENTE LEITURA, CURSOR DEFAULT) -->
+        <div class="carro-kpi-grid agenda-kpi-grid-5">
+          
+          <!-- Card 1: Hoje -->
+          <div class="carro-kpi-card" style="cursor: default;">
+            <div class="carro-kpi-header">COMPROMISSOS DO DIA</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="kpi-gestao-compromissos">0</span>
+            </div>
+            <div class="carro-kpi-sub" id="kpi-gestao-compromissos-sub">0 agendado(s) · 0 cancelados</div>
+          </div>
+
+          <!-- Card 2: Tempo Livre (07h às 17h) -->
+          <div class="carro-kpi-card" style="cursor: default;">
+            <div class="carro-kpi-header">TEMPO LIVRE · 07H ÀS 17H</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="kpi-gestao-tempo-livre" style="color: #059669;">10h</span>
+            </div>
+            <div class="carro-kpi-sub" id="kpi-gestao-tempo-livre-sub">De 10h do expediente oficial</div>
+          </div>
+
+          <!-- Card 3: Amanhã -->
+          <div class="carro-kpi-card" style="cursor: default;">
+            <div class="carro-kpi-header">AMANHÃ</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="agenda-kpi-amanha">0</span>
+            </div>
+            <div class="carro-kpi-sub" id="agenda-kpi-amanha-sub">compromissos previstos</div>
+          </div>
+
+          <!-- Card 4: Próximos 7 Dias -->
+          <div class="carro-kpi-card" style="cursor: default;">
+            <div class="carro-kpi-header">PRÓXIMOS 7 DIAS</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="agenda-kpi-semana">0</span>
+            </div>
+            <div class="carro-kpi-sub" id="agenda-kpi-semana-sub">na janela semanal</div>
+          </div>
+
+          <!-- Card 5: Concluídos -->
+          <div class="carro-kpi-card" style="cursor: default;">
+            <div class="carro-kpi-header">CONCLUÍDOS</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="kpi-gestao-concluidos" style="color: #2563eb;">0</span>
+            </div>
+            <div class="carro-kpi-sub" id="kpi-gestao-concluidos-sub">compromissos realizados</div>
+          </div>
+
+        </div>
+
+        <!-- SUB-TABS UNIFICADAS: CALENDÁRIO MENSAL vs LINHA DO TEMPO (07H-17H) vs PAUTA & LISTA vs HISTÓRICO -->
+        <div class="carro-subtabs-bar">
+          <button class="carro-subtab-btn active" id="tab-btn-calendario" onclick="alternarTabAgenda('calendario')">
+            <span>📅</span>
+            <span>Calendário de Agendamento</span>
+          </button>
+          <button class="carro-subtab-btn" id="tab-btn-timeline" onclick="alternarTabAgenda('timeline')">
+            <span>⏱️</span>
+            <span>Linha do Tempo do Dia (07h–17h)</span>
+          </button>
+          <button class="carro-subtab-btn" id="tab-btn-lista" onclick="alternarTabAgenda('lista')">
+            <span>📋</span>
+            <span>Pauta do Dia &amp; Próximos</span>
+          </button>
+          <button class="carro-subtab-btn" id="tab-btn-historico" onclick="alternarTabAgenda('historico')">
+            <span>📁</span>
+            <span>Histórico Completo</span>
           </button>
         </div>
 
-        <!-- CONTAINER DA TAB 1: LISTA DE COMPROMISSOS -->
-        <div id="agenda-tab-content-lista">
+        <!-- CONTAINER 1: CALENDÁRIO MENSAL MEGA-PREMIUM (.carro-cal-hub) -->
+        <div id="agenda-tab-content-calendario">
+          <div id="agenda-calendario-container">
+            <!-- Renderizado dinamicamente via JS -->
+          </div>
+        </div>
+
+        <!-- CONTAINER 2: LINHA DO TEMPO EXECUTIVA DO DIA (07:00 ÀS 17:00) -->
+        <div id="agenda-tab-content-timeline" style="display: none;">
+          <!-- BARRA INTERATIVA DE NAVEGAÇÃO DE DATAS -->
+          <div class="carro-date-nav-bar">
+            <div class="carro-date-controls">
+              <button class="btn-carro-nav" onclick="navegarDataAgenda(-1)" title="Dia anterior">◀</button>
+              <button class="btn-carro-hoje" onclick="navegarDataAgenda('hoje')" title="Voltar para hoje">Hoje</button>
+              <button class="btn-carro-nav" onclick="navegarDataAgenda(1)" title="Próximo dia">▶</button>
+            </div>
+
+            <div class="carro-date-extenso" id="gestao-hoje-data-texto">
+              sábado, 17 de outubro de 2026
+            </div>
+
+            <div class="carro-date-right-tools">
+              <label style="font-size: 0.82rem; color: #64748b; font-weight: 600;">Ir para a data:</label>
+              <input type="date" class="carro-date-input" id="gestao-date-hidden-picker" onchange="aoMudarDataGestao(this.value)">
+              <span class="carro-sync-time" id="gestao-timeline-timestamp" style="display: inline-flex; align-items: center; gap: 5px;">
+                <span class="pulse-green-dot" style="width: 6px; height: 6px;"></span>Atualizada agora
+              </span>
+              <button class="btn-carro-refresh" onclick="atualizarDiaGestao()" title="Sincronizar linha do tempo com Google Calendar">
+                <span>🔄</span>
+                <span>Atualizar</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- BANNER ESCURO EM DESTAQUE COM O DIA ATIVO & JANELAS LIVRES -->
+          <div class="carro-hero-date-banner">
+            <div class="carro-hero-left">
+              <span class="carro-hero-dia-semana" id="agenda-hero-dia-semana">EXPEDIENTE OFICIAL</span>
+              <h3 class="carro-hero-data" id="agenda-hero-data">Linha do Tempo Executiva</h3>
+              <p class="carro-hero-desc">
+                Grade horária das 07:00 às 17:00. Clique em qualquer faixa <strong style="color: #86efac;">Livre</strong> para agendar imediatamente naquele horário.
+              </p>
+            </div>
+
+            <div class="carro-hero-badges">
+              <span class="badge-sefisc-count" id="agenda-hero-count">0 compromisso(s)</span>
+              <span class="badge-sefisc-tag" id="agenda-hero-livre-badge">10h livres (07h–17h)</span>
+            </div>
+          </div>
+
+          <!-- GRADE HORÁRIA 07:00 ÀS 17:00 -->
+          <div class="gestao-timeline-card">
+            <div class="timeline-card-header">
+              <div class="timeline-header-left">
+                <span class="timeline-expediente-badge">EXPEDIENTE · 07:00 ÀS 17:00</span>
+                <h3 class="timeline-title">Grade Horária do Gabinete da Dirigente</h3>
+              </div>
+              <button class="btn-carro-action" onclick="abrirModalNovoCompromissoComHorario('08:00', '09:00')" style="font-size: 0.78rem; padding: 0.4rem 0.85rem;">
+                <span>+ Agendar Horário</span>
+              </button>
+            </div>
+
+            <!-- Container Dinâmico dos Slots das 07:00 às 17:00 -->
+            <div class="timeline-slots-container" id="timeline-slots-container">
+              <!-- Renderizado dinamicamente via JavaScript -->
+            </div>
+
+            <!-- Legenda e Disclaimer -->
+            <div class="timeline-footer-row">
+              <div class="timeline-legend-row">
+                <div class="timeline-legend-item">
+                  <span class="slot-dot livre" style="display:inline-block;"></span>
+                  <span>Livre na Agenda (Clique para agendar)</span>
+                </div>
+                <div class="timeline-legend-item">
+                  <span class="slot-dot ocupado" style="display:inline-block;"></span>
+                  <span>Compromisso Agendado</span>
+                </div>
+                <div class="timeline-legend-item">
+                  <span class="slot-dot concluido" style="display:inline-block;"></span>
+                  <span>Concluído</span>
+                </div>
+              </div>
+              <div class="timeline-disclaimer-text">
+                As faixas em verde indicam ausência de compromisso registrado na Agenda naquele horário. Compromissos cancelados liberam imediatamente o slot. Fonte: Agenda Executiva da Dirigente • Sincronização em Nuvem.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTAINER 3: PAUTA DO DIA & PRÓXIMOS COMPROMISSOS (CARDS EXECUTIVOS) -->
+        <div id="agenda-tab-content-lista" style="display: none;">
+          <!-- TOOLBAR & FILTROS DA AGENDA -->
+          <div class="agenda-toolbar-card">
+            <div class="agenda-filter-group">
+              <button class="agenda-quick-pill" id="agenda-pill-hoje" onclick="filtrarAgendaPeriodo('hoje')">Hoje</button>
+              <button class="agenda-quick-pill" id="agenda-pill-amanha" onclick="filtrarAgendaPeriodo('amanha')">Amanhã</button>
+              <button class="agenda-quick-pill" id="agenda-pill-semana" onclick="filtrarAgendaPeriodo('semana')">Próx. 7 Dias</button>
+              <button class="agenda-quick-pill active" id="agenda-pill-todos" onclick="filtrarAgendaPeriodo('todos')">Todos</button>
+              
+              <input type="date" class="agenda-date-input" id="agenda-input-data" onchange="aoMudarDataAgenda(this.value)">
+            </div>
+
+            <div class="agenda-filter-group">
+              <select class="agenda-select-filter" id="agenda-filtro-categoria" onchange="aoFiltrarAgenda()">
+                <option value="">Todas as Categorias</option>
+                <option value="Reunião">Reunião</option>
+                <option value="Visita Técnica">Visita Técnica</option>
+                <option value="Despacho Gabinete">Despacho Gabinete</option>
+                <option value="Videoconferência Teams">Videoconferência Teams</option>
+                <option value="Evento Oficial">Evento Oficial</option>
+              </select>
+
+              <select class="agenda-select-filter" id="agenda-filtro-status" onchange="aoFiltrarAgenda()">
+                <option value="">Todos os Status</option>
+                <option value="Agendado">Agendado</option>
+                <option value="Concluído">Concluído</option>
+                <option value="Cancelado">Cancelado</option>
+              </select>
+
+              <input type="text" class="agenda-search-input" id="agenda-filtro-busca" placeholder="🔍 Buscar pauta, local ou setor..." oninput="aoFiltrarAgenda()">
+            </div>
+          </div>
+
           <div class="agenda-items-container" id="agenda-cards-lista">
             <!-- Renderizado dinamicamente via JS -->
           </div>
         </div>
 
-        <!-- CONTAINER DA TAB 2: CALENDÁRIO MENSAL -->
-        <div id="agenda-tab-content-calendario" style="display: none;">
-          <div id="agenda-calendario-container">
-            <!-- Renderizado dinamicamente via JS -->
+        <!-- CONTAINER 4: HISTÓRICO COMPLETO EM TABELA ORDENÁVEL -->
+        <div id="agenda-tab-content-historico" style="display: none;">
+          <div class="escolas-table-card" style="margin-top: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 0.75rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 1.2rem;">📁</span>
+                <strong style="color: #0b2351; font-size: 0.95rem;">Registro Geral de Compromissos &amp; Audiências da Dirigente</strong>
+              </div>
+              <input type="text" id="agenda-table-search" class="table-search-input" style="min-width: 260px;"
+                placeholder="🔍 Filtrar no histórico em tempo real..."
+                oninput="filtrarTabelaHistoricoAgenda(this.value)">
+            </div>
+            <div class="escolas-table-responsive">
+              <table class="escolas-table" id="agenda-historico-table">
+                <thead>
+                  <tr>
+                    <th class="th-sortable sort-active-desc" onclick="ordenarTabelaDom('agenda-historico-table', 0)" title="Classificar por Data e Horário">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Data / Horário</span>
+                        <span class="sort-arrow">▼</span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('agenda-historico-table', 1)" title="Classificar por Compromisso / Pauta">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Compromisso / Pauta</span>
+                        <span class="sort-arrow">↕</span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('agenda-historico-table', 2)" title="Classificar por Categoria">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Categoria / Setor</span>
+                        <span class="sort-arrow">↕</span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('agenda-historico-table', 3)" title="Classificar por Local ou Link">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Local / Canal</span>
+                        <span class="sort-arrow">↕</span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('agenda-historico-table', 4)" title="Classificar por Prioridade">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Prioridade</span>
+                        <span class="sort-arrow">↕</span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('agenda-historico-table', 5)" title="Classificar por Status">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Situação</span>
+                        <span class="sort-arrow">↕</span>
+                      </div>
+                    </th>
+                    <th style="text-align: right;">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="agenda-historico-tbody">
+                  <!-- Preenchido via JavaScript -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 

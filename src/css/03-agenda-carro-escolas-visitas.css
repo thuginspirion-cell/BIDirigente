@@ -1711,6 +1711,39 @@
       border-color: #a7f3d0;
       border-left-color: #059669;
     }
+    .carro-cal-pill.cat-reuniao {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      border-left-color: #1d4ed8;
+    }
+    .carro-cal-pill.cat-visita {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      border-left-color: #059669;
+    }
+    .carro-cal-pill.cat-despacho {
+      background: #fffbeb;
+      border-color: #fde68a;
+      border-left-color: #d97706;
+    }
+    .carro-cal-pill.cat-teams {
+      background: #f5f3ff;
+      border-color: #ddd6fe;
+      border-left-color: #7c3aed;
+    }
+    .carro-cal-pill.cat-evento {
+      background: #fff1f2;
+      border-color: #fecdd3;
+      border-left-color: #e11d48;
+    }
+    .carro-cal-pill.status-concluido {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+      border-left-color: #16a34a;
+    }
+    .agenda-kpi-grid-5 {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
     .carro-cal-pill.status-cancelado {
       opacity: 0.6;
       text-decoration: line-through;

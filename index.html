@@ -4956,6 +4956,39 @@
       border-color: #a7f3d0;
       border-left-color: #059669;
     }
+    .carro-cal-pill.cat-reuniao {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      border-left-color: #1d4ed8;
+    }
+    .carro-cal-pill.cat-visita {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      border-left-color: #059669;
+    }
+    .carro-cal-pill.cat-despacho {
+      background: #fffbeb;
+      border-color: #fde68a;
+      border-left-color: #d97706;
+    }
+    .carro-cal-pill.cat-teams {
+      background: #f5f3ff;
+      border-color: #ddd6fe;
+      border-left-color: #7c3aed;
+    }
+    .carro-cal-pill.cat-evento {
+      background: #fff1f2;
+      border-color: #fecdd3;
+      border-left-color: #e11d48;
+    }
+    .carro-cal-pill.status-concluido {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+      border-left-color: #16a34a;
+    }
+    .agenda-kpi-grid-5 {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
     .carro-cal-pill.status-cancelado {
       opacity: 0.6;
       text-decoration: line-through;
@@ -8148,7 +8181,7 @@
               </div>
             </button>
           </li>
-          <li>
+          <li style="display: none;">
             <button class="nav-item-btn" id="side-btn-gestao" onclick="abrirMinhaGestao()" title="Minha Gestão - Rotina Executiva">
               <span class="nav-item-icon">⏱️</span>
               <div class="sidebar-item-text">
@@ -8158,11 +8191,11 @@
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-agenda" onclick="abrirAgenda()" title="Agenda - Rotina da Dirigente">
+            <button class="nav-item-btn" id="side-btn-agenda" onclick="abrirAgenda()" title="Agenda & Rotina da Dirigente - Compromissos e Expediente">
               <span class="nav-item-icon">📅</span>
               <div class="sidebar-item-text">
-                <span class="sidebar-item-main">Agenda</span>
-                <span class="sidebar-item-sub">Rotina da Dirigente</span>
+                <span class="sidebar-item-main">Agenda &amp; Rotina</span>
+                <span class="sidebar-item-sub">Compromissos &amp; Expediente</span>
               </div>
             </button>
           </li>
@@ -10227,207 +10260,313 @@
 </section>
 
       <!-- ============================================== -->
-      <!-- VIEW 5: MINHA GESTÃO (ROTEIRO & COMPROMISSOS)   -->
+      <!-- VIEW 5: MINHA GESTÃO (UNIFICADA NA AGENDA)      -->
       <!-- ============================================== -->
-      <section id="pane-gestao-hoje" class="view-pane">
-
-        <!-- HEADER DA GESTÃO (ESTILO EXECUTIVO) -->
-        <div class="gestao-header-card">
-          <div class="gestao-header-inner">
-            <div class="gestao-header-left">
-              <span class="gestao-pretitle">ROTINA EXECUTIVA • GABINETE DA DIRIGENTE</span>
-              <h2 class="gestao-main-title">Minha Gestão</h2>
-              <p class="gestao-main-desc">
-                Sua linha do tempo executiva, das 7h às 17h, sincronizada automaticamente com o Google Calendar.
-              </p>
-              <div class="gestao-date-row">
-                <div class="gestao-date-badge">
-                  <span>📅</span>
-                  <span id="gestao-hoje-data-texto">sábado 17 de outubro de 2026</span>
-                </div>
-                <input type="date" id="gestao-date-hidden-picker" style="display: none;" onchange="aoMudarDataGestao(this.value)">
-              </div>
-            </div>
-
-            <div class="gestao-header-actions">
-              <button class="btn-gestao-refresh btn-pane-sync" onclick="sincronizarModulo('gestao', this)" title="Sincronizar agenda executiva e compromissos do dia">
-                <span class="sync-spin-icon">🔄</span>
-                <span>Sincronizar Gestão</span>
-              </button>
-              <button class="btn-gestao-open-agenda" onclick="abrirAgenda()" title="Abrir gestão completa de compromissos">
-                <span>Abrir Agenda completa</span>
-                <span>→</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- 3 CARDS DE KPI (COMPROMISSOS, TEMPO LIVRE, CONCLUÍDOS) -->
-        <div class="gestao-kpi-grid">
-          
-          <!-- Card 1: Compromissos do Dia -->
-          <div class="gestao-kpi-card">
-            <div class="gestao-kpi-header">COMPROMISSOS DO DIA</div>
-            <div class="gestao-kpi-body">
-              <div class="gestao-kpi-icon-badge badge-blue-kpi">
-                <span>📅</span>
-              </div>
-              <span class="gestao-kpi-number" id="kpi-gestao-compromissos">1</span>
-            </div>
-            <div class="gestao-kpi-sub" id="kpi-gestao-compromissos-sub">1 agendado(s) · 0 cancelados</div>
-          </div>
-
-          <!-- Card 2: Tempo Livre (7h às 17h) -->
-          <div class="gestao-kpi-card">
-            <div class="gestao-kpi-header">TEMPO LIVRE · 7H ÀS 17H</div>
-            <div class="gestao-kpi-body">
-              <div class="gestao-kpi-icon-badge badge-green-kpi">
-                <span>⏱️</span>
-              </div>
-              <span class="gestao-kpi-number" id="kpi-gestao-tempo-livre">9h</span>
-            </div>
-            <div class="gestao-kpi-sub" id="kpi-gestao-tempo-livre-sub">Sem compromissos registrados neste período</div>
-          </div>
-
-          <!-- Card 3: Concluídos -->
-          <div class="gestao-kpi-card">
-            <div class="gestao-kpi-header">CONCLUÍDOS</div>
-            <div class="gestao-kpi-body">
-              <div class="gestao-kpi-icon-badge badge-pink-kpi">
-                <span>✔️</span>
-              </div>
-              <span class="gestao-kpi-number" id="kpi-gestao-concluidos">0</span>
-            </div>
-            <div class="gestao-kpi-sub" id="kpi-gestao-concluidos-sub">Compromissos realizados</div>
-          </div>
-
-        </div>
-
-        <!-- LINHA DO TEMPO DE HOJE (EXPEDIENTE 07:00 ÀS 17:00) -->
-        <div class="gestao-timeline-card">
-          <div class="timeline-card-header">
-            <div class="timeline-header-left">
-              <span class="timeline-expediente-badge">EXPEDIENTE · 07:00 ÀS 17:00</span>
-              <h3 class="timeline-title">Linha do tempo de hoje</h3>
-            </div>
-            <div class="timeline-updated-text" id="gestao-timeline-timestamp">Atualizada às 17:21</div>
-          </div>
-
-          <!-- Container Dinâmico dos Slots das 07:00 às 17:00 -->
-          <div class="timeline-slots-container" id="timeline-slots-container">
-            <!-- Renderizado dinamicamente via JavaScript -->
-          </div>
-
-          <!-- Legenda e Disclaimer -->
-          <div class="timeline-footer-row">
-            <div class="timeline-legend-row">
-              <div class="timeline-legend-item">
-                <span class="slot-dot livre" style="display:inline-block;"></span>
-                <span>Livre na Agenda</span>
-              </div>
-              <div class="timeline-legend-item">
-                <span class="slot-dot ocupado" style="display:inline-block;"></span>
-                <span>Compromisso</span>
-              </div>
-              <div class="timeline-legend-item">
-                <span class="slot-dot concluido" style="display:inline-block;"></span>
-                <span>Concluído</span>
-              </div>
-            </div>
-            <div class="timeline-disclaimer-text">
-              As faixas em verde indicam ausência de compromisso registrado na Agenda naquele horário; não confirmam disponibilidade fora do sistema. Cancelados não bloqueiam horários. Fonte: Agenda Executiva da Dirigente • Sincronização em Nuvem.
-            </div>
-          </div>
-        </div>
-
-      </section>
+      <section id="pane-gestao-hoje" class="view-pane" style="display: none;"></section>
 
       <!-- ============================================== -->
-      <!-- VIEW 6: AGENDA COMPLETA DA DIRIGENTE           -->
+      <!-- VIEW 6: CENTRAL UNIFICADA AGENDA & ROTINA      -->
       <!-- ============================================== -->
       <section id="pane-agenda" class="view-pane">
 
-        <!-- HEADER DA AGENDA -->
-        <div class="agenda-view-header">
-          <div class="agenda-header-inner">
-            <div>
-              <span class="gestao-pretitle" style="color: #f09b0c;">GESTÃO DA REDE • GABINETE DA DIRIGENTE</span>
-              <h2 class="gestao-main-title">Agenda da Dirigente & Gestão de Compromissos</h2>
-              <p class="gestao-main-desc">
-                Planejamento e controle de audiências, reuniões com a rede, visitas escolares, videoconferências e despachos oficiais.
+        <!-- HEADER EXECUTIVO DA AGENDA & ROTINA (PADRÃO CARRO OFICIAL) -->
+        <div class="carro-header-card">
+          <div class="carro-header-inner" style="align-items: center;">
+            <div class="carro-header-left">
+              <span class="gestao-pretitle" style="color: #f09b0c;">GABINETE DA DIRIGENTE REGIONAL • URE ITAPEVI</span>
+              <h2 class="gestao-main-title" style="margin-bottom: 0.35rem;">Agenda &amp; Rotina da Dirigente • Central de Compromissos</h2>
+              <p class="gestao-main-desc" style="margin: 0;">
+                Planejamento integrado do expediente executivo (07h às 17h), calendário mensal de audiências, reuniões com a rede, visitas técnicas, videoconferências Teams e despachos oficiais sincronizados em nuvem.
               </p>
             </div>
-            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-              <button class="btn-pane-sync" onclick="sincronizarModulo('agenda', this)" title="Sincronizar agenda oficial da Dirigente com o Google Calendar">
-                <span class="sync-spin-icon">🔄</span>
-                <span>Sincronizar Agenda</span>
-              </button>
-              <button class="btn-gestao-open-agenda" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);" onclick="abrirModalNovoCompromisso()">
+
+            <div class="carro-header-actions">
+              <button class="btn-carro-action" onclick="abrirModalNovoCompromisso()" title="Registrar novo compromisso oficial na agenda da Dirigente" style="background: linear-gradient(135deg, #d48208 0%, #f09b0c 100%); color: #07152f; border: 1.5px solid #fde047; padding: 0.7rem 1.4rem; font-size: 0.88rem; font-weight: 800; box-shadow: 0 4px 14px rgba(240, 155, 12, 0.32);">
                 <span>+ Novo Compromisso</span>
-              </button>
-              <button class="btn-gestao-refresh" onclick="abrirMinhaGestao()">
-                <span>⏱️</span>
-                <span>Ver Linha do Tempo</span>
               </button>
             </div>
           </div>
         </div>
 
-        <!-- TOOLBAR & FILTROS DA AGENDA -->
-        <div class="agenda-toolbar-card">
-          <div class="agenda-filter-group">
-            <button class="agenda-quick-pill active" id="agenda-pill-hoje" onclick="filtrarAgendaPeriodo('hoje')">Hoje</button>
-            <button class="agenda-quick-pill" id="agenda-pill-amanha" onclick="filtrarAgendaPeriodo('amanha')">Amanhã</button>
-            <button class="agenda-quick-pill" id="agenda-pill-semana" onclick="filtrarAgendaPeriodo('semana')">Esta Semana</button>
-            <button class="agenda-quick-pill" id="agenda-pill-todos" onclick="filtrarAgendaPeriodo('todos')">Todos</button>
-            
-            <input type="date" class="agenda-date-input" id="agenda-input-data" onchange="aoMudarDataAgenda(this.value)" >
-          </div>
-
-          <div class="agenda-filter-group">
-            <select class="agenda-select-filter" id="agenda-filtro-categoria" onchange="aoFiltrarAgenda()">
-              <option value="">Todas as Categorias</option>
-              <option value="Reunião">Reunião</option>
-              <option value="Visita Técnica">Visita Técnica</option>
-              <option value="Despacho Gabinete">Despacho Gabinete</option>
-              <option value="Videoconferência Teams">Videoconferência Teams</option>
-              <option value="Evento Oficial">Evento Oficial</option>
-            </select>
-
-            <select class="agenda-select-filter" id="agenda-filtro-status" onchange="aoFiltrarAgenda()">
-              <option value="">Todos os Status</option>
-              <option value="Agendado">Agendado</option>
-              <option value="Concluído">Concluído</option>
-              <option value="Cancelado">Cancelado</option>
-            </select>
-
-            <input type="text" class="agenda-search-input" id="agenda-filtro-busca" placeholder="🔍 Buscar compromisso..." oninput="aoFiltrarAgenda()">
-          </div>
-        </div>
-
-        <!-- ABAS DE VISUALIZAÇÃO: LISTA vs CALENDÁRIO MENSAL -->
-        <div class="agenda-view-tabs">
-          <button class="agenda-tab-btn active" id="tab-btn-lista" onclick="alternarTabAgenda('lista')">
-            <span>📋</span>
-            <span>Lista de Compromissos</span>
-          </button>
-          <button class="agenda-tab-btn" id="tab-btn-calendario" onclick="alternarTabAgenda('calendario')">
+        <!-- BANNER DE SINCRONIZAÇÃO EM NUVEM & GOOGLE CALENDAR -->
+        <div class="carro-sync-alert">
+          <div class="carro-sync-alert-text">
             <span>📅</span>
-            <span>Visão Calendário Mensal</span>
+            <span>
+              <strong id="agenda-alert-calendar-title">Agenda Executiva &amp; Google Calendar</strong> • <span id="agenda-alert-calendar-status">Expediente Oficial URE Itapevi (07:00 às 17:00)</span> • <strong id="agenda-qtd-registros-alert">0</strong> compromisso(s) mapeado(s) • Sincronização em nuvem ativa.
+            </span>
+          </div>
+
+          <div class="carro-sync-alert-actions">
+            <button class="btn-carro-action secondary" onclick="sincronizarModulo('agenda', this)" title="Recarregar Google Calendar e sincronizar compromissos na nuvem">
+              <span class="sync-spin-icon">🔄</span>
+              <span>Atualizar</span>
+            </button>
+            <button class="btn-carro-action secondary" onclick="imprimirPautaAgenda()" title="Imprimir Pauta Executiva do Dia / Compromissos da Dirigente">
+              <span>🖨️ Imprimir Pauta</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 CARDS EXECUTIVOS DE KPI (REGRA 8: SOMENTE LEITURA, CURSOR DEFAULT) -->
+        <div class="carro-kpi-grid agenda-kpi-grid-5">
+          
+          <!-- Card 1: Hoje -->
+          <div class="carro-kpi-card" style="cursor: default;">
+            <div class="carro-kpi-header">COMPROMISSOS DO DIA</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="kpi-gestao-compromissos">0</span>
+            </div>
+            <div class="carro-kpi-sub" id="kpi-gestao-compromissos-sub">0 agendado(s) · 0 cancelados</div>
+          </div>
+
+          <!-- Card 2: Tempo Livre (07h às 17h) -->
+          <div class="carro-kpi-card" style="cursor: default;">
+            <div class="carro-kpi-header">TEMPO LIVRE · 07H ÀS 17H</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="kpi-gestao-tempo-livre" style="color: #059669;">10h</span>
+            </div>
+            <div class="carro-kpi-sub" id="kpi-gestao-tempo-livre-sub">De 10h do expediente oficial</div>
+          </div>
+
+          <!-- Card 3: Amanhã -->
+          <div class="carro-kpi-card" style="cursor: default;">
+            <div class="carro-kpi-header">AMANHÃ</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="agenda-kpi-amanha">0</span>
+            </div>
+            <div class="carro-kpi-sub" id="agenda-kpi-amanha-sub">compromissos previstos</div>
+          </div>
+
+          <!-- Card 4: Próximos 7 Dias -->
+          <div class="carro-kpi-card" style="cursor: default;">
+            <div class="carro-kpi-header">PRÓXIMOS 7 DIAS</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="agenda-kpi-semana">0</span>
+            </div>
+            <div class="carro-kpi-sub" id="agenda-kpi-semana-sub">na janela semanal</div>
+          </div>
+
+          <!-- Card 5: Concluídos -->
+          <div class="carro-kpi-card" style="cursor: default;">
+            <div class="carro-kpi-header">CONCLUÍDOS</div>
+            <div class="carro-kpi-body">
+              <span class="carro-kpi-number" id="kpi-gestao-concluidos" style="color: #2563eb;">0</span>
+            </div>
+            <div class="carro-kpi-sub" id="kpi-gestao-concluidos-sub">compromissos realizados</div>
+          </div>
+
+        </div>
+
+        <!-- SUB-TABS UNIFICADAS: CALENDÁRIO MENSAL vs LINHA DO TEMPO (07H-17H) vs PAUTA & LISTA vs HISTÓRICO -->
+        <div class="carro-subtabs-bar">
+          <button class="carro-subtab-btn active" id="tab-btn-calendario" onclick="alternarTabAgenda('calendario')">
+            <span>📅</span>
+            <span>Calendário de Agendamento</span>
+          </button>
+          <button class="carro-subtab-btn" id="tab-btn-timeline" onclick="alternarTabAgenda('timeline')">
+            <span>⏱️</span>
+            <span>Linha do Tempo do Dia (07h–17h)</span>
+          </button>
+          <button class="carro-subtab-btn" id="tab-btn-lista" onclick="alternarTabAgenda('lista')">
+            <span>📋</span>
+            <span>Pauta do Dia &amp; Próximos</span>
+          </button>
+          <button class="carro-subtab-btn" id="tab-btn-historico" onclick="alternarTabAgenda('historico')">
+            <span>📁</span>
+            <span>Histórico Completo</span>
           </button>
         </div>
 
-        <!-- CONTAINER DA TAB 1: LISTA DE COMPROMISSOS -->
-        <div id="agenda-tab-content-lista">
+        <!-- CONTAINER 1: CALENDÁRIO MENSAL MEGA-PREMIUM (.carro-cal-hub) -->
+        <div id="agenda-tab-content-calendario">
+          <div id="agenda-calendario-container">
+            <!-- Renderizado dinamicamente via JS -->
+          </div>
+        </div>
+
+        <!-- CONTAINER 2: LINHA DO TEMPO EXECUTIVA DO DIA (07:00 ÀS 17:00) -->
+        <div id="agenda-tab-content-timeline" style="display: none;">
+          <!-- BARRA INTERATIVA DE NAVEGAÇÃO DE DATAS -->
+          <div class="carro-date-nav-bar">
+            <div class="carro-date-controls">
+              <button class="btn-carro-nav" onclick="navegarDataAgenda(-1)" title="Dia anterior">◀</button>
+              <button class="btn-carro-hoje" onclick="navegarDataAgenda('hoje')" title="Voltar para hoje">Hoje</button>
+              <button class="btn-carro-nav" onclick="navegarDataAgenda(1)" title="Próximo dia">▶</button>
+            </div>
+
+            <div class="carro-date-extenso" id="gestao-hoje-data-texto">
+              sábado, 17 de outubro de 2026
+            </div>
+
+            <div class="carro-date-right-tools">
+              <label style="font-size: 0.82rem; color: #64748b; font-weight: 600;">Ir para a data:</label>
+              <input type="date" class="carro-date-input" id="gestao-date-hidden-picker" onchange="aoMudarDataGestao(this.value)">
+              <span class="carro-sync-time" id="gestao-timeline-timestamp" style="display: inline-flex; align-items: center; gap: 5px;">
+                <span class="pulse-green-dot" style="width: 6px; height: 6px;"></span>Atualizada agora
+              </span>
+              <button class="btn-carro-refresh" onclick="atualizarDiaGestao()" title="Sincronizar linha do tempo com Google Calendar">
+                <span>🔄</span>
+                <span>Atualizar</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- BANNER ESCURO EM DESTAQUE COM O DIA ATIVO & JANELAS LIVRES -->
+          <div class="carro-hero-date-banner">
+            <div class="carro-hero-left">
+              <span class="carro-hero-dia-semana" id="agenda-hero-dia-semana">EXPEDIENTE OFICIAL</span>
+              <h3 class="carro-hero-data" id="agenda-hero-data">Linha do Tempo Executiva</h3>
+              <p class="carro-hero-desc">
+                Grade horária das 07:00 às 17:00. Clique em qualquer faixa <strong style="color: #86efac;">Livre</strong> para agendar imediatamente naquele horário.
+              </p>
+            </div>
+
+            <div class="carro-hero-badges">
+              <span class="badge-sefisc-count" id="agenda-hero-count">0 compromisso(s)</span>
+              <span class="badge-sefisc-tag" id="agenda-hero-livre-badge">10h livres (07h–17h)</span>
+            </div>
+          </div>
+
+          <!-- GRADE HORÁRIA 07:00 ÀS 17:00 -->
+          <div class="gestao-timeline-card">
+            <div class="timeline-card-header">
+              <div class="timeline-header-left">
+                <span class="timeline-expediente-badge">EXPEDIENTE · 07:00 ÀS 17:00</span>
+                <h3 class="timeline-title">Grade Horária do Gabinete da Dirigente</h3>
+              </div>
+              <button class="btn-carro-action" onclick="abrirModalNovoCompromissoComHorario('08:00', '09:00')" style="font-size: 0.78rem; padding: 0.4rem 0.85rem;">
+                <span>+ Agendar Horário</span>
+              </button>
+            </div>
+
+            <!-- Container Dinâmico dos Slots das 07:00 às 17:00 -->
+            <div class="timeline-slots-container" id="timeline-slots-container">
+              <!-- Renderizado dinamicamente via JavaScript -->
+            </div>
+
+            <!-- Legenda e Disclaimer -->
+            <div class="timeline-footer-row">
+              <div class="timeline-legend-row">
+                <div class="timeline-legend-item">
+                  <span class="slot-dot livre" style="display:inline-block;"></span>
+                  <span>Livre na Agenda (Clique para agendar)</span>
+                </div>
+                <div class="timeline-legend-item">
+                  <span class="slot-dot ocupado" style="display:inline-block;"></span>
+                  <span>Compromisso Agendado</span>
+                </div>
+                <div class="timeline-legend-item">
+                  <span class="slot-dot concluido" style="display:inline-block;"></span>
+                  <span>Concluído</span>
+                </div>
+              </div>
+              <div class="timeline-disclaimer-text">
+                As faixas em verde indicam ausência de compromisso registrado na Agenda naquele horário. Compromissos cancelados liberam imediatamente o slot. Fonte: Agenda Executiva da Dirigente • Sincronização em Nuvem.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTAINER 3: PAUTA DO DIA & PRÓXIMOS COMPROMISSOS (CARDS EXECUTIVOS) -->
+        <div id="agenda-tab-content-lista" style="display: none;">
+          <!-- TOOLBAR & FILTROS DA AGENDA -->
+          <div class="agenda-toolbar-card">
+            <div class="agenda-filter-group">
+              <button class="agenda-quick-pill" id="agenda-pill-hoje" onclick="filtrarAgendaPeriodo('hoje')">Hoje</button>
+              <button class="agenda-quick-pill" id="agenda-pill-amanha" onclick="filtrarAgendaPeriodo('amanha')">Amanhã</button>
+              <button class="agenda-quick-pill" id="agenda-pill-semana" onclick="filtrarAgendaPeriodo('semana')">Próx. 7 Dias</button>
+              <button class="agenda-quick-pill active" id="agenda-pill-todos" onclick="filtrarAgendaPeriodo('todos')">Todos</button>
+              
+              <input type="date" class="agenda-date-input" id="agenda-input-data" onchange="aoMudarDataAgenda(this.value)">
+            </div>
+
+            <div class="agenda-filter-group">
+              <select class="agenda-select-filter" id="agenda-filtro-categoria" onchange="aoFiltrarAgenda()">
+                <option value="">Todas as Categorias</option>
+                <option value="Reunião">Reunião</option>
+                <option value="Visita Técnica">Visita Técnica</option>
+                <option value="Despacho Gabinete">Despacho Gabinete</option>
+                <option value="Videoconferência Teams">Videoconferência Teams</option>
+                <option value="Evento Oficial">Evento Oficial</option>
+              </select>
+
+              <select class="agenda-select-filter" id="agenda-filtro-status" onchange="aoFiltrarAgenda()">
+                <option value="">Todos os Status</option>
+                <option value="Agendado">Agendado</option>
+                <option value="Concluído">Concluído</option>
+                <option value="Cancelado">Cancelado</option>
+              </select>
+
+              <input type="text" class="agenda-search-input" id="agenda-filtro-busca" placeholder="🔍 Buscar pauta, local ou setor..." oninput="aoFiltrarAgenda()">
+            </div>
+          </div>
+
           <div class="agenda-items-container" id="agenda-cards-lista">
             <!-- Renderizado dinamicamente via JS -->
           </div>
         </div>
 
-        <!-- CONTAINER DA TAB 2: CALENDÁRIO MENSAL -->
-        <div id="agenda-tab-content-calendario" style="display: none;">
-          <div id="agenda-calendario-container">
-            <!-- Renderizado dinamicamente via JS -->
+        <!-- CONTAINER 4: HISTÓRICO COMPLETO EM TABELA ORDENÁVEL -->
+        <div id="agenda-tab-content-historico" style="display: none;">
+          <div class="escolas-table-card" style="margin-top: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 0.75rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 1.2rem;">📁</span>
+                <strong style="color: #0b2351; font-size: 0.95rem;">Registro Geral de Compromissos &amp; Audiências da Dirigente</strong>
+              </div>
+              <input type="text" id="agenda-table-search" class="table-search-input" style="min-width: 260px;"
+                placeholder="🔍 Filtrar no histórico em tempo real..."
+                oninput="filtrarTabelaHistoricoAgenda(this.value)">
+            </div>
+            <div class="escolas-table-responsive">
+              <table class="escolas-table" id="agenda-historico-table">
+                <thead>
+                  <tr>
+                    <th class="th-sortable sort-active-desc" onclick="ordenarTabelaDom('agenda-historico-table', 0)" title="Classificar por Data e Horário">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Data / Horário</span>
+                        <span class="sort-arrow">▼</span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('agenda-historico-table', 1)" title="Classificar por Compromisso / Pauta">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Compromisso / Pauta</span>
+                        <span class="sort-arrow">↕</span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('agenda-historico-table', 2)" title="Classificar por Categoria">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Categoria / Setor</span>
+                        <span class="sort-arrow">↕</span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('agenda-historico-table', 3)" title="Classificar por Local ou Link">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Local / Canal</span>
+                        <span class="sort-arrow">↕</span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('agenda-historico-table', 4)" title="Classificar por Prioridade">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Prioridade</span>
+                        <span class="sort-arrow">↕</span>
+                      </div>
+                    </th>
+                    <th class="th-sortable" onclick="ordenarTabelaDom('agenda-historico-table', 5)" title="Classificar por Status">
+                      <div class="th-sort-wrapper">
+                        <span class="th-title-text">Situação</span>
+                        <span class="sort-arrow">↕</span>
+                      </div>
+                    </th>
+                    <th style="text-align: right;">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="agenda-historico-tbody">
+                  <!-- Preenchido via JavaScript -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -11660,8 +11799,10 @@ if (!window.mostrarHome) {
 
     let dataAtivaGestaoHoje = obterDataHojeIso();
     let dataAtivaAgenda = obterDataHojeIso();
-    let filtroPeriodoAgenda = 'hoje';
+    let filtroPeriodoAgenda = 'todos';
     let mesAtivoCalendario = new Date();
+    let subTabAtivaAgenda = 'calendario';
+    let filtroCategoriaCalAgenda = 'TODOS';
 
     /* Base de Dados Centralizada dos Compromissos (Persistida em localStorage + Sincronização) */
     
@@ -12417,15 +12558,108 @@ if (!window.mostrarHome) {
 
     /* === COMPROMISSOS & AGENDA (100% NUVEM - GOOGLE CALENDAR + APPS SCRIPT) === */
     function inicializarCompromissosPadrao() {
-      return [];
+      const hoje = obterDataHojeIso();
+      const dObj = new Date(hoje + 'T12:00:00');
+      const dAmanha = new Date(dObj.getTime() + 86400000);
+      const amanha = dAmanha.getFullYear() + '-' + String(dAmanha.getMonth() + 1).padStart(2, '0') + '-' + String(dAmanha.getDate()).padStart(2, '0');
+      const dMais2 = new Date(dObj.getTime() + 2 * 86400000);
+      const mais2 = dMais2.getFullYear() + '-' + String(dMais2.getMonth() + 1).padStart(2, '0') + '-' + String(dMais2.getDate()).padStart(2, '0');
+      const dMais4 = new Date(dObj.getTime() + 4 * 86400000);
+      const mais4 = dMais4.getFullYear() + '-' + String(dMais4.getMonth() + 1).padStart(2, '0') + '-' + String(dMais4.getDate()).padStart(2, '0');
+      return [
+        {
+          id: 'evt-padrao-1',
+          titulo: 'Alinhamento Executivo do Gabinete e Chefias URE Itapevi',
+          data: hoje,
+          horaInicio: '08:00',
+          horaFim: '09:00',
+          tipo: 'Reunião',
+          local: 'Gabinete da Dirigente - URE Itapevi',
+          link: '',
+          setor: 'Gabinete / URE',
+          prioridade: 'Alta',
+          status: 'Agendado',
+          descricao: 'Pauta prioritária da semana: indicadores pedagógicos, demandas de infraestrutura escolar (SEOM), vida funcional (SEPES) e suporte tecnológico (SEINTEC).'
+        },
+        {
+          id: 'evt-padrao-2',
+          titulo: 'Despacho Técnico de Processos SEI e Expedientes Prioritários',
+          data: hoje,
+          horaInicio: '10:00',
+          horaFim: '11:00',
+          tipo: 'Despacho Gabinete',
+          local: 'Gabinete da Dirigente',
+          link: '',
+          setor: 'ASURE / SEAFIN',
+          prioridade: 'Normal',
+          status: 'Agendado',
+          descricao: 'Análise e assinatura de despachos oficiais, homologações e encaminhamentos às unidades escolares.'
+        },
+        {
+          id: 'evt-padrao-3',
+          titulo: 'Reunião de Monitoramento Pedagógico e Avaliações (EEC / Supervisão)',
+          data: hoje,
+          horaInicio: '14:00',
+          horaFim: '15:00',
+          tipo: 'Videoconferência Teams',
+          local: 'Microsoft Teams',
+          link: '',
+          setor: 'EEC / Supervisão',
+          prioridade: 'Alta',
+          status: 'Agendado',
+          descricao: 'Acompanhamento das metas de aprendizagem, frequência escolar e apoio às equipes gestoras das 63 escolas estaduais.'
+        },
+        {
+          id: 'evt-padrao-4',
+          titulo: 'Visita Técnica de Acompanhamento Escolar na Rede URE Itapevi',
+          data: amanha,
+          horaInicio: '09:00',
+          horaFim: '12:00',
+          tipo: 'Visita Técnica',
+          local: 'Unidades Escolares - URE Itapevi',
+          link: '',
+          setor: 'Gabinete / Supervisão',
+          prioridade: 'Alta',
+          status: 'Agendado',
+          descricao: 'Vistoria in loco das condições prediais, parque tecnológico e diálogo com a equipe gestora escolar.'
+        },
+        {
+          id: 'evt-padrao-5',
+          titulo: 'Videoconferência Institucional SEDUC-SP com Dirigentes Regionais',
+          data: mais2,
+          horaInicio: '10:00',
+          horaFim: '11:30',
+          tipo: 'Videoconferência Teams',
+          local: 'Microsoft Teams - Canal SEDUC-SP',
+          link: '',
+          setor: 'SEDUC-SP / Gabinete',
+          prioridade: 'Alta',
+          status: 'Agendado',
+          descricao: 'Pauta estadual com a Subsecretaria de Articulação Regional e orientações estratégicas para as regionais de ensino.'
+        },
+        {
+          id: 'evt-padrao-6',
+          titulo: 'Encontro Formativo com Diretores de Escola da URE Itapevi',
+          data: mais4,
+          horaInicio: '09:00',
+          horaFim: '12:00',
+          tipo: 'Evento Oficial',
+          local: 'Auditório URE Itapevi',
+          link: '',
+          setor: 'Gabinete / EEC / SEGRE',
+          prioridade: 'Alta',
+          status: 'Agendado',
+          descricao: 'Socialização de boas práticas de gestão, fluxo de matrículas (SEGRE) e execução do Plano de Ação 2026.'
+        }
+      ];
     }
 
-    let AGENDA_COMPROMISSOS = [];
+    let AGENDA_COMPROMISSOS = inicializarCompromissosPadrao();
 
     function carregarAgendaCloud(callback) {
       if (typeof window.lerEstadoNuvem === 'function') {
         window.lerEstadoNuvem('AGENDA_DATA', function(dados) {
-          if (Array.isArray(dados) && dados.length > 0 && AGENDA_COMPROMISSOS.length === 0) {
+          if (Array.isArray(dados) && dados.length > 0) {
             AGENDA_COMPROMISSOS = dados;
             if (typeof renderizarAgenda === 'function') renderizarAgenda();
             if (typeof renderizarMinhaGestao === 'function') renderizarMinhaGestao();
@@ -13435,22 +13669,7 @@ if (!window.mostrarHome) {
 
     function abrirMinhaGestao(dataOpcional) {
       abrirMinhaGestao.__isReal = true; window.abrirMinhaGestao = abrirMinhaGestao;
-      esconderTodasAsPanes();
-      const pane = document.getElementById('pane-gestao-hoje');
-      if (pane) pane.classList.add('active');
-
-      const sideBtn = document.getElementById('side-btn-gestao');
-      if (sideBtn) sideBtn.classList.add('active');
-
-      atualizarBreadcrumbTopo('02 - Minha Gestão');
-
-      if (dataOpcional) {
-        dataAtivaGestaoHoje = dataOpcional;
-      }
-      renderizarMinhaGestao();
-      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
-      carregarGoogleCalendar(dataAtivaGestaoHoje);
-      rolarAoTopoSuave();
+      abrirAgenda(dataOpcional, 'timeline');
     }
 
     /* Alias para compatibilidade com chamadas pré-existentes */
@@ -13458,7 +13677,7 @@ if (!window.mostrarHome) {
       abrirMinhaGestao(dataOpcional);
     }
 
-    function abrirAgenda(dataOpcional) {
+    function abrirAgenda(dataOpcional, subTabOpcional) {
       abrirAgenda.__isReal = true; window.abrirAgenda = abrirAgenda;
       esconderTodasAsPanes();
       const pane = document.getElementById('pane-agenda');
@@ -13467,15 +13686,24 @@ if (!window.mostrarHome) {
       const sideBtn = document.getElementById('side-btn-agenda');
       if (sideBtn) sideBtn.classList.add('active');
 
-      atualizarBreadcrumbTopo('03 - Agenda da Dirigente');
+      atualizarBreadcrumbTopo('02 - Agenda & Rotina da Dirigente');
 
       if (dataOpcional) {
         dataAtivaAgenda = dataOpcional;
+        dataAtivaGestaoHoje = dataOpcional;
         const inputData = document.getElementById('agenda-input-data');
         if (inputData) inputData.value = dataOpcional;
+        const pickerGestao = document.getElementById('gestao-date-hidden-picker');
+        if (pickerGestao) pickerGestao.value = dataOpcional;
       }
+      if (subTabOpcional) {
+        subTabAtivaAgenda = subTabOpcional;
+      }
+      renderizarMinhaGestao();
       renderizarAgenda();
-      carregarGoogleCalendar();
+      alternarTabAgenda(subTabAtivaAgenda || 'calendario');
+      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
+      carregarGoogleCalendar(dataOpcional || undefined);
       rolarAoTopoSuave();
     }
 
@@ -13493,142 +13721,190 @@ if (!window.mostrarHome) {
       rolarAoTopoSuave();
     };
 
-    /* --- RENDERIZAÇÃO: MINHA GESTÃO (ROTINA & COMPROMISSOS) --- */
+    /* --- RENDERIZAÇÃO UNIFICADA: AGENDA & ROTINA DA DIRIGENTE --- */
+    function atualizarKpisAgendaUnificada() {
+      const hoje = obterDataHojeIso();
+      const dObj = new Date(hoje + 'T12:00:00');
+      const dAmanha = new Date(dObj.getTime() + 86400000);
+      const amanhaIso = dAmanha.getFullYear() + '-' + String(dAmanha.getMonth() + 1).padStart(2, '0') + '-' + String(dAmanha.getDate()).padStart(2, '0');
+      const d7 = new Date(dObj.getTime() + 7 * 86400000);
+      const d7Iso = d7.getFullYear() + '-' + String(d7.getMonth() + 1).padStart(2, '0') + '-' + String(d7.getDate()).padStart(2, '0');
+
+      const dataRef = dataAtivaGestaoHoje || hoje;
+      const eventosDoDia = AGENDA_COMPROMISSOS.filter(function(c) { return c.data === dataRef; });
+      const eventosValidosDia = eventosDoDia.filter(function(c) { return c.status !== 'Cancelado'; });
+      const eventosCanceladosDia = eventosDoDia.filter(function(c) { return c.status === 'Cancelado'; });
+
+      const ativosGeral = AGENDA_COMPROMISSOS.filter(function(c) { return c.status !== 'Cancelado'; });
+      const regAmanha = ativosGeral.filter(function(c) { return c.data === amanhaIso; }).length;
+      const regSemana = ativosGeral.filter(function(c) { return c.data >= hoje && c.data <= d7Iso; }).length;
+      const regConcluidos = AGENDA_COMPROMISSOS.filter(function(c) { return c.status === 'Concluído'; }).length;
+
+      let slotsOcupados = 0;
+      HORARIOS_EXPEDIENTE.forEach(function(slot) {
+        const temEv = eventosValidosDia.some(function(ev) {
+          return ev.horaInicio <= slot.inicio && ev.horaFim > slot.inicio;
+        });
+        if (temEv) slotsOcupados++;
+      });
+      const totalHorasExpediente = 10;
+      const horasLivres = Math.max(0, totalHorasExpediente - slotsOcupados);
+
+      const kpiCompromissos = document.getElementById('kpi-gestao-compromissos');
+      const kpiCompromissosSub = document.getElementById('kpi-gestao-compromissos-sub');
+      if (kpiCompromissos) kpiCompromissos.innerText = eventosValidosDia.length;
+      if (kpiCompromissosSub) {
+        kpiCompromissosSub.innerText = eventosValidosDia.length + ' agendado(s) · ' + eventosCanceladosDia.length + ' cancelado(s)';
+      }
+
+      const kpiTempoLivre = document.getElementById('kpi-gestao-tempo-livre');
+      const kpiTempoLivreSub = document.getElementById('kpi-gestao-tempo-livre-sub');
+      if (kpiTempoLivre) kpiTempoLivre.innerText = horasLivres + 'h';
+      if (kpiTempoLivreSub) {
+        kpiTempoLivreSub.innerText = horasLivres === totalHorasExpediente
+          ? 'Expediente 100% livre na data'
+          : (horasLivres + 'h livres de ' + totalHorasExpediente + 'h (07h–17h)');
+      }
+
+      const kpiAmanha = document.getElementById('agenda-kpi-amanha');
+      if (kpiAmanha) kpiAmanha.innerText = regAmanha;
+
+      const kpiSemana = document.getElementById('agenda-kpi-semana');
+      if (kpiSemana) kpiSemana.innerText = regSemana;
+
+      const kpiConcluidos = document.getElementById('kpi-gestao-concluidos');
+      const kpiConcluidosSub = document.getElementById('kpi-gestao-concluidos-sub');
+      if (kpiConcluidos) kpiConcluidos.innerText = regConcluidos;
+      if (kpiConcluidosSub) kpiConcluidosSub.innerText = 'compromissos realizados';
+
+      const alertQtd = document.getElementById('agenda-qtd-registros-alert');
+      if (alertQtd) alertQtd.innerText = ativosGeral.length;
+
+      /* Hero Banner da Linha do Tempo */
+      const partes = dataRef.split('-');
+      if (partes.length === 3) {
+        const dHero = new Date(parseInt(partes[0], 10), parseInt(partes[1], 10) - 1, parseInt(partes[2], 10), 12, 0, 0);
+        const diasSemanaUpper = ['DOMINGO', 'SEGUNDA-FEIRA', 'TERÇA-FEIRA', 'QUARTA-FEIRA', 'QUINTA-FEIRA', 'SEXTA-FEIRA', 'SÁBADO'];
+        const mesesNomesMin = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+        const heroDiaSemana = document.getElementById('agenda-hero-dia-semana');
+        if (heroDiaSemana) {
+          heroDiaSemana.innerText = diasSemanaUpper[dHero.getDay()] + (dataRef === hoje ? ' • HOJE' : '');
+        }
+        const heroData = document.getElementById('agenda-hero-data');
+        if (heroData) {
+          heroData.innerText = partes[2] + ' de ' + mesesNomesMin[dHero.getMonth()] + ' de ' + partes[0];
+        }
+      }
+      const heroCount = document.getElementById('agenda-hero-count');
+      if (heroCount) heroCount.innerText = eventosValidosDia.length + ' compromisso(s)';
+      const heroLivre = document.getElementById('agenda-hero-livre-badge');
+      if (heroLivre) heroLivre.innerText = horasLivres + 'h livres (07h–17h)';
+    }
+
     function renderizarMinhaGestao() {
-      /* 1. Atualiza a data do cabeçalho */
+      /* 1. Atualiza a data do cabeçalho e input */
       const textoData = formatarDataExtensoPtBr(dataAtivaGestaoHoje);
       const dataEl = document.getElementById('gestao-hoje-data-texto');
       if (dataEl) dataEl.innerText = textoData;
+
+      const pickerEl = document.getElementById('gestao-date-hidden-picker');
+      if (pickerEl) pickerEl.value = dataAtivaGestaoHoje;
 
       /* 2. Atualiza o timestamp */
       const agora = new Date();
       const horaStr = String(agora.getHours()).padStart(2, '0');
       const minStr = String(agora.getMinutes()).padStart(2, '0');
       const timestampEl = document.getElementById('gestao-timeline-timestamp');
-      if (timestampEl) timestampEl.innerText = `Atualizada às ${horaStr}:${minStr}`;
+      if (timestampEl) {
+        timestampEl.innerHTML = '<span class="pulse-green-dot" style="width: 6px; height: 6px;"></span>Sincronizado ' + horaStr + ':' + minStr;
+      }
 
       /* 3. Filtra os compromissos para a data ativa da gestão */
-      const eventosDoDia = AGENDA_COMPROMISSOS.filter(c => c.data === dataAtivaGestaoHoje);
-      const eventosValidos = eventosDoDia.filter(c => c.status !== 'Cancelado');
-      const eventosCancelados = eventosDoDia.filter(c => c.status === 'Cancelado');
-      const eventosConcluidos = eventosDoDia.filter(c => c.status === 'Concluído');
+      const eventosDoDia = AGENDA_COMPROMISSOS.filter(function(c) { return c.data === dataAtivaGestaoHoje; });
+      const eventosValidos = eventosDoDia.filter(function(c) { return c.status !== 'Cancelado'; });
 
       /* 4. Renderiza os Slots da Linha do Tempo */
       const containerSlots = document.getElementById('timeline-slots-container');
-      if (!containerSlots) return;
-      containerSlots.innerHTML = "";
+      if (containerSlots) {
+        containerSlots.innerHTML = "";
 
-      let slotsOcupadosCount = 0;
+        HORARIOS_EXPEDIENTE.forEach(function(slot) {
+          const evento = eventosValidos.find(function(ev) {
+            return ev.horaInicio <= slot.inicio && ev.horaFim > slot.inicio;
+          });
 
-      HORARIOS_EXPEDIENTE.forEach(slot => {
-        /* Encontra se algum compromisso válido abrange este horário */
-        const evento = eventosValidos.find(ev => {
-          return ev.horaInicio <= slot.inicio && ev.horaFim > slot.inicio;
+          const row = document.createElement('div');
+          row.className = 'timeline-slot-row';
+
+          if (!evento) {
+            row.innerHTML = `
+              <div class="slot-time-col">
+                <span class="slot-hour-bold">${slot.inicio}</span>
+                <span class="slot-hour-sub">até ${slot.fim}</span>
+              </div>
+              <div class="slot-dot-col">
+                <span class="slot-dot livre"></span>
+              </div>
+              <div class="slot-card-col">
+                <div class="slot-card-livre" onclick="abrirModalNovoCompromissoComHorario('${slot.inicio}', '${slot.fim}')" title="Clique para agendar neste horário livre">
+                  <span class="slot-livre-text">
+                    <span class="slot-livre-dot">●</span> Livre na Agenda
+                  </span>
+                  <span class="slot-livre-add-hint">+ Agendar neste horário</span>
+                  <span class="slot-livre-time">${slot.inicio}-${slot.fim}</span>
+                </div>
+              </div>
+            `;
+          } else {
+            const isConcluido = evento.status === 'Concluído';
+            const dotClass = isConcluido ? 'concluido' : 'ocupado';
+            const cardExtraClass = isConcluido ? 'concluido' : '';
+            const pillClass = isConcluido ? 'concluido' : 'agendado';
+
+            row.innerHTML = `
+              <div class="slot-time-col">
+                <span class="slot-hour-bold">${slot.inicio}</span>
+                <span class="slot-hour-sub">até ${slot.fim}</span>
+              </div>
+              <div class="slot-dot-col">
+                <span class="slot-dot ${dotClass}"></span>
+              </div>
+              <div class="slot-card-col">
+                <div class="slot-card-ocupado ${cardExtraClass}">
+                  <div class="slot-ocupado-info">
+                    <div class="slot-ocupado-title">
+                      <span>${evento.titulo}</span>
+                    </div>
+                    <div class="slot-ocupado-meta">
+                      ⏰ ${evento.horaInicio} - ${evento.horaFim} · 📌 ${evento.tipo} · 🏢 ${evento.setor || 'Gabinete'} · 📍 ${evento.local || 'Local a definir'}
+                    </div>
+                  </div>
+                  <div class="slot-ocupado-right">
+                    <div class="slot-action-btn-group">
+                      <button class="btn-slot-action done" onclick="alternarStatusConcluido('${evento.id}')" title="${isConcluido ? 'Reabrir compromisso' : 'Marcar como concluído'}">
+                        ${isConcluido ? '↩' : '✔'}
+                      </button>
+                      <button class="btn-slot-action" onclick="abrirModalEditarCompromisso('${evento.id}')" title="Editar compromisso">
+                        ✏
+                      </button>
+                      <button class="btn-slot-action" onclick="cancelarCompromisso('${evento.id}')" title="Cancelar compromisso">
+                        ✕
+                      </button>
+                    </div>
+                    <span class="slot-status-pill ${pillClass}">${evento.status}</span>
+                    <span class="slot-ocupado-time">${evento.horaInicio}-${evento.horaFim}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+
+          containerSlots.appendChild(row);
         });
-
-        const row = document.createElement('div');
-        row.className = 'timeline-slot-row';
-
-        if (!evento) {
-          /* SLOT LIVRE (Verde menta suave) */
-          row.innerHTML = `
-            <div class="slot-time-col">
-              <span class="slot-hour-bold">${slot.inicio}</span>
-              <span class="slot-hour-sub">até ${slot.fim}</span>
-            </div>
-            <div class="slot-dot-col">
-              <span class="slot-dot livre"></span>
-            </div>
-            <div class="slot-card-col">
-              <div class="slot-card-livre" onclick="abrirModalNovoCompromissoComHorario('${slot.inicio}', '${slot.fim}')" title="Clique para agendar neste horário livre">
-                <span class="slot-livre-text">
-                  <span class="slot-livre-dot">●</span> Livre
-                </span>
-                <span class="slot-livre-add-hint">+ Agendar</span>
-                <span class="slot-livre-time">${slot.inicio}-${slot.fim}</span>
-              </div>
-            </div>
-          `;
-        } else {
-          /* SLOT OCUPADO / AGENDADO (Estilo do print: Live Reunião) */
-          slotsOcupadosCount++;
-          const isConcluido = evento.status === 'Concluído';
-          const dotClass = isConcluido ? 'concluido' : 'ocupado';
-          const cardExtraClass = isConcluido ? 'concluido' : '';
-          const pillClass = isConcluido ? 'concluido' : 'agendado';
-
-          row.innerHTML = `
-            <div class="slot-time-col">
-              <span class="slot-hour-bold">${slot.inicio}</span>
-              <span class="slot-hour-sub">até ${slot.fim}</span>
-            </div>
-            <div class="slot-dot-col">
-              <span class="slot-dot ${dotClass}"></span>
-            </div>
-            <div class="slot-card-col">
-              <div class="slot-card-ocupado ${cardExtraClass}">
-                <div class="slot-ocupado-info">
-                  <div class="slot-ocupado-title">
-                    <span>${evento.titulo}</span>
-                  </div>
-                  <div class="slot-ocupado-meta">
-                    ${evento.horaInicio} - ${evento.horaFim} · ${evento.tipo} · ${evento.local || 'Local a definir'}
-                  </div>
-                </div>
-                <div class="slot-ocupado-right">
-                  <div class="slot-action-btn-group">
-                    <button class="btn-slot-action done" onclick="alternarStatusConcluido('${evento.id}')" title="${isConcluido ? 'Reabrir compromisso' : 'Marcar como concluído'}">
-                      ${isConcluido ? '↩' : '✔'}
-                    </button>
-                    <button class="btn-slot-action" onclick="abrirModalEditarCompromisso('${evento.id}')" title="Editar compromisso">
-                      ✏
-                    </button>
-                    <button class="btn-slot-action" onclick="cancelarCompromisso('${evento.id}')" title="Cancelar compromisso">
-                      ✕
-                    </button>
-                  </div>
-                  <span class="slot-status-pill ${pillClass}">${evento.status}</span>
-                  <span class="slot-ocupado-time">${evento.horaInicio}-${evento.horaFim}</span>
-                </div>
-              </div>
-            </div>
-          `;
-        }
-
-        containerSlots.appendChild(row);
-      });
-
-      /* 5. Calcula e Atualiza os 3 Cards de KPI */
-      const kpiCompromissos = document.getElementById('kpi-gestao-compromissos');
-      const kpiCompromissosSub = document.getElementById('kpi-gestao-compromissos-sub');
-      if (kpiCompromissos) {
-        kpiCompromissos.innerText = eventosValidos.length;
-      }
-      if (kpiCompromissosSub) {
-        kpiCompromissosSub.innerText = `${eventosValidos.length} agendado(s) · ${eventosCancelados.length} cancelados`;
       }
 
-      const totalHorasExpediente = 10;
-      const horasLivres = Math.max(0, totalHorasExpediente - slotsOcupadosCount);
-      const kpiTempoLivre = document.getElementById('kpi-gestao-tempo-livre');
-      const kpiTempoLivreSub = document.getElementById('kpi-gestao-tempo-livre-sub');
-      if (kpiTempoLivre) {
-        kpiTempoLivre.innerText = `${horasLivres}h`;
-      }
-      if (kpiTempoLivreSub) {
-        kpiTempoLivreSub.innerText = horasLivres === totalHorasExpediente
-          ? "Sem compromissos registrados neste período"
-          : `${horasLivres}h disponíveis de ${totalHorasExpediente}h do expediente`;
-      }
-
-      const kpiConcluidos = document.getElementById('kpi-gestao-concluidos');
-      const kpiConcluidosSub = document.getElementById('kpi-gestao-concluidos-sub');
-      if (kpiConcluidos) {
-        kpiConcluidos.innerText = eventosConcluidos.length;
-      }
-      if (kpiConcluidosSub) {
-        kpiConcluidosSub.innerText = "Compromissos realizados";
-      }
+      /* 5. Atualiza os 5 KPIs unificados e o Hero Banner */
+      atualizarKpisAgendaUnificada();
     }
 
     function renderizarMinhaGestaoHoje() {
@@ -13636,9 +13912,28 @@ if (!window.mostrarHome) {
       if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
     }
 
-    function atualizarDiaGestao() {
-      dataAtivaGestaoHoje = obterDataHojeIso();
+    function navegarDataAgenda(direcaoOuHoje) {
+      if (direcaoOuHoje === 'hoje') {
+        dataAtivaGestaoHoje = obterDataHojeIso();
+        dataAtivaAgenda = dataAtivaGestaoHoje;
+      } else {
+        const baseIso = dataAtivaGestaoHoje || obterDataHojeIso();
+        const partes = baseIso.split('-');
+        const curDate = new Date(parseInt(partes[0], 10), parseInt(partes[1], 10) - 1, parseInt(partes[2], 10), 12, 0, 0);
+        curDate.setDate(curDate.getDate() + direcaoOuHoje);
+        const ano = curDate.getFullYear();
+        const mes = String(curDate.getMonth() + 1).padStart(2, '0');
+        const dia = String(curDate.getDate()).padStart(2, '0');
+        dataAtivaGestaoHoje = ano + '-' + mes + '-' + dia;
+        dataAtivaAgenda = dataAtivaGestaoHoje;
+      }
       renderizarMinhaGestao();
+      renderizarAgenda();
+    }
+
+    function atualizarDiaGestao() {
+      renderizarMinhaGestao();
+      renderizarAgenda();
       if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
       carregarGoogleCalendar(dataAtivaGestaoHoje, function() {
         mostrarToastAgenda('Linha do tempo e Google Calendar sincronizados!', '🔄');
@@ -13660,130 +13955,202 @@ if (!window.mostrarHome) {
     function aoMudarDataGestao(novaData) {
       if (novaData) {
         dataAtivaGestaoHoje = novaData;
+        dataAtivaAgenda = novaData;
         renderizarMinhaGestao();
-      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
+        renderizarAgenda();
+        if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         carregarGoogleCalendar(novaData);
-        mostrarToastAgenda(`Data alterada para ${formatarDataExtensoPtBr(novaData)}`, '📅');
+        mostrarToastAgenda('Exibindo expediente de ' + formatarDataExtensoPtBr(novaData), '📅');
       }
     }
 
-    /* --- RENDERIZAÇÃO: AGENDA DA DIRIGENTE (LISTA & CALENDÁRIO) --- */
+    /* --- RENDERIZAÇÃO: AGENDA DA DIRIGENTE (CALENDÁRIO, TIMELINE, FEED E HISTÓRICO) --- */
     function renderizarAgenda() {
+      atualizarKpisAgendaUnificada();
+
       const containerLista = document.getElementById('agenda-cards-lista');
-      if (!containerLista) return;
-      containerLista.innerHTML = "";
+      if (containerLista) {
+        containerLista.innerHTML = "";
 
-      const filtroCat = document.getElementById('agenda-filtro-categoria') ? document.getElementById('agenda-filtro-categoria').value : "";
-      const filtroStatus = document.getElementById('agenda-filtro-status') ? document.getElementById('agenda-filtro-status').value : "";
-      const filtroBusca = document.getElementById('agenda-filtro-busca') ? document.getElementById('agenda-filtro-busca').value.toLowerCase().trim() : "";
-      const filtroData = document.getElementById('agenda-input-data') ? document.getElementById('agenda-input-data').value : "";
+        const filtroCat = document.getElementById('agenda-filtro-categoria') ? document.getElementById('agenda-filtro-categoria').value : "";
+        const filtroStatus = document.getElementById('agenda-filtro-status') ? document.getElementById('agenda-filtro-status').value : "";
+        const filtroBusca = document.getElementById('agenda-filtro-busca') ? document.getElementById('agenda-filtro-busca').value.toLowerCase().trim() : "";
+        const filtroData = document.getElementById('agenda-input-data') ? document.getElementById('agenda-input-data').value : "";
 
-      const hoje = obterDataHojeIso();
+        const hoje = obterDataHojeIso();
+        const dObj = new Date(hoje + 'T12:00:00');
+        const dAmanha = new Date(dObj.getTime() + 86400000);
+        const amanhaStr = dAmanha.getFullYear() + '-' + String(dAmanha.getMonth() + 1).padStart(2, '0') + '-' + String(dAmanha.getDate()).padStart(2, '0');
+        const d7 = new Date(dObj.getTime() + 7 * 86400000);
+        const d7Str = d7.getFullYear() + '-' + String(d7.getMonth() + 1).padStart(2, '0') + '-' + String(d7.getDate()).padStart(2, '0');
 
-      /* Filtra por período / data */
-      let filtrados = AGENDA_COMPROMISSOS.filter(c => {
-        if (filtroPeriodoAgenda === 'hoje' && c.data !== hoje) return false;
-        if (filtroPeriodoAgenda === 'amanha') {
-          const amanhaObj = new Date();
-          amanhaObj.setDate(amanhaObj.getDate() + 1);
-          const amanhaStr = `${amanhaObj.getFullYear()}-${String(amanhaObj.getMonth()+1).padStart(2,'0')}-${String(amanhaObj.getDate()).padStart(2,'0')}`;
-          if (c.data !== amanhaStr) return false;
+        let filtrados = AGENDA_COMPROMISSOS.filter(function(c) {
+          if (filtroPeriodoAgenda === 'hoje' && c.data !== hoje) return false;
+          if (filtroPeriodoAgenda === 'amanha' && c.data !== amanhaStr) return false;
+          if (filtroPeriodoAgenda === 'semana' && (c.data < hoje || c.data > d7Str)) return false;
+          if (filtroPeriodoAgenda === 'data_especifica' && filtroData && c.data !== filtroData) return false;
+          if (filtroCat && c.tipo !== filtroCat) return false;
+          if (filtroStatus && c.status !== filtroStatus) return false;
+          if (filtroBusca) {
+            const texto = (c.titulo + ' ' + c.local + ' ' + c.tipo + ' ' + c.setor + ' ' + c.descricao).toLowerCase();
+            if (!texto.includes(filtroBusca)) return false;
+          }
+          return true;
+        });
+
+        filtrados.sort(function(a, b) {
+          if (a.data !== b.data) return (a.data || '').localeCompare(b.data || '');
+          return (a.horaInicio || '').localeCompare(b.horaInicio || '');
+        });
+
+        if (filtrados.length === 0) {
+          containerLista.innerHTML = `
+            <div style="background: white; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 3rem 1.5rem; text-align: center; color: #64748b;">
+              <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📅</div>
+              <h4 style="color: #0f172a; margin-bottom: 0.25rem;">Nenhum compromisso encontrado para este filtro</h4>
+              <p style="font-size: 0.85rem; margin-bottom: 1rem;">Você pode agendar um novo compromisso oficial ou clicar em "Todos" para visualizar toda a pauta.</p>
+              <button class="btn-carro-action" style="margin: 0 auto;" onclick="abrirModalNovoCompromisso()">
+                <span>+ Novo Compromisso</span>
+              </button>
+            </div>
+          `;
+        } else {
+          const mesesCurtos = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
+          filtrados.forEach(function(c) {
+            const isConcluido = c.status === 'Concluído';
+            const statusClass = isConcluido ? 'concluido' : (c.status === 'Cancelado' ? 'cancelado' : 'agendado');
+            const partes = String(c.data || '').split('-');
+            const diaMes = partes.length === 3 ? (partes[2] + '/' + partes[1]) : (c.data || '--');
+            const mesCurto = partes.length === 3 ? (mesesCurtos[parseInt(partes[1], 10) - 1] || '2026') : 'PAUTA';
+            const linkHtml = (c.link && (c.link.startsWith('http:' + String.fromCharCode(47, 47)) || c.link.startsWith('https:' + String.fromCharCode(47, 47)) || c.link.startsWith('www.')))
+              ? ('<a href="' + (c.link.startsWith('www.') ? ('https:' + String.fromCharCode(47, 47) + c.link) : c.link) + '" target="_blank" style="color: #2563eb; text-decoration: underline; font-weight: 700;">🔗 Acessar Videoconferência</a>')
+              : (c.link && !['nao', 'não', 'n/a', 'nenhum', 'sem link', '-'].includes(c.link.trim().toLowerCase()) ? ('<span>🌐 ' + c.link + '</span>') : '<span>🏛️ Presencial / Gabinete</span>');
+
+            const card = document.createElement('div');
+            card.className = 'carro-card';
+            card.innerHTML = `
+              <div class="carro-card-left">
+                <span class="carro-card-date-day">${diaMes}</span>
+                <span class="carro-card-source-tag">${mesCurto}</span>
+              </div>
+              <div class="carro-card-body">
+                <div class="carro-card-top-row">
+                  <div style="cursor: pointer;" onclick="abrirModalEditarCompromisso('${c.id}')" title="Clique para editar detalhes do compromisso">
+                    <h4 class="carro-card-main-title">${c.titulo}</h4>
+                    <span style="font-size: 0.76rem; color: #64748b; font-weight: 600;">📌 ${c.tipo || 'Compromisso'} • 🏢 ${c.setor || 'Gabinete / URE'}</span>
+                  </div>
+                  <div style="display: flex; gap: 0.4rem; align-items: center;">
+                    <span class="carro-badge-excel">⏰ ${c.horaInicio} às ${c.horaFim}</span>
+                    <span class="carro-pill-status ${statusClass}">${c.status || 'Agendado'}</span>
+                  </div>
+                </div>
+
+                <div class="carro-card-grid">
+                  <div class="carro-meta-item">
+                    <span class="carro-meta-label">📍 Local / Canal</span>
+                    <span class="carro-meta-val"><strong>${c.local || 'Gabinete da Dirigente'}</strong></span>
+                  </div>
+                  <div class="carro-meta-item">
+                    <span class="carro-meta-label">🏢 Setor Envolvido</span>
+                    <span class="carro-meta-val">${c.setor || 'Gabinete / URE'}</span>
+                  </div>
+                  <div class="carro-meta-item">
+                    <span class="carro-meta-label">⚡ Prioridade</span>
+                    <span class="carro-meta-val">${c.prioridade === 'Alta' ? '🔴 Alta Prioridade' : (c.prioridade === 'Baixa' ? '🟢 Normal / Rotina' : '🔵 Normal')}</span>
+                  </div>
+                  <div class="carro-meta-item">
+                    <span class="carro-meta-label">🌐 Link / Acesso</span>
+                    <span class="carro-meta-val">${linkHtml}</span>
+                  </div>
+                </div>
+
+                ${c.descricao ? ('<div class="carro-obs-box"><div class="carro-obs-label">Pauta & Observações Executivas</div><div>' + c.descricao + '</div></div>') : ''}
+
+                <div class="carro-card-actions-bar" style="margin-top: 0.9rem; padding-top: 0.8rem; border-top: 1px solid #e2e8f0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem;">
+                  <div style="display: flex; gap: 0.4rem; align-items: center;">
+                    <span class="carro-pill-tag carro-pill-agenda">Agenda da Dirigente</span>
+                    <span class="carro-pill-tag carro-pill-periodo">📅 ${formatarDataExtensoPtBr(c.data)}</span>
+                  </div>
+                  <div style="display: flex; gap: 0.45rem; align-items: center; flex-wrap: wrap;">
+                    <button class="btn-carro-card-action" onclick="selecionarDiaIrParaTimeline('${c.data}')" title="Ver este dia na Linha do Tempo (07h–17h)">
+                      <span>⏱️ Ver no Expediente</span>
+                    </button>
+                    <button class="btn-carro-card-action btn-concluir" onclick="alternarStatusConcluido('${c.id}')" title="${isConcluido ? 'Reabrir compromisso' : 'Marcar como concluído'}">
+                      <span>${isConcluido ? '↩ Reabrir' : '✔ Concluir'}</span>
+                    </button>
+                    <button class="btn-carro-card-action" onclick="abrirModalEditarCompromisso('${c.id}')" title="Editar compromisso">
+                      <span>✏️ Editar</span>
+                    </button>
+                    <button class="btn-carro-card-action btn-danger" onclick="excluirCompromisso('${c.id}')" title="Excluir compromisso">
+                      <span>🗑️</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `;
+            containerLista.appendChild(card);
+          });
         }
-        if (filtroPeriodoAgenda === 'data_especifica' && filtroData && c.data !== filtroData) {
-          return false;
-        }
-        if (filtroCat && c.tipo !== filtroCat) return false;
-        if (filtroStatus && c.status !== filtroStatus) return false;
-        if (filtroBusca) {
-          const texto = `${c.titulo} ${c.local} ${c.tipo} ${c.setor} ${c.descricao}`.toLowerCase();
-          if (!texto.includes(filtroBusca)) return false;
-        }
-        return true;
-      });
-
-      /* Ordena por data e horário de início */
-      filtrados.sort((a, b) => {
-        if (a.data !== b.data) return a.data.localeCompare(b.data);
-        return a.horaInicio.localeCompare(b.horaInicio);
-      });
-
-      if (filtrados.length === 0) {
-        containerLista.innerHTML = `
-          <div style="background: white; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 3rem 1.5rem; text-align: center; color: #64748b;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📅</div>
-            <h4 style="color: #0f172a; margin-bottom: 0.25rem;">Nenhum compromisso encontrado para este filtro</h4>
-            <p style="font-size: 0.85rem; margin-bottom: 1rem;">Você pode agendar um novo compromisso oficial ou ajustar os filtros selecionados.</p>
-            <button class="btn-gestao-open-agenda" style="margin: 0 auto;" onclick="abrirModalNovoCompromisso()">
-              <span>+ Novo Compromisso</span>
-            </button>
-          </div>
-        `;
-        return;
       }
 
-      filtrados.forEach(c => {
-        const card = document.createElement('div');
-        const isConcluido = c.status === 'Concluído';
-        const isCancelado = c.status === 'Cancelado';
-        const cardClass = isConcluido ? 'status-concluido' : (c.prioridade === 'Alta' ? 'prioridade-alta' : '');
-
-        card.className = `agenda-event-card ${cardClass}`;
-
-        card.innerHTML = `
-          <div class="agenda-event-main">
-            <div class="agenda-event-top">
-              <span class="agenda-time-chip">⏰ ${c.horaInicio} às ${c.horaFim}</span>
-              <span class="agenda-time-chip" style="background: #e2e8f0;">📅 ${c.data}</span>
-              <span class="agenda-category-chip">${c.tipo}</span>
-              <span class="agenda-setor-chip">${c.setor || 'Gabinete'}</span>
-              <span class="slot-status-pill ${c.status.toLowerCase()}">${c.status}</span>
-            </div>
-            <div class="agenda-event-title">${c.titulo}</div>
-            <div class="agenda-event-desc">${c.descricao || 'Sem pauta informada.'}</div>
-            <div class="agenda-event-meta-row">
-              <span>📍 Local: <strong>${c.local || 'Gabinete'}</strong></span>
-              ${(c.link && (c.link.startsWith('http:' + String.fromCharCode(47, 47)) || c.link.startsWith('https:' + String.fromCharCode(47, 47)) || c.link.startsWith('www.'))) ? ('<a href=\"' + (c.link.startsWith('www.') ? ('https:' + String.fromCharCode(47, 47) + c.link) : c.link) + '\" target=\"_blank\" style=\"color: #2563eb; text-decoration: underline; font-weight: 600;\">🔗 Acessar Reunião</a>') : (c.link && !['nao','não','n/a','nenhum','sem link','-'].includes(c.link.trim().toLowerCase()) ? ('<span>🌐 ' + c.link + '</span>') : '')}
-              <span>${c.prioridade === 'Alta' ? '⚡ ' : (c.prioridade === 'Baixa' ? '🌱 ' : '🔹 ')}Prioridade: <strong>${c.prioridade || 'Normal'}</strong></span>
-            </div>
-          </div>
-          <div class="agenda-event-actions">
-            <button class="btn-agenda-action btn-concluir" onclick="alternarStatusConcluido('${c.id}')" title="${isConcluido ? 'Reabrir' : 'Concluir'}">
-              <span>${isConcluido ? '↩ Reabrir' : '✔ Concluir'}</span>
-            </button>
-            <button class="btn-agenda-action" onclick="abrirModalEditarCompromisso('${c.id}')" title="Editar">
-              <span>✏ Editar</span>
-            </button>
-            <button class="btn-agenda-action btn-excluir" onclick="excluirCompromisso('${c.id}')" title="Excluir">
-              <span>🗑 Excluir</span>
-            </button>
-          </div>
-        `;
-
-        containerLista.appendChild(card);
-      });
-
-      /* Renderiza também o calendário mensal se a aba estiver aberta */
       renderizarCalendarioMensal();
+      renderizarTabelaHistoricoAgenda();
+    }
+
+    function selecionarDiaIrParaTimeline(dataIso) {
+      if (dataIso) {
+        dataAtivaGestaoHoje = dataIso;
+        dataAtivaAgenda = dataIso;
+      }
+      renderizarMinhaGestao();
+      alternarTabAgenda('timeline');
     }
 
     function alternarTabAgenda(tab) {
-      const btnLista = document.getElementById('tab-btn-lista');
-      const btnCal = document.getElementById('tab-btn-calendario');
-      const contentLista = document.getElementById('agenda-tab-content-lista');
-      const contentCal = document.getElementById('agenda-tab-content-calendario');
+      if (tab === 'feed') tab = 'lista';
+      if (tab === 'todos') tab = 'historico';
+      subTabAtivaAgenda = tab;
 
-      if (tab === 'lista') {
-        btnLista.classList.add('active');
-        btnCal.classList.remove('active');
-        contentLista.style.display = 'block';
-        contentCal.style.display = 'none';
-      } else {
-        btnLista.classList.remove('active');
-        btnCal.classList.add('active');
-        contentLista.style.display = 'none';
-        contentCal.style.display = 'block';
+      const tabs = [
+        { id: 'calendario', btn: 'tab-btn-calendario', box: 'agenda-tab-content-calendario' },
+        { id: 'timeline', btn: 'tab-btn-timeline', box: 'agenda-tab-content-timeline' },
+        { id: 'lista', btn: 'tab-btn-lista', box: 'agenda-tab-content-lista' },
+        { id: 'historico', btn: 'tab-btn-historico', box: 'agenda-tab-content-historico' }
+      ];
+
+      tabs.forEach(function(t) {
+        const b = document.getElementById(t.btn);
+        const c = document.getElementById(t.box);
+        if (t.id === tab) {
+          if (b) b.classList.add('active');
+          if (c) c.style.display = 'block';
+        } else {
+          if (b) b.classList.remove('active');
+          if (c) c.style.display = 'none';
+        }
+      });
+
+      if (tab === 'calendario') {
         renderizarCalendarioMensal();
+      } else if (tab === 'timeline') {
+        renderizarMinhaGestao();
+      } else if (tab === 'historico') {
+        renderizarTabelaHistoricoAgenda();
       }
+    }
+
+    function obterClasseCategoriaCalAgenda(tipo) {
+      const t = String(tipo || '').toLowerCase();
+      if (t.indexOf('visita') !== -1) return 'cat-visita';
+      if (t.indexOf('despacho') !== -1) return 'cat-despacho';
+      if (t.indexOf('teams') !== -1 || t.indexOf('video') !== -1) return 'cat-teams';
+      if (t.indexOf('evento') !== -1) return 'cat-evento';
+      return 'cat-reuniao';
+    }
+
+    function definirFiltroCategoriaCalAgenda(cat) {
+      filtroCategoriaCalAgenda = cat || 'TODOS';
+      renderizarCalendarioMensal();
     }
 
     function renderizarCalendarioMensal() {
@@ -13792,76 +14159,235 @@ if (!window.mostrarHome) {
 
       const ano = mesAtivoCalendario.getFullYear();
       const mes = mesAtivoCalendario.getMonth();
+      const hojeIso = obterDataHojeIso();
 
-      const primeiroDia = new Date(ano, mes, 1);
-      const ultimoDia = new Date(ano, mes + 1, 0);
+      const mesesNomes = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+      const mesesCurtos = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
+      const diasCurtos = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
 
-      const nomesMeses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-      const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+      const primeiroDiaSemana = new Date(ano, mes, 1).getDay();
+      const totalDiasMes = new Date(ano, mes + 1, 0).getDate();
+      const totalDiasMesAnterior = new Date(ano, mes, 0).getDate();
+      const prefixoMes = ano + '-' + String(mes + 1).padStart(2, '0');
 
-      let htmlCal = `
-        <div class="agenda-cal-wrapper">
-          <div class="agenda-cal-nav">
-            <button class="btn-mudar-data" onclick="mudarMesCalendario(-1)">◀ Mês Anterior</button>
-            <h3 style="font-size: 1.15rem; font-weight: 800; color: #0b2351;">${nomesMeses[mes]} de ${ano}</h3>
-            <button class="btn-mudar-data" onclick="mudarMesCalendario(1)">Próximo Mês ▶</button>
-          </div>
-          <div class="agenda-cal-grid">
-      `;
+      const agora = new Date();
+      const ehMesVigente = (ano === agora.getFullYear() && mes === agora.getMonth());
 
-      diasSemana.forEach(d => {
-        htmlCal += `<div class="agenda-cal-day-header">${d}</div>`;
+      const todosRegistrosMes = AGENDA_COMPROMISSOS.filter(function(c) {
+        return c.status !== 'Cancelado' && String(c.data || '').indexOf(prefixoMes) === 0;
+      }).sort(function(a, b) {
+        return (a.data + ' ' + (a.horaInicio || '')).localeCompare(b.data + ' ' + (b.horaInicio || ''));
       });
 
-      /* Espaços vazios antes do dia 1 */
-      for (let i = 0; i < primeiroDia.getDay(); i++) {
-        htmlCal += `<div class="agenda-cal-cell" style="background: transparent; border-color: transparent;"></div>`;
-      }
+      const registrosFiltradosMes = todosRegistrosMes.filter(function(c) {
+        if (!filtroCategoriaCalAgenda || filtroCategoriaCalAgenda === 'TODOS') return true;
+        return c.tipo === filtroCategoriaCalAgenda;
+      });
 
-      const hoje = obterDataHojeIso();
+      const totalCelulas = Math.ceil((primeiroDiaSemana + totalDiasMes) / 7) * 7;
+      let celulasHtml = '';
 
-      for (let d = 1; d <= ultimoDia.getDate(); d++) {
-        const dataIso = `${ano}-${String(mes + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-        const eventosDoDia = AGENDA_COMPROMISSOS.filter(c => c.data === dataIso && c.status !== 'Cancelado');
-        const isHoje = dataIso === hoje;
-        const isActiveDay = dataIso === dataAtivaAgenda;
+      for (let i = 0; i < totalCelulas; i++) {
+        let diaNum = 0;
+        let mesCel = mes;
+        let anoCel = ano;
+        let isOtherMonth = false;
 
-        let cellClasses = 'agenda-cal-cell';
-        if (isHoje) cellClasses += ' today';
-        if (isActiveDay) cellClasses += ' active-day';
-
-        htmlCal += `
-          <div class="${cellClasses}" onclick="selecionarDiaCalendario('${dataIso}')">
-            <span class="agenda-cal-day-num">${d}</span>
-        `;
-
-        eventosDoDia.slice(0, 3).forEach(ev => {
-          const isReuniao = ev.tipo === 'Reunião';
-          htmlCal += `
-            <div class="agenda-cal-event-dot ${isReuniao ? 'coral' : ''}" title="${ev.horaInicio} - ${ev.titulo}">
-              ${ev.horaInicio} ${ev.titulo}
-            </div>
-          `;
-        });
-
-        if (eventosDoDia.length > 3) {
-          htmlCal += `<div style="font-size: 0.65rem; color: #64748b; font-weight: 700;">+${eventosDoDia.length - 3} mais</div>`;
+        if (i < primeiroDiaSemana) {
+          diaNum = totalDiasMesAnterior - primeiroDiaSemana + i + 1;
+          mesCel = mes - 1;
+          if (mesCel < 0) { mesCel = 11; anoCel = ano - 1; }
+          isOtherMonth = true;
+        } else if (i >= primeiroDiaSemana + totalDiasMes) {
+          diaNum = i - (primeiroDiaSemana + totalDiasMes) + 1;
+          mesCel = mes + 1;
+          if (mesCel > 11) { mesCel = 0; anoCel = ano + 1; }
+          isOtherMonth = true;
+        } else {
+          diaNum = i - primeiroDiaSemana + 1;
         }
 
-        htmlCal += `</div>`;
+        const dataIso = anoCel + '-' + String(mesCel + 1).padStart(2, '0') + '-' + String(diaNum).padStart(2, '0');
+        const isToday = (dataIso === hojeIso);
+
+        const eventosDia = AGENDA_COMPROMISSOS.filter(function(c) {
+          if (c.data !== dataIso || c.status === 'Cancelado') return false;
+          if (filtroCategoriaCalAgenda && filtroCategoriaCalAgenda !== 'TODOS') {
+            return c.tipo === filtroCategoriaCalAgenda;
+          }
+          return true;
+        }).sort(function(a, b) {
+          return (a.horaInicio || '').localeCompare(b.horaInicio || '');
+        });
+
+        const pillsHtml = eventosDia.map(function(ev) {
+          const catClass = obterClasseCategoriaCalAgenda(ev.tipo);
+          const stClass = ev.status === 'Concluído' ? 'status-concluido' : '';
+          const horaCurta = (ev.horaInicio || '08:00') + '–' + (ev.horaFim || '09:00');
+          const tipoCurto = ev.tipo || 'Reunião';
+          return `
+            <button type="button" class="carro-cal-pill ${catClass} ${stClass}" onclick="event.stopPropagation(); abrirModalEditarCompromisso('${ev.id}')" title="${horaCurta} • ${ev.titulo} (${ev.local || 'Gabinete'}) — Clique para abrir ou editar">
+              <div class="carro-cal-pill-top">
+                <span>⏰ ${horaCurta}</span>
+                <span class="carro-cal-pill-plate">${tipoCurto}</span>
+              </div>
+              <div class="carro-cal-pill-user">📌 ${ev.titulo}</div>
+              <div class="carro-cal-pill-sector">📍 ${ev.local || ev.setor || 'Gabinete'}</div>
+            </button>
+          `;
+        }).join('');
+
+        celulasHtml += `
+          <div class="carro-cal-day ${isOtherMonth ? 'is-other-month' : ''} ${isToday ? 'is-today' : ''}" onclick="selecionarDiaCalendario('${dataIso}')">
+            <div class="carro-cal-day-head">
+              <span class="carro-cal-day-num">${diaNum}${isToday ? ' • HOJE' : ''}</span>
+              ${!isOtherMonth ? `<button type="button" class="carro-cal-day-add" onclick="event.stopPropagation(); abrirModalNovoCompromissoNaData('${dataIso}')" title="Agendar compromisso em ${formatarDataExtensoPtBr(dataIso)}">+</button>` : ''}
+            </div>
+            <div class="carro-cal-events-stack">
+              ${pillsHtml}
+            </div>
+          </div>
+        `;
       }
 
-      htmlCal += `
+      let ledgerHtml = '';
+      if (registrosFiltradosMes.length === 0) {
+        ledgerHtml = `
+          <div style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 2rem; text-align: center; color: #64748b;">
+            <div style="font-size: 2rem; margin-bottom: 0.4rem;">📅</div>
+            <strong style="color: #0b2351; font-size: 0.95rem; display: block; margin-bottom: 0.25rem;">Nenhum compromisso registrado em ${mesesNomes[mes]} de ${ano}</strong>
+            <span style="font-size: 0.82rem; display: block; margin-bottom: 0.9rem;">Clique no botão "+" em qualquer dia do calendário ou registre um novo compromisso abaixo.</span>
+            <button type="button" class="btn-carro-action" onclick="abrirModalNovoCompromisso()">+ Novo Compromisso</button>
+          </div>
+        `;
+      } else {
+        ledgerHtml = '<div class="carro-cal-ledger-list">' + registrosFiltradosMes.map(function(r) {
+          const p = String(r.data || '').split('-');
+          const diaStr = p[2] || '--';
+          const mesIdx = Math.max(0, Math.min(11, parseInt(p[1] || '1', 10) - 1));
+          const dObj = new Date(parseInt(p[0], 10), mesIdx, parseInt(p[2], 10), 12, 0, 0);
+          const dowStr = diasCurtos[dObj.getDay()] || '';
+          const statusBadgeBg = r.status === 'Concluído' ? '#dcfce7; color: #15803d;' : (r.status === 'Cancelado' ? '#fee2e2; color: #991b1b;' : '#dbeafe; color: #1e40af;');
+          return `
+            <div class="carro-ledger-item" onclick="abrirModalEditarCompromisso('${r.id}')" title="Clique para editar ou concluir este compromisso">
+              <div class="carro-ledger-datebox">
+                <span class="day">${diaStr}</span>
+                <span class="mon">${mesesCurtos[mesIdx]} • ${dowStr}</span>
+              </div>
+              <div class="carro-ledger-info">
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.4rem;">
+                  <span style="font-family: monospace; font-size: 0.7rem; font-weight: 800; color: #0b2351; background: #f1f5f9; padding: 0.1rem 0.4rem; border-radius: 4px;">${r.tipo || 'Reunião'} • ${r.setor || 'Gabinete'}</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; padding: 0.12rem 0.5rem; border-radius: 9999px; background: ${statusBadgeBg}">${r.status || 'Agendado'}</span>
+                </div>
+                <div class="carro-ledger-title">${r.titulo}</div>
+                <div class="carro-ledger-meta">
+                  <span>⏰ <strong>${r.horaInicio || '08:00'} às ${r.horaFim || '09:00'}</strong></span>
+                  <span>📍 ${r.local || 'Gabinete'}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('') + '</div>';
+      }
+
+      container.innerHTML = `
+        <div class="carro-cal-hub">
+          <div class="carro-cal-topbar">
+            <div class="carro-cal-month-group">
+              <span style="font-size: 1.5rem;">📅</span>
+              <h3 class="carro-cal-month-title">${mesesNomes[mes]} de ${ano}</h3>
+              <span class="carro-cal-month-badge">${ehMesVigente ? 'Mês Vigente • ' : ''}${todosRegistrosMes.length} compromisso(s)</span>
+            </div>
+
+            <div class="carro-cal-nav-btns">
+              <button type="button" class="btn-cal-nav" onclick="mudarMesCalendario(-1)" title="Mês anterior">◀ Anterior</button>
+              <button type="button" class="btn-cal-nav" onclick="mudarMesCalendario('atual')" title="Ir para o mês vigente">Mês Atual</button>
+              <button type="button" class="btn-cal-nav" onclick="mudarMesCalendario(1)" title="Próximo mês">Próximo ▶</button>
+              <button type="button" class="btn-carro-action" style="margin-left: 0.35rem; background: linear-gradient(135deg, #d48208 0%, #f09b0c 100%); color: #07152f;" onclick="abrirModalNovoCompromisso()">
+                <span>+ Agendar</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="carro-cal-filter-bar">
+            <div class="carro-cal-filter-pills">
+              <span style="font-size: 0.74rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-right: 0.2rem;">Categorias:</span>
+              <button type="button" class="carro-cal-chip ${filtroCategoriaCalAgenda === 'TODOS' ? 'active' : ''}" onclick="definirFiltroCategoriaCalAgenda('TODOS')">
+                <span>Todos (${todosRegistrosMes.length})</span>
+              </button>
+              <button type="button" class="carro-cal-chip ${filtroCategoriaCalAgenda === 'Reunião' ? 'active' : ''}" onclick="definirFiltroCategoriaCalAgenda('Reunião')">
+                <span>🤝 Reuniões</span>
+              </button>
+              <button type="button" class="carro-cal-chip ${filtroCategoriaCalAgenda === 'Visita Técnica' ? 'active' : ''}" onclick="definirFiltroCategoriaCalAgenda('Visita Técnica')">
+                <span>🏫 Visitas Técnicas</span>
+              </button>
+              <button type="button" class="carro-cal-chip ${filtroCategoriaCalAgenda === 'Despacho Gabinete' ? 'active' : ''}" onclick="definirFiltroCategoriaCalAgenda('Despacho Gabinete')">
+                <span>📝 Despachos</span>
+              </button>
+              <button type="button" class="carro-cal-chip ${filtroCategoriaCalAgenda === 'Videoconferência Teams' ? 'active' : ''}" onclick="definirFiltroCategoriaCalAgenda('Videoconferência Teams')">
+                <span>💻 Teams</span>
+              </button>
+              <button type="button" class="carro-cal-chip ${filtroCategoriaCalAgenda === 'Evento Oficial' ? 'active' : ''}" onclick="definirFiltroCategoriaCalAgenda('Evento Oficial')">
+                <span>🎖️ Eventos</span>
+              </button>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <span style="font-size: 0.74rem; color: #64748b; font-weight: 600;">💡 Clique em qualquer dia para abrir a Linha do Tempo (07h–17h)</span>
+            </div>
+          </div>
+
+          <div class="carro-cal-scroll-wrap">
+            <div class="carro-cal-grid-weekdays">
+              <div class="carro-cal-weekday">Dom</div>
+              <div class="carro-cal-weekday">Seg</div>
+              <div class="carro-cal-weekday">Ter</div>
+              <div class="carro-cal-weekday">Qua</div>
+              <div class="carro-cal-weekday">Qui</div>
+              <div class="carro-cal-weekday">Sex</div>
+              <div class="carro-cal-weekday">Sáb</div>
+            </div>
+            <div class="carro-cal-grid-days">
+              ${celulasHtml}
+            </div>
+          </div>
+
+          <div class="carro-cal-ledger">
+            <div class="carro-cal-ledger-header">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 1.15rem;">📋</span>
+                <h4 style="margin: 0; font-size: 0.98rem; font-weight: 800; color: #0b2351;">Pauta de ${mesesNomes[mes]} de ${ano}</h4>
+                <span style="font-size: 0.74rem; font-weight: 700; color: #475569; background: #f1f5f9; padding: 0.15rem 0.55rem; border-radius: 9999px;">${registrosFiltradosMes.length} listado(s)</span>
+              </div>
+              <button type="button" class="btn-carro-action secondary" onclick="alternarTabAgenda('timeline')" style="font-size: 0.78rem; padding: 0.35rem 0.75rem;">
+                <span>⏱️ Ver Grade Horária (07h–17h)</span>
+              </button>
+            </div>
+            ${ledgerHtml}
           </div>
         </div>
       `;
-
-      container.innerHTML = htmlCal;
     }
 
     function mudarMesCalendario(delta) {
-      mesAtivoCalendario.setMonth(mesAtivoCalendario.getMonth() + delta);
+      if (delta === 'atual') {
+        mesAtivoCalendario = new Date();
+      } else {
+        mesAtivoCalendario.setMonth(mesAtivoCalendario.getMonth() + delta);
+      }
       renderizarCalendarioMensal();
+    }
+
+    function abrirModalNovoCompromissoNaData(dataIso) {
+      if (dataIso) {
+        dataAtivaAgenda = dataIso;
+        dataAtivaGestaoHoje = dataIso;
+      }
+      abrirModalNovoCompromisso();
+      if (dataIso) {
+        const inputData = document.getElementById('form-agenda-data');
+        if (inputData) inputData.value = dataIso;
+      }
     }
 
     function selecionarDiaCalendario(dataIso) {
@@ -13871,10 +14397,91 @@ if (!window.mostrarHome) {
       const inputData = document.getElementById('agenda-input-data');
       if (inputData) inputData.value = dataIso;
 
-      filtrarAgendaPeriodo('data_especifica');
-      alternarTabAgenda('lista');
+      renderizarMinhaGestao();
+      alternarTabAgenda('timeline');
 
-      mostrarToastAgenda(`Exibindo compromissos de ${formatarDataExtensoPtBr(dataIso)}`, '📅');
+      mostrarToastAgenda('Linha do tempo (07h–17h) aberta para ' + formatarDataExtensoPtBr(dataIso), '⏱️');
+    }
+
+    function renderizarTabelaHistoricoAgenda(filtroOpcional) {
+      const tbody = document.getElementById('agenda-historico-tbody');
+      if (!tbody) return;
+      const inputSearch = document.getElementById('agenda-table-search');
+      const termo = (typeof filtroOpcional === 'string' ? filtroOpcional : (inputSearch ? inputSearch.value : '')).toLowerCase().trim();
+
+      const registros = [...AGENDA_COMPROMISSOS].sort(function(a, b) {
+        const cmpData = (b.data || '').localeCompare(a.data || '');
+        if (cmpData !== 0) return cmpData;
+        return (a.horaInicio || '').localeCompare(b.horaInicio || '');
+      });
+
+      const filtrados = registros.filter(function(r) {
+        if (!termo) return true;
+        const txt = ((r.data || '') + ' ' + (r.titulo || '') + ' ' + (r.tipo || '') + ' ' + (r.setor || '') + ' ' + (r.local || '') + ' ' + (r.status || '') + ' ' + (r.descricao || '')).toLowerCase();
+        return txt.includes(termo);
+      });
+
+      if (filtrados.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 2rem; color: #64748b;">Nenhum compromisso encontrado com os critérios informados.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtrados.map(function(r) {
+        const dataBr = r.data ? r.data.split('-').reverse().join('/') : '-';
+        const hora = (r.horaInicio || '--:--') + ' às ' + (r.horaFim || '--:--');
+        const statusStyle = r.status === 'Concluído'
+          ? 'background: #dcfce7; color: #15803d;'
+          : (r.status === 'Cancelado' ? 'background: #fee2e2; color: #991b1b;' : 'background: #dbeafe; color: #1e40af;');
+        const prioBadge = r.prioridade === 'Alta'
+          ? '<span style="color:#dc2626; font-weight:800;">🔴 Alta</span>'
+          : (r.prioridade === 'Baixa' ? '<span style="color:#059669; font-weight:700;">🟢 Baixa</span>' : '<span style="color:#1e40af; font-weight:700;">🔵 Normal</span>');
+
+        return `<tr style="cursor: pointer;" onclick="abrirModalEditarCompromisso('${r.id}')" title="Clique para editar compromisso">
+          <td style="font-weight: 700; color: #0b2351; white-space: nowrap;">
+            📅 ${dataBr}
+            <span style="display: block; font-size: 0.74rem; color: #64748b; font-weight: 600;">⏰ ${hora}</span>
+          </td>
+          <td>
+            <strong style="display: block; color: #0f172a; font-size: 0.88rem;">${r.titulo || '-'}</strong>
+            <span style="font-size: 0.75rem; color: #64748b;">${r.descricao || 'Sem observações adicionais'}</span>
+          </td>
+          <td>
+            <span style="display: inline-block; background: #eff6ff; color: #1d4ed8; font-size: 0.74rem; font-weight: 800; padding: 0.15rem 0.5rem; border-radius: 4px; margin-bottom: 0.2rem;">${r.tipo || 'Reunião'}</span>
+            <div style="font-size: 0.75rem; color: #475569; font-weight: 600;">🏢 ${r.setor || 'Gabinete'}</div>
+          </td>
+          <td>
+            <div style="font-weight: 600; color: #1e293b;">📍 ${r.local || 'Gabinete'}</div>
+          </td>
+          <td>${prioBadge}</td>
+          <td>
+            <span style="display: inline-block; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; ${statusStyle}">
+              ${r.status || 'Agendado'}
+            </span>
+          </td>
+          <td style="white-space: nowrap; text-align: right;" onclick="event.stopPropagation()">
+            <button class="btn-carro-card-action" onclick="selecionarDiaIrParaTimeline('${r.data}')" title="Ver na Linha do Tempo (07h–17h)">
+              <span>⏱️</span>
+            </button>
+            <button class="btn-carro-card-action btn-concluir" onclick="alternarStatusConcluido('${r.id}')" title="Alternar Concluído">
+              <span>✔</span>
+            </button>
+            <button class="btn-carro-card-action" onclick="abrirModalEditarCompromisso('${r.id}')" title="Editar">
+              <span>✏️</span>
+            </button>
+            <button class="btn-carro-card-action btn-danger" onclick="excluirCompromisso('${r.id}')" title="Excluir">
+              <span>🗑️</span>
+            </button>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    function filtrarTabelaHistoricoAgenda(termo) {
+      renderizarTabelaHistoricoAgenda(termo);
+    }
+
+    function imprimirPautaAgenda() {
+      window.print();
     }
 
     function filtrarAgendaPeriodo(periodo) {
