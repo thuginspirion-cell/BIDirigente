@@ -879,6 +879,7 @@
       if (heroCount) heroCount.innerText = eventosValidosDia.length + ' compromisso(s)';
       const heroLivre = document.getElementById('agenda-hero-livre-badge');
       if (heroLivre) heroLivre.innerText = horasLivres + 'h livres (07h–17h)';
+      if (typeof atualizarBriefingMatinalHome === 'function') atualizarBriefingMatinalHome();
     }
 
     function renderizarMinhaGestao() {
@@ -1817,17 +1818,31 @@
       const evento = AGENDA_COMPROMISSOS.find(c => c.id === id);
       if (!evento) return;
 
-      if (confirm(`Deseja realmente cancelar o compromisso "${evento.titulo}"?`)) {
+      function executarCancelamento() {
         evento.status = 'Cancelado';
         salvarAgendaStorage();
         renderizarMinhaGestao();
-      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
+        if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         renderizarAgenda();
         mostrarToastAgenda('Compromisso cancelado (horário liberado na timeline)!', '⚠️');
-
         if (typeof google !== 'undefined' && google.script && google.script.run) {
           google.script.run.salvarGoogleCalendarEvent(evento);
         }
+      }
+
+      if (typeof abrirModalAvisoCarroUX === 'function') {
+        abrirModalAvisoCarroUX({
+          tipo: 'aviso',
+          icone: '⚠️',
+          subtitulo: 'CONFIRMAÇÃO • AGENDA DA DIRIGENTE',
+          titulo: 'Cancelar Compromisso',
+          mensagemHtml: '<p style="margin:0; font-size:0.94rem; color:#1e293b;">Deseja cancelar o compromisso <strong>"' + evento.titulo + '"</strong>? O horário será liberado imediatamente na Linha do Tempo (07h–17h).</p>',
+          textoConfirmar: 'Sim, Cancelar Horário',
+          textoFechar: 'Manter Agendado',
+          aoConfirmar: executarCancelamento
+        });
+      } else if (confirm('Deseja realmente cancelar o compromisso "' + evento.titulo + '"?')) {
+        executarCancelamento();
       }
     }
 
@@ -1839,16 +1854,31 @@
       const titulo = eventoAlvo.titulo;
       const idParaExcluir = eventoAlvo.id;
 
-      if (confirm(`Tem certeza que deseja excluir o compromisso "${titulo}" permanentemente?`)) {
-        AGENDA_COMPROMISSOS.splice(index, 1);
+      function executarExclusao() {
+        const idxAtual = AGENDA_COMPROMISSOS.findIndex(c => c.id === idParaExcluir);
+        if (idxAtual !== -1) AGENDA_COMPROMISSOS.splice(idxAtual, 1);
         salvarAgendaStorage();
         renderizarMinhaGestao();
-      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
+        if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         renderizarAgenda();
         mostrarToastAgenda('Compromisso excluído com sucesso!', '🗑');
-
         if (typeof google !== 'undefined' && google.script && google.script.run) {
           google.script.run.excluirGoogleCalendarEvent(idParaExcluir);
         }
+      }
+
+      if (typeof abrirModalAvisoCarroUX === 'function') {
+        abrirModalAvisoCarroUX({
+          tipo: 'perigo',
+          icone: '🗑️',
+          subtitulo: 'EXCLUSÃO PERMANENTE • AGENDA',
+          titulo: 'Excluir Compromisso',
+          mensagemHtml: '<p style="margin:0; font-size:0.94rem; color:#1e293b;">Tem certeza que deseja excluir permanentemente o compromisso <strong>"' + titulo + '"</strong>?</p>',
+          textoConfirmar: 'Sim, Excluir',
+          textoFechar: 'Voltar',
+          aoConfirmar: executarExclusao
+        });
+      } else if (confirm('Tem certeza que deseja excluir o compromisso "' + titulo + '" permanentemente?')) {
+        executarExclusao();
       }
     }

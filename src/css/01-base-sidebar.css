@@ -1444,3 +1444,305 @@
     .btn-apply-filters:hover {
       background: var(--accent-red-hover);
     }
+
+    /* ============================================================== */
+    /* DESIGN SYSTEM SPRINT 1-3: SVG SIDEBAR, TABULAR-NUMS, CTRL+K, BRIEFING */
+    /* ============================================================== */
+    .carro-kpi-number,
+    .gestao-kpi-number,
+    .kpi-value,
+    .metric-value,
+    .seintec-metric-val,
+    .escolas-kpi-number,
+    .visitas-kpi-number,
+    .slot-hour-bold,
+    .slot-ocupado-time,
+    .slot-livre-time,
+    .carro-badge-excel,
+    table td,
+    table th {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .nav-item-icon,
+    .centro-icon-badge {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      transition: color 0.18s ease, transform 0.18s ease;
+    }
+    .nav-item-btn:hover .nav-item-icon,
+    .nav-item-btn:hover .centro-icon-badge {
+      color: #e2e8f0;
+    }
+    .nav-item-btn.active .nav-item-icon,
+    .nav-item-btn.active .centro-icon-badge {
+      color: #fbbf24 !important;
+    }
+
+    .side-micro-badge {
+      margin-left: auto;
+      background: rgba(240, 155, 12, 0.2);
+      color: #fde047;
+      border: 1px solid rgba(240, 155, 12, 0.45);
+      border-radius: 9999px;
+      font-size: 0.66rem;
+      font-weight: 800;
+      padding: 0.08rem 0.45rem;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    /* Botão Ctrl+K na Topbar */
+    .topbar-cmdk-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #cbd5e1;
+      border-radius: 9px;
+      padding: 0.4rem 0.7rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      font-family: inherit;
+    }
+    .topbar-cmdk-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(240, 155, 12, 0.55);
+      color: #ffffff;
+    }
+    .topbar-cmdk-btn kbd {
+      background: rgba(7, 21, 47, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      padding: 0.1rem 0.38rem;
+      font-size: 0.66rem;
+      font-weight: 700;
+      color: #fde047;
+      font-family: inherit;
+    }
+    @media (max-width: 900px) {
+      .topbar-cmdk-btn span,
+      .topbar-cmdk-btn kbd {
+        display: none;
+      }
+    }
+
+    /* Modal Command Palette (Ctrl + K) */
+    .cmdk-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 21, 47, 0.7);
+      backdrop-filter: blur(6px);
+      z-index: 10098;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 10vh;
+    }
+    .cmdk-overlay.active {
+      display: flex;
+    }
+    .cmdk-card {
+      width: 92%;
+      max-width: 620px;
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 28px 70px rgba(7, 21, 47, 0.45);
+      overflow: hidden;
+      animation: modalSlideUp 0.18s ease-out;
+    }
+    .cmdk-search-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.95rem 1.15rem;
+      border-bottom: 1px solid #e2e8f0;
+      background: #f8fafc;
+    }
+    .cmdk-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: #0f172a;
+      outline: none;
+      font-family: inherit;
+    }
+    .cmdk-input::placeholder {
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    .cmdk-esc-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #64748b;
+      cursor: pointer;
+    }
+    .cmdk-results {
+      max-height: 390px;
+      overflow-y: auto;
+      padding: 0.5rem;
+    }
+    .cmdk-group-label {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      padding: 0.45rem 0.7rem 0.25rem;
+    }
+    .cmdk-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.12s ease;
+    }
+    .cmdk-item:hover,
+    .cmdk-item.is-selected {
+      background: #eff6ff;
+    }
+    .cmdk-item-left {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      min-width: 0;
+    }
+    .cmdk-item-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: #0b2351;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .cmdk-item.is-selected .cmdk-item-icon {
+      background: #0b2351;
+      color: #fde047;
+    }
+    .cmdk-item-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cmdk-item-sub {
+      font-size: 0.73rem;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cmdk-item-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 0.15rem 0.5rem;
+      border-radius: 9999px;
+      flex-shrink: 0;
+    }
+    .cmdk-footer {
+      display: flex;
+      gap: 1.1rem;
+      align-items: center;
+      padding: 0.6rem 1.15rem;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.72rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .cmdk-footer kbd {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 0.05rem 0.32rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #0b2351;
+    }
+
+    /* Briefing Matinal na Home */
+    .home-briefing-bar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .briefing-item {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+    }
+    .briefing-item:hover {
+      transform: translateY(-2px);
+      border-color: #cbd5e1;
+      box-shadow: 0 8px 18px rgba(11, 35, 81, 0.08);
+    }
+    .briefing-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .briefing-gold { background: #fef3c7; color: #b45309; }
+    .briefing-emerald { background: #d1fae5; color: #047857; }
+    .briefing-blue { background: #dbeafe; color: #1d4ed8; }
+    .briefing-indigo { background: #e0e7ff; color: #4338ca; }
+    .briefing-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #64748b;
+    }
+    .briefing-val {
+      display: block;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #0b2351;
+      font-variant-numeric: tabular-nums;
+    }
+    @media (max-width: 960px) {
+      .home-briefing-bar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 560px) {
+      .home-briefing-bar {
+        grid-template-columns: 1fr;
+      }
+    }

@@ -1477,6 +1477,308 @@
       background: var(--accent-red-hover);
     }
 
+    /* ============================================================== */
+    /* DESIGN SYSTEM SPRINT 1-3: SVG SIDEBAR, TABULAR-NUMS, CTRL+K, BRIEFING */
+    /* ============================================================== */
+    .carro-kpi-number,
+    .gestao-kpi-number,
+    .kpi-value,
+    .metric-value,
+    .seintec-metric-val,
+    .escolas-kpi-number,
+    .visitas-kpi-number,
+    .slot-hour-bold,
+    .slot-ocupado-time,
+    .slot-livre-time,
+    .carro-badge-excel,
+    table td,
+    table th {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .nav-item-icon,
+    .centro-icon-badge {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      transition: color 0.18s ease, transform 0.18s ease;
+    }
+    .nav-item-btn:hover .nav-item-icon,
+    .nav-item-btn:hover .centro-icon-badge {
+      color: #e2e8f0;
+    }
+    .nav-item-btn.active .nav-item-icon,
+    .nav-item-btn.active .centro-icon-badge {
+      color: #fbbf24 !important;
+    }
+
+    .side-micro-badge {
+      margin-left: auto;
+      background: rgba(240, 155, 12, 0.2);
+      color: #fde047;
+      border: 1px solid rgba(240, 155, 12, 0.45);
+      border-radius: 9999px;
+      font-size: 0.66rem;
+      font-weight: 800;
+      padding: 0.08rem 0.45rem;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    /* Botão Ctrl+K na Topbar */
+    .topbar-cmdk-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #cbd5e1;
+      border-radius: 9px;
+      padding: 0.4rem 0.7rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      font-family: inherit;
+    }
+    .topbar-cmdk-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(240, 155, 12, 0.55);
+      color: #ffffff;
+    }
+    .topbar-cmdk-btn kbd {
+      background: rgba(7, 21, 47, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      padding: 0.1rem 0.38rem;
+      font-size: 0.66rem;
+      font-weight: 700;
+      color: #fde047;
+      font-family: inherit;
+    }
+    @media (max-width: 900px) {
+      .topbar-cmdk-btn span,
+      .topbar-cmdk-btn kbd {
+        display: none;
+      }
+    }
+
+    /* Modal Command Palette (Ctrl + K) */
+    .cmdk-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 21, 47, 0.7);
+      backdrop-filter: blur(6px);
+      z-index: 10098;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 10vh;
+    }
+    .cmdk-overlay.active {
+      display: flex;
+    }
+    .cmdk-card {
+      width: 92%;
+      max-width: 620px;
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 28px 70px rgba(7, 21, 47, 0.45);
+      overflow: hidden;
+      animation: modalSlideUp 0.18s ease-out;
+    }
+    .cmdk-search-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.95rem 1.15rem;
+      border-bottom: 1px solid #e2e8f0;
+      background: #f8fafc;
+    }
+    .cmdk-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: #0f172a;
+      outline: none;
+      font-family: inherit;
+    }
+    .cmdk-input::placeholder {
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    .cmdk-esc-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #64748b;
+      cursor: pointer;
+    }
+    .cmdk-results {
+      max-height: 390px;
+      overflow-y: auto;
+      padding: 0.5rem;
+    }
+    .cmdk-group-label {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      padding: 0.45rem 0.7rem 0.25rem;
+    }
+    .cmdk-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.12s ease;
+    }
+    .cmdk-item:hover,
+    .cmdk-item.is-selected {
+      background: #eff6ff;
+    }
+    .cmdk-item-left {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      min-width: 0;
+    }
+    .cmdk-item-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: #0b2351;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .cmdk-item.is-selected .cmdk-item-icon {
+      background: #0b2351;
+      color: #fde047;
+    }
+    .cmdk-item-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cmdk-item-sub {
+      font-size: 0.73rem;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cmdk-item-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 0.15rem 0.5rem;
+      border-radius: 9999px;
+      flex-shrink: 0;
+    }
+    .cmdk-footer {
+      display: flex;
+      gap: 1.1rem;
+      align-items: center;
+      padding: 0.6rem 1.15rem;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.72rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .cmdk-footer kbd {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 0.05rem 0.32rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #0b2351;
+    }
+
+    /* Briefing Matinal na Home */
+    .home-briefing-bar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .briefing-item {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+    }
+    .briefing-item:hover {
+      transform: translateY(-2px);
+      border-color: #cbd5e1;
+      box-shadow: 0 8px 18px rgba(11, 35, 81, 0.08);
+    }
+    .briefing-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .briefing-gold { background: #fef3c7; color: #b45309; }
+    .briefing-emerald { background: #d1fae5; color: #047857; }
+    .briefing-blue { background: #dbeafe; color: #1d4ed8; }
+    .briefing-indigo { background: #e0e7ff; color: #4338ca; }
+    .briefing-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #64748b;
+    }
+    .briefing-val {
+      display: block;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #0b2351;
+      font-variant-numeric: tabular-nums;
+    }
+    @media (max-width: 960px) {
+      .home-briefing-bar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 560px) {
+      .home-briefing-bar {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* ========================================= */
     /* 6. SEÇÃO: CENTROS DA UNIDADE REGIONAL (NOVA HOME) */
     /* ========================================= */
@@ -8343,70 +8645,65 @@
     </div>
 
     <nav class="sidebar-nav">
-      <!-- Grupo 1: Gestão da Rede (Fiel ao Print) -->
+      <!-- Grupo 1: Gestão da Rede -->
       <div>
         <div class="nav-group-title">GESTÃO DA REDE</div>
         <ul class="nav-items-list">
           <li>
-            <button class="nav-item-btn active" id="side-btn-home" onclick="mostrarHome()" title="Início - Resumo executivo">
-              <span class="nav-item-icon">🏠</span>
+            <button class="nav-item-btn active" id="side-btn-home" onclick="mostrarHome()" title="Início - Resumo executivo da URE Itapevi">
+              <span class="nav-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Início</span>
-                <span class="sidebar-item-sub">Resumo executivo</span>
               </div>
             </button>
           </li>
           <li style="display: none;">
             <button class="nav-item-btn" id="side-btn-gestao" onclick="abrirMinhaGestao()" title="Minha Gestão - Rotina Executiva">
-              <span class="nav-item-icon">⏱️</span>
+              <span class="nav-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Minha Gestão</span>
-                <span class="sidebar-item-sub">Rotina Executiva</span>
               </div>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-agenda" onclick="abrirAgenda()" title="Agenda & Rotina da Dirigente - Compromissos e Expediente">
-              <span class="nav-item-icon">📅</span>
+            <button class="nav-item-btn" id="side-btn-agenda" onclick="abrirAgenda()" title="Agenda & Rotina da Dirigente - Compromissos e Expediente (07h–17h)">
+              <span class="nav-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Agenda &amp; Rotina</span>
-                <span class="sidebar-item-sub">Compromissos &amp; Expediente</span>
               </div>
+              <span class="side-micro-badge" id="side-badge-agenda" style="display: none;">0</span>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-carro" onclick="abrirCarroOficial()" title="Carro Oficial - Agenda de deslocamentos">
-              <span class="nav-item-icon">🚗</span>
+            <button class="nav-item-btn" id="side-btn-carro" onclick="abrirCarroOficial()" title="Carro Oficial - Agenda de deslocamentos e Frota">
+              <span class="nav-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Carro Oficial</span>
-                <span class="sidebar-item-sub">Agenda de deslocamentos</span>
               </div>
+              <span class="side-micro-badge" id="side-badge-carro" style="display: none;">0</span>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-visitas" onclick="abrirVisitas()" title="Visitas - Realizadas e pendentes">
-              <span class="nav-item-icon">✔️</span>
+            <button class="nav-item-btn" id="side-btn-visitas" onclick="abrirVisitas()" title="Visitas - Realizadas e pendentes nas unidades escolares">
+              <span class="nav-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Visitas</span>
-                <span class="sidebar-item-sub">Realizadas e pendentes</span>
               </div>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-escolas" onclick="abrirEscolas()" title="Escolas - Panorama por Unidade">
-              <span class="nav-item-icon">🏫</span>
+            <button class="nav-item-btn" id="side-btn-escolas" onclick="abrirEscolas()" title="Escolas - Panorama e indicadores por Unidade Escolar">
+              <span class="nav-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2"/><path d="M18 5v17"/><path d="m4 6 8-4 8 4"/><path d="M6 5v17"/><circle cx="12" cy="9" r="2"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Escolas</span>
-                <span class="sidebar-item-sub">Panorama por Unidade</span>
               </div>
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-mapa" onclick="abrirMapaRede()" title="Mapa - Rede e rotas">
-              <span class="nav-item-icon">🗺️</span>
+            <button class="nav-item-btn" id="side-btn-mapa" onclick="abrirMapaRede()" title="Mapa - Rede escolar georreferenciada e rotas">
+              <span class="nav-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">Mapa</span>
-                <span class="sidebar-item-sub">Rede e rotas</span>
               </div>
             </button>
           </li>
@@ -8419,7 +8716,7 @@
         <ul class="nav-items-list">
           <li>
             <button class="nav-item-btn" id="side-btn-ASURE" onclick="abrirCentro('ASURE')" title="Assessoria Técnica da Unidade Regional de Ensino | ASURE">
-              <span class="centro-icon-badge" title="ASURE - Assessoria e Suporte Regional">🏛️</span>
+              <span class="centro-icon-badge" title="ASURE - Assessoria e Suporte Regional"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">ASURE</span>
                 <span class="sidebar-item-sub">Assessoria e Gabinete</span>
@@ -8428,7 +8725,7 @@
           </li>
           <li>
             <button class="nav-item-btn" id="side-btn-SEINTEC" onclick="abrirSeintec()" title="SEINTEC - Tecnologia">
-              <span class="centro-icon-badge" title="SEINTEC - Tecnologia">💻</span>
+              <span class="centro-icon-badge" title="SEINTEC - Tecnologia"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">SEINTEC</span>
                 <span class="sidebar-item-sub">Seção de Tecnologia</span>
@@ -8436,8 +8733,8 @@
             </button>
           </li>
           <li>
-                        <button class="nav-item-btn" id="side-btn-CAF" onclick="abrirCentro('SEAFIN')" title="SEAFIN - Serviço de Administração e Finanças">
-              <span class="centro-icon-badge" title="SEAFIN - Serviço de Administração e Finanças">💼</span>
+            <button class="nav-item-btn" id="side-btn-CAF" onclick="abrirCentro('SEAFIN')" title="SEAFIN - Serviço de Administração e Finanças">
+              <span class="centro-icon-badge" title="SEAFIN - Serviço de Administração e Finanças"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">SEAFIN</span>
                 <span class="sidebar-item-sub">Administração e Finanças</span>
@@ -8446,7 +8743,7 @@
           </li>
           <li>
             <button class="nav-item-btn" id="side-btn-SEOM" onclick="abrirCentro('SEOM')" title="SEOM - Seção de Obras e Manutenção Escolar">
-              <span class="centro-icon-badge" title="SEOM - Obras, Manutenção e Fiscalização">🏗️</span>
+              <span class="centro-icon-badge" title="SEOM - Obras, Manutenção e Fiscalização"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">SEOM</span>
                 <span class="sidebar-item-sub">Obras &amp; Manutenção</span>
@@ -8455,7 +8752,7 @@
           </li>
           <li>
             <button class="nav-item-btn" id="side-btn-SEGRE" onclick="abrirCentro('SEGRE')" title="SEGRE - Serviço de Gestão da Rede Escolar">
-              <span class="centro-icon-badge" title="SEGRE - Vida Escolar, Matrícula">🏫</span>
+              <span class="centro-icon-badge" title="SEGRE - Vida Escolar, Matrícula"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">SEGRE</span>
                 <span class="sidebar-item-sub">Serviço de Gestão da Rede</span>
@@ -8464,7 +8761,7 @@
           </li>
           <li>
             <button class="nav-item-btn" id="side-btn-SEPES" onclick="abrirCentro('SEPES')" title="SEPES - Serviço de Pessoas">
-              <span class="centro-icon-badge" title="SEPES - Serviço de Pessoas">👥</span>
+              <span class="centro-icon-badge" title="SEPES - Serviço de Pessoas"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">SEPES</span>
                 <span class="sidebar-item-sub">Pagamento e Frequência</span>
@@ -8473,7 +8770,7 @@
           </li>
           <li>
             <button class="nav-item-btn" id="side-btn-EEC" onclick="abrirCentro('EEC')" title="EEC - Currículo e Formação">
-              <span class="centro-icon-badge" title="EEC - Currículo e Formação">📚</span>
+              <span class="centro-icon-badge" title="EEC - Currículo e Formação"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
               <div class="sidebar-item-text">
                 <span class="sidebar-item-main">EEC</span>
                 <span class="sidebar-item-sub">Currículo e Formação</span>
@@ -8500,6 +8797,11 @@
         <button type="button" class="mobile-nav-toggle" onclick="toggleMobileSidebar()" title="Abrir menu de navegação" aria-label="Abrir menu">☰</button>
         <!-- Indicador da Tela Ativa (quando navega pelos menus) -->
         <div id="topbar-view-indicator" class="topbar-screen-badge" style="display: none;"></div>
+        <button type="button" class="topbar-cmdk-btn" id="topbar-cmdk-btn" onclick="abrirCommandPalette()" title="Busca Global Rápida (Ctrl + K)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <span>Buscar escola, setor ou pauta...</span>
+          <kbd>Ctrl K</kbd>
+        </button>
       </div>
 
       <div class="topbar-right-group">
@@ -8595,6 +8897,38 @@
           <div class="executive-hero-right" style="display: flex; align-items: center; justify-content: center; z-index: 3;">
             <div class="hero-crest-watermark" style="opacity: 0.22; width: 132px; height: 132px; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none;">
               <img src="logo_ure_itapevi_480.png" class="brand-logo-img hero-crest-img" alt="Brasão Oficial URE Itapevi" onerror="if(this.src!=='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png')this.src='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png';">
+            </div>
+          </div>
+        </div>
+
+        <!-- 1B. BRIEFING MATINAL EXECUTIVO (HOJE NA URE ITAPEVI) -->
+        <div class="home-briefing-bar" id="home-briefing-matinal">
+          <div class="briefing-item" onclick="abrirAgenda(null, 'timeline')" title="Ver compromissos de hoje na Linha do Tempo">
+            <span class="briefing-icon briefing-gold"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg></span>
+            <div>
+              <span class="briefing-label">Agenda Hoje</span>
+              <strong class="briefing-val" id="briefing-agenda-hoje">0 compromisso(s)</strong>
+            </div>
+          </div>
+          <div class="briefing-item" onclick="abrirCarroOficial()" title="Ver agendamentos da Frota Oficial">
+            <span class="briefing-icon briefing-emerald"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span>
+            <div>
+              <span class="briefing-label">Frota Oficial Hoje</span>
+              <strong class="briefing-val" id="briefing-carro-hoje">0 saída(s)</strong>
+            </div>
+          </div>
+          <div class="briefing-item" onclick="abrirVisitas()" title="Ver visitas escolares realizadas e pendentes">
+            <span class="briefing-icon briefing-blue"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+            <div>
+              <span class="briefing-label">Visitas na Rede</span>
+              <strong class="briefing-val" id="briefing-visitas-resumo">0 realizadas</strong>
+            </div>
+          </div>
+          <div class="briefing-item" onclick="abrirEscolas()" title="Ver panorama das unidades escolares">
+            <span class="briefing-icon briefing-indigo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2"/><path d="M18 5v17"/><path d="m4 6 8-4 8 4"/><path d="M6 5v17"/><circle cx="12" cy="9" r="2"/></svg></span>
+            <div>
+              <span class="briefing-label">Rede Estadual</span>
+              <strong class="briefing-val" id="briefing-escolas-total">60 escolas</strong>
             </div>
           </div>
         </div>
@@ -13974,6 +14308,7 @@ if (!window.mostrarHome) {
       if (heroCount) heroCount.innerText = eventosValidosDia.length + ' compromisso(s)';
       const heroLivre = document.getElementById('agenda-hero-livre-badge');
       if (heroLivre) heroLivre.innerText = horasLivres + 'h livres (07h–17h)';
+      if (typeof atualizarBriefingMatinalHome === 'function') atualizarBriefingMatinalHome();
     }
 
     function renderizarMinhaGestao() {
@@ -14912,17 +15247,31 @@ if (!window.mostrarHome) {
       const evento = AGENDA_COMPROMISSOS.find(c => c.id === id);
       if (!evento) return;
 
-      if (confirm(`Deseja realmente cancelar o compromisso "${evento.titulo}"?`)) {
+      function executarCancelamento() {
         evento.status = 'Cancelado';
         salvarAgendaStorage();
         renderizarMinhaGestao();
-      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
+        if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         renderizarAgenda();
         mostrarToastAgenda('Compromisso cancelado (horário liberado na timeline)!', '⚠️');
-
         if (typeof google !== 'undefined' && google.script && google.script.run) {
           google.script.run.salvarGoogleCalendarEvent(evento);
         }
+      }
+
+      if (typeof abrirModalAvisoCarroUX === 'function') {
+        abrirModalAvisoCarroUX({
+          tipo: 'aviso',
+          icone: '⚠️',
+          subtitulo: 'CONFIRMAÇÃO • AGENDA DA DIRIGENTE',
+          titulo: 'Cancelar Compromisso',
+          mensagemHtml: '<p style="margin:0; font-size:0.94rem; color:#1e293b;">Deseja cancelar o compromisso <strong>"' + evento.titulo + '"</strong>? O horário será liberado imediatamente na Linha do Tempo (07h–17h).</p>',
+          textoConfirmar: 'Sim, Cancelar Horário',
+          textoFechar: 'Manter Agendado',
+          aoConfirmar: executarCancelamento
+        });
+      } else if (confirm('Deseja realmente cancelar o compromisso "' + evento.titulo + '"?')) {
+        executarCancelamento();
       }
     }
 
@@ -14934,17 +15283,32 @@ if (!window.mostrarHome) {
       const titulo = eventoAlvo.titulo;
       const idParaExcluir = eventoAlvo.id;
 
-      if (confirm(`Tem certeza que deseja excluir o compromisso "${titulo}" permanentemente?`)) {
-        AGENDA_COMPROMISSOS.splice(index, 1);
+      function executarExclusao() {
+        const idxAtual = AGENDA_COMPROMISSOS.findIndex(c => c.id === idParaExcluir);
+        if (idxAtual !== -1) AGENDA_COMPROMISSOS.splice(idxAtual, 1);
         salvarAgendaStorage();
         renderizarMinhaGestao();
-      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
+        if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         renderizarAgenda();
         mostrarToastAgenda('Compromisso excluído com sucesso!', '🗑');
-
         if (typeof google !== 'undefined' && google.script && google.script.run) {
           google.script.run.excluirGoogleCalendarEvent(idParaExcluir);
         }
+      }
+
+      if (typeof abrirModalAvisoCarroUX === 'function') {
+        abrirModalAvisoCarroUX({
+          tipo: 'perigo',
+          icone: '🗑️',
+          subtitulo: 'EXCLUSÃO PERMANENTE • AGENDA',
+          titulo: 'Excluir Compromisso',
+          mensagemHtml: '<p style="margin:0; font-size:0.94rem; color:#1e293b;">Tem certeza que deseja excluir permanentemente o compromisso <strong>"' + titulo + '"</strong>?</p>',
+          textoConfirmar: 'Sim, Excluir',
+          textoFechar: 'Voltar',
+          aoConfirmar: executarExclusao
+        });
+      } else if (confirm('Tem certeza que deseja excluir o compromisso "' + titulo + '" permanentemente?')) {
+        executarExclusao();
       }
     }
 
@@ -35376,6 +35740,25 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
   </div>
 
 
+  <!-- MODAL: BUSCA GLOBAL COMANDAVEL (CTRL + K) -->
+  <div class="cmdk-overlay" id="modal-command-palette" onclick="if(event.target === this) fecharCommandPalette()">
+    <div class="cmdk-card" onclick="event.stopPropagation()">
+      <div class="cmdk-search-row">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="cmdk-input" class="cmdk-input" placeholder="Buscar escola, CIE, setor, compromisso, veículo ou ação..." oninput="renderizarResultadosCommandPalette(this.value)" autocomplete="off">
+        <button type="button" class="cmdk-esc-btn" onclick="fecharCommandPalette()" title="Fechar (Esc)">ESC</button>
+      </div>
+      <div class="cmdk-results" id="cmdk-results">
+        <!-- Preenchido via JS -->
+      </div>
+      <div class="cmdk-footer">
+        <span><kbd>↑</kbd> <kbd>↓</kbd> navegar</span>
+        <span><kbd>Enter</kbd> abrir</span>
+        <span><kbd>Esc</kbd> fechar</span>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: NOVO / EDITAR COMPROMISSO NA AGENDA (SOMENTE FECHA PELO BOTAO X) -->
   <div class="agenda-modal-overlay" id="modal-agenda-compromisso">
     <div class="agenda-modal-card agenda-modal-card-pro">
@@ -37369,6 +37752,278 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         iniciarProximidadeScrollbar();
       }
     })();
+
+    /* ========================================================================= */
+    /* COMMAND PALETTE GLOBAL (CTRL + K) & BRIEFING MATINAL EXECUTIVO            */
+    /* ========================================================================= */
+    var __cmdkResultadosAtuais = [];
+    var __cmdkIndiceSelecionado = 0;
+
+    function abrirCommandPalette() {
+      var overlay = document.getElementById('modal-command-palette');
+      var input = document.getElementById('cmdk-input');
+      if (!overlay) return;
+      overlay.classList.add('active');
+      if (input) {
+        input.value = '';
+        renderizarResultadosCommandPalette('');
+        setTimeout(function() { input.focus(); }, 30);
+      }
+    }
+
+    function fecharCommandPalette() {
+      var overlay = document.getElementById('modal-command-palette');
+      if (overlay) overlay.classList.remove('active');
+    }
+
+    function coletarItensCommandPalette(termo) {
+      var q = String(termo || '').toLowerCase().trim();
+      var grupos = [];
+
+      var acoesRapidas = [
+        { grupo: 'Ações Rápidas', icone: '➕', titulo: 'Novo Compromisso na Agenda', sub: 'Agendar reunião, despacho ou visita na rotina da Dirigente', tag: 'Ação', fn: function() { fecharCommandPalette(); if (typeof abrirModalNovoCompromisso === 'function') abrirModalNovoCompromisso(); } },
+        { grupo: 'Ações Rápidas', icone: '🚗', titulo: 'Solicitar Carro Oficial', sub: 'Abrir formulário de reserva de veículo oficial', tag: 'Ação', fn: function() { fecharCommandPalette(); if (typeof abrirModalNovaSolicitacaoCarro === 'function') abrirModalNovaSolicitacaoCarro(); } },
+        { grupo: 'Ações Rápidas', icone: '🔄', titulo: 'Sincronizar Todas as Bases', sub: 'Atualizar todos os 12 setores e SharePoint em tempo real', tag: 'Sistema', fn: function() { fecharCommandPalette(); if (typeof sincronizarTudoGlobalmente === 'function') sincronizarTudoGlobalmente(); } }
+      ];
+
+      var modulos = [
+        { grupo: 'Navegação & Setores', icone: '🏠', titulo: 'Início — Resumo Executivo', sub: 'Painel geral da URE Itapevi e telemetria', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof mostrarHome === 'function') mostrarHome(); } },
+        { grupo: 'Navegação & Setores', icone: '📅', titulo: 'Agenda & Rotina da Dirigente', sub: 'Calendário mensal, linha do tempo 07h–17h e pauta', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirAgenda === 'function') abrirAgenda(); } },
+        { grupo: 'Navegação & Setores', icone: '🚗', titulo: 'Carro Oficial — Frota & Logística', sub: 'Spin TLH 1B63, HB20 FZG 0H22 e Modelo 30', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirCarroOficial === 'function') abrirCarroOficial(); } },
+        { grupo: 'Navegação & Setores', icone: '✔️', titulo: 'Visitas Escolares', sub: 'Acompanhamento de visitas realizadas e pendentes', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirVisitas === 'function') abrirVisitas(); } },
+        { grupo: 'Navegação & Setores', icone: '🏫', titulo: 'Escolas — Rede Estadual', sub: 'Panorama das unidades escolares da URE Itapevi', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirEscolas === 'function') abrirEscolas(); } },
+        { grupo: 'Navegação & Setores', icone: '🗺️', titulo: 'Mapa da Rede & Rotas', sub: 'Visualização geográfica das escolas e deslocamentos', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirMapaRede === 'function') abrirMapaRede(); } },
+        { grupo: 'Navegação & Setores', icone: '🏛️', titulo: 'ASURE — Assessoria e Gabinete', sub: 'Assessoria Técnica da Unidade Regional de Ensino', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('ASURE'); } },
+        { grupo: 'Navegação & Setores', icone: '💻', titulo: 'SEINTEC — Seção de Tecnologia', sub: 'Inventário, parque tecnológico e chamados', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirSeintec === 'function') abrirSeintec(); } },
+        { grupo: 'Navegação & Setores', icone: '💼', titulo: 'SEAFIN — Administração e Finanças', sub: 'Orçamento, contratos SECOMSE e finanças', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('SEAFIN'); } },
+        { grupo: 'Navegação & Setores', icone: '🏗️', titulo: 'SEOM — Obras & Manutenção', sub: 'Manutenção predial, obras e fiscalização', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('SEOM'); } },
+        { grupo: 'Navegação & Setores', icone: '📋', titulo: 'SEGRE — Gestão da Rede Escolar', sub: 'Vida escolar (SEVESC), matrícula (SEMAT) e demandas', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('SEGRE'); } },
+        { grupo: 'Navegação & Setores', icone: '👥', titulo: 'SEPES — Serviço de Pessoas', sub: 'Aposentadorias, designações e abono de permanência', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('SEPES'); } },
+        { grupo: 'Navegação & Setores', icone: '📚', titulo: 'EEC — Currículo e Formação', sub: 'Portal pedagógico, avaliações e formação docente', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('EEC'); } }
+      ];
+
+      var listaFinal = [];
+      acoesRapidas.concat(modulos).forEach(function(it) {
+        if (!q || (it.titulo + ' ' + it.sub).toLowerCase().indexOf(q) !== -1) {
+          listaFinal.push(it);
+        }
+      });
+
+      if (q && typeof AGENDA_COMPROMISSOS !== 'undefined' && Array.isArray(AGENDA_COMPROMISSOS)) {
+        var countAg = 0;
+        AGENDA_COMPROMISSOS.forEach(function(ev) {
+          if (countAg >= 5) return;
+          var txt = ((ev.titulo || '') + ' ' + (ev.local || '') + ' ' + (ev.setor || '') + ' ' + (ev.tipo || '')).toLowerCase();
+          if (txt.indexOf(q) !== -1) {
+            countAg++;
+            listaFinal.push({
+              grupo: 'Agenda & Rotina',
+              icone: '📅',
+              titulo: ev.titulo,
+              sub: (ev.data || '') + ' · ' + (ev.horaInicio || '') + '–' + (ev.horaFim || '') + ' · ' + (ev.local || 'Gabinete'),
+              tag: ev.status || 'Agendado',
+              fn: function() {
+                fecharCommandPalette();
+                if (typeof abrirAgenda === 'function') abrirAgenda(ev.data, 'timeline');
+              }
+            });
+          }
+        });
+      }
+
+      if (q && typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas)) {
+        var countEsc = 0;
+        listaEscolas.forEach(function(esc) {
+          if (countEsc >= 6) return;
+          var nome = esc.nome || esc.escola || '';
+          var cie = String(esc.cie || '');
+          var mun = esc.municipio || '';
+          if ((nome + ' ' + cie + ' ' + mun).toLowerCase().indexOf(q) !== -1) {
+            countEsc++;
+            listaFinal.push({
+              grupo: 'Escolas da Rede',
+              icone: '🏫',
+              titulo: nome,
+              sub: 'CIE ' + cie + (mun ? ' · ' + mun : ''),
+              tag: esc.tipo || 'EE',
+              fn: function() {
+                fecharCommandPalette();
+                if (typeof abrirEscolas === 'function') abrirEscolas();
+                var inp = document.getElementById('escolas-search-input');
+                if (inp) {
+                  inp.value = nome;
+                  if (typeof filtrarEscolas === 'function') filtrarEscolas();
+                }
+              }
+            });
+          }
+        });
+      }
+
+      if (q && typeof CARRO_DATA !== 'undefined' && CARRO_DATA && Array.isArray(CARRO_DATA.registros)) {
+        var countCar = 0;
+        CARRO_DATA.registros.forEach(function(reg) {
+          if (countCar >= 4) return;
+          var txt = ((reg.solicitante || '') + ' ' + (reg.destino || '') + ' ' + (reg.placa || '') + ' ' + (reg.veiculo || '')).toLowerCase();
+          if (txt.indexOf(q) !== -1) {
+            countCar++;
+            listaFinal.push({
+              grupo: 'Carro Oficial',
+              icone: '🚗',
+              titulo: (reg.veiculo || 'Veículo') + ' (' + (reg.placa || '') + ') — ' + (reg.solicitante || ''),
+              sub: (reg.data || '') + ' · ' + (reg.destino || ''),
+              tag: reg.status || 'Agendado',
+              fn: function() {
+                fecharCommandPalette();
+                if (typeof abrirCarroOficial === 'function') abrirCarroOficial();
+                if (typeof abrirModalDetalhesAgendamentoCarro === 'function') abrirModalDetalhesAgendamentoCarro(reg.id);
+              }
+            });
+          }
+        });
+      }
+
+      return listaFinal.slice(0, 14);
+    }
+
+    function renderizarResultadosCommandPalette(termo) {
+      var container = document.getElementById('cmdk-results');
+      if (!container) return;
+      __cmdkResultadosAtuais = coletarItensCommandPalette(termo);
+      __cmdkIndiceSelecionado = 0;
+
+      if (__cmdkResultadosAtuais.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding: 2rem; color: #64748b; font-size: 0.88rem;">Nenhum resultado encontrado para esta busca.</div>';
+        return;
+      }
+
+      var html = '';
+      var ultimoGrupo = '';
+      __cmdkResultadosAtuais.forEach(function(item, idx) {
+        if (item.grupo !== ultimoGrupo) {
+          ultimoGrupo = item.grupo;
+          html += '<div class="cmdk-group-label">' + item.grupo + '</div>';
+        }
+        html += '<div class="cmdk-item ' + (idx === 0 ? 'is-selected' : '') + '" data-cmdk-idx="' + idx + '" onclick="executarItemCommandPalette(' + idx + ')">' +
+          '<div class="cmdk-item-left">' +
+            '<span class="cmdk-item-icon">' + item.icone + '</span>' +
+            '<div style="min-width:0;">' +
+              '<div class="cmdk-item-title">' + item.titulo + '</div>' +
+              '<div class="cmdk-item-sub">' + item.sub + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<span class="cmdk-item-tag">' + item.tag + '</span>' +
+        '</div>';
+      });
+      container.innerHTML = html;
+    }
+
+    function executarItemCommandPalette(idx) {
+      var item = __cmdkResultadosAtuais[idx];
+      if (item && typeof item.fn === 'function') {
+        item.fn();
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && String(e.key).toLowerCase() === 'k') {
+        e.preventDefault();
+        var overlay = document.getElementById('modal-command-palette');
+        if (overlay && overlay.classList.contains('active')) {
+          fecharCommandPalette();
+        } else {
+          abrirCommandPalette();
+        }
+        return;
+      }
+      var overlayAtivo = document.getElementById('modal-command-palette');
+      if (!overlayAtivo || !overlayAtivo.classList.contains('active')) return;
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        fecharCommandPalette();
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (__cmdkResultadosAtuais.length > 0) {
+          __cmdkIndiceSelecionado = (__cmdkIndiceSelecionado + 1) % __cmdkResultadosAtuais.length;
+          atualizarSelecaoCommandPalette();
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (__cmdkResultadosAtuais.length > 0) {
+          __cmdkIndiceSelecionado = (__cmdkIndiceSelecionado - 1 + __cmdkResultadosAtuais.length) % __cmdkResultadosAtuais.length;
+          atualizarSelecaoCommandPalette();
+        }
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        executarItemCommandPalette(__cmdkIndiceSelecionado);
+      }
+    });
+
+    function atualizarSelecaoCommandPalette() {
+      var itens = document.querySelectorAll('#cmdk-results .cmdk-item');
+      itens.forEach(function(el, i) {
+        if (i === __cmdkIndiceSelecionado) {
+          el.classList.add('is-selected');
+          el.scrollIntoView({ block: 'nearest' });
+        } else {
+          el.classList.remove('is-selected');
+        }
+      });
+    }
+
+    function atualizarBriefingMatinalHome() {
+      var hojeIso = typeof obterDataHojeIso === 'function' ? obterDataHojeIso() : new Date().toISOString().slice(0, 10);
+
+      /* 1. Agenda Hoje + Badge Sidebar */
+      var qtdAgendaHoje = 0;
+      if (typeof AGENDA_COMPROMISSOS !== 'undefined' && Array.isArray(AGENDA_COMPROMISSOS)) {
+        qtdAgendaHoje = AGENDA_COMPROMISSOS.filter(function(c) { return c.data === hojeIso && c.status !== 'Cancelado'; }).length;
+      }
+      var elAg = document.getElementById('briefing-agenda-hoje');
+      if (elAg) elAg.innerText = qtdAgendaHoje + ' compromisso(s)';
+      var badgeAg = document.getElementById('side-badge-agenda');
+      if (badgeAg) {
+        badgeAg.innerText = qtdAgendaHoje;
+        badgeAg.style.display = qtdAgendaHoje > 0 ? 'inline-block' : 'none';
+      }
+
+      /* 2. Frota Oficial Hoje + Badge Sidebar */
+      var qtdCarroHoje = 0;
+      if (typeof CARRO_DATA !== 'undefined' && CARRO_DATA && Array.isArray(CARRO_DATA.registros)) {
+        qtdCarroHoje = CARRO_DATA.registros.filter(function(r) {
+          if (r.status === 'Cancelado') return false;
+          if (typeof registroAtivoNoPeriodoCarro === 'function') return registroAtivoNoPeriodoCarro(r, hojeIso, hojeIso);
+          return r.data === hojeIso;
+        }).length;
+      }
+      var elCar = document.getElementById('briefing-carro-hoje');
+      if (elCar) elCar.innerText = qtdCarroHoje + ' saída(s)';
+      var badgeCar = document.getElementById('side-badge-carro');
+      if (badgeCar) {
+        badgeCar.innerText = qtdCarroHoje;
+        badgeCar.style.display = qtdCarroHoje > 0 ? 'inline-block' : 'none';
+      }
+
+      /* 3. Visitas */
+      var qtdVisitas = 0;
+      if (typeof visitasRegistro !== 'undefined' && Array.isArray(visitasRegistro)) {
+        qtdVisitas = visitasRegistro.length;
+      }
+      var elVis = document.getElementById('briefing-visitas-resumo');
+      if (elVis) elVis.innerText = qtdVisitas + ' registradas';
+
+      /* 4. Escolas */
+      var qtdEsc = (typeof listaEscolas !== 'undefined' && Array.isArray(listaEscolas) && listaEscolas.length > 0) ? listaEscolas.length : 60;
+      var elEsc = document.getElementById('briefing-escolas-total');
+      if (elEsc) elEsc.innerText = qtdEsc + ' escolas';
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { setTimeout(atualizarBriefingMatinalHome, 450); });
+    } else {
+      setTimeout(atualizarBriefingMatinalHome, 450);
+    }
 </script>
 
 <script>
