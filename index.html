@@ -13735,7 +13735,7 @@ function imprimirAgendaCarro() {
       <div class="boot-sync-header">
         <div class="boot-sync-crest-wrap">
           <div class="boot-sync-pulse-ring"></div>
-          <img id="boot-modal-logo" src="logo_ure_itapevi_480.png" alt="Brasão URE Itapevi" onerror="if(typeof LOGO_URE_B64_SAFE!=='undefined'&&this.src!==LOGO_URE_B64_SAFE){this.src=LOGO_URE_B64_SAFE;}else if(this.src!=='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png'){this.src='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png';}">
+          <img id="boot-modal-logo" class="brand-logo-img" src="logo_ure_itapevi_480.png" alt="Brasão URE Itapevi" onerror="if(typeof LOGO_URE_DATA_URI!=='undefined'&&this.src!==LOGO_URE_DATA_URI){this.src=LOGO_URE_DATA_URI;}else if(this.src!=='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png'){this.src='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png';}">
         </div>
         <div>
           <div class="boot-sync-kicker">
@@ -35927,8 +35927,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       if (window.__bootModalFechado) return;
       try {
         var elLogo = document.getElementById('boot-modal-logo');
-        if (elLogo && typeof LOGO_URE_B64_SAFE !== 'undefined' && LOGO_URE_B64_SAFE && elLogo.getAttribute('data-b64-set') !== '1') {
-          elLogo.src = LOGO_URE_B64_SAFE;
+        if (elLogo && typeof LOGO_URE_DATA_URI !== 'undefined' && LOGO_URE_DATA_URI && elLogo.getAttribute('data-b64-set') !== '1') {
+          elLogo.src = LOGO_URE_DATA_URI;
           elLogo.setAttribute('data-b64-set', '1');
         }
         var tasks = window.__bootSyncTracker ? window.__bootSyncTracker.tasks : {};
