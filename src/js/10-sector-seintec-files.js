@@ -2232,7 +2232,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         modal.classList.remove('boot-hidden');
       }
       atualizarUIBootSyncReal();
-      setTimeout(fecharBootModalComSuavidade, 45000);
+      setTimeout(fecharBootModalComSuavidade, 12000);
     }
     window.abrirBootModalSincronizacao = abrirBootModalSincronizacao;
 
