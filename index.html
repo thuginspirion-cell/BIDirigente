@@ -1515,16 +1515,24 @@
 
     .side-micro-badge {
       margin-left: auto;
-      background: rgba(240, 155, 12, 0.2);
-      color: #fde047;
-      border: 1px solid rgba(240, 155, 12, 0.45);
+      background: rgba(245, 158, 11, 0.22);
+      color: #fde68a;
+      border: 1px solid rgba(251, 191, 36, 0.55);
       border-radius: 9999px;
-      font-size: 0.66rem;
+      font-size: 0.68rem;
       font-weight: 800;
-      padding: 0.08rem 0.45rem;
+      padding: 0.1rem 0.48rem;
       line-height: 1.2;
       font-variant-numeric: tabular-nums;
       flex-shrink: 0;
+      transition: all 0.18s ease;
+    }
+
+    .nav-item-btn.active .side-micro-badge {
+      background: #0b2351;
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.45);
+      box-shadow: 0 2px 6px rgba(11, 35, 81, 0.35);
     }
 
     /* Botão Ctrl+K na Topbar */
