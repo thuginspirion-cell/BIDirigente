@@ -123,7 +123,7 @@
               <span class="side-micro-badge" id="side-badge-carro" style="display: none;">0</span>
             </button>
           </li>
-          <li>
+          <li style="display: none;">
             <button class="nav-item-btn" id="side-btn-visitas" onclick="abrirVisitas()" title="Visitas - Realizadas e pendentes nas unidades escolares">
               <span class="nav-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
               <div class="sidebar-item-text">
@@ -132,10 +132,10 @@
             </button>
           </li>
           <li>
-            <button class="nav-item-btn" id="side-btn-escolas" onclick="abrirEscolas()" title="Escolas - Panorama e indicadores por Unidade Escolar">
+            <button class="nav-item-btn" id="side-btn-escolas" onclick="abrirEscolas()" title="Escolas & Visitas - Rede Escolar Estadual e acompanhamento de visitas">
               <span class="nav-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2"/><path d="M18 5v17"/><path d="m4 6 8-4 8 4"/><path d="M6 5v17"/><circle cx="12" cy="9" r="2"/></svg></span>
               <div class="sidebar-item-text">
-                <span class="sidebar-item-main">Escolas</span>
+                <span class="sidebar-item-main">Escolas &amp; Visitas</span>
               </div>
             </button>
           </li>
@@ -150,10 +150,16 @@
         </ul>
       </div>
 
-      <!-- Grupo 2: Núcleos / Centros da Unidade Regional -->
+      <!-- Grupo 2: Núcleos / Centros da Unidade Regional (Gaveta Retrátil) -->
       <div>
-        <div class="nav-group-title">NÚCLEOS / CENTROS</div>
-        <ul class="nav-items-list">
+        <button type="button" class="nav-accordion-toggle" id="sidebar-setores-toggle" onclick="toggleSetoresSidebar()" aria-expanded="false" title="Expandir ou recolher os 7 setores da URE Itapevi">
+          <span class="nav-acc-left">
+            <span>Setores URE</span>
+            <span class="nav-accordion-count">7</span>
+          </span>
+          <svg class="nav-accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <ul class="nav-items-list nav-accordion-body" id="sidebar-setores-list">
           <li>
             <button class="nav-item-btn" id="side-btn-ASURE" onclick="abrirCentro('ASURE')" title="Assessoria Técnica da Unidade Regional de Ensino | ASURE">
               <span class="centro-icon-badge" title="ASURE - Assessoria e Suporte Regional"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></span>
@@ -2758,6 +2764,17 @@
       <!-- ============================================== -->
       <section id="pane-escolas" class="view-pane">
 
+        <div class="ev-segmented-bar" role="tablist" aria-label="Alternar entre Rede Escolar e Visitas da Dirigente">
+          <button type="button" class="ev-seg-btn active" role="tab" aria-selected="true" onclick="abrirEscolas()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2"/><path d="M18 5v17"/><path d="m4 6 8-4 8 4"/><path d="M6 5v17"/><circle cx="12" cy="9" r="2"/></svg>
+            <span>Rede Escolar (60 Escolas)</span>
+          </button>
+          <button type="button" class="ev-seg-btn" role="tab" aria-selected="false" onclick="abrirVisitas()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>Visitas da Dirigente</span>
+          </button>
+        </div>
+
         <!-- HEADER DA REDE ESCOLAR -->
         <div class="escolas-header-card">
           <div class="escolas-header-inner">
@@ -2992,6 +3009,17 @@
       <!-- VIEW 9: VISITAS DA DIRIGENTE (EXATA AO PRINT OFICIAL) -->
       <!-- ======================================================== -->
       <section id="pane-visitas" class="view-pane">
+
+        <div class="ev-segmented-bar" role="tablist" aria-label="Alternar entre Rede Escolar e Visitas da Dirigente">
+          <button type="button" class="ev-seg-btn" role="tab" aria-selected="false" onclick="abrirEscolas()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2"/><path d="M18 5v17"/><path d="m4 6 8-4 8 4"/><path d="M6 5v17"/><circle cx="12" cy="9" r="2"/></svg>
+            <span>Rede Escolar (60 Escolas)</span>
+          </button>
+          <button type="button" class="ev-seg-btn active" role="tab" aria-selected="true" onclick="abrirVisitas()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>Visitas da Dirigente</span>
+          </button>
+        </div>
 
         <!-- HEADER PRINCIPAL -->
         <div class="visitas-header-card">

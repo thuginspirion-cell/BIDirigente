@@ -344,8 +344,35 @@
       if (elEsc) elEsc.innerText = qtdEsc + ' escolas';
     }
 
+    function toggleSetoresSidebar(forceOpen) {
+      var btn = document.getElementById('sidebar-setores-toggle');
+      var list = document.getElementById('sidebar-setores-list');
+      if (!btn || !list) return;
+      var willOpen = typeof forceOpen === 'boolean' ? forceOpen : !list.classList.contains('is-open');
+      btn.classList.toggle('is-open', willOpen);
+      btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      list.classList.toggle('is-open', willOpen);
+    }
+    window.toggleSetoresSidebar = toggleSetoresSidebar;
+
+    function iniciarObserverSetoresSidebar() {
+      var setoresList = document.getElementById('sidebar-setores-list');
+      if (setoresList && typeof MutationObserver === 'function') {
+        var obs = new MutationObserver(function() {
+          if (setoresList.querySelector('.nav-item-btn.active')) {
+            toggleSetoresSidebar(true);
+          }
+        });
+        obs.observe(setoresList, { subtree: true, attributes: true, attributeFilter: ['class'] });
+      }
+    }
+
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() { setTimeout(atualizarBriefingMatinalHome, 450); });
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(atualizarBriefingMatinalHome, 450);
+        iniciarObserverSetoresSidebar();
+      });
     } else {
       setTimeout(atualizarBriefingMatinalHome, 450);
+      iniciarObserverSetoresSidebar();
     }

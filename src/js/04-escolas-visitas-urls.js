@@ -1880,6 +1880,8 @@ function _obterResumoIpreEscolaInterno(esc) {
 
       const sideBtn = document.getElementById('side-btn-visitas');
       if (sideBtn) sideBtn.classList.add('active');
+      const sideBtnUnified = document.getElementById('side-btn-escolas');
+      if (sideBtnUnified) sideBtnUnified.classList.add('active');
 
       atualizarBreadcrumbTopo('05 - Visitas da Dirigente');
 
