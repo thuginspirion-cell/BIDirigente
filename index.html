@@ -15119,9 +15119,9 @@ if (!window.mostrarHome) {
           abrirModalAvisoCarroUX({
             tipo: 'perigo',
             icone: '🚫',
-            subtitulo: 'VALIDAÇÃO DE FORMULÁRIO • AGENDA',
+            eyebrow: 'VALIDAÇÃO DE FORMULÁRIO • AGENDA',
             titulo: 'Ação Não Permitida',
-            mensagemHtml: '<div style="display:flex; flex-direction:column; gap:0.65rem;">' +
+            html: '<div style="display:flex; flex-direction:column; gap:0.65rem;">' +
               '<p style="margin:0; font-size:0.94rem; color:#1e293b; font-weight:600;">Não é possível salvar o compromisso antes de preencher todos os campos obrigatórios (*).</p>' +
               '<div style="background:#fef2f2; border:1px solid #fecaca; border-left:4px solid #ef4444; border-radius:8px; padding:0.75rem 0.9rem; font-size:0.84rem; color:#991b1b;">' +
               '<strong>Pendente(s):</strong> ' + faltantes.join(', ') +
@@ -15143,9 +15143,9 @@ if (!window.mostrarHome) {
           abrirModalAvisoCarroUX({
             tipo: 'aviso',
             icone: '⏰',
-            subtitulo: 'VALIDAÇÃO DE HORÁRIO • AGENDA',
+            eyebrow: 'VALIDAÇÃO DE HORÁRIO • AGENDA',
             titulo: 'Horário Inválido',
-            mensagemHtml: '<p style="margin:0; font-size:0.94rem; color:#1e293b; font-weight:600;">Ação não permitida: o <strong>Horário de Término</strong> deve ser posterior ao <strong>Horário de Início</strong>.</p>',
+            html: '<p style="margin:0; font-size:0.94rem; color:#1e293b; font-weight:600;">Ação não permitida: o <strong>Horário de Término</strong> deve ser posterior ao <strong>Horário de Início</strong>.</p>',
             textoFechar: 'Ajustar Horário'
           });
         } else {
@@ -15263,12 +15263,12 @@ if (!window.mostrarHome) {
         abrirModalAvisoCarroUX({
           tipo: 'aviso',
           icone: '⚠️',
-          subtitulo: 'CONFIRMAÇÃO • AGENDA DA DIRIGENTE',
+          eyebrow: 'CONFIRMAÇÃO • AGENDA DA DIRIGENTE',
           titulo: 'Cancelar Compromisso',
-          mensagemHtml: '<p style="margin:0; font-size:0.94rem; color:#1e293b;">Deseja cancelar o compromisso <strong>"' + evento.titulo + '"</strong>? O horário será liberado imediatamente na Linha do Tempo (07h–17h).</p>',
+          html: '<p style="margin:0; font-size:0.94rem; color:#1e293b;">Deseja cancelar o compromisso <strong>"' + evento.titulo + '"</strong>? O horário será liberado imediatamente na Linha do Tempo (07h–17h).</p>',
           textoConfirmar: 'Sim, Cancelar Horário',
           textoFechar: 'Manter Agendado',
-          aoConfirmar: executarCancelamento
+          onConfirmar: executarCancelamento
         });
       } else if (confirm('Deseja realmente cancelar o compromisso "' + evento.titulo + '"?')) {
         executarCancelamento();
@@ -15300,12 +15300,12 @@ if (!window.mostrarHome) {
         abrirModalAvisoCarroUX({
           tipo: 'perigo',
           icone: '🗑️',
-          subtitulo: 'EXCLUSÃO PERMANENTE • AGENDA',
+          eyebrow: 'EXCLUSÃO PERMANENTE • AGENDA',
           titulo: 'Excluir Compromisso',
-          mensagemHtml: '<p style="margin:0; font-size:0.94rem; color:#1e293b;">Tem certeza que deseja excluir permanentemente o compromisso <strong>"' + titulo + '"</strong>?</p>',
+          html: '<p style="margin:0; font-size:0.94rem; color:#1e293b;">Tem certeza que deseja excluir permanentemente o compromisso <strong>"' + titulo + '"</strong>?</p>',
           textoConfirmar: 'Sim, Excluir',
           textoFechar: 'Voltar',
-          aoConfirmar: executarExclusao
+          onConfirmar: executarExclusao
         });
       } else if (confirm('Tem certeza que deseja excluir o compromisso "' + titulo + '" permanentemente?')) {
         executarExclusao();
@@ -16845,14 +16845,14 @@ function abrirModalAvisoCarroUX(opts) {
     iconEl.style.borderColor = paleta.border;
   }
   if (eyeEl) {
-    eyeEl.innerText = (opts && opts.eyebrow) || 'AVISO DO SISTEMA • FROTA OFICIAL';
+    eyeEl.innerText = (opts && (opts.eyebrow || opts.subtitulo)) || 'AVISO DO SISTEMA • FROTA OFICIAL';
     eyeEl.style.color = paleta.eyeColor;
   }
   if (titleEl) titleEl.innerText = (opts && opts.titulo) || 'Atenção';
-  if (bodyEl) bodyEl.innerHTML = (opts && opts.html) || '';
+  if (bodyEl) bodyEl.innerHTML = (opts && (opts.html || opts.mensagemHtml || opts.mensagem)) || '';
   if (closeBtnText) closeBtnText.innerText = (opts && opts.textoFechar) || 'Fechar';
 
-  __carroUxConfirmCallback = (opts && typeof opts.onConfirmar === 'function') ? opts.onConfirmar : null;
+  __carroUxConfirmCallback = (opts && typeof (opts.onConfirmar || opts.aoConfirmar) === 'function') ? (opts.onConfirmar || opts.aoConfirmar) : null;
   if (primaryBtn) {
     if (opts && opts.textoConfirmar && __carroUxConfirmCallback) {
       primaryBtn.style.display = 'inline-flex';
