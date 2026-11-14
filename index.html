@@ -4986,9 +4986,6 @@
       border-color: #bbf7d0;
       border-left-color: #16a34a;
     }
-    .agenda-kpi-grid-5 {
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    }
     .carro-cal-pill.status-cancelado {
       opacity: 0.6;
       text-decoration: line-through;
@@ -5452,6 +5449,52 @@
       font-size: 0.8rem;
       color: #94a3b8;
       font-weight: 500;
+    }
+
+    /* Faixa Executiva Compacta de 5 KPIs em Linha Única (Agenda & Rotina) */
+    .carro-kpi-grid.agenda-kpi-grid-5 {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.15rem;
+    }
+    .carro-kpi-grid.agenda-kpi-grid-5 .carro-kpi-card {
+      padding: 0.8rem 0.95rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-top: 3px solid #cbd5e1;
+      border-radius: 10px;
+      cursor: default;
+    }
+    .carro-kpi-grid.agenda-kpi-grid-5 .carro-kpi-card:nth-child(1) { border-top-color: #0b2351; }
+    .carro-kpi-grid.agenda-kpi-grid-5 .carro-kpi-card:nth-child(2) { border-top-color: #059669; }
+    .carro-kpi-grid.agenda-kpi-grid-5 .carro-kpi-card:nth-child(3) { border-top-color: #d48208; }
+    .carro-kpi-grid.agenda-kpi-grid-5 .carro-kpi-card:nth-child(4) { border-top-color: #6366f1; }
+    .carro-kpi-grid.agenda-kpi-grid-5 .carro-kpi-card:nth-child(5) { border-top-color: #2563eb; }
+    .carro-kpi-grid.agenda-kpi-grid-5 .carro-kpi-header {
+      font-size: 0.69rem;
+      margin-bottom: 0.3rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .carro-kpi-grid.agenda-kpi-grid-5 .carro-kpi-body {
+      margin-bottom: 0.2rem;
+    }
+    .carro-kpi-grid.agenda-kpi-grid-5 .carro-kpi-number {
+      font-size: 1.65rem;
+      line-height: 1.05;
+    }
+    .carro-kpi-grid.agenda-kpi-grid-5 .carro-kpi-sub {
+      font-size: 0.72rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    @media (max-width: 960px) {
+      .carro-kpi-grid.agenda-kpi-grid-5 {
+        grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      }
     }
 
     /* Barra Interativa de Seleção de Data */
