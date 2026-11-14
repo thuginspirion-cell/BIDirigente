@@ -8829,7 +8829,7 @@
           <!-- Sininho com indicador de mensagens de alerta -->
           <div class="header-bell-wrapper" id="header-bell-wrapper">
             <button type="button" class="header-bell-btn" id="header-bell-btn" onclick="alternarPainelAlertasHeader(event)" title="Central de Alertas & Notificações">
-              <span class="header-bell-icon">🔔</span>
+              <span class="header-bell-icon" style="display:inline-flex;align-items:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>
               <span class="header-bell-badge" id="header-bell-badge">0</span>
             </button>
             <div class="header-bell-dropdown" id="header-bell-dropdown">
@@ -8869,10 +8869,10 @@
           <span class="drive-status-dot" id="drive-status-dot"></span>
           <span><strong id="drive-stats-text">12 Módulos Conectados</strong></span>
           <button class="btn-verify-now" id="btn-sync-global" onclick="sincronizarTudoGlobalmente()" title="Sincronizar todos os 12 módulos e bases em tempo real">
-            <span class="sync-spin-icon" id="btn-sync-global-icon">🔄</span> <span id="btn-sync-global-text">Sincronizar Tudo</span>
+            <span class="sync-spin-icon" id="btn-sync-global-icon" style="display:inline-flex;align-items:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg></span> <span id="btn-sync-global-text">Sincronizar Tudo</span>
           </button>
           <button type="button" class="btn-relatorio-header" id="btn-relatorio-global" onclick="abrirModalCentralRelatorios()" title="Central de Relatórios Executivos (Geral ou por Escola)">
-            <span>📄</span> <span>Relatório</span>
+            <span style="display:inline-flex;align-items:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg></span> <span>Relatório</span>
           </button>
         </div>
       </div>
@@ -8965,7 +8965,7 @@
               <!-- 1. SEOM • Obras e Infraestrutura -->
               <div class="sector-pillar-card" data-setor="SEOM" style="border-top: 3.5px solid #b45309;">
                 <div class="sector-pillar-head">
-                  <span class="sector-pillar-title" style="color: #b45309;">🏗️ SEOM</span>
+                  <span class="sector-pillar-title" style="color: #b45309; display:inline-flex; align-items:center; gap:0.35rem;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> SEOM</span>
                   <span class="sector-pillar-badge" style="background: #fef3c7; color: #92400e;">Obras &amp; Predial</span>
                 </div>
                 <div class="sector-pillar-body">
@@ -8991,7 +8991,7 @@
               <!-- 2. SEINTEC • Tecnologia e Conectividade -->
               <div class="sector-pillar-card" data-setor="SEINTEC" style="border-top: 3.5px solid #0284c7;">
                 <div class="sector-pillar-head">
-                  <span class="sector-pillar-title" style="color: #0284c7;">💻 SEINTEC</span>
+                  <span class="sector-pillar-title" style="color: #0284c7; display:inline-flex; align-items:center; gap:0.35rem;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg> SEINTEC</span>
                   <span class="sector-pillar-badge" style="background: #e0f2fe; color: #0369a1;">Tecnologia &amp; Dados</span>
                 </div>
                 <div class="sector-pillar-body">
@@ -9017,7 +9017,7 @@
               <!-- 3. SEAFIN • Administração, Finanças e Contratos -->
               <div class="sector-pillar-card" data-setor="SEAFIN" style="border-top: 3.5px solid #059669;">
                 <div class="sector-pillar-head">
-                  <span class="sector-pillar-title" style="color: #059669;">💼 SEAFIN</span>
+                  <span class="sector-pillar-title" style="color: #059669; display:inline-flex; align-items:center; gap:0.35rem;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> SEAFIN</span>
                   <span class="sector-pillar-badge" style="background: #dcfce7; color: #166534;">Finanças &amp; Contratos</span>
                 </div>
                 <div class="sector-pillar-body">
@@ -9043,7 +9043,7 @@
               <!-- 4. SEGRE • Gestão da Rede Escolar -->
               <div class="sector-pillar-card" data-setor="SEGRE" style="border-top: 3.5px solid #ea580c;">
                 <div class="sector-pillar-head">
-                  <span class="sector-pillar-title" style="color: #ea580c;">🏫 SEGRE</span>
+                  <span class="sector-pillar-title" style="color: #ea580c; display:inline-flex; align-items:center; gap:0.35rem;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> SEGRE</span>
                   <span class="sector-pillar-badge" style="background: #ffedd5; color: #9a3412;">Rede &amp; Matrícula</span>
                 </div>
                 <div class="sector-pillar-body">
@@ -9069,7 +9069,7 @@
               <!-- 5. SEPES • Serviço de Pessoas -->
               <div class="sector-pillar-card" data-setor="SEPES" style="border-top: 3.5px solid #7c3aed;">
                 <div class="sector-pillar-head">
-                  <span class="sector-pillar-title" style="color: #7c3aed;">👥 SEPES</span>
+                  <span class="sector-pillar-title" style="color: #7c3aed; display:inline-flex; align-items:center; gap:0.35rem;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> SEPES</span>
                   <span class="sector-pillar-badge" style="background: #f3e8ff; color: #6b21a8;">Pessoal &amp; Folha</span>
                 </div>
                 <div class="sector-pillar-body">
@@ -30252,23 +30252,25 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
           '<!-- BANNER TOPO EXECUTIVO EEC -->' +
           '<div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 50%, #1e40af 100%); border: 2px solid #f59e0b; border-radius: 16px; padding: 1.15rem 1.4rem; margin-bottom: 1.2rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; justify-content: space-between; align-items: center; gap: 1.2rem;">' +
             '<div style="flex: 1; min-width: 0;">' +
-              '<div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem; flex-wrap: wrap;">' +
-                '<span style="font-size: 1.6rem;">📚</span>' +
+              '<div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem; flex-wrap: wrap;">' +
+                '<span style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:10px; background:rgba(245,158,11,0.18); border:1px solid rgba(245,158,11,0.45); color:#fbbf24; flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>' +
                 '<h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">EEC - Equipe de Especialistas em Currículo</h2>' +
-                '<span style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">PORTAL PEDAGÓGICO INTEGRADO</span>' +
-                '<span style="background: #dcfce7; color: #166534; border: 1.5px solid #22c55e; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">🌐 LINKS PÚBLICOS OFICIAIS</span>' +
+                '<span style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; font-size: 0.74rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">PORTAL PEDAGÓGICO INTEGRADO</span>' +
+                '<span style="background: #dcfce7; color: #166534; border: 1.5px solid #22c55e; font-size: 0.74rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; display:inline-flex; align-items:center; gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> LINKS PÚBLICOS OFICIAIS</span>' +
               '</div>' +
               '<p style="font-size: 0.86rem; color: #e0e7ff; margin: 0; max-width: 860px; line-height: 1.45; font-weight: 500;">' +
                 'Acesso unificado aos sistemas, plataformas e ferramentas pedagógicas oficiais da Equipe de Especialistas em Currículo (EEC) da Unidade Regional de Ensino de Itapevi.' +
               '</p>' +
-              '<div style="margin-top: 0.35rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">' +
-                '<span>🕒 <strong>Dados de:</strong> <span id="eec-banner-timestamp" style="color: #ffffff;">' + (new Date().toLocaleDateString('pt-BR') + ', 08:00:00') + '</span></span>' +
+              '<div style="margin-top: 0.4rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600; display:flex; align-items:center; gap:5px;">' +
+                '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+                '<span><strong>Dados de:</strong> <span id="eec-banner-timestamp" style="color: #ffffff;">' + (new Date().toLocaleDateString('pt-BR') + ', 08:00:00') + '</span></span>' +
               '</div>' +
             '</div>' +
 
             '<div style="display: flex; gap: 0.6rem; align-items: center; flex-shrink: 0; white-space: nowrap;">' +
-              '<a href="' + EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 11px 20px; border-radius: 9px; font-size: 0.88rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4); transition: transform 0.15s, opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'; this.style.transform=\'scale(1.02)\'" onmouseout="this.style.opacity=\'1\'; this.style.transform=\'scale(1)\'">' +
-                '🚀 Acessar Portal Central EEC ↗' +
+              '<a href="' + EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 11px 20px; border-radius: 9px; font-size: 0.88rem; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4); transition: transform 0.15s, opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'; this.style.transform=\'scale(1.02)\'" onmouseout="this.style.opacity=\'1\'; this.style.transform=\'scale(1)\'">' +
+                '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>' +
+                '<span>Acessar Portal Central EEC</span>' +
               '</a>' +
             '</div>' +
           '</div>' +
@@ -30278,7 +30280,8 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
             '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">' +
               '<div>' +
                 '<h3 style="font-size: 1.15rem; font-weight: 800; color: #0b2351; margin: 0; display: flex; align-items: center; gap: 0.5rem;">' +
-                  '<span>📚</span> Central de Aplicativos Pedagógicos • EEC' +
+                  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0b2351" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>' +
+                  '<span>Central de Aplicativos Pedagógicos • EEC</span>' +
                 '</h3>' +
                 '<p style="font-size: 0.8rem; color: #64748b; margin: 0.2rem 0 0 0;">' +
                   'Acesse qualquer uma das ferramentas oficiais abaixo com 1 clique (links 100% públicos, sem necessidade de login):' +
@@ -37780,26 +37783,36 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       var q = String(termo || '').toLowerCase().trim();
       var grupos = [];
 
+      var svgPlus = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>';
+      var svgCar = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>';
+      var svgSync = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>';
+      var svgHome = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>';
+      var svgCal = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>';
+      var svgCheck = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+      var svgSchool = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2"/><path d="M18 5v17"/><path d="m4 6 8-4 8 4"/><path d="M6 5v17"/></svg>';
+      var svgMap = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg>';
+      var svgSector = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>';
+
       var acoesRapidas = [
-        { grupo: 'Ações Rápidas', icone: '➕', titulo: 'Novo Compromisso na Agenda', sub: 'Agendar reunião, despacho ou visita na rotina da Dirigente', tag: 'Ação', fn: function() { fecharCommandPalette(); if (typeof abrirModalNovoCompromisso === 'function') abrirModalNovoCompromisso(); } },
-        { grupo: 'Ações Rápidas', icone: '🚗', titulo: 'Solicitar Carro Oficial', sub: 'Abrir formulário de reserva de veículo oficial', tag: 'Ação', fn: function() { fecharCommandPalette(); if (typeof abrirModalNovaSolicitacaoCarro === 'function') abrirModalNovaSolicitacaoCarro(); } },
-        { grupo: 'Ações Rápidas', icone: '🔄', titulo: 'Sincronizar Todas as Bases', sub: 'Atualizar todos os 12 setores e SharePoint em tempo real', tag: 'Sistema', fn: function() { fecharCommandPalette(); if (typeof sincronizarTudoGlobalmente === 'function') sincronizarTudoGlobalmente(); } }
+        { grupo: 'Ações Rápidas', icone: svgPlus, titulo: 'Novo Compromisso na Agenda', sub: 'Agendar reunião, despacho ou visita na rotina da Dirigente', tag: 'Ação', fn: function() { fecharCommandPalette(); if (typeof abrirModalNovoCompromisso === 'function') abrirModalNovoCompromisso(); } },
+        { grupo: 'Ações Rápidas', icone: svgCar, titulo: 'Solicitar Carro Oficial', sub: 'Abrir formulário de reserva de veículo oficial', tag: 'Ação', fn: function() { fecharCommandPalette(); if (typeof abrirModalNovaSolicitacaoCarro === 'function') abrirModalNovaSolicitacaoCarro(); } },
+        { grupo: 'Ações Rápidas', icone: svgSync, titulo: 'Sincronizar Todas as Bases', sub: 'Atualizar todos os 12 setores e SharePoint em tempo real', tag: 'Sistema', fn: function() { fecharCommandPalette(); if (typeof sincronizarTudoGlobalmente === 'function') sincronizarTudoGlobalmente(); } }
       ];
 
       var modulos = [
-        { grupo: 'Navegação & Setores', icone: '🏠', titulo: 'Início — Resumo Executivo', sub: 'Painel geral da URE Itapevi e telemetria', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof mostrarHome === 'function') mostrarHome(); } },
-        { grupo: 'Navegação & Setores', icone: '📅', titulo: 'Agenda & Rotina da Dirigente', sub: 'Calendário mensal, linha do tempo 07h–17h e pauta', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirAgenda === 'function') abrirAgenda(); } },
-        { grupo: 'Navegação & Setores', icone: '🚗', titulo: 'Carro Oficial — Frota & Logística', sub: 'Spin TLH 1B63, HB20 FZG 0H22 e Modelo 30', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirCarroOficial === 'function') abrirCarroOficial(); } },
-        { grupo: 'Navegação & Setores', icone: '✔️', titulo: 'Visitas Escolares', sub: 'Acompanhamento de visitas realizadas e pendentes', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirVisitas === 'function') abrirVisitas(); } },
-        { grupo: 'Navegação & Setores', icone: '🏫', titulo: 'Escolas — Rede Estadual', sub: 'Panorama das unidades escolares da URE Itapevi', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirEscolas === 'function') abrirEscolas(); } },
-        { grupo: 'Navegação & Setores', icone: '🗺️', titulo: 'Mapa da Rede & Rotas', sub: 'Visualização geográfica das escolas e deslocamentos', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirMapaRede === 'function') abrirMapaRede(); } },
-        { grupo: 'Navegação & Setores', icone: '🏛️', titulo: 'ASURE — Assessoria e Gabinete', sub: 'Assessoria Técnica da Unidade Regional de Ensino', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('ASURE'); } },
-        { grupo: 'Navegação & Setores', icone: '💻', titulo: 'SEINTEC — Seção de Tecnologia', sub: 'Inventário, parque tecnológico e chamados', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirSeintec === 'function') abrirSeintec(); } },
-        { grupo: 'Navegação & Setores', icone: '💼', titulo: 'SEAFIN — Administração e Finanças', sub: 'Orçamento, contratos SECOMSE e finanças', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('SEAFIN'); } },
-        { grupo: 'Navegação & Setores', icone: '🏗️', titulo: 'SEOM — Obras & Manutenção', sub: 'Manutenção predial, obras e fiscalização', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('SEOM'); } },
-        { grupo: 'Navegação & Setores', icone: '📋', titulo: 'SEGRE — Gestão da Rede Escolar', sub: 'Vida escolar (SEVESC), matrícula (SEMAT) e demandas', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('SEGRE'); } },
-        { grupo: 'Navegação & Setores', icone: '👥', titulo: 'SEPES — Serviço de Pessoas', sub: 'Aposentadorias, designações e abono de permanência', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('SEPES'); } },
-        { grupo: 'Navegação & Setores', icone: '📚', titulo: 'EEC — Currículo e Formação', sub: 'Portal pedagógico, avaliações e formação docente', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('EEC'); } }
+        { grupo: 'Navegação & Setores', icone: svgHome, titulo: 'Início — Resumo Executivo', sub: 'Painel geral da URE Itapevi e telemetria', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof mostrarHome === 'function') mostrarHome(); } },
+        { grupo: 'Navegação & Setores', icone: svgCal, titulo: 'Agenda & Rotina da Dirigente', sub: 'Calendário mensal, linha do tempo 07h–17h e pauta', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirAgenda === 'function') abrirAgenda(); } },
+        { grupo: 'Navegação & Setores', icone: svgCar, titulo: 'Carro Oficial — Frota & Logística', sub: 'Spin TLH 1B63, HB20 FZG 0H22 e Modelo 30', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirCarroOficial === 'function') abrirCarroOficial(); } },
+        { grupo: 'Navegação & Setores', icone: svgCheck, titulo: 'Visitas Escolares', sub: 'Acompanhamento de visitas realizadas e pendentes', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirVisitas === 'function') abrirVisitas(); } },
+        { grupo: 'Navegação & Setores', icone: svgSchool, titulo: 'Escolas — Rede Estadual', sub: 'Panorama das unidades escolares da URE Itapevi', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirEscolas === 'function') abrirEscolas(); } },
+        { grupo: 'Navegação & Setores', icone: svgMap, titulo: 'Mapa da Rede & Rotas', sub: 'Visualização geográfica das escolas e deslocamentos', tag: 'Módulo', fn: function() { fecharCommandPalette(); if (typeof abrirMapaRede === 'function') abrirMapaRede(); } },
+        { grupo: 'Navegação & Setores', icone: svgSector, titulo: 'ASURE — Assessoria e Gabinete', sub: 'Assessoria Técnica da Unidade Regional de Ensino', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('ASURE'); } },
+        { grupo: 'Navegação & Setores', icone: svgSector, titulo: 'SEINTEC — Seção de Tecnologia', sub: 'Inventário, parque tecnológico e chamados', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirSeintec === 'function') abrirSeintec(); } },
+        { grupo: 'Navegação & Setores', icone: svgSector, titulo: 'SEAFIN — Administração e Finanças', sub: 'Orçamento, contratos SECOMSE e finanças', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('SEAFIN'); } },
+        { grupo: 'Navegação & Setores', icone: svgSector, titulo: 'SEOM — Obras & Manutenção', sub: 'Manutenção predial, obras e fiscalização', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('SEOM'); } },
+        { grupo: 'Navegação & Setores', icone: svgSector, titulo: 'SEGRE — Gestão da Rede Escolar', sub: 'Vida escolar (SEVESC), matrícula (SEMAT) e demandas', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('SEGRE'); } },
+        { grupo: 'Navegação & Setores', icone: svgSector, titulo: 'SEPES — Serviço de Pessoas', sub: 'Aposentadorias, designações e abono de permanência', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('SEPES'); } },
+        { grupo: 'Navegação & Setores', icone: svgSector, titulo: 'EEC — Currículo e Formação', sub: 'Portal pedagógico, avaliações e formação docente', tag: 'Centro', fn: function() { fecharCommandPalette(); if (typeof abrirCentro === 'function') abrirCentro('EEC'); } }
       ];
 
       var listaFinal = [];
