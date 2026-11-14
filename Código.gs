@@ -2029,36 +2029,51 @@ function doPost(e) {
 }
 
 /**
- * Salva estado de módulo exclusivamente na nuvem (PropertiesService com fragmentação automática).
- * Garante persistência multi-dispositivos com ZERO localStorage e ZERO cookies.
+ * Salva estado de módulo exclusivamente na nuvem (Google Drive: BI_DIRIGENTE/Cache_Nuvem/estado_<chave>.json).
+ * Sem limite de 500 KB do PropertiesService; garante persistência multi-dispositivos por décadas.
  */
 function salvarEstadoNuvem(chave, dadosOuJson) {
   var chaveLimpa = String(chave || '').replace(/[^A-Za-z0-9_]/g, '').toUpperCase();
   if (!chaveLimpa) return { sucesso: false, erro: 'Chave inválida' };
   try {
-    var props = PropertiesService.getScriptProperties();
     var jsonStr = (typeof dadosOuJson === 'string') ? dadosOuJson : JSON.stringify(dadosOuJson);
-    var prefixo = 'BI_CLOUD_' + chaveLimpa + '_';
-    var oldCount = parseInt(props.getProperty(prefixo + 'CHUNKS') || '0', 10) || 0;
-    var chunkSize = 7500;
-    var chunks = [];
-    for (var i = 0; i < jsonStr.length; i += chunkSize) {
-      chunks.push(jsonStr.slice(i, i + chunkSize));
+    var pasta = obterOuCriarPastaCacheBI_();
+    var nomeArquivo = 'estado_' + chaveLimpa.toLowerCase() + '.json';
+    var payload = JSON.stringify({
+      chave: chaveLimpa,
+      atualizadoEm: new Date().toISOString(),
+      atualizadoBr: Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM/yyyy HH:mm:ss'),
+      dados: JSON.parse(jsonStr)
+    });
+
+    var files = pasta.getFilesByName(nomeArquivo);
+    if (files.hasNext()) {
+      var file = files.next();
+      file.setContent(payload);
+      while (files.hasNext()) {
+        files.next().setTrashed(true);
+      }
+    } else {
+      pasta.createFile(nomeArquivo, payload, MimeType.PLAIN_TEXT);
     }
-    if (chunks.length === 0) chunks.push('');
-    var toSet = {};
-    toSet[prefixo + 'CHUNKS'] = String(chunks.length);
-    for (var j = 0; j < chunks.length; j++) {
-      toSet[prefixo + j] = chunks[j];
-    }
-    props.setProperties(toSet, false);
-    for (var k = chunks.length; k < oldCount; k++) {
-      props.deleteProperty(prefixo + k);
-    }
+
+    try {
+      var props = PropertiesService.getScriptProperties();
+      var prefixo = 'BI_CLOUD_' + chaveLimpa + '_';
+      var oldCount = parseInt(props.getProperty(prefixo + 'CHUNKS') || '0', 10) || 0;
+      if (oldCount > 0) {
+        props.deleteProperty(prefixo + 'CHUNKS');
+        for (var k = 0; k < oldCount; k++) {
+          props.deleteProperty(prefixo + k);
+        }
+      }
+    } catch (eClean) {}
+
     return {
       sucesso: true,
       chave: chaveLimpa,
-      chunks: chunks.length,
+      armazenamento: 'GoogleDrive',
+      arquivo: nomeArquivo,
       timestamp: Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'HH:mm')
     };
   } catch (err) {
@@ -2067,12 +2082,29 @@ function salvarEstadoNuvem(chave, dadosOuJson) {
 }
 
 /**
- * Lê estado de módulo salvo exclusivamente na nuvem (PropertiesService).
+ * Lê estado de módulo salvo exclusivamente na nuvem (Google Drive: BI_DIRIGENTE/Cache_Nuvem),
+ * com migração automática transparente caso exista dado legado no PropertiesService.
  */
 function obterEstadoNuvem(chave) {
   var chaveLimpa = String(chave || '').replace(/[^A-Za-z0-9_]/g, '').toUpperCase();
   if (!chaveLimpa) return { sucesso: false, erro: 'Chave inválida' };
   try {
+    var pasta = obterOuCriarPastaCacheBI_();
+    var nomeArquivo = 'estado_' + chaveLimpa.toLowerCase() + '.json';
+    var files = pasta.getFilesByName(nomeArquivo);
+    if (files.hasNext()) {
+      var content = files.next().getBlob().getDataAsString('UTF-8');
+      if (content) {
+        var parsed = JSON.parse(content);
+        return {
+          sucesso: true,
+          chave: chaveLimpa,
+          armazenamento: 'GoogleDrive',
+          dados: (parsed && parsed.dados !== undefined) ? parsed.dados : parsed
+        };
+      }
+    }
+
     var props = PropertiesService.getScriptProperties();
     var prefixo = 'BI_CLOUD_' + chaveLimpa + '_';
     var count = parseInt(props.getProperty(prefixo + 'CHUNKS') || '0', 10) || 0;
@@ -2085,7 +2117,9 @@ function obterEstadoNuvem(chave) {
     }
     var fullJson = parts.join('');
     if (!fullJson) return { sucesso: true, chave: chaveLimpa, dados: null };
-    return { sucesso: true, chave: chaveLimpa, dados: JSON.parse(fullJson) };
+    var legado = JSON.parse(fullJson);
+    salvarEstadoNuvem(chaveLimpa, legado);
+    return { sucesso: true, chave: chaveLimpa, migradoParaDrive: true, dados: legado };
   } catch (err) {
     return { sucesso: false, erro: err.toString(), dados: null };
   }
