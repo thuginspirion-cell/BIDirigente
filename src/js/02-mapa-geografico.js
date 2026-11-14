@@ -1678,13 +1678,49 @@
       const prioridade = (document.getElementById('form-agenda-prioridade') ? document.getElementById('form-agenda-prioridade').value : '') || 'Normal';
       const descricao = document.getElementById('form-agenda-desc').value.trim();
 
-      if (!titulo || !data || !horaInicio || !horaFim) {
-        alert('Por favor, preencha todos os campos obrigatórios (*)');
+      const faltantes = [];
+      if (!titulo) faltantes.push('Título do Compromisso');
+      if (!data) faltantes.push('Data');
+      if (!horaInicio) faltantes.push('Horário de Início');
+      if (!horaFim) faltantes.push('Horário de Término');
+
+      if (faltantes.length > 0) {
+        if (typeof abrirModalAvisoCarroUX === 'function') {
+          abrirModalAvisoCarroUX({
+            tipo: 'perigo',
+            icone: '🚫',
+            subtitulo: 'VALIDAÇÃO DE FORMULÁRIO • AGENDA',
+            titulo: 'Ação Não Permitida',
+            mensagemHtml: '<div style="display:flex; flex-direction:column; gap:0.65rem;">' +
+              '<p style="margin:0; font-size:0.94rem; color:#1e293b; font-weight:600;">Não é possível salvar o compromisso antes de preencher todos os campos obrigatórios (*).</p>' +
+              '<div style="background:#fef2f2; border:1px solid #fecaca; border-left:4px solid #ef4444; border-radius:8px; padding:0.75rem 0.9rem; font-size:0.84rem; color:#991b1b;">' +
+              '<strong>Pendente(s):</strong> ' + faltantes.join(', ') +
+              '</div>' +
+              '</div>',
+            textoFechar: 'Entendi, corrigir'
+          });
+        } else {
+          alert('Ação não permitida antes de preencher os campos obrigatórios (*): ' + faltantes.join(', '));
+        }
+        if (!titulo && document.getElementById('form-agenda-titulo')) {
+          document.getElementById('form-agenda-titulo').focus();
+        }
         return;
       }
 
       if (horaFim <= horaInicio) {
-        alert('O horário de término deve ser posterior ao horário de início!');
+        if (typeof abrirModalAvisoCarroUX === 'function') {
+          abrirModalAvisoCarroUX({
+            tipo: 'aviso',
+            icone: '⏰',
+            subtitulo: 'VALIDAÇÃO DE HORÁRIO • AGENDA',
+            titulo: 'Horário Inválido',
+            mensagemHtml: '<p style="margin:0; font-size:0.94rem; color:#1e293b; font-weight:600;">Ação não permitida: o <strong>Horário de Término</strong> deve ser posterior ao <strong>Horário de Início</strong>.</p>',
+            textoFechar: 'Ajustar Horário'
+          });
+        } else {
+          alert('O horário de término deve ser posterior ao horário de início!');
+        }
         return;
       }
 
