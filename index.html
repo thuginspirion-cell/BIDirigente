@@ -25636,8 +25636,8 @@ function _obterResumoIpreEscolaInterno(esc) {
         DADOS_SEMAT.kpis.mesesAtendimentos = contagemPorMesAten;
         DADOS_SEMAT.kpis.mesesMatriculas = contagemPorMesMat;
         if (DADOS_SEMAT.meta) {
-          DADOS_SEMAT.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
-          DADOS_SEMAT.meta.origemSync = 'SharePoint Ao Vivo (Seletivo Range 206)';
+          DADOS_SEMAT.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ', ' + new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+          DADOS_SEMAT.meta.origemSync = 'SharePoint Ao Vivo (Download Direto)';
         }
 
         renderizarDashboardSemat();
@@ -25651,7 +25651,7 @@ function _obterResumoIpreEscolaInterno(esc) {
             tag: 'SEMAT AO VIVO • SHAREPOINT',
             titulo: 'Planilha SEMAT Atualizada em Tempo Real!',
             mensagem: '<strong>' + atendimentos.length.toLocaleString('pt-BR') + ' atendimentos</strong> e <strong>' + matriculas.length.toLocaleString('pt-BR') + ' matrículas</strong> baixados diretamente do SharePoint agora.',
-            detalhes: 'SharePoint Ao Vivo (Extração Seletiva Range 206) às ' + new Date().toLocaleTimeString('pt-BR'),
+            detalhes: 'SharePoint Ao Vivo às ' + new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
             duracao: 4500
           });
         }
@@ -25667,8 +25667,8 @@ function _obterResumoIpreEscolaInterno(esc) {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
           tag: 'SEMAT • SHAREPOINT AO VIVO',
-          titulo: 'Baixando Abas Ativas do SEMAT...',
-          mensagem: 'Conectando ao SharePoint em tempo real (extração cirúrgica HTTP 206 Range das 5 abas ativas)...',
+          titulo: 'Sincronizando Base do SEMAT...',
+          mensagem: 'Conectando ao SharePoint em tempo real para baixar a planilha oficial...',
           detalhes: 'Conexão Direta Ao Vivo • Sem Login',
           duracao: 0
         });
@@ -27269,8 +27269,8 @@ function _obterResumoIpreEscolaInterno(esc) {
         if (emailsLidos.length > 0) DADOS_SEGRE.kpis.totalEmails = emailsLidos.length;
 
         if (DADOS_SEGRE.meta) {
-          DADOS_SEGRE.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
-          DADOS_SEGRE.meta.origemSync = 'SharePoint Ao Vivo (Seletivo Range 206)';
+          DADOS_SEGRE.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ', ' + new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+          DADOS_SEGRE.meta.origemSync = 'SharePoint Ao Vivo (Download Direto)';
         }
 
         renderizarDashboardSegre();
@@ -27291,7 +27291,7 @@ function _obterResumoIpreEscolaInterno(esc) {
             tag: 'SEGRE AO VIVO • SHAREPOINT',
             titulo: 'Planilha SEGRE Atualizada em Tempo Real!',
             mensagem: '<strong>' + processosSei.length.toLocaleString('pt-BR') + ' processos SEI</strong>, <strong>' + DADOS_SEGRE.kpis.totalVagas + ' atendimentos de vagas</strong>, <strong>' + (DADOS_SEGRE.kpis.totalOuvidoria || 0) + ' ouvidorias</strong> e <strong>' + (DADOS_SEGRE.kpis.totalEmails || 0).toLocaleString('pt-BR') + ' e-mails</strong> baixados diretamente do SharePoint agora.',
-            detalhes: 'SharePoint Ao Vivo (Extração Seletiva Range 206) às ' + new Date().toLocaleTimeString('pt-BR'),
+            detalhes: 'SharePoint Ao Vivo às ' + new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
             duracao: 4500
           });
         }
@@ -27307,8 +27307,8 @@ function _obterResumoIpreEscolaInterno(esc) {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
           tag: 'SEGRE • SHAREPOINT AO VIVO',
-          titulo: 'Baixando Abas Ativas do SEGRE...',
-          mensagem: 'Conectando ao SharePoint em tempo real (extração cirúrgica HTTP 206 Range das 5 abas ativas)...',
+          titulo: 'Sincronizando Base do SEGRE...',
+          mensagem: 'Conectando ao SharePoint em tempo real para baixar a planilha oficial...',
           detalhes: 'Conexão Direta Ao Vivo • Sem Login',
           duracao: 0
         });
