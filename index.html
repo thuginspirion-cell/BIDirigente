@@ -20,15 +20,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <!-- SheetJS para Leitura e Exportação Excel (.xlsx, .xls, .csv) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <!-- html2pdf.js para Geração Direta de Arquivos PDF Executivos -->
-  <script defer src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
   <!-- qrcode-generator para Chancelaria e QR Code Vetorial em Relatórios Executivos -->
-  <script defer src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 
   <!-- Leaflet.js para Mapa Geográfico da Rede Escolar com Integração Google Maps -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     :root {
       /* ============================================================== */
@@ -8105,7 +8105,6 @@
 
       <div class="boot-sync-footer">
         <span id="boot-sync-counter-text">🔒 Aguardando conclusão real de todas as bases...</span>
-        <button type="button" class="boot-sync-skip-btn" onclick="if(typeof fecharBootModalComSuavidade==='function')fecharBootModalComSuavidade();" title="Continuar sincronizando em segundo plano">Acessar Painel →</button>
       </div>
     </div>
   </div>
@@ -21253,19 +21252,19 @@ function _obterResumoIpreEscolaInterno(esc) {
         setCtx('kpi-ctx-avcb', avcbTot + ' pendentes • ' + (60 - avcbTot) + ' regulares • 18 alertas', avcbTot > 20 ? 'ctx-warn' : 'ctx-ok');
 
         /* SEINTEC */
-        const hwTot = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware) ? window.INVENTARIO_COMPLETO_TUPLES.hardware.length : 15973;
+        const hwTot = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware && window.INVENTARIO_COMPLETO_TUPLES.hardware.length > 0) ? window.INVENTARIO_COMPLETO_TUPLES.hardware.length : 15973;
         if (kpiHw) kpiHw.textContent = hwTot.toLocaleString('pt-BR');
         if (lblHw) lblHw.textContent = 'Parque de Equipamentos';
         setCtx('kpi-ctx-hardware', '76,4% disponíveis • 3.768 em reparo/baixa');
 
-        const callsTotHome = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros))
+        const callsTotHome = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && Array.isArray(SEINTEC_BASES_CONFIG['Atendimentos'].registros) && SEINTEC_BASES_CONFIG['Atendimentos'].registros.length > 0)
           ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length : 1432;
         if (kpiCallsHome) kpiCallsHome.textContent = callsTotHome.toLocaleString('pt-BR');
         if (lblCallsHome) lblCallsHome.textContent = 'Chamados & Nível de Serviço';
         setCtx('kpi-ctx-chamados', '22 em aberto • SLA 98,5% concluído');
 
         /* SEAFIN */
-        const sefinK = (typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN.kpisPorAno && DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026'])
+        const sefinK = (typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN.kpisPorAno && DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026'] && DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026'].totalReceita > 0)
           ? DADOS_FINANCEIROS_SEFIN.kpisPorAno['2026']
           : { totalReceita: 10365829.83, totalDespesa: 5401990.45, taxaExecucao: 52.1, totalRepasses: 204 };
         const recFmt = typeof formatarMoedaAbreviada === 'function' ? formatarMoedaAbreviada(sefinK.totalReceita) : ('R$ ' + (sefinK.totalReceita / 1e6).toFixed(1).replace('.', ',') + 'M');
@@ -21280,23 +21279,23 @@ function _obterResumoIpreEscolaInterno(esc) {
         setCtx('kpi-ctx-execucao', 'R$ 5,4M gastos • 5 contratos a vencer (≤60d)');
 
         /* SEGRE */
-        const sematTot = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis) ? DADOS_SEMAT.kpis.totalAtendimentos : 2898;
+        const sematTot = (typeof DADOS_SEMAT !== 'undefined' && DADOS_SEMAT && DADOS_SEMAT.kpis && DADOS_SEMAT.kpis.totalAtendimentos > 0) ? DADOS_SEMAT.kpis.totalAtendimentos : 2898;
         if (kpiMatriculasHome) kpiMatriculasHome.textContent = sematTot.toLocaleString('pt-BR');
         if (lblMatriculasHome) lblMatriculasHome.textContent = 'Demanda & Matrícula (SEMAT)';
         setCtx('kpi-ctx-matriculas', '2.331 manuais • 4.062 transferências');
 
-        const segreEmails = (typeof DADOS_SEGRE !== 'undefined' && DADOS_SEGRE.kpis && DADOS_SEGRE.kpis.totalEmails) ? DADOS_SEGRE.kpis.totalEmails : 162;
+        const segreEmails = (typeof DADOS_SEGRE !== 'undefined' && DADOS_SEGRE.kpis && DADOS_SEGRE.kpis.totalEmails > 0) ? DADOS_SEGRE.kpis.totalEmails : 162;
         if (kpiEmailsHome) kpiEmailsHome.textContent = segreEmails.toLocaleString('pt-BR');
         if (lblEmailsHome) lblEmailsHome.textContent = 'Processos SEI Abertos';
         setCtx('kpi-ctx-emails', '101 ativos >30 dias • 9.025 demandas');
 
         /* SEPES */
-        const sefrepDevsGlobal = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis) ? DADOS_SEFREP.kpis.totalDevolucoes : 333;
+        const sefrepDevsGlobal = (typeof DADOS_SEFREP !== 'undefined' && DADOS_SEFREP && DADOS_SEFREP.kpis && DADOS_SEFREP.kpis.totalDevolucoes > 0) ? DADOS_SEFREP.kpis.totalDevolucoes : 333;
         if (kpiRep) kpiRep.textContent = sefrepDevsGlobal.toLocaleString('pt-BR');
         if (lblRep) lblRep.textContent = 'Folha de Pagamento (SEFREP)';
         setCtx('kpi-ctx-repasses', 'Taxa de devolução: 24,1% (333 dev.)', 'ctx-warn');
 
-        const seapeProc = (typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES && DADOS_SEPES.kpis) ? DADOS_SEPES.kpis.totalEmTramitacao : 72;
+        const seapeProc = (typeof DADOS_SEPES !== 'undefined' && DADOS_SEPES && DADOS_SEPES.kpis && DADOS_SEPES.kpis.totalEmTramitacao > 0) ? DADOS_SEPES.kpis.totalEmTramitacao : 72;
         if (kpiSeapeHome) kpiSeapeHome.textContent = seapeProc.toLocaleString('pt-BR');
         if (lblSeapeHome) lblSeapeHome.textContent = 'Vida Funcional & Benefícios';
         setCtx('kpi-ctx-seape', 'Aposentadorias, Designações e Abonos');
@@ -22296,17 +22295,6 @@ function _obterResumoIpreEscolaInterno(esc) {
     /* ========================================================================= */
     function consultarSharepointGasLive(opts) {
       var o = opts || {};
-      var bootTrackId = (window.__bootSyncTracker && window.__bootSyncTracker.ativo)
-        ? ('gas_' + String(o.action || o.fnGas || 'req') + '_' + Math.floor(Math.random() * 100000))
-        : null;
-      if (bootTrackId && typeof window.registrarTarefaBootSync === 'function') {
-        window.registrarTarefaBootSync(bootTrackId, String(o.action || o.fnGas || 'Base'));
-      }
-      var finalizarTrackBoot = function() {
-        if (bootTrackId && typeof window.concluirTarefaBootSync === 'function') {
-          setTimeout(function() { window.concluirTarefaBootSync(bootTrackId); }, 180);
-        }
-      };
       return new Promise(function(resolve, reject) {
         var timeoutMs = o.timeoutMs || 35000;
         var fnGas = o.fnGas;
@@ -22315,8 +22303,8 @@ function _obterResumoIpreEscolaInterno(esc) {
         if (window.__syncSilenciosoAtivo === true && extra.indexOf('cache=') === -1 && extra.indexOf('bruto=true') === -1) {
           extra += '&cache=1';
         }
-        var resolveTracked = function(res) { resolve(res); finalizarTrackBoot(); };
-        var rejectTracked = function(err) { reject(err); finalizarTrackBoot(); };
+        var resolveTracked = function(res) { resolve(res); };
+        var rejectTracked = function(err) { reject(err); };
 
         function rodarTier2Jsonp() {
           try {
@@ -22351,23 +22339,6 @@ function _obterResumoIpreEscolaInterno(esc) {
           }
         }
 
-        var mapaSetorCache = {
-          sincronizarSharepoint: 'seintec',
-          sincronizarCalls: 'seintec',
-          sincronizarInventario: 'inventario',
-          sincronizarSefin: 'sefin',
-          sincronizarSegre: 'segre',
-          sincronizarSemat: 'semat',
-          sincronizarSevesc: 'sevesc',
-          sincronizarSepes: 'sepes',
-          sincronizarSefrep: 'sefrep',
-          sincronizarSecomse: 'secomse',
-          sincronizarDpat: 'dpat',
-          sincronizarSeom: 'seom',
-          sincronizarSefisc: 'sefisc'
-        };
-        var setorCacheKey = mapaSetorCache[String(o.action || '')] || '';
-
         if (typeof google !== 'undefined' && google.script && google.script.run) {
           var emModoSilencioso = (window.__syncSilenciosoAtivo === true && extra.indexOf('bruto=true') === -1);
           var invocarRpcGas = function() {
@@ -22400,18 +22371,6 @@ function _obterResumoIpreEscolaInterno(esc) {
             }
             rodarTier2Jsonp();
           };
-
-          if (emModoSilencioso && setorCacheKey && typeof window.__iniciarBootstrapGas === 'function') {
-            window.__iniciarBootstrapGas().then(function(boot) {
-              var cached = boot && boot.caches && boot.caches[setorCacheKey];
-              if (cached && cached.sucesso) {
-                resolveTracked(cached);
-                return;
-              }
-              invocarRpcGas();
-            });
-            return;
-          }
           invocarRpcGas();
           return;
         }
@@ -22521,6 +22480,9 @@ function _obterResumoIpreEscolaInterno(esc) {
 
     function sincronizarDashboardSefin(silencioso) {
       const isSil = (silencioso === true);
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_sefin', 'SEFIN • Prestação de Contas PDDE');
+      }
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -22541,8 +22503,8 @@ function _obterResumoIpreEscolaInterno(esc) {
         }
         renderizarDashboardFinanceiroSefin();
         if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
-        if (typeof window.gravarEstadoNuvem === 'function' && typeof DADOS_FINANCEIROS_SEFIN !== 'undefined' && DADOS_FINANCEIROS_SEFIN) {
-          window.gravarEstadoNuvem('SEFIN_DATA', DADOS_FINANCEIROS_SEFIN);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_sefin');
         }
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -23307,6 +23269,9 @@ function _obterResumoIpreEscolaInterno(esc) {
 
     function sincronizarDashboardSecomse(silencioso) {
       const isSil = (silencioso === true);
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_secomse', 'SECOMSE • Controle de Contratos');
+      }
       const btnSync = document.getElementById('btn-secomse-sync-base');
       if (btnSync && !isSil) {
         btnSync.disabled = true;
@@ -23335,8 +23300,8 @@ function _obterResumoIpreEscolaInterno(esc) {
           DADOS_SECOMSE.meta.atualizadoFormatado = tsSecomseBr;
         }
         renderizarDashboardSecomse();
-        if (typeof window.gravarEstadoNuvem === 'function' && typeof DADOS_SECOMSE !== 'undefined' && DADOS_SECOMSE) {
-          window.gravarEstadoNuvem('SECOMSE_DATA', DADOS_SECOMSE);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_secomse');
         }
 
         if (btnSync) {
@@ -23967,6 +23932,9 @@ function _obterResumoIpreEscolaInterno(esc) {
 
     function sincronizarDashboardDpat(isManual) {
       var manual = (isManual === true || (typeof isManual === 'undefined'));
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_dpat', 'DPAT • Inventário Físico');
+      }
       var btn = document.getElementById('btn-sync-dpat');
       if (btn && manual) {
         btn.disabled = true;
@@ -23991,6 +23959,9 @@ function _obterResumoIpreEscolaInterno(esc) {
         }
         var agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         renderizarDashboardDpat();
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_dpat');
+        }
         if (manual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: veioLive ? 'success' : 'info',
@@ -24709,6 +24680,9 @@ function _obterResumoIpreEscolaInterno(esc) {
 
     function sincronizarDashboardSeom(isManual) {
       var manual = (isManual === true || (typeof isManual === 'undefined'));
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_seom', 'SEOM • Obras e Infraestrutura');
+      }
       var btn = document.getElementById('btn-sync-seom');
       if (btn && manual) {
         btn.disabled = true;
@@ -24741,6 +24715,9 @@ function _obterResumoIpreEscolaInterno(esc) {
           atualizarTabelaMapaSeom();
         }
         if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_seom');
+        }
         var agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         if (manual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -24781,9 +24758,6 @@ function _obterResumoIpreEscolaInterno(esc) {
               DADOS_SEOM = parsed;
               if (document.getElementById('tabela-seom-tbody')) renderizarDashboardSeom();
               concluirSucesso('SharePoint Live (Aba MAPA)', true);
-              if (typeof window.gravarEstadoNuvem === 'function' && typeof DADOS_SEOM !== 'undefined' && DADOS_SEOM) {
-                window.gravarEstadoNuvem('SEOM_DATA', DADOS_SEOM);
-              }
             } else {
               buscarMirrorSeom();
             }
@@ -24937,6 +24911,9 @@ function _obterResumoIpreEscolaInterno(esc) {
 
     function sincronizarDashboardSefisc(isManual) {
       var manual = (isManual === true || (typeof isManual === 'undefined'));
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_sefisc', 'SEFISC • Zeladorias Escolares');
+      }
       var btn = document.getElementById('btn-sync-sefisc');
       if (btn && manual) {
         btn.disabled = true;
@@ -24966,6 +24943,9 @@ function _obterResumoIpreEscolaInterno(esc) {
         var container = document.getElementById('setor-conteudo-dinamico');
         if (container && document.getElementById('tabela-sefisc-tbody')) {
           renderizarDashboardSefisc();
+        }
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_sefisc');
         }
         var agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         if (manual && typeof mostrarAlertaSincronizacao === 'function') {
@@ -26014,14 +25994,17 @@ function _obterResumoIpreEscolaInterno(esc) {
     }
 
 
-    function processarPlanilhaSematBase64(base64Data, timestamp, jaPurificado) {
+    function processarPlanilhaSematBase64(base64Data, timestamp, jaPurificado, onFallback) {
       if (typeof XLSX === 'undefined') {
         console.warn('SheetJS (XLSX) não disponível para SEMAT.');
+        if (typeof onFallback === 'function') onFallback();
         return;
       }
       if (!jaPurificado && typeof window.purificarXlsxStreamingSeNecessario === 'function') {
         window.purificarXlsxStreamingSeNecessario(base64Data).then(function(cleanB64) {
-          processarPlanilhaSematBase64(cleanB64, timestamp, true);
+          processarPlanilhaSematBase64(cleanB64, timestamp, true, onFallback);
+        }).catch(function() {
+          if (typeof onFallback === 'function') onFallback();
         });
         return;
       }
@@ -26190,8 +26173,9 @@ function _obterResumoIpreEscolaInterno(esc) {
         }
 
         renderizarDashboardSemat();
-        if (typeof window.gravarEstadoNuvem === 'function') {
-          window.gravarEstadoNuvem('SEMAT_DATA', DADOS_SEMAT);
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_semat');
         }
 
         if (!window.__sematSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
@@ -26206,12 +26190,16 @@ function _obterResumoIpreEscolaInterno(esc) {
         }
       } catch (errXlsx) {
         console.error('Erro ao ler base64 SEMAT com SheetJS:', errXlsx);
+        if (typeof onFallback === 'function') onFallback();
       }
     }
 
     function sincronizarDashboardSemat(silencioso) {
       const isSil = (silencioso === true);
       window.__sematSyncSilencioso = isSil;
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_semat', 'SEMAT • Matrículas e Demanda');
+      }
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -26229,12 +26217,13 @@ function _obterResumoIpreEscolaInterno(esc) {
           if (DADOS_SEMAT.meta) {
             DADOS_SEMAT.meta.origemSync = novos.origem || 'Espelho Automático Nuvem (GitHub)';
           }
-          if (typeof window.gravarEstadoNuvem === 'function') {
-            window.gravarEstadoNuvem('SEMAT_DATA', DADOS_SEMAT);
-          }
         }
         const tsReal = (DADOS_SEMAT.meta && DADOS_SEMAT.meta.atualizadoFormatado) ? DADOS_SEMAT.meta.atualizadoFormatado : 'Data não informada';
         renderizarDashboardSemat();
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_semat');
+        }
 
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           if (falhaRede) {
@@ -26283,7 +26272,7 @@ function _obterResumoIpreEscolaInterno(esc) {
         urlExtraParams: (ehOtimizado ? '' : '&bruto=true')
       }).then(function(res) {
         if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSematBase64 === 'function') {
-          processarPlanilhaSematBase64(res.dadosBase64, res.timestamp);
+          processarPlanilhaSematBase64(res.dadosBase64, res.timestamp, false, buscarMirror);
         } else if (res && res.kpis) {
           aplicarDadosSemat(res, false);
         } else {
@@ -26785,14 +26774,17 @@ function _obterResumoIpreEscolaInterno(esc) {
       renderizarCorpoTabelaSevesc();
     }
 
-    function processarPlanilhaSevescBase64(base64Data, timestamp, jaPurificado) {
+    function processarPlanilhaSevescBase64(base64Data, timestamp, jaPurificado, onFallback) {
       if (typeof XLSX === 'undefined') {
         console.warn('SheetJS (XLSX) não disponível para SEVESC.');
+        if (typeof onFallback === 'function') onFallback();
         return;
       }
       if (!jaPurificado && typeof window.purificarXlsxStreamingSeNecessario === 'function') {
         window.purificarXlsxStreamingSeNecessario(base64Data).then(function(cleanB64) {
-          processarPlanilhaSevescBase64(cleanB64, timestamp, true);
+          processarPlanilhaSevescBase64(cleanB64, timestamp, true, onFallback);
+        }).catch(function() {
+          if (typeof onFallback === 'function') onFallback();
         });
         return;
       }
@@ -26947,8 +26939,8 @@ function _obterResumoIpreEscolaInterno(esc) {
         }
 
         renderizarDashboardSevesc();
-        if (typeof window.gravarEstadoNuvem === 'function') {
-          window.gravarEstadoNuvem('SEVESC_DATA', DADOS_SEVESC);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_sevesc');
         }
 
         if (!window.__sevescSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
@@ -26963,12 +26955,16 @@ function _obterResumoIpreEscolaInterno(esc) {
         }
       } catch (errXlsx) {
         console.error('Erro ao ler base64 SEVESC com SheetJS:', errXlsx);
+        if (typeof onFallback === 'function') onFallback();
       }
     }
 
     function sincronizarDashboardSevesc(silencioso) {
       const isSil = (silencioso === true);
       window.__sevescSyncSilencioso = isSil;
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_sevesc', 'SEVESC • Vida Escolar');
+      }
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -26986,12 +26982,12 @@ function _obterResumoIpreEscolaInterno(esc) {
           if (DADOS_SEVESC.meta) {
             DADOS_SEVESC.meta.origemSync = novos.origem || 'Espelho Automático Nuvem (Fallback)';
           }
-          if (typeof window.gravarEstadoNuvem === 'function') {
-            window.gravarEstadoNuvem('SEVESC_DATA', DADOS_SEVESC);
-          }
         }
         const tsReal = (DADOS_SEVESC.meta && DADOS_SEVESC.meta.atualizadoFormatado) ? DADOS_SEVESC.meta.atualizadoFormatado : 'Data não informada';
         renderizarDashboardSevesc();
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_sevesc');
+        }
 
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           if (falhaRede) {
@@ -27038,7 +27034,7 @@ function _obterResumoIpreEscolaInterno(esc) {
         argsGas: [false]
       }).then(function(res) {
         if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSevescBase64 === 'function') {
-          processarPlanilhaSevescBase64(res.dadosBase64, res.timestamp);
+          processarPlanilhaSevescBase64(res.dadosBase64, res.timestamp, false, buscarMirror);
         } else if (res && res.kpis) {
           aplicarDadosSevesc(res, false);
         } else {
@@ -27638,14 +27634,17 @@ function _obterResumoIpreEscolaInterno(esc) {
       renderizarCorpoTabelaSegre();
     }
 
-    function processarPlanilhaSegreBase64(base64Data, timestamp, jaPurificado) {
+    function processarPlanilhaSegreBase64(base64Data, timestamp, jaPurificado, onFallback) {
       if (typeof XLSX === 'undefined') {
         console.warn('SheetJS (XLSX) não disponível para SEGRE.');
+        if (typeof onFallback === 'function') onFallback();
         return;
       }
       if (!jaPurificado && typeof window.purificarXlsxStreamingSeNecessario === 'function') {
         window.purificarXlsxStreamingSeNecessario(base64Data).then(function(cleanB64) {
-          processarPlanilhaSegreBase64(cleanB64, timestamp, true);
+          processarPlanilhaSegreBase64(cleanB64, timestamp, true, onFallback);
+        }).catch(function() {
+          if (typeof onFallback === 'function') onFallback();
         });
         return;
       }
@@ -27823,15 +27822,9 @@ function _obterResumoIpreEscolaInterno(esc) {
         }
 
         renderizarDashboardSegre();
-        if (typeof window.gravarEstadoNuvem === 'function') {
-          window.gravarEstadoNuvem('SEGRE_DATA', {
-            meta: DADOS_SEGRE.meta,
-            kpis: DADOS_SEGRE.kpis,
-            processosSei: (DADOS_SEGRE.processosSei || []).slice(0, 300),
-            atendimentosVaga: DADOS_SEGRE.atendimentosVaga,
-            ouvidorias: DADOS_SEGRE.ouvidorias,
-            concluintesRecentes: DADOS_SEGRE.concluintesRecentes
-          });
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_segre');
         }
 
         if (!window.__segreSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
@@ -27846,12 +27839,16 @@ function _obterResumoIpreEscolaInterno(esc) {
         }
       } catch (errXlsx) {
         console.error('Erro ao ler base64 SEGRE com SheetJS:', errXlsx);
+        if (typeof onFallback === 'function') onFallback();
       }
     }
 
     function sincronizarDashboardSegre(silencioso) {
       const isSil = (silencioso === true);
       window.__segreSyncSilencioso = isSil;
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_segre', 'SEGRE • Processos SEI e Vagas');
+      }
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -27869,19 +27866,13 @@ function _obterResumoIpreEscolaInterno(esc) {
           if (DADOS_SEGRE.meta) {
             DADOS_SEGRE.meta.origemSync = novos.origem || 'Espelho Automático Nuvem (GitHub)';
           }
-          if (typeof window.gravarEstadoNuvem === 'function') {
-            window.gravarEstadoNuvem('SEGRE_DATA', {
-              meta: DADOS_SEGRE.meta,
-              kpis: DADOS_SEGRE.kpis,
-              processosSei: (DADOS_SEGRE.processosSei || []).slice(0, 300),
-              atendimentosVaga: DADOS_SEGRE.atendimentosVaga,
-              ouvidorias: DADOS_SEGRE.ouvidorias,
-              concluintesRecentes: DADOS_SEGRE.concluintesRecentes
-            });
-          }
         }
         const tsReal = (DADOS_SEGRE.meta && DADOS_SEGRE.meta.atualizadoFormatado) ? DADOS_SEGRE.meta.atualizadoFormatado : 'Data não informada';
         renderizarDashboardSegre();
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_segre');
+        }
 
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           if (falhaRede) {
@@ -27930,7 +27921,7 @@ function _obterResumoIpreEscolaInterno(esc) {
         urlExtraParams: (ehOtimSegre ? '' : '&bruto=true')
       }).then(function(res) {
         if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSegreBase64 === 'function') {
-          processarPlanilhaSegreBase64(res.dadosBase64, res.timestamp);
+          processarPlanilhaSegreBase64(res.dadosBase64, res.timestamp, false, buscarMirrorSegre);
         } else if (res && (res.kpis || res.processosSei)) {
           aplicarDadosSegre(res, false);
         } else {
@@ -28776,6 +28767,9 @@ html += '<div style="display: flex; align-items: center; justify-content: space-
 
 function sincronizarBasePublicaSefrep(isManual) {
   const manual = (isManual === true || typeof isManual === 'undefined');
+  if (typeof window.registrarTarefaBootSync === 'function') {
+    window.registrarTarefaBootSync('boot_sefrep', 'SEFREP • Frequência e Pagamento');
+  }
   const btnSync = document.getElementById('btn-sefrep-sync-base');
   if (btnSync && manual) {
     btnSync.disabled = true;
@@ -28804,14 +28798,14 @@ function sincronizarBasePublicaSefrep(isManual) {
       if (!DADOS_SEFREP.meta) DADOS_SEFREP.meta = {};
       DADOS_SEFREP.meta.atualizadoFormatado = new Date().toLocaleDateString('pt-BR') + ', ' + new Date().toLocaleTimeString('pt-BR');
       DADOS_SEFREP.meta.origemSync = novos.origem || 'SharePoint Oficial Live';
-
-      if (typeof window.gravarEstadoNuvem === 'function') {
-        window.gravarEstadoNuvem('SEFREP_DATA', DADOS_SEFREP);
-      }
     }
 
     const tsReal = (DADOS_SEFREP.meta && DADOS_SEFREP.meta.atualizadoFormatado) ? DADOS_SEFREP.meta.atualizadoFormatado : '12/11/2026, 10:59:13';
     renderizarDashboardSefrep();
+    if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+    if (typeof window.concluirTarefaBootSync === 'function') {
+      window.concluirTarefaBootSync('boot_sefrep');
+    }
 
     const syncInfoCentro = document.getElementById('centro-drive-sync-info');
     if (syncInfoCentro) {
@@ -28873,18 +28867,7 @@ function sincronizarBasePublicaSefrep(isManual) {
         .withFailureHandler(tentarMirrorSefrep)
         .sincronizarPlanilhaSefrep(manual);
     };
-    if (!manual && window.__syncSilenciosoAtivo === true && typeof window.__iniciarBootstrapGas === 'function') {
-      window.__iniciarBootstrapGas().then(function(boot) {
-        var cached = boot && boot.caches && boot.caches.sefrep;
-        if (cached && cached.sucesso && (cached.registros || cached.kpis)) {
-          aplicarDadosSefrep(cached, false);
-          return;
-        }
-        invocarRpcSefrep();
-      });
-    } else {
-      invocarRpcSefrep();
-    }
+    invocarRpcSefrep();
   } else {
     fetch(URLS_OFICIAIS_SEFREP.mirrorData + '?t=' + Date.now())
       .then(function(r) { return r.json(); })
@@ -29462,14 +29445,17 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
       renderizarCorpoTabelaSepes();
     }
 
-    function processarPlanilhaSepesBase64(base64Data, timestamp, jaPurificado) {
+    function processarPlanilhaSepesBase64(base64Data, timestamp, jaPurificado, onFallback) {
       if (typeof XLSX === 'undefined') {
         console.warn('SheetJS (XLSX) não disponível para SEPES.');
+        if (typeof onFallback === 'function') onFallback();
         return;
       }
       if (!jaPurificado && typeof window.purificarXlsxStreamingSeNecessario === 'function') {
         window.purificarXlsxStreamingSeNecessario(base64Data).then(function(cleanB64) {
-          processarPlanilhaSepesBase64(cleanB64, timestamp, true);
+          processarPlanilhaSepesBase64(cleanB64, timestamp, true, onFallback);
+        }).catch(function() {
+          if (typeof onFallback === 'function') onFallback();
         });
         return;
       }
@@ -29608,8 +29594,9 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
         }
 
         renderizarDashboardSepes();
-        if (typeof window.gravarEstadoNuvem === 'function') {
-          window.gravarEstadoNuvem('SEPES_DATA', DADOS_SEPES);
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_sepes');
         }
 
         if (!window.__sepesSyncSilencioso && typeof mostrarAlertaSincronizacao === 'function') {
@@ -29624,12 +29611,16 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
         }
       } catch (errXlsx) {
         console.error('Erro ao ler base64 SEPES com SheetJS:', errXlsx);
+        if (typeof onFallback === 'function') onFallback();
       }
     }
 
     function sincronizarDashboardSepes(silencioso) {
       const isSil = (silencioso === true);
       window.__sepesSyncSilencioso = isSil;
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_sepes', 'SEPES • Demandas SEAPE');
+      }
       if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
         mostrarAlertaSincronizacao({
           tipo: 'loading',
@@ -29647,12 +29638,13 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
           if (DADOS_SEPES.meta) {
             DADOS_SEPES.meta.origemSync = novos.origem || 'Espelho Nuvem (Fallback)';
           }
-          if (typeof window.gravarEstadoNuvem === 'function') {
-            window.gravarEstadoNuvem('SEPES_DATA', DADOS_SEPES);
-          }
         }
         const tsReal = (DADOS_SEPES.meta && DADOS_SEPES.meta.atualizadoFormatado) ? DADOS_SEPES.meta.atualizadoFormatado : 'Data não informada';
         renderizarDashboardSepes();
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_sepes');
+        }
 
         if (!isSil && typeof mostrarAlertaSincronizacao === 'function') {
           if (falhaRede) {
@@ -29701,7 +29693,7 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
         urlExtraParams: (ehOtimSepes ? '' : '&bruto=true')
       }).then(function(res) {
         if (res && res.sucesso && res.dadosBase64 && typeof processarPlanilhaSepesBase64 === 'function') {
-          processarPlanilhaSepesBase64(res.dadosBase64, res.timestamp);
+          processarPlanilhaSepesBase64(res.dadosBase64, res.timestamp, false, buscarMirrorSepes);
         } else if (res && (res.kpis || res.aposentadorias)) {
           aplicarDadosSepes(res, false);
         } else {
@@ -32690,7 +32682,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         if (elFill) elFill.style.width = pct + '%';
         if (elPct) elPct.innerText = pct + '%';
 
-        var todosConcluidos = window.__bootSyncTracker && window.__bootSyncTracker.disparado && total > 0 && concluidas === total;
+        var todosConcluidos = window.__bootSyncTracker && window.__bootSyncTracker.disparado && total >= 12 && concluidas === total;
         if (elMsg) {
           if (todosConcluidos) {
             elMsg.innerText = 'Todas as bases atualizadas ao vivo! Consolidando painel...';
@@ -32740,13 +32732,19 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           window.__bootModalFechando = true;
           window.__bootSyncTracker.ativo = false;
           try {
+            if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
             if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
             if (typeof renderizarMiniCalendarioHome === 'function') renderizarMiniCalendarioHome();
+            if (typeof atualizarPainelVisitas === 'function') atualizarPainelVisitas();
+            if (typeof renderizarEscolas === 'function') renderizarEscolas();
+            if (window.BI_DECISION_ENGINE && typeof window.BI_DECISION_ENGINE.atualizar === 'function') {
+              window.BI_DECISION_ENGINE.atualizar();
+            }
             var horaReal = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
             if (typeof atualizarPillStatusGlobal === 'function') atualizarPillStatusGlobal('Sincronizado às ' + horaReal, 'success');
             if (typeof atualizarBadgeStatusSincronismo === 'function') atualizarBadgeStatusSincronismo(horaReal);
           } catch (eKpiFinal) {}
-          setTimeout(fecharBootModalComSuavidade, 420);
+          setTimeout(fecharBootModalComSuavidade, 350);
         }
       } catch (eBootUi) {
         console.warn('Boot sync UI:', eBootUi);
@@ -32795,7 +32793,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         modal.classList.remove('boot-hidden');
       }
       atualizarUIBootSyncReal();
-      setTimeout(fecharBootModalComSuavidade, 12000);
+      setTimeout(fecharBootModalComSuavidade, 45000);
     }
     window.abrirBootModalSincronizacao = abrirBootModalSincronizacao;
 
@@ -32806,15 +32804,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       window.__bootSyncTracker = { ativo: true, disparado: false, tasks: {} };
       atualizarUIBootSyncReal();
 
-      /* ABERTURA INSTANTÂNEA E HIDRATAÇÃO UNIVERSAL EM NUVEM */
+      /* ABERTURA INSTANTÂNEA E SINCRONIZAÇÃO REAL NA INICIALIZAÇÃO (aguarda 100% das bases antes de liberar o painel) */
       setTimeout(function() {
         if (typeof hidratarTodosModulosNuvem === 'function') hidratarTodosModulosNuvem();
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
-        atualizarBadgeStatusSincronismo();
-      }, 100);
-
-      /* Sincronização Real em Tempo Real na Inicialização (aguarda Promises antes de fechar o modal) */
-      setTimeout(function() {
         if (typeof sincronizarTudoGlobalmente === 'function') {
           sincronizarTudoGlobalmente(true);
         }
@@ -32822,10 +32815,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           window.__bootSyncTracker.disparado = true;
           atualizarUIBootSyncReal();
         }
-      }, 1200);
+        atualizarBadgeStatusSincronismo();
+      }, 120);
 
-      /* Failsafe rápido (10s) para liberar o painel mesmo se a nuvem oscilar */
-      setTimeout(fecharBootModalComSuavidade, 10000);
+      /* Failsafe de emergência (45s) apenas caso alguma conexão trave completamente */
+      setTimeout(fecharBootModalComSuavidade, 45000);
 
       /* Intervalo recorrente de 60 minutos (1 hora = 3.600.000 ms) */
       timerSincronizacaoSharepoint = setInterval(function() {
@@ -32896,6 +32890,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     window.ehRegistroChamadoValido = ehRegistroChamadoValido;
 
     function sincronizarSharepointCalls(isManual) {
+      if (typeof window.registrarTarefaBootSync === 'function') {
+        window.registrarTarefaBootSync('boot_seintec_calls', 'SEINTEC • Chamados 2026');
+      }
       const btn = document.getElementById('btn-sync-sharepoint-now');
       const icon = document.getElementById('sync-btn-icon');
       const statusText = document.getElementById('sync-status-text');
@@ -32937,7 +32934,6 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var agora = timestampStr || new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         if (statusText) statusText.innerText = 'Sincronizado às ' + agora + ' • Automático a cada 1h';
         atualizarTimestampBannerSeintec(timestampStr);
-        atualizarTimestampBannerSeintec(timestampStr);
 
         var consolidado = consolidarChamadosComHistorico(registrosNovos, registrosNovos.length >= 1000);
 
@@ -32951,12 +32947,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
         if (typeof atualizarMetricasSuperioresSeintec === 'function') atualizarMetricasSuperioresSeintec();
         if (typeof atualizarMetricasInventario === 'function') atualizarMetricasInventario(baseAtivaSeintec || 'Hardware');
-        if (typeof window.gravarEstadoNuvem === 'function' && typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos']) {
-          window.gravarEstadoNuvem('SEINTEC_CALLS', {
-            desc: SEINTEC_BASES_CONFIG['Atendimentos'].desc,
-            registros: (SEINTEC_BASES_CONFIG['Atendimentos'].registros || []).slice(0, 300)
-          });
-        }
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
 
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
@@ -32980,6 +32971,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         if (statusText) statusText.innerText = 'Sincronizado às ' + agora + ' • Automático a cada 1h';
         atualizarTimestampBannerSeintec(timestampStr);
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_seintec_calls');
+        }
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'success',
@@ -33000,6 +32995,10 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         var baseAtual = (typeof SEINTEC_BASES_CONFIG !== 'undefined' && SEINTEC_BASES_CONFIG['Atendimentos'] && SEINTEC_BASES_CONFIG['Atendimentos'].registros) ? SEINTEC_BASES_CONFIG['Atendimentos'].registros.length : 1404;
         atualizarTimestampBannerSeintec();
         if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
+        if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
+        if (typeof window.concluirTarefaBootSync === 'function') {
+          window.concluirTarefaBootSync('boot_seintec_calls');
+        }
         if (isManual && typeof mostrarAlertaSincronizacao === 'function') {
           mostrarAlertaSincronizacao({
             tipo: 'info',
@@ -33023,7 +33022,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             purificarPromise.then(function(cleanB64) {
               try {
                 var qtd = processarPlanilhaSharepointBase64(cleanB64, res.timestamp);
-                finalizarComSucesso(qtd, res.timestamp, 'SharePoint via Google Apps Script');
+                if (qtd > 0) {
+                  finalizarComSucesso(qtd, res.timestamp, 'SharePoint via Google Apps Script');
+                } else {
+                  executarTier2Jsonp();
+                }
               } catch (e) {
                 executarTier2Jsonp();
               }
@@ -33055,18 +33058,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             })
             .sincronizarPlanilhaSharepoint();
         };
-        if (!isManual && window.__syncSilenciosoAtivo === true && typeof window.__iniciarBootstrapGas === 'function') {
-          window.__iniciarBootstrapGas().then(function(boot) {
-            var cached = boot && boot.caches && boot.caches.seintec;
-            if (cached && cached.sucesso && (cached.dadosBase64 || (Array.isArray(cached.registros) && cached.registros.length > 0))) {
-              tratarRespostaSeintecGas(cached);
-              return;
-            }
-            dispararSeintecGas();
-          });
-        } else {
-          dispararSeintecGas();
-        }
+        dispararSeintecGas();
         return;
       }
 
@@ -33091,7 +33083,11 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             purificarPromiseJsonp.then(function(cleanB64) {
               try {
                 var qtd = processarPlanilhaSharepointBase64(cleanB64, res.timestamp);
-                finalizarComSucesso(qtd, res.timestamp, 'SharePoint Live (JSONP)');
+                if (qtd > 0) {
+                  finalizarComSucesso(qtd, res.timestamp, 'SharePoint Live (JSONP)');
+                } else {
+                  executarTier4Git();
+                }
               } catch(e) {
                 console.warn('Erro ao processar XLSX JSONP:', e);
                 executarTier4Git();
@@ -33107,7 +33103,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
         var sc = document.createElement('script');
         sc.id = cbId;
-        sc.src = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSharepoint&callback=' + cbId + '&_t=' + Date.now();
+        var extraCache = (!isManual && window.__syncSilenciosoAtivo === true) ? '&cache=1' : '';
+        sc.src = 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec?action=sincronizarSharepoint' + extraCache + '&callback=' + cbId + '&_t=' + Date.now();
 
         sc.onerror = function() {
           if (timerId) clearTimeout(timerId);
@@ -33461,6 +33458,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
     }
 
     async function sincronizarInventarioSharepoint(isManual) {
+      if (typeof window.registrarTarefaBootSync === "function") {
+        window.registrarTarefaBootSync("boot_seintec_inv", "SEINTEC • Parque de Equipamentos");
+      }
       const btn = document.getElementById("btn-sync-inventario-now");
       const icon = document.getElementById("sync-inv-icon");
       const statusText = document.getElementById("sync-inv-status-text");
@@ -33497,6 +33497,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         if (typeof atualizarMetricasSuperioresSeintec === "function") {
           atualizarMetricasSuperioresSeintec();
         }
+        if (typeof atualizarKpisSuperioresHomeParaEscola === "function" && !window.escolaFiltroHomeAtivo) {
+          try { atualizarKpisSuperioresHomeParaEscola(null); } catch(eh) {}
+        }
         if (typeof restaurarVisaoConsolidadaHome === "function" && !window.escolaFiltroHomeAtivo) {
           try { restaurarVisaoConsolidadaHome(); } catch(eh) {}
         }
@@ -33504,6 +33507,9 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           if (typeof renderizarTabelaInventario === "function") {
             renderizarTabelaInventario(baseAtivaSeintec);
           }
+        }
+        if (typeof window.concluirTarefaBootSync === "function") {
+          window.concluirTarefaBootSync("boot_seintec_inv");
         }
 
         const hwCount = (window.INVENTARIO_COMPLETO_TUPLES && window.INVENTARIO_COMPLETO_TUPLES.hardware) ? window.INVENTARIO_COMPLETO_TUPLES.hardware.length : 15973;
@@ -33588,75 +33594,6 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       try { if (typeof carregarEscolasLocalStorage === 'function') carregarEscolasLocalStorage(); } catch(e) {}
       try { if (typeof carregarVisitasLocalStorage === 'function') carregarVisitasLocalStorage(); } catch(e) {}
       try { if (typeof carregarConfigEmailAlerta === 'function') carregarConfigEmailAlerta(); } catch(e) {}
-
-      /* Hidratação Universal em Nuvem para Todos os Setores (Anti-F5 / Multi-Dispositivos) */
-      if (typeof window.lerEstadoNuvem === 'function') {
-        /* 1. SEPES */
-        window.lerEstadoNuvem('SEPES_DATA', function(dados) {
-          if (dados && (dados.kpis || dados.aposentadorias)) {
-            DADOS_SEPES = dados;
-            if (typeof renderizarDashboardSepes === 'function') renderizarDashboardSepes();
-            if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
-          }
-        });
-
-        /* 2. SEFREP */
-        window.lerEstadoNuvem('SEFREP_DATA', function(dados) {
-          if (dados && dados.sucesso) {
-            DADOS_SEFREP = dados;
-            if (typeof renderizarDashboardSefrep === 'function') renderizarDashboardSefrep();
-          }
-        });
-
-        /* 3. SEGRE */
-        window.lerEstadoNuvem('SEGRE_DATA', function(dados) {
-          if (dados && (dados.kpis || dados.processosSei)) {
-            DADOS_SEGRE = dados;
-            if (typeof renderizarDashboardSegre === 'function') renderizarDashboardSegre();
-          }
-        });
-
-        /* 4. SEMAT */
-        window.lerEstadoNuvem('SEMAT_DATA', function(dados) {
-          if (dados && dados.kpis) {
-            DADOS_SEMAT = dados;
-            if (typeof renderizarDashboardSemat === 'function') renderizarDashboardSemat();
-          }
-        });
-
-        /* 5. SEVESC */
-        window.lerEstadoNuvem('SEVESC_DATA', function(dados) {
-          if (dados && dados.kpis) {
-            DADOS_SEVESC = dados;
-            if (typeof renderizarDashboardSevesc === 'function') renderizarDashboardSevesc();
-          }
-        });
-
-        /* 6. SEFIN */
-        window.lerEstadoNuvem('SEFIN_DATA', function(dados) {
-          if (dados && dados.repassesCompactos) {
-            DADOS_FINANCEIROS_SEFIN = dados;
-            if (typeof renderizarDashboardFinanceiroSefin === 'function') renderizarDashboardFinanceiroSefin();
-            if (typeof atualizarKpisSuperioresHomeParaEscola === 'function') atualizarKpisSuperioresHomeParaEscola(null);
-          }
-        });
-
-        /* 7. SECOMSE */
-        window.lerEstadoNuvem('SECOMSE_DATA', function(dados) {
-          if (dados && dados.kpis) {
-            DADOS_SECOMSE = dados;
-            if (typeof renderizarDashboardSecomse === 'function') renderizarDashboardSecomse();
-          }
-        });
-
-        /* 8. SEOM */
-        window.lerEstadoNuvem('SEOM_DATA', function(dados) {
-          if (dados && dados.escolas) {
-            DADOS_SEOM = dados;
-            if (typeof renderizarDashboardSeom === 'function') renderizarDashboardSeom();
-          }
-        });
-      }
 
       /* Carrega configuração do calendário do Carro Oficial direto do GAS */
       try {
