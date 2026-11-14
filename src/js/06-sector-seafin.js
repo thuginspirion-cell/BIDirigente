@@ -723,26 +723,26 @@
           <!-- BANNER TOPO EXECUTIVO SEFIN (ALTO PADRÃO PROFISSIONAL) -->
           <div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); border: 2px solid #38bdf8; border-radius: 16px; padding: 1.15rem 1.4rem; margin-bottom: 1.2rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; justify-content: space-between; align-items: center; gap: 1.2rem;">
             <div style="flex: 1; min-width: 0;">
-              <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
-                <span style="font-size: 1.6rem;">💼</span>
+              <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+                ${biIcon('briefcase', 20, true)}
                 <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">SEFIN - Seção de Finanças</h2>
                 <span style="background: #d1fae5; color: #065f46; border: 1.5px solid #10b981; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT</span>
               </div>
               <p style="font-size: 0.86rem; color: #f1f5f9; margin: 0; max-width: 820px; line-height: 1.45; font-weight: 500;">
                 Controle e acompanhamento da execução financeira e prestação de contas dos repasses do <strong style="color: #ffffff;">PDDE Paulista</strong> e <strong style="color: #ffffff;">PDDE Federal</strong> para as Associações de Pais e Mestres (APMs) das 60 unidades escolares da Unidade Regional de Ensino de Itapevi.
               </p>
-              <div style="margin-top: 0.35rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">
-                <span>🕒 <strong>Dados de:</strong> <span id="sefin-banner-timestamp" style="color: #ffffff;">${(DADOS_FINANCEIROS_SEFIN && DADOS_FINANCEIROS_SEFIN.meta && DADOS_FINANCEIROS_SEFIN.meta.atualizadoFormatado) || '11/11/2026, 15:40:22'}</span></span>
+              <div style="margin-top: 0.4rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem;">${biIcon('clock', 13)} <strong>Dados de:</strong> <span id="sefin-banner-timestamp" style="color: #ffffff;">${(DADOS_FINANCEIROS_SEFIN && DADOS_FINANCEIROS_SEFIN.meta && DADOS_FINANCEIROS_SEFIN.meta.atualizadoFormatado) || '11/11/2026, 15:40:22'}</span></span>
               </div>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; flex-shrink: 0; white-space: nowrap;">
               <div style="display: flex; gap: 0.6rem; flex-wrap: nowrap;">
-                <button onclick="sincronizarDashboardSefin(false)" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.3); color: #ffffff; padding: 7px 14px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
-                  <span class="sync-spin-icon">🔄</span> Sincronizar Base
+                <button onclick="sincronizarDashboardSefin(false)" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.3); color: #ffffff; padding: 7px 14px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 0.45rem; transition: all 0.2s ease;">
+                  <span class="sync-spin-icon" style="display:inline-flex;">${biIcon('refresh', 14)}</span> Sincronizar Base
                 </button>
-                <a href="${URLS_OFICIAIS_SEFIN.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #1e1b4b; border: 1.5px solid #f59e0b; padding: 7px 14px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
-                  📊 Abrir Excel no 365 ↗
+                <a href="${URLS_OFICIAIS_SEFIN.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #1e1b4b; border: 1.5px solid #f59e0b; padding: 7px 14px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; text-decoration: none; display: flex; align-items: center; gap: 0.45rem; transition: all 0.2s ease;">
+                  ${biIcon('file', 14)} Abrir Excel no 365 ↗
                 </a>
               </div>
               <span style="font-size: 0.74rem; color: #93c5fd; font-weight: 600;">Base oficial com ${(kpis.totalRepasses || 2999).toLocaleString('pt-BR')} repasses auditáveis</span>
@@ -1745,26 +1745,26 @@
           <!-- BANNER TOPO EXECUTIVO SECOMSE -->
           <div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); border: 2px solid #38bdf8; border-radius: 16px; padding: 1.15rem 1.4rem; margin-bottom: 1.2rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; justify-content: space-between; align-items: center; gap: 1.2rem;">
             <div style="flex: 1; min-width: 0;">
-              <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
-                <span style="font-size: 1.6rem;">💼</span>
+              <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+                ${biIcon('briefcase', 20, true)}
                 <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">SECOMSE - Seção de Compras e Serviços</h2>
                 <span style="background: #dbeafe; color: #1e40af; border: 1.5px solid #3b82f6; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT</span>
               </div>
               <p style="font-size: 0.86rem; color: #f1f5f9; margin: 0; max-width: 820px; line-height: 1.45; font-weight: 500;">
                 Gestão centralizada do controle de contratos administrativos, atas de registro de preços, processos licitatórios (Compras.Gov / BEC) e publicações de transparência (D.O.E., PNCP e AUDESP).
               </p>
-              <div style="margin-top: 0.35rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">
-                <span>🕒 <strong>Dados de:</strong> <span id="secomse-banner-timestamp" style="color: #ffffff;">${(DADOS_SECOMSE && DADOS_SECOMSE.meta && DADOS_SECOMSE.meta.atualizadoFormatado) || '11/11/2026, 17:15:00'}</span></span>
+              <div style="margin-top: 0.4rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem;">${biIcon('clock', 13)} <strong>Dados de:</strong> <span id="secomse-banner-timestamp" style="color: #ffffff;">${(DADOS_SECOMSE && DADOS_SECOMSE.meta && DADOS_SECOMSE.meta.atualizadoFormatado) || '11/11/2026, 17:15:00'}</span></span>
               </div>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; flex-shrink: 0; white-space: nowrap;">
               <div style="display: flex; gap: 0.6rem; flex-wrap: nowrap;">
-                <button onclick="sincronizarDashboardSecomse()" id="btn-secomse-sync-base" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-                  🔄 Sincronizar SECOMSE
+                <button onclick="sincronizarDashboardSecomse()" id="btn-secomse-sync-base" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.45rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                  <span class="sync-spin-icon" style="display:inline-flex;">${biIcon('refresh', 14)}</span> Sincronizar SECOMSE
                 </button>
-                <a href="${URLS_OFICIAIS_SECOMSE.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #38bdf8; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(56,189,248,0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                  📊 Abrir Excel no 365 ↗
+                <a href="${URLS_OFICIAIS_SECOMSE.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #38bdf8; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 12px rgba(56,189,248,0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                  ${biIcon('file', 14)} Abrir Excel no 365 ↗
                 </a>
               </div>
               <div style="font-size: 0.74rem; color: #93c5fd; font-weight: 700;">Base oficial com ${totalContratos} contratos no exercício ${ano}</div>

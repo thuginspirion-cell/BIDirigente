@@ -889,7 +889,7 @@
       if (syncInfoCentro) syncInfoCentro.innerText = 'SHAREPOINT INSTITUCIONAL • ' + siglaCentro + ' AO VIVO';
       const btnSyncCentro = document.getElementById('btn-sync-centro');
       if (btnSyncCentro) {
-        btnSyncCentro.innerHTML = '<span class="sync-spin-icon">🔄</span> Sincronizar ' + siglaCentro;
+        btnSyncCentro.innerHTML = '<span class="sync-spin-icon" style="display:inline-flex;">' + (typeof biIcon === 'function' ? biIcon('refresh', 14) : '') + '</span> Sincronizar ' + siglaCentro;
         btnSyncCentro.title = 'Sincronizar dados, setores e arquivos do ' + siglaCentro;
       }
 

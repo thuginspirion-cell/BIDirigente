@@ -474,8 +474,8 @@ function renderizarDashboardSefrep() {
   /* BANNER TOPO EXECUTIVO SEFREP */
   html += '<div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 50%, #0369a1 100%); border: 2px solid #38bdf8; border-radius: 16px; padding: 1.15rem 1.4rem; margin-bottom: 1.2rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; justify-content: space-between; align-items: center; gap: 1.2rem;">';
   html += '<div style="flex: 1; min-width: 0;">';
-  html += '<div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem; flex-wrap: wrap;">';
-  html += '<span style="font-size: 1.6rem;">💳</span>';
+  html += '<div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.35rem; flex-wrap: wrap;">';
+  html += biIcon('briefcase', 20, true);
   html += '<h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">SEFREP — Seção de Frequência e Pagamento</h2>';
   html += '<span style="background: #e0f2fe; color: #0369a1; border: 1.5px solid #38bdf8; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">SEPES • URE ITAPEVI</span>';
   html += '<span style="background: rgba(255,255,255,0.15); color: #ffffff; font-size: 0.72rem; font-weight: 700; padding: 3px 9px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.3);">1.383 TRAMITAÇÕES 2026</span>';
@@ -483,17 +483,17 @@ function renderizarDashboardSefrep() {
   html += '<p style="font-size: 0.85rem; color: #e0e7ff; margin: 0; line-height: 1.45; font-weight: 500;">';
   html += 'Monitoramento executivo da folha de pagamento, devoluções/erros de preenchimento das unidades escolares, regularidade de vínculos (F17 e Extinções Contratuais) e celeridade processual.';
   html += '</p>';
-  html += '<div style="margin-top: 0.35rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">';
-  html += '<span>🕒 <strong>Dados de:</strong> <span id="sefrep-banner-timestamp" style="color: #ffffff;">' + ((DADOS_SEFREP && DADOS_SEFREP.meta && DADOS_SEFREP.meta.atualizadoFormatado) || '12/11/2026, 10:59:13') + '</span></span>';
+  html += '<div style="margin-top: 0.4rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">';
+  html += '<span style="display: inline-flex; align-items: center; gap: 0.35rem;">' + biIcon('clock', 13) + ' <strong>Dados de:</strong> <span id="sefrep-banner-timestamp" style="color: #ffffff;">' + ((DADOS_SEFREP && DADOS_SEFREP.meta && DADOS_SEFREP.meta.atualizadoFormatado) || '12/11/2026, 10:59:13') + '</span></span>';
   html += '</div>';
   html += '</div>';
 
   html += '<div style="display: flex; gap: 0.65rem; align-items: center; flex-shrink: 0; white-space: nowrap;">';
   html += '<button type="button" onclick="sincronizarBasePublicaSefrep(true)" id="btn-sefrep-sync-base" style="background: rgba(255,255,255,0.18); color: #ffffff; border: 1.5px solid rgba(255,255,255,0.35); padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.45rem; transition: all 0.2s;" onmouseover="this.style.background=\'rgba(255,255,255,0.28)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.18)\'">';
-  html += '<span class="sync-spin-icon">🔄</span><span>Sincronizar SEFREP</span>';
+  html += '<span class="sync-spin-icon" style="display:inline-flex;">' + biIcon('refresh', 14) + '</span><span>Sincronizar SEFREP</span>';
   html += '</button>';
-  html += '<a href="' + spLink + '" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'" onmouseout="this.style.opacity=\'1\'">';
-  html += '<span>📊</span><span>Abrir no Excel 365 ↗</span>';
+  html += '<a href="' + spLink + '" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'" onmouseout="this.style.opacity=\'1\'">';
+  html += biIcon('file', 14) + '<span>Abrir no Excel 365 ↗</span>';
   html += '</a>';
   html += '</div>';
   html += '</div>';
@@ -1310,26 +1310,26 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
           <!-- BANNER TOPO EXECUTIVO SEPES -->
           <div style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%); border: 2px solid #f59e0b; border-radius: 16px; padding: 1.15rem 1.4rem; margin-bottom: 1.2rem; box-shadow: 0 10px 25px -5px rgba(30,27,75,0.3); display: flex; justify-content: space-between; align-items: center; gap: 1.2rem;">
             <div style="flex: 1; min-width: 0;">
-              <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
-                <span style="font-size: 1.6rem;">👥</span>
+              <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.35rem;">
+                ${biIcon('users', 20, true)}
                 <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">SEAPE - Seção de Administração de Pessoal</h2>
                 <span style="background: #d1fae5; color: #065f46; border: 1.5px solid #10b981; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT • SEPES</span>
               </div>
               <p style="font-size: 0.86rem; color: #e0e7ff; margin: 0; max-width: 840px; line-height: 1.45; font-weight: 500;">
                 Acompanhamento em tempo real das demandas estratégicas da planilha oficial <strong style="color: #ffffff;">DEMANDAS SEAPE</strong>: Aposentadorias de servidores, Designações docentes e de gestão pedagógica, e Abonos de Permanência da Unidade Regional de Ensino de Itapevi.
               </p>
-              <div style="margin-top: 0.35rem; font-size: 0.76rem; color: #c7d2fe; font-weight: 600;">
-                <span>🕒 <strong>Dados de:</strong> <span id="sepes-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
+              <div style="margin-top: 0.4rem; font-size: 0.76rem; color: #c7d2fe; font-weight: 600;">
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem;">${biIcon('clock', 13)} <strong>Dados de:</strong> <span id="sepes-banner-timestamp" style="color: #ffffff;">${meta.atualizadoFormatado || 'Sem registro'}</span></span>
               </div>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; flex-shrink: 0; white-space: nowrap;">
               <div style="display: flex; gap: 0.6rem;">
-                <button onclick="sincronizarDashboardSepes()" id="btn-sepes-sync-base" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-                  🔄 Sincronizar Base
+                <button onclick="sincronizarDashboardSepes()" id="btn-sepes-sync-base" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.45rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                  <span class="sync-spin-icon" style="display:inline-flex;">${biIcon('refresh', 14)}</span> Sincronizar Base
                 </button>
-                <a href="${meta.sharepointUrl || URLS_OFICIAIS_SEPES.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #1e1b4b; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                  📊 Abrir Excel no 365 ↗
+                <a href="${meta.sharepointUrl || URLS_OFICIAIS_SEPES.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #1e1b4b; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                  ${biIcon('file', 14)} Abrir Excel no 365 ↗
                 </a>
               </div>
               <div style="font-size: 0.74rem; color: #a5b4fc; font-weight: 700;">Base Oficial com ${kpis.totalDemandas} processos monitorados</div>

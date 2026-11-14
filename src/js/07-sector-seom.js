@@ -306,26 +306,26 @@
           <!-- BANNER OFICIAL DO DPAT (PADRÃO UNIVERSAL EXECUTIVO) -->
           <div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); border: 2px solid #f09b0c; border-radius: 16px; padding: 1.15rem 1.4rem; margin-bottom: 1.2rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; justify-content: space-between; align-items: center; gap: 1.2rem;">
             <div style="flex: 1; min-width: 0;">
-              <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
-                <span style="font-size: 1.6rem;">📦</span>
+              <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.35rem;">
+                ${biIcon('box', 20, true)}
                 <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">DPAT - Divisão de Patrimônio</h2>
                 <span style="background: #d1fae5; color: #065f46; border: 1.5px solid #10b981; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT</span>
               </div>
               <p style="font-size: 0.86rem; color: #f1f5f9; margin: 0; max-width: 820px; line-height: 1.45; font-weight: 500;">
                 Inventário físico oficial de bens móveis permanentes, tombamento patrimonial (chapas ITP), localização por ambiente da Unidade Regional de Ensino e conservação de materiais.
               </p>
-              <div style="margin-top: 0.35rem; font-size: 0.76rem; color: #c7d2fe; font-weight: 600;">
-                <span>🕒 <strong>Dados de:</strong> <span id="dpat-banner-timestamp" style="color: #ffffff;">${formatarTimestampDadosBrasil(DADOS_DPAT, '04/11/2026, 10:00:00')}</span></span>
+              <div style="margin-top: 0.4rem; font-size: 0.76rem; color: #c7d2fe; font-weight: 600;">
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem;">${biIcon('clock', 13)} <strong>Dados de:</strong> <span id="dpat-banner-timestamp" style="color: #ffffff;">${formatarTimestampDadosBrasil(DADOS_DPAT, '04/11/2026, 10:00:00')}</span></span>
               </div>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; flex-shrink: 0; white-space: nowrap;">
               <div style="display: flex; gap: 0.6rem;">
-                <button type="button" onclick="sincronizarDashboardDpat(true)" id="btn-sync-dpat" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-                  <span class="sync-spin-icon">🔄</span> Sincronizar DPAT
+                <button type="button" onclick="sincronizarDashboardDpat(true)" id="btn-sync-dpat" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.45rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                  <span class="sync-spin-icon" style="display:inline-flex;">${biIcon('refresh', 14)}</span> Sincronizar DPAT
                 </button>
-                <a href="${URLS_OFICIAIS_DPAT.sharepointOriginal || URLS_OFICIAIS_DPAT.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                  📊 Abrir Excel no 365 ↗
+                <a href="${URLS_OFICIAIS_DPAT.sharepointOriginal || URLS_OFICIAIS_DPAT.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                  ${biIcon('file', 14)} Abrir Excel no 365 ↗
                 </a>
               </div>
               <div style="font-size: 0.74rem; color: #93c5fd; font-weight: 700;">Base oficial com ${kpis.totalBens.toLocaleString('pt-BR')} bens inventariados</div>
@@ -552,26 +552,26 @@
           <!-- BANNER OFICIAL DO SEOM (PADRÃO UNIVERSAL EXECUTIVO) -->
           <div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 100%); border: 2px solid #f09b0c; border-radius: 16px; padding: 1.15rem 1.4rem; margin-bottom: 1.2rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; justify-content: space-between; align-items: center; gap: 1.2rem;">
             <div style="flex: 1; min-width: 0;">
-              <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
-                <span style="font-size: 1.6rem;">🏗️</span>
+              <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.35rem;">
+                ${biIcon('wrench', 20, true)}
                 <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">SEOM - Seção de Obras e Manutenção Escolar</h2>
                 <span style="background: #d1fae5; color: #065f46; border: 1.5px solid #10b981; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT</span>
               </div>
               <p style="font-size: 0.86rem; color: #f1f5f9; margin: 0; max-width: 820px; line-height: 1.45; font-weight: 500;">
                 Mapeamento oficial das 60 unidades escolares da URE Itapevi em 11 indicadores prediais: Obra FDE, AVCB, Cuidador, Elétrica, Limpeza, Matrícula Atualizada, SGI, Telhado, Zeladoria, Esgoto e Consumo de Água.
               </p>
-              <div style="margin-top: 0.35rem; font-size: 0.76rem; color: #fde68a; font-weight: 600;">
-                <span>🕒 <strong>Dados de:</strong> <span id="seom-banner-timestamp" style="color: #ffffff;">${(DADOS_SEOM && DADOS_SEOM.meta && DADOS_SEOM.meta.atualizadoFormatado) || '10/11/2026, 18:30:00'}</span></span>
+              <div style="margin-top: 0.4rem; font-size: 0.76rem; color: #fde68a; font-weight: 600;">
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem;">${biIcon('clock', 13)} <strong>Dados de:</strong> <span id="seom-banner-timestamp" style="color: #ffffff;">${(DADOS_SEOM && DADOS_SEOM.meta && DADOS_SEOM.meta.atualizadoFormatado) || '10/11/2026, 18:30:00'}</span></span>
               </div>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; flex-shrink: 0; white-space: nowrap;">
               <div style="display: flex; gap: 0.6rem;">
-                <button type="button" onclick="sincronizarDashboardSeom(true)" id="btn-sync-seom" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-                  <span class="sync-spin-icon">🔄</span> Sincronizar SEOM
+                <button type="button" onclick="sincronizarDashboardSeom(true)" id="btn-sync-seom" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.45rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                  <span class="sync-spin-icon" style="display:inline-flex;">${biIcon('refresh', 14)}</span> Sincronizar SEOM
                 </button>
-                <a href="${URLS_OFICIAIS_SEOM.sharepointOriginal || URLS_OFICIAIS_SEOM.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                  📊 Abrir Excel no 365 ↗
+                <a href="${URLS_OFICIAIS_SEOM.sharepointOriginal || URLS_OFICIAIS_SEOM.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                  ${biIcon('file', 14)} Abrir Excel no 365 ↗
                 </a>
               </div>
               <div style="font-size: 0.74rem; color: #93c5fd; font-weight: 700;">Base oficial com ${totalEscolas} escolas e 11 indicadores prediais</div>
@@ -1320,26 +1320,26 @@
           <!-- BANNER DO SEFISC (PADRÃO UNIVERSAL EXECUTIVO) -->
           <div style="background: linear-gradient(135deg, #0b2351 0%, #047857 100%); border: 2px solid #f09b0c; border-radius: 16px; padding: 1.15rem 1.4rem; margin-bottom: 1.2rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; justify-content: space-between; align-items: center; gap: 1.2rem;">
             <div style="flex: 1; min-width: 0;">
-              <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem;">
-                <span style="font-size: 1.6rem;">🏠</span>
+              <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.35rem;">
+                ${biIcon('shield', 20, true)}
                 <h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">SEFISC - Seção de Fiscalização</h2>
                 <span style="background: #d1fae5; color: #065f46; border: 1.5px solid #10b981; font-size: 0.78rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">OFICIAL SHAREPOINT</span>
               </div>
               <p style="font-size: 0.86rem; color: #f1f5f9; margin: 0; max-width: 820px; line-height: 1.45; font-weight: 500;">
                 Base oficial de autorizações de uso de moradia e ocupação de zeladorias escolares da rede estadual, vinculada aos processos SEI e acompanhamento de vencimentos.
               </p>
-              <div style="margin-top: 0.35rem; font-size: 0.76rem; color: #a7f3d0; font-weight: 600;">
-                <span>🕒 <strong>Dados de:</strong> <span id="sefisc-banner-timestamp" style="color: #ffffff;">${(DADOS_SEFISC && DADOS_SEFISC.meta && DADOS_SEFISC.meta.atualizadoFormatado) || '11/11/2026, 12:00:00'}</span></span>
+              <div style="margin-top: 0.4rem; font-size: 0.76rem; color: #a7f3d0; font-weight: 600;">
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem;">${biIcon('clock', 13)} <strong>Dados de:</strong> <span id="sefisc-banner-timestamp" style="color: #ffffff;">${(DADOS_SEFISC && DADOS_SEFISC.meta && DADOS_SEFISC.meta.atualizadoFormatado) || '11/11/2026, 12:00:00'}</span></span>
               </div>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; flex-shrink: 0; white-space: nowrap;">
               <div style="display: flex; gap: 0.6rem; flex-wrap: nowrap;">
-                <button type="button" onclick="sincronizarDashboardSefisc(true)" id="btn-sync-sefisc" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-                  <span class="sync-spin-icon">🔄</span> Sincronizar SEFISC
+                <button type="button" onclick="sincronizarDashboardSefisc(true)" id="btn-sync-sefisc" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.45rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                  <span class="sync-spin-icon" style="display:inline-flex;">${biIcon('refresh', 14)}</span> Sincronizar SEFISC
                 </button>
-                <a href="${URLS_OFICIAIS_SEFISC.sharepointOriginal || URLS_OFICIAIS_SEFISC.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                  📊 Abrir Excel no 365 ↗
+                <a href="${URLS_OFICIAIS_SEFISC.sharepointOriginal || URLS_OFICIAIS_SEFISC.sharepoint}" target="_blank" rel="noopener noreferrer" style="background: #f09b0c; color: #0b2351; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 12px rgba(240, 155, 12, 0.4); transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                  ${biIcon('file', 14)} Abrir Excel no 365 ↗
                 </a>
               </div>
               <div style="font-size: 0.74rem; color: #93c5fd; font-weight: 700;">Base oficial com ${zeladorias.length} zeladorias escolares mapeadas</div>

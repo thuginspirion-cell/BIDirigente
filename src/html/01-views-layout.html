@@ -150,16 +150,10 @@
         </ul>
       </div>
 
-      <!-- Grupo 2: Núcleos / Centros da Unidade Regional (Gaveta Retrátil) -->
+      <!-- Grupo 2: Núcleos / Centros da Unidade Regional -->
       <div>
-        <button type="button" class="nav-accordion-toggle" id="sidebar-setores-toggle" onclick="toggleSetoresSidebar()" aria-expanded="false" title="Expandir ou recolher os 7 setores da URE Itapevi">
-          <span class="nav-acc-left">
-            <span>Setores URE</span>
-            <span class="nav-accordion-count">7</span>
-          </span>
-          <svg class="nav-accordion-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <ul class="nav-items-list nav-accordion-body" id="sidebar-setores-list">
+        <div class="nav-group-title">NÚCLEOS / CENTROS</div>
+        <ul class="nav-items-list">
           <li>
             <button class="nav-item-btn" id="side-btn-ASURE" onclick="abrirCentro('ASURE')" title="Assessoria Técnica da Unidade Regional de Ensino | ASURE">
               <span class="centro-icon-badge" title="ASURE - Assessoria e Suporte Regional"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></span>
@@ -1014,7 +1008,7 @@
               <span id="centro-drive-sync-info">SHAREPOINT INSTITUCIONAL • DADOS AO VIVO</span>
             </div>
             <button class="btn-pane-sync" id="btn-sync-centro" onclick="sincronizarModulo('centro', this)" title="Sincronizar dados e setores deste Centro">
-              <span class="sync-spin-icon">🔄</span> Sincronizar Centro
+              <span class="sync-spin-icon" style="display:inline-flex;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></span> Sincronizar Centro
             </button>
             <button class="btn-back-home" onclick="mostrarHome()">
               <span>◀</span> Voltar ao Início
@@ -1076,7 +1070,7 @@
               <span id="gab-drive-sync-info">SHAREPOINT INSTITUCIONAL • BASES GABINETE • 17/10/2026</span>
             </div>
             <button class="btn-pane-sync" onclick="sincronizarModulo('gabinete', this)" title="Sincronizar demandas, ouvidoria Fala.SP e termos de visita do Gabinete">
-              <span class="sync-spin-icon">🔄</span> Sincronizar Gabinete
+              <span class="sync-spin-icon" style="display:inline-flex;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></span> Sincronizar Gabinete
             </button>
             <button class="btn-back-home" onclick="mostrarHome()">
               <span>◀</span> Voltar ao Início
@@ -1431,7 +1425,7 @@
               <span id="seintec-drive-sync-info">⚡ MODO OTIMIZADO (BASES ATIVAS) • CHAMADOS & INVENTÁRIO (60 ESCOLAS)</span>
             </div>
             <button class="btn-pane-sync" onclick="sincronizarModulo('seintec', this)" title="Sincronizar chamados e inventário SEINTEC com a nuvem SharePoint">
-              <span class="sync-spin-icon">🔄</span> Sincronizar SEINTEC
+              <span class="sync-spin-icon" style="display:inline-flex;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></span> Sincronizar SEINTEC
             </button>
             <button class="btn-back-home" onclick="mostrarHome()">
               <span>◀</span> Voltar ao Início
@@ -1684,7 +1678,7 @@
                     Acompanhamento consolidado de demandas técnicas, conectividade e equipamentos (1.404 chamados oficiais em 2026).
                   </p>
                   <div style="margin-top: 0.35rem; font-size: 0.76rem; color: #93c5fd; font-weight: 600;">
-                    <span>🕒 <strong>Dados de:</strong> <span id="seintec-banner-timestamp" style="color: #ffffff;">13/11/2026, 20:00:00</span></span>
+                    <span style="display:inline-flex;align-items:center;gap:0.35rem;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <strong>Dados de:</strong> <span id="seintec-banner-timestamp" style="color: #ffffff;">13/11/2026, 20:00:00</span></span>
                   </div>
                 </div>
               </div>
@@ -2246,7 +2240,7 @@
         <!-- BANNER DE SINCRONIZAÇÃO EM NUVEM & GOOGLE CALENDAR -->
         <div class="carro-sync-alert">
           <div class="carro-sync-alert-text">
-            <span>📅</span>
+            <span style="display:inline-flex;color:#0b2351;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg></span>
             <span>
               <strong id="agenda-alert-calendar-title">Agenda Executiva &amp; Google Calendar</strong> • <span id="agenda-alert-calendar-status">Expediente Oficial URE Itapevi (07:00 às 17:00)</span> • <strong id="agenda-qtd-registros-alert">0</strong> compromisso(s) mapeado(s) • Sincronização em nuvem ativa.
             </span>
@@ -2254,11 +2248,11 @@
 
           <div class="carro-sync-alert-actions">
             <button class="btn-carro-action secondary" onclick="sincronizarModulo('agenda', this)" title="Recarregar Google Calendar e sincronizar compromissos na nuvem">
-              <span class="sync-spin-icon">🔄</span>
+              <span class="sync-spin-icon" style="display:inline-flex;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></span>
               <span>Atualizar</span>
             </button>
             <button class="btn-carro-action secondary" onclick="imprimirPautaAgenda()" title="Imprimir Pauta Executiva do Dia / Compromissos da Dirigente">
-              <span>🖨️ Imprimir Pauta</span>
+              <span style="display:inline-flex;align-items:center;gap:0.4rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg> Imprimir Pauta</span>
             </button>
           </div>
         </div>
@@ -2788,21 +2782,21 @@
 
             <div class="escolas-header-actions">
               <button class="btn-escola-secondary btn-pane-sync" onclick="sincronizarModulo('escolas', this)" title="Sincronizar base cadastral, inventário e indicadores das 60 escolas">
-                <span class="sync-spin-icon">🔄</span>
+                <span class="sync-spin-icon" style="display:inline-flex;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></span>
                 <span>Sincronizar Escolas</span>
               </button>
               <button class="btn-escola-primary" onclick="abrirModalNovaEscola()" title="Adicionar nova escola à base">
-                <span>➕ Cadastrar Nova Escola</span>
+                <span style="display:inline-flex;align-items:center;gap:0.35rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg> Cadastrar Nova Escola</span>
               </button>
               <button class="btn-escola-secondary" onclick="abrirModalCentralRelatorios('escola')" title="Central de Relatórios Executivos (Geral ou por Escola)" style="background: rgba(15, 118, 110, 0.92); border-color: rgba(45, 212, 191, 0.55); color: #ffffff; font-weight: 700;">
-                <span>📄</span>
+                <span style="display:inline-flex;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></span>
                 <span>Relatório</span>
               </button>
               <button class="btn-escola-secondary" onclick="exportarEscolasExcel()" title="Exportar tabela atual de escolas para arquivo Excel">
-                <span>📤 Exportar</span>
+                <span style="display:inline-flex;align-items:center;gap:0.35rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg> Exportar</span>
               </button>
               <button class="btn-escola-secondary" onclick="restaurarEscolasPadrao()" title="Restaurar a base original de escolas da URE Itapevi">
-                <span>🔄 Restaurar</span>
+                <span style="display:inline-flex;align-items:center;gap:0.35rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg> Restaurar</span>
               </button>
             </div>
           </div>
@@ -3071,17 +3065,17 @@
           <div class="visitas-top-actions">
             <div class="visitas-buttons-group">
               <button class="btn-visitas-limpar btn-pane-sync" onclick="sincronizarModulo('visitas', this)" title="Sincronizar status de visitas escolares e rotas da Dirigente">
-                <span class="sync-spin-icon">🔄</span>
+                <span class="sync-spin-icon" style="display:inline-flex;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></span>
                 <span>Sincronizar Visitas</span>
               </button>
               <button class="btn-visitas-mapa" onclick="abrirModalMapaVisitas()" title="Abrir visualização geográfica e mapa de rotas da rede">
                 <span>+ Abrir mapa de visitas</span>
               </button>
               <button class="btn-visitas-limpar" onclick="limparMarcacoesVisitas()" title="Redefinir todas as marcações de visitas">
-                <span>🔄 Limpar marcações</span>
+                <span style="display:inline-flex;align-items:center;gap:0.35rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg> Limpar marcações</span>
               </button>
               <button class="btn-visitas-limpar" onclick="exportarVisitasExcel()" title="Exportar planilha completa de visitas da Dirigente">
-                <span>📥 Exportar</span>
+                <span style="display:inline-flex;align-items:center;gap:0.35rem;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg> Exportar</span>
               </button>
             </div>
             <p class="visitas-caption-note">
