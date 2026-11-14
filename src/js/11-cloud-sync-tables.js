@@ -82,11 +82,25 @@
       /* Carrega configuração do calendário do Carro Oficial direto do GAS */
       try {
         if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.getCarroCalendarConfig === 'function') {
-          google.script.run
-            .withSuccessHandler(function(url) {
-              if (url) carroCalendarUrl = url;
-            })
-            .getCarroCalendarConfig();
+          if (typeof window.__iniciarBootstrapGas === 'function') {
+            window.__iniciarBootstrapGas().then(function(boot) {
+              if (boot && boot.carroCalendarUrl) {
+                carroCalendarUrl = boot.carroCalendarUrl;
+                return;
+              }
+              if (typeof window.__runGasQueued === 'function') {
+                window.__runGasQueued('getCarroCalendarConfig', [], 10000).then(function(url) {
+                  if (url) carroCalendarUrl = url;
+                }).catch(function() {});
+              }
+            });
+          } else {
+            google.script.run
+              .withSuccessHandler(function(url) {
+                if (url) carroCalendarUrl = url;
+              })
+              .getCarroCalendarConfig();
+          }
         } else if (typeof window.__gasCloudUrl === 'function') {
           var cbCal = '__cb_carro_cal_' + Math.floor(Math.random() * 10000000);
           window[cbCal] = function(res) {

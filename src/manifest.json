@@ -7,22 +7,6 @@
       "file": "src/html/00-head.html"
     },
     {
-      "type": "js-inline",
-      "file": "src/js/01-core-router-agenda.js"
-    },
-    {
-      "type": "js-inline",
-      "file": "src/js/02-mapa-geografico.js"
-    },
-    {
-      "type": "js-inline",
-      "file": "src/js/03-carro-oficial.js"
-    },
-    {
-      "type": "html",
-      "file": "src/html/00b-head-between-script-style.html"
-    },
-    {
       "type": "css-inline",
       "file": "src/css/01-base-sidebar.css"
     },
@@ -41,6 +25,18 @@
     {
       "type": "html",
       "file": "src/html/01-views-layout.html"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/01-core-router-agenda.js"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/02-mapa-geografico.js"
+    },
+    {
+      "type": "js-inline",
+      "file": "src/js/03-carro-oficial.js"
     },
     {
       "type": "js-inline",

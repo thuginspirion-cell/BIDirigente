@@ -899,24 +899,49 @@ function sincronizarBasePublicaSefrep(isManual) {
   }
 
   if (typeof google !== 'undefined' && google.script && google.script.run) {
-    google.script.run
-      .withSuccessHandler(function(res) {
-        if (res && res.sucesso && (res.registros || res.kpis)) {
-          aplicarDadosSefrep(res, false);
-        } else {
-          fetch(URLS_OFICIAIS_SEFREP.mirrorData + '?t=' + Date.now())
-            .then(function(r) { return r.json(); })
-            .then(function(d) { aplicarDadosSefrep(d, false); })
-            .catch(function() { aplicarDadosSefrep(null, true); });
+    var tentarMirrorSefrep = function() {
+      fetch(URLS_OFICIAIS_SEFREP.mirrorData + '?t=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(d) { aplicarDadosSefrep(d, false); })
+        .catch(function() { aplicarDadosSefrep(null, true); });
+    };
+    var invocarRpcSefrep = function() {
+      var usarCacheSefrep = (!manual && window.__syncSilenciosoAtivo === true && typeof google.script.run.obterSetorComCacheActionGas === 'function');
+      var rpcPromise = (typeof window.__runGasQueued === 'function')
+        ? (usarCacheSefrep
+            ? window.__runGasQueued('obterSetorComCacheActionGas', ['sincronizarSefrep', true, ''], 14000)
+            : window.__runGasQueued('sincronizarPlanilhaSefrep', [manual], 18000))
+        : null;
+      if (rpcPromise) {
+        rpcPromise.then(function(res) {
+          if (res && res.sucesso && (res.registros || res.kpis)) aplicarDadosSefrep(res, false);
+          else tentarMirrorSefrep();
+        }).catch(tentarMirrorSefrep);
+        return;
+      }
+      google.script.run
+        .withSuccessHandler(function(res) {
+          if (res && res.sucesso && (res.registros || res.kpis)) {
+            aplicarDadosSefrep(res, false);
+          } else {
+            tentarMirrorSefrep();
+          }
+        })
+        .withFailureHandler(tentarMirrorSefrep)
+        .sincronizarPlanilhaSefrep(manual);
+    };
+    if (!manual && window.__syncSilenciosoAtivo === true && typeof window.__iniciarBootstrapGas === 'function') {
+      window.__iniciarBootstrapGas().then(function(boot) {
+        var cached = boot && boot.caches && boot.caches.sefrep;
+        if (cached && cached.sucesso && (cached.registros || cached.kpis)) {
+          aplicarDadosSefrep(cached, false);
+          return;
         }
-      })
-      .withFailureHandler(function() {
-        fetch(URLS_OFICIAIS_SEFREP.mirrorData + '?t=' + Date.now())
-          .then(function(r) { return r.json(); })
-          .then(function(d) { aplicarDadosSefrep(d, false); })
-          .catch(function() { aplicarDadosSefrep(null, true); });
-      })
-      .sincronizarPlanilhaSefrep(manual);
+        invocarRpcSefrep();
+      });
+    } else {
+      invocarRpcSefrep();
+    }
   } else {
     fetch(URLS_OFICIAIS_SEFREP.mirrorData + '?t=' + Date.now())
       .then(function(r) { return r.json(); })

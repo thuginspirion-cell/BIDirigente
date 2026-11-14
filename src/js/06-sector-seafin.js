@@ -489,14 +489,69 @@
           }
         }
 
-        if (typeof google !== 'undefined' && google.script && google.script.run && fnGas && typeof google.script.run[fnGas] === 'function') {
-          try {
-            var runner = google.script.run
-              .withSuccessHandler(function(res) { resolveTracked(res); })
-              .withFailureHandler(function() { rodarTier2Jsonp(); });
-            runner[fnGas].apply(runner, argsGas);
+        var mapaSetorCache = {
+          sincronizarSharepoint: 'seintec',
+          sincronizarCalls: 'seintec',
+          sincronizarInventario: 'inventario',
+          sincronizarSefin: 'sefin',
+          sincronizarSegre: 'segre',
+          sincronizarSemat: 'semat',
+          sincronizarSevesc: 'sevesc',
+          sincronizarSepes: 'sepes',
+          sincronizarSefrep: 'sefrep',
+          sincronizarSecomse: 'secomse',
+          sincronizarDpat: 'dpat',
+          sincronizarSeom: 'seom',
+          sincronizarSefisc: 'sefisc'
+        };
+        var setorCacheKey = mapaSetorCache[String(o.action || '')] || '';
+
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          var emModoSilencioso = (window.__syncSilenciosoAtivo === true && extra.indexOf('bruto=true') === -1);
+          var invocarRpcGas = function() {
+            if (emModoSilencioso && o.action && typeof google.script.run.obterSetorComCacheActionGas === 'function') {
+              var callCache = (typeof window.__runGasQueued === 'function')
+                ? window.__runGasQueued('obterSetorComCacheActionGas', [o.action, true, argsGas[0] || ''], Math.min(timeoutMs, 15000))
+                : Promise.reject(new Error('Fila GAS indisponivel'));
+              callCache.then(function(res) {
+                if (res && res.sucesso) resolveTracked(res);
+                else rodarTier2Jsonp();
+              }).catch(function() {
+                rodarTier2Jsonp();
+              });
+              return;
+            }
+            if (fnGas && typeof google.script.run[fnGas] === 'function') {
+              if (typeof window.__runGasQueued === 'function') {
+                window.__runGasQueued(fnGas, argsGas, Math.min(timeoutMs, 20000))
+                  .then(function(res) { resolveTracked(res); })
+                  .catch(function() { rodarTier2Jsonp(); });
+                return;
+              }
+              try {
+                var runner = google.script.run
+                  .withSuccessHandler(function(res) { resolveTracked(res); })
+                  .withFailureHandler(function() { rodarTier2Jsonp(); });
+                runner[fnGas].apply(runner, argsGas);
+                return;
+              } catch (eTier1) {}
+            }
+            rodarTier2Jsonp();
+          };
+
+          if (emModoSilencioso && setorCacheKey && typeof window.__iniciarBootstrapGas === 'function') {
+            window.__iniciarBootstrapGas().then(function(boot) {
+              var cached = boot && boot.caches && boot.caches[setorCacheKey];
+              if (cached && cached.sucesso) {
+                resolveTracked(cached);
+                return;
+              }
+              invocarRpcGas();
+            });
             return;
-          } catch (eTier1) {}
+          }
+          invocarRpcGas();
+          return;
         }
         rodarTier2Jsonp();
       });

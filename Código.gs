@@ -80,6 +80,8 @@ function doGet(e) {
         });
       } else if (action === 'obterCarroCalendarHistorico') {
         output = obterCarroComHistoricoDrive_(usarCacheDrive);
+      } else if (action === 'obterBootstrapCompleto') {
+        output = obterBootstrapCompletoGas();
       } else if (action === 'executarSyncSegundoPlano') {
         output = sincronizarTodasBasesEmSegundoPlano();
       } else if (action === 'instalarGatilhoSegundoPlano') {
@@ -2216,6 +2218,122 @@ function obterSetorComCacheDrive_(setor, usarCache, fnLive) {
     salvarCacheSetorDrive_(setor, res);
   }
   return res;
+}
+
+/**
+ * Roteador unificado de setores para chamadas google.script.run com suporte a Cache no Drive.
+ */
+function obterSetorComCacheActionGas(action, usarCache, argOpcional) {
+  var a = String(action || '');
+  var forcarBruto = !usarCache;
+  var tabela = {
+    sincronizarSharepoint: { setor: 'seintec', fn: function() { return sincronizarPlanilhaSharepoint(forcarBruto); } },
+    sincronizarCalls: { setor: 'seintec', fn: function() { return sincronizarPlanilhaSharepoint(forcarBruto); } },
+    sincronizarPlanilhaSharepoint: { setor: 'seintec', fn: function() { return sincronizarPlanilhaSharepoint(forcarBruto); } },
+    sincronizarInventario: { setor: 'inventario', fn: function() { return sincronizarInventarioSharepoint(argOpcional || ''); } },
+    sincronizarInventarioSharepoint: { setor: 'inventario', fn: function() { return sincronizarInventarioSharepoint(argOpcional || ''); } },
+    sincronizarSefin: { setor: 'sefin', fn: function() { return sincronizarPlanilhaSefin(forcarBruto); } },
+    sincronizarPlanilhaSefin: { setor: 'sefin', fn: function() { return sincronizarPlanilhaSefin(forcarBruto); } },
+    sincronizarSecomse: { setor: 'secomse', fn: function() { return sincronizarPlanilhaSecomse(forcarBruto); } },
+    sincronizarPlanilhaSecomse: { setor: 'secomse', fn: function() { return sincronizarPlanilhaSecomse(forcarBruto); } },
+    sincronizarDpat: { setor: 'dpat', fn: function() { return sincronizarPlanilhaDpat(forcarBruto); } },
+    sincronizarPlanilhaDpat: { setor: 'dpat', fn: function() { return sincronizarPlanilhaDpat(forcarBruto); } },
+    sincronizarSeom: { setor: 'seom', fn: function() { return sincronizarPlanilhaSeom(forcarBruto); } },
+    sincronizarPlanilhaSeom: { setor: 'seom', fn: function() { return sincronizarPlanilhaSeom(forcarBruto); } },
+    sincronizarSefisc: { setor: 'sefisc', fn: function() { return sincronizarPlanilhaSefisc(forcarBruto); } },
+    sincronizarPlanilhaSefisc: { setor: 'sefisc', fn: function() { return sincronizarPlanilhaSefisc(forcarBruto); } },
+    sincronizarSemat: { setor: 'semat', fn: function() { return sincronizarPlanilhaSemat(forcarBruto); } },
+    sincronizarPlanilhaSemat: { setor: 'semat', fn: function() { return sincronizarPlanilhaSemat(forcarBruto); } },
+    sincronizarSevesc: { setor: 'sevesc', fn: function() { return sincronizarPlanilhaSevesc(forcarBruto); } },
+    sincronizarPlanilhaSevesc: { setor: 'sevesc', fn: function() { return sincronizarPlanilhaSevesc(forcarBruto); } },
+    sincronizarSegre: { setor: 'segre', fn: function() { return sincronizarPlanilhaSegre(forcarBruto); } },
+    sincronizarPlanilhaSegre: { setor: 'segre', fn: function() { return sincronizarPlanilhaSegre(forcarBruto); } },
+    sincronizarSepes: { setor: 'sepes', fn: function() { return sincronizarPlanilhaSepes(forcarBruto); } },
+    sincronizarPlanilhaSepes: { setor: 'sepes', fn: function() { return sincronizarPlanilhaSepes(forcarBruto); } },
+    sincronizarSefrep: { setor: 'sefrep', fn: function() { return sincronizarPlanilhaSefrep(forcarBruto); } },
+    sincronizarPlanilhaSefrep: { setor: 'sefrep', fn: function() { return sincronizarPlanilhaSefrep(forcarBruto); } },
+    obterAgendaCalendar: {
+      setor: 'agenda_calendar',
+      fn: function() { return { sucesso: true, eventos: getGoogleCalendarEvents(argOpcional || '') }; }
+    }
+  };
+  if (a === 'obterCarroCalendarHistorico') {
+    return obterCarroComHistoricoDrive_(!!usarCache);
+  }
+  var cfg = tabela[a];
+  if (!cfg) return { sucesso: false, erro: 'Ação de cache não mapeada: ' + a };
+  return obterSetorComCacheDrive_(cfg.setor, !!usarCache, cfg.fn);
+}
+
+/**
+ * Hidratação em lote único para boot rápido no GAS/Google Sites (substitui dezenas de RPCs paralelos).
+ */
+function obterBootstrapCompletoGas() {
+  var estados = {};
+  var caches = {};
+  var cachesOmitidos = [];
+  var orcamentoBytes = 2500000;
+  var usadoBytes = 0;
+
+  try {
+    var pasta = obterOuCriarPastaCacheBI_();
+    var files = pasta.getFiles();
+    while (files.hasNext()) {
+      var file = files.next();
+      var nome = String(file.getName() || '');
+      try {
+        if (nome.indexOf('estado_') === 0 && nome.slice(-5) === '.json') {
+          var chave = nome.slice(7, -5).toUpperCase();
+          var rawEst = file.getBlob().getDataAsString('UTF-8');
+          if (rawEst) {
+            var parsedEst = JSON.parse(rawEst);
+            estados[chave] = (parsedEst && parsedEst.dados !== undefined) ? parsedEst.dados : parsedEst;
+          }
+        } else if (nome.indexOf('cache_') === 0 && nome.slice(-5) === '.json') {
+          var setor = nome.slice(6, -5).toLowerCase();
+          var sz = file.getSize();
+          if (usadoBytes + sz <= orcamentoBytes) {
+            var rawCache = file.getBlob().getDataAsString('UTF-8');
+            if (rawCache) {
+              var parsedCache = JSON.parse(rawCache);
+              if (parsedCache && parsedCache.dados && parsedCache.dados.sucesso) {
+                caches[setor] = parsedCache.dados;
+                usadoBytes += rawCache.length;
+              }
+            }
+          } else {
+            cachesOmitidos.push(setor);
+          }
+        }
+      } catch (errFile) {}
+    }
+  } catch (errPasta) {}
+
+  var emailAlerta = '';
+  try {
+    var rEmail = obterEmailAlertaConfigurado();
+    if (rEmail && rEmail.email) emailAlerta = rEmail.email;
+  } catch (eMail) {}
+
+  var carroUrl = '';
+  try { carroUrl = getCarroCalendarConfig() || ''; } catch (eCal) {}
+
+  var logoUre = '';
+  var logoSeintec = '';
+  try { logoUre = getLogoDataUri() || ''; } catch (eL1) {}
+  try { logoSeintec = getSeintecLogoDataUri() || ''; } catch (eL2) {}
+
+  return {
+    sucesso: true,
+    estados: estados,
+    caches: caches,
+    cachesOmitidos: cachesOmitidos,
+    carroCalendarUrl: carroUrl,
+    emailAlerta: emailAlerta,
+    logoUre: logoUre,
+    logoSeintec: logoSeintec,
+    timestampBr: Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM/yyyy HH:mm:ss')
+  };
 }
 
 function obterCarroComHistoricoDrive_(usarCache) {

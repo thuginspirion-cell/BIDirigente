@@ -38,16 +38,36 @@
     
 
     function aplicarIdentidadeVisual() {
+      function aplicarLogosUreSeintec(uriUre, uriSeintec) {
+        if (uriUre) {
+          document.querySelectorAll('.brand-logo-img').forEach(function(img) {
+            img.src = uriUre;
+          });
+        }
+        if (uriSeintec) {
+          const el = document.getElementById('seintec-sidebar-logo');
+          if (el) el.src = uriSeintec;
+        }
+      }
       try {
         if (typeof google !== 'undefined' && google.script && google.script.run) {
+          if (typeof window.__iniciarBootstrapGas === 'function') {
+            window.__iniciarBootstrapGas().then(function(boot) {
+              if (boot && (boot.logoUre || boot.logoSeintec)) {
+                aplicarLogosUreSeintec(boot.logoUre, boot.logoSeintec);
+                return;
+              }
+              if (typeof window.__runGasQueued === 'function') {
+                window.__runGasQueued('getLogoDataUri', [], 10000).then(function(u) { aplicarLogosUreSeintec(u, null); }).catch(function() {});
+                window.__runGasQueued('getSeintecLogoDataUri', [], 10000).then(function(s) { aplicarLogosUreSeintec(null, s); }).catch(function() {});
+              }
+            });
+            return;
+          }
           try {
             var runner = typeof google.script.run.withSuccessHandler === 'function'
               ? google.script.run.withSuccessHandler(function(dataUri) {
-                  if (dataUri) {
-                    document.querySelectorAll('.brand-logo-img').forEach(function(img) {
-                      img.src = dataUri;
-                    });
-                  }
+                  aplicarLogosUreSeintec(dataUri, null);
                 })
               : google.script.run;
             if (runner && typeof runner.getLogoDataUri === 'function') {
@@ -60,10 +80,7 @@
           try {
             var runnerSeintec = typeof google.script.run.withSuccessHandler === 'function'
               ? google.script.run.withSuccessHandler(function(dataUri) {
-                  if (dataUri) {
-                    const el = document.getElementById('seintec-sidebar-logo');
-                    if (el) el.src = dataUri;
-                  }
+                  aplicarLogosUreSeintec(null, dataUri);
                 })
               : google.script.run;
             if (runnerSeintec && typeof runnerSeintec.getSeintecLogoDataUri === 'function') {

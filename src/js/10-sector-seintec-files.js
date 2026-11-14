@@ -2261,8 +2261,8 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
         }
       }, 1200);
 
-      /* Failsafe máximo caso alguma requisição externa de rede fique presa */
-      setTimeout(fecharBootModalComSuavidade, 45000);
+      /* Failsafe rápido (10s) para liberar o painel mesmo se a nuvem oscilar */
+      setTimeout(fecharBootModalComSuavidade, 10000);
 
       /* Intervalo recorrente de 60 minutos (1 hora = 3.600.000 ms) */
       timerSincronizacaoSharepoint = setInterval(function() {
@@ -2452,32 +2452,58 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       /* TIER 1: Chamada nativa se executando diretamente no ambiente Google Apps Script */
       if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.sincronizarPlanilhaSharepoint === 'function') {
         console.log('🔄 Sincronizando SEINTEC via Tier 1 (google.script.run nativo)...');
-        google.script.run
-          .withSuccessHandler(function(res) {
-            if (res && res.sucesso && res.dadosBase64) {
-              var purificarPromise = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
-                ? window.purificarXlsxStreamingSeNecessario(res.dadosBase64)
-                : Promise.resolve(res.dadosBase64);
-              purificarPromise.then(function(cleanB64) {
-                try {
-                  var qtd = processarPlanilhaSharepointBase64(cleanB64, res.timestamp);
-                  finalizarComSucesso(qtd, res.timestamp, 'SharePoint via Google Apps Script');
-                } catch (e) {
-                  executarTier2Jsonp();
-                }
-              });
-            } else if (res && res.sucesso && Array.isArray(res.registros) && res.registros.length > 0) {
-              aplicarNovosRegistros(res.registros, res.timestamp, 'SharePoint Direto');
-              finalizarComSucesso(res.registros.length, res.timestamp, 'SharePoint Direto');
-            } else {
-              executarTier2Jsonp();
-            }
-          })
-          .withFailureHandler(function(err) {
-            console.warn('Falha Tier 1 google.script.run, ativando Tier 2 JSONP:', err);
+        var tratarRespostaSeintecGas = function(res) {
+          if (res && res.sucesso && res.dadosBase64) {
+            var purificarPromise = (typeof window.purificarXlsxStreamingSeNecessario === 'function')
+              ? window.purificarXlsxStreamingSeNecessario(res.dadosBase64)
+              : Promise.resolve(res.dadosBase64);
+            purificarPromise.then(function(cleanB64) {
+              try {
+                var qtd = processarPlanilhaSharepointBase64(cleanB64, res.timestamp);
+                finalizarComSucesso(qtd, res.timestamp, 'SharePoint via Google Apps Script');
+              } catch (e) {
+                executarTier2Jsonp();
+              }
+            });
+          } else if (res && res.sucesso && Array.isArray(res.registros) && res.registros.length > 0) {
+            aplicarNovosRegistros(res.registros, res.timestamp, 'SharePoint Direto');
+            finalizarComSucesso(res.registros.length, res.timestamp, 'SharePoint Direto');
+          } else {
             executarTier2Jsonp();
-          })
-          .sincronizarPlanilhaSharepoint();
+          }
+        };
+        var dispararSeintecGas = function() {
+          var usarCache = (!isManual && window.__syncSilenciosoAtivo === true && typeof google.script.run.obterSetorComCacheActionGas === 'function');
+          if (typeof window.__runGasQueued === 'function') {
+            var p = usarCache
+              ? window.__runGasQueued('obterSetorComCacheActionGas', ['sincronizarSharepoint', true, ''], 14000)
+              : window.__runGasQueued('sincronizarPlanilhaSharepoint', [], 18000);
+            p.then(tratarRespostaSeintecGas).catch(function(err) {
+              console.warn('Falha Tier 1 google.script.run, ativando Tier 2 JSONP:', err);
+              executarTier2Jsonp();
+            });
+            return;
+          }
+          google.script.run
+            .withSuccessHandler(tratarRespostaSeintecGas)
+            .withFailureHandler(function(err) {
+              console.warn('Falha Tier 1 google.script.run, ativando Tier 2 JSONP:', err);
+              executarTier2Jsonp();
+            })
+            .sincronizarPlanilhaSharepoint();
+        };
+        if (!isManual && window.__syncSilenciosoAtivo === true && typeof window.__iniciarBootstrapGas === 'function') {
+          window.__iniciarBootstrapGas().then(function(boot) {
+            var cached = boot && boot.caches && boot.caches.seintec;
+            if (cached && cached.sucesso && (cached.dadosBase64 || (Array.isArray(cached.registros) && cached.registros.length > 0))) {
+              tratarRespostaSeintecGas(cached);
+              return;
+            }
+            dispararSeintecGas();
+          });
+        } else {
+          dispararSeintecGas();
+        }
         return;
       }
 

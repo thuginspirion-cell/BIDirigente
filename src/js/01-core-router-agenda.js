@@ -43,12 +43,137 @@
       return 'https:' + String.fromCharCode(47, 47) + 'script.google.com/macros/s/AKfycby5KrABd0fS11O_2Fuoc9yDsR-r124nzfsDOO0NWVRwNdpWp6YZ99NkyZtbOaVYO5PV/exec';
     };
 
+    /* Fila de concorrência controlada para RPCs google.script.run (evita abort status:0 no GS/GAS) */
+    (function() {
+      var filaGas = [];
+      var ativosGas = 0;
+      var MAX_CONCORRENTE_GAS = 3;
+
+      function processarFilaGas() {
+        while (ativosGas < MAX_CONCORRENTE_GAS && filaGas.length > 0) {
+          var item = filaGas.shift();
+          executarItemGas(item);
+        }
+      }
+
+      function executarItemGas(item) {
+        if (typeof google === 'undefined' || !google.script || !google.script.run || typeof google.script.run[item.fnName] !== 'function') {
+          item.reject(new Error('google.script.run indisponivel: ' + item.fnName));
+          return;
+        }
+        ativosGas++;
+        var encerrado = false;
+        var timer = setTimeout(function() {
+          if (encerrado) return;
+          encerrado = true;
+          ativosGas = Math.max(0, ativosGas - 1);
+          processarFilaGas();
+          item.reject(new Error('Timeout RPC GAS: ' + item.fnName));
+        }, item.timeoutMs || 15000);
+
+        try {
+          var runner = google.script.run
+            .withSuccessHandler(function(res) {
+              if (encerrado) return;
+              encerrado = true;
+              clearTimeout(timer);
+              ativosGas = Math.max(0, ativosGas - 1);
+              processarFilaGas();
+              item.resolve(res);
+            })
+            .withFailureHandler(function(err) {
+              if (encerrado) return;
+              encerrado = true;
+              clearTimeout(timer);
+              ativosGas = Math.max(0, ativosGas - 1);
+              processarFilaGas();
+              item.reject(err || new Error('Falha RPC GAS: ' + item.fnName));
+            });
+          runner[item.fnName].apply(runner, item.args || []);
+        } catch (errTry) {
+          if (!encerrado) {
+            encerrado = true;
+            clearTimeout(timer);
+            ativosGas = Math.max(0, ativosGas - 1);
+            processarFilaGas();
+            item.reject(errTry);
+          }
+        }
+      }
+
+      window.__runGasQueued = function(fnName, args, timeoutMs) {
+        return new Promise(function(resolve, reject) {
+          filaGas.push({
+            fnName: fnName,
+            args: Array.isArray(args) ? args : [],
+            timeoutMs: timeoutMs || 15000,
+            resolve: resolve,
+            reject: reject
+          });
+          processarFilaGas();
+        });
+      };
+    })();
+
+    window.__gasBootstrapPromise = null;
+    window.__iniciarBootstrapGas = function(forcarNovo) {
+      if (typeof google === 'undefined' || !google.script || !google.script.run || typeof google.script.run.obterBootstrapCompletoGas !== 'function') {
+        return Promise.resolve(null);
+      }
+      if (!forcarNovo && window.__gasBootstrapPromise) {
+        return window.__gasBootstrapPromise;
+      }
+      window.__gasBootstrapPromise = new Promise(function(resolve) {
+        var finalizado = false;
+        var timerBoot = setTimeout(function() {
+          if (finalizado) return;
+          finalizado = true;
+          resolve(null);
+        }, 10000);
+
+        try {
+          google.script.run
+            .withSuccessHandler(function(res) {
+              if (finalizado) return;
+              finalizado = true;
+              clearTimeout(timerBoot);
+              if (res && res.sucesso) {
+                window.__gasBootstrapData = res;
+                resolve(res);
+              } else {
+                resolve(null);
+              }
+            })
+            .withFailureHandler(function() {
+              if (finalizado) return;
+              finalizado = true;
+              clearTimeout(timerBoot);
+              resolve(null);
+            })
+            .obterBootstrapCompletoGas();
+        } catch (eBoot) {
+          if (!finalizado) {
+            finalizado = true;
+            clearTimeout(timerBoot);
+            resolve(null);
+          }
+        }
+      });
+      return window.__gasBootstrapPromise;
+    };
+
     window.lerEstadoNuvem = function(chave, onResult) {
+      var chaveLimpa = String(chave || '').replace(/[^A-Za-z0-9_]/g, '').toUpperCase();
       if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.obterEstadoNuvem === 'function') {
-        google.script.run
-          .withSuccessHandler(function(res) { if (typeof onResult === 'function') onResult(res && res.sucesso ? res.dados : null); })
-          .withFailureHandler(function() { if (typeof onResult === 'function') onResult(null); })
-          .obterEstadoNuvem(chave);
+        window.__iniciarBootstrapGas().then(function(boot) {
+          if (boot && boot.estados && typeof boot.estados === 'object') {
+            if (typeof onResult === 'function') onResult(boot.estados[chaveLimpa] !== undefined ? boot.estados[chaveLimpa] : null);
+            return;
+          }
+          window.__runGasQueued('obterEstadoNuvem', [chave], 12000)
+            .then(function(res) { if (typeof onResult === 'function') onResult(res && res.sucesso ? res.dados : null); })
+            .catch(function() { if (typeof onResult === 'function') onResult(null); });
+        });
         return;
       }
       var cbName = '__cb_cloud_get_' + chave + '_' + Math.floor(Math.random() * 10000000);
@@ -1074,29 +1199,46 @@ if (!window.mostrarHome) {
      * Conecta diretamente com CalendarApp do Google Apps Script sem gastar cota no Google Drive
      */
     function carregarGoogleCalendar(dataIsoOpcional, callback) {
+      function aplicarEventosCalendar(eventos) {
+        if (eventos && Array.isArray(eventos) && eventos.length > 0) {
+          /* Se filtrou por data específica, atualiza os do dia mantendo os demais */
+          if (dataIsoOpcional) {
+            const outrosDias = AGENDA_COMPROMISSOS.filter(c => c.data !== dataIsoOpcional);
+            AGENDA_COMPROMISSOS = [...eventos, ...outrosDias];
+          } else {
+            AGENDA_COMPROMISSOS = eventos;
+          }
+          salvarAgendaStorage();
+          renderizarMinhaGestao();
+          if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
+          renderizarAgenda();
+        }
+        if (typeof callback === 'function') callback(eventos);
+      }
+
       if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.getGoogleCalendarEvents === 'function') {
-        google.script.run
-          .withSuccessHandler(function(eventos) {
-            if (eventos && Array.isArray(eventos) && eventos.length > 0) {
-              /* Se filtrou por data específica, atualiza os do dia mantendo os demais */
-              if (dataIsoOpcional) {
-                const outrosDias = AGENDA_COMPROMISSOS.filter(c => c.data !== dataIsoOpcional);
-                AGENDA_COMPROMISSOS = [...eventos, ...outrosDias];
-              } else {
-                AGENDA_COMPROMISSOS = eventos;
-              }
-              salvarAgendaStorage();
-              renderizarMinhaGestao();
-      if (typeof sincronizarCardsBasesSeintec === 'function') sincronizarCardsBasesSeintec();
-              renderizarAgenda();
+        if (!dataIsoOpcional && window.__syncSilenciosoAtivo && window.__iniciarBootstrapGas) {
+          window.__iniciarBootstrapGas().then(function(boot) {
+            var cachedCal = boot && boot.caches && boot.caches.agenda_calendar;
+            if (cachedCal && Array.isArray(cachedCal.eventos) && cachedCal.eventos.length > 0) {
+              aplicarEventosCalendar(cachedCal.eventos);
+              return;
             }
-            if (typeof callback === 'function') callback(eventos);
-          })
-          .withFailureHandler(function(err) {
+            window.__runGasQueued('getGoogleCalendarEvents', [dataIsoOpcional], 12000)
+              .then(aplicarEventosCalendar)
+              .catch(function(err) {
+                console.warn("Google Calendar indisponível, utilizando dados locais:", err);
+                if (typeof callback === 'function') callback(null);
+              });
+          });
+          return;
+        }
+        window.__runGasQueued('getGoogleCalendarEvents', [dataIsoOpcional], 12000)
+          .then(aplicarEventosCalendar)
+          .catch(function(err) {
             console.warn("Google Calendar indisponível, utilizando dados locais:", err);
             if (typeof callback === 'function') callback(null);
-          })
-          .getGoogleCalendarEvents(dataIsoOpcional);
+          });
       } else {
         if (typeof callback === 'function') callback(AGENDA_COMPROMISSOS);
       }

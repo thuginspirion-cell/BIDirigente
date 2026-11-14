@@ -162,6 +162,14 @@
 
     function carregarDadosConsolidados() {
       if (typeof google !== 'undefined' && google.script && google.script.run) {
+        if (typeof window.__runGasQueued === 'function') {
+          window.__runGasQueued('getConsolidatedData', [], 10000)
+            .then(aplicarDados)
+            .catch(function (err) {
+              console.warn("Apps Script em modo autônomo:", err);
+            });
+          return;
+        }
         google.script.run
           .withSuccessHandler(aplicarDados)
           .withFailureHandler(function (err) {
