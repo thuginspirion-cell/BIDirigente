@@ -1690,9 +1690,9 @@
           abrirModalAvisoCarroUX({
             tipo: 'perigo',
             icone: '🚫',
-            subtitulo: 'VALIDAÇÃO DE FORMULÁRIO • AGENDA',
+            eyebrow: 'VALIDAÇÃO DE FORMULÁRIO • AGENDA',
             titulo: 'Ação Não Permitida',
-            mensagemHtml: '<div style="display:flex; flex-direction:column; gap:0.65rem;">' +
+            html: '<div style="display:flex; flex-direction:column; gap:0.65rem;">' +
               '<p style="margin:0; font-size:0.94rem; color:#1e293b; font-weight:600;">Não é possível salvar o compromisso antes de preencher todos os campos obrigatórios (*).</p>' +
               '<div style="background:#fef2f2; border:1px solid #fecaca; border-left:4px solid #ef4444; border-radius:8px; padding:0.75rem 0.9rem; font-size:0.84rem; color:#991b1b;">' +
               '<strong>Pendente(s):</strong> ' + faltantes.join(', ') +
@@ -1714,9 +1714,9 @@
           abrirModalAvisoCarroUX({
             tipo: 'aviso',
             icone: '⏰',
-            subtitulo: 'VALIDAÇÃO DE HORÁRIO • AGENDA',
+            eyebrow: 'VALIDAÇÃO DE HORÁRIO • AGENDA',
             titulo: 'Horário Inválido',
-            mensagemHtml: '<p style="margin:0; font-size:0.94rem; color:#1e293b; font-weight:600;">Ação não permitida: o <strong>Horário de Término</strong> deve ser posterior ao <strong>Horário de Início</strong>.</p>',
+            html: '<p style="margin:0; font-size:0.94rem; color:#1e293b; font-weight:600;">Ação não permitida: o <strong>Horário de Término</strong> deve ser posterior ao <strong>Horário de Início</strong>.</p>',
             textoFechar: 'Ajustar Horário'
           });
         } else {
@@ -1834,12 +1834,12 @@
         abrirModalAvisoCarroUX({
           tipo: 'aviso',
           icone: '⚠️',
-          subtitulo: 'CONFIRMAÇÃO • AGENDA DA DIRIGENTE',
+          eyebrow: 'CONFIRMAÇÃO • AGENDA DA DIRIGENTE',
           titulo: 'Cancelar Compromisso',
-          mensagemHtml: '<p style="margin:0; font-size:0.94rem; color:#1e293b;">Deseja cancelar o compromisso <strong>"' + evento.titulo + '"</strong>? O horário será liberado imediatamente na Linha do Tempo (07h–17h).</p>',
+          html: '<p style="margin:0; font-size:0.94rem; color:#1e293b;">Deseja cancelar o compromisso <strong>"' + evento.titulo + '"</strong>? O horário será liberado imediatamente na Linha do Tempo (07h–17h).</p>',
           textoConfirmar: 'Sim, Cancelar Horário',
           textoFechar: 'Manter Agendado',
-          aoConfirmar: executarCancelamento
+          onConfirmar: executarCancelamento
         });
       } else if (confirm('Deseja realmente cancelar o compromisso "' + evento.titulo + '"?')) {
         executarCancelamento();
@@ -1871,12 +1871,12 @@
         abrirModalAvisoCarroUX({
           tipo: 'perigo',
           icone: '🗑️',
-          subtitulo: 'EXCLUSÃO PERMANENTE • AGENDA',
+          eyebrow: 'EXCLUSÃO PERMANENTE • AGENDA',
           titulo: 'Excluir Compromisso',
-          mensagemHtml: '<p style="margin:0; font-size:0.94rem; color:#1e293b;">Tem certeza que deseja excluir permanentemente o compromisso <strong>"' + titulo + '"</strong>?</p>',
+          html: '<p style="margin:0; font-size:0.94rem; color:#1e293b;">Tem certeza que deseja excluir permanentemente o compromisso <strong>"' + titulo + '"</strong>?</p>',
           textoConfirmar: 'Sim, Excluir',
           textoFechar: 'Voltar',
-          aoConfirmar: executarExclusao
+          onConfirmar: executarExclusao
         });
       } else if (confirm('Tem certeza que deseja excluir o compromisso "' + titulo + '" permanentemente?')) {
         executarExclusao();

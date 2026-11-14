@@ -1531,14 +1531,14 @@ function abrirModalAvisoCarroUX(opts) {
     iconEl.style.borderColor = paleta.border;
   }
   if (eyeEl) {
-    eyeEl.innerText = (opts && opts.eyebrow) || 'AVISO DO SISTEMA • FROTA OFICIAL';
+    eyeEl.innerText = (opts && (opts.eyebrow || opts.subtitulo)) || 'AVISO DO SISTEMA • FROTA OFICIAL';
     eyeEl.style.color = paleta.eyeColor;
   }
   if (titleEl) titleEl.innerText = (opts && opts.titulo) || 'Atenção';
-  if (bodyEl) bodyEl.innerHTML = (opts && opts.html) || '';
+  if (bodyEl) bodyEl.innerHTML = (opts && (opts.html || opts.mensagemHtml || opts.mensagem)) || '';
   if (closeBtnText) closeBtnText.innerText = (opts && opts.textoFechar) || 'Fechar';
 
-  __carroUxConfirmCallback = (opts && typeof opts.onConfirmar === 'function') ? opts.onConfirmar : null;
+  __carroUxConfirmCallback = (opts && typeof (opts.onConfirmar || opts.aoConfirmar) === 'function') ? (opts.onConfirmar || opts.aoConfirmar) : null;
   if (primaryBtn) {
     if (opts && opts.textoConfirmar && __carroUxConfirmCallback) {
       primaryBtn.style.display = 'inline-flex';
