@@ -96,6 +96,11 @@
     grid-template-columns: repeat(4, 1fr) !important;
     gap: 1.5rem !important;
   }
+
+  .carro-kpi-grid.agenda-kpi-grid-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 0.85rem !important;
+  }
 }
 
 /* ----------------------------------------------------

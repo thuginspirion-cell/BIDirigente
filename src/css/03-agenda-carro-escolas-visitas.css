@@ -2208,12 +2208,12 @@
 
     /* Faixa Executiva Compacta de 5 KPIs em Linha Única (Agenda & Rotina) */
     .carro-kpi-grid.agenda-kpi-grid-5 {
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 0.75rem;
-      margin-bottom: 1.15rem;
+      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      gap: 0.75rem !important;
+      margin-bottom: 1.15rem !important;
     }
     .carro-kpi-grid.agenda-kpi-grid-5 .carro-kpi-card {
-      padding: 0.8rem 0.95rem;
+      padding: 0.68rem 0.9rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
