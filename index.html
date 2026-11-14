@@ -13728,23 +13728,6 @@ function imprimirAgendaCarro() {
 
 <body>
   <!-- Modal Executivo de Carregamento Real em Nuvem (Fecha somente após conclusão real das bases) -->
-  <div id="modal-boot-sync-ure" class="boot-sync-overlay" role="dialog" aria-modal="true" aria-labelledby="boot-sync-title-el">
-    <div class="boot-sync-card" style="max-width:460px;padding:1.5rem 1.6rem 1.4rem;">
-      <div class="boot-sync-header" style="margin-bottom:1.1rem;">
-        <div class="boot-sync-crest-wrap">
-          <img id="boot-modal-logo" class="brand-logo-img" src="logo_ure_itapevi_480.png" alt="Brasão URE Itapevi" onerror="if(typeof LOGO_URE_DATA_URI!=='undefined'&&this.src!==LOGO_URE_DATA_URI){this.src=LOGO_URE_DATA_URI;}else if(this.src!=='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png'){this.src='https://thuginspirion-cell.github.io/BIDirigente/logo_ure_itapevi_480.png';}">
-        </div>
-        <div>
-          <div class="boot-sync-kicker"><span>GOVERNO DO ESTADO DE SÃO PAULO • SEDUC-SP</span></div>
-          <h2 id="boot-sync-title-el" class="boot-sync-title">BI Dirigente — URE Itapevi</h2>
-          <p class="boot-sync-subtitle">Carregando painel e bases oficiais...</p>
-        </div>
-      </div>
-      <div class="boot-sync-track">
-        <div id="boot-sync-progress-fill" class="boot-sync-fill"></div>
-      </div>
-    </div>
-  </div>
 
   <!-- ============================================== -->
   <!-- 1. SIDEBAR LATERAL ESCURA -->
@@ -36024,7 +36007,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
       if (timerSincronizacaoSharepoint) clearInterval(timerSincronizacaoSharepoint);
       atualizarBadgeStatusSincronismo();
 
-      window.__bootSyncTracker = { ativo: true, disparado: false, tasks: {} };
+      window.__bootSyncTracker = { ativo: false, disparado: false, tasks: {} };
       atualizarUIBootSyncReal();
 
       /* ABERTURA INSTANTÂNEA E HIDRATAÇÃO UNIVERSAL EM NUVEM */
