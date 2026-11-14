@@ -1612,6 +1612,27 @@
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
     }
 
+    /* Ícones Vetoriais Inline e Status Dots (Design System Zero-Emoji) */
+    .bi-inline-svg {
+      display: inline-block;
+      vertical-align: -0.15em;
+      flex-shrink: 0;
+    }
+    .bi-status-dot {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 9999px;
+      vertical-align: middle;
+      margin-right: 0.25rem;
+      flex-shrink: 0;
+    }
+    .bi-dot-green { background: #10b981; box-shadow: 0 0 0 2.5px rgba(16, 185, 129, 0.22); }
+    .bi-dot-yellow { background: #eab308; box-shadow: 0 0 0 2.5px rgba(234, 179, 8, 0.22); }
+    .bi-dot-orange { background: #f97316; box-shadow: 0 0 0 2.5px rgba(249, 115, 22, 0.22); }
+    .bi-dot-red { background: #ef4444; box-shadow: 0 0 0 2.5px rgba(239, 68, 68, 0.22); }
+    .bi-dot-blue { background: #3b82f6; box-shadow: 0 0 0 2.5px rgba(59, 130, 246, 0.22); }
+
     /* Botão Ctrl+K na Topbar */
     .topbar-cmdk-btn {
       display: inline-flex;
