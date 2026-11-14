@@ -1139,23 +1139,25 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
           '<!-- BANNER TOPO EXECUTIVO EEC -->' +
           '<div style="background: linear-gradient(135deg, #0b2351 0%, #1e3a8a 50%, #1e40af 100%); border: 2px solid #f59e0b; border-radius: 16px; padding: 1.15rem 1.4rem; margin-bottom: 1.2rem; box-shadow: 0 10px 25px -5px rgba(11,35,81,0.3); display: flex; justify-content: space-between; align-items: center; gap: 1.2rem;">' +
             '<div style="flex: 1; min-width: 0;">' +
-              '<div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem; flex-wrap: wrap;">' +
-                '<span style="font-size: 1.6rem;">📚</span>' +
+              '<div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem; flex-wrap: wrap;">' +
+                '<span style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:10px; background:rgba(245,158,11,0.18); border:1px solid rgba(245,158,11,0.45); color:#fbbf24; flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>' +
                 '<h2 style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: -0.02em;">EEC - Equipe de Especialistas em Currículo</h2>' +
-                '<span style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">PORTAL PEDAGÓGICO INTEGRADO</span>' +
-                '<span style="background: #dcfce7; color: #166534; border: 1.5px solid #22c55e; font-size: 0.76rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">🌐 LINKS PÚBLICOS OFICIAIS</span>' +
+                '<span style="background: #fef3c7; color: #92400e; border: 1.5px solid #f59e0b; font-size: 0.74rem; font-weight: 800; padding: 3px 10px; border-radius: 20px;">PORTAL PEDAGÓGICO INTEGRADO</span>' +
+                '<span style="background: #dcfce7; color: #166534; border: 1.5px solid #22c55e; font-size: 0.74rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; display:inline-flex; align-items:center; gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> LINKS PÚBLICOS OFICIAIS</span>' +
               '</div>' +
               '<p style="font-size: 0.86rem; color: #e0e7ff; margin: 0; max-width: 860px; line-height: 1.45; font-weight: 500;">' +
                 'Acesso unificado aos sistemas, plataformas e ferramentas pedagógicas oficiais da Equipe de Especialistas em Currículo (EEC) da Unidade Regional de Ensino de Itapevi.' +
               '</p>' +
-              '<div style="margin-top: 0.35rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600;">' +
-                '<span>🕒 <strong>Dados de:</strong> <span id="eec-banner-timestamp" style="color: #ffffff;">' + (new Date().toLocaleDateString('pt-BR') + ', 08:00:00') + '</span></span>' +
+              '<div style="margin-top: 0.4rem; font-size: 0.76rem; color: #bae6fd; font-weight: 600; display:flex; align-items:center; gap:5px;">' +
+                '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+                '<span><strong>Dados de:</strong> <span id="eec-banner-timestamp" style="color: #ffffff;">' + (new Date().toLocaleDateString('pt-BR') + ', 08:00:00') + '</span></span>' +
               '</div>' +
             '</div>' +
 
             '<div style="display: flex; gap: 0.6rem; align-items: center; flex-shrink: 0; white-space: nowrap;">' +
-              '<a href="' + EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 11px 20px; border-radius: 9px; font-size: 0.88rem; font-weight: 900; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4); transition: transform 0.15s, opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'; this.style.transform=\'scale(1.02)\'" onmouseout="this.style.opacity=\'1\'; this.style.transform=\'scale(1)\'">' +
-                '🚀 Acessar Portal Central EEC ↗' +
+              '<a href="' + EEC_PROTO_SLASH + 'script.google.com/a/macros/prof.educacao.sp.gov.br/s/AKfycbxg3Z3AD5t1kfKE4ZxnmGRmulC4lhPGjvCgnqIvctsTkonKbdD57CV91ILj-mJQR3lQ/exec" target="_blank" rel="noopener noreferrer" style="background: #f59e0b; color: #0b2351; border: none; padding: 11px 20px; border-radius: 9px; font-size: 0.88rem; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4); transition: transform 0.15s, opacity 0.2s;" onmouseover="this.style.opacity=\'0.9\'; this.style.transform=\'scale(1.02)\'" onmouseout="this.style.opacity=\'1\'; this.style.transform=\'scale(1)\'">' +
+                '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>' +
+                '<span>Acessar Portal Central EEC</span>' +
               '</a>' +
             '</div>' +
           '</div>' +
@@ -1165,7 +1167,8 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
             '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.6rem;">' +
               '<div>' +
                 '<h3 style="font-size: 1.15rem; font-weight: 800; color: #0b2351; margin: 0; display: flex; align-items: center; gap: 0.5rem;">' +
-                  '<span>📚</span> Central de Aplicativos Pedagógicos • EEC' +
+                  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0b2351" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>' +
+                  '<span>Central de Aplicativos Pedagógicos • EEC</span>' +
                 '</h3>' +
                 '<p style="font-size: 0.8rem; color: #64748b; margin: 0.2rem 0 0 0;">' +
                   'Acesse qualquer uma das ferramentas oficiais abaixo com 1 clique (links 100% públicos, sem necessidade de login):' +
