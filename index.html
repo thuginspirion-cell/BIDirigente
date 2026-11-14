@@ -4012,7 +4012,7 @@ function renderizarTabelaHistoricoCarro(filtro) {
     var placaExibir = r.placa || (r.veiculo && r.veiculo.indexOf('Spin') !== -1 ? 'TLH 1B63' : 'FZG 0H22');
     
     return `<tr style="cursor: pointer;" onclick="abrirModalDetalhesAgendamentoCarro('${r.id}')" title="Clique para ver detalhes completos">
-      <td style="font-weight: 600; color: #0b2351; white-space: nowrap;">
+      <td style="font-weight: 600; color: #0b2351; white-space: nowrap; text-align: center;">
         📅 ${dataBr}
         <span style="display: block; font-size: 0.74rem; color: #64748b; font-weight: normal;">⏰ ${hora}</span>
       </td>
@@ -23057,7 +23057,7 @@ function _obterResumoIpreEscolaInterno(esc) {
             <td style="padding: 0.75rem 0.9rem; text-align: center; white-space: nowrap; font-size: 0.78rem; color: #1e3a8a; font-weight: 700;">
               ${c.dataAssinatura}
             </td>
-            <td style="padding: 0.75rem 0.9rem; font-size: 0.75rem; color: #475569; white-space: nowrap;">
+            <td style="padding: 0.75rem 0.9rem; font-size: 0.75rem; color: #475569; white-space: nowrap; text-align: center;">
               ${c.vigencia}
             </td>
             <td style="padding: 0.75rem 0.9rem; text-align: center; white-space: nowrap;">
@@ -23249,7 +23249,7 @@ function _obterResumoIpreEscolaInterno(esc) {
                     <th data-col="dataAssinatura" class="th-sortable sort-active-desc" onclick="ordenarTabelaSecomse('dataAssinatura')" style="padding: 0.75rem 0.9rem; text-align: center;" title="Clique para classificar por Data da Assinatura">
                       <div class="th-sort-wrapper center"><span class="th-title-text">Assinatura</span><span class="sort-arrow">▼</span></div>
                     </th>
-                    <th data-col="vigencia" class="th-sortable" onclick="ordenarTabelaSecomse('vigencia')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Vigência">
+                    <th data-col="vigencia" class="th-sortable" onclick="ordenarTabelaSecomse('vigencia')" style="padding: 0.75rem 0.9rem; text-align: center;" title="Clique para classificar por Vigência">
                       <div class="th-sort-wrapper"><span class="th-title-text">Vigência</span><span class="sort-arrow">↕</span></div>
                     </th>
                     <th class="no-sort" data-no-sort="true" style="padding: 0.75rem 0.9rem; text-align: center;">
@@ -24609,7 +24609,7 @@ function _obterResumoIpreEscolaInterno(esc) {
           '<td style="padding: 0.75rem 0.9rem;"><div style="font-weight: 700; color: #334155;">' + item.zelador + '</div><div style="font-size: 0.72rem; color: #64748b;">RG: ' + item.rg + '</div></td>' +
           '<td style="padding: 0.75rem 0.9rem;"><div style="color: #475569; font-weight: 600;">' + item.cargo + '</div><div style="font-size: 0.72rem; color: #0284c7;">' + item.classificacao + '</div></td>' +
           '<td style="padding: 0.75rem 0.9rem; font-family: monospace; font-size: 0.76rem; color: #1e293b; white-space: nowrap;">' + item.processo + '</td>' +
-          '<td style="padding: 0.75rem 0.9rem; font-size: 0.78rem; color: #475569; white-space: nowrap;">' + item.vencimento + '</td>' +
+          '<td style="padding: 0.75rem 0.9rem; font-size: 0.78rem; color: #475569; white-space: nowrap; text-align: center;">' + item.vencimento + '</td>' +
           '<td style="padding: 0.75rem 0.9rem; text-align: center; white-space: nowrap;">' + badgeSituacao + (badgeObs ? '<div>' + badgeObs + '</div>' : '') + '</td>' +
         '</tr>';
       }).join('');
@@ -24780,7 +24780,7 @@ function _obterResumoIpreEscolaInterno(esc) {
                     <th data-col="zelador" class="th-sortable" onclick="alternarOrdenacaoSefisc('zelador')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Zelador / RG"><div class="th-sort-wrapper"><span class="th-title-text">Zelador / RG</span><span class="sort-arrow">↕</span></div></th>
                     <th data-col="cargo" class="th-sortable" onclick="alternarOrdenacaoSefisc('cargo')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Cargo / Lotação"><div class="th-sort-wrapper"><span class="th-title-text">Cargo / Lotação</span><span class="sort-arrow">↕</span></div></th>
                     <th data-col="processo" class="th-sortable" onclick="alternarOrdenacaoSefisc('processo')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Processo SEI"><div class="th-sort-wrapper"><span class="th-title-text">Processo SEI</span><span class="sort-arrow">↕</span></div></th>
-                    <th data-col="vencimento" class="th-sortable sort-active-desc" onclick="alternarOrdenacaoSefisc('vencimento')" style="padding: 0.75rem 0.9rem;" title="Clique para classificar por Vencimento"><div class="th-sort-wrapper"><span class="th-title-text">Vencimento</span><span class="sort-arrow">▼</span></div></th>
+                    <th data-col="vencimento" class="th-sortable sort-active-desc" onclick="alternarOrdenacaoSefisc('vencimento')" style="padding: 0.75rem 0.9rem; text-align: center;" title="Clique para classificar por Vencimento"><div class="th-sort-wrapper center"><span class="th-title-text">Vencimento</span><span class="sort-arrow">▼</span></div></th>
                     <th data-col="situacao" class="th-sortable" onclick="alternarOrdenacaoSefisc('situacao')" style="padding: 0.75rem 0.9rem; text-align: center;" title="Clique para classificar por Situação / OBS"><div class="th-sort-wrapper center"><span class="th-title-text">Situação / OBS</span><span class="sort-arrow">↕</span></div></th>
                   </tr>
                 </thead>
@@ -25135,8 +25135,8 @@ function _obterResumoIpreEscolaInterno(esc) {
             `;
           } else if (abaAtivaSemat === 'matriculas') {
             htmlTabela += `
-              <td style="padding: 9px 12px; font-weight: 700; color: #475569;">
-                <div style="font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 4px;">
+              <td style="padding: 9px 12px; font-weight: 700; color: #475569; text-align: center;">
+                <div style="font-weight: 800; color: #0f172a; display: flex; align-items: center; justify-content: center; gap: 4px;">
                   <span>📅</span> ${r.data || '06/01/2026'}
                 </div>
               </td>
@@ -25158,7 +25158,7 @@ function _obterResumoIpreEscolaInterno(esc) {
             const isConcl = r.situacao.includes('CONCLU') || r.situacao.includes('PUBLICAÇÃO') || r.situacao.includes('ENC');
             htmlTabela += `
               <td style="padding: 9px 12px; font-weight: 800; color: #0b2351; font-family: monospace;">${r.protocolo}</td>
-              <td style="padding: 9px 12px; color: #475569;">${r.data || '—'}</td>
+              <td style="padding: 9px 12px; color: #475569; text-align: center;">${r.data || '—'}</td>
               <td style="padding: 9px 12px; font-weight: 600; color: #1e293b;">${r.assunto}</td>
               <td style="padding: 9px 12px; color: #475569;">
                 <div><strong>${r.interessado || '—'}</strong></div>
@@ -25954,7 +25954,7 @@ function _obterResumoIpreEscolaInterno(esc) {
             const isFin = r.situacao.includes('FINALIZ');
             htmlTabela += `
               <td style="padding: 9px 12px; font-weight: 800; color: #0b2351; font-family: monospace;">${r.protocolo}</td>
-              <td style="padding: 9px 12px; color: #475569;">${r.data || '—'}</td>
+              <td style="padding: 9px 12px; color: #475569; text-align: center;">${r.data || '—'}</td>
               <td style="padding: 9px 12px; font-weight: 600; color: #1e293b;">${r.assunto}</td>
               <td style="padding: 9px 12px; color: #475569;">
                 <div><strong>${r.interessado || '—'}</strong></div>
@@ -25967,7 +25967,7 @@ function _obterResumoIpreEscolaInterno(esc) {
             `;
           } else if (abaAtivaSevesc === 'emails') {
             htmlTabela += `
-              <td style="padding: 9px 12px; color: #475569;">${r.data || '—'} ${r.hora ? '• ' + r.hora : ''}</td>
+              <td style="padding: 9px 12px; color: #475569; text-align: center;">${r.data || '—'} ${r.hora ? '• ' + r.hora : ''}</td>
               <td style="padding: 9px 12px; font-weight: 700; color: #0f172a;">${r.assunto}</td>
               <td style="padding: 9px 12px; color: #475569;">${r.interessado || '—'}</td>
               <td style="padding: 9px 12px; font-size: 0.76rem;">
@@ -26755,7 +26755,7 @@ function _obterResumoIpreEscolaInterno(esc) {
 
             htmlTabela += `
               <td style="padding: 9px 12px; font-weight: 800; color: #0b2351; font-family: monospace;">${r.protocolo}</td>
-              <td style="padding: 9px 12px; color: #475569;">${r.data || '—'}</td>
+              <td style="padding: 9px 12px; color: #475569; text-align: center;">${r.data || '—'}</td>
               <td style="padding: 9px 12px; font-weight: 600; color: #1e293b;">${r.assunto}</td>
               <td style="padding: 9px 12px; color: #475569;">
                 <div><strong>${r.interessado || '—'}</strong></div>
@@ -26768,7 +26768,7 @@ function _obterResumoIpreEscolaInterno(esc) {
             `;
           } else if (abaAtivaSegre === 'vagas') {
             htmlTabela += `
-              <td style="padding: 9px 12px; color: #475569;">
+              <td style="padding: 9px 12px; color: #475569; text-align: center;">
                 <div style="font-weight: 700; color: #0f172a;">${r.data || '—'}</div>
                 <div style="font-size: 0.72rem; color: #64748b;">${r.meio || 'Presencial'}</div>
               </td>
@@ -26790,7 +26790,7 @@ function _obterResumoIpreEscolaInterno(esc) {
             const isResp = r.situacao.includes('RESPONDID');
             htmlTabela += `
               <td style="padding: 9px 12px; font-weight: 800; color: #7c3aed; font-family: monospace;">${r.protocolo}</td>
-              <td style="padding: 9px 12px; color: #475569;">${r.data || '—'}</td>
+              <td style="padding: 9px 12px; color: #475569; text-align: center;">${r.data || '—'}</td>
               <td style="padding: 9px 12px; font-weight: 700; color: #0f172a;">${r.interessado || '—'}</td>
               <td style="padding: 9px 12px; color: #334155;">${r.assunto}</td>
               <td style="padding: 9px 12px;">
@@ -26800,7 +26800,7 @@ function _obterResumoIpreEscolaInterno(esc) {
             `;
           } else if (abaAtivaSegre === 'concluintes') {
             htmlTabela += `
-              <td style="padding: 9px 12px; color: #475569;">${r.data || '—'}</td>
+              <td style="padding: 9px 12px; color: #475569; text-align: center;">${r.data || '—'}</td>
               <td style="padding: 9px 12px; font-weight: 800; color: #0f172a;">${r.aluno}</td>
               <td style="padding: 9px 12px; font-weight: 600; color: #0369a1;">${r.escola}</td>
               <td style="padding: 9px 12px; font-weight: 700; color: #475569;">${r.anoConclusao || '2026'}</td>
@@ -26812,7 +26812,7 @@ function _obterResumoIpreEscolaInterno(esc) {
             const bgBadge = isConcluido ? '#d1fae5' : '#fce7f3';
 
             htmlTabela += `
-              <td style="padding: 9px 12px; color: #475569;">
+              <td style="padding: 9px 12px; color: #475569; text-align: center;">
                 <div style="font-weight: 700; color: #0f172a;">${r.data || '—'}</div>
                 <div style="font-size: 0.72rem; color: #64748b;">${r.hora ? '⏰ ' + r.hora : ''}</div>
               </td>
@@ -26826,7 +26826,7 @@ function _obterResumoIpreEscolaInterno(esc) {
               <td style="padding: 9px 12px;">
                 <span style="display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem; font-weight: 800; background: ${bgBadge}; color: ${corBadge};">${r.situacao || 'REGISTRADO'}</span>
               </td>
-              <td style="padding: 9px 12px; font-size: 0.74rem; color: #475569;">
+              <td style="padding: 9px 12px; font-size: 0.74rem; color: #475569; text-align: center;">
                 <div>${r.dataConclusao ? '✔ ' + r.dataConclusao : '—'}</div>
                 <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">${r.responsavel ? 'Resp: ' + r.responsavel : ''}</div>
               </td>
@@ -31353,7 +31353,7 @@ function renderizarTabelaRegistrosSefrep() {
     var catBadge = '<span style="background: #f1f5f9; color: #475569; font-size: 0.71rem; font-weight: 700; padding: 2px 8px; border-radius: 6px;">' + (r.cat || 'Geral') + '</span>';
 
     htmlRows += '<tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;">';
-    htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.76rem; font-weight: 700; color: #64748b; font-family: monospace;">' + (r.dt || '-') + '</td>';
+    htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.76rem; font-weight: 700; color: #64748b; font-family: monospace; text-align: center;">' + (r.dt || '-') + '</td>';
     htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.82rem; font-weight: 700; color: #0f172a;">' + (r.ue || 'Diretoria / Outros') + '</td>';
     htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.82rem; font-weight: 600; color: #1e293b;">' + (r.doc || '-') + '</td>';
     htmlRows += '<td style="padding: 0.75rem 0.85rem; font-size: 0.82rem; color: #334155;"><strong>' + (r.nome || '-') + '</strong>' + (r.rg ? ('<div style="font-size: 0.72rem; color: #64748b; font-family: monospace;">RG: ' + r.rg + '</div>') : '') + '</td>';
@@ -31619,7 +31619,7 @@ html += '<div style="display: flex; align-items: center; justify-content: space-
   html += '<table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.82rem;">';
   html += '<thead>';
   html += '<tr style="background: #0b2351; color: #ffffff; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">';
-  html += '<th style="padding: 0.8rem 0.85rem; font-weight: 800;">Data</th>';
+  html += '<th style="padding: 0.8rem 0.85rem; font-weight: 800; text-align: center;">Data</th>';
   html += '<th style="padding: 0.8rem 0.85rem; font-weight: 800;">Unidade Escolar</th>';
   html += '<th style="padding: 0.8rem 0.85rem; font-weight: 800;">Documento / Assunto</th>';
   html += '<th style="padding: 0.8rem 0.85rem; font-weight: 800;">Servidor / RG</th>';
@@ -33321,7 +33321,7 @@ window.sincronizarBasePublicaSefrep = sincronizarBasePublicaSefrep;
           <td><strong>${reg.id}</strong></td>
           <td>${reg.origem}</td>
           <td>${reg.assunto}</td>
-          <td>${reg.data}</td>
+          <td style="text-align: center;">${reg.data}</td>
           <td><span class="status-badge-inline ${badgeClass}">${reg.status}</span></td>
         `;
         tbody.appendChild(tr);
@@ -34227,7 +34227,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
 
           const infoDataAbertura = extrairTimestampEDetalhesDataCall(reg.data);
           tr.innerHTML = `
-            <td data-sort="${infoDataAbertura.iso}">
+            <td data-sort="${infoDataAbertura.iso}" style="text-align: center;">
               <span style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: #1e3a8a; font-weight: 700; white-space: nowrap;">
                 📅 ${reg.data}
               </span>
@@ -34393,7 +34393,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
           <td><strong>${reg.id}</strong></td>
           <td>${reg.polo}</td>
           <td>${reg.equip}</td>
-          <td>${reg.data}</td>
+          <td style="text-align: center;">${reg.data}</td>
           <td><span class="status-badge-inline ${badgeClass}">${reg.status}</span></td>
         `;
         tbody.appendChild(tr);
@@ -35420,7 +35420,7 @@ function renderizarRegistrosCalls(base, filtro = 'todos') {
             <td><strong>${reg.id}</strong></td>
             <td>${reg.polo}</td>
             <td>${reg.equip}</td>
-            <td>${reg.data}</td>
+            <td style="text-align: center;">${reg.data}</td>
             <td><span class="status-badge-inline ${badgeClass}">${reg.status}</span></td>
           `;
           tbody.appendChild(tr);
